@@ -16,4 +16,13 @@ return [
     'failed' => 'These credentials do not match our records.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
+    'hello' => 'Hello!',
+    'verify_email' => "Verify Email Address",
+    'button_click' => "Please click the button below to verify your email address." ,
+    'not_required_email' => "If you did not create an account, no further action is required.",
+    'regards' => "Regards",
+    'text_active_email' => "If you’re having trouble clicking the \":actionText\" button, copy and paste the URL below\ninto your web browser: [:actionURL](:actionURL)",
+    'password_not_match' => "Password doesn't match",
+    'link_check_token_password_fail' => "Link is invalid",
+    'email_not_exist' => "Email is not exist, please check again!",
 ];

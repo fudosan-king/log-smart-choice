@@ -1,0 +1,1 @@
+<p>Link để activate account là : {{ $data }}</p>
