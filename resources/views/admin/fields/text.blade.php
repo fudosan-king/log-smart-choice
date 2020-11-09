@@ -1,0 +1,1 @@
+{{ $row[$item->getData('index')]}}

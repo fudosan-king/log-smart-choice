@@ -1,0 +1,1 @@
+<input type="checkbox" name="input_{{$row['_id']}}_{{ $item->getData('index')}}" class="{{ $item->getData('class')}}"/>
