@@ -195,6 +195,7 @@ return [
     ],
 
     'additional_js' => [
+        //'js/custom.js',
         'js/grid.js',
     ],
 
