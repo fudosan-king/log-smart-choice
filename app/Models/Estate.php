@@ -12,4 +12,8 @@ class Estate extends Model
     protected $connection = 'mongodb';
 
     protected $collection = 'estates_baibai';
+
+    public $incrementing = false;
+
+    protected $guarded = [];  
 }
