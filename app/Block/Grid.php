@@ -3,33 +3,49 @@
 namespace App\Block;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Block\Column;
-use phpDocumentor\Reflection\Types\Boolean;
 
-class Grid
+abstract class Grid
 {
     const LIMIT = 25;
 
-    private $_columns = array();
+    protected $_columns = array();
 
-    private $_searchFields = array('estate_name' => 'Estate Name', 'price' => 'price');
+    protected $_searchFields;
 
-    private $_searchNames = array();
+    protected $_searchNames = array();
 
-    private $_columnsKey = array('_id', 'estate_name', 'price', 'sort_order', 'trade_status');
+    protected $_columnsKey = array();
 
-    private $_collection;
+    protected $_collection;
 
-    private $_request;
+    protected $_request;
 
-    private $_showCheckbox = true;
+    protected $_showCheckbox = true;
 
-    private $_model;
+    protected $_model;
 
-    private $_template = 'admin.grid';
+    protected $_template = 'admin.grid';
 
-    private $_isSerializeGrid = false;
+    protected $_isSerializeGrid = false;
+
+    protected $_selectedFilter = array(
+        'All'      => 'all',
+        'Yes'      => 'yes',
+        'No'       => 'no'
+    );
+
+
+    /**
+     * Init Columns
+     *
+     * @return this
+     */
+    abstract protected function _initCollumns();
+
+    abstract public function getSaveUrl();
+
+    abstract function serializeString();
 
     public function __construct(Request $request, $model = 'App\Models\Estate')
     {
@@ -37,8 +53,14 @@ class Grid
         $this->_request = $request;
         $this->_model = $model;
         $this->_isSerializeGrid = true;
+        $this->_prepareCollection()->addFilter()->addSort();
     }
 
+    /**
+     * Check Is Serialize Grid
+     *
+     * @return boolean
+     */
     public function isSerializeGrid()
     {
         return $this->_isSerializeGrid;
@@ -58,69 +80,46 @@ class Grid
     }
 
     /**
-     * Init Columns
+     * Prepare Collection
      *
      * @return this
      */
-    protected function _initCollumns()
-    {
-        $this->addCollumns(array(
-            'key' => 'hidden',
-            'index' => '_id',
-            'display_name' => 'id',
-            'type' => 'checkbox_row',
-            'isShow' => false
-        ));
-
-        $this->addCollumns(array(
-            'key' => '_id',
-            'index' => '_id',
-            'display_name' => 'Id',
-            'type' => 'text',
-        ));
-        $this->addCollumns(array(
-            'key' => 'estate_name',
-            'index' => 'estate_name',
-            'display_name' => 'Estate Name',
-            'type' => 'text',
-        ));
-        $this->addCollumns(array(
-            'key' => 'price',
-            'display_name' => 'Price',
-            'index' => 'price',
-            'type' => 'text'
-        ));
-        $this->addCollumns(array(
-            'key' => 'sort_order',
-            'index' => 'sort_order',
-            'display_name' => 'Sort Order',
-            'type' => 'input',
-            'is_serialzie' => true,
-            'class' => 'form-control'
-        ));
-        return $this;
-    }
-
     protected function _prepareCollection()
     {
         $model = app($this->_model);
-        $query = $model::select($this->_columnsKey)->paginate(self::LIMIT);
+        $query = $model::select($this->_columnsKey);
+        $this->_collection = $query;
+        return $this;
+    }
 
-        $search = (object) ['value' => $this->_request->get('s'), 'key' => $this->_request->get('key'), 'filter' => $this->_request->get('filter')];
-        $orderBy = $this->_request->get('order_by');
-
-        if ($search->value != '' && $search->key && $search->filter) {
-            $search_filter = ($search->filter == 'equals') ? '=' : 'LIKE';
-            $search_value = ($search->filter == 'equals') ? $search->value : '%' . $search->value . '%';
-            $query->where($search->key, $search_filter, $search_value);
+    /**
+     * Add Filter
+     *
+     * @return this
+     */
+    public function addFilter()
+    {
+        $request = $this->getRequest();
+        $search = (object) ['value' => $request->get('s'), 'key' => $request->get('key')];
+        if ($search->value != '' && $search->key) {
+            $this->_collection->where($search->key, 'LIKE',  '%' . $search->value . '%');
         }
+        return $this;
+    }
 
+    /**
+     * Add Sort
+     *
+     * @return this
+     */
+    public function addSort()
+    {
+        $orderBy = $this->getRequest()->get('order_by');
         if ($orderBy) {
             $querySortOrder = (!empty($sortOrder)) ? $sortOrder : 'desc';
-            $query->orderBy($orderBy, $querySortOrder);
+            $this->_collection->orderBy($orderBy, $querySortOrder);
         }
-
-        $this->_collection = $query;
+        return $this;
     }
 
     /**
@@ -146,6 +145,11 @@ class Grid
     {
         $this->_template = $template;
         return $this;
+    }
+
+    public function ajaxUrl()
+    {
+        return '';
     }
 
     /**
@@ -177,6 +181,16 @@ class Grid
         return $this->_columns[$key] ?? null;
     }
 
+    public function getRequest()
+    {
+        return $this->_request;
+    }
+
+    public function getSelectedFilter()
+    {
+        return $this->_selectedFilter;
+    }
+
     /**
      * Render Html
      *
@@ -184,7 +198,12 @@ class Grid
      */
     public function toHtml()
     {
-        $search = (object) ['value' => $this->_request->get('s'), 'key' => $this->_request->get('key'), 'filter' => $this->_request->get('filter')];
+        $request = $this->getRequest();
+        $paginationParams = $request->query();
+        if (isset($paginationParams['item'])) {
+            unset($paginationParams['item']);
+        }
+        $search = (object) ['value' => trim($request->get('s')), 'key' => $request->get('key')];
         $defaultSearchKey = null;
         return view($this->_template, array(
             'grid' => $this,
@@ -192,7 +211,17 @@ class Grid
             'search' => $search,
             'defaultSearchKey' => $defaultSearchKey,
             'columns' => $this->_columns,
-            'collections'  => $this->getCollection()
+            'collections'  => $this->getCollection()->paginate(self::LIMIT)->appends($paginationParams)
         ));
+    }
+
+    public static function unserializeGridData($serializeString)
+    {
+        $decodeData = base64_decode($serializeString);
+        $data = explode('&', $decodeData);
+        foreach ($data as $key => $item) {
+            $data[$key] = json_decode($item);
+        }
+        return $data;
     }
 }
