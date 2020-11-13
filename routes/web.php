@@ -6,7 +6,7 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\EstateController;
 use Illuminate\Support\Facades\Route;
 use TCG\Voyager\Facades\Voyager;
-use App\Http\Controllers\GridController;
+use App\Http\Controllers\GroupEstateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +25,11 @@ Route::get('/', function () {
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
+
+    Route::get('/groups/{id}/estate/', [GroupEstateController::class, 'view'])->name('admin.groups.estate');
+
+    Route::post('/groups/{id}/estate/save', [GroupEstateController::class, 'save'])->name('admin.groups.save');
+
 
     Route::get('/renovation', [RenovationController::class, 'index'])->name('admin.renovation.index');
     Route::get('/sale', [SaleController::class, 'index'])->name('admin.sale.index');
