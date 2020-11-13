@@ -167,7 +167,7 @@ return [
          */
         Jenssegers\Mongodb\MongodbServiceProvider::class,
         TCG\Voyager\VoyagerServiceProvider::class,
-        
+        App\Providers\EstateServiceProvider::class,
         /*
          * Application Service Providers...
          */

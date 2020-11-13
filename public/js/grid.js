@@ -1,13 +1,36 @@
 class GridData {
-    constructor(id, checkboxClass, selectAll, jsClass) {
+    constructor(id, checkboxClass, jsClass, selected, selectAll, ajaxUrl) {
         this.id = id;
         this.checkboxClass = checkboxClass;
         this.data = [];
-        this.selectAll = selectAll;
         this.jsClass = jsClass;
-        this.selectAll.bind('click', this, this.checkAll);
+        this.selectAll = selectAll;
+        this.searchSelected = selected;
+        this.ajaxUrl = ajaxUrl;
+        this.init();
+    }
+    init() {
         $(this.checkboxClass).bind('change', this, this.onRowChange);
         $(this.jsClass).bind('change', this, this.onFieldChange);
+        $(this.searchSelected).bind('change', this, this.onSelectedChange);
+        $(this.selectAll).bind('change', this, this.checkAll);
+        this.initData();
+    }
+    initData() {
+        var data = atob($('input[name="serialize_data"]').val());
+        if (data) {
+            data = data.split('&');
+            for (var index = 0; index < data.length; index++) {
+                var row = JSON.parse(data[index]),
+                    inputName = 'input_' + row._id;
+                for (const [key, value] of Object.entries(row)) {
+                    $('input[name="' + inputName + '_' + key + '"]').val(value);
+                }
+                $('#row_' + row._id).find('input[name="row_id"]').prop('checked', true);
+                this.setData(row);
+            }
+            $('input[name="row_id"]').trigger('change');
+        }
     }
     setData(data) {
         var index = this.searchById(data._id);
@@ -36,9 +59,9 @@ class GridData {
         for (var index = 0; index < this.data.length; index++) {
             var string = [];
             for (const [key, value] of Object.entries(this.data[index])) {
-                string.push(key + '=' + value);
+                string.push('"' + key + '": "' + value + '"');
             }
-            serialize_string.push(string.join(','));
+            serialize_string.push('{' + string.join(',') + '}');
         }
         $('input[name="serialize_data"]').val(btoa(serialize_string.join('&')));
     }
@@ -73,6 +96,7 @@ class GridData {
         var grid = event.data;
         $(this).closest('tr').find(grid.checkboxClass).trigger('change');
     }
+    onSelectedChange(event) {
+        $('input[name="selected"').val($(this).val());
+    }
 }
-
-var Grid = new GridData('form-search', '.row_id', $('#select_all'), '.js_serialize_fields');
