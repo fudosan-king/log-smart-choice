@@ -34,5 +34,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('/renovation', [RenovationController::class, 'index'])->name('admin.renovation.index');
     Route::get('/sale', [SaleController::class, 'index'])->name('admin.sale.index');
     Route::get('/about', [AboutController::class, 'index'])->name('admin.about.index');
-    Route::get('/estate', [EstateController::class, 'index'])->name('admin.estate.index');
+    Route::get('/estate', [EstateController::class, 'index'])->name('voyager.estate.index');
+    Route::put('estate-update/{id}', [EstateController::class, 'update'])->name('voyager.estate.update');
+    Route::get('estate/{id}/edit', [EstateController::class, 'edit'])->name('voyager.estate.edit');
 });
