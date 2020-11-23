@@ -97,6 +97,6 @@ class GridData {
         $(this).closest('tr').find(grid.checkboxClass).trigger('change');
     }
     onSelectedChange(event) {
-        $('input[name="selected"').val($(this).val());
+        $('input[name="selected"]').val($(this).val());
     }
 }
