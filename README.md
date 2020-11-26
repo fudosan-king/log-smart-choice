@@ -36,7 +36,7 @@ https://voyager-docs.devdojo.com/getting-started/installation
 
 
 mysql -u root
-> CREATE DATABASE log_smart;
-> CREATE USER 'log_smart'@'localhost';
-> GRANT ALL PRIVILEGES ON log_smart.* TO log_smart@localhost WITH GRANT OPTION;
-> FLUSH PRIVILEGES;
+> CREATE DATABASE log_smart;<br>
+> CREATE USER 'log_smart'@'localhost';<br>
+> GRANT ALL PRIVILEGES ON log_smart.* TO log_smart@localhost WITH GRANT OPTION;<br>
+> FLUSH PRIVILEGES;<br>
