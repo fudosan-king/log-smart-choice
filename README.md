@@ -34,7 +34,7 @@ Finally, add the following line to your php.ini file:<br>
 ## Voyager - The Missing Laravel Admin<br>
 https://voyager-docs.devdojo.com/getting-started/installation
 
-
+## Access database
 mysql -u root
 > CREATE DATABASE log_smart;<br>
 > CREATE USER 'log_smart'@'localhost';<br>
