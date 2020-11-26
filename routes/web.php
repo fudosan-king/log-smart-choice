@@ -1,6 +1,12 @@
 <?php
 
+use App\Http\Controllers\RenovationController;
+use App\Http\Controllers\SaleController;
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\EstateController;
 use Illuminate\Support\Facades\Route;
+use TCG\Voyager\Facades\Voyager;
+use App\Http\Controllers\GroupEstateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +21,20 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
+
+    Route::get('/groups/{id}/estate/', [GroupEstateController::class, 'view'])->name('admin.groups.estate');
+
+    Route::post('/groups/{id}/estate/save', [GroupEstateController::class, 'save'])->name('admin.groups.save');
+
+
+    Route::get('/renovation', [RenovationController::class, 'index'])->name('admin.renovation.index');
+    Route::get('/sale', [SaleController::class, 'index'])->name('admin.sale.index');
+    Route::get('/about', [AboutController::class, 'index'])->name('admin.about.index');
+    Route::get('/estate', [EstateController::class, 'index'])->name('voyager.estate.index');
+    Route::put('estate-update/{id}', [EstateController::class, 'update'])->name('voyager.estate.update');
+    Route::get('estate/{id}/edit', [EstateController::class, 'edit'])->name('voyager.estate.edit');
 });

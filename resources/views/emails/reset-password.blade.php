@@ -1,0 +1,1 @@
+<p>Link để reset password là : {{ $data['link'] }}</p>

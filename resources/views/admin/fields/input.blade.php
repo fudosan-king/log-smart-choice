@@ -1,0 +1,2 @@
+<input type="text" name="input_{{$row['_id']}}_{{ $item->getData('index')}}" class="{{ $item->getData('class') }} {{ $item->getData('is_serialzie') ? 'js_serialize_fields' : ''}}" 
+data-name={{$item->getData('index')}} value="{{$row[$item->getData('index')]}}"/>

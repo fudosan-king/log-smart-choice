@@ -1,6 +1,8 @@
 # log-smart-choice
 ## System Requirements:
-* Laravel 8.x
+* NPM >= 7.0.3
+* Composer >= 2.0.6
+* <a href="https://laravel.com/docs/8.x/installation">Laravel 8.x</a>
 * PHP >= 7.3
 * Mongodb >= 3
 * BCMath PHP Extension
@@ -31,3 +33,10 @@ Finally, add the following line to your php.ini file:<br>
 
 ## Voyager - The Missing Laravel Admin<br>
 https://voyager-docs.devdojo.com/getting-started/installation
+
+
+mysql -u root
+> CREATE DATABASE log_smart;<br>
+> CREATE USER 'log_smart'@'localhost';<br>
+> GRANT ALL PRIVILEGES ON log_smart.* TO log_smart@localhost WITH GRANT OPTION;<br>
+> FLUSH PRIVILEGES;<br>
