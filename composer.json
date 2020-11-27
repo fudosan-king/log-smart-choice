@@ -16,7 +16,8 @@
         "laravel/framework": "^8.0",
         "laravel/tinker": "^2.0",
         "mongodb/mongodb": "^1.6",
-        "tcg/voyager": "^1.4"
+        "tcg/voyager": "^1.4",
+        "phpcheckstyle/phpcheckstyle": "dev-master"
     },
     "require-dev": {
         "facade/ignition": "2.5",

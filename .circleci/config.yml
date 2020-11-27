@@ -1,0 +1,41 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/php:7.3-apache-stretch-node-browsers
+        environment:
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_DB: log_smart
+          MYSQL_USER: root
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
+          MYSQL_PASSWORD:
+      - image: mysql:5.7
+        command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_bin --innodb-large-prefix=true --innodb-file-format=Barracuda
+        environment:
+          MYSQL_USER: root
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
+      - image: mongo:3.6
+    working_directory: ~/log-smart-choice
+    steps:
+      - checkout
+      - run: |
+          sudo apt-get update
+          sudo apt-get install -y zlib1g-dev libicu-dev g++
+          sudo pecl install mongodb
+          echo "extension=mongodb.so" | sudo tee /usr/local/etc/php/conf.d/mongodb.ini
+          sudo docker-php-ext-install pdo
+          sudo docker-php-ext-install pdo_mysql
+          sudo apt-get install mysql-client
+          mysql -h 127.0.0.1 -u root -e "CREATE DATABASE log_smart; CREATE USER 'log_smart'@'127.0.0.1';"
+          mysql -h 127.0.0.1 -u root -e "GRANT ALL PRIVILEGES ON log_smart.* TO log_smart@127.0.0.1 WITH GRANT OPTION; FLUSH PRIVILEGES;"
+      - run: |
+          cd ~/log-smart-choice
+          cp .env.development .env
+          composer update
+          composer install --ignore-platform-reqs
+          npm install
+      - run: |
+          php artisan migrate
+          php artisan key:generate
+      - run: ./vendor/phpcheckstyle/phpcheckstyle/phpcheckstyle --src . --exclude ./vendor --exclude ./database --exclude ./storage --exclude ./resources/views --outdir report --config ./check_php.xml
+      - run: ./vendor/bin/phpunit
