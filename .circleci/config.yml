@@ -37,5 +37,5 @@ jobs:
       - run: |
           php artisan migrate
           php artisan key:generate
-      - run: ./vendor/phpcheckstyle/phpcheckstyle/phpcheckstyle --src . --exclude ./vendor --exclude ./database --exclude ./storage --exclude ./resources/views --outdir report --config ./check_php.xml
+      - run: ./vendor/phpcheckstyle/phpcheckstyle/phpcheckstyle --src . --exclude ./vendor --exclude ./database/migrations --exclude ./storage --exclude ./resources/views --outdir report --config ./check_php.xml
       - run: ./vendor/bin/phpunit
