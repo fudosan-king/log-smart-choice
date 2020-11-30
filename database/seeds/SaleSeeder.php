@@ -26,40 +26,6 @@ class SaleSeeder extends Seeder
 
         $meunuItemSale = MenuItem::firstOrNew([
             'menu_id' => 1,
-            'title'   => 'Sale',
-            'url'     => '',
-            'route'   => 'admin.sale.index',
-        ]);
-
-        if (!$meunuItemSale->exists) {
-            $meunuItemSale->fill([
-                'target'     => '_self',
-                'icon_class' => 'voyager-activity',
-                'color'      => null,
-                'parent_id'  => null,
-                'order'      => 17,
-            ])->save();
-        }
-
-        $meunuItemSale = MenuItem::firstOrNew([
-            'menu_id' => 1,
-            'title'   => 'Estate',
-            'url'     => '',
-            'route'   => 'admin.estate.index',
-        ]);
-
-        if (!$meunuItemSale->exists) {
-            $meunuItemSale->fill([
-                'target'     => '_self',
-                'icon_class' => 'voyager-data',
-                'color'      => null,
-                'parent_id'  => null,
-                'order'      => 18
-            ])->save();
-        }
-
-        $meunuItemSale = MenuItem::firstOrNew([
-            'menu_id' => 1,
             'title'   => 'About',
             'url'     => '',
             'route'   => 'admin.about.index',
@@ -70,30 +36,27 @@ class SaleSeeder extends Seeder
         if (!$meunuItemSale->exists) {
             $meunuItemSale->fill([
                 'target'     => '_self',
-                'icon_class' => 'voyager-data',
+                'icon_class' => 'voyager-book',
                 'color'      => null,
                 'parent_id'  => null,
                 'order'      => 19
             ])->save();
         }
 
-        $dataType = $this->dataType('slug', 'sale');
+        $dataType = $this->dataType('slug', 'about');
         if (!$dataType->exists) {
             $dataType->fill([
-                'name'                  => 'sale',
-                'display_name_singular' => __('Sale'),
-                'display_name_plural'   => __('Sale'),
+                'name'                  => 'about',
+                'display_name_singular' => __('About'),
+                'display_name_plural'   => __('About'),
                 'icon'                  => 'voyager-data',
-                'model_name'            => 'App\Models\Estate',
-                'controller'            => 'App\\Http\\Controllers\\SaleController',
+                'model_name'            => 'App\Models\About',
+                'controller'            => 'App\\Http\\Controllers\\AboutController',
                 'generate_permissions'  => 1,
                 'description'           => '',
                 'server_side'           => 1
             ])->save();
         }
-
-        Permission::generateFor('sale');
-        
     }
 
     /**

@@ -46,14 +46,14 @@ class RegisterController extends Controller
 
     public function registerCustomer(Request $request) {
         $data = $request->all();
-        $validator = $this->_validator($data);
+        $validator = $this->validator($data);
             
         if ($validator->fails()) {
         return response()->json($validator->errors(), 422);
         }
 
-        if ($customer = $this->_create($data)) {
-            
+        if ($customer = $this->create($data)) {
+
             event(new Registered($customer));
             return response()->json(['status' => true, 'message' => 'Customer created successfully', 'data' => $customer], 422);
         }
@@ -67,7 +67,7 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function _validator(array $data)
+    protected function validator(array $data)
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
@@ -85,7 +85,7 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\Models\Customer
      */
-    protected function _create(array $data)
+    protected function create(array $data)
     {
         return Customer::create([
             'name' => $data['name'],

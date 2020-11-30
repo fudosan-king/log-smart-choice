@@ -61,9 +61,9 @@ class MongoController extends VoyagerBaseController
             $this->removeRelationshipField($dataType, 'browse');
 
             if ($search->value != '' && $search->key && $search->filter) {
-                $search_filter = ($search->filter == 'equals') ? '=' : 'LIKE';
-                $search_value = ($search->filter == 'equals') ? $search->value : '%' . $search->value . '%';
-                $query->where($search->key, $search_filter, $search_value);
+                $searchFilter = ($search->filter == 'equals') ? '=' : 'LIKE';
+                $searchValue = ($search->filter == 'equals') ? $search->value : '%' . $search->value . '%';
+                $query->where($search->key, $searchFilter, $searchValue);
             }
 
             if ($orderBy) {
