@@ -24,8 +24,8 @@ class Groups extends Model
     public function getEstates()
     {
         if (!$this->_estateCollection) {
-            $estate_ids = (array_column($this->estate_list, 'estate_id'));
-            $this->_estateCollection = Estate::whereIn('_id', $estate_ids);
+            $estateIds = (array_column($this->estate_list, 'estate_id'));
+            $this->_estateCollection = Estate::whereIn('_id', $estateIds);
         }
         return $this->_estateCollection;
     }

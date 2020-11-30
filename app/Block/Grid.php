@@ -41,7 +41,7 @@ abstract class Grid
      *
      * @return this
      */
-    abstract protected function _initCollumns();
+    abstract protected function initColumns();
 
     abstract public function getSaveUrl();
 
@@ -49,11 +49,11 @@ abstract class Grid
 
     public function __construct(Request $request, $model = 'App\Models\Estate')
     {
-        $this->_initSearch()->_initCollumns();
+        $this->initSearch()->initColumns();
         $this->_request = $request;
         $this->_model = $model;
         $this->_isSerializeGrid = true;
-        $this->_prepareCollection()->addFilter()->addSort();
+        $this->prepareCollection()->addFilter()->addSort();
     }
 
     /**
@@ -71,7 +71,7 @@ abstract class Grid
      *
      * @return this
      */
-    protected function _initSearch()
+    protected function initSearch()
     {
         foreach ($this->_searchFields as $key => $value) {
             $this->_searchNames[$key] = $value;
@@ -84,7 +84,7 @@ abstract class Grid
      *
      * @return this
      */
-    protected function _prepareCollection()
+    protected function prepareCollection()
     {
         $model = app($this->_model);
         $query = $model::select($this->_columnsKey);
