@@ -40,3 +40,32 @@ mysql -u root
 > CREATE USER 'log_smart'@'localhost';<br>
 > GRANT ALL PRIVILEGES ON log_smart.* TO log_smart@localhost WITH GRANT OPTION;<br>
 > FLUSH PRIVILEGES;<br>
+
+
+## Docker
+
+# Build docker
+```
+docker-compose build --no-cache
+```
+# Run docker
+```
+docker-compose up
+```
+# Run docker as background
+```
+docker-compose up -d
+```
+# Clean docker image
+```
+docker image rm -f $(docker image ls | awk -F' ' '/none/{print $3}')
+```
+# How to install composer and npm
+```
+docker-compose build
+docker-compose up
+docker ps
+docker exec -it [CONTAINER ID of log-smart-choice_laravel_1] /bin/bash;
+./docker-config/install.sh
+php artisan voyager:admin your@email.com --create
+```
