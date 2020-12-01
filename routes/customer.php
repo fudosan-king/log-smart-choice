@@ -26,7 +26,7 @@ Route::middleware(['guest'])->group(function () {
     
 });
 
-Route::get("/estate/search", [EstateController::class, 'search'])->name('customer.estate.search');
-Route::get("/estate/{id}/detail", [EstateController::class, 'detail'])->name('customer.estate.detail');
-
-
+Route::group(['prefix' => 'estate'], function () {
+    Route::get("/search", [EstateController::class, 'search'])->name('customer.estate.search');
+    Route::get("/{id}/detail", [EstateController::class, 'detail'])->name('customer.estate.detail');
+});

@@ -21,7 +21,7 @@ class EstateSeeder extends Seeder {
                 'name'                  => 'estate',
                 'display_name_singular' => __('Estate Baibai'),
                 'display_name_plural'   => __('Estate Baibai'),
-                'icon'                  => 'estates-icon',
+                'icon'                  => 'voyager-key',
                 'model_name'            => 'App\Models\Estate',
                 'controller'            => 'App\\Http\\Controllers\\EstateController',
                 'generate_permissions'  => 1,

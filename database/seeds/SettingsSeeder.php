@@ -16,7 +16,7 @@ class SettingsSeeder extends Seeder
                 'details'      => '',
                 'type'         => 'text',
                 'order'        => 10,
-                'group'        => 'About',
+                'group'        => 'AboutCompany',
             ])->save();
         }
 
@@ -28,7 +28,7 @@ class SettingsSeeder extends Seeder
                 'details'      => '',
                 'type'         => 'text',
                 'order'        => 20,
-                'group'        => 'About',
+                'group'        => 'AboutCompany',
             ])->save();
         }
 
@@ -40,7 +40,7 @@ class SettingsSeeder extends Seeder
                 'details'      => '',
                 'type'         => 'text',
                 'order'        => 30,
-                'group'        => 'About',
+                'group'        => 'AboutCompany',
             ])->save();
         }
 
@@ -52,7 +52,7 @@ class SettingsSeeder extends Seeder
                 'details'      => '',
                 'type'         => 'text',
                 'order'        => 40,
-                'group'        => 'About',
+                'group'        => 'AboutCompany',
             ])->save();
         }
 
@@ -64,7 +64,7 @@ class SettingsSeeder extends Seeder
                 'details'      => '',
                 'type'         => 'text',
                 'order'        => 50,
-                'group'        => 'About',
+                'group'        => 'AboutCompany',
             ])->save();
         }
     }
