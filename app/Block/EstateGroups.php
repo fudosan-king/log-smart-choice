@@ -12,7 +12,7 @@ class EstateGroups extends Grid
 
     protected $_columnsKey = array('_id', 'estate_name', 'price', 'sort_order', 'trade_status');
 
-    protected function _initCollumns()
+    protected function initColumns()
     {
         $this->addCollumns(array(
             'key' => 'hidden',
@@ -51,9 +51,9 @@ class EstateGroups extends Grid
         return $this;
     }
 
-    protected function _prepareCollection()
+    protected function prepareCollection()
     {
-        parent::_prepareCollection();
+        parent::prepareCollection();
         $this->addSelectedItem($this->getCollection());
         return $this;
     }
