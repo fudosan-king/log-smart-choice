@@ -24,7 +24,7 @@ class SaleSeeder extends Seeder
             ])->save();
         }
 
-        $meunuItemSale = MenuItem::firstOrNew([
+        $menuItemSale = MenuItem::firstOrNew([
             'menu_id' => 1,
             'title'   => 'About',
             'url'     => '',
@@ -33,8 +33,8 @@ class SaleSeeder extends Seeder
 
         Permission::generateFor('about');
 
-        if (!$meunuItemSale->exists) {
-            $meunuItemSale->fill([
+        if (!$menuItemSale->exists) {
+            $menuItemSale->fill([
                 'target'     => '_self',
                 'icon_class' => 'voyager-book',
                 'color'      => null,

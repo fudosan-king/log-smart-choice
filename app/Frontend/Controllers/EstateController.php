@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 class EstateController extends Controller
 {
     /**
+     * Search Estate
+     *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
@@ -52,7 +54,7 @@ class EstateController extends Controller
         }
 
         if ($metreSquare) {
-            $getMetreSquare = $this->_getConditionMetreSquard($metreSquare);
+            $getMetreSquare = $this->_getConditionMetreSquare($metreSquare);
             $estates->where('tatemono_menseki', '>=', (int)$getMetreSquare[0]);
             $estates->where('tatemono_menseki', '<=', (int)$getMetreSquare[1]);
         }
@@ -107,10 +109,12 @@ class EstateController extends Controller
     }
 
     /**
+     * Get Condition Metre Square
+     *
      * @param $metreSquare
      * @return array
      */
-    private function _getConditionMetreSquard($metreSquare)
+    private function _getConditionMetreSquare($metreSquare)
     {
         $lengthOfString = strlen($metreSquare);
         $numberFrom = '';

@@ -1,21 +1,17 @@
 <?php
 
+
 namespace App\Models;
+
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model as Model;
 
-class Estate extends Model
+class Sale extends Model
 {
     use HasFactory;
 
     protected $connection = 'mongodb';
 
     protected $collection = 'estates_baibai';
-
-    public function getDateCreatedAttribute()
-    {
-        $date = $this->attributes['date_created']->toDateTime();
-        return date('Y-m-d H:i:s', $date->format('U'));
-    }
 }

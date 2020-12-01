@@ -26,15 +26,20 @@ Route::get('/', function () {
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 
-    Route::get('/groups/{id}/estate/', [GroupEstateController::class, 'view'])->name('admin.groups.estate');
+    Route::group(['prefix' => 'groups'], function () {
+        Route::get('/{id}/estate/', [GroupEstateController::class, 'view'])->name('admin.groups.estate');
+        Route::post('/{id}/estate/', [GroupEstateController::class, 'save'])->name('admin.groups.save');
+    });
 
-    Route::post('/groups/{id}/estate/save', [GroupEstateController::class, 'save'])->name('admin.groups.save');
+    Route::group(['prefix' => 'about'], function () {
+        Route::get('/', [AboutController::class, 'index'])->name('admin.about.index');
+        Route::post('/', [AboutController::class, 'save'])->name('admin.about.save');
+    });
 
+    Route::group(['prefix' => 'estate'], function () {
+        Route::get('/', [EstateController::class, 'index'])->name('voyager.estate.index');
+        Route::put('/{id}/update', [EstateController::class, 'update'])->name('voyager.estate.update');
+        Route::get('/{id}/edit', [EstateController::class, 'edit'])->name('voyager.estate.edit');
+    });
 
-    Route::get('/renovation', [RenovationController::class, 'index'])->name('admin.renovation.index');
-    Route::get('/sale', [SaleController::class, 'index'])->name('admin.sale.index');
-    Route::get('/about', [AboutController::class, 'index'])->name('admin.about.index');
-    Route::get('/estate', [EstateController::class, 'index'])->name('voyager.estate.index');
-    Route::put('estate-update/{id}', [EstateController::class, 'update'])->name('voyager.estate.update');
-    Route::get('estate/{id}/edit', [EstateController::class, 'edit'])->name('voyager.estate.edit');
 });
