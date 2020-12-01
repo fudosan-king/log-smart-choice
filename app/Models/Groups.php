@@ -16,6 +16,8 @@ class Groups extends Model
 
     protected $collection = 'groups_estate';
 
+    const ESTATE_RECOMMEND = 'recommended_estate';
+
     /**
      * Get Estates of this groups
      *
