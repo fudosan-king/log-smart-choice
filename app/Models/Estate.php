@@ -13,9 +13,26 @@ class Estate extends Model
 
     protected $collection = 'estates_baibai';
 
+    /**
+     * Get date created
+     *
+     * @return false|string
+     */
     public function getDateCreatedAttribute()
     {
         $date = $this->attributes['date_created']->toDateTime();
         return date('Y-m-d H:i:s', $date->format('U'));
     }
+
+    /**
+     * Get date last modified
+     *
+     * @return false|string
+     */
+    public function getDateLastModifiedAttribute()
+    {
+        $date = $this->attributes['date_last_modified']->toDateTime();
+        return date('Y-m-d H:i:s', $date->format('U'));
+    }
+
 }

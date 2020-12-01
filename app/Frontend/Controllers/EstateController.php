@@ -78,7 +78,12 @@ class EstateController extends Controller
     {
         $estateRecommend = [];
         $listEstateRecommend = [];
-        $estate = Estate::select(['address', 'allow_kyakutuke', 'area_bldg_name', 'balcony_space'])
+        $estate = Estate::select(
+            'address', 'price', 'transports',
+            'room_count', 'room_kind', 'tatemono_menseki',
+            'balcony_space', 'structure', 'room_floor', 'built_date',
+            'renovation_done_date', 'house_status', 'delivery_date_type',
+            'management_company', 'land_rights', 'trade_type', 'date_last_modified')
             ->where('_id', $id)
             ->get()->toArray();
 
