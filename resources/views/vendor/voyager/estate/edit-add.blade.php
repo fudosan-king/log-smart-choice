@@ -9,7 +9,7 @@
 
 @section('css')
 <link href="{{ mix('css/estate.css') }}" rel="stylesheet">
-@stop
+@endsection
 
 
 @section('content')
@@ -55,8 +55,8 @@
                             <ul id="sortable">
                                 @isset ($dataTypeContent->estate_infomation)
                                     @php
-                                        $estateInfomation = $dataTypeContent->estate_infomation;
-                                        $estateImages = $estateInfomation[0]['renovation_media'];
+                                        $estateInformation = $dataTypeContent->estate_infomation;
+                                        $estateImages = $estateInformation[0]['renovation_media'];
                                         $count = count($estateImages);
                                     @endphp
                                     @for ($i = 0; $i < $count; $i++) @php $id=$i + 1; @endphp 
@@ -71,7 +71,7 @@
                                                 $ext = $estateImages[$i]['media_type'];
                                                 $fullImage = $url.'.'.$ext;
                                             @endphp
-                                            <img id="image-estate{{ $id }}" src="{{ URL::asset($fullImage) }}" class="image_estate" />
+                                            <img id="image-estate{{ $id }}" src="{{ URL::asset($fullImage) }}" class="image_estate" onerror="this.onerror=null;this.src='/storage/estate/no_image.png';"/>
                                             <div class="photo_info">
                                                 <input type="number" placeholder="Image sort {{ $id }}" data-sort-id="{{$id}}" name="image_sort[]" value="{{ $estateImages[$i]['sort_order'] }}">
                                                 <textarea class="form-control" data-id="description_current-{{ $id }}" id="description_estate{{ $id }}" name="description_current[]">{{ $estateImages[$i]['description'] }}</textarea>
@@ -103,7 +103,7 @@
         </div>
     </div>
 </div>
-@stop
+@endsection
 
 
 @section('javascript')
@@ -117,7 +117,7 @@
                 var reader = new FileReader();
                 reader.onload = function(e) {
                     $('#' + id).attr('src', e.target.result);
-                }
+                };
 
                 // convert to base64 string
                 reader.readAsDataURL(input.files[0]);
@@ -129,14 +129,14 @@
             var html = '';
             html += '<li id="imageInfo' + idImage + '">';
             html += '<h3>image ' + idImage + '</h3>';
-            html += '<input class="input_file" type="file" id="imgInp' + idImage + '" data-name="avatar" name="estate_image[]">'
+            html += '<input class="input_file" type="file" id="imgInp' + idImage + '" data-name="avatar" name="estate_image[]">';
             html += '<div class="img-wrap">';
             html += '<span class="close" id="' + idImage + '" >&times;</span>';
             html += '</div>';
-            html += '<img id="image-estate' + idImage + '" src="" class="image_estate"/>';
+            html += '<img id="image-estate' + idImage + '" src="" class="image_estate" onerror="this.onerror=null;this.src=\'/storage/estate/no_image.png\';"/>';
             html += '<div class="photo_info">';
             html += '<input type="number" placeholder="Image Sort ' + idImage + '" name="image_sort[]">';
-            html += '<textarea class="form-control" id="" name="description_added[]"></textarea>'
+            html += '<textarea class="form-control" id="" name="description_added[]"></textarea>';
             html += '</div>';
             html += '</li>';
             $("#sortable").append(html);
@@ -155,9 +155,6 @@
         var i;
         for (i = 0; i < idImageCurrent; i++) {
             var id = i + 1;
-            // $('#imgInp' + id).change(function() {
-            //     readURL(this, 'image-estate' + id);
-            // });
             $('.img-wrap .close').click(function(e) {
                 var id = e.target.id;
                 $("ul #imageInfo" + id).remove();
@@ -169,9 +166,8 @@
             readURL(this, 'image-estate' + id);
             var idImageChanged = $('.id_image'+id).val();
             imageChanged += idImageChanged+'-';
-            console.log(imageChanged);
             $('input[name=all_image_id]').val(imageChanged);
-        })
+        });
         $('textarea[data-id^=description_current-]').keyup(function(e) {
             var value = e.target.value;
             var id = (e.target.id).slice(-1);
@@ -180,4 +176,4 @@
 
     });
 </script>
-@stop
+@endsection
