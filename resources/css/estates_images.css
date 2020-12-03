@@ -7,6 +7,8 @@
     display: block;
     padding: 13px 11px 9px;
     float: left;
+    width: 33%;
+    height: 530px;
 }
 
 li {
@@ -73,5 +75,15 @@ li {
 }
 
 .append-image {
-    float:right;
+    float:left;
+}
+
+.button-submit-estate {
+    width: 100%;
+    height: 56px;
+}
+
+.estate_image_url,
+.estate_image_file {
+    width: 100%;
 }
