@@ -58,74 +58,37 @@ class EstateController extends Controller
         $estateAdded = [];
         $estateAppend = [];
         $estateDatabase = [];
+
         // estate append
-        if ($request->hasfile('estate_image')) {
-            $images = $request->file('estate_image');
-            $i = 0;
-            foreach ($images as $image) {
-                $name = date('Ymd_His') . $i;
-                $link = '/estates/' . $id . '/images/' . $name;
-                $ext = $image->getClientOriginalExtension();
-                $image->move(public_path() . '/estates/' . $id . '/images/', $name . '.' . $ext);
+        $list_images = $request->get('estate_image_hidden');
+        $i = 0;
+        if($list_images){
+            foreach ($list_images as $list_image) {
+                try {
+                    $estate_image = $request->file('estate_image')[$i];
+                } catch (Exception $e) {
+                    $estate_image = null;
+                }
+                if($estate_image){
+                    $name = date('Ymd_His') . $i;
+                    $link = '/estates/' . $id . '/images/' . $name;
+                    $ext = $estate_image->getClientOriginalExtension();
+                    $url_path = $link . '.' . $ext;
+                    $estate_image->move(public_path() . '/estates/' . $id . '/images/', $name . '.' . $ext);
+                }else{
+                    $url_path = $request->get('estate_image_hidden')[$i];
+                }
                 $estateAppend[] =
                     [
-                        'url_path' => $link,
-                        'media_type' => $ext,
-                        'description' => $request->get('description_added')[$i],
-                        'sort_order' => $request->get('image_sort')[$i],
-                        'id_image' => '1'.date('HIS').$i
+                        'url_path' => $url_path,
+                        'description' => $request->get('description')[$i],
                     ];
                 $i++;
             }
         }
 
-        // estate load from database
-        $description = ($request->get('description_current') == null) ? $request->get('description_added') : $request->get('description_current');
-        if ($description != null) {
-
-            $count = count($description);
-            // missing new sort after add new image
-            $numberNewSort = 0;
-            $numberNewSort = count($request->get('image_sort')) - $count;
-
-            if (!empty($request->get('url_image')) && !empty($request->get('ext_image')) && !empty($request->get('description_current_hidden'))) {
-                for ($i = 0; $i < $count; $i++) {
-                    $estateDatabase[] = [
-                        'url_path' => $request->get('url_image')[$i],
-                        'media_type' => $request->get('ext_image')[$i],
-                        'description' => $description[$i],
-                        'sort_order' => $request->get('image_sort')[$i + $numberNewSort],
-                        'id_image' => $request->get('id_image')[$i],
-                    ];
-                }
-            }
-        }
-        $allImageId = $request->get('all_image_id');
-        if ($allImageId != null) {
-            $imageId = explode("-", $allImageId);
-            array_pop($imageId);
-            $count = count($imageId); 
-
-            for($i = 0; $i < $count; $i++) {
-                $estateAppend[$i]['image_id_flag'] = $imageId[$i];
-            }
-            $countEstateAppend = count($estateAppend);
-            $countEstateDatabase = count($estateDatabase);
-            for ($j=0; $j < $countEstateDatabase; $j++) { 
-                for ($k=0; $k < $countEstateAppend; $k++) { 
-                    if (in_array($estateAppend[$k]['image_id_flag'], $estateDatabase[$j])) {
-                        $estateDatabase[$j]['url_path'] = $estateAppend[$k]['url_path'];
-                        $estateDatabase[$j]['media_type'] = $estateAppend[$k]['media_type'];
-                    }
-                }
-            }
-        }
-
         if (!empty($estateAppend) && $estateDatabase) {
             $estateAdded = array_merge($estateDatabase, $estateAppend);
-            if ($allImageId != null) {
-                $estateAdded = $estateDatabase;
-            }
         } else {
             $estateAdded = empty($estateAppend) ? $estateDatabase : $estateAppend;
         }
