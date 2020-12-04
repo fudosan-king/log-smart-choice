@@ -18,6 +18,7 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "@chenfengyuan/vue-carousel": "^1.0.5",
         "vue": "^2.6.12",
         "vuedraggable": "^2.24.3"
     }
