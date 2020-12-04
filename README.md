@@ -42,25 +42,25 @@ mysql -u root
 > FLUSH PRIVILEGES;<br>
 
 
-## Docker
+# Docker
 
-# Build docker
+## Build docker
 ```
 docker-compose build --no-cache
 ```
-# Run docker
+## Run docker
 ```
 docker-compose up
 ```
-# Run docker as background
+## Run docker as background
 ```
 docker-compose up -d
 ```
-# Clean docker image
+## Clean docker image
 ```
 docker image rm -f $(docker image ls | awk -F' ' '/none/{print $3}')
 ```
-# How to install composer and npm
+## How to install composer and npm
 ```
 docker-compose build
 docker-compose up
