@@ -35,7 +35,14 @@ class ResetPasswordController extends Controller
      */
     protected $redirectTo = RouteServiceProvider::HOME;
 
-    public function getForgotPasswordCustomer(Request $request)
+    /**
+     *
+     * Forgot password
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function forgotPassword(Request $request)
     {
         request()->validate(['email' => 'required|email']);
 
@@ -47,16 +54,27 @@ class ResetPasswordController extends Controller
             return response()->json($validate->errors(), 422);
         }
 
-        $result = Customer::where('email', $request->email)->first();
-        if (!$result) {
+        $customer = Customer::where('email', $request->email)->first();
+        if (!$customer) {
             $link = Lang::get('auth.email_not_exist');
             return response()->json(['status' => false, 'message' => $link]);
         }
 
-        ResetPassword::firstOrCreate(['email' => $request->email, 'token' => Str::random(60), 'created_at' => date("Y-m-d H:i:s")]);
+        // create or update if exists
+        $resetPassword = ResetPassword::where('email', $request->email)->first();
+        if ($resetPassword) {
+            $resetPassword->token = Str::random(60);
+            $resetPassword->created_at = date("Y-m-d H:i:s");
+            $resetPassword->save();
+        } else {
+            $resetPassword = new ResetPassword();
+            $resetPassword->email = $request->email;
+            $resetPassword->token = Str::random(60);
+            $resetPassword->created_at = date("Y-m-d H:i:s");
+            $resetPassword->save();
+        }
 
-        $token = ResetPassword::where('email', $request->email)->first();
-        $link = url('customer/reset-password') . "/" . $token->token;
+        $link = url('api/customer/reset-password') . "/" . $resetPassword->token;
 
         $data = [
             'link' => $link
@@ -64,13 +82,22 @@ class ResetPasswordController extends Controller
 
         $emailResetPassword = new SendEmailResetPassword($request->only('email'), $data);
         dispatch($emailResetPassword);
-        return response()->json(['status' => true, 'message' => $link]);
+
+        return response()->json(['status' => true, 'message' => 'We have e-mailed your password reset link!']);
     }
 
-    public function newPassword(Request $request)
+    /**
+     *
+     * Creat new password
+     *
+     * @param Request $request
+     * @param $hash
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
+    public function newPassword(Request $request, $hash)
     {
         $validate = Validator::make($request->all(), [
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password'              => ['required', 'string', 'min:8', 'confirmed'],
             'password_confirmation' => ['required', 'string', 'min:8'],
         ]);
 
@@ -81,10 +108,21 @@ class ResetPasswordController extends Controller
         // Check password confirm
         if ($request->password == $request->password_confirmation) {
             // Check email with token
-            $result = ResetPassword::where('token', $request->token)->first();
-            if ($result) {
-                // Update new password 
-                Customer::where('email', $result->email)->update(['password' => bcrypt($request->password)]);
+            $resetPassword = ResetPassword::where('token', $hash)->first();
+
+            if ($resetPassword) {
+                $timeCurrent = date('Y-m-d H:i:s');
+                $timeVerify = date('Y-m-d H:i:s', strtotime($resetPassword->created_at) + Customer::TIME_VERIFY_ACCOUNT);
+
+                if ($timeCurrent > $timeVerify) {
+                    session()->flash('message', 'Expired activate your account');
+                    return redirect()->route('login');
+                }
+
+                // Update new password
+                $customer = Customer::where('email', $resetPassword->email)->first();
+                $customer->password = bcrypt($request->password);
+                $customer->save();
 
                 // Delete token
                 ResetPassword::where('token', $request->token)->delete();

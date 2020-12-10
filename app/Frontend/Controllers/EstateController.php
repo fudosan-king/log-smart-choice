@@ -65,7 +65,7 @@ class EstateController extends Controller
             $data = $this->_getEstateInformation($data['data']);
         }
 
-        return view('frontend.estate.search', ['data' => $data]);
+        return response()->json(['data' => $data], 200);
     }
 
     /**
@@ -91,7 +91,8 @@ class EstateController extends Controller
 
         // get group
         $groupEstate = Groups::where('group_code', Groups::ESTATE_RECOMMEND)->get();
-        if ($groupEstate) {
+
+        if ($groupEstate[0]->estate_list) {
             $estateRecommend = array_column($groupEstate[0]->estate_list, 'estate_id');
         }
 
@@ -108,9 +109,15 @@ class EstateController extends Controller
             if ($estateInfo) {
                 $estate[0]['information'] = $estateInfo;
             }
-            return view('frontend.estate.detail', ['estateDetail' => $estate, 'estateRecommend' => $listEstateRecommend]);
+            return response()->json([
+                'data' => [
+                    'estateDetail'    => $estate,
+                    'estateRecommend' => $listEstateRecommend
+                ],
+            ], 200);
         }
-        return view('frontend.estate.detail', ['data' => []]);
+
+        return response()->json(['data' => []], 200);
     }
 
     /**

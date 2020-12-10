@@ -14,10 +14,11 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "jenssegers/mongodb": "^3.8",
         "laravel/framework": "^8.0",
+        "laravel/passport": "^10.1",
         "laravel/tinker": "^2.0",
         "mongodb/mongodb": "^1.6",
-        "tcg/voyager": "^1.4",
-        "phpcheckstyle/phpcheckstyle": "dev-master"
+        "phpcheckstyle/phpcheckstyle": "dev-master",
+        "tcg/voyager": "^1.4"
     },
     "require-dev": {
         "facade/ignition": "2.5",
