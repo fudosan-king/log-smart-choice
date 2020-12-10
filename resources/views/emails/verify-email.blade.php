@@ -1,1 +1,1 @@
-<p>Link để activate account là : {{ $data }}</p>
+<p>Link để activate account là : {{ $data['link'] }}</p>

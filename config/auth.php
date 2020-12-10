@@ -42,15 +42,8 @@ return [
         ],
 
         'api' => [
-            'driver' => 'token',
-            'provider' => 'users',
-            'hash' => false,
-        ],
-
-        // For Frontend
-        'customer' => [
-            'driver' => 'token',
-            'provider' => 'customer',
+            'driver' => 'passport',
+            'provider' => 'customers',
             'hash' => false,
         ],
     ],
@@ -78,6 +71,10 @@ return [
             'model' => App\Models\User::class,
         ],
 
+        'customers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Customer::class,
+        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
@@ -120,7 +117,5 @@ return [
     */
 
     'password_timeout' => 10800,
-    'verification' => [
-        'expire' => 150
-    ]
+
 ];

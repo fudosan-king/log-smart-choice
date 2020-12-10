@@ -1,7 +1,9 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Frontend\Controllers\Auth\RegisterController;
+use App\Frontend\Controllers\Auth\ResetPasswordController;
+use App\Frontend\Controllers\Auth\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +16,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => ['cors', 'json.response'], 'prefix' => 'customer'], function () {
+    Route::middleware('auth:api')->group(function () {
+        Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+    });
+
+    Route::post('/refresh', [LoginController::class, 'getRefreshToken'])->name('refresh');
+    Route::post('/register', [RegisterController::class, 'registerCustomer'])->name('customer.register');
+    Route::post('/login', [LoginController::class, 'login'])->name('login.check');
+    Route::post('/forgot-password', [ResetPasswordController::class, 'forgotPassword'])->name('customer.forgotpassword');
+    Route::get('/reset-password/{hash}', [ResetPasswordController::class, 'showFormResetPassword'])->name('customer.form.resetpassword');
+    Route::post('/reset-password/{hash}', [ResetPasswordController::class, 'newPassword'])->name('customer.resetpassword');
+
 });

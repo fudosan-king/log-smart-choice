@@ -3,6 +3,7 @@
 namespace App\Frontend\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\VerifiesEmails;
 
@@ -35,8 +36,51 @@ class VerificationController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
         $this->middleware('signed')->only('verify');
         $this->middleware('throttle:6,1')->only('verify', 'resend');
+    }
+
+    /**
+     *
+     * Verify Email
+     *
+     * @param null $token
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function verifyEmail($token = null)
+    {
+        if ($token == null) {
+            session()->flash('message', 'Invalid Login attempt');
+            return redirect()->route('login');
+        }
+
+        $customer = Customer::where('email_verification_token', $token)->first();
+
+        if ($customer) {
+            $timeCurrent = date('Y-m-d H:i:s');
+            $timeVerify = date('Y-m-d H:i:s', strtotime($customer->created_at) + Customer::TIME_VERIFY_ACCOUNT);
+
+            if ($timeCurrent > $timeVerify) {
+                session()->flash('message', 'Expired activate your account');
+                return redirect()->route('login');
+            }
+
+            if ($customer == null) {
+                session()->flash('message', 'Invalid Login attempt');
+                return redirect()->route('login');
+            }
+
+            $customer->status = Customer::EMAIL_VERIFY;
+            $customer->email_verified_at = $timeCurrent;
+            $customer->email_verification_token = '';
+            $customer->save();
+
+            session()->flash('message', 'Your account is activated, you can log in now');
+
+            return redirect()->route('login');
+        }
+
+        session()->flash('message', 'Invalid Login attempt');
+        return redirect()->route('login');
     }
 }

@@ -14,6 +14,7 @@
 * Tokenizer PHP Extension
 * XML PHP Extension
 * PDO PHP Extension
+* <a href="https://laravel.com/docs/8.x/passport">Passport >= 10.1</a>
 ### Check modules has been loaded:<br>
 `$ php -m`
 

@@ -3,8 +3,13 @@
 namespace App\Frontend\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Laravel\Passport\Client as PPClient;
 
 class LoginController extends Controller
 {
@@ -35,13 +40,132 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware('auth:api', ['except' => ['login', 'showLoginForm', 'refreshToken']]);
     }
 
+    /**
+     * Show form login
+     *
+     * @return string
+     */
     public function showLoginForm()
     {
         // $obj = ['customers'=> array('full_name'=> 'phong hai', 'estate_detail'=> 'landmark')];
         // return view('auth.login',$obj);
         return 'đã login thành công';
+    }
+
+    /**
+     * Login
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     */
+    public function login(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email'    => 'required|string|email|max:100',
+            'password' => 'required|string|min:6',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->toJson(), 400);
+        }
+
+        $customer = Customer::where('email', $request->email)->first();
+        if ($customer) {
+            if ($customer->status == Customer::EMAIL_VERIFY) {
+                if ($customer->validateForPassportPasswordGrant($request->password)) {
+                    $client = $this->_getCustomerClient();
+                    if ($client) {
+                        return $this->getAccessToken($client, request('email'), request('password'));
+                    }
+                } else {
+                    $response = ["message" => "Password or Email mismatch"];
+                    return response($response, 422);
+                }
+            } else {
+                $response = ["message" => "Your email had not activated"];
+                return response($response, 422);
+            }
+        }
+
+        session()->flash('message', 'Invalid Credentials');
+        return redirect()->back();
+    }
+
+    /**
+     * Logout
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function logout(Request $request)
+    {
+        $token = $request->user()->token();
+        $token->revoke();
+        $response = ['message' => 'You have been successfully logged out!'];
+        return response($response, 200);
+
+    }
+
+    /**
+     * Get access token
+     *
+     * @param PPClient $client
+     * @param $email
+     * @param $password
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getAccessToken(PPClient $client, $email, $password)
+    {
+        $response = Http::asForm()->post(url('oauth/token'), [
+            'grant_type'    => 'password',
+            'client_id'     => $client->id,
+            'client_secret' => $client->secret,
+            'username'      => $email,
+            'password'      => $password,
+            'scope'         => '*',
+        ]);
+
+        $result = json_decode((string)$response->getBody(), true);
+        return response()->json($result, 200);
+    }
+
+    /**
+     * Get refresh token
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|mixed
+     */
+    public function getRefreshToken(Request $request)
+    {
+        $refreshToken = $request->header('Refreshtoken');
+        $client = $this->_getCustomerClient();
+
+        try {
+            if ($client) {
+                $response = Http::asForm()->post(url('oauth/token'), [
+                    'grant_type'    => 'refresh_token',
+                    'refresh_token' => $refreshToken,
+                    'client_id'     => $client->id,
+                    'client_secret' => $client->secret,
+                    'scope'         => '*',
+                ]);
+                return json_decode((string)$response->getBody(), true);
+            }
+        } catch (\Exception $e) {
+            return response()->json("unauthorized", 401);
+        }
+    }
+
+    /**
+     * Get customer client
+     *
+     * @return mixed
+     */
+    private function _getCustomerClient()
+    {
+        return PPClient::where('password_client', 1)->where('provider', 'customers')->first();
     }
 }
