@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\VerifiesEmails;
+use Illuminate\Support\Facades\Lang;
 
 class VerificationController extends Controller
 {
@@ -50,7 +51,7 @@ class VerificationController extends Controller
     public function verifyEmail($token = null)
     {
         if ($token == null) {
-            session()->flash('message', 'Invalid Login attempt');
+            session()->flash('message', Lang::get('auth.token_null'));
             return redirect()->route('login');
         }
 
@@ -61,12 +62,7 @@ class VerificationController extends Controller
             $timeVerify = date('Y-m-d H:i:s', strtotime($customer->created_at) + Customer::TIME_VERIFY_ACCOUNT);
 
             if ($timeCurrent > $timeVerify) {
-                session()->flash('message', 'Expired activate your account');
-                return redirect()->route('login');
-            }
-
-            if ($customer == null) {
-                session()->flash('message', 'Invalid Login attempt');
+                session()->flash('message', Lang::get('customer.token_expired'));
                 return redirect()->route('login');
             }
 
@@ -75,12 +71,12 @@ class VerificationController extends Controller
             $customer->email_verification_token = '';
             $customer->save();
 
-            session()->flash('message', 'Your account is activated, you can log in now');
+            session()->flash('message', Lang::get('customer.activate_account_success'));
 
             return redirect()->route('login');
         }
 
-        session()->flash('message', 'Invalid Login attempt');
+        session()->flash('message', Lang::get('customer.customer_not_found'));
         return redirect()->route('login');
     }
 }

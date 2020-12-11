@@ -5,6 +5,7 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Lang;
 
 class VerifyAccount extends Mailable
 {
@@ -33,6 +34,7 @@ class VerifyAccount extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.verify-email', ['data' => $this->data]);
+        return $this->view('emails.verify-email', ['data' => $this->data])
+            ->subject(Lang::get('auth.verify_email'));
     }
 }

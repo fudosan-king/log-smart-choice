@@ -9,6 +9,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -51,7 +52,8 @@ class RegisterController extends Controller
         if ($customer = $this->create($request->all())) {
             $link = url('customer/verify') . "/" . $customer->email_verification_token;
             $data = [
-                'link' => $link
+                'link' => $link,
+                'customer' => $customer,
             ];
 
             $emailVerifyAccount = new SendEmailVerifyAccount($request->only('email'), $data);
@@ -60,11 +62,11 @@ class RegisterController extends Controller
             return response()->json(
                 [
                     'status'  => true,
-                    'message' => 'Customer created successfully',
+                    'message' => Lang::get('customer.create_success'),
                     'data'    => $customer
                 ], 200);
         }
-        return response()->json(['status' => false, 'message' => 'Customer created fail'], 422);
+        return response()->json(['status' => false, 'message' => Lang::get('customer.create_fail')], 422);
     }
 
     /**

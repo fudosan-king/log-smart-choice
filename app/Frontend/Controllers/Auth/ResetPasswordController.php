@@ -77,7 +77,8 @@ class ResetPasswordController extends Controller
         $link = url('api/customer/reset-password') . "/" . $resetPassword->token;
 
         $data = [
-            'link' => $link
+            'link' => $link,
+            'customer' => $customer
         ];
 
         $emailResetPassword = new SendEmailResetPassword($request->only('email'), $data);
@@ -125,7 +126,7 @@ class ResetPasswordController extends Controller
                 $customer->save();
 
                 // Delete token
-                ResetPassword::where('token', $request->token)->delete();
+                ResetPassword::where('email', $resetPassword->email)->delete();
 
                 return redirect()->route('login');
             }
