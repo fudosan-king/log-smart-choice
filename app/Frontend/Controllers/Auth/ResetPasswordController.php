@@ -84,7 +84,7 @@ class ResetPasswordController extends Controller
         $emailResetPassword = new SendEmailResetPassword($request->only('email'), $data);
         dispatch($emailResetPassword);
 
-        return response()->json(['status' => true, 'message' => 'We have e-mailed your password reset link!']);
+        return response()->json(['status' => true, 'message' => Lang::get('auth.send_email_reset_link')]);
     }
 
     /**
@@ -116,7 +116,7 @@ class ResetPasswordController extends Controller
                 $timeVerify = date('Y-m-d H:i:s', strtotime($resetPassword->created_at) + Customer::TIME_VERIFY_ACCOUNT);
 
                 if ($timeCurrent > $timeVerify) {
-                    session()->flash('message', 'Expired activate your account');
+                    session()->flash('message', Lang::get('auth.token_forgotpassword_expired'));
                     return redirect()->route('login');
                 }
 

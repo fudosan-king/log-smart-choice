@@ -17,7 +17,7 @@ return [
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
     'hello' => "Xin chào",
-    'verify_email' => "Kích hoạt email đi thím",
+    'verify_email' => "【オーダーりのべ】新規会員登録を完了してください",
     'button_click' => "Kích vào button...",
     'not_required_email' => "Nếu bạn không...",
     'regards' => "Trân trọng",
@@ -25,8 +25,10 @@ return [
     'password_not_match' => "Mật khẩu không giống nhau",
     'link_check_token_password_fail' => "Đường dẫn không hợp lệ",
     'email_not_exist' => 'Email không có trong hệ thống, vui lòng kiểm tra lại',
-    'reset_password' => 'Reset password nhóe',
+    'reset_password' => '【オーダーりのべ】パスワードの再設定',
     'token_null' => 'Đăng nhập không thành công',
-    'token_expired' => 'Expired activate your account',
+    'token_expired' => 'Hết thời gian để để kích hoạt tài ',
+    'token_forgotpassword_expired' => 'Hết thời gian để đổi password, chịu khó bấm lại nha',
     'activate_account_success' => 'Kích hoạt tài khoản thành công, đăng nhập đi pa',
+    'send_email_reset_link' => 'Đã gửi link email gòy nghen',
 ];
