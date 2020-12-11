@@ -25,4 +25,9 @@ return [
     'password_not_match' => "Password doesn't match",
     'link_check_token_password_fail' => "Link is invalid",
     'email_not_exist' => "Email is not exist, please check again!",
+    'reset_password' => 'Reset Password',
+    'token_null' => 'Invalid Login attempt',
+    'token_expired' => 'Expired activate your account',
+    'customer_not_found' => 'Customer not found',
+    'activate_account_success' => 'Your account is activated, you can log in now',
 ];
