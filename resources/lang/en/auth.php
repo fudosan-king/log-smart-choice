@@ -28,6 +28,8 @@ return [
     'reset_password' => 'Reset Password',
     'token_null' => 'Invalid Login attempt',
     'token_expired' => 'Expired activate your account',
+    'token_forgotpassword_expired' => 'Expired change password your account',
     'customer_not_found' => 'Customer not found',
     'activate_account_success' => 'Your account is activated, you can log in now',
+    'send_email_reset_link' => 'We have e-mailed your password reset link!',
 ];
