@@ -16,7 +16,7 @@ use App\Frontend\Controllers\Auth\LoginController;
 |
 */
 
-Route::group(['middleware' => ['cors', 'json.response'], 'prefix' => 'customer'], function () {
+Route::group(['middleware' => 'cors', 'prefix' => 'customer'], function () {
     Route::middleware('auth:api')->group(function () {
         Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
     });
