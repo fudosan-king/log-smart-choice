@@ -44,13 +44,13 @@ class RemoveAddEditEstateToPermissionsTable extends Migration
             if ($addEstate->isEmpty()) {
                 $permission = new Permission();
                 $permission->key = 'add_estate';
-                $permission->table_name = 'estate';
+                $permission->table_name = 'estates';
                 $permission->save();
             }
             if ($deleteEstate->isEmpty()) {
                 $permission = new Permission();
                 $permission->key = 'delete_estate';
-                $permission->table_name = 'estate';
+                $permission->table_name = 'estates';
                 $permission->save();
             }
         });

@@ -42,9 +42,20 @@
         <div class="row">
             <div class="col-md-12">
                 @php
-                    $renovation_media = $dataTypeContent->estate_infomation[0]['renovation_media'];
+                    if ($dataTypeContent->estate_infomation) {
+                        $renovation_media = $dataTypeContent->estate_infomation[0]['renovation_media'];
+                    } else {
+                        $renovation_media = null;
+                    }
                 @endphp
-                <vuecarousel-component :data=@json($renovation_media)></vuecarousel-component>
+
+                @php
+                    if ($renovation_media) {
+                @endphp
+                        <vuecarousel-component :data=@json($renovation_media)></vuecarousel-component>
+                @php
+                    }
+                @endphp
             </div>
 
             <div class="col-md-12">

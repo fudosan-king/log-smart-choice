@@ -13,7 +13,7 @@ class CreateEstateLogs extends Migration
      */
     public function up()
     {
-        Schema::connection('mongodb')->create('estate_logs', function (Blueprint $table){});
+        Schema::connection('mongodb')->create('estates_logs', function (Blueprint $table){});
     }
 
     /**
@@ -23,6 +23,6 @@ class CreateEstateLogs extends Migration
      */
     public function down()
     {
-        Schema::connection('mongodb')->drop('estate_logs');
+        Schema::connection('mongodb')->drop('estates_logs');
     }
 }

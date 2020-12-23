@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model as Model;
-use App\Models\Estate;
+use App\Models\Estates;
 
 class Groups extends Model
 {
@@ -27,7 +27,7 @@ class Groups extends Model
     {
         if (!$this->_estateCollection) {
             $estateIds = (array_column($this->estate_list, 'estate_id'));
-            $this->_estateCollection = Estate::whereIn('_id', $estateIds);
+            $this->_estateCollection = Estates::whereIn('_id', $estateIds);
         }
         return $this->_estateCollection;
     }

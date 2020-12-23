@@ -15,14 +15,14 @@ class EstateSeeder extends Seeder {
     * @return void
     */
     public function run() {
-        $dataType = $this->dataType('slug', 'estate');
+        $dataType = $this->dataType('slug', 'estates');
         if (!$dataType->exists) {
             $dataType->fill([
-                'name'                  => 'estate',
-                'display_name_singular' => __('Estate Baibai'),
-                'display_name_plural'   => __('Estate Baibai'),
+                'name'                  => 'estates',
+                'display_name_singular' => __('Estates Baibai'),
+                'display_name_plural'   => __('Estates Baibai'),
                 'icon'                  => 'voyager-key',
-                'model_name'            => 'App\Models\Estate',
+                'model_name'            => 'App\Models\Estates',
                 'controller'            => 'App\\Http\\Controllers\\EstateController',
                 'generate_permissions'  => 1,
                 'description'           => '',
@@ -30,9 +30,9 @@ class EstateSeeder extends Seeder {
             ])->save();
         }
 
-        Permission::generateFor('estate');
+        Permission::generateFor('estates');
 
-        $estateDataType = DataType::where('slug', 'estate')->firstOrFail();
+        $estateDataType = DataType::where('slug', 'estates')->firstOrFail();
         $dataRow = $this->dataRow($estateDataType, 'id');
 
         if (!$dataRow->exists) {
@@ -118,8 +118,8 @@ class EstateSeeder extends Seeder {
 
         $menuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
-            'title'   => __('Estate'),
-            'url'     => 'admin/estate',
+            'title'   => __('Estates'),
+            'url'     => 'admin/estates',
             'route'   => null,
         ]);
         if (!$menuItem->exists) {
