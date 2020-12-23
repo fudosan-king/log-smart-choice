@@ -23,12 +23,12 @@ class Groups extends Model
      *
      * @return  Illuminate\Database\Eloquent\Collection;
      */
-    public function getEstates()
+    public static function getEstates()
     {
-        if (!$this->_estateCollection) {
-            $estateIds = (array_column($this->estate_list, 'estate_id'));
-            $this->_estateCollection = Estates::whereIn('_id', $estateIds);
+        if (!$self->_estateCollection) {
+            $estateIds = (array_column($self->estate_list, 'estate_id'));
+            $self->_estateCollection = Estates::whereIn('_id', $estateIds);
         }
-        return $this->_estateCollection;
+        return $self->_estateCollection;
     }
 }

@@ -29,7 +29,7 @@
         props: ['data'],
         data(){
             if (this.data) {
-                const renovation_media = this.data[0]['renovation_media'];
+                const renovation_media = this.data;
                 let images = [];
                 for(let i = 0; i < renovation_media.length; i++){
                     const url = renovation_media[i]['url_path'];

@@ -12,4 +12,14 @@ class EstateInformation extends Model
     protected $connection = 'mongodb';
 
     protected $collection = 'estates_information';
+
+    /**
+     * Get renovation_media
+     *
+     * @return dict
+     */
+    public function getRenovationMedia()
+    {
+        return $this->attributes['renovation_media'];
+    }
 }
