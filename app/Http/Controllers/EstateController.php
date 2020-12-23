@@ -132,7 +132,7 @@ class EstateController extends Controller
             $dataTypeContent = DB::table($dataType->name)->where('id', $id)->first();
         }
 
-        $view = 'voyager::estate.edit-add';
+        $view = 'voyager::estates.edit-add';
 
         // Check if BREAD is Translatable
         $isModelTranslatable = is_bread_translatable($dataTypeContent);

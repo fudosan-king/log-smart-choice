@@ -28,14 +28,18 @@
         },
         props: ['data'],
         data(){
-            const renovation_media = this.data[0]['renovation_media'];
-            let images = [];
-            for(let i = 0; i < renovation_media.length; i++){
-                const url = renovation_media[i]['url_path'];
-                images.push([url, renovation_media[i]['description']]);
-            }
-            return{
-                images: images
+            if (this.data) {
+                const renovation_media = this.data[0]['renovation_media'];
+                let images = [];
+                for(let i = 0; i < renovation_media.length; i++){
+                    const url = renovation_media[i]['url_path'];
+                    images.push([url, renovation_media[i]['description']]);
+                }
+                return {
+                    images: images
+                }
+            } else {
+                return {images: []}
             }
         },
         methods: {

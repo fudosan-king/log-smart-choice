@@ -47,7 +47,7 @@ abstract class Grid
 
     abstract function serializeString();
 
-    public function __construct(Request $request, $model = 'App\Models\Estate')
+    public function __construct(Request $request, $model = 'App\Models\Estates')
     {
         $this->initSearch()->initColumns();
         $this->_request = $request;

@@ -36,10 +36,10 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('/', [AboutController::class, 'save'])->name('admin.about.save');
     });
 
-    Route::group(['prefix' => 'estate'], function () {
-        Route::get('/', [EstateController::class, 'index'])->name('voyager.estate.index');
-        Route::put('/{id}/update', [EstateController::class, 'update'])->name('voyager.estate.update');
-        Route::get('/{id}/edit', [EstateController::class, 'edit'])->name('voyager.estate.edit');
+    Route::group(['prefix' => 'estates'], function () {
+        Route::get('/', [EstateController::class, 'index'])->name('voyager.estates.index');
+        Route::put('/{id}/update', [EstateController::class, 'update'])->name('voyager.estates.update');
+        Route::get('/{id}/edit', [EstateController::class, 'edit'])->name('voyager.estates.edit');
     });
 
 });

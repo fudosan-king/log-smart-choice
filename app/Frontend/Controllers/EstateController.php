@@ -5,7 +5,7 @@ namespace App\Frontend\Controllers;
 
 
 use App\Http\Controllers\Controller;
-use App\Models\Estate;
+use App\Models\Estates;
 use App\Models\EstateInformation;
 use App\Models\Groups;
 use Illuminate\Support\Facades\Validator;
@@ -38,7 +38,7 @@ class EstateController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        $estates = Estate::select('estate_name', 'price', 'balcony_space',
+        $estates = Estates::select('estate_name', 'price', 'balcony_space',
             'address', 'tatemono_menseki', 'motoduke',
             'land_space', 'homepage');
         if ($keyword) {
@@ -78,7 +78,7 @@ class EstateController extends Controller
     {
         $estateRecommend = [];
         $listEstateRecommend = [];
-        $estate = Estate::select(
+        $estate = Estates::select(
             'address', 'price', 'transports',
             'room_count', 'room_kind', 'tatemono_menseki',
             'balcony_space', 'structure', 'room_floor', 'built_date',
@@ -97,7 +97,7 @@ class EstateController extends Controller
         }
 
         // get estate recommend
-        $getEstatesRecommend = Estate::select('estate_name', 'price', 'balcony_space',
+        $getEstatesRecommend = Estates::select('estate_name', 'price', 'balcony_space',
             'address', 'tatemono_menseki', 'motoduke',
             'land_space', 'homepage')->whereIn('_id', $estateRecommend)->get()->toArray();
 
@@ -153,7 +153,7 @@ class EstateController extends Controller
     {
         foreach ($estates as $key => $estate) {
             $estateInformation = EstateInformation::where('estate_id', $estates[$key]['_id'])->get()->toArray();
-            $estates[$key]['estate_information'] = $estateInformation;
+            $estates[$key]['estates_information'] = $estateInformation;
         }
 
         return $estates;
