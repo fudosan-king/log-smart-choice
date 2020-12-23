@@ -47,6 +47,7 @@
                         @endif
 
                         @foreach($dataType->addRows as $row)
+                        @php if ($row->field == 'custom_field') { continue; } @endphp
                         <div class="form-group">
                             <label for="name">{{ $row->getTranslatedAttribute('display_name') }}</label>
 
@@ -55,7 +56,19 @@
                         </div>
                         @endforeach
 
-                        <estateimage-component :data=@json($dataTypeContent->estate_infomation)></estateimage-component>
+                        @php
+                        $custom_field = $dataTypeContent->custom_field;
+                        foreach ($custom_field as $key => $value) {
+                        @endphp
+                            <div class="form-group">
+                                <label for="name">@php echo $mapLabel[$key] @endphp</label>
+                                <input type="text" name="@php echo $key @endphp" value="@php echo $value @endphp" class="form-control">
+                            </div>
+                        @php
+                        }
+                        @endphp
+
+                        <estateimage-component :data=@json($imagesData)></estateimage-component>
 
                     </div><!-- panel-body -->
 

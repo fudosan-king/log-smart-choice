@@ -12,8 +12,14 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use TCG\Voyager\Facades\Voyager;
 
+
 class EstateController extends Controller
 {
+    private $mapLabel = array(
+        'title' => 'Title',
+        'content' => 'Content'
+    );
+
     public function index(Request $request)
     {
         return parent::index($request);
@@ -42,6 +48,10 @@ class EstateController extends Controller
         $this->authorize('edit', $data);
 
         // Validate fields with ajax
+        $request['custom_field'] = array(
+            'title' => $request->title,
+            'content' => $request->content
+        );
         $this->validateBread($request->all(), $dataType->editRows, $dataType->name, $id)->validate();
         $this->insertUpdateData($request, $slug, $dataType->editRows, $data);
 
@@ -55,11 +65,8 @@ class EstateController extends Controller
             'estate_image.*' => 'image|mimes:jpg,png,jpeg|max:2048',
         ]);
 
-        $estateAdded = [];
-        $estateAppend = [];
-        $estateDatabase = [];
-
-        // estate append
+        // Process insert images
+        $estateImages = [];
         $list_images = $request->get('estate_image_hidden');
         $i = 0;
         if($list_images){
@@ -78,7 +85,7 @@ class EstateController extends Controller
                 }else{
                     $url_path = $request->get('estate_image_hidden')[$i];
                 }
-                $estateAppend[] =
+                $estateImages[] =
                     [
                         'url_path' => $url_path,
                         'description' => $request->get('description')[$i],
@@ -87,18 +94,13 @@ class EstateController extends Controller
             }
         }
 
-        if (!empty($estateAppend) && $estateDatabase) {
-            $estateAdded = array_merge($estateDatabase, $estateAppend);
-        } else {
-            $estateAdded = empty($estateAppend) ? $estateDatabase : $estateAppend;
-        }
-
         try {
-            EstateInformation::where('estate_id', $id)->delete();
-
-            $estateInformation = new EstateInformation();
-            $estateInformation->estate_id = $id;
-            $estateInformation->renovation_media = $estateAdded;
+            $estateInformation = EstateInformation::where('estate_id', $id)->get()->first();
+            if (!isset($estateInformation)) {
+                $estateInformation = new EstateInformation();
+                $estateInformation->estate_id = $id;
+            }
+            $estateInformation->renovation_media = $estateImages;
             $estateInformation->save();
         } catch (\Exception $ex) {
             Log::error($ex->getMessage());
@@ -141,19 +143,18 @@ class EstateController extends Controller
         $this->eagerLoadRelations($dataTypeContent, $dataType, 'edit', $isModelTranslatable);
 
         // Get image estate infomation
-        $estateInformation = EstateInformation::where('estate_id', $id)->get()->toArray();
+        $estate = EstateInformation::where('estate_id', $id)->get();
+        $estateInformation = $estate->toArray();
         if ($estateInformation) {
-            $renovationMedia = $estateInformation[0]['renovation_media'];
-            if (isset($renovationMedia[0]['sort_order'])) {
-                foreach ($renovationMedia as $key => $row) {
-                    $flag[$key]  = $row['sort_order'];
-                }
-                array_multisort($flag, SORT_ASC, $renovationMedia);
-            }
-            $estateInformation[0]['renovation_media'] = $renovationMedia;
             $dataTypeContent->estate_infomation = $estateInformation;
+            $imagesData = $estate->first()->getRenovationMedia();
+        } else {
+            $imagesData = null;
         }
-        return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable'));
+
+        $mapLabel = $this->mapLabel;
+
+        return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'imagesData', 'mapLabel'));
     }
 
     public function show(Request $request, $id)
@@ -204,20 +205,18 @@ class EstateController extends Controller
             $view = "voyager::$slug.read";
         }
 
-         // Get image estate infomation
-        $estateInformation = EstateInformation::where('estate_id', $id)->get()->toArray();
+        // Get estate infomation
+        $estate = EstateInformation::where('estate_id', $id)->get();
+        $estateInformation = $estate->toArray();
         if ($estateInformation) {
-            $renovationMedia = $estateInformation[0]['renovation_media'];
-            if (isset($renovationMedia[0]['sort_order'])) {
-                foreach ($renovationMedia as $key => $row) {
-                    $flag[$key]  = $row['sort_order'];
-                }
-                array_multisort($flag, SORT_ASC, $renovationMedia);
-            }
-            $estateInformation[0]['renovation_media'] = $renovationMedia;
             $dataTypeContent->estate_infomation = $estateInformation;
+            $imagesData = $estate->first()->getRenovationMedia();
+        } else {
+            $imagesData = null;
         }
 
-        return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'isSoftDeleted'));
+        $mapLabel = $this->mapLabel;
+
+        return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'isSoftDeleted', 'imagesData', 'mapLabel'));
     }
 }

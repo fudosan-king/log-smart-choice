@@ -42,17 +42,9 @@
         <div class="row">
             <div class="col-md-12">
                 @php
-                    if ($dataTypeContent->estate_infomation) {
-                        $renovation_media = $dataTypeContent->estate_infomation[0]['renovation_media'];
-                    } else {
-                        $renovation_media = null;
-                    }
+                    if ($imagesData) {
                 @endphp
-
-                @php
-                    if ($renovation_media) {
-                @endphp
-                        <vuecarousel-component :data=@json($renovation_media)></vuecarousel-component>
+                        <vuecarousel-component :data=@json($imagesData)></vuecarousel-component>
                 @php
                     }
                 @endphp
@@ -64,6 +56,7 @@
                     <!-- form start -->
                     @foreach($dataType->readRows as $row)
                         @php
+                        if ($row->field == 'custom_field') { continue; }
                         if ($dataTypeContent->{$row->field.'_read'}) {
                             $dataTypeContent->{$row->field} = $dataTypeContent->{$row->field.'_read'};
                         }
@@ -158,6 +151,15 @@
                         @endif
                     @endforeach
 
+                    @php
+                    $custom_field = $dataTypeContent->custom_field;
+                    foreach ($custom_field as $key => $value) {
+                    @endphp
+                        <div class="panel-heading" style="border-bottom: 0px;"><h3 class="panel-title">@php echo $mapLabel[$key] @endphp</h3></div>
+                        <div class="panel-body" style="padding-top: 0px;"><p>@php echo $value @endphp</p></div>
+                    @php
+                    }
+                    @endphp
                 </div>
             </div>
         </div>

@@ -20,8 +20,14 @@ class Estates extends Model
      */
     public function getDateCreatedAttribute()
     {
-        $date = $this->attributes['date_created']->toDateTime();
-        return date('Y-m-d H:i:s', $date->format('U'));
+        if (isset($this->attributes['date_created'])) {
+            $date = $this->attributes['date_created']->toDateTime();
+            return date('Y-m-d H:i:s', $date->format('U'));
+        }
+        if (isset($this->attributes['created_at'])) {
+            $date = $this->attributes['created_at']->toDateTime();
+            return date('Y-m-d H:i:s', $date->format('U'));
+        }
     }
 
     /**
@@ -31,8 +37,13 @@ class Estates extends Model
      */
     public function getDateLastModifiedAttribute()
     {
-        $date = $this->attributes['date_last_modified']->toDateTime();
-        return date('Y-m-d H:i:s', $date->format('U'));
+        if (isset($this->attributes['date_last_modified'])) {
+            $date = $this->attributes['date_last_modified']->toDateTime();
+            return date('Y-m-d H:i:s', $date->format('U'));
+        }
+        if (isset($this->attributes['updated_at'])) {
+            $date = $this->attributes['updated_at']->toDateTime();
+            return date('Y-m-d H:i:s', $date->format('U'));
+        }
     }
-
 }

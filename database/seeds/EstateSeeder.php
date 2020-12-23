@@ -76,7 +76,7 @@ class EstateSeeder extends Seeder {
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'order'        => 3,
+                'order'        => 2,
             ])->save();
         }
 
@@ -106,7 +106,22 @@ class EstateSeeder extends Seeder {
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 6,
+                'order'        => 4,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($estateDataType, 'custom_field');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => __('Custom Field'),
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'order'        => 5,
             ])->save();
         }
 
