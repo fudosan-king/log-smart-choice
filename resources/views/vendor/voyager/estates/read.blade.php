@@ -153,11 +153,13 @@
 
                     @php
                     $custom_field = $dataTypeContent->custom_field;
-                    foreach ($custom_field as $key => $value) {
+                    if ($custom_field) {
+                        foreach ($custom_field as $key => $value) {
                     @endphp
                         <div class="panel-heading" style="border-bottom: 0px;"><h3 class="panel-title">@php echo $mapLabel[$key] @endphp</h3></div>
                         <div class="panel-body" style="padding-top: 0px;"><p>@php echo $value @endphp</p></div>
                     @php
+                        }
                     }
                     @endphp
                 </div>

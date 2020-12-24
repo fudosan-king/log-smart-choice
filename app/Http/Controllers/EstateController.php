@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use TCG\Voyager\Facades\Voyager;
+use TCG\Voyager\Events\BreadDataAdded;
 
 
 class EstateController extends Controller
@@ -23,6 +24,130 @@ class EstateController extends Controller
     public function index(Request $request)
     {
         return parent::index($request);
+    }
+
+    private function _insertImages($request, $estate_id){
+        // Process insert images
+        $estateImages = [];
+        $list_images = $request->get('estate_image_hidden');
+        $i = 0;
+        if($list_images){
+            foreach ($list_images as $list_image) {
+                try {
+                    $estate_image = $request->file('estate_image')[$i];
+                } catch (Exception $e) {
+                    $estate_image = null;
+                }
+                if($estate_image){
+                    $name = date('Ymd_His') . $i;
+                    $link = '/estates/' . $estate_id . '/images/' . $name;
+                    $ext = $estate_image->getClientOriginalExtension();
+                    $url_path = $link . '.' . $ext;
+                    $estate_image->move(public_path() . '/estates/' . $estate_id . '/images/', $name . '.' . $ext);
+                }else{
+                    $url_path = $request->get('estate_image_hidden')[$i];
+                }
+                $estateImages[] =
+                    [
+                        'url_path' => $url_path,
+                        'description' => $request->get('description')[$i],
+                    ];
+                $i++;
+            }
+        }
+        try {
+            $estateInformation = null;
+            if ($estate_id) {
+                $estateInformation = EstateInformation::where('estate_id', $estate_id)->get()->first();
+
+            }
+            if (!isset($estateInformation) && $estate_id) {
+                $estateInformation = new EstateInformation();
+                $estateInformation->estate_id = $estate_id;
+            }
+            if ($estateInformation) {
+                $estateInformation->renovation_media = $estateImages;
+                $estateInformation->save();
+            }
+        } catch (\Exception $ex) {
+            Log::error($ex->getMessage());
+        }
+    }
+
+    public function create(Request $request)
+    {
+        $slug = $this->getSlug($request);
+
+        $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
+
+        // Check permission
+        $this->authorize('add', app($dataType->model_name));
+
+        $dataTypeContent = (strlen($dataType->model_name) != 0)
+                            ? new $dataType->model_name()
+                            : false;
+
+        foreach ($dataType->addRows as $key => $row) {
+            $dataType->addRows[$key]['col_width'] = $row->details->width ?? 100;
+        }
+
+        // If a column has a relationship associated with it, we do not want to show that field
+        $this->removeRelationshipField($dataType, 'add');
+
+        // Check if BREAD is Translatable
+        $isModelTranslatable = is_bread_translatable($dataTypeContent);
+
+        // Eagerload Relations
+        $this->eagerLoadRelations($dataTypeContent, $dataType, 'add', $isModelTranslatable);
+
+        $view = 'voyager::bread.edit-add';
+
+        if (view()->exists("voyager::$slug.edit-add")) {
+            $view = "voyager::$slug.edit-add";
+        }
+
+        $mapLabel = $this->mapLabel;
+
+        return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'mapLabel'));
+    }
+
+    public function store(Request $request)
+    {
+        $slug = $this->getSlug($request);
+
+        $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
+
+        // Check permission
+        $this->authorize('add', app($dataType->model_name));
+
+        // Validate fields with ajax
+        $mapLabel = $this->mapLabel;
+        $custom_field = array();
+
+        foreach ($mapLabel as $key => $value) {
+            $custom_field[$key] = $request->$key;
+        }
+        $request['custom_field'] = $custom_field;
+        $val = $this->validateBread($request->all(), $dataType->addRows)->validate();
+        $data = $this->insertUpdateData($request, $slug, $dataType->addRows, new $dataType->model_name());
+        $this->_insertImages($request, $data->_id);
+
+        event(new BreadDataAdded($dataType, $data));
+
+        if (!$request->has('_tagging')) {
+            if (auth()->user()->can('browse', $data)) {
+                $redirect = redirect()->route("voyager.{$dataType->slug}.index");
+            } else {
+                $redirect = redirect()->back();
+            }
+
+            return $redirect->with([
+                'message'    => __('voyager::generic.successfully_added_new')." {$dataType->getTranslatedAttribute('display_name_singular')}",
+                'alert-type' => 'success',
+            ]);
+        } else {
+            return response()->json(['success' => true, 'data' => $data]);
+        }
     }
 
     public function update(Request $request, $id)
@@ -48,10 +173,14 @@ class EstateController extends Controller
         $this->authorize('edit', $data);
 
         // Validate fields with ajax
-        $request['custom_field'] = array(
-            'title' => $request->title,
-            'content' => $request->content
-        );
+        $mapLabel = $this->mapLabel;
+        $custom_field = array();
+
+        foreach ($mapLabel as $key => $value) {
+            $custom_field[$key] = $request->$key;
+        }
+        $request['custom_field'] = $custom_field;
+
         $this->validateBread($request->all(), $dataType->editRows, $dataType->name, $id)->validate();
         $this->insertUpdateData($request, $slug, $dataType->editRows, $data);
 
@@ -65,46 +194,7 @@ class EstateController extends Controller
             'estate_image.*' => 'image|mimes:jpg,png,jpeg|max:2048',
         ]);
 
-        // Process insert images
-        $estateImages = [];
-        $list_images = $request->get('estate_image_hidden');
-        $i = 0;
-        if($list_images){
-            foreach ($list_images as $list_image) {
-                try {
-                    $estate_image = $request->file('estate_image')[$i];
-                } catch (Exception $e) {
-                    $estate_image = null;
-                }
-                if($estate_image){
-                    $name = date('Ymd_His') . $i;
-                    $link = '/estates/' . $id . '/images/' . $name;
-                    $ext = $estate_image->getClientOriginalExtension();
-                    $url_path = $link . '.' . $ext;
-                    $estate_image->move(public_path() . '/estates/' . $id . '/images/', $name . '.' . $ext);
-                }else{
-                    $url_path = $request->get('estate_image_hidden')[$i];
-                }
-                $estateImages[] =
-                    [
-                        'url_path' => $url_path,
-                        'description' => $request->get('description')[$i],
-                    ];
-                $i++;
-            }
-        }
-
-        try {
-            $estateInformation = EstateInformation::where('estate_id', $id)->get()->first();
-            if (!isset($estateInformation)) {
-                $estateInformation = new EstateInformation();
-                $estateInformation->estate_id = $id;
-            }
-            $estateInformation->renovation_media = $estateImages;
-            $estateInformation->save();
-        } catch (\Exception $ex) {
-            Log::error($ex->getMessage());
-        }
+        $this->_insertImages($request, $id);
 
         return $redirect->with([
             'message'    => __('voyager::generic.successfully_updated') . " {$dataType->getTranslatedAttribute('display_name_singular')}",
