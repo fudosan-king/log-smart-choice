@@ -58,13 +58,30 @@
 
                         @php
                         $custom_field = $dataTypeContent->custom_field;
-                        foreach ($custom_field as $key => $value) {
+                        if ($custom_field) {
+                            foreach ($custom_field as $key => $value) {
                         @endphp
-                            <div class="form-group">
-                                <label for="name">@php echo $mapLabel[$key] @endphp</label>
-                                <input type="text" name="@php echo $key @endphp" value="@php echo $value @endphp" class="form-control">
-                            </div>
+                                <div class="form-group">
+                                    <label for="name">@php echo $mapLabel[$key] @endphp</label>
+                                    <input type="text" name="@php echo $key @endphp" value="@php echo $value @endphp" class="form-control">
+                                </div>
                         @php
+                            }
+                        } else {
+                            foreach ($mapLabel as $key => $value) {
+                        @endphp
+                                <div class="form-group">
+                                    <label for="name">@php echo $value @endphp</label>
+                                    <input type="text" name="@php echo $key @endphp" value="" class="form-control">
+                                </div>
+                        @php
+                            }
+                        }
+                        @endphp
+
+                        @php
+                        if (!isset($imagesData)){
+                            $imagesData = null;
                         }
                         @endphp
 
