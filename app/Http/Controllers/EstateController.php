@@ -16,14 +16,33 @@ use TCG\Voyager\Events\BreadDataAdded;
 
 class EstateController extends Controller
 {
+    // Add custom field for estates
     private $mapLabel = array(
         'title' => 'Title',
         'content' => 'Content'
     );
 
-    public function index(Request $request)
-    {
-        return parent::index($request);
+    // Get image estate infomation
+    private function _loadImages($estate_id){
+        $estate = EstateInformation::where('estate_id', $estate_id)->get();
+        $estateInformation = $estate->toArray();
+        if ($estateInformation) {
+            $imagesData = $estate->first()->getRenovationMedia();
+        } else {
+            $imagesData = null;
+        }
+        return $imagesData;
+    }
+
+    // Set data for custom field
+    private function _setCustomField($request){
+        $mapLabel = $this->mapLabel;
+        $custom_field = array();
+
+        foreach ($mapLabel as $key => $value) {
+            $custom_field[$key] = $request->$key;
+        }
+        return $custom_field;
     }
 
     private function _insertImages($request, $estate_id){
@@ -74,6 +93,10 @@ class EstateController extends Controller
         }
     }
 
+    public function index(Request $request){
+        return parent::index($request);
+    }
+
     public function create(Request $request)
     {
         $slug = $this->getSlug($request);
@@ -121,13 +144,7 @@ class EstateController extends Controller
         $this->authorize('add', app($dataType->model_name));
 
         // Validate fields with ajax
-        $mapLabel = $this->mapLabel;
-        $custom_field = array();
-
-        foreach ($mapLabel as $key => $value) {
-            $custom_field[$key] = $request->$key;
-        }
-        $request['custom_field'] = $custom_field;
+        $request['custom_field'] = $this->_setCustomField($request);
         $val = $this->validateBread($request->all(), $dataType->addRows)->validate();
         $data = $this->insertUpdateData($request, $slug, $dataType->addRows, new $dataType->model_name());
         $this->_insertImages($request, $data->_id);
@@ -173,14 +190,7 @@ class EstateController extends Controller
         $this->authorize('edit', $data);
 
         // Validate fields with ajax
-        $mapLabel = $this->mapLabel;
-        $custom_field = array();
-
-        foreach ($mapLabel as $key => $value) {
-            $custom_field[$key] = $request->$key;
-        }
-        $request['custom_field'] = $custom_field;
-
+        $request['custom_field'] = $this->_setCustomField($request);
         $this->validateBread($request->all(), $dataType->editRows, $dataType->name, $id)->validate();
         $this->insertUpdateData($request, $slug, $dataType->editRows, $data);
 
@@ -231,17 +241,7 @@ class EstateController extends Controller
 
         // Eagerload Relations
         $this->eagerLoadRelations($dataTypeContent, $dataType, 'edit', $isModelTranslatable);
-
-        // Get image estate infomation
-        $estate = EstateInformation::where('estate_id', $id)->get();
-        $estateInformation = $estate->toArray();
-        if ($estateInformation) {
-            $dataTypeContent->estate_infomation = $estateInformation;
-            $imagesData = $estate->first()->getRenovationMedia();
-        } else {
-            $imagesData = null;
-        }
-
+        $imagesData = $this->_loadImages($id);
         $mapLabel = $this->mapLabel;
 
         return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'imagesData', 'mapLabel'));
@@ -295,16 +295,7 @@ class EstateController extends Controller
             $view = "voyager::$slug.read";
         }
 
-        // Get estate infomation
-        $estate = EstateInformation::where('estate_id', $id)->get();
-        $estateInformation = $estate->toArray();
-        if ($estateInformation) {
-            $dataTypeContent->estate_infomation = $estateInformation;
-            $imagesData = $estate->first()->getRenovationMedia();
-        } else {
-            $imagesData = null;
-        }
-
+        $imagesData = $this->_loadImages($id);
         $mapLabel = $this->mapLabel;
 
         return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'isSoftDeleted', 'imagesData', 'mapLabel'));
