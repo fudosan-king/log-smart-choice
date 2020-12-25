@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use App\Frontend\Controllers\Auth\LoginController;
 
 class RegisterController extends Controller
 {
@@ -43,6 +44,7 @@ class RegisterController extends Controller
      */
     public function registerCustomer(Request $request)
     {
+        $register = new RegisterController();
         $validator = $this->validator($request->all());
 
         if ($validator->fails()) {
@@ -59,12 +61,10 @@ class RegisterController extends Controller
             $emailVerifyAccount = new SendEmailVerifyAccount($request->only('email'), $data);
             dispatch($emailVerifyAccount);
 
-            return response()->json(
-                [
-                    'status'  => true,
-                    'message' => Lang::get('customer.create_success'),
-                    'data'    => $customer
-                ], 200);
+            $client = $register->getCustomerClient();
+            if ($client) {
+                return $this->getAccessToken($client, request('email'), request('password'), $customer);
+            }
         }
         return response()->json(['status' => false, 'message' => Lang::get('customer.create_fail')], 422);
     }
@@ -77,13 +77,22 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        $messages = [
+            'email.required' => Lang::get('auth.email_required'),
+            'email.max' => Lang::get('auth.email_max_length'),
+            'email.email' => Lang::get('auth.email_invalid'),
+            'password.required' => Lang::get('auth.password_required'),
+            'password.min' => Lang::get('auth.pass_word_min_length_include_alphabet'),
+            'password.regex' => Lang::get('auth.pass_word_min_length_include_alphabet'),
+            'password.confirmed' => 'Password không giống nhau',
+        ];
         return Validator::make($data, [
-            'name'                  => ['required', 'string', 'max:255'],
-            'email'                 => ['required', 'string', 'email', 'max:255', 'unique:customers'],
-            'password'              => ['required', 'string', 'min:8', 'confirmed'],
+            'name'                  => ['required', 'string'],
+            'email'                 => ['required', 'string', 'email', 'max:100', 'unique:customers'],
+            'password'              => ['required', 'string', 'min:8', 'confirmed', 'regex:/^(?=.*[a-z|A-Z])(?=.*[a-zA-Z])(?=.*\d).+$/'],
             'phone_number'          => ['numeric'],
             'password_confirmation' => ['required', 'string', 'min:8'],
-        ]);
+        ], $messages);
     }
 
     /**

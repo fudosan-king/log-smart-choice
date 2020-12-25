@@ -37,8 +37,8 @@ class VerificationController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('signed')->only('verify');
-        $this->middleware('throttle:6,1')->only('verify', 'resend');
+        // $this->middleware('signed')->only('verify');
+        // $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
 
     /**
@@ -71,12 +71,11 @@ class VerificationController extends Controller
             $customer->email_verification_token = '';
             $customer->save();
 
-            session()->flash('message', Lang::get('customer.activate_account_success'));
-
-            return redirect()->route('login');
+            $response = ["message" => Lang::get('customer.activate_account_success')];
+            return response($response, 422);
         }
 
-        session()->flash('message', Lang::get('customer.customer_not_found'));
-        return redirect()->route('login');
+        $response = ["message" => 'Success'];
+        return response($response, 200);
     }
 }

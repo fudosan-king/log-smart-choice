@@ -8,6 +8,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Passport\Client as PPClient;
 
@@ -63,35 +64,50 @@ class LoginController extends Controller
      */
     public function login(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email'    => 'required|string|email|max:100',
-            'password' => 'required|string|min:6',
-        ]);
+        $rule = [
+            'email'    => 'required|string|email',
+            'password' => 'required|string',
+        ];
+
+        $messages = [
+            'email.required' => Lang::get('auth.email_required'),
+            'email.max' => Lang::get('auth.email_max_length'),
+            'email.email' => Lang::get('auth.email_invalid'),
+            'password.required' => Lang::get('auth.password_required'),
+        ];
+        $validator = Validator::make($request->all(), $rule, $messages);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 400);
+            return response()->json($validator->errors()->toJson(), 404);
         }
-
+        $a = [
+            'data' => 'helloword',
+            'status' => 404,
+            'statusText' => 'OK',
+            'headers' => [],
+            'config' => [],
+            'request' => [],
+        ];
         $customer = Customer::where('email', $request->email)->first();
         if ($customer) {
             if ($customer->status == Customer::EMAIL_VERIFY) {
                 if ($customer->validateForPassportPasswordGrant($request->password)) {
-                    $client = $this->_getCustomerClient();
+                    $client = $this->getCustomerClient();
                     if ($client) {
-                        return $this->getAccessToken($client, request('email'), request('password'));
+                        return $this->getAccessToken($client, request('email'), request('password'), $customer);
                     }
                 } else {
-                    $response = ["message" => "Password or Email mismatch"];
-                    return response($response, 422);
+                    $response = ["message" => Lang::get('auth.password_or_email_wrong')];
+                    
+                    // return response($response, 404);
+                    return json_encode($a);
                 }
             } else {
-                $response = ["message" => "Your email had not activated"];
-                return response($response, 422);
+                $response = ["message" => Lang::get('auth.email_not_activated')];
+                return response()->json($response, 404);
             }
         }
-
-        session()->flash('message', 'Invalid Credentials');
-        return redirect()->back();
+        return response()->json(["message" => "Success"], 200);
     }
 
     /**
@@ -117,7 +133,7 @@ class LoginController extends Controller
      * @param $password
      * @return \Illuminate\Http\JsonResponse
      */
-    public function getAccessToken(PPClient $client, $email, $password)
+    public function getAccessToken(PPClient $client, $email, $password, $customer)
     {
         $response = Http::asForm()->post(url('oauth/token'), [
             'grant_type'    => 'password',
@@ -129,6 +145,7 @@ class LoginController extends Controller
         ]);
 
         $result = json_decode((string)$response->getBody(), true);
+        $result['customer'] = $customer;
         return response()->json($result, 200);
     }
 
@@ -164,7 +181,7 @@ class LoginController extends Controller
      *
      * @return mixed
      */
-    private function _getCustomerClient()
+    public function getCustomerClient()
     {
         return PPClient::where('password_client', 1)->where('provider', 'customers')->first();
     }

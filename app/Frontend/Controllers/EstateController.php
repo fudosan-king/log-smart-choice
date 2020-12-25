@@ -153,7 +153,7 @@ class EstateController extends Controller
     {
         foreach ($estates as $key => $estate) {
             $estateInformation = EstateInformation::where('estate_id', $estates[$key]['_id'])->get()->toArray();
-            $estates[$key]['estates_information'] = $estateInformation;
+            $estates[$key]['estate_information'] = $estateInformation;
         }
 
         return $estates;

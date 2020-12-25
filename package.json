@@ -10,7 +10,7 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
-        "axios": "^0.19",
+        "axios": "^0.19.2",
         "cross-env": "^7.0",
         "laravel-mix": "^5.0.1",
         "lodash": "^4.17.19",
@@ -22,7 +22,9 @@
     },
     "dependencies": {
         "@chenfengyuan/vue-carousel": "^1.0.5",
+        "es6-promise": "^4.2.8",
         "vue": "^2.6.12",
-        "vuedraggable": "^2.24.3"
+        "vuedraggable": "^2.24.3",
+        "vuex": "^3.6.0"
     }
 }

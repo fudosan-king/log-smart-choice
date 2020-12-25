@@ -31,4 +31,11 @@ return [
     'token_forgotpassword_expired' => 'Hết thời gian để đổi password, chịu khó bấm lại nha',
     'activate_account_success' => 'Kích hoạt tài khoản thành công, đăng nhập đi pa',
     'send_email_reset_link' => 'Đã gửi link email gòy nghen',
+    'email_required' => 'メールアドレスを入力してください',
+    'email_max_length' => '100文字以上のメールアドレスは使用できません',
+    'pass_word_min_length_include_alphabet' => 'アルファベットと数字を組み合わせた6文字以上のパスワードを使用してください',
+    'password_required' => 'パスワードを入力してください',
+    'password_or_email_wrong' => 'メールアドレスまたはパスワードが正しくありません',
+    'email_not_activated' => 'まだ本登録が完了していません',
+    'email_invalid' => '無効なメール形式',
 ];
