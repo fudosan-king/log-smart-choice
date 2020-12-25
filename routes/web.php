@@ -20,3 +20,11 @@ Route::get('/{any?}', function (){
 ->where('any', '^(?!admin)[\/\w\.-]*')
 ->where('any', '^(?!customer/verify/)[\/\w\.-]*')
 ->where('any', '^(?!api\/customer\/logout)');
+
+Route::get('/list', function (){
+	return view('app');
+});
+
+Route::get('/detail/{estate_id}', function (){
+	return view('app');
+});

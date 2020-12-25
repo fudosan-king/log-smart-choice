@@ -5,10 +5,10 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="back_to_top" id="back-to-top" title="Back to top">
-                            <img src="images/SVG/gototop.svg" alt="" class="img-fluid" width="50" />
+                            <img src="/design/images/SVG/gototop.svg" alt="" class="img-fluid" width="50" />
                         </div>
                         <h3>
-                            <img src="images/SVG/i_location.svg" alt="" class="img-fluid" width="20" />
+                            <img src="/design/images/SVG/i_location.svg" alt="" class="img-fluid" width="20" />
                             エリアから探す
                         </h3>
                         <ul>
@@ -51,7 +51,7 @@
                             <div class="row">
                                 <div class="col-12 col-lg-6">
                                     <h3>
-                                        <img src="images/SVG/i_plan.svg" alt="" class="img-fluid" width="20" />
+                                        <img src="/design/images/SVG/i_plan.svg" alt="" class="img-fluid" width="20" />
                                         リノベーションプラン
                                     </h3>
                                     <ul>
@@ -64,7 +64,7 @@
                                 </div>
                                 <div class="col-12 col-lg-6">
                                     <h3>
-                                        <img src="images/SVG/i_type.svg" alt="" class="img-fluid" width="23" />
+                                        <img src="/design/images/SVG/i_type.svg" alt="" class="img-fluid" width="23" />
                                         敷地タイプ
                                     </h3>
                                     <ul>
@@ -105,7 +105,7 @@
                     <div class="row">
                         <div class="col-12 col-lg-6 align-self-center">
                             <a href="index.php"
-                                ><img src="images/SVG/logo_brown.svg" alt="" class="img-fluid" width="169"
+                                ><img src="/design/images/SVG/logo_brown.svg" alt="" class="img-fluid" width="169"
                             /></a>
                             <p class="address">
                                 〒107-0061　東京都港区北⻘⼭3-6-23（住所が入ります）
@@ -115,7 +115,7 @@
                             <div class="row">
                                 <div class="col-12 col-lg-8 align-self-center">
                                     <p class="mb-0 phone_number">
-                                        <img src="images/SVG/i_callcenter.svg" alt="" class="img-fluid" width="52" />
+                                        <img src="/design/images/SVG/i_callcenter.svg" alt="" class="img-fluid" width="52" />
                                         <span>
                                             <a href="tel:000-0000-0000">000-0000-0000</a>
                                             <i>年中無休8:00〜18:30</i>
@@ -160,7 +160,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">
-                            <img src="images/SVG/i_location_black.svg" alt="" class="img-fluid" width="20" />
+                            <img src="/design/images/SVG/i_location_black.svg" alt="" class="img-fluid" width="20" />
                             エリアから探す<span class="font-weight-normal">（複数選択可）</span>
                         </h5>
                     </div>
