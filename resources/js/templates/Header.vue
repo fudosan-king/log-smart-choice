@@ -1,4 +1,5 @@
 <template>
+    <div>
     <header>
         <div class="navbar navbar-expand-lg bsnav bsnav-sticky bsnav-sticky-slide">
             <a class="navbar-brand" v-bind:href="'/'"
@@ -32,8 +33,9 @@
                 </ul>
             </div>
         </div>
-        <div class="spacing"></div>
     </header>
+    <div class="spacing"></div>
+    </div>
 </template>
 <script>
 export default {

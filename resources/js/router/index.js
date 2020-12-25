@@ -3,6 +3,8 @@ import VueRouter from 'vue-router';
 // Pages
 import Home from '../../js/pages/Home.vue';
 import Login from '../../js/pages/Login.vue';
+import ListEstates from '../../js/pages/ListEstates.vue';
+import DetailEstate from '../../js/pages/DetailEstate.vue';
 
 // Routes
 const routes = [
@@ -10,6 +12,16 @@ const routes = [
         path: '/',
         name: 'home',
         component: Home,
+    },
+    {
+        path: '/list',
+        name: 'list',
+        component: ListEstates,
+    },
+    {
+        path: '/detail/:estateId',
+        name: 'detail',
+        component: DetailEstate,
     },
     {
         path: '/login',
