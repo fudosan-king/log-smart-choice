@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return '<h1>Log smart choice</h1><hr><br><a href=/admin>Admin Page</a><br><a href=/customer>Customer Page</a>';
-});
+// Route to handle page reload in Vue except for api routes
+Route::get('/{any?}', function (){
+	return view('app');
+})->where('any', '^(?!api\/)[\/\w\.-]*')
+->where('any', '^(?!admin)[\/\w\.-]*')
+->where('any', '^(?!customer/verify/)[\/\w\.-]*')
+->where('any', '^(?!api\/customer\/logout)');
