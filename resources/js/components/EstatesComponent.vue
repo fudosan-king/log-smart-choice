@@ -81,7 +81,7 @@
 					this.setInitHeigthOfList();
 				}
 				let space = 338 * (this.page - 2);
-				console.log('Sroll at %d - Offset Top at %d - Space: %d', document.documentElement.scrollTop, this.offsetTop, space);
+				// console.log('Sroll at %d - Offset Top at %d - Space: %d', document.documentElement.scrollTop, this.offsetTop, space);
 				if (this.offsetTop && document.documentElement.scrollTop - space > this.offsetTop) {
 					this.getListEstates();
 					this.setOffsetTop();
