@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Frontend\Controllers\Auth\RegisterController;
 use App\Frontend\Controllers\Auth\ResetPasswordController;
 use App\Frontend\Controllers\Auth\LoginController;
+use App\Frontend\Controllers\EstateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,4 +29,13 @@ Route::group(['middleware' => 'cors', 'prefix' => 'customer'], function () {
     Route::get('/reset-password/{hash}', [ResetPasswordController::class, 'showFormResetPassword'])->name('customer.form.resetpassword');
     Route::post('/reset-password/{hash}', [ResetPasswordController::class, 'newPassword'])->name('customer.resetpassword');
 
+});
+
+Route::group(['prefix' => 'list-estates'], function () {
+    Route::post('/', [EstateController::class, 'search']);
+    Route::get('/', [EstateController::class, 'search']);
+});
+
+Route::group(['prefix' => 'detail-estate'], function () {
+    Route::post('/', [EstateController::class, 'detail']);
 });
