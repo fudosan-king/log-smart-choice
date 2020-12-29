@@ -48,7 +48,7 @@
 		  	window.removeEventListener('scroll', this.handleScroll);
 		},
 		methods: {
-			// Gui yeu cau den server sau moi lan cuon suong
+			// Gui yeu cau den server sau moi lan cuon xuong
 			getListEstates(){
 				axios({url: '/list-estates', method: 'POST', data: {'limit': 9, 'page': this.page}})
 			        .then(resp => {
