@@ -26,7 +26,8 @@ class EstateController extends Controller
         $priceFrom = $request->has('price_from') ? $request->get('price_from') : '';
         $priceTo = $request->has('price_to') ? $request->get('price_to') : '';
         $metreSquare = $request->has('metre_square') ? $request->get('metre_square') : '';
-        $limit = 10;
+        $limit = $request->has('limit') ? intval($request->get('limit')) : 9;
+        $page = $request->has('page') ? intval($request->get('page')) : 1;
         $validator = Validator::make($request->all(), [
             'keyword'      => 'max:100',
             'metre_square' => 'numeric',
@@ -58,14 +59,14 @@ class EstateController extends Controller
             $estates->where('tatemono_menseki', '>=', (int)$getMetreSquare[0]);
             $estates->where('tatemono_menseki', '<=', (int)$getMetreSquare[1]);
         }
-
-        $data = $estates->paginate($limit)->toArray();
+        $total = count($estates->paginate()->toArray()['data']);
+        $data = $estates->paginate($limit, $page)->toArray();
 
         if ($data) {
             $data = $this->_getEstateInformation($data['data']);
         }
 
-        return response()->json(['data' => $data], 200);
+        return response()->json(['data' => $data, 'total' => $total], 200);
     }
 
     /**
