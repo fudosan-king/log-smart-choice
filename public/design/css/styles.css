@@ -283,7 +283,7 @@ section {
 }
 
 .section_topbanner {
-    background: url("../images/bg_top.jpg") no-repeat center center;
+    /*background: url("../images/bg_top.jpg") no-repeat center center;*/
     background-size: cover;
     height: 600px;
 }

@@ -59,10 +59,20 @@
                         @php
                         $custom_field = $dataTypeContent->custom_field;
                         foreach ($mapLabel as $key => $value) {
+                            $field = explode('_', $key);
                         @endphp
                             <div class="form-group">
                                 <label for="name">@php echo $value @endphp</label>
-                                <input type="text" name="@php echo $key @endphp" value="@php if (isset($custom_field[$key])){ echo $custom_field[$key]; } @endphp" class="form-control">
+                                @php if ($field[1] == 'textarea'){
+                                @endphp
+                                    <textarea name="@php echo $field[0] @endphp" class="form-control">@php if (isset($custom_field[$field[0]])){ echo $custom_field[$field[0]]; } @endphp</textarea>
+                                @php
+                                } else {
+                                @endphp
+                                    <input name="@php echo $field[0] @endphp" type="@php echo $field[1] @endphp" value="@php if (isset($custom_field[$field[0]])){ echo $custom_field[$field[0]]; } @endphp" class="form-control">
+                                @php
+                                }
+                                @endphp
                             </div>
                         @php
                         }
@@ -73,9 +83,28 @@
                         if (!isset($imagesData)){
                             $imagesData = null;
                         }
+                        if (!isset($mainPhoto)){
+                            $mainPhoto = null;
+                        }
+                        if (!isset($beforAfterPhoto)){
+                            $beforAfterPhoto = array(null, null);
+                        }
                         @endphp
 
+                        <h1>Main Photo</h1>
+                        <hr>
+                        <estatemainphoto-component :data="'{{ $mainPhoto }}'"></estatemainphoto-component>
+
+                        <h1>Befor/After</h1>
+                        <hr>
+                        <estatebeforafter-component :befor="'{{ $beforAfterPhoto[0] }}'" :after="'{{ $beforAfterPhoto[1] }}'"></estatebeforafter-component>
+
+
+                        <h1>Photos</h1>
+                        <hr>
                         <estateimage-component :data=@json($imagesData)></estateimage-component>
+
+
 
                     </div><!-- panel-body -->
 

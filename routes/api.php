@@ -33,7 +33,6 @@ Route::group(['middleware' => 'cors', 'prefix' => 'customer'], function () {
 
 Route::group(['prefix' => 'list-estates'], function () {
     Route::post('/', [EstateController::class, 'search']);
-    Route::get('/', [EstateController::class, 'search']);
 });
 
 Route::group(['prefix' => 'detail-estate'], function () {

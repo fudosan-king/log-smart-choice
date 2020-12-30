@@ -154,9 +154,10 @@
                     @php
                     $custom_field = $dataTypeContent->custom_field;
                     foreach ($mapLabel as $key => $value) {
+                        $field = explode('_', $key);
                     @endphp
                         <div class="panel-heading" style="border-bottom: 0px;"><h3 class="panel-title">@php echo $value @endphp</h3></div>
-                        <div class="panel-body" style="padding-top: 0px;">@php if (isset($custom_field[$key])){ echo $custom_field[$key]; } @endphp</p></div>
+                        <div class="panel-body" style="padding-top: 0px;">@php if (isset($custom_field[$field[0]])){ echo $custom_field[$field[0]]; } @endphp</p></div>
                     @php
                     }
                     @endphp
