@@ -1,177 +1,35 @@
 <template>
   <main id="main">
-    <section class="section_topbanner">
+    <section class="section_topbanner" v-bind:style="styleObject">
         <div class="container">
             <div class="row">
-
             </div>
         </div>
     </section>
-
-    <section class="section_topinfo">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-lg-12">
-                    <div class="w_box_topinfo">
-                        <div class="box_topinfo">
-                            <div class="row no-gutters">
-                                <div class="col-12 col-lg-3 align-self-center">
-                                    <div class="box_topinfo_img">
-                                        <img src="/design/images/building.jpg" alt="" class="img-fluid">
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-9 align-self-center">
-                                    <div class="row no-gutters">
-                                        <div class="col-12 col-lg-6 align-self-center">
-                                            <div class="box_topinfo_content">
-                                                <h2>港のエデン</h2>
-                                                <p>横浜市西区楠町（横浜駅徒歩9分）</p>
-                                                <p>1LDK / 56.00㎡</p>
-                                                <p>(ペット飼育 : 不可)</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 col-lg-6 align-self-center">
-                                            <a href="#" class="btn btn-lg btn_askonline">オンラインで聞いてみる</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="box_price">
-                            <div class="row no-gutters">
-                                <div class="col-12 col-sm-6 col-lg-3">
-                                    <div class="row no-gutters">
-                                        <div class="col-6 col-lg-4 align-self-center">
-                                            <p class="label">物件価格</p>
-                                        </div>
-                                        <div class="col-6 col-lg-8 align-self-center">
-                                            <p class="prices">3380  <span class="number">万</span><span class="yen">円</span></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6 col-lg-3">
-                                    <div class="row no-gutters">
-                                        <div class="col-6 col-lg-7 align-self-center">
-                                            <p class="label">リノベーション費用</p>
-                                        </div>
-                                        <div class="col-6 col-lg-5 align-self-center">
-                                            <p class="prices">820 <span class="number">万</span><span class="yen">円</span></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6 col-lg-4">
-                                    <div class="row no-gutters">
-                                        <div class="col-6 col-lg-5 align-self-center">
-                                            <p class="label">ローンのお支払い</p>
-                                        </div>
-                                        <div class="col-6 col-lg-7 align-self-center">
-                                            <p class="prices">100,000〜<span class="month">円/月</span></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6 col-lg-2">
-                                    <div class="row no-gutters">
-                                        <div class="col-6 col-lg-4 align-self-center">
-                                            <p class="total">合計：</p>
-                                        </div>
-                                        <div class="col-6 col-lg-8 align-self-center">
-                                            <p class="prices">4200 <span class="number">万</span><span class="yen">円</span></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <p class="loan">※ローンの目安は、頭金ゼロ、借入年数35年、都市銀行・変動金利0.975%（優遇利用）を想定。審査内容により、融資の一部または全部をご利用頂けない場合がございます。予めご了承ください。</p>
-                            </div>
-                        </div>
-                        <p>物件の特徴を説明物件の特徴を説明物件の特徴を説明物件の特徴を説明物件の特徴を説明物件の特徴を説明物件の特徴を説明物件の特徴を説明物件の特徴を説明物件の特徴を説明物件の特徴を説明物件の特徴を説明物件の特徴を説明物件の特徴を説明物件の特徴を説明物件の特徴を説明物件の特徴を説明物件の特徴を説明物件の特徴を説明物件の特徴を説明物件の特徴を説明</p>
-                        <table class="table table-bordered">
-                            <tr>
-                                <th>住所</th>
-                                <td>東京都世田谷区池尻2-35-9</td>
-                                <th>現況</th>
-                                <td>空室</td>
-                            </tr>
-                            <tr>
-                                <th>アクセス</th>
-                                <td>東急田園都市線「池尻大橋」駅徒歩5分<br>
-                                東急田園都市線・東急世田谷線「三軒茶屋」駅徒歩13分</td>
-                                <th>引渡</th>
-                                <td>即可</td>
-                            </tr>
-                            <tr>
-                                <th>間取り</th>
-                                <td>1LDK</td>
-                                <th>管理会社</th>
-                                <td>ルーデン・ビルマネジメント</td>
-                            </tr>
-                            <tr>
-                                <th>広さ</th>
-                                <td>42.01㎡</td>
-                                <th>管理方式</th>
-                                <td>日勤</td>
-                            </tr>
-                            <tr>
-                                <th>バルコニー</th>
-                                <td>3.77㎡</td>
-                                <th>土地権利</th>
-                                <td>所有権</td>
-                            </tr>
-                            <tr>
-                                <th>構造</th>
-                                <td>鉄骨鉄筋コンクリート造</td>
-                                <th>事務所利用</th>
-                                <td>可（規約あり※不特定多数が出入りするものは不可）</td>
-                            </tr>
-                            <tr>
-                                <th>階層</th>
-                                <td>地下1階付き地上12階建て9階部分</td>
-                                <th>取引態様</th>
-                                <td>媒介（仲介・株式会社ツクルバ、他）</td>
-                            </tr>
-                            <tr>
-                                <th>総戸数</th>
-                                <td>113戸</td>
-                                <th>情報更新日</th>
-                                <td>2020/10/26</td>
-                            </tr>
-                            <tr>
-                                <th>築年月</th>
-                                <td>1975年10月</td>
-                                <th>更新予定日</th>
-                                <td>2020/11/09</td>
-                            </tr>
-                            <tr>
-                                <th>改装年月</th>
-                                <td>2020年10月</td>
-                                <th></th>
-                                <td></td>
-                            </tr>
-                        </table>
-
-                        <div class="box_map">
-                            <img src="/design/images/map.jpg" alt="" class="img-fluid">
-                        </div>
-                        <p class="text-center mb-0"><a href="#" class="btn btn-lg btn_askonline">オンラインで聞いてみる</a></p>
-                    </div>
-
-
-
-                </div>
-            </div>
-        </div>
-    </section>
-
     <section class="section_expand_room">
         <div class="container">
             <div class="row">
                 <div class="col-12 col-lg-12">
                     <div class="box_expand_room">
-                        <div class="box_expand_room_img">
-                            <img src="/design/images/img.jpg" alt="" class="img-fluid">
+                        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="carousel-item" v-for="src, index in slider" v-bind:class="{ 'active': index === 0 }">
+                                    <img class="d-block w-100" v-bind:src="src" alt="">
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
                         </div>
-                        <div class="box_expand_room_content">
-                            <p class="text-center">―　100㎡前後の角部屋リノベ例　―</p>
-                            <h2 class="text-center">和室を広いリビングに<br>
-                            家族団らんの空間を大きくとった家</h2>
+
+                        <div class="box_expand_room_content" v-if="estate.custom_field">
+                            <p class="text-center">― {{ estate.custom_field.title }} ―</p>
+                            <h2 class="text-center">{{ estate.custom_field.content }}</h2>
                             <div class="box_intro">
                                 <div class="row">
                                     <div class="col-12 col-lg-5">
@@ -188,8 +46,7 @@
                                             <div class="row no-gutters">
                                                 <div class="col-8 col-lg-7">
                                                     <div class="box_intro_content_text">
-                                                        <p>お子様が中高生になった頃には、自分の部屋がほしくなることも。<br>
-                                                        小学生のうちはのびのび遊べるスペースを確保しながら、必要に応じてプライベートな空間を持てるように間取りを工夫できるといいですよ！</p>
+                                                        <p>{{ estate.custom_field.comment }}</p>
                                                     </div>
                                                 </div>
                                                 <div class="col-4 col-lg-5">
@@ -205,13 +62,13 @@
                                     <div class="col-12 col-sm-6 col-lg-6">
                                         <div class="box_beforeafter_img">
                                             <span>Before</span>
-                                            <img src="/design/images/Rectangle 41.png" alt="" class="img-fluid">
+                                            <img v-if="estate.estate_information" v-bind:src="estate.estate_information.estate_befor_photo" alt="" class="img-fluid">
                                         </div>
                                     </div>
                                     <div class="col-12 col-sm-6 col-lg-6">
                                         <div class="box_beforeafter_img">
                                             <span>After</span>
-                                            <img src="/design/images/Rectangle 42.png" alt="" class="img-fluid">
+                                            <img v-if="estate.estate_information" v-bind:src="estate.estate_information.estate_after_photo" alt="" class="img-fluid">
                                         </div>
                                     </div>
                                 </div>
@@ -262,475 +119,52 @@
         </div>
     </section>
 
-    <section class="section_originalwood">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-lg-12">
-                    <div class="w_originalwood">
-                        <h2>木目を生かした無垢材のオリジナル建具</h2>
-                        <p class="describe">フローリングに樺桜を使用することで、木々の温かみを感じるお部屋になります。<br>
-                        白くて淡いピンク色の「樺桜」は清潔感を与え、明るい空間に。無垢材ならではの木の木目や節目、また時とともに移ろう経年変化を楽しめるのも魅力です。<br>
-                        「チーク材」は世界三大銘木に数えられる高級材。<br>
-                        濃い黄金色と美しい木目は、経年変化によってより落ち着いた色に深みを増していきます。耐久・耐水性がよく、白アリや害虫に強いというメリットもあります。</p>
-                        <div class="box_originalwood">
-                            <div class="row">
-                                <div class="col-12 col-sm-6 col-lg-6">
-                                    <div class="originalwood_item">
-                                        <div class="originalwood_img">
-                                            <img src="/design/images/Rectangle 57.jpg" alt="" class="img-fluid">
-                                        </div>
-                                        <p>白を基調とした上品な風合いが楽しめる「樺桜」フローリング</p>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6 col-lg-6">
-                                    <div class="originalwood_item">
-                                        <div class="originalwood_img">
-                                            <img src="/design/images/Rectangle 58.jpg" alt="" class="img-fluid">
-                                        </div>
-                                        <p>もう少し落ち着いた色味が好みなら「チーク材」のフローリングも</p>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6 col-lg-6">
-                                    <div class="originalwood_item">
-                                        <div class="originalwood_img">
-                                            <img src="/design/images/Rectangle 57.jpg" alt="" class="img-fluid">
-                                        </div>
-                                        <h3>オーク材のドア</h3>
-                                        <p>フローリングと合わせたオーク材のドアは、木材の木目を生かしたシンプルなデザインが特徴です。無垢材を斜めに配置することで、アクセントにも。</p>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-6 col-lg-6">
-                                    <div class="originalwood_item">
-                                        <div class="originalwood_img">
-                                            <img src="/design/images/Rectangle 58.jpg" alt="" class="img-fluid">
-                                        </div>
-                                        <h3>化粧梁</h3>
-                                        <p>天井には2本の化粧梁を通すことでおしゃれなリビングに。<br>
-                                        2本までは標準価格でご提供しています。</p>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-lg-12">
-                                    <div class="originalwood_item mb-0">
-                                        <div class="originalwood_img">
-                                            <img src="/design/images/Rectangle 59.jpg" alt="" class="img-fluid">
-                                        </div>
-                                        <h3>折り畳みベンチ</h3>
-                                        <p>玄関やリビングの隅に。折り畳みベンチは、ちょっと座りたい時に便利なアイテム。使わない時には畳んでおけば邪魔になりません。</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="box_device">
-                                <h2>キッチン・バス・トイレ・洗面</h2>
-                                <div class="originalwood_item">
-                                    <div class="originalwood_img">
-                                        <img src="/design/images/Rectangle 60.jpg" alt="" class="img-fluid">
-                                    </div>
-                                    <h3>キッチン</h3>
-                                    <p>キッチンにはクリナップのシステムキッチンを採用。食器洗い乾燥機、浄水器一体型水栓、ガラストップコンロと、手間を抑えて料理を楽しめるキッチンです。<br>
-                                    扉のデザインは13色から選べます。※写真はカフェウッドブレンド</p>
-                                </div>
-                                <div class="originalwood_item">
-                                    <div class="originalwood_img">
-                                        <img src="/design/images/Rectangle 61.jpg" alt="" class="img-fluid">
-                                    </div>
-                                    <h3>バス</h3>
-                                    <p>ソレオのシステムバスルームを採用。床を冷やさず、きれいに保つキレイサーモフロアが快適なバスルームを維持してくれます。<br>
-                                    壁パネルは22色から選べます。※写真はオンダガタライト</p>
-                                </div>
-                                <div class="row">
-                                    <div class="col-12 col-sm-6 col-lg-6">
-                                        <div class="originalwood_item mb-0">
-                                            <div class="originalwood_img">
-                                                <img src="/design/images/Rectangle 62.jpg" alt="" class="img-fluid">
-                                            </div>
-                                            <h3>トイレ</h3>
-                                            <p>LIXILの流線的なフォルムが美しい一体型シャワートイレを採用。掃除をしやすい設計になっているのもうれしいポイント。手洗いなしも選べます。</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-6 col-lg-6">
-                                        <div class="originalwood_item mb-0">
-                                            <div class="originalwood_img">
-                                                <img src="/design/images/Rectangle 63.jpg" alt="" class="img-fluid">
-                                            </div>
-                                            <h3>洗面室</h3>
-                                            <p>洗面下や収納棚に無垢材を使用することで、木のぬくもりを感じるあたたかい洗面室に。壁塗り風クロスが木のぬくもりを引き立てます。</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="box_renovation">
-                                <h2>配管・内壁までチェックできるスケルトンリノベーション</h2>
-                                <div class="box_renovation_describe">
-                                    <p>スケルトンリノベーション（スケルトンリフォーム）は、建物の内部や外部を解体し、柱や梁など構造躯体（骨組み）のみの状態にしてリノベーションを行うことをいいます。間取りの変更や水回りのレイアウト変更ができるのが魅力です。また、中古の物件を購入してリノベーションをする場合には、経年劣化しやすい給排水管や配線の修繕・交換ができることや、耐震・断熱工事を行えることがメリットとしてあげられます。</p>
-                                    <p>一方、フルリノベーション（表層リノベーション）は、暮らしにフォーカスを当て機能面の改善やデザイン性にこだわった修繕のことをいい、給排水管や配線の交換は行わないのが一般的です。物件の築年数や状態にもよりますが、より長く暮らすことを考え、弊社ではスケルトンリノベーションをおすすめしております。</p>
-                                    <p>なお、リノベーションを行う物件によって、法的な制約や建物の構造による制約を受ける可能性があり、想定していたリノベーションプランを実現できないこともあります。購入前の物件にインテリアコーディネーターが同伴して、確認を行うことも可能ですので、ぜひ一度ご相談くださいませ。</p>
-                                    <p><a href="#">スケルトンリフォームとは？費用相場、使えるローンの種類や固定資産税との関係</a></p>
-                                </div>
-                                <img src="/design/images/Rectangle 64.jpg" alt="" class="img-fluid">
-                                <div class="box_renovation_content">
-                                    <div class="row no-gutters">
-                                        <div class="col-8 col-lg-9">
-                                            <div class="box_renovation_content_text">
-                                                <p class="mb-0">リノベーションをするには、実際の物件の細かな確認が必要です。<br>
-                                                希望の間取りにできる？キッチンの位置は変更できる？などプロの目線からお手伝いさせていただきます。</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-4 col-lg-3">
-                                            <img src="/design/images/wave.png" alt="" class="img-fluid">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section_furniture">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-lg-12">
-                    <div class="box_furniture">
-                        <h2>家具も無垢材<br>
-                        本物がつくる上品なライフスタイル</h2>
-                        <p class="text-center"><small>※家具はオプションです</small></p>
-                        <p class="describe">無垢材や本革レザーを使用した家具にもこだわっています。すべて国内の工場で製作した「本物素材の家具」。<br>
-                        お部屋の内装と統一感を出す上品なインテリアはいかがでしょうか？</p>
-                        <div class="row">
-                            <div class="col-12 col-sm-6 col-lg-6">
-                                <div class="box_furniture_item">
-                                    <div class="box_furniture_item_img">
-                                        <img src="/design/images/Rectangle 65.png" alt="" class="img-fluid">
-                                    </div>
-                                    <h3>人にやさしい無垢材のダイニングテーブル</h3>
-                                    <p>天然無垢材を安全な塗料や接着剤で仕上げた人にやさしいダイニングテーブル。<br>
-                                    材質：ニレ無垢材　　サイズ：W140cm×D80cm×H71cm</p>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-lg-6">
-                                <div class="box_furniture_item">
-                                    <div class="box_furniture_item_img">
-                                        <img src="/design/images/Rectangle 66.png" alt="" class="img-fluid">
-                                    </div>
-                                    <h3>天然無垢材の3人掛けソファー</h3>
-                                    <p>無垢材のフレームに本革レザーを合わせた3人掛けのソファー。<br>
-                                    材質：ニレ無垢材　サイズ：W192cm×D78cm×H69cm</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section_recommand">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 col-lg-12">
-                    <h2>この物件に興味がある方におすすめのリノベーション向き物件</h2>
-                    <ul class="recommand_list">
-                        <li>
-                            <div class="box_recommand_item">
-                                <div class="box_recommand_item_img">
-                                    <span class="price">3599万円～</span>
-                                    <a href="#"><img src="/design/images/rcm_01.jpg" alt="" class="img-fluid"></a>
-                                </div>
-                                <div class="box_recommand_item_content">
-                                    <h3>南青山コンド</h3>
-                                    <div class="row">
-                                        <div class="col-4 col-lg-3 align-self-center">
-                                            <h4>住所</h4>
-                                        </div>
-                                        <div class="col-8 col-lg-9 align-self-center">
-                                            <p>南青山1丁目駅徒歩4分</p>
-                                        </div>
-                                        <div class="col-4 col-lg-3 align-self-center">
-                                            <h4>間取</h4>
-                                        </div>
-                                        <div class="col-8 col-lg-9 align-self-center">
-                                            <p class="gray">2LDK / 51.3㎡</p>
-                                        </div>
-                                        <div class="col-4 col-lg-3 align-self-center">
-                                            <h4>逐年</h4>
-                                        </div>
-                                        <div class="col-8 col-lg-9 align-self-center">
-                                            <p class="gray">1994年5月/鉄筋コン/4階建</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="box_recommand_item">
-                                <div class="box_recommand_item_img">
-                                    <span class="price">3599万円～</span>
-                                    <a href="#"><img src="/design/images/rcm_02.png" alt="" class="img-fluid"></a>
-                                </div>
-                                <div class="box_recommand_item_content">
-                                    <h3>南青山コンド</h3>
-                                    <div class="row">
-                                        <div class="col-4 col-lg-3 align-self-center">
-                                            <h4>住所</h4>
-                                        </div>
-                                        <div class="col-8 col-lg-9 align-self-center">
-                                            <p>南青山1丁目駅徒歩4分</p>
-                                        </div>
-                                        <div class="col-4 col-lg-3 align-self-center">
-                                            <h4>間取</h4>
-                                        </div>
-                                        <div class="col-8 col-lg-9 align-self-center">
-                                            <p class="gray">2LDK / 51.3㎡</p>
-                                        </div>
-                                        <div class="col-4 col-lg-3 align-self-center">
-                                            <h4>逐年</h4>
-                                        </div>
-                                        <div class="col-8 col-lg-9 align-self-center">
-                                            <p class="gray">1994年5月/鉄筋コン/4階建</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="box_recommand_item">
-                                <div class="box_recommand_item_img">
-                                    <span class="price">3599万円～</span>
-                                    <a href="#"><img src="/design/images/rcm_03.png" alt="" class="img-fluid"></a>
-                                </div>
-                                <div class="box_recommand_item_content">
-                                    <h3>南青山コンド</h3>
-                                    <div class="row">
-                                        <div class="col-4 col-lg-3 align-self-center">
-                                            <h4>住所</h4>
-                                        </div>
-                                        <div class="col-8 col-lg-9 align-self-center">
-                                            <p>南青山1丁目駅徒歩4分</p>
-                                        </div>
-                                        <div class="col-4 col-lg-3 align-self-center">
-                                            <h4>間取</h4>
-                                        </div>
-                                        <div class="col-8 col-lg-9 align-self-center">
-                                            <p class="gray">2LDK / 51.3㎡</p>
-                                        </div>
-                                        <div class="col-4 col-lg-3 align-self-center">
-                                            <h4>逐年</h4>
-                                        </div>
-                                        <div class="col-8 col-lg-9 align-self-center">
-                                            <p class="gray">1994年5月/鉄筋コン/4階建</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="box_recommand_item">
-                                <div class="box_recommand_item_img">
-                                    <span class="price">3599万円～</span>
-                                    <a href="#"><img src="/design/images/rcm_04.png" alt="" class="img-fluid"></a>
-                                </div>
-                                <div class="box_recommand_item_content">
-                                    <h3>南青山コンド</h3>
-                                    <div class="row">
-                                        <div class="col-4 col-lg-3 align-self-center">
-                                            <h4>住所</h4>
-                                        </div>
-                                        <div class="col-8 col-lg-9 align-self-center">
-                                            <p>南青山1丁目駅徒歩4分</p>
-                                        </div>
-                                        <div class="col-4 col-lg-3 align-self-center">
-                                            <h4>間取</h4>
-                                        </div>
-                                        <div class="col-8 col-lg-9 align-self-center">
-                                            <p class="gray">2LDK / 51.3㎡</p>
-                                        </div>
-                                        <div class="col-4 col-lg-3 align-self-center">
-                                            <h4>逐年</h4>
-                                        </div>
-                                        <div class="col-8 col-lg-9 align-self-center">
-                                            <p class="gray">1994年5月/鉄筋コン/4階建</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="box_recommand_item">
-                                <div class="box_recommand_item_img">
-                                    <span class="price">3599万円～</span>
-                                    <a href="#"><img src="/design/images/rcm_05.png" alt="" class="img-fluid"></a>
-                                </div>
-                                <div class="box_recommand_item_content">
-                                    <h3>南青山コンド</h3>
-                                    <div class="row">
-                                        <div class="col-4 col-lg-3 align-self-center">
-                                            <h4>住所</h4>
-                                        </div>
-                                        <div class="col-8 col-lg-9 align-self-center">
-                                            <p>南青山1丁目駅徒歩4分</p>
-                                        </div>
-                                        <div class="col-4 col-lg-3 align-self-center">
-                                            <h4>間取</h4>
-                                        </div>
-                                        <div class="col-8 col-lg-9 align-self-center">
-                                            <p class="gray">2LDK / 51.3㎡</p>
-                                        </div>
-                                        <div class="col-4 col-lg-3 align-self-center">
-                                            <h4>逐年</h4>
-                                        </div>
-                                        <div class="col-8 col-lg-9 align-self-center">
-                                            <p class="gray">1994年5月/鉄筋コン/4階建</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="box_recommand_item">
-                                <div class="box_recommand_item_img">
-                                    <span class="price">3599万円～</span>
-                                    <a href="#"><img src="/design/images/rcm_06.png" alt="" class="img-fluid"></a>
-                                </div>
-                                <div class="box_recommand_item_content">
-                                    <h3>南青山コンド</h3>
-                                    <div class="row">
-                                        <div class="col-4 col-lg-3 align-self-center">
-                                            <h4>住所</h4>
-                                        </div>
-                                        <div class="col-8 col-lg-9 align-self-center">
-                                            <p>南青山1丁目駅徒歩4分</p>
-                                        </div>
-                                        <div class="col-4 col-lg-3 align-self-center">
-                                            <h4>間取</h4>
-                                        </div>
-                                        <div class="col-8 col-lg-9 align-self-center">
-                                            <p class="gray">2LDK / 51.3㎡</p>
-                                        </div>
-                                        <div class="col-4 col-lg-3 align-self-center">
-                                            <h4>逐年</h4>
-                                        </div>
-                                        <div class="col-8 col-lg-9 align-self-center">
-                                            <p class="gray">1994年5月/鉄筋コン/4階建</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                    <div class="box_recommended_renovation">
-                        <h2>このプランに興味がある方におすすめのリノベーションプラン</h2>
-                        <ul class="recommand_list">
-                            <li>
-                                <div class="box_recommand_item">
-                                    <div class="box_recommand_item_img">
-                                        <span class="price">3599万円～</span>
-                                        <a href="#"><img src="/design/images/rcm_07.png" alt="" class="img-fluid"></a>
-                                    </div>
-                                    <div class="box_recommand_item_content">
-                                        <h3>南青山コンド</h3>
-                                        <div class="row">
-                                            <div class="col-4 col-lg-3 align-self-center">
-                                                <h4>住所</h4>
-                                            </div>
-                                            <div class="col-8 col-lg-9 align-self-center">
-                                                <p>南青山1丁目駅徒歩4分</p>
-                                            </div>
-                                            <div class="col-4 col-lg-3 align-self-center">
-                                                <h4>間取</h4>
-                                            </div>
-                                            <div class="col-8 col-lg-9 align-self-center">
-                                                <p class="gray">2LDK / 51.3㎡</p>
-                                            </div>
-                                            <div class="col-4 col-lg-3 align-self-center">
-                                                <h4>逐年</h4>
-                                            </div>
-                                            <div class="col-8 col-lg-9 align-self-center">
-                                                <p class="gray">1994年5月/鉄筋コン/4階建</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="box_recommand_item">
-                                    <div class="box_recommand_item_img">
-                                        <span class="price">3599万円～</span>
-                                        <a href="#"><img src="/design/images/rcm_08.png" alt="" class="img-fluid"></a>
-                                    </div>
-                                    <div class="box_recommand_item_content">
-                                        <h3>南青山コンド</h3>
-                                        <div class="row">
-                                            <div class="col-4 col-lg-3 align-self-center">
-                                                <h4>住所</h4>
-                                            </div>
-                                            <div class="col-8 col-lg-9 align-self-center">
-                                                <p>南青山1丁目駅徒歩4分</p>
-                                            </div>
-                                            <div class="col-4 col-lg-3 align-self-center">
-                                                <h4>間取</h4>
-                                            </div>
-                                            <div class="col-8 col-lg-9 align-self-center">
-                                                <p class="gray">2LDK / 51.3㎡</p>
-                                            </div>
-                                            <div class="col-4 col-lg-3 align-self-center">
-                                                <h4>逐年</h4>
-                                            </div>
-                                            <div class="col-8 col-lg-9 align-self-center">
-                                                <p class="gray">1994年5月/鉄筋コン/4階建</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="box_recommand_item">
-                                    <div class="box_recommand_item_img">
-                                        <span class="price">3599万円～</span>
-                                        <a href="#"><img src="/design/images/rcm_09.png" alt="" class="img-fluid"></a>
-                                    </div>
-                                    <div class="box_recommand_item_content">
-                                        <h3>南青山コンド</h3>
-                                        <div class="row">
-                                            <div class="col-4 col-lg-3 align-self-center">
-                                                <h4>住所</h4>
-                                            </div>
-                                            <div class="col-8 col-lg-9 align-self-center">
-                                                <p>南青山1丁目駅徒歩4分</p>
-                                            </div>
-                                            <div class="col-4 col-lg-3 align-self-center">
-                                                <h4>間取</h4>
-                                            </div>
-                                            <div class="col-8 col-lg-9 align-self-center">
-                                                <p class="gray">2LDK / 51.3㎡</p>
-                                            </div>
-                                            <div class="col-4 col-lg-3 align-self-center">
-                                                <h4>逐年</h4>
-                                            </div>
-                                            <div class="col-8 col-lg-9 align-self-center">
-                                                <p class="gray">1994年5月/鉄筋コン/4階建</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </section>
-    </main>
+  </main>
 </template>
 
 <script>
     export default {
-        data(){
-            return {};
+        data() {
+            return {
+                estate: [],
+                styleObject: {
+                    'background': 'url("/design/images/bg_top.jpg") no-repeat center',
+                    'background-size': 'cover'
+                },
+                slider: []
+            }
+        },
+        beforeMount() {
+            this.getListEstates();
+        },
+        methods: {
+            getListEstates(){
+                // path = '/detail/5ef321e20c9fd67101b8e332'
+                const id = this.$route.path.substring(8);
+                axios({url: '/detail-estate', method: 'POST', data: {'id': id}})
+                    .then(resp => {
+                        if (resp.data['data'] && resp.data['data']['estate'].length){
+                            this.estate = resp.data['data']['estate'][0];
+                            if (this.estate['estate_information']['estate_main_photo']){
+                                this.styleObject = {
+                                    'background-size': 'cover',
+                                    'background-image': 'url(' + this.estate['estate_information']['estate_main_photo'] + ')',
+                                    'ackground-repeat': 'no-repeat',
+                                    'background-position': 'center'
+                                }
+                            }
+                            if (this.estate['estate_information']['renovation_media'].length){
+                                for(let i=0; i < this.estate['estate_information']['renovation_media'].length; i++){
+                                    this.slider.push(this.estate['estate_information']['renovation_media'][i]['url_path']);
+                                }
+                            }
+                        }
+                    })
+                    .catch(err => {
+                        console.log('Can not get estate detail');
+                    }
+                );
+            },
         }
     };
 </script>

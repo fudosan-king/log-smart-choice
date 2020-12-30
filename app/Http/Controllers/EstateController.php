@@ -18,20 +18,60 @@ class EstateController extends Controller
 {
     // Add custom field for estates
     private $mapLabel = array(
-        'title' => 'Title',
-        'content' => 'Content'
+        'title_text' => 'Title',
+        'content_textarea' => 'Content',
+        'comment_textarea' => 'Comment'
     );
 
-    // Get image estate infomation
-    private function _loadImages($estate_id){
-        $estate = EstateInformation::where('estate_id', $estate_id)->get();
-        $estateInformation = $estate->toArray();
-        if ($estateInformation) {
-            $imagesData = $estate->first()->getRenovationMedia();
+    private function _loadImages($estate_id, $default='renovation'){
+        $estate = EstateInformation::where('estate_id', $estate_id)->get()->first();
+        if ($estate) {
+            switch ($default) {
+                case 'renovation':
+                    $imagesData = $estate->getRenovationMedia();
+                    break;
+                case 'main':
+                    $imagesData = $estate->getMainPhoto();
+                    break;
+                case 'befor_after':
+                    $imagesData = $estate->getBeforAfterPhoto();
+                    break;
+                default:
+                    $imagesData = $estate->getRenovationMedia();
+                    break;
+            }
         } else {
             $imagesData = null;
         }
         return $imagesData;
+    }
+
+    private function _uploadPhoto($estate_id, $image, $name, $local){
+        $file_name = date('Ymd_His') . $name;
+        $link = '/estates/' . $estate_id . '/' . $local . '/' . $file_name;
+        $ext = $image->getClientOriginalExtension();
+        $url_path = $link . '.' . $ext;
+        $image->move(public_path() . '/estates/' . $estate_id . '/' . $local . '/' , $file_name . '.' . $ext);
+        return $url_path;
+    }
+
+    private function _insertDatabase($estate_id, $key, $value){
+        try {
+            $estateInformation = null;
+            if ($estate_id) {
+                $estateInformation = EstateInformation::where('estate_id', $estate_id)->get()->first();
+            }
+            if (!isset($estateInformation) && $estate_id) {
+                $estateInformation = new EstateInformation();
+                $estateInformation->estate_id = $estate_id;
+            }
+            if ($estateInformation) {
+                $estateInformation[$key] = $value;
+                $estateInformation->save();
+            }
+        } catch (\Exception $ex) {
+            Log::error($ex->getMessage());
+        }
     }
 
     // Set data for custom field
@@ -40,7 +80,9 @@ class EstateController extends Controller
         $custom_field = array();
 
         foreach ($mapLabel as $key => $value) {
-            $custom_field[$key] = $request->$key;
+            $field = explode('_', $key);
+            $query = strval($field[0]);
+            $custom_field[$field[0]] = $request->$query;
         }
         return $custom_field;
     }
@@ -58,11 +100,7 @@ class EstateController extends Controller
                     $estate_image = null;
                 }
                 if($estate_image){
-                    $name = date('Ymd_His') . $i;
-                    $link = '/estates/' . $estate_id . '/images/' . $name;
-                    $ext = $estate_image->getClientOriginalExtension();
-                    $url_path = $link . '.' . $ext;
-                    $estate_image->move(public_path() . '/estates/' . $estate_id . '/images/', $name . '.' . $ext);
+                    $url_path = $this->_uploadPhoto($estate_id, $estate_image, $i, 'images');
                 }else{
                     $url_path = $request->get('estate_image_hidden')[$i];
                 }
@@ -74,22 +112,36 @@ class EstateController extends Controller
                 $i++;
             }
         }
-        try {
-            $estateInformation = null;
-            if ($estate_id) {
-                $estateInformation = EstateInformation::where('estate_id', $estate_id)->get()->first();
+        $this->_insertDatabase($estate_id, 'renovation_media', $estateImages);
+    }
 
-            }
-            if (!isset($estateInformation) && $estate_id) {
-                $estateInformation = new EstateInformation();
-                $estateInformation->estate_id = $estate_id;
-            }
-            if ($estateInformation) {
-                $estateInformation->renovation_media = $estateImages;
-                $estateInformation->save();
-            }
-        } catch (\Exception $ex) {
-            Log::error($ex->getMessage());
+    private function _insertMainImage($request, $estate_id){
+        try {
+            $estate_main_photo = $request->file('estate_main_photo');
+        } catch (Exception $e) {
+            $estate_main_photo = null;
+        }
+        if($estate_main_photo){
+            $url_path = $this->_uploadPhoto($estate_id, $estate_main_photo, '_main_photo', 'main_photo');
+            $this->_insertDatabase($estate_id, 'estate_main_photo', $url_path);
+        }
+    }
+
+    private function _insertBeforAfterImage($request, $estate_id){
+        try {
+            $estate_befor_photo = $request->file('estate_befor_photo');
+            $estate_after_photo = $request->file('estate_after_photo');
+        } catch (Exception $e) {
+            $estate_befor_photo = null;
+            $estate_after_photo = null;
+        }
+        if($estate_befor_photo){
+            $url_path_befor = $this->_uploadPhoto($estate_id, $estate_befor_photo, '_befor_photo', 'befor_after_photo');
+            $this->_insertDatabase($estate_id, 'estate_befor_photo', $url_path_befor);
+        }
+        if($estate_after_photo){
+            $url_path_after = $this->_uploadPhoto($estate_id, $estate_after_photo, '_after_photo', 'befor_after_photo');
+            $this->_insertDatabase($estate_id, 'estate_after_photo', $url_path_after);
         }
     }
 
@@ -148,6 +200,8 @@ class EstateController extends Controller
         $val = $this->validateBread($request->all(), $dataType->addRows)->validate();
         $data = $this->insertUpdateData($request, $slug, $dataType->addRows, new $dataType->model_name());
         $this->_insertImages($request, $data->_id);
+        $this->_insertMainImage($request, $data->_id);
+        $this->_insertBeforAfterImage($request, $data->_id);
 
         event(new BreadDataAdded($dataType, $data));
 
@@ -205,6 +259,8 @@ class EstateController extends Controller
         ]);
 
         $this->_insertImages($request, $id);
+        $this->_insertMainImage($request, $id);
+        $this->_insertBeforAfterImage($request, $id);
 
         return $redirect->with([
             'message'    => __('voyager::generic.successfully_updated') . " {$dataType->getTranslatedAttribute('display_name_singular')}",
@@ -241,10 +297,12 @@ class EstateController extends Controller
 
         // Eagerload Relations
         $this->eagerLoadRelations($dataTypeContent, $dataType, 'edit', $isModelTranslatable);
-        $imagesData = $this->_loadImages($id);
+        $imagesData = $this->_loadImages($id, 'renovation');
+        $mainPhoto = $this->_loadImages($id, 'main');
+        $beforAfterPhoto = $this->_loadImages($id, 'befor_after');
         $mapLabel = $this->mapLabel;
 
-        return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'imagesData', 'mapLabel'));
+        return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'imagesData', 'mainPhoto', 'beforAfterPhoto', 'mapLabel'));
     }
 
     public function show(Request $request, $id)
@@ -295,9 +353,11 @@ class EstateController extends Controller
             $view = "voyager::$slug.read";
         }
 
-        $imagesData = $this->_loadImages($id);
+        $imagesData = $this->_loadImages($id, 'renovation');
+        $mainPhoto = $this->_loadImages($id, 'main');
+        $beforAfterPhoto = $this->_loadImages($id, 'befor_after');
         $mapLabel = $this->mapLabel;
 
-        return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'isSoftDeleted', 'imagesData', 'mapLabel'));
+        return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'isSoftDeleted', 'imagesData', 'mainPhoto', 'beforAfterPhoto', 'mapLabel'));
     }
 }

@@ -2,9 +2,10 @@
     <ul class="recommand_list" v-on:scroll="handleScroll">
 		<li v-for="(estate, index) in estates" v-bind:class="{'estate-last' : index === (estates.length-1)}">
 			<div class="box_recommand_item">
+				<a v-bind:href="'/detail/' + estate['_id']">
 			    <div class="box_recommand_item_img">
 			        <span class="price">{{ estate['price'] }}万円</span>
-			        <a href="#"><img src="/design/images/rcm_01.jpg" alt="" class="img-fluid"></a>
+			        <a v-bind:href="'/detail/' + estate['_id']"><img v-bind:src="estate['photo_first'] ? estate['photo_first'] : '/images/no-image.png'" alt="" class="img-fluid"></a>
 			    </div>
 			    <div class="box_recommand_item_content">
 			        <h3>{{ estate['estate_name'] }}</h3>
@@ -23,6 +24,7 @@
 			            </div>
 			        </div>
 			    </div>
+				</a>
 			</div>
 		</li>
     </ul>

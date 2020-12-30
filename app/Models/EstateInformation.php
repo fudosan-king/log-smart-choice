@@ -20,6 +20,23 @@ class EstateInformation extends Model
      */
     public function getRenovationMedia()
     {
-        return $this->attributes['renovation_media'];
+        if (isset($this->attributes['renovation_media'])){
+            return $this->attributes['renovation_media'];
+        }
+        return null;
+    }
+    public function getMainPhoto()
+    {
+        if (isset($this->attributes['estate_main_photo'])){
+            return $this->attributes['estate_main_photo'];
+        }
+        return null;
+    }
+    public function getBeforAfterPhoto()
+    {
+        if(isset($this->attributes['estate_befor_photo']) && isset($this->attributes['estate_after_photo'])){
+            return array($this->attributes['estate_befor_photo'], $this->attributes['estate_after_photo']);
+        }
+        return array(null, null);
     }
 }

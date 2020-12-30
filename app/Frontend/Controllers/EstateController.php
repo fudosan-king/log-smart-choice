@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 
 class EstateController extends Controller
 {
+    private $linkS3 = 'https://fdk-production.s3-ap-northeast-1.amazonaws.com/';
     /**
      * Search Estate
      *
@@ -41,7 +42,7 @@ class EstateController extends Controller
 
         $estates = Estates::select('estate_name', 'price', 'balcony_space',
             'address', 'tatemono_menseki', 'motoduke',
-            'land_space', 'homepage');
+            'land_space', 'homepage', 'photos');
         if ($keyword) {
             $estates->where('estate_name', "like", "%" . $keyword . "%");
         }
@@ -75,45 +76,31 @@ class EstateController extends Controller
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function detail($id)
+    public function detail(Request $request)
     {
+        $id = $request->has('id') ? $request->get('id') : '';
+        if (!$id){
+            return response()->json(['data' => []], 200);
+        }
         $estateRecommend = [];
         $listEstateRecommend = [];
         $estate = Estates::select(
-            'address', 'price', 'transports',
-            'room_count', 'room_kind', 'tatemono_menseki',
+            'address', 'price', 'transports', 'custom_field',
+            'room_count', 'room_kind', 'tatemono_menseki', 'photos',
             'balcony_space', 'structure', 'room_floor', 'built_date',
             'renovation_done_date', 'house_status', 'delivery_date_type',
             'management_company', 'land_rights', 'trade_type', 'date_last_modified')
             ->where('_id', $id)
             ->get()->toArray();
 
-        $estateInfo = EstateInformation::where('estate_id', $id)->get()->toArray();
-
-        // get group
-        $groupEstate = Groups::where('group_code', Groups::ESTATE_RECOMMEND)->get();
-
-        if ($groupEstate[0]->estate_list) {
-            $estateRecommend = array_column($groupEstate[0]->estate_list, 'estate_id');
-        }
-
-        // get estate recommend
-        $getEstatesRecommend = Estates::select('estate_name', 'price', 'balcony_space',
-            'address', 'tatemono_menseki', 'motoduke',
-            'land_space', 'homepage')->whereIn('_id', $estateRecommend)->get()->toArray();
-
-        if ($getEstatesRecommend) {
-            $listEstateRecommend = $this->_getEstateInformation($getEstatesRecommend);
+        if ($estate) {
+            $estate = $this->_getEstateInformation($estate);
         }
 
         if ($estate) {
-            if ($estateInfo) {
-                $estate[0]['information'] = $estateInfo;
-            }
             return response()->json([
                 'data' => [
-                    'estateDetail'    => $estate,
-                    'estateRecommend' => $listEstateRecommend
+                    'estate' => $estate
                 ],
             ], 200);
         }
@@ -153,10 +140,39 @@ class EstateController extends Controller
     private function _getEstateInformation($estates)
     {
         foreach ($estates as $key => $estate) {
-            $estateInformation = EstateInformation::where('estate_id', $estates[$key]['_id'])->get()->toArray();
+            $estateInformation = EstateInformation::where('estate_id', $estates[$key]['_id'])->get()->first();
             $estates[$key]['estate_information'] = $estateInformation;
+            $estates[$key]['photo_first'] = $this->_getFirstPhotos($estate);
+            $estates[$key]['photos'] = $this->_getPhotosAll($estate);
         }
 
         return $estates;
+    }
+
+    private function _getFirstPhotos($estate){
+        if (!isset($estate['photos'])){
+            return null;
+        }
+        $photo = $estate['photos'][0];
+        $photo_first = null;
+        if ($photo && $photo['photo']) {
+            $photo_first = $this->linkS3 . substr($estate['_id'], -2) . '/' . $estate['_id'] . '/' . $photo['photo'] . '.jpeg';
+        }
+        return $photo_first;
+    }
+
+    private function _getPhotosAll($estate){
+        if (!isset($estate['photos'])){
+            return array();
+        }
+        $photos_s3 = array();
+        $photos = $estate['photos'];
+        foreach ($photos as $photo) {
+            if ($photo['photo']){
+                $photo['photo'] = $this->linkS3 . substr($estate['_id'], -2) . '/' . $estate['_id'] . '/' . $photo['photo'] . '.jpeg';
+                array_push($photos_s3, $photo);
+            }
+        }
+        return $photos_s3;
     }
 }
