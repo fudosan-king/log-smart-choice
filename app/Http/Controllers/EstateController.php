@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use TCG\Voyager\Facades\Voyager;
 use TCG\Voyager\Events\BreadDataAdded;
+use App\Actions\ResizeImage;
 
 
 class EstateController extends Controller
@@ -45,13 +46,25 @@ class EstateController extends Controller
         }
         return $imagesData;
     }
-
-    private function _uploadPhoto($estate_id, $image, $name, $local){
+    /*
+    $resizeOption = ['exact', 'maxwidth', 'maxheight']
+    */
+    private function _uploadPhoto($estate_id, $image, $name, $local, $width=null, $height=null, $resizeOption='default'){
+        $resize = new ResizeImage($image);
+        if (!$width && !$height){
+            $width = $resize->origWidth;
+            $height = $resize->origHeight;
+        }
+        $resize->resizeTo($width, $height, $resizeOption);
         $file_name = date('Ymd_His') . $name;
-        $link = '/estates/' . $estate_id . '/' . $local . '/' . $file_name;
-        $ext = $image->getClientOriginalExtension();
-        $url_path = $link . '.' . $ext;
-        $image->move(public_path() . '/estates/' . $estate_id . '/' . $local . '/' , $file_name . '.' . $ext);
+        $path = '/estates/' . $estate_id . '/' . $local;
+        $public_path = public_path() . $path;
+        if (!is_dir($public_path)) {
+            mkdir($public_path, 0777, true);
+        }
+        $ext = $resize->getTypeFile();
+        $url_path = $path . '/' . $file_name . '.' . $ext;
+        $resize->saveImage($public_path . '/' . $file_name . '.' . $ext);
         return $url_path;
     }
 
@@ -100,7 +113,7 @@ class EstateController extends Controller
                     $estate_image = null;
                 }
                 if($estate_image){
-                    $url_path = $this->_uploadPhoto($estate_id, $estate_image, $i, 'images');
+                    $url_path = $this->_uploadPhoto($estate_id, $estate_image, $i, 'images', 1920, 600, 'maxheight');
                 }else{
                     $url_path = $request->get('estate_image_hidden')[$i];
                 }
@@ -122,7 +135,7 @@ class EstateController extends Controller
             $estate_main_photo = null;
         }
         if($estate_main_photo){
-            $url_path = $this->_uploadPhoto($estate_id, $estate_main_photo, '_main_photo', 'main_photo');
+            $url_path = $this->_uploadPhoto($estate_id, $estate_main_photo, '_main_photo', 'main_photo', 1920, 600, 'maxheight');
             $this->_insertDatabase($estate_id, 'estate_main_photo', $url_path);
         }
     }
@@ -136,11 +149,11 @@ class EstateController extends Controller
             $estate_after_photo = null;
         }
         if($estate_befor_photo){
-            $url_path_befor = $this->_uploadPhoto($estate_id, $estate_befor_photo, '_befor_photo', 'befor_after_photo');
+            $url_path_befor = $this->_uploadPhoto($estate_id, $estate_befor_photo, '_befor_photo', 'befor_after_photo', 1664, 520, 'maxheight');
             $this->_insertDatabase($estate_id, 'estate_befor_photo', $url_path_befor);
         }
         if($estate_after_photo){
-            $url_path_after = $this->_uploadPhoto($estate_id, $estate_after_photo, '_after_photo', 'befor_after_photo');
+            $url_path_after = $this->_uploadPhoto($estate_id, $estate_after_photo, '_after_photo', 'befor_after_photo', 1664, 520, 'maxheight');
             $this->_insertDatabase($estate_id, 'estate_after_photo', $url_path_after);
         }
     }
