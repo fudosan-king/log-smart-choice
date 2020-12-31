@@ -80,34 +80,25 @@ class LoginController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors()->toJson(), 404);
         }
-        $a = [
-            'data' => 'helloword',
-            'status' => 404,
-            'statusText' => 'OK',
-            'headers' => [],
-            'config' => [],
-            'request' => [],
-        ];
+
         $customer = Customer::where('email', $request->email)->first();
         if ($customer) {
             if ($customer->status == Customer::EMAIL_VERIFY) {
                 if ($customer->validateForPassportPasswordGrant($request->password)) {
-                    $client = $this->getCustomerClient();
+                    $client = $this->_getCustomerClient();
                     if ($client) {
                         return $this->getAccessToken($client, request('email'), request('password'), $customer);
                     }
                 } else {
                     $response = ["message" => Lang::get('auth.password_or_email_wrong')];
-                    
-                    // return response($response, 404);
-                    return json_encode($a);
+                    return response($response, 404);
                 }
             } else {
                 $response = ["message" => Lang::get('auth.email_not_activated')];
                 return response()->json($response, 404);
             }
         }
-        return response()->json(["message" => "Success"], 200);
+        return response()->json(["message" => "Customer does not exist"], 200);
     }
 
     /**
@@ -121,7 +112,7 @@ class LoginController extends Controller
         $token = $request->user()->token();
         $token->revoke();
         $response = ['message' => 'You have been successfully logged out!'];
-        return response($response, 200);
+        return response()->json($response, 200);
 
     }
 
@@ -143,8 +134,8 @@ class LoginController extends Controller
             'password'      => $password,
             'scope'         => '*',
         ]);
-
         $result = json_decode((string)$response->getBody(), true);
+
         $result['customer'] = $customer;
         return response()->json($result, 200);
     }
@@ -169,7 +160,10 @@ class LoginController extends Controller
                     'client_secret' => $client->secret,
                     'scope'         => '*',
                 ]);
-                return json_decode((string)$response->getBody(), true);
+                $customer = $request->user();
+                $result = json_decode((string)$response->getBody(), true);
+                $result['customer'] = $customer;
+                return $result;
             }
         } catch (\Exception $e) {
             return response()->json("unauthorized", 401);
@@ -181,7 +175,7 @@ class LoginController extends Controller
      *
      * @return mixed
      */
-    public function getCustomerClient()
+    private function _getCustomerClient()
     {
         return PPClient::where('password_client', 1)->where('provider', 'customers')->first();
     }

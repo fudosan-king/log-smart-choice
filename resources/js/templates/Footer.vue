@@ -115,7 +115,12 @@
                             <div class="row">
                                 <div class="col-12 col-lg-8 align-self-center">
                                     <p class="mb-0 phone_number">
-                                        <img src="/design/images/SVG/i_callcenter.svg" alt="" class="img-fluid" width="52" />
+                                        <img
+                                            src="/design/images/SVG/i_callcenter.svg"
+                                            alt=""
+                                            class="img-fluid"
+                                            width="52"
+                                        />
                                         <span>
                                             <a href="tel:000-0000-0000">000-0000-0000</a>
                                             <i>年中無休8:00〜18:30</i>

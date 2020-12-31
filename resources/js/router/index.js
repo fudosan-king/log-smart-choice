@@ -5,6 +5,7 @@ import Home from '../../js/pages/Home.vue';
 import Login from '../../js/pages/Login.vue';
 import ListEstates from '../../js/pages/ListEstates.vue';
 import DetailEstate from '../../js/pages/DetailEstate.vue';
+import PageNotFound from '../pages/PageNotFound.vue';
 
 // Routes
 const routes = [
@@ -31,6 +32,7 @@ const routes = [
             guest: true,
         },
     },
+    { path: "*", component: PageNotFound }
 ]
 
 const router = new VueRouter({

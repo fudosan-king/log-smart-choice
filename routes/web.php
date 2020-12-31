@@ -14,17 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Route to handle page reload in Vue except for api routes
-Route::get('/{any?}', function (){
-	return view('app');
+Route::get('/{any?}', function () {
+   return view('app');
 })->where('any', '^(?!api\/)[\/\w\.-]*')
-->where('any', '^(?!admin)[\/\w\.-]*')
-->where('any', '^(?!customer/verify/)[\/\w\.-]*')
-->where('any', '^(?!api\/customer\/logout)');
-
-Route::get('/list', function (){
-	return view('app');
-});
-
-Route::get('/detail/{estate_id}', function (){
-	return view('app');
-});
+   ->where('any', '^(?!admin\/*)[\/\w\.-]*');

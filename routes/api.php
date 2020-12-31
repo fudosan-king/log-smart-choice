@@ -5,6 +5,7 @@ use App\Frontend\Controllers\Auth\RegisterController;
 use App\Frontend\Controllers\Auth\ResetPasswordController;
 use App\Frontend\Controllers\Auth\LoginController;
 use App\Frontend\Controllers\EstateController;
+use App\Frontend\Controllers\Auth\VerificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,24 +18,23 @@ use App\Frontend\Controllers\EstateController;
 |
 */
 
-Route::group(['middleware' => 'cors', 'prefix' => 'customer'], function () {
+Route::group(['middleware' => ['cors', ]], function () {
     Route::middleware('auth:api')->group(function () {
-        Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+        Route::delete('/logout', [LoginController::class, 'logout'])->name('logout');
     });
-
-    Route::post('/refresh', [LoginController::class, 'getRefreshToken'])->name('refresh');
+    Route::get('/verify/{token}', [VerificationController::class, 'verifyEmail'])->name('verify.email');
+    Route::put('/login', [LoginController::class, 'getRefreshToken'])->name('refresh');
     Route::post('/register', [RegisterController::class, 'registerCustomer'])->name('customer.register');
     Route::post('/login', [LoginController::class, 'login'])->name('login.check');
     Route::post('/forgot-password', [ResetPasswordController::class, 'forgotPassword'])->name('customer.forgotpassword');
-    Route::get('/reset-password/{hash}', [ResetPasswordController::class, 'showFormResetPassword'])->name('customer.form.resetpassword');
-    Route::post('/reset-password/{hash}', [ResetPasswordController::class, 'newPassword'])->name('customer.resetpassword');
+    Route::post('/reset-password/{hash}', [ResetPasswordController::class, 'resetPassword'])->name('customer.resetpassword');
 
 });
 
-Route::group(['prefix' => 'list-estates'], function () {
+Route::group(['prefix' => 'list'], function () {
     Route::post('/', [EstateController::class, 'search']);
 });
 
-Route::group(['prefix' => 'detail-estate'], function () {
+Route::group(['prefix' => 'detail'], function () {
     Route::post('/', [EstateController::class, 'detail']);
 });
