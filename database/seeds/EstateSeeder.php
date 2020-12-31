@@ -92,7 +92,7 @@ class EstateSeeder extends Seeder {
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => [
-                    'default' => 'sale',
+                    'default' => '販売中',
                     'options' => [
                         '販売中' => '販売中',
                         '売止' => '売止',
