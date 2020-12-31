@@ -52,7 +52,7 @@
 		methods: {
 			// Gui yeu cau den server sau moi lan cuon xuong
 			getListEstates(){
-				axios({url: '/list-estates', method: 'POST', data: {'limit': 9, 'page': this.page}})
+				axios({url: '/list', method: 'POST', data: {'limit': 9, 'page': this.page}})
 			        .then(resp => {
 			        	this.estates = this.estates.concat(resp.data['data']);
 			        	if (resp.data['data'].length) {

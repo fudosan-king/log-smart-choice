@@ -87,14 +87,7 @@ export default {
     },
     methods: {
         login() {
-            var url = '/customer/login';
-            var params = {
-                email: this.email,
-                password: this.password,
-                // remember: this.remember
-            };
             this.errors = [];
-            var self = this;
             if (!this.email) {
                 this.errors.push('メールアドレスを入力してください');
             } else if (!this.validEmail(this.email)) {
@@ -105,58 +98,29 @@ export default {
                 this.errors.push('パスワードを入力してください');
             }
             if (!this.errors.length) {
-                axios
-                    .post(url, params)
-                    // .then(function(response) {
-                    //     console.log('then');
-                    //     console.log(response);
-                        // self.errors = {};
-                    // })
-                    .catch(function(error) {
-                        console.log('haere');
-                        console.log(error);
-                        // var responseErrors = error.response.data;
-                        // var errors = {};
-                        // if (typeof responseErrors != 'object') {
-                        //     errors = JSON.parse(responseErrors);
-                        //     for (var key in errors) {
-                        //         errors[key] = errors[key][0];
-                        //     }
-                        // } else {
-                        //     errors['error'] = responseErrors['message'];
-                        // }
-                        // self.errorsApi = errors;
+                let email = this.email;
+                let password = this.password;
+                this.$store
+                    .dispatch('login', { email, password })
+                    .then(response => {
+                        this.$router.push('/');
+                    })
+                    .catch(error => {
+                        let responseErrors = error.response.data;
+                        let errors = {};
+                        if (typeof error.response.data != 'object') {
+                            errors = JSON.parse(responseErrors);
+                            for (var key in errors) {
+                                errors[key] = errors[key][0];
+                            }
+                        } else {
+                            errors['error'] = responseErrors['message'];
+                        }
+
+                        this.errorsApi = errors;
                     });
             }
         },
-
-        // login: function() {
-        //     let email = this.email;
-        //     let password = this.password;
-        //     console.log('here06');
-        //     this.$store
-        //         .dispatch('login', { email, password })
-        //         .then((response) => {
-        //              this.$router.push('/');
-        //             console.log('then');
-        //             })
-        //         .catch(error => {
-        //             console.log('here05');
-        //             if (error.responseErrors && error.responseErrors.data) {
-        //                 var responseErrors = error.response.data;
-        //                 var errors = {};
-        //                 if (typeof responseErrors != 'object') {
-        //                     errors = JSON.parse(responseErrors);
-        //                     for (var key in errors) {
-        //                         errors[key] = errors[key][0];
-        //                     }
-        //                 } else {
-        //                     errors['error'] = responseErrors['message'];
-        //                 }
-        //                 self.errorsApi = errors;
-        //             }
-        //         });
-        // },
 
         validEmail(email) {
             var response = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

@@ -51,8 +51,7 @@ class VerificationController extends Controller
     public function verifyEmail($token = null)
     {
         if ($token == null) {
-            session()->flash('message', Lang::get('auth.token_null'));
-            return redirect()->route('login');
+            return response()->json(['status' => false, 'message' => Lang::get('auth.token_null')], 422);
         }
 
         $customer = Customer::where('email_verification_token', $token)->first();
@@ -63,7 +62,7 @@ class VerificationController extends Controller
 
             if ($timeCurrent > $timeVerify) {
                 session()->flash('message', Lang::get('customer.token_expired'));
-                return redirect()->route('login');
+                return response()->json(['status' => false, 'message' => Lang::get('customer.token_expired')], 422);
             }
 
             $customer->status = Customer::EMAIL_VERIFY;
@@ -71,11 +70,9 @@ class VerificationController extends Controller
             $customer->email_verification_token = '';
             $customer->save();
 
-            $response = ["message" => Lang::get('customer.activate_account_success')];
-            return response($response, 422);
+            return response()->json(['status' => true, 'message' => Lang::get('customer.activate_account_success')], 200);
         }
 
-        $response = ["message" => 'Success'];
-        return response($response, 200);
+        return response()->json(['status' => false, 'message' => Lang::get('customer.activate_account_fail')], 422);
     }
 }

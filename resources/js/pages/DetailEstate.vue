@@ -141,7 +141,7 @@
             getListEstates(){
                 // path = '/detail/5ef321e20c9fd67101b8e332'
                 const id = this.$route.path.substring(8);
-                axios({url: '/detail-estate', method: 'POST', data: {'id': id}})
+                axios({url: '/detail', method: 'POST', data: {'id': id}})
                     .then(resp => {
                         if (resp.data['data'] && resp.data['data']['estate'].length){
                             this.estate = resp.data['data']['estate'][0];

@@ -44,26 +44,25 @@ class RegisterController extends Controller
      */
     public function registerCustomer(Request $request)
     {
-        $register = new RegisterController();
         $validator = $this->validator($request->all());
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
-        if ($customer = $this->create($request->all())) {
-            $link = url('customer/verify') . "/" . $customer->email_verification_token;
-            $data = [
-                'link' => $link,
-                'customer' => $customer,
-            ];
 
-            $emailVerifyAccount = new SendEmailVerifyAccount($request->only('email'), $data);
-            dispatch($emailVerifyAccount);
+        if ($validator->passes()) {
+            if ($customer = $this->create($request->all())) {
+                $link = url('customer/verify') . "/" . $customer->email_verification_token;
+                $data = [
+                    'link' => $link,
+                    'customer' => $customer,
+                ];
 
-            $client = $register->getCustomerClient();
-            if ($client) {
-                return $this->getAccessToken($client, request('email'), request('password'), $customer);
+                $emailVerifyAccount = new SendEmailVerifyAccount($request->only('email'), $data);
+                dispatch($emailVerifyAccount);
+
+                return response()->json(['status' => true, 'message' => Lang::get('customer.create_success')], 200);
             }
         }
         return response()->json(['status' => false, 'message' => Lang::get('customer.create_fail')], 422);

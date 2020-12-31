@@ -1,5 +1,5 @@
 <template>
-  <main id="main">
+  <main id="main" class="antialiased">
     <section class="section_topbanner" style="background: url('/design/images/bg_top.jpg') no-repeat center center; background-size: cover;">
         <div class="container">
             <div class="row">

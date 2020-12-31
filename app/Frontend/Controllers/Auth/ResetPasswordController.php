@@ -74,7 +74,7 @@ class ResetPasswordController extends Controller
             $resetPassword->save();
         }
 
-        $link = url('api/customer/reset-password') . "/" . $resetPassword->token;
+        $link = url('/reset-password') . "/" . $resetPassword->token;
 
         $data = [
             'link' => $link,
@@ -95,7 +95,7 @@ class ResetPasswordController extends Controller
      * @param $hash
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
      */
-    public function newPassword(Request $request, $hash)
+    public function resetPassword(Request $request, $hash)
     {
         $validate = Validator::make($request->all(), [
             'password'              => ['required', 'string', 'min:8', 'confirmed'],

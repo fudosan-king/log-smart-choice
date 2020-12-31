@@ -42,7 +42,7 @@
         },
         methods: {
             getListEstates(){
-                axios({url: '/list-estates', method: 'POST', data: {'limit': 9, 'page': 1}})
+                axios({url: '/list', method: 'POST', data: {'limit': 9, 'page': 1}})
                     .then(resp => {
                         this.estates = this.estates.concat(resp.data['data']);
                         if (resp.data['data'].length) {
