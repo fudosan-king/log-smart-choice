@@ -51,7 +51,7 @@
                         <div class="form-group">
                             <label for="name">{{ $row->getTranslatedAttribute('display_name') }}</label>
 
-                            {!! Voyager::formField($row, $dataType, $dataTypeContent) !!}
+                            {!! Voyager::formField($row, $dataType, $dataTypeContent, $row->details) !!}
 
                         </div>
                         @endforeach
