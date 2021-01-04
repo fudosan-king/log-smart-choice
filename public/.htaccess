@@ -19,4 +19,6 @@
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
+    RedirectMatch 403 ^/storage/?$
+    RedirectMatch 403 ^/estates/?$
 </IfModule>
