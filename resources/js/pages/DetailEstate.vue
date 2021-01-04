@@ -158,10 +158,12 @@
                                     this.slider.push(this.estate['estate_information']['renovation_media'][i]['url_path']);
                                 }
                             }
+                        } else {
+                            this.$router.push('/');
                         }
                     })
                     .catch(err => {
-                        console.log('Can not get estate detail');
+                        this.$router.push('/');
                     }
                 );
             },

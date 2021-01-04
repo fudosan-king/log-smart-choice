@@ -3,9 +3,7 @@
 	    <section class="section_searchresults bg_silver">
 	        <div class="container">
 	            <div class="row">
-	                <div class="col-12 col-lg-12">
-	                	<EstatesComponent></EstatesComponent>
-	                </div>
+                	<EstatesComponent></EstatesComponent>
 	            </div>
 	        </div>
 	    </section>
