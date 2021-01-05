@@ -104,6 +104,7 @@ export default {
                     .dispatch('login', { email, password })
                     .then(response => {
                         this.$router.push('/');
+                        this.$router.go(0);
                     })
                     .catch(error => {
                         let responseErrors = error.response.data;

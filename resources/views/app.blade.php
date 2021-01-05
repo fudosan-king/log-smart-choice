@@ -25,6 +25,7 @@
   <link rel="stylesheet" type="text/css" href="/assets/css/bsnav.min.css">
   <link rel="stylesheet" href="/assets/css/styles.css" type="text/css">
   <link rel="stylesheet" href="/assets/css/mobile.css" type="text/css">
+  <link rel="stylesheet" href="/css/app.css" type="text/css">
 </head>
 
 <body>

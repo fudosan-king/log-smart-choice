@@ -108,7 +108,6 @@ const mutations = {
         state.token = customerInfo.token;
         state.refreshToken = customerInfo.refreshToken;
         state.customer = customerInfo.customer;
-
     },
     auth_error(state) {
         state.status = 'error';
