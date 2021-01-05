@@ -41,8 +41,8 @@ class EstateController extends Controller
         }
 
         $estates = Estates::select('estate_name', 'price', 'balcony_space',
-            'address', 'tatemono_menseki', 'motoduke',
-            'land_space', 'homepage', 'photos');
+            'address', 'tatemono_menseki', 'motoduke', 'room_count', 'room_kind',
+            'room_floor', 'land_space', 'homepage', 'photos', 'service_rooms');
         if ($keyword) {
             $estates->where('estate_name', "like", "%" . $keyword . "%");
         }
@@ -85,7 +85,7 @@ class EstateController extends Controller
         $estateRecommend = [];
         $listEstateRecommend = [];
         $estate = Estates::select(
-            'address', 'price', 'transports', 'custom_field',
+            'address', 'price', 'transports', 'custom_field', 'service_rooms',
             'room_count', 'room_kind', 'tatemono_menseki', 'photos',
             'balcony_space', 'structure', 'room_floor', 'built_date',
             'renovation_done_date', 'house_status', 'delivery_date_type',

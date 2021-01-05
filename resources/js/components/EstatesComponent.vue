@@ -1,34 +1,30 @@
 <template>
 	<div class="col-12 col-lg-12">
-	    <ul class="recommand_list" v-on:scroll="handleScroll">
-			<li v-for="(estate, index) in estates" v-bind:class="{'estate-last' : index === (estates.length-1)}">
-				<div class="box_recommand_item">
-					<a v-bind:href="'/detail/' + estate['_id']">
-				    <div class="box_recommand_item_img">
-				        <span class="price">{{ estate['price'] }}万円</span>
-				        <a v-bind:href="'/detail/' + estate['_id']"><img v-bind:src="estate['photo_first'] ? estate['photo_first'] : '/images/no-image.png'" alt="" class="img-fluid"></a>
-				    </div>
-				    <div class="box_recommand_item_content">
-				        <h3>{{ estate['estate_name'] }}</h3>
-				        <div class="row">
-				            <div class="col-4 col-lg-3 align-self-center">
-				                <h4>住所</h4>
-				            </div>
-				            <div class="col-8 col-lg-9 align-self-center">
-				                <p>{{ estate['address']['pref'] }}{{ estate['address']['city'] }}{{ estate['address']['ooaza'] }}</p>
-				            </div>
-				            <div class="col-4 col-lg-3 align-self-center">
-				                <h4>建物面積</h4>
-				            </div>
-				            <div class="col-8 col-lg-9 align-self-center">
-				                <p class="gray">{{ estate['tatemono_menseki'] }}㎡</p>
-				            </div>
-				        </div>
-				    </div>
-					</a>
-				</div>
-			</li>
-	    </ul>
+	    <ul class="list_property" v-on:scroll="handleScroll">
+            <li v-for="(estate, index) in estates" v-bind:class="{'estate-last' : index === (estates.length-1)}">
+                <div class="box_property_item">
+                    <div class="box_property_item_img">
+                        <a v-bind:href="'/detail/' + estate._id">
+                            <img v-bind:src="estate.photo_first ? estate.photo_first : '/images/no-image.png'" alt="" class="img-fluid">
+                        </a>
+                    </div>
+                    <div class="box_property_item_body">
+                        <h2><a v-bind:href="'/detail/' + estate._id">{{ estate.estate_nam }}</a></h2>
+                        <div class="row">
+                            <div class="col-12 col-lg-6">
+                                <p>{{ estate.room_count }}{{ estate.service_rooms != '0' ? 'S' : '' }}{{ estate.room_kind }} / {{estate.tatemono_menseki }}㎡</p>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <p class="property_info">
+                                    <span>30代ご夫婦</span>
+                                    <span>お子様2人</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+         </ul>
 	    <div class="loading" v-if="!isHidden" style="text-align: center;">
 			<img src="/images/loading.gif">
 		</div>
@@ -58,7 +54,7 @@
 		methods: {
 			// Gui yeu cau den server sau moi lan cuon xuong
 			getListEstates(){
-				axios({url: '/list', method: 'POST', data: {'limit': 9, 'page': this.page}})
+				axios({url: '/list', method: 'POST', data: {'limit': 10, 'page': this.page}})
 			        .then(resp => {
 			        	this.estates = this.estates.concat(resp.data['data']);
 			        	if (resp.data['data'].length) {
@@ -89,12 +85,12 @@
 				}
 			},
 			// Su kien cuon mouse.
-			// Do cao cua 1 dong la space (338)
+			// Do cao cua 1 dong la space (423)
 			handleScroll(event){
 				if(!this.heigthOfList){
 					this.setInitHeigthOfList();
 				}
-				let space = 338 * (this.page - 2);
+				let space = 423 * (this.page - 2);
 				// console.log('Sroll at %d - Offset Top at %d - Space: %d', document.documentElement.scrollTop, this.offsetTop, space);
 				if (this.offsetTop && document.documentElement.scrollTop - space > this.offsetTop) {
 					this.isHidden = false;

@@ -1,6 +1,6 @@
 <template>
 	<main id="main">
-	    <section class="section_searchresults bg_silver">
+	    <section class="section_propertyinformation">
 	        <div class="container">
 	            <div class="row">
                 	<EstatesComponent></EstatesComponent>
