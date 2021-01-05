@@ -87,7 +87,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12 col-lg-6 align-self-center">
-                        <a href="index.php"><img v-bind:src="logoSliver" alt="" class="img-fluid" width="169"></a>
+                        <a href="/"><img v-bind:src="logoSliver" alt="" class="img-fluid" width="169"></a>
                         <p class="address">〒107-0061　東京都港区北⻘⼭3-6-23（住所が入ります）</p>
                     </div>
                     <div class="col-12 col-lg-6 align-self-center">
@@ -112,7 +112,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12 col-lg-12">
-                        <p>Copyright © <a href="index.php">LogKnot Inc.</a> All Rights Reserved.</p>
+                        <p>Copyright © <a href="/">LogKnot Inc.</a> All Rights Reserved.</p>
                     </div>
                 </div>
             </div>
