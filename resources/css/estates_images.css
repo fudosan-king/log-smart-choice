@@ -8,7 +8,7 @@
     padding: 13px 11px 9px;
     float: left;
     width: 33%;
-    height: 530px;
+    height: 600px;
 }
 
 li {
@@ -86,4 +86,17 @@ li {
 .estate_image_url,
 .estate_image_file {
     width: 100%;
+}
+
+.befor-photo,
+.after-photo {
+    width: auto;
+    height: 600px;
+}
+
+@media (max-width: 1024px) {
+    .hp_photo_wrap ul li {
+        width: 49%;
+        height: 420px;
+    }
 }

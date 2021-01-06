@@ -1,11 +1,11 @@
 <template>
 <div>
-    <div class="col-md-6">
-        <img v-bind:src="url_path_befor" class="estate_image_url">
+    <div class="col-md-6 text-center">
+        <img v-bind:src="url_path_befor" class="estate_image_url befor-photo">
         <input name="estate_befor_photo" type="file" @change="onFileChangeBefor">
     </div>
-    <div class="col-md-6">
-        <img v-bind:src="url_path_after" class="estate_image_url">
+    <div class="col-md-6 text-center">
+        <img v-bind:src="url_path_after" class="estate_image_url after-photo">
         <input name="estate_after_photo" type="file" @change="onFileChangeAfter">
     </div>
 </div>
