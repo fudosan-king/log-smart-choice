@@ -110,4 +110,9 @@ li {
         width: 49%;
         height: 420px;
     }
+    .befor-photo,
+    .after-photo {
+        width: 100%;
+        height: auto;
+    }
 }
