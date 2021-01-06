@@ -70,9 +70,9 @@ class LoginController extends Controller
         ];
 
         $messages = [
-            'email.required' => Lang::get('auth.email_required'),
-            'email.max' => Lang::get('auth.email_max_length'),
-            'email.email' => Lang::get('auth.email_invalid'),
+            'email.required'    => Lang::get('auth.email_required'),
+            'email.max'         => Lang::get('auth.email_max_length'),
+            'email.email'       => Lang::get('auth.email_invalid'),
             'password.required' => Lang::get('auth.password_required'),
         ];
         $validator = Validator::make($request->all(), $rule, $messages);
@@ -89,14 +89,12 @@ class LoginController extends Controller
                     if ($client) {
                         return $this->getAccessToken($client, request('email'), request('password'), $customer);
                     }
-                } else {
-                    $response = ["message" => Lang::get('auth.password_or_email_wrong')];
-                    return response($response, 404);
                 }
-            } else {
-                $response = ["message" => Lang::get('auth.email_not_activated')];
-                return response()->json($response, 404);
+                $response = ["message" => Lang::get('auth.password_or_email_wrong')];
+                return response($response, 404);
             }
+            $response = ["message" => Lang::get('auth.email_not_activated')];
+            return response()->json($response, 404);
         }
         return response()->json(["message" => "Customer does not exist"], 200);
     }
