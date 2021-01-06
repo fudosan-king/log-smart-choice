@@ -94,6 +94,10 @@ li {
     height: 600px;
 }
 
+.carousel__list {
+    text-align: center;
+}
+
 @media (max-width: 1024px) {
     .hp_photo_wrap ul li {
         width: 49%;
