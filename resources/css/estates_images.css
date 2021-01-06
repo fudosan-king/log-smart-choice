@@ -91,13 +91,20 @@ li {
 .befor-photo,
 .after-photo {
     width: auto;
-    height: 600px;
+    height: 500px;
 }
 
 .carousel__list {
     text-align: center;
 }
 
+@media (max-width: 1800px) {
+    .befor-photo,
+    .after-photo {
+        width: auto;
+        height: 450px;
+    }
+}
 @media (max-width: 1024px) {
     .hp_photo_wrap ul li {
         width: 49%;
