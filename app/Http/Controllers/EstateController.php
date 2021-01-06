@@ -302,6 +302,8 @@ class EstateController extends Controller
             // If Model doest exist, get data from table name
             $dataTypeContent = DB::table($dataType->name)->where('id', $id)->first();
         }
+         // Check permission
+        $this->authorize('edit', $dataTypeContent);
 
         $view = 'voyager::estates.edit-add';
 
