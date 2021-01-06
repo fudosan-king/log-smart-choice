@@ -74,7 +74,7 @@
 
     <section class="section_expand_room_carousel" v-if="slider.length">
         <div class="expand_room_carousel">
-            <div class="carousel" data-flickity='{ "wrapAround": true, "prevNextButtons": false, "autoPlay": true }'>
+            <div class="carousel slider-detail">
                 <div class="carousel-cell" v-for="src, index in slider">
                     <img v-bind:src="src" alt="" class="img-fluid">
                 </div>
@@ -261,6 +261,13 @@
                     }
                 );
             },
+        },
+        updated() {
+            $('.slider-detail').flickity({
+                wrapAround: true,
+                prevNextButtons: false,
+                autoPlay: true
+            });
         }
     };
 </script>
