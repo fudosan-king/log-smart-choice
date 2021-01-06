@@ -1,6 +1,6 @@
 <template>
 <div>
-    <img class="estate_image_url" v-bind:src="url_path" />
+    <img class="estate_image_url main-photo" v-bind:src="url_path" />
     <input class="estate_image_file" name="estate_main_photo" type="file" @change="onFileChange"/>
 </div>
 </template>

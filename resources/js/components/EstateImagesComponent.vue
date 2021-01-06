@@ -7,7 +7,7 @@
             <div class="img-wrap" style="text-align: right;">
                 <a class="remove-image" @click="removeImage(idx)">&times;</a>
             </div>
-            <img class="estate_image_url" v-bind:src=image[0] />
+            <img class="estate_image_url image-photo" v-bind:src=image[0] />
             <input class="estate_image_file" name="estate_image[]" type="file" @change="onFileChange" v-bind:data-index-image=idx />
             <input name="estate_image_hidden[]" type="hidden" v-bind:value=image[0] />
             <div class="photo_info">
