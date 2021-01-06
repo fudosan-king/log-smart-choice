@@ -319,6 +319,7 @@
 
     .section_propertyinformation ul.list_property li .box_property_item .box_property_item_body h2 {
         font-size: 1em;
+        min-height: 40px;
     }
 
     .section_propertyinformation ul.list_property li .box_property_item .box_property_item_body p {
@@ -358,7 +359,9 @@
     }
 
     .section_seminar article p.article_meta a {
-        font-size: .7em;
+        font-size: .6em;
+        margin-bottom: 5px;
+        display: inline-block;
     }
 
     .section_construction ul li {
@@ -469,5 +472,10 @@
 
     .box_flooring ul li article header p {
         font-size: .7em;
+    }
+
+    .section_seminar article p.article_meta a {
+        font-size: .5em;
+        margin-right: 0;
     }
 }
