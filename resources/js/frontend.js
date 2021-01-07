@@ -29,7 +29,7 @@ new Vue({
         getRefreshTokenApi: function () {
             localStorage.getItem('token');
             let isLoggedIn = this.$store.getters.isLoggedIn;
-            if (isLoggedIn == true) {
+            if (isLoggedIn) {
                 this.$store.dispatch('refreshToken').then(resp => { }).catch(error => {
                     localStorage.removeItem('access_token');
                     localStorage.removeItem('refresh_token');
