@@ -1,11 +1,11 @@
 <template>
   <main id="main">
-    <section class="section_subbanner" v-bind:style="styleObject">
-        <div class="container">
-            <div class="row">
-            </div>
+    <section class="section_subbanner p-0">
+        <div class="w_subbanner_img">
+            <img v-bind:src="mainPhoto" alt="" class="img-fluid w-100">
         </div>
     </section>
+
     <section class="section_expand_room">
         <div class="container">
             <div class="row">
@@ -221,10 +221,7 @@
         data() {
             return {
                 estate: [],
-                styleObject: {
-                    'background': 'url("/assets/images/bg_top.jpg") no-repeat center',
-                    'background-size': 'cover'
-                },
+                mainPhoto: '/assets/images/bg_top.jpg',
                 slider: [],
                 haveEstate: false
             }
@@ -241,12 +238,7 @@
                         if (resp.data['data'] && resp.data['data']['estate'].length){
                             this.estate = resp.data['data']['estate'][0];
                             if (this.estate['estate_information']['estate_main_photo']){
-                                this.styleObject = {
-                                    'background-size': 'cover',
-                                    'background-image': 'url(' + this.estate['estate_information']['estate_main_photo'] + ')',
-                                    'ackground-repeat': 'no-repeat',
-                                    'background-position': 'center'
-                                }
+                                this.mainPhoto = this.estate['estate_information']['estate_main_photo'];
                                 this.noEstate = true;
                             }
                             if (this.estate['estate_information']['renovation_media'].length){
