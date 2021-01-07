@@ -124,7 +124,11 @@ class LoginController extends Controller
      */
     public function getAccessToken(PPClient $client, $email, $password, $customer)
     {
-        $response = Http::asForm()->post(url('oauth/token'), [
+        $url = "http://fdk:test@".env('URL_WEB').'/oauth/token';
+        if (env('APP_ENV') != 'development') {
+            $url = url('oauth/token');
+        }
+        $response = Http::asForm()->post($url, [
             'grant_type'    => 'password',
             'client_id'     => $client->id,
             'client_secret' => $client->secret,
@@ -147,11 +151,15 @@ class LoginController extends Controller
     public function getRefreshToken(Request $request)
     {
         $refreshToken = $request->header('Refreshtoken');
-        $client = $this->_getCustomerClient();
 
+        $client = $this->_getCustomerClient();
+        $url = "http://fdk:test@".env('URL_WEB').'/oauth/token';
+        if (env('APP_ENV') != 'development') {
+            $url = url('oauth/token');
+        }
         try {
             if ($client) {
-                $response = Http::asForm()->post(url('oauth/token'), [
+                $response = Http::asForm()->post($url, [
                     'grant_type'    => 'refresh_token',
                     'refresh_token' => $refreshToken,
                     'client_id'     => $client->id,

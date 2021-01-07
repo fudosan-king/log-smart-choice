@@ -8,7 +8,7 @@ const state = {
     customer: {}
 };
 const getters = {
-    isLoggedIn: state => !!state.token,
+    isLoggedIn: state => state.token ? state.token : '',
     authStatus: state => state.status,
     customerInfo: state => {
         return state.customer;
@@ -21,8 +21,12 @@ const actions = {
             commit('auth_request');
             axios({
                 url: '/login', data: customer, method: 'POST', headers: {
-                    'content-type': 'application/json'
-                }
+                    'content-type': 'application/json',
+                },
+                auth: {
+                    username: 'fdk',
+                    password: 'test',
+                },
             })
                 .then(resp => {
                     const customerInfo = {
@@ -32,7 +36,6 @@ const actions = {
                     }
                     localStorage.setItem('access_token', customerInfo.token);
                     localStorage.setItem('refresh_token', customerInfo.refreshToken);
-                    axios.defaults.headers.common['Authorization'] = customerInfo.token;
                     commit('auth_success', customerInfo);
                     resolve(resp);
                 })
@@ -52,7 +55,11 @@ const actions = {
                 url: '/logout', method: 'DELETE', headers: {
                     'content-type': 'application/json',
                     'Authorization': `Bearer ${accessToken}`,
-                }
+                },
+                auth: {
+                    username: 'fdk',
+                    password: 'test',
+                },
             })
                 .then(resp => {
                     localStorage.removeItem('access_token');
@@ -73,10 +80,13 @@ const actions = {
         return new Promise((resolve, reject) => {
             let accessToken = localStorage.getItem('access_token');
             let refreshToken = localStorage.getItem('refresh_token');
+            const token = 'fdk:test';
+            const encodedToken = Buffer.from(token).toString('base64');
             axios({
                 url: '/login', method: 'PUT', headers: {
                     'content-type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`,
+                    'Authorization': `Basic ${encodedToken}`,
+                    'AuthorizationBearer': `Bearer ${accessToken}`,
                     'Refreshtoken': `${refreshToken}`,
                 }
             }).then((response) => {
@@ -87,13 +97,11 @@ const actions = {
                 }
                 localStorage.setItem('access_token', customerInfo.accessToken);
                 localStorage.setItem('refresh_token', customerInfo.refreshToken);
-                axios.defaults.headers.common['Authorization'] = customerInfo.accessToken;
                 commit('refreshToken', customerInfo);
                 resolve(response);
             }).catch(error => {
                 localStorage.removeItem('access_token');
                 localStorage.removeItem('refresh_token');
-                delete axios.defaults.headers.common['Authorization'];
                 reject(error);
             });
         });
