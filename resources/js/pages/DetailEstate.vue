@@ -106,7 +106,7 @@
             <p class="describe">建具はフローリングと同じく天然無垢材を使用。シンプルで飽きのこないデザインに仕上がります。<br>
             快適に心地よく暮らせる住まいのために、食器洗い乾燥機や浴室暖房乾燥機、温水洗浄付きトイレなど設備にもこだわっています。</p>
             <div class="box_equiment_carousel">
-                <div class="carousel carousel-main" data-flickity='{"pageDots": false, "contain": true }'>
+                <div class="carousel carousel-main" data-flickity='{"pageDots": false, "contain": true, "wrapAround": true}'>
                     <div class="carousel-cell">
                         <img src="/assets/images/equipment/1.png" alt="" class="img-fluid">
                         <p>【キッチン】ホワイトを基調とした清潔感のあるキッチン。使い勝手の良い設備のキッチンで効率よくお料理ができます。</p>
