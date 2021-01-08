@@ -25,6 +25,7 @@ class Authenticate extends Middleware
         $accessToken = $request->headers->get('AuthorizationBearer');
         if ($accessToken) {
             $request->headers->set('Authorization', $accessToken, true);
+            $request->headers->remove('AuthorizationBearer');
         }
 
         $this->authenticate($request, $guards);

@@ -38,7 +38,6 @@ const routes = [
 const router = new VueRouter({
     mode: 'history',
     routes,
-    base: process.env.BASE_URL,
 });
 
 router.beforeEach((to, from, next) => {
@@ -51,6 +50,11 @@ router.beforeEach((to, from, next) => {
     } else {
         next()
     }
+
+    // const isLogged = !!store.getters.customerInfo
+    // if (isLogged && to.meta.guest) {
+    //     return router.push('/')
+    // }
 })
 
 export default router

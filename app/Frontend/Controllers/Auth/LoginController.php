@@ -124,10 +124,7 @@ class LoginController extends Controller
      */
     public function getAccessToken(PPClient $client, $email, $password, $customer)
     {
-        $url = "http://fdk:test@".env('URL_WEB').'/oauth/token';
-        if (env('APP_ENV') != 'development') {
-            $url = url('oauth/token');
-        }
+        $url = $this->_loginBasicAuth(env('MIX_BASIC_AUTH_USERNAME'), env('MIX_BASIC_AUTH_PASSWORD'));
         $response = Http::asForm()->post($url, [
             'grant_type'    => 'password',
             'client_id'     => $client->id,
@@ -151,12 +148,8 @@ class LoginController extends Controller
     public function getRefreshToken(Request $request)
     {
         $refreshToken = $request->header('Refreshtoken');
-
         $client = $this->_getCustomerClient();
-        $url = "http://fdk:test@".env('URL_WEB').'/oauth/token';
-        if (env('APP_ENV') != 'development') {
-            $url = url('oauth/token');
-        }
+        $url = $this->_loginBasicAuth(env('MIX_BASIC_AUTH_USERNAME'), env('MIX_BASIC_AUTH_PASSWORD'));
         try {
             if ($client) {
                 $response = Http::asForm()->post($url, [
@@ -184,5 +177,19 @@ class LoginController extends Controller
     private function _getCustomerClient()
     {
         return PPClient::where('password_client', 1)->where('provider', 'customers')->first();
+    }
+
+    /**
+     * @param $username
+     * @param $password
+     * @return \Illuminate\Contracts\Routing\UrlGenerator|string
+     */
+    private function _loginBasicAuth($username, $password)
+    {
+        $url = 'http://' . $username . ':' . $password . '@' . env('URL_WEB') . '/oauth/token';
+        if (env('APP_ENV') != 'development') {
+            $url = url('oauth/token');
+        }
+        return $url;
     }
 }
