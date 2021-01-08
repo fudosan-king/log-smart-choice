@@ -19,14 +19,15 @@ const actions = {
     login({ commit }, customer) {
         return new Promise((resolve, reject) => {
             commit('auth_request');
+            let auth = {
+                username: `${process.env.MIX_BASIC_AUTH_USERNAME}`,
+                password: `${process.env.MIX_BASIC_AUTH_PASSWORD}`,
+            }
             axios({
                 url: '/login', data: customer, method: 'POST', headers: {
                     'content-type': 'application/json',
                 },
-                auth: {
-                    username: 'fdk',
-                    password: 'test',
-                },
+                auth: auth,
             })
                 .then(resp => {
                     const customerInfo = {
@@ -51,15 +52,16 @@ const actions = {
         return new Promise((resolve, reject) => {
             commit('logout');
             let accessToken = localStorage.getItem('access_token');
+            let auth = {
+                username: `${process.env.MIX_BASIC_AUTH_USERNAME}`,
+                password: `${process.env.MIX_BASIC_AUTH_PASSWORD}`,
+            }
             axios({
                 url: '/logout', method: 'DELETE', headers: {
                     'content-type': 'application/json',
                     'Authorization': `Bearer ${accessToken}`,
                 },
-                auth: {
-                    username: 'fdk',
-                    password: 'test',
-                },
+                auth: auth,
             })
                 .then(resp => {
                     localStorage.removeItem('access_token');
@@ -80,15 +82,17 @@ const actions = {
         return new Promise((resolve, reject) => {
             let accessToken = localStorage.getItem('access_token');
             let refreshToken = localStorage.getItem('refresh_token');
-            const token = 'fdk:test';
-            const encodedToken = Buffer.from(token).toString('base64');
+            let auth = {
+                username: `${process.env.MIX_BASIC_AUTH_USERNAME}`,
+                password: `${process.env.MIX_BASIC_AUTH_PASSWORD}`,
+            }
             axios({
                 url: '/login', method: 'PUT', headers: {
                     'content-type': 'application/json',
-                    'Authorization': `Basic ${encodedToken}`,
                     'AuthorizationBearer': `Bearer ${accessToken}`,
                     'Refreshtoken': `${refreshToken}`,
-                }
+                },
+                auth: auth,
             }).then((response) => {
                 const customerInfo = {
                     accessToken: response.data.access_token,
@@ -102,6 +106,7 @@ const actions = {
             }).catch(error => {
                 localStorage.removeItem('access_token');
                 localStorage.removeItem('refresh_token');
+                commit('logout');
                 reject(error);
             });
         });

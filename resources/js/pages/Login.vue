@@ -4,7 +4,7 @@
             <section class="section_login">
                 <div class="container">
                     <div class="row">
-                        <div class="col-12 col-lg-8 offset-lg-2">
+                        <div class="col-12 col-lg-6 m-auto">
                             <h2>ログイン</h2>
                             <form autocomplete="off" @submit.prevent="login" class="frm_login">
                                 <div class="form-group">
@@ -57,13 +57,14 @@
                                                     {{ error }}
                                                 </div>
                                             </div>
-
-                                            <button type="submit" class="btn btnlogin">ログイン</button>
-                                            <p class="text-center">
-                                                <a href="#">パスワードを忘れた場合</a><br />
-                                                <a href="#">確認メールが届いてない場合</a><br />
-                                                <a href="#">新規会員登録</a>
-                                            </p>
+                                            <div class="form-group text-center">
+                                                <button type="submit" class="btn btnlogin">ログイン</button>
+                                                <p class="text-center">
+                                                    <a href="#">パスワードを忘れた場合</a><br />
+                                                    <a href="#">確認メールが届いてない場合</a><br />
+                                                    <a href="#">新規会員登録</a>
+                                                </p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
