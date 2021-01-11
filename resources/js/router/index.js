@@ -6,6 +6,7 @@ import Login from '../../js/pages/Login.vue';
 import ListEstates from '../../js/pages/ListEstates.vue';
 import DetailEstate from '../../js/pages/DetailEstate.vue';
 import PageNotFound from '../pages/PageNotFound.vue';
+import store from '../store/index';
 
 // Routes
 const routes = [
@@ -51,10 +52,9 @@ router.beforeEach((to, from, next) => {
         next()
     }
 
-    // const isLogged = !!store.getters.customerInfo
-    // if (isLogged && to.meta.guest) {
-    //     return router.push('/')
-    // }
+    if (store.getters.isLoggedIn && to.meta.guest) {
+        return router.push('/')
+    }
 })
 
 export default router
