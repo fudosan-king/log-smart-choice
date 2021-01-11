@@ -6,5 +6,6 @@ mongodump --db fdk-dev --collection estates_baibai --out dump --query '{"_id": {
 // Import to database
 mongorestore --db log_smart --drop --collection estates_baibai dump/fdk-dev/estates_baibai.bson
 
-
+// Export data json for test
+mongoexport --host="localhost:27017" --collection=estates_baibai --db=fdk-dev --out=estate.json --query="{'_id': ObjectId('5f49f3ca417de704d35344b3')}"
 

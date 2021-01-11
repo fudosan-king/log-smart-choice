@@ -38,3 +38,9 @@ Route::group(['prefix' => 'list'], function () {
 Route::group(['prefix' => 'detail'], function () {
     Route::post('/', [EstateController::class, 'detail']);
 });
+
+Route::get('test_import_estates', function() {
+    $estate_data = file_get_contents(base_path() . '/tests/data/estate.json');
+    $estate = json_decode($estate_data, true);
+    return response()->json(array('estates' => array($estate)));
+});
