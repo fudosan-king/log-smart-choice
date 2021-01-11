@@ -1,6 +1,6 @@
 <?php
 namespace App\Importer;
-use App\Models\Estate;
+use App\Models\Estates;
 use GuzzleHttp\Client;
 use Exception;
 use MongoDB;
@@ -30,56 +30,54 @@ class FDKImporter {
     {
     	if (empty($headers)) {
             $headers = [
+                'Host' => $this->host,
                 'Accept' => 'application/json',
             	'Content-Type' => 'application/json',
             ];
     	}
 
     	return new Client([
-            'base_uri' => $this->host,
+            'base_uri' => 'http://' . $this->host,
             'headers' => $headers,
         ]);
     }
 
-    private function getAllEstates($perPage)
+    private function _getAllEstates($perPage)
     {
     	$page = 1;
     	$resultEstates = [];
         $stop = false;
     	while (!$stop) {
-    		$estates = $this->getEstatesByPage($perPage, $page);
+    		$estates = $this->_getEstatesByPage($perPage, $page);
 
     		if (empty($estates)) {
     			$stop = true;
     		} else {
                 $resultEstates = array_merge($resultEstates, $estates);
-                $page++; 
+                $page++;
             }
     	}
 
     	return $resultEstates;
     }
 
-    private function getEstatesByPage($perPage, $page)
+    private function _getEstatesByPage($perPage, $page)
     {
     	$client  = $this->getClient();
-
     	$response = $client->request('GET', $this->apiPath,
-    		['query' => $this->generateQueryParams($perPage, $page)]
+    		['query' => $this->_generateQueryParams($perPage, $page)]
     	);
-
     	if ($response->getStatusCode() != '200') {
             \Log::error(sprintf('Request to FDK fail with page %s and per page %s!', $page, $perPage));
             return [];
         }
-
         $jsonData = json_decode($response->getBody());
 
         return  $jsonData->estates;
     }
 
 
-    private function generateQueryParams($perPage, $page)
+    private function _generateQueryParams($perPage, $page)
     {
     	$queryParams['limit'] = $perPage;
     	$queryParams['skip'] = $page > 0 ? (($page - 1) * $perPage) : 0;
@@ -89,10 +87,10 @@ class FDKImporter {
 
     public function getEstates($perPage, $page) {
     	if (is_int($page) && $page > 0) {
-    		return $this->getEstatesByPage($perPage, $page);
+    		return $this->_getEstatesByPage($perPage, $page);
     	}
 
-    	return $this->getAllEstates($perPage);
+    	return $this->_getAllEstates($perPage);
     }
 
     public function import() {
@@ -112,13 +110,13 @@ class FDKImporter {
     	foreach ($estates as $estate) {
     		$estateData = MongoDB\BSON\toPHP(MongoDB\BSON\fromJson(json_encode($estate)));
 
-    		if (in_array($estateData->_id, $this->importedEstateIds) 
+    		if (in_array($estateData->_id, $this->importedEstateIds)
     			|| in_array($estateData->_id, $this->failedImportedEstatesId)) {
             	continue;
         	}
 
-            try { 
-                $estate = new Estate();
+            try {
+                $estate = new Estates();
                 $importedEstate = $estate->upsertFromFDKData($estateData);
 
                 if ($importedEstate !== null) {
@@ -139,8 +137,8 @@ class FDKImporter {
 			return;
 		}
 
-		Estate::whereNotIn('_id', $this->importedEstateIds)->chunkById(200, function ($estates) {
-		    $estates->each->update(['status' => Estate::STATUS_NOT_SALE]);
+		Estates::whereNotIn('_id', $this->importedEstateIds)->chunkById(200, function ($estates) {
+		    $estates->each->update(['status' => Estates::STATUS_NOT_SALE]);
 		});
     }
 }

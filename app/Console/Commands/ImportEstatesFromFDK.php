@@ -12,7 +12,7 @@ class ImportEstatesFromFDK extends Command
      *
      * @var string
      */
-    protected $signature = 'estate:import_from_fdk 
+    protected $signature = 'estates:import_from_fdk
                                 {--page= : The page number for getting Estates, 0 means all pages}
                                 {--per_page= : Number of estate per page}';
 
@@ -59,7 +59,7 @@ class ImportEstatesFromFDK extends Command
         }
 
         $this->info('Start Importing');
-        
+
         $fdkImporter = new FDKImporter($fdkHost, $logSmartChoiceApiPath, $perPage, $page);
         $fdkImporter->import();
 
