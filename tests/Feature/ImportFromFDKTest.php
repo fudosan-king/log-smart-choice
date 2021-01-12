@@ -27,15 +27,14 @@ class ImportFromFDKTest extends TestCase
         ]);
 
         $this->fdkHost = setting('fdk_host', config('fdk.fdk_host'));
+        $this->fdkURL = setting('fdk_url', config('fdk.fdk_url'));
         $this->logSmartChoiceApiPath = setting('fdk.log_smart_choice_api_path', config('fdk.log_smart_choice_api_path'));
     }
 
     public function testGettingDataFromFDK()
     {
-        $perPage = 1;
-        $page = 1;
-        $fdkImporter = new FDKImporter($this->fdkHost, $this->logSmartChoiceApiPath, $perPage, $page);
-        $estates = $fdkImporter->getEstates($perPage, $page);
+        $fdkImporter = new FDKImporter($this->fdkHost, $this->fdkURL, $this->logSmartChoiceApiPath);
+        $estates = $fdkImporter->getEstates();
         $this->assertTrue(count($estates) > 0, "Error while geting data from FDK!");
     }
 
@@ -55,11 +54,8 @@ class ImportFromFDKTest extends TestCase
 
     protected function updateEstates()
     {
-
-        $perPage = 3;
-        $page = 1;
-        $importer = new FDKImporter($this->fdkHost, $this->logSmartChoiceApiPath, $perPage, $page);
-        $updatingEstates = $importer->getEstates($perPage, $page);
+        $importer = new FDKImporter($this->fdkHost, $this->fdkURL, $this->logSmartChoiceApiPath);
+        $updatingEstates = $importer->getEstates();
         $importer->import();
         $this->assertTrue(count($importer->importedEstateIds) >= 1);
 
@@ -71,10 +67,8 @@ class ImportFromFDKTest extends TestCase
 
     protected function insertEstatesFromFDK()
     {
-        $perPage = 6;
-        $page = 1;
-        $importer = new FDKImporter($this->fdkHost, $this->logSmartChoiceApiPath, $perPage, $page);
-        $insertingestates = $importer->getEstates($perPage, $page);
+        $importer = new FDKImporter($this->fdkHost, $this->fdkURL, $this->logSmartChoiceApiPath);
+        $insertingestates = $importer->getEstates();
         $importer->import();
         $this->assertTrue(count($importer->importedEstateIds) >= 1);
 
@@ -84,6 +78,9 @@ class ImportFromFDKTest extends TestCase
     }
 
     protected function checkEstatesAfterImport($importingEstates, $statusToCheck) {
+        echo '
+        ';
+        echo 'Status check: ' . $statusToCheck;
         foreach ($importingEstates as $importingEstate) {
             // Parse to array for document and root for comparision.
             // We need to parse all to array because in somecase, Laravel return to array for empty object
@@ -94,7 +91,9 @@ class ImportFromFDKTest extends TestCase
                     'array' => 'array'
                 ]);
             $importedEstate = Estates::find($importingEstate['_id']);
-
+            echo '
+            ';
+            echo 'ID: ' . $importedEstate->_id . ' -> Status: ' .$importedEstate->status;
             $this->assertTrue($importedEstate !== null, 'Inserting error!');
             $this->assertTrue($importedEstate->status === $statusToCheck, sprintf('Expect %s status, got %s!', $statusToCheck, $importedEstate->status));
 
