@@ -40,7 +40,14 @@ Route::group(['prefix' => 'detail'], function () {
 });
 
 Route::get('test_import_estates', function() {
-    $estate_data = file_get_contents(base_path() . '/tests/data/estate.json');
-    $estate = json_decode($estate_data, true);
-    return response()->json(array('estates' => array($estate)));
+    $estates = array();
+    foreach (range(1, 11) as $number) {
+        try{
+            $estate_data = file_get_contents(base_path() . '/tests/data/estate' . $number . '.json');
+            $estate = json_decode($estate_data, true);
+            array_push($estates, $estate);
+        } catch (Exception $e) {
+        }
+    }
+    return response()->json(array('estates' => $estates));
 });

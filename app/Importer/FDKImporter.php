@@ -8,21 +8,18 @@ use MongoDB;
 class FDKImporter {
 	protected $host;
 
+    protected $url;
+
     protected $apiPath;
-
-	protected $perPage = 1000;
-
-	protected $page = 0;
 
 	public $importedEstateIds = [];
 
 	public $failedImportedEstatesId = [];
 
 
-	public function __construct($fdkHost, $apiPath, $perPage, $page) {
+	public function __construct($fdkHost, $fdkURL, $apiPath) {
     	$this->host = $fdkHost;
-    	$this->perPage = $perPage;
-    	$this->page = $page;
+        $this->url = $fdkURL;
         $this->apiPath = $apiPath;
     }
 
@@ -37,36 +34,15 @@ class FDKImporter {
     	}
 
     	return new Client([
-            'base_uri' => 'http://' . $this->host,
+            'base_uri' => $this->url,
             'headers' => $headers,
         ]);
     }
 
-    private function _getAllEstates($perPage)
-    {
-    	$page = 1;
-    	$resultEstates = [];
-        $stop = false;
-    	while (!$stop) {
-    		$estates = $this->_getEstatesByPage($perPage, $page);
-
-    		if (empty($estates)) {
-    			$stop = true;
-    		} else {
-                $resultEstates = array_merge($resultEstates, $estates);
-                $page++;
-            }
-    	}
-
-    	return $resultEstates;
-    }
-
-    private function _getEstatesByPage($perPage, $page)
+    public function getEstates()
     {
     	$client  = $this->getClient();
-    	$response = $client->request('GET', $this->apiPath,
-    		['query' => $this->_generateQueryParams($perPage, $page)]
-    	);
+    	$response = $client->request('GET', $this->apiPath, []);
     	if ($response->getStatusCode() != '200') {
             \Log::error(sprintf('Request to FDK fail with page %s and per page %s!', $page, $perPage));
             return [];
@@ -76,25 +52,8 @@ class FDKImporter {
         return  $jsonData->estates;
     }
 
-
-    private function _generateQueryParams($perPage, $page)
-    {
-    	$queryParams['limit'] = $perPage;
-    	$queryParams['skip'] = $page > 0 ? (($page - 1) * $perPage) : 0;
-
-    	return $queryParams;
-    }
-
-    public function getEstates($perPage, $page) {
-    	if (is_int($page) && $page > 0) {
-    		return $this->_getEstatesByPage($perPage, $page);
-    	}
-
-    	return $this->_getAllEstates($perPage);
-    }
-
     public function import() {
-    	$estates = $this->getEstates($this->perPage, $this->page);
+    	$estates = $this->getEstates();
     	if (empty($estates))
     	{
     		\Log::error('Empty Estate data!');

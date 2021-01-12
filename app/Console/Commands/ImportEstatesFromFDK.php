@@ -41,14 +41,8 @@ class ImportEstatesFromFDK extends Command
      */
     public function handle()
     {
-        $perPage = (int) $this->option('per_page');
-        $page = (int) $this->option('page');
-        if (empty($perPage) || is_null($page)) {
-            $this->error('Missing command param: per_page, page');
-            return;
-        }
-
         $fdkHost = setting('admin.fdk_host', config('fdk.fdk_host'));
+        $fdkURL = setting('admin.fdk_url', config('fdk.fdk_url'));
         if (empty($fdkHost)) {
             $this->error('Missing setting FDK host! Please set it in Admin setting!');
         }
@@ -59,8 +53,7 @@ class ImportEstatesFromFDK extends Command
         }
 
         $this->info('Start Importing');
-
-        $fdkImporter = new FDKImporter($fdkHost, $logSmartChoiceApiPath, $perPage, $page);
+        $fdkImporter = new FDKImporter($fdkHost, $fdkURL, $logSmartChoiceApiPath);
         $fdkImporter->import();
 
         $this->info(sprintf("Successfull import %s estates", count($fdkImporter->importedEstateIds)));
