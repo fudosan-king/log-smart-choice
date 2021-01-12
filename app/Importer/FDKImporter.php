@@ -43,7 +43,12 @@ class FDKImporter {
         $token = config('fdk.fdk_token');
     	$client  = $this->getClient();
         try {
-    	   $response = $client->request('GET', $this->apiPath, ['query' => array('token' => $token)]);
+            $response = $client->request('GET', $this->apiPath, [
+            'query' => array('token' => $token),
+            'auth' => [
+                'fdk',
+                'test'
+            ]]);
         } catch (Exception $e){
             \Log::error(sprintf('Please try again. Maybe FDK have bussy!'));
             $response = null;
