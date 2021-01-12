@@ -42,6 +42,13 @@ mysql -u root
 > GRANT ALL PRIVILEGES ON log_smart.* TO log_smart@localhost WITH GRANT OPTION;<br>
 > FLUSH PRIVILEGES;<br>
 
+## Import estates in FDK
+Config in .env
+```
+FDK_HOST=fudosan-king.jp
+FDK_URL=http://fudosan-king.jp
+LOG_SMART_CHOICE_API_PATH=/api/log_smart_choice // path(log_smart_choice): define return estates checked log_smart_choice
+```
 
 # Docker
 
