@@ -52,6 +52,12 @@ LOG_SMART_CHOICE_API_PATH=/api/log_smart_choice // path(log_smart_choice): defin
 How to run
 >php artisan estates:import_from_fdk
 
+Add crontab to Schedule
+```
+* * * * * php ~/project/log-smart-choice/artisan schedule:run
+```
+
+
 # Docker
 
 ## Build docker
