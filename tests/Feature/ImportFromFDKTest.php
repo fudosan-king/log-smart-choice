@@ -58,9 +58,7 @@ class ImportFromFDKTest extends TestCase
         $updatingEstates = $importer->getEstates();
         $importer->import();
         $this->assertTrue(count($importer->importedEstateIds) >= 1);
-
-        $this->checkEstatesAfterImport($updatingEstates, Estates::STATUS_IN_SALE);
-
+        $this->checkEstatesAfterImport($updatingEstates['estates'], Estates::STATUS_UPDATED);
         $notSaleUpdatedEstate = Estates::where('status', Estates::STATUS_NOT_SALE)->get();
         $this->assertTrue(count($notSaleUpdatedEstate) == 0, 'Error while update estate status to NOT_SALE');
     }
@@ -72,7 +70,7 @@ class ImportFromFDKTest extends TestCase
         $importer->import();
         $this->assertTrue(count($importer->importedEstateIds) >= 1);
 
-        $this->checkEstatesAfterImport($insertingestates, Estates::STATUS_NEW);
+        $this->checkEstatesAfterImport($insertingestates['estates'], Estates::STATUS_NEW);
 
         return $importer->importedEstateIds;
     }
@@ -127,7 +125,7 @@ class ImportFromFDKTest extends TestCase
             $insertedEstate = Estates::find($insertedEstateId);
             $insertedEstate->tatemono_menseki = rand(0,100);
             $insertedEstate->price = rand(0,100);
-            $insertedEstate->status = Estates::STATUS_IN_SALE;
+            $insertedEstate->status = Estates::STATUS_UPDATED;
             $insertedEstate->save();
         }
     }

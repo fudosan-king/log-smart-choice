@@ -17,11 +17,8 @@ class Estates extends Model
     protected $guarded = [];
 
     const STATUS_NEW = 'NEW';
-    const STATUS_IN_SALE = 'IN_SALE';
-    const STATUS_UPDATING = 'UPDATING';
-    const STATUS_UNDER_CONTRACT = 'UNDER_CONTRACT';
+    const STATUS_UPDATED = 'UPDATED';
     const STATUS_NOT_SALE = 'NOT_SALE';
-    const STATUS_COMPLETED = 'COMPLETED';
 
     /**
      * Get date created
@@ -64,6 +61,8 @@ class Estates extends Model
         if (!$estate->exists) {
             $estate->status = self::STATUS_NEW;
             $estate['_id'] = $estateData->_id;
+        } else {
+            $estate->status = self::STATUS_UPDATED;
         }
 
         foreach ($estateData as $key => $value) {
@@ -83,11 +82,8 @@ class Estates extends Model
     {
         $statusText = [
             self::STATUS_NEW => 'New',
-            self::STATUS_IN_SALE => 'In Sale',
-            self::STATUS_UPDATING => 'Updating',
-            self::STATUS_UNDER_CONTRACT => 'Under Contract',
+            self::STATUS_UPDATED => 'Updated',
             self::STATUS_NOT_SALE => 'Not Sale',
-            self::STATUS_COMPLETED => 'Completed',
         ];
         return $this->status ? $statusText[$this->status] : '';
     }
