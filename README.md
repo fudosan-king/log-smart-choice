@@ -49,6 +49,8 @@ FDK_HOST=fudosan-king.jp
 FDK_URL=http://fudosan-king.jp
 LOG_SMART_CHOICE_API_PATH=/api/log_smart_choice // path(log_smart_choice): define return estates checked log_smart_choice
 ```
+How to run
+>php artisan estates:import_from_fdk
 
 # Docker
 
