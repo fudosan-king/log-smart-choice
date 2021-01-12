@@ -16,7 +16,6 @@ class FDKImporter {
 
 	public $failedImportedEstatesId = [];
 
-
 	public function __construct($fdkHost, $fdkURL, $apiPath) {
     	$this->host = $fdkHost;
         $this->url = $fdkURL;
@@ -41,26 +40,31 @@ class FDKImporter {
 
     public function getEstates()
     {
+        $token = config('fdk.fdk_token');
     	$client  = $this->getClient();
-    	$response = $client->request('GET', $this->apiPath, []);
-    	if ($response->getStatusCode() != '200') {
-            \Log::error(sprintf('Request to FDK fail with page %s and per page %s!', $page, $perPage));
-            return [];
+        try {
+    	   $response = $client->request('GET', $this->apiPath, ['query' => array('token' => $token)]);
+        } catch (Exception $e){
+            \Log::error(sprintf('Please try again. Maybe FDK have bussy!'));
+            $response = null;
         }
-        $jsonData = json_decode($response->getBody());
-
-        return  $jsonData->estates;
+    	if ($response && $response->getStatusCode() != '200') {
+            \Log::error(sprintf('Please check system!'));
+            return array('status' => false);
+        }
+        if ($response && $response->getStatusCode() == '200') {
+            $jsonData = json_decode($response->getBody());
+            return array('status' => true, 'estates' => $jsonData->estates);
+        }
+        return array('status' => false);
     }
 
     public function import() {
-    	$estates = $this->getEstates();
-    	if (empty($estates))
-    	{
-    		\Log::error('Empty Estate data!');
-    		return;
+    	$status = $this->getEstates();
+    	if ($status && !$status['status']) {
+            return;
     	}
-
-        $this->importEstates($estates);
+        $this->importEstates($status['estates']);
 
         $this->proccessAfterImport();
     }
@@ -68,12 +72,10 @@ class FDKImporter {
     public function importEstates($estates){
     	foreach ($estates as $estate) {
     		$estateData = MongoDB\BSON\toPHP(MongoDB\BSON\fromJson(json_encode($estate)));
-
     		if (in_array($estateData->_id, $this->importedEstateIds)
     			|| in_array($estateData->_id, $this->failedImportedEstatesId)) {
             	continue;
         	}
-
             try {
                 $estate = new Estates();
                 $importedEstate = $estate->upsertFromFDKData($estateData);
@@ -92,10 +94,6 @@ class FDKImporter {
 
     protected function proccessAfterImport()
     {
-    	if (count($this->importedEstateIds) == 0) {
-			return;
-		}
-
 		Estates::whereNotIn('_id', $this->importedEstateIds)->chunkById(200, function ($estates) {
 		    $estates->each->update(['status' => Estates::STATUS_NOT_SALE]);
 		});
