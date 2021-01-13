@@ -58,11 +58,14 @@ class RegisterController extends Controller
                     'link' => $link,
                     'customer' => $customer,
                 ];
+                try {
+                    $emailVerifyAccount = new SendEmailVerifyAccount($request->only('email'), $data);
+                    dispatch($emailVerifyAccount);
+                    return response()->json(['status' => true, 'message' => Lang::get('customer.create_success')], 200);
+                } catch (\Exception $ex) {
+                    return response()->json(['status' => false, 'message' =>'send email fail'], 404);
+                }
 
-                $emailVerifyAccount = new SendEmailVerifyAccount($request->only('email'), $data);
-                dispatch($emailVerifyAccount);
-
-                return response()->json(['status' => true, 'message' => Lang::get('customer.create_success')], 200);
             }
         }
         return response()->json(['status' => false, 'message' => Lang::get('customer.create_fail')], 422);
