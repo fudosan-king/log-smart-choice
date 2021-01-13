@@ -1,11 +1,10 @@
 <template>
     <header v-if="page === 'home'">
         <div class="navbar navbar-expand-lg bsnav bsnav-transparent">
-            <button class="navbar-toggler toggler-spring"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse justify-content-md-end">
                 <ul class="navbar-nav navbar-mobile mr-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">会社概要</a>
+                        <a class="nav-link" href="https://www.logknot.co.jp/">会社概要</a>
                     </li>
                     <li v-if="customerInfo.name" class="nav-item nav-header">
                         <a class="nav-link">ようこそ {{ customerInfo.name }} 様。</a>
@@ -31,7 +30,7 @@
             <div class="collapse navbar-collapse justify-content-md-end">
                 <ul class="navbar-nav navbar-mobile mr-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">会社概要</a>
+                        <a class="nav-link" href="https://www.logknot.co.jp/">会社概要</a>
                     </li>
                     <li v-if="customerInfo.name" class="nav-item nav-header">
                         <a class="nav-link">ようこそ {{ customerInfo.name }} 様。</a>
@@ -54,11 +53,10 @@
             <a class="navbar-brand" v-bind:href="'/'"
                 ><img v-bind:src="logoBlack" alt="" class="img-fluid" width="217"
             /></a>
-            <button class="navbar-toggler toggler-spring"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse justify-content-md-end">
                 <ul class="navbar-nav navbar-mobile mr-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">会社概要</a>
+                        <a class="nav-link" href="https://www.logknot.co.jp/">会社概要</a>
                     </li>
                     <li v-if="customerInfo.name" class="nav-item nav-header">
                         <a class="nav-link">ようこそ {{ customerInfo.name }} 様。</a>

@@ -1,6 +1,6 @@
 <template>
 <div>
-    <section class="section_searchby">
+    <section class="section_searchby" v-if="searchBy">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -74,10 +74,10 @@
                 <div class="row">
                     <div class="col-12 col-lg-12">
                         <ul>
-                            <li><a href="#">利用規約</a></li>
-                            <li><a href="#">反社会的勢力排除に関する基本方針</a></li>
-                            <li><a href="#">プライバシーポリシー</a></li>
-                            <li><a href="#">ソーシャルメディアポリシー</a></li>
+                            <li><a href="https://www.propolife.co.jp/terms/">利用規約</a></li>
+                            <li><a href="https://www.propolife.co.jp/antisocial/">反社会的勢力排除に関する基本方針</a></li>
+                            <li><a href="https://www.propolife.co.jp/privacypolicy/">プライバシーポリシー</a></li>
+                            <li><a href="https://www.propolife.co.jp/socialpolicy/">ソーシャルメディアポリシー</a></li>
                         </ul>
                     </div>
                 </div>
@@ -95,7 +95,7 @@
                             <div class="col-12 col-lg-8 align-self-center">
                                 <p class="mb-0 phone_number">
                                     <span>
-                                        <a href="tel:000-0000-0000">000-0000-0000</a>
+                                        <a href="tel:03-6897-8564">03-6897-8564</a>
                                         <i>年中無休8:00〜18:30</i>
                                     </span>
                                 </p>
@@ -123,7 +123,7 @@
                     <div class="col-12 col-lg-6 align-self-center">
                         <p class="mb-0 phone_number">
                             <span>
-                                <a href="tel:000-0000-0000">000-0000-0000</a>
+                                <a href="tel:03-6897-8564">03-6897-8564</a>
                                 <i>年中無休8:00〜18:30</i>
                             </span>
                         </p>
@@ -307,6 +307,7 @@ export default {
     data() {
         const logoSliver = '/assets/images/SVG/logo_sliver.svg';
         const iLocationBlack = '/assets/images/SVG/i_location_black.svg';
+        const searchBy = false;
         return {
             logoSliver: logoSliver,
             iLocationBlack: iLocationBlack
