@@ -9,7 +9,7 @@
     export default {
         props: ['data'],
         data(){
-            let url_path = '/images/image-main.jpg';
+            let url_path = '/images/image-main.jpeg';
             if (this.data){
                 url_path = this.data;
             }
