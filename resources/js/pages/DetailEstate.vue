@@ -21,11 +21,10 @@
                                 <div class="row">
                                     <div class="col-12 col-lg-5">
                                         <div class="box_intro_left">
-                                            <img src="/assets/images/family.png" alt="" class="img-fluid">
-                                            <h3>夫婦・子ども2人</h3>
+                                            <img src="/assets/images/family1.jpg" alt="" class="img-fluid">
+                                            <h3>夫婦＋子ども1人</h3>
                                             <ul>
-                                                <li>子どもがのびのびと遊べる空間を持ちたい</li>
-                                                <li>家族4人の荷物がしっかり収納できるスペースがほしい</li>
+                                                <li>子どもと暮らしやすい間取りにしたい</li>
                                             </ul>
                                         </div>
                                     </div>
