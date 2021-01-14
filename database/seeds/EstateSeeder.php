@@ -84,7 +84,7 @@ class EstateSeeder extends Seeder {
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'select_dropdown',
-                'display_name' => __('Trade Status'),
+                'display_name' => __('Status'),
                 'required'     => 1,
                 'browse'       => 1,
                 'read'         => 1,
