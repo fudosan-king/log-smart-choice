@@ -80,7 +80,7 @@ class EstateSeeder extends Seeder {
             ])->save();
         }
 
-        $dataRow = $this->dataRow($estateDataType, 'trade_status');
+        $dataRow = $this->dataRow($estateDataType, 'status');
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'select_dropdown',
@@ -92,12 +92,12 @@ class EstateSeeder extends Seeder {
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => [
-                    'default' => '販売中',
+                    'default' => '掲載止め',
                     'options' => [
+                        '掲載止め' => '掲載止め',
                         '販売中' => '販売中',
-                        '売止' => '売止',
-                        '成約' => '成約',
-                        '掲載止め' => '掲載止め'
+                        '請負中' => '請負中',
+                        '終了' => '終了'
                     ]
                 ],
                 'order'        => 3,

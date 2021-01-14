@@ -16,9 +16,10 @@ class Estates extends Model
 
     protected $guarded = [];
 
-    const STATUS_NEW = 'NEW';
-    const STATUS_UPDATED = 'UPDATED';
-    const STATUS_NOT_SALE = 'NOT_SALE';
+    const STATUS_SALE = '販売中';
+    const STATUS_STOP = '掲載止め';
+    const STATUS_CONTRACT = '請負中';
+    const STATUS_END = '終了';
 
     /**
      * Get date created
@@ -59,14 +60,21 @@ class Estates extends Model
         $estate = self::firstOrNew(['_id' => $estateData->_id]);
 
         if (!$estate->exists) {
-            $estate->status = self::STATUS_NEW;
+            $estate->status = self::STATUS_STOP;
             $estate['_id'] = $estateData->_id;
-        } else {
-            $estate->status = self::STATUS_UPDATED;
+        }
+
+        $estate_pass = array(self::STATUS_CONTRACT, self::STATUS_END);
+        if ($estate && in_array($estate->status, $estate_pass)) {
+            return null;
         }
 
         foreach ($estateData as $key => $value) {
             $estate->$key = $value;
+        }
+
+        if ($estateData && $estateData->trade_status == self::STATUS_STOP) {
+            $estate->status = self::STATUS_STOP;
         }
 
         try {
@@ -76,15 +84,5 @@ class Estates extends Model
         }
 
         return $estate;
-    }
-
-    public function getStatusText()
-    {
-        $statusText = [
-            self::STATUS_NEW => 'New',
-            self::STATUS_UPDATED => 'Updated',
-            self::STATUS_NOT_SALE => 'Not Sale',
-        ];
-        return $this->status ? $statusText[$this->status] : '';
     }
 }

@@ -95,7 +95,7 @@ class EstateController extends Controller
         foreach ($mapLabel as $key => $value) {
             $field = explode('_', $key);
             $query = strval($field[0]);
-            $custom_field[$field[0]] = $request->$query;
+            $custom_field[$field[0]] = htmlspecialchars($request->$query, ENT_QUOTES);
         }
         return $custom_field;
     }

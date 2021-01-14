@@ -13,9 +13,9 @@
                     <div class="box_expand_room">
 
                         <div class="box_expand_room_content">
-                            <p class="text-center" v-if="estate.custom_field">―　{{ estate.custom_field.title }}　―</p>
+                            <p class="text-center" v-if="estate.custom_field" v-html="estate.custom_field.title"></p>
                             <p class="text-center" v-else>―　Title　―</p>
-                            <h2 class="text-center" v-if="estate.custom_field">{{ estate.custom_field.content }}</h2>
+                            <h2 class="text-center" v-if="estate.custom_field" v-html="estate.custom_field.content"></h2>
                             <h2 class="text-center" v-else>Content</h2>
                             <div class="box_intro">
                                 <div class="row">
@@ -34,7 +34,7 @@
                                             <div class="row no-gutters">
                                                 <div class="col-8 col-lg-7">
                                                     <div class="box_intro_content_text">
-                                                        <p v-if="estate.custom_field">{{ estate.custom_field.comment }}</p>
+                                                        <p v-if="estate.custom_field" v-html="estate.custom_field.comment"></p>
                                                         <p v-else>Comment</p>
                                                     </div>
                                                 </div>
@@ -249,7 +249,7 @@
                         }
                     })
                     .catch(err => {
-
+                        this.$router.push('/');
                     }
                 );
             },

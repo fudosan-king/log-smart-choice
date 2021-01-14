@@ -43,6 +43,9 @@ class EstateController extends Controller
         $estates = Estates::select('estate_name', 'price', 'balcony_space',
             'address', 'tatemono_menseki', 'motoduke', 'room_count', 'room_kind',
             'room_floor', 'land_space', 'homepage', 'photos', 'service_rooms');
+
+        $estates->where('status', '=', Estates::STATUS_SALE);
+
         if ($keyword) {
             $estates->where('estate_name', "like", "%" . $keyword . "%");
         }
@@ -91,6 +94,7 @@ class EstateController extends Controller
             'renovation_done_date', 'house_status', 'delivery_date_type',
             'management_company', 'land_rights', 'trade_type', 'date_last_modified')
             ->where('_id', $id)
+            ->where('status', '=', Estates::STATUS_SALE)
             ->get()->toArray();
 
         if ($estate) {
@@ -142,10 +146,14 @@ class EstateController extends Controller
         foreach ($estates as $key => $estate) {
             $estateInformation = EstateInformation::where('estate_id', $estates[$key]['_id'])->get()->first();
             $estates[$key]['estate_information'] = $estateInformation;
-            $estates[$key]['photo_first'] = $this->_getFirstPhotos($estate);
+            if ($estateInformation && $estateInformation->estate_main_photo){
+                $photo_first = $estateInformation->estate_main_photo;
+            } else {
+                $photo_first = $this->_getFirstPhotos($estate);
+            }
+            $estates[$key]['photo_first'] = $photo_first;
             $estates[$key]['photos'] = $this->_getPhotosAll($estate);
         }
-
         return $estates;
     }
 

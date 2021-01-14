@@ -100,7 +100,7 @@ class FDKImporter {
     protected function proccessAfterImport()
     {
 		Estates::whereNotIn('_id', $this->importedEstateIds)->chunkById(200, function ($estates) {
-		    $estates->each->update(['status' => Estates::STATUS_NOT_SALE]);
+		    $estates->each->update(['status' => Estates::STATUS_STOP]);
 		});
     }
 }

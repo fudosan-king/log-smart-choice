@@ -58,8 +58,15 @@ class ImportFromFDKTest extends TestCase
         $updatingEstates = $importer->getEstates();
         $importer->import();
         $this->assertTrue(count($importer->importedEstateIds) >= 1);
-        $this->checkEstatesAfterImport($updatingEstates['estates'], Estates::STATUS_UPDATED);
-        $notSaleUpdatedEstate = Estates::where('status', Estates::STATUS_NOT_SALE)->get();
+        $status = array(
+            '販売中',
+            '販売中',
+            '販売中',
+            '販売中',
+            '掲載止め'
+        );
+        $this->checkEstatesAfterImport($updatingEstates['estates'], $status);
+        $notSaleUpdatedEstate = Estates::where('status', Estates::STATUS_END)->get();
         $this->assertTrue(count($notSaleUpdatedEstate) == 0, 'Error while update estate status to NOT_SALE');
     }
 
@@ -69,16 +76,20 @@ class ImportFromFDKTest extends TestCase
         $insertingestates = $importer->getEstates();
         $importer->import();
         $this->assertTrue(count($importer->importedEstateIds) >= 1);
-
-        $this->checkEstatesAfterImport($insertingestates['estates'], Estates::STATUS_NEW);
+        $status = array(
+            '掲載止め',
+            '掲載止め',
+            '掲載止め',
+            '掲載止め',
+            '掲載止め'
+        );
+        $this->checkEstatesAfterImport($insertingestates['estates'], $status);
 
         return $importer->importedEstateIds;
     }
 
     protected function checkEstatesAfterImport($importingEstates, $statusToCheck) {
-        echo '
-        ';
-        echo 'Status check: ' . $statusToCheck;
+        $index = 0;
         foreach ($importingEstates as $importingEstate) {
             // Parse to array for document and root for comparision.
             // We need to parse all to array because in somecase, Laravel return to array for empty object
@@ -93,7 +104,7 @@ class ImportFromFDKTest extends TestCase
             ';
             echo 'ID: ' . $importedEstate->_id . ' -> Status: ' .$importedEstate->status;
             $this->assertTrue($importedEstate !== null, 'Inserting error!');
-            $this->assertTrue($importedEstate->status === $statusToCheck, sprintf('Expect %s status, got %s!', $statusToCheck, $importedEstate->status));
+            $this->assertTrue($importedEstate->status === $statusToCheck[$index], sprintf('Expect %s status, got %s!', $statusToCheck[$index], $importedEstate->status));
 
             // Parse to array for document and root for comparision.
             // We need to parse all to array because in somecase, Laravel return to array for empty object
@@ -106,6 +117,7 @@ class ImportFromFDKTest extends TestCase
             $isSameOrigin = $this->isEstateSameWithOrigin($importingEstate, $importedEstate);
 
             $this->assertTrue($isSameOrigin);
+            $index += 1;
         }
     }
 
@@ -125,7 +137,7 @@ class ImportFromFDKTest extends TestCase
             $insertedEstate = Estates::find($insertedEstateId);
             $insertedEstate->tatemono_menseki = rand(0,100);
             $insertedEstate->price = rand(0,100);
-            $insertedEstate->status = Estates::STATUS_UPDATED;
+            $insertedEstate->status = Estates::STATUS_SALE;
             $insertedEstate->save();
         }
     }
