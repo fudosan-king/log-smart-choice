@@ -310,7 +310,8 @@ export default {
         const searchBy = false;
         return {
             logoSliver: logoSliver,
-            iLocationBlack: iLocationBlack
+            iLocationBlack: iLocationBlack,
+            searchBy: searchBy
         };
     }
 };
