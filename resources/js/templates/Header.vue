@@ -25,7 +25,7 @@
     <header v-else-if="page === 'detail'">
         <div class="navbar navbar-expand-lg bsnav bsnav-transparent">
             <a class="navbar-brand" v-bind:href="'/'"
-                ><img v-bind:src="logoBlack" alt="" class="img-fluid" width="217"
+                ><img v-bind:src="logoBlack" alt="" class="img-fluid" width="220"
             /></a>
             <div class="collapse navbar-collapse justify-content-md-end">
                 <ul class="navbar-nav navbar-mobile mr-0">
@@ -51,7 +51,7 @@
     <header class="sub_header" v-else>
         <div class="navbar navbar-expand-lg bsnav">
             <a class="navbar-brand" v-bind:href="'/'"
-                ><img v-bind:src="logoBlack" alt="" class="img-fluid" width="217"
+                ><img v-bind:src="logoBlack" alt="" class="img-fluid" width="220"
             /></a>
             <div class="collapse navbar-collapse justify-content-md-end">
                 <ul class="navbar-nav navbar-mobile mr-0">
@@ -80,7 +80,7 @@ import { mapState } from 'vuex';
 
 export default {
     data() {
-        const logoBlack = '/assets/images/SVG/LogRenove_logo_black.svg';
+        const logoBlack = '/assets/images/SVG/logo_orderrenove_black.svg';
         let page = this.$route.name;
         return {
             page: page,
