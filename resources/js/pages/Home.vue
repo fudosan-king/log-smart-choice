@@ -4,6 +4,7 @@
             <div class="topbanner_content">
                 <p><img src="/assets/images/SVG/text_banner.svg" alt="" class="img-fluid" width="335"></p>
                 <p><img src="/assets/images/SVG/logo_banner.svg" alt="" class="img-fluid" width="453"></p>
+                <p>オーダーリノベ</p>
                 <p class="mb-0">『自分に合った住まい』を考え、新しい暮らしの夢を膨らませませんか？<br>
                 自宅にいながら最適なリノベーションを全力でサポートいたします。</p>
             </div>
