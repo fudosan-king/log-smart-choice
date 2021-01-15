@@ -88,7 +88,7 @@
                 <div class="row">
                     <div class="col-12 col-lg-6 align-self-center">
                         <a href="/"><img v-bind:src="logoSliver" alt="" class="img-fluid" width="169"></a>
-                        <p class="address">〒107-0061　東京都港区北⻘⼭3-6-23（住所が入ります）</p>
+                        <p class="address">〒107-0061　東京都港区北⻘⼭3-6-23</p>
                     </div>
                     <div class="col-12 col-lg-6 align-self-center">
                         <div class="row">
@@ -96,7 +96,6 @@
                                 <p class="mb-0 phone_number">
                                     <span>
                                         <a href="tel:03-6897-8564">03-6897-8564</a>
-                                        <i>年中無休8:00〜18:30</i>
                                     </span>
                                 </p>
                             </div>
@@ -124,7 +123,6 @@
                         <p class="mb-0 phone_number">
                             <span>
                                 <a href="tel:03-6897-8564">03-6897-8564</a>
-                                <i>年中無休8:00〜18:30</i>
                             </span>
                         </p>
                     </div>
