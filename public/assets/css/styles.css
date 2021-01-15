@@ -1728,3 +1728,17 @@ footer .phone_number a {
     -o-object-fit: cover;
        object-fit: cover;
 }
+
+.collapse:not(.show) {
+    display: inline-block;
+}
+
+.navbar-collapse {
+    flex-basis: inherit;
+}
+
+.navbar-nav {
+    -ms-flex-direction: row;
+    flex-direction: row;
+    justify-content: flex-end;
+}
