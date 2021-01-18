@@ -21,7 +21,7 @@
                                 <div class="row">
                                     <div class="col-12 col-lg-5">
                                         <div class="box_intro_left">
-                                            <img src="/assets/images/family1.jpg" alt="" class="img-fluid">
+                                            <img src="/assets/images/family1.png" alt="" class="img-fluid">
                                             <h3>夫婦＋子ども1人</h3>
                                             <ul>
                                                 <li>子どもと暮らしやすい間取りにしたい</li>
