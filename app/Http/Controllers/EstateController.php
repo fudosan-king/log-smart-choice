@@ -143,11 +143,16 @@ class EstateController extends Controller
     private function _insertBeforAfterImage($request, $estate_id){
         try {
             $estate_befor_photo = $request->file('estate_befor_photo');
-            $estate_after_photo = $request->file('estate_after_photo');
         } catch (Exception $e) {
             $estate_befor_photo = null;
+        }
+
+        try {
+            $estate_after_photo = $request->file('estate_after_photo');
+        } catch (Exception $e) {
             $estate_after_photo = null;
         }
+
         if($estate_befor_photo){
             $url_path_befor = $this->_uploadPhoto($estate_id, $estate_befor_photo, '_befor_photo', 'befor_after_photo', 1664, 520, 'maxheight');
             $this->_insertDatabase($estate_id, 'estate_befor_photo', $url_path_befor);
