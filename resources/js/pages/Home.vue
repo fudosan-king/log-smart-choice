@@ -36,8 +36,9 @@
                                     <div class="box_showroom_content">
                                         <h2>SHOWROOM</h2>
                                         <p class="sub_title">ショールーム個別相談</p>
-                                        <p>リノベーションにはどのような方法があるのか、自分にはどんなリノベーションがあっているのかなど、リノベーションに関する質問・疑問にお答えします。<br>
-                                        無垢材を使用したショールームで、皆様のライフスタイルや今後のライフプランに合わせて、私たちが最適なリノベーションを全力でポートさせていただきます。</p>
+                                        <p>リノベーションにはどのような方法があるのか、自分にはどんなリノベーションがあっているのかなど、リノベーショ<br>
+                                        ンに関する質問・疑問にお答えします。無垢材を使用したショールームで、皆様のライフスタイルや今後のライフプラ<br>
+                                        ンに合わせて、私たちが最適なリノベーションを全力でサポートさせていただきます。</p>
                                     </div>
                                 </div>
                             </div>
@@ -55,40 +56,43 @@
                         <article>
                             <p class="article_thumbnail"><a href="https://www.logrenove.jp/events/26102/" target="_blank"><img src="https://www.logrenove.jp/wp-content/uploads/2020/12/IMG_7385-3.jpg" alt="" class="img-fluid"></a></p>
                             <header>
-                                <p class="article_meta">
+                                <!-- <p class="article_meta">
                                     <a href="https://www.logrenove.jp/events/tags/omotesando/" target="_blank">表参道ショールーム</a>
                                     <a href="https://www.logrenove.jp/events/tags/online/" target="_blank">オンライン</a>
                                     <a href="https://www.logrenove.jp/events/tags/virtual-planner/" target="_blank">バーチャルプランナー</a>
-                                </p>
+                                </p> -->
                                 <h2><a href="https://www.logrenove.jp/events/26102/" target="_blank">リノベーション向き物件の探し方｜リノベーション会社だから知っているポイント</a></h2>
                                 <p class="article_summary">
-                                リノベーションに向いている物件探しセミナー<br>
+                                リノベーションに向いている物件探しのお悩みにお答えします!「なかなかいい物件に出会えなくて困っている...」という方も多<br>
+                                いです。リノベーション会社ならではの中古物件の見つけ方、リノベーションのポイントを学び、理想の住まいの実現に生かしま<br>
+                                せんか?
                                 </p>
                             </header>
                         </article>
                         <article>
                             <p class="article_thumbnail"><a href="https://www.logrenove.jp/events/16976/" target="_blank"><img src="https://www.logrenove.jp/wp-content/uploads/2020/11/20200208-013-1.jpg" alt="" class="img-fluid"></a></p>
                             <header>
-                                <p class="article_meta">
-                                </p>
+                                <!-- <p class="article_meta">
+                                </p> -->
                                 <h2><a href="https://www.logrenove.jp/events/16976/" target="_blank">「築浅」or「築古＋リノベ」？中古物件購入＋リノベーション講座｜知っておきたい基礎知識とは？</a></h2>
                                 <p class="article_summary">
-                                イベント内容<br>
-                                一番人気！リノベーションの初心者の方向けの講座です。
+                                中古マンションを買ってリノベーションする際に知っておきたい基礎知識講座です。中古物件を探し際に確認しておきたいことか<br>
+                                ら、資産価値や資金計画など様々なお悩み事を解決してみませんか?
                                 </p>
                             </header>
                         </article>
                         <article>
                             <p class="article_thumbnail"><a href="https://www.logrenove.jp/events/24217/" target="_blank"><img src="https://www.logrenove.jp/wp-content/uploads/2020/11/MG_8605-880x460-1-1.jpg" alt="" class="img-fluid"></a></p>
                             <header>
-                                <p class="article_meta">
+                                <!-- <p class="article_meta">
                                     <a href="https://www.logrenove.jp/events/tags/omotesando/" target="_blank">表参道ショールーム</a>
                                     <a href="https://www.logrenove.jp/events/tags/online/" target="_blank">オンライン</a>
                                     <a href="https://www.logrenove.jp/events/tags/virtual-planner/" target="_blank">バーチャルプランナー</a>
-                                </p>
+                                </p> -->
                                 <h2><a href="https://www.logrenove.jp/events/24217/" target="_blank">中古物件の価格相場とリノベーション費用｜資金に関する基礎講座</a></h2>
                                 <p class="article_summary">
-                                物件購入＋リノベーション費用はいくら？資金に関する基礎講座<br>
+                                物件購入とリノベーション費用について解説する基礎講座。トータルでかかる費用を把握して、予算内で理想の住まいを実現へ!<br>
+                                リノベーション費用の内訳、予算の決め方、ローンの組み方、物件の探し方について疑問を解決しませんか?<br>
                                 </p>
                             </header>
                         </article>
@@ -128,7 +132,7 @@
                                         </a>
                                     </p>
                                     <h3><a href="https://www.logrenove.jp/work/471/" target="_blank">オーナーの「猫愛」が止まらない…猫が縦横無尽に遊ぶ家</a></h3>
-                                    <p><span>すべては猫のために…愛猫家のリノベーションは発想が違う</span></p>
+                                    <!-- <p><span>すべては猫のために…愛猫家のリノベーションは発想が違う</span></p> -->
                                 </article>
                             </li>
                             <li>
@@ -139,7 +143,7 @@
                                         </a>
                                     </p>
                                     <h3><a href="https://www.logrenove.jp/work/569/" target="_blank">リビング内書斎、回遊できるキッチンが「夫婦円満」の秘訣!?</a></h3>
-                                    <p><span>別の部屋にいても、お互いの存在を何となく感じられる間取り</span></p>
+                                    <!-- <p><span>別の部屋にいても、お互いの存在を何となく感じられる間取り</span></p> -->
                                 </article>
                             </li>
                             <li>
@@ -150,7 +154,7 @@
                                         </a>
                                     </p>
                                     <h3><a href="https://www.logrenove.jp/work/655/" target="_blank">こだわったのは無垢材と陽ざしの温もり。子供とともに“成長”する家</a></h3>
-                                    <p><span>子どもと同じ。手がかかるけど可愛い!?</span></p>
+                                    <!-- <p><span>子どもと同じ。手がかかるけど可愛い!?</span></p> -->
                                 </article>
                             </li>
                             <li>
@@ -161,7 +165,7 @@
                                         </a>
                                     </p>
                                     <h3><a href="https://www.logrenove.jp/work/808/" target="_blank">暮らし方、時間の流れさえも変えた「無垢材リノベ」との出会い</a></h3>
-                                    <p><span>「好きなように部屋を変えられる」ならとことんやりたい</span></p>
+                                    <!-- <p><span>「好きなように部屋を変えられる」ならとことんやりたい</span></p> -->
                                 </article>
                             </li>
                         </ul>

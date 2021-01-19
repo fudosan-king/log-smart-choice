@@ -8,7 +8,7 @@
                     </a>
                 </div>
                 <div class="box_property_item_body">
-                    <h2><a v-bind:href="'/detail/' + estate._id">{{ estate.estate_name }}</a></h2>
+                    <h2><a v-bind:href="'/detail/' + estate._id">{{ estate.custom_field ? estate.custom_field.content : "" }}</a></h2>
                     <div class="row">
                         <div class="col-12 col-lg-6">
                             <p>{{ estate.room_count }}{{ estate.service_rooms != '0' ? 'S' : '' }}{{ estate.room_kind }} / {{estate.tatemono_menseki }}㎡</p>

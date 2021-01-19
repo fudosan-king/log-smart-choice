@@ -42,7 +42,7 @@ class EstateController extends Controller
 
         $estates = Estates::select('estate_name', 'price', 'balcony_space',
             'address', 'tatemono_menseki', 'motoduke', 'room_count', 'room_kind',
-            'room_floor', 'land_space', 'homepage', 'photos', 'service_rooms');
+            'room_floor', 'land_space', 'homepage', 'photos', 'service_rooms', 'custom_field');
 
         $estates->where('status', '=', Estates::STATUS_SALE);
 
