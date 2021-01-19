@@ -13,12 +13,12 @@
                         <div class="col-12 col-lg-6">
                             <p>{{ estate.room_count }}{{ estate.service_rooms != '0' ? 'S' : '' }}{{ estate.room_kind }} / {{estate.tatemono_menseki }}㎡</p>
                         </div>
-                        <div class="col-12 col-lg-6">
+                        <!-- <div class="col-12 col-lg-6">
                             <p class="property_info">
                                 <span>30代ご夫婦</span>
                                 <span>お子様2人</span>
                             </p>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

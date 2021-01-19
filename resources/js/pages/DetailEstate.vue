@@ -107,41 +107,55 @@
             <div class="box_equiment_carousel">
                 <div class="carousel carousel-main" data-flickity='{"pageDots": false, "contain": true, "wrapAround": true}'>
                     <div class="carousel-cell">
-                        <img src="/assets/images/equipment/1.png" alt="" class="img-fluid">
-                        <p>【キッチン】ホワイトを基調とした清潔感のあるキッチン。使い勝手の良い設備のキッチンで効率よくお料理ができます。</p>
+                        <img src="/assets/images/equipment/1.JPG" alt="" class="img-fluid">
+                        <p>キッチンはフローリングの無垢材と馴染むデザインに。食器洗い洗浄機も備えています。</p>
                     </div>
                     <div class="carousel-cell">
-                        <img src="/assets/images/equipment/2.png" alt="" class="img-fluid">
-                        <p>【キッチン】ホワイトを基調とした清潔感のあるキッチン。使い勝手の良い設備のキッチンで効率よくお料理ができます。</p>
+                        <img src="/assets/images/equipment/2.JPG" alt="" class="img-fluid">
+                        <p>洗面台は忙しい朝にも混雑しないよう2つ設置することも。使い勝手の良いサイドの棚にも無垢材を使用しています。</p>
                     </div>
                     <div class="carousel-cell">
-                        <img src="/assets/images/equipment/3.png" alt="" class="img-fluid">
-                        <p>【キッチン】ホワイトを基調とした清潔感のあるキッチン。使い勝手の良い設備のキッチンで効率よくお料理ができます。</p>
+                        <img src="/assets/images/equipment/3.JPG" alt="" class="img-fluid">
+                        <p>フローリングの無垢材の種類によってお部屋の雰囲気が変わります。アクセントになる天井の梁2本は標準仕様。</p>
                     </div>
                     <div class="carousel-cell">
-                        <img src="/assets/images/equipment/4.png" alt="" class="img-fluid">
-                        <p>【キッチン】ホワイトを基調とした清潔感のあるキッチン。使い勝手の良い設備のキッチンで効率よくお料理ができます。</p>
+                        <img src="/assets/images/equipment/4.JPG" alt="" class="img-fluid">
+                        <p>寝室や子ども部屋も無垢材で。部屋の扉にも無垢材を使用しています。</p>
                     </div>
                     <div class="carousel-cell">
-                        <img src="/assets/images/equipment/5.png" alt="" class="img-fluid">
-                        <p>【キッチン】ホワイトを基調とした清潔感のあるキッチン。使い勝手の良い設備のキッチンで効率よくお料理ができます。</p>
+                        <img src="/assets/images/equipment/5.JPG" alt="" class="img-fluid">
+                        <p>廊下の天井にも無垢材を使用すれば高級感が出ます。玄関には折り畳みベンチの設置も可能です。</p>
+                    </div>
+                    <div class="carousel-cell">
+                        <img src="/assets/images/equipment/6.JPG" alt="" class="img-fluid">
+                        <p>シューズや傘の収納も無垢材で。大きさや設置位置は間取りに合わせて調整いたします。</p>
+                    </div>
+                    <div class="carousel-cell">
+                        <img src="/assets/images/equipment/7.JPG" alt="" class="img-fluid">
+                        <p>浴室は汚れにくく、寒い季節も冷たさを感じにくい床を採用したシステムバスを使用しています。</p>
                     </div>
                 </div>
                 <div class="carousel carousel-nav" data-flickity='{ "asNavFor": ".carousel-main", "contain": true, "pageDots": false, "prevNextButtons": false, "wrapAround": true }'>
                     <div class="carousel-cell">
-                        <img src="/assets/images/equipment/1.png" alt="" class="img-fluid">
+                        <img src="/assets/images/equipment/1.JPG" alt="" class="img-fluid">
                     </div>
                     <div class="carousel-cell">
-                        <img src="/assets/images/equipment/2.png" alt="" class="img-fluid">
+                        <img src="/assets/images/equipment/2.JPG" alt="" class="img-fluid">
                     </div>
                     <div class="carousel-cell">
-                        <img src="/assets/images/equipment/3.png" alt="" class="img-fluid">
+                        <img src="/assets/images/equipment/3.JPG" alt="" class="img-fluid">
                     </div>
                     <div class="carousel-cell">
-                        <img src="/assets/images/equipment/4.png" alt="" class="img-fluid">
+                        <img src="/assets/images/equipment/4.JPG" alt="" class="img-fluid">
                     </div>
                     <div class="carousel-cell">
-                        <img src="/assets/images/equipment/5.png" alt="" class="img-fluid">
+                        <img src="/assets/images/equipment/5.JPG" alt="" class="img-fluid">
+                    </div>
+                    <div class="carousel-cell">
+                        <img src="/assets/images/equipment/6.JPG" alt="" class="img-fluid">
+                    </div>
+                    <div class="carousel-cell">
+                        <img src="/assets/images/equipment/7.JPG" alt="" class="img-fluid">
                     </div>
                 </div>
             </div>
@@ -181,7 +195,7 @@
                             </p>
                             <header>
                                 <h2><a href="#">樺桜</a></h2>
-                                <p>樺桜白くて淡いピンク色の樺桜は清潔感を与え、明るい空間に。無垢材ならではの木の木目や節目、また時とともに移ろう経年変化を楽しめるのも魅力です。</p>
+                                <p>白くて淡いピンク色の樺桜は清潔感を与え、明るい空間に。無垢材ならではの木の木目や節目、また時とともに移ろう経年変化を楽しめるのも魅力です。</p>
                             </header>
                         </article>
                     </li>
@@ -192,8 +206,7 @@
                             </p>
                             <header>
                                 <h2><a href="#">ウォルナット</a></h2>
-                                <p>ヴィンテージな風合いのダークブラウン色は高級感があり味わい深い室内に。<br>
-                                不規則な濃淡の木目は使うほどに味わいがでる人気の樹種です。</p>
+                                <p>ヴィンテージな風合いのダークブラウン色は高級感があり味わい深い室内に。不規則な濃淡の木目は使うほどに味わいがでる人気の樹種です。</p>
                             </header>
                         </article>
                     </li>
