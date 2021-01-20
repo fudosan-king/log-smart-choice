@@ -80,6 +80,11 @@
                             <li><a href="https://www.propolife.co.jp/socialpolicy/">ソーシャルメディアポリシー</a></li>
                         </ul>
                     </div>
+                    <div class="col-12 col-lg-12 text-center">
+                        OrderRenoveでは、「このお部屋でリノベーションをするとしたら...」のプラン事例をご紹介しています。実際のリノベーション<br>
+                        にあたっては、お客様の希望や予算にあわせてご提案いたしますので、参考プランとしてご覧くださいませ。(こちらでご紹介し<br>
+                        ているお部屋をリノベーション済のお部屋として購入することはできません)<br>
+                    </div>
                 </div>
             </div>
         </div>
@@ -87,7 +92,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12 col-lg-6 align-self-center">
-                        <a href="/"><img v-bind:src="logoSliver" alt="" class="img-fluid" width="169"></a>
+                        <a href="https://www.logknot.co.jp/"><img v-bind:src="logoSliver" alt="" class="img-fluid" width="169"></a>
                         <p class="address">〒107-0061　東京都港区北⻘⼭3-6-23</p>
                     </div>
                     <div class="col-12 col-lg-6 align-self-center">
@@ -127,7 +132,7 @@
                         </p>
                     </div>
                     <div class="col-12 col-lg-6 align-self-center">
-                        <a href="https://www.logrenove.jp/contact" class="btn btn_contactus"><span>オンライン問い合わせ</span></a>
+                        <a href="https://www.logrenove.jp/contact" class="btn btn_contactus"><span>お問い合わせ</span></a>
                     </div>
                 </div>
             </div>
