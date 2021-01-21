@@ -207,6 +207,11 @@ h3 {
     box-shadow: none;
 }
 
+.footer_middle .container .row .font-size-note {
+    font-size: 0.875em;
+    padding-top: 10px;
+}
+
 .relative {
     position: relative;
 }
@@ -925,7 +930,7 @@ footer {
 }
 
 footer .footer_top {
-    padding: 20px 0;
+    padding: 20px 20px 0px 0px;
 }
 
 footer .footer_top ul {
@@ -964,9 +969,9 @@ footer .footer_top ul li a {
     padding: 0 15px;
 }
 
-footer .footer_middle {
+/* footer .footer_middle {
     padding: 35px 0;
-}
+} */
 
 footer .footer_middle .address {
     margin-bottom: 0;
@@ -1012,10 +1017,12 @@ footer .footer_last_bottom {
 }
 
 footer .footer_last_bottom .btn_contactus {
-    background: #000;
+    background: #1F91B3;
     color: #fff;
+    border-radius: 0;
     padding: 10px 50px 8px;
     font-size: 0.75em;
+    font-weight: bold;
     position: relative;
 }
 
@@ -1027,20 +1034,14 @@ footer .footer_last_bottom .btn_contactus::before {
     right: 1px;
     bottom: 1px;
     top: 1px;
-    /* border: 1px solid #fff; */
+    border: 1px solid #fff;
 }
 
 footer .footer_last_bottom .btn_contactus:hover {
-    background: transparent;
-    color: #000;
-    border-color: #000;
-}
-
-/* footer .footer_last_bottom .btn_contactus:hover {
     background: #fff;
     color: #1F91B3;
     border-color: #1F91B3;
-} */
+}
 
 footer .footer_last_bottom .phone_number {
     font-size: 1.5em;

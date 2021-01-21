@@ -9,16 +9,16 @@
                         </a>
                     </div>
                     <div class="box_property_item_body">
-                        <h2><a v-bind:href="'/detail/' + estate._id">{{ estate.estate_nam }}</a></h2>
+                        <h2><a v-bind:href="'/detail/' + estate._id">{{ estate.custom_field ? estate.custom_field.content : "" }}</a></h2>
                         <div class="row">
                             <div class="col-12 col-lg-6">
                                 <p>{{ estate.room_count }}{{ estate.service_rooms != '0' ? 'S' : '' }}{{ estate.room_kind }} / {{estate.tatemono_menseki }}㎡</p>
                             </div>
                             <div class="col-12 col-lg-6">
-                                <p class="property_info">
+                                <!-- <p class="property_info">
                                     <span>30代ご夫婦</span>
                                     <span>お子様2人</span>
-                                </p>
+                                </p> -->
                             </div>
                         </div>
                     </div>

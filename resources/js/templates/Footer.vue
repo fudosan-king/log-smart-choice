@@ -80,11 +80,6 @@
                             <li><a href="https://www.propolife.co.jp/socialpolicy/">ソーシャルメディアポリシー</a></li>
                         </ul>
                     </div>
-                    <div class="col-12 col-lg-12 text-center">
-                        OrderRenoveでは、「このお部屋でリノベーションをするとしたら...」のプラン事例をご紹介しています。実際のリノベーション<br>
-                        にあたっては、お客様の希望や予算にあわせてご提案いたしますので、参考プランとしてご覧くださいませ。(こちらでご紹介し<br>
-                        ているお部屋をリノベーション済のお部屋として購入することはできません)<br>
-                    </div>
                 </div>
             </div>
         </div>
@@ -109,12 +104,21 @@
                             </div>
                         </div>
                     </div>
+                    <br>
+                    <br>
+                    <p></p>
+                    <div class="col-12 col-lg-12 text-center font-size-note">
+                        OrderRenoveでは、「このお部屋でリノベーションをするとしたら...」のプラン事例をご紹介しています。実際のリノベーション<br>
+                        にあたっては、お客様の希望や予算にあわせてご提案いたしますので、参考プランとしてご覧くださいませ。(こちらでご紹介し<br>
+                        ているお部屋をリノベーション済のお部屋として購入することはできません)<br>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="footer_bottom">
             <div class="container">
                 <div class="row">
+                    
                     <div class="col-12 col-lg-12">
                         <p>Copyright © <a href="/">LogKnot Inc.</a> All Rights Reserved.</p>
                     </div>
