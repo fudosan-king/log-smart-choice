@@ -253,6 +253,7 @@
 
     footer .footer_middle {
         text-align: center;
+        line-height: 1.1em;
     }
 
     footer .footer_middle .phone_number {
