@@ -33,24 +33,8 @@ class EstateSeeder extends Seeder {
         Permission::generateFor('estates');
 
         $estateDataType = DataType::where('slug', 'estates')->firstOrFail();
-        $dataRow = $this->dataRow($estateDataType, 'id');
-
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'number',
-                'display_name' => __('voyager::seeders.data_rows.id'),
-                'required'     => 1,
-                'browse'       => 0,
-                'read'         => 0,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'order'        => 1,
-            ])->save();
-        }
 
         $dataRow = $this->dataRow($estateDataType, 'estate_name');
-
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'text',
@@ -61,6 +45,21 @@ class EstateSeeder extends Seeder {
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
+                'order'        => 1,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($estateDataType, '_id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'number',
+                'display_name' => __('voyager::seeders.data_rows.id'),
+                'required'     => 1,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
                 'order'        => 1,
             ])->save();
         }
