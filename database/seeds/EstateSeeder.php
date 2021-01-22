@@ -60,7 +60,7 @@ class EstateSeeder extends Seeder {
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 1,
+                'order'        => 2,
             ])->save();
         }
 
@@ -75,7 +75,7 @@ class EstateSeeder extends Seeder {
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'order'        => 2,
+                'order'        => 3,
             ])->save();
         }
 
@@ -99,7 +99,7 @@ class EstateSeeder extends Seeder {
                         '終了' => '終了'
                     ]
                 ],
-                'order'        => 3,
+                'order'        => 4,
             ])->save();
         }
 
@@ -114,7 +114,7 @@ class EstateSeeder extends Seeder {
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 4,
+                'order'        => 5,
             ])->save();
         }
 
@@ -129,7 +129,7 @@ class EstateSeeder extends Seeder {
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'order'        => 5,
+                'order'        => 6,
             ])->save();
         }
 
