@@ -575,7 +575,8 @@ section {
 
 .section_expand_room .box_expand_room .box_intro .box_intro_content img {
     position: relative;
-    right: 40px;
+    /* right: 40px; */
+    left: 8px;
     top: 110px;
 }
 
