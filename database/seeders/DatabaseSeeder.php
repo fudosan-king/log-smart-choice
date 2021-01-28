@@ -2,9 +2,12 @@
 
 namespace Database\Seeders;
 
+use Database\Seeds\PagesSeoSeeder;
 use Database\Seeds\RenovationSeeder;
 use Database\Seeds\SaleSeeder;
 use App\Models\GroupsEstate;
+use Database\Seeds\TagsSeeder;
+use Database\Seeds\VoyagerDatabaseSeeder;
 use Illuminate\Database\Seeder;
 use Database\Seeds\EstateSeeder;
 use Database\Seeds\GroupsSeeder;
@@ -23,7 +26,10 @@ class DatabaseSeeder extends Seeder
             RenovationSeeder::class,
             SaleSeeder::class,
             EstateSeeder::class,
-            GroupsSeeder::class
+            GroupsSeeder::class,
+            PagesSeoSeeder::class,
+            TagsSeeder::class,
+            VoyagerDatabaseSeeder::class,
         ]);
     }
 }

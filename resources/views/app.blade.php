@@ -6,9 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta charset="UTF-8">
-  <title>Log Smart Choice</title>
-  <meta name="description" content=""/>
-  <meta name="keywords" content=""/>
+
+@if ($tags)
+@foreach($tags as $tag)
+@if ($tag->type == 'meta')
+  <{{ $tag->type }} name="{{ $tag->name }}" content="{{ $tag->content }}"/>
+@elseif ($tag->type == 'title')
+  <title>{{ $tag->content }}</title>
+@endif
+@endforeach
+@endif
 
   <link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon_package_v0.16/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon_package_v0.16/favicon-32x32.png">

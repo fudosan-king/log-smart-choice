@@ -17,7 +17,7 @@ class GroupEstateController  extends Controller
         $this->authorize('edit_estate', app('App\Models\Groups'));
         $request->request->add(['item' => $group]);
         $grid = new EstateGrid($request);
-        return view('admin.groups.estate', array('grid' => $grid, 'item' => $group));
+        return view('admin.groups.estates', array('grid' => $grid, 'item' => $group));
     }
 
     public function save($id, Request $request)

@@ -5,6 +5,7 @@ use App\Http\Controllers\EstateController;
 use Illuminate\Support\Facades\Route;
 use TCG\Voyager\Facades\Voyager;
 use App\Http\Controllers\GroupEstateController;
+use App\Http\Controllers\TagsController;
 
 
 Route::group(['/'], function () {
@@ -25,5 +26,7 @@ Route::group(['/'], function () {
         Route::put('/{id}/update', [EstateController::class, 'update'])->name('voyager.estates.update');
         Route::get('/{id}/edit', [EstateController::class, 'edit'])->name('voyager.estates.edit');
     });
+
+    Route::get('/{pageId}/tags', [TagsController::class, 'indexTags'])->name('admin.page.tags.index');
 
 });
