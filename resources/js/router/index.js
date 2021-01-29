@@ -6,6 +6,8 @@ import Login from '../../js/pages/Login.vue';
 import ListEstates from '../../js/pages/ListEstates.vue';
 import DetailEstate from '../../js/pages/DetailEstate.vue';
 import PageNotFound from '../pages/PageNotFound.vue';
+import About from '../pages/About.vue';
+import Contact from '../pages/Contact.vue';
 import store from '../store/index';
 
 // Routes
@@ -32,6 +34,16 @@ const routes = [
         meta: {
             guest: true,
         },
+    },
+    {
+        path: '/about',
+        name: 'about',
+        component: About,
+    },
+    {
+        path: '/contact',
+        name: 'contact',
+        component: Contact,
     },
     { path: "*", component: PageNotFound }
 ]
