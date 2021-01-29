@@ -167,7 +167,7 @@ class TagsSeeder extends Seeder
 
         $menuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
-            'title'   => __('Tags'),
+            'title'   => __('Tags Seo'),
             'url'     => 'admin/tags',
             'route'   => null,
         ]);
