@@ -26,8 +26,8 @@ class TagsSeeder extends Seeder
         if (!$dataType->exists) {
             $dataType->fill([
                 'name'                  => 'tags',
-                'display_name_singular' => __('Tags'),
-                'display_name_plural'   => __('Tags'),
+                'display_name_singular' => __('Tags Seo'),
+                'display_name_plural'   => __('Tags Seo'),
                 'icon'                  => 'voyager-bolt',
                 'model_name'            => 'App\Models\Tags',
                 'controller'            => 'App\\Http\\Controllers\\TagsController',
@@ -78,7 +78,7 @@ class TagsSeeder extends Seeder
 
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'text',
+                'type'         => 'select_dropdown',
                 'display_name' => __('Tag Name'),
                 'required'     => 0,
                 'browse'       => 1,
@@ -87,6 +87,7 @@ class TagsSeeder extends Seeder
                 'add'          => 1,
                 'delete'       => 1,
                 'order'        => 3,
+                'details'      => ["default" => 'name', "options" => ['name' => 'name', 'property' => 'property']],
             ])->save();
         }
 
