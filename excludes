@@ -14,12 +14,7 @@ public/estates
 public/js/app.js
 public/js/frontend.js
 public/storage
-storage/logs
-storage/oauth-private.key
-storage/oauth-public.key
-storage/framework/cache
-storage/framework/sessions
-storage/framework/views
+storage
 report
 vendor/
 .env
