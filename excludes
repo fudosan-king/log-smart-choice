@@ -14,7 +14,7 @@ public/estates
 public/js/app.js
 public/js/frontend.js
 public/storage
-storage
+storage/
 report
 vendor/
 .env
