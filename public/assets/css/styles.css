@@ -1050,6 +1050,16 @@ footer .footer_last_bottom .phone_number {
     font-weight: normal;
 }
 
+footer .footer_arrow {
+    padding: 10px 0;
+}
+
+footer .fixed-right {
+    position: fixed;
+    right: 50px;
+    bottom: 100px;
+}
+
 footer .phone_number {
     color: #000;
     font-size: 1.875em;
