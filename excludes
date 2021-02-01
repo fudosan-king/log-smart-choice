@@ -2,10 +2,12 @@
 .DS_Store
 .git
 .circleci
+.idea
 bootstrap/cache/services.php
 bootstrap/cache/packages.php
 deployment
 docker-config
+docker-data
 node_modules
 public/css
 public/estates
