@@ -10,9 +10,9 @@
 @if ($tags)
 @foreach($tags as $tag)
 @if ($tag->type == 'meta')
-  <{{ $tag->type }} name="{{ $tag->name }}" content="{{ $tag->content }}"/>
+  <{{ $tag->type }} {{ $tag->name }}="{{ $tag->name_content }}" content="{{ $tag->tag_content }}" />
 @elseif ($tag->type == 'title')
-  <title>{{ $tag->content }}</title>
+  <title>{{ $tag->tag_content }}</title>
 @endif
 @endforeach
 @endif

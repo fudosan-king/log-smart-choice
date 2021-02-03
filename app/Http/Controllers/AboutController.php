@@ -19,7 +19,7 @@ class AboutController extends VoyagerBaseController
     public function index(Request $request)
     {
         $title = 'Setting About Company';
-        $aboutSetting = About::where('group', About::ABOUT)->get();
+        $aboutSetting = About::where('group', About::ABOUT)->orderBy('order', 'ASC')->get();
         $this->authorize('browse', app('App\Models\About'));
 
         return view('admin.about.company', array('items' => $aboutSetting, 'title' => $title));
