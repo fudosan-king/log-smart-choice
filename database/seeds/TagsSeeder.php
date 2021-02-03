@@ -91,7 +91,7 @@ class TagsSeeder extends Seeder
             ])->save();
         }
 
-        $dataRow = $this->dataRow($groupsDataType, 'content');
+        $dataRow = $this->dataRow($groupsDataType, 'tag_content');
 
         if (!$dataRow->exists) {
             $dataRow->fill([

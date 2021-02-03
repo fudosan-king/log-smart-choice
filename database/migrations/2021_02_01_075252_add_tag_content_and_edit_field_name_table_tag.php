@@ -33,7 +33,7 @@ class AddTagContentAndEditFieldNameTableTag extends Migration
                         ->where('field', 'type')
                         ->update([
                             'type'    => 'select_dropdown',
-                            'details' => ["default" => 'title', "options" => ['title' => 'title', 'meta' => 'meta']],
+                            'details' => ["default" => 'Title', "options" => ['title' => 'Title', 'meta' => 'Meta']],
                         ]);
                     DB::table('data_rows')
                         ->where('data_type_id', $tags[0]->id)
