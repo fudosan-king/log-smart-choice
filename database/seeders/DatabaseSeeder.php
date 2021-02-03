@@ -11,6 +11,7 @@ use Database\Seeds\VoyagerDatabaseSeeder;
 use Illuminate\Database\Seeder;
 use Database\Seeds\EstateSeeder;
 use Database\Seeds\GroupsSeeder;
+use Database\Seeds\DefaultTagsSEO;
 
 class DatabaseSeeder extends Seeder
 {
@@ -30,6 +31,7 @@ class DatabaseSeeder extends Seeder
             PagesSeoSeeder::class,
             TagsSeeder::class,
             VoyagerDatabaseSeeder::class,
+            DefaultTagsSEO::class,
         ]);
     }
 }

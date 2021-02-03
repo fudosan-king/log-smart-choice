@@ -12,7 +12,7 @@ class About extends Model
 
     use HasFactory;
 
-    const ABOUT = 'about';
+    const ABOUT = 'AboutCompany';
 
     protected $table = "settings";
 

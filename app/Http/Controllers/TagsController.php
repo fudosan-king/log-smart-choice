@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PagesSeo;
+use App\Models\Tags;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use TCG\Voyager\Events\BreadDataAdded;
@@ -35,6 +36,25 @@ class TagsController extends VoyagerCustomController
 
         // Validate fields with ajax
         $val = $this->validateBread($request->all(), $dataType->addRows)->validate();
+
+        // Validate name content
+        $tagType = $request->get('type');
+        $tagName = $request->get('name');
+        $nameContent = $request->get('name_content');
+        if (!$this->_validTag($tagType, $tagName, $nameContent)) {
+            if ($tagName == 'name') {
+                return redirect()->back()->with([
+                    'message'    => 'Meta name only support keywords, description, twitter:card, twitter:site, robots',
+                    'alert-type' => 'error',
+                ]);
+            } else {
+                return redirect()->back()->with([
+                    'message'    => 'Meta property only support og:locale, og:type, og:title, og:description, og:url, og:site_name',
+                    'alert-type' => 'error',
+                ]);
+            }
+        }
+
         $data = $this->insertUpdateData($request, $slug, $dataType->addRows, new $dataType->model_name());
 
         event(new BreadDataAdded($dataType, $data));
@@ -65,7 +85,7 @@ class TagsController extends VoyagerCustomController
         $id = $id instanceof \Illuminate\Database\Eloquent\Model ? $id->{$id->getKeyName()} : $id;
 
         $model = app($dataType->model_name);
-        if ($dataType->scope && $dataType->scope != '' && method_exists($model, 'scope'.ucfirst($dataType->scope))) {
+        if ($dataType->scope && $dataType->scope != '' && method_exists($model, 'scope' . ucfirst($dataType->scope))) {
             $model = $model->{$dataType->scope}();
         }
         if ($model && in_array(SoftDeletes::class, class_uses_recursive($model))) {
@@ -90,6 +110,25 @@ class TagsController extends VoyagerCustomController
 
         // Validate fields with ajax
         $val = $this->validateBread($request->all(), $dataType->editRows, $dataType->name, $id)->validate();
+
+        // Validate name content
+        $tagType = $request->get('type');
+        $tagName = $request->get('name');
+        $nameContent = $request->get('name_content');
+        if (!$this->_validTag($tagType, $tagName, $nameContent)) {
+            if ($tagName == 'name') {
+                return redirect()->back()->with([
+                    'message'    => 'Meta name only support keywords, description, twitter:card, twitter:site, robots',
+                    'alert-type' => 'error',
+                ]);
+            } else {
+                return redirect()->back()->with([
+                    'message'    => 'Meta property only support og:locale, og:type, og:title, og:description, og:url, og:site_name',
+                    'alert-type' => 'error',
+                ]);
+            }
+        }
+
         $this->insertUpdateData($request, $slug, $dataType->editRows, $data);
 
         event(new BreadDataUpdated($dataType, $data));
@@ -101,8 +140,30 @@ class TagsController extends VoyagerCustomController
         }
 
         return $redirect->with([
-            'message'    => __('voyager::generic.successfully_updated')." {$dataType->getTranslatedAttribute('display_name_singular')}",
+            'message'    => __('voyager::generic.successfully_updated') . " {$dataType->getTranslatedAttribute('display_name_singular')}",
             'alert-type' => 'success',
         ]);
+    }
+
+    /**
+     * @param $tagType
+     * @param $tagName
+     * @param $tagContent
+     * @return bool
+     */
+    private function _validTag($tagType, $tagName, $tagContent)
+    {
+        if ($tagType == 'meta') {
+            if ($tagName == 'name') {
+                if (!in_array($tagContent, Tags::TAG_NAME_CONTENT)) {
+                    return false;
+                }
+            } else {
+                if (!in_array($tagContent, Tags::TAG_PROPERTY_CONTENT)) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

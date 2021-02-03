@@ -91,7 +91,7 @@ class TagsSeeder extends Seeder
             ])->save();
         }
 
-        $dataRow = $this->dataRow($groupsDataType, 'content');
+        $dataRow = $this->dataRow($groupsDataType, 'tag_content');
 
         if (!$dataRow->exists) {
             $dataRow->fill([
@@ -105,39 +105,6 @@ class TagsSeeder extends Seeder
                 'delete'       => 1,
                 'order'        => 4,
             ])->save();
-        }
-
-        // Default page SEO
-
-        $pageDefault = PagesSeo::where('name', 'default')->first();
-        $tagDefault = Tags::where('page_id', $pageDefault->id)->get();
-        if ($pageDefault && $tagDefault->isEmpty()) {
-            Tags::insert([
-                [
-                    'type'    => 'title',
-                    'name'    => '',
-                    'content' => 'Title for default page',
-                    'page_id' => $pageDefault->id,
-                    'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-                    'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
-                ],
-                [
-                    'type'    => 'meta',
-                    'name'    => 'keyword',
-                    'content' => 'Meta keyword for default page',
-                    'page_id' => $pageDefault->id,
-                    'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-                    'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
-                ],
-                [
-                    'type'    => 'meta',
-                    'name'    => 'description',
-                    'content' => 'Meta description for default page',
-                    'page_id' => $pageDefault->id,
-                    'created_at' => DB::raw('CURRENT_TIMESTAMP'),
-                    'updated_at' => DB::raw('CURRENT_TIMESTAMP'),
-                ],
-            ]);
         }
 
         $dataRow = $this->dataRow($groupsDataType, 'page_id');
@@ -155,7 +122,7 @@ class TagsSeeder extends Seeder
                 'add'          => 1,
                 'delete'       => 1,
                 'order'        => 5,
-                'details'      => ["default" => $allPage[1], "options" => $allPage],
+                'details'      => ["default" => array_shift($allPage), "options" => $allPage],
             ])->save();
         }
 
