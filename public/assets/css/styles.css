@@ -1775,3 +1775,8 @@ footer .phone_number a {
     flex-direction: row;
     justify-content: flex-end;
 }
+
+#main .estate_info {
+    padding-top: 50px;
+    padding-bottom: 0px;
+}
