@@ -6,7 +6,7 @@
         </div>
     </section>
 
-    <section class="section_topinfo">
+    <section class="section_topinfo estate_info">
         <div class="container">
             <div class="row">
                 <div class="col-12 col-lg-12">
