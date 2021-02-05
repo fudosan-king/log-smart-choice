@@ -442,6 +442,16 @@ section {
     font-family: 'Noto Serif JP', serif;
 }
 
+.td-info-estate {
+    width: 40%;
+}
+
+.prices {
+    font-weight: bold;
+    font-size: 1.5em;
+    font-family: 'Noto Serif JP', serif;
+}
+
 .section_topinfo .box_price p.prices .number {
     font-size: 0.8333em;
 }
