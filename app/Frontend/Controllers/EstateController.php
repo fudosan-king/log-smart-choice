@@ -92,7 +92,8 @@ class EstateController extends Controller
             'room_count', 'room_kind', 'tatemono_menseki', 'photos',
             'balcony_space', 'structure', 'room_floor', 'total_houses', 'built_date', 'delivery',
             'renovation_done_date', 'house_status', 'delivery_date_type',
-            'management_company', 'management_scope', 'land_rights', 'trade_type', 'date_last_modified')
+            'management_company', 'management_scope', 'land_rights', 'trade_type', 'date_last_modified',
+            'estate_equipment', 'estate_flooring')
             ->where('_id', $id)
             ->where('status', '=', Estates::STATUS_SALE)
             ->get()->toArray();

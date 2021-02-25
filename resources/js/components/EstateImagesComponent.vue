@@ -2,7 +2,7 @@
 <div class="form-group hp_photo_wrap" id="hp_photo_wrap">
     <ul id="sortable">
         <draggable @start="drag=true" @end="drag=false">
-        <li id="imageInfo" v-for="image, idx in images">
+        <li id="imageInfo" v-for="(image, idx) in images" :key="idx">
             <h3>Image</h3>
             <div class="img-wrap" style="text-align: right;">
                 <a class="remove-image" @click="removeImage(idx)">&times;</a>
@@ -29,7 +29,7 @@
         props: ['data'],
         data(){
             if (this.data) {
-                const renovation_media = this.data;
+                const renovation_media = (JSON.parse(this.data)).renovation_media;
                 let images = [];
                 for(let i = 0; i < renovation_media.length; i++){
                     const url = renovation_media[i]['url_path'];

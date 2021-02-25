@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\MongoController as Controller;
-use App\Block\Grid as Grid;
 use App\Models\EstateInformation;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use TCG\Voyager\Facades\Voyager;
@@ -24,27 +22,11 @@ class EstateController extends Controller
         'comment_textarea' => 'Comment'
     );
 
-    private function _loadImages($estate_id, $default='renovation'){
-        $estate = EstateInformation::where('estate_id', $estate_id)->get()->first();
-        if ($estate) {
-            switch ($default) {
-                case 'renovation':
-                    $imagesData = $estate->getRenovationMedia();
-                    break;
-                case 'main':
-                    $imagesData = $estate->getMainPhoto();
-                    break;
-                case 'befor_after':
-                    $imagesData = $estate->getBeforAfterPhoto();
-                    break;
-                default:
-                    $imagesData = $estate->getRenovationMedia();
-                    break;
-            }
-        } else {
-            $imagesData = null;
-        }
-        return $imagesData;
+    private function _loadImagesEstateInformation($estate_id, $default='renovation'){
+        $estate = EstateInformation::select('renovation_media', 'estate_befor_photo',
+            'estate_after_photo', 'estate_main_photo', 'estate_equipment', 'estate_flooring')
+            ->where('estate_id', $estate_id)->get()->first();
+        return $estate ? $estate : [];
     }
     /*
     $resizeOption = ['exact', 'maxwidth', 'maxheight']
@@ -261,9 +243,87 @@ class EstateController extends Controller
         // Check permission
         $this->authorize('edit', $data);
 
+        $customerField = $this->_setCustomField($request);
+        $descriptionUrlImageLeft = '';
+        $descriptionUrlImageRight = '';
+
+        // Check estate description photo or hidden photo exist
+        if ($request->hasFile('estate_description_left_photo')) {
+            $estateDescriptionLeftPhoto = $request->file('estate_description_left_photo');
+            $imageName = explode('.', $estateDescriptionLeftPhoto->getClientOriginalName());
+            $descriptionUrlImageLeft = $this->_uploadPhoto($id, $estateDescriptionLeftPhoto, $imageName[0], 'images');
+        } elseif ($request->has('estate_description_left_photo_hidden')) {
+            $descriptionUrlImageLeft = $request->get('estate_description_left_photo_hidden');
+        }
+
+        if ($request->hasFile('estate_description_right_photo')) {
+            $estateDescriptionRightPhoto = $request->file('estate_description_right_photo');
+            $imageName = explode('.', $estateDescriptionRightPhoto->getClientOriginalName());
+            $descriptionUrlImageRight = $this->_uploadPhoto($id, $estateDescriptionRightPhoto, $imageName[0], 'images');
+        } elseif ($request->has('estate_description_right_photo_hidden')) {
+            $descriptionUrlImageRight = $request->get('estate_description_right_photo_hidden');
+        }
+
+        $descriptionEstate = [
+            'description_title' => htmlspecialchars($request->get('description_title'), ENT_QUOTES),
+            'description_content' => htmlspecialchars($request->get('description_content'), ENT_QUOTES),
+            'description_url_image_left' => $descriptionUrlImageLeft,
+            'description_url_image_right' => $descriptionUrlImageRight,
+        ];
+
+        // set custom field description estate
+        foreach( $descriptionEstate as $key => $value) {
+            $customerField[$key] = $value;
+        }
+        $customerField = array_merge($customerField, $descriptionEstate);
+        $request['custom_field'] = $customerField;
+
+        // slide Equiment
+        $slidesEquipment = [];
+        if ($request->has('estate_image_equipment_hidden')) {
+            $slideEquipmentHiddenCount = count($request->get('estate_image_equipment_hidden'));
+
+            for ($i = 0; $i < $slideEquipmentHiddenCount; $i++) {
+                $slideEquipment = null;
+                $urlSlideEquipment = $request->get('estate_image_equipment_hidden')[$i];
+                if (isset($request->file('estate_image_equipment')[$i])) {
+                    $slideEquipment = $request->file('estate_image_equipment')[$i];
+                    $urlSlideEquipment = $this->_uploadPhoto($id, $slideEquipment, $i, 'slides_equipment');
+                }
+
+                $slidesEquipment[] = [
+                    'slide_equipment' => $urlSlideEquipment,
+                    'caption_equipment' => $request->get('estate_image_equipment_caption')[$i],
+                ];
+            }
+        }
+
+        // flooring
+        $flooring = [];
+        if ($request->has('estate_image_flooring_hidden')) {
+            $imageFlooringCount = count($request->get('estate_image_flooring_hidden'));
+            for ($i = 0; $i < $imageFlooringCount; $i++) {
+                $slideEquipment = null;
+                $urlImageFlooring = $request->get('estate_image_flooring_hidden')[$i];
+                if (isset($request->file('estate_image_flooring')[$i])) {
+                    $imageFlooring = $request->file('estate_image_flooring')[$i];
+                    $urlImageFlooring = $this->_uploadPhoto($id, $imageFlooring, $i, 'flooring');
+                }
+
+                $flooring[] = [
+                    'flooring_image_url' => $urlImageFlooring,
+                    'flooring_title' => $request->get('estate_flooring_title')[$i],
+                    'flooring_content' => $request->get('estate_flooring_content')[$i],
+                ];
+            }
+        }
+
         // Validate fields with ajax
-        $request['custom_field'] = $this->_setCustomField($request);
         $this->validateBread($request->all(), $dataType->editRows, $dataType->name, $id)->validate();
+        // estate equipment
+        $this->_insertDatabase($id, 'estate_equipment', $slidesEquipment);
+        // estate flooring
+        $this->_insertDatabase($id, 'estate_flooring', $flooring);
         $this->insertUpdateData($request, $slug, $dataType->editRows, $data);
 
         if (auth()->user()->can('browse', app($dataType->model_name))) {
@@ -317,12 +377,17 @@ class EstateController extends Controller
 
         // Eagerload Relations
         $this->eagerLoadRelations($dataTypeContent, $dataType, 'edit', $isModelTranslatable);
-        $imagesData = $this->_loadImages($id, 'renovation');
-        $mainPhoto = $this->_loadImages($id, 'main');
-        $beforAfterPhoto = $this->_loadImages($id, 'befor_after');
+        $estateInfo = $this->_loadImagesEstateInformation($id);
+//        $imagesData = $this->_loadImages($id, 'renovation');
+//        $mainPhoto = $this->_loadImages($id, 'main');
+//        $beforAfterPhoto = $this->_loadImages($id, 'befor_after');
+//        $equipmentSlide = $this->_loadImages($id, 'estate_equipment');
+//        $flooring = $this->_loadImages($id, 'estate_flooring');
         $mapLabel = $this->mapLabel;
 
-        return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'imagesData', 'mainPhoto', 'beforAfterPhoto', 'mapLabel'));
+        return Voyager::view($view, compact('dataType',
+            'dataTypeContent', 'isModelTranslatable', 'mapLabel', 'estateInfo'
+        ));
     }
 
     public function show(Request $request, $id)
@@ -373,11 +438,17 @@ class EstateController extends Controller
             $view = "voyager::$slug.read";
         }
 
-        $imagesData = $this->_loadImages($id, 'renovation');
-        $mainPhoto = $this->_loadImages($id, 'main');
-        $beforAfterPhoto = $this->_loadImages($id, 'befor_after');
+//        $imagesData = $this->_loadImages($id, 'renovation');
+//        $mainPhoto = $this->_loadImages($id, 'main');
+//        $beforAfterPhoto = $this->_loadImages($id, 'befor_after');
+//        $equipmentSlide = $this->_loadImages($id, 'estate_equipment');
+//        $flooring = $this->_loadImages($id, 'estate_flooring');
+        $estateInfo = $this->_loadImagesEstateInformation($id);
         $mapLabel = $this->mapLabel;
 
-        return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'isSoftDeleted', 'imagesData', 'mainPhoto', 'beforAfterPhoto', 'mapLabel'));
+        return Voyager::view($view, compact('dataType',
+            'dataTypeContent', 'isModelTranslatable', 'isSoftDeleted',
+            'mapLabel', 'estateInfo'
+        ));
     }
 }

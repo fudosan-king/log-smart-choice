@@ -45,13 +45,7 @@
     <div class="page-content read container-fluid">
         <div class="row">
             <div class="col-md-12">
-                @php
-                    if ($imagesData) {
-                @endphp
-                        <vuecarousel-component :data=@json($imagesData)></vuecarousel-component>
-                @php
-                    }
-                @endphp
+                <vuecarousel-component :data="'{{ $estateInfo }}'"></vuecarousel-component>
             </div>
 
             <div class="col-md-12">
@@ -60,7 +54,9 @@
                     <!-- form start -->
                     @foreach($dataType->readRows as $row)
                         @php
-                        if ($row->field == 'custom_field') { continue; }
+                        if ($row->field == 'custom_field' ||
+                            $row->field == 'estate_equipment' ||
+                                $row->field == 'estate_flooring') { continue; }
                         if ($dataTypeContent->{$row->field.'_read'}) {
                             $dataTypeContent->{$row->field} = $dataTypeContent->{$row->field.'_read'};
                         }
@@ -147,7 +143,6 @@
                                 @endif
                             @else
                                 @include('voyager::multilingual.input-hidden-bread-read')
-                                <p>{{ $dataTypeContent->{$row->field} }}</p>
                             @endif
                         </div><!-- panel-body -->
                         @if(!$loop->last)
@@ -165,6 +160,17 @@
                     @php
                     }
                     @endphp
+                    <h3 class="panel-title">Description</h3>
+                    <hr>
+                    <estate-description-component style="padding: 10px;" :data="'{{ $dataTypeContent }}'" :data_read="true"></estate-description-component>
+
+                    <h3 class="panel-title">Slide Equipment</h3>
+                    <hr>
+                    <estate-equipment-component style="padding: 10px;" :data="'{{ $estateInfo }}'" :data_read="true"></estate-equipment-component>
+
+                    <h3 class="panel-title">Flooring</h3>
+                    <hr>
+                    <estate-flooring-component style="padding: 10px;" :data="'{{ $estateInfo }}'" :data_read="true"></estate-flooring-component>
                 </div>
             </div>
         </div>

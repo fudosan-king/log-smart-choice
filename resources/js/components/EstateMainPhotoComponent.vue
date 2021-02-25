@@ -1,7 +1,11 @@
 <template>
-<div>
-    <img class="estate_image_url main-photo" v-bind:src="url_path" />
-    <input class="estate_image_file" name="estate_main_photo" type="file" @change="onFileChange"/>
+<div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6">
+        <img class="estate_image_url main-photo" v-bind:src="url_path" />
+        <input class="estate_image_file" name="estate_main_photo" type="file" @change="onFileChange"/>
+    </div>
+    <div class="col-sm-3"></div>
 </div>
 </template>
 
@@ -11,7 +15,7 @@
         data(){
             let url_path = '/images/image-main.jpeg';
             if (this.data){
-                url_path = this.data;
+                url_path = this.data.estate_main_photo;
             }
             return {
                 url_path: url_path
