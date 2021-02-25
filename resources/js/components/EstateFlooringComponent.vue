@@ -39,8 +39,8 @@ export default {
     props: ['data', 'data_read'],
     data() {
         let floorings = [];
-        let data  = JSON.parse(this.data);
-        if (data) {
+        if ((Object.keys(JSON.parse(this.data)).length) > 0) {
+            let data  = JSON.parse(this.data);
             const estateFloorings = data.estate_flooring;
             if (estateFloorings) {
                 for (let i = 0; i < estateFloorings.length; i++) {

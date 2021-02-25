@@ -26,7 +26,7 @@ class EstateController extends Controller
         $estate = EstateInformation::select('renovation_media', 'estate_befor_photo',
             'estate_after_photo', 'estate_main_photo', 'estate_equipment', 'estate_flooring')
             ->where('estate_id', $estate_id)->get()->first();
-        return $estate ? $estate : [];
+        return $estate ? $estate : '{}';
     }
     /*
     $resizeOption = ['exact', 'maxwidth', 'maxheight']
@@ -383,6 +383,7 @@ class EstateController extends Controller
 //        $beforAfterPhoto = $this->_loadImages($id, 'befor_after');
 //        $equipmentSlide = $this->_loadImages($id, 'estate_equipment');
 //        $flooring = $this->_loadImages($id, 'estate_flooring');
+
         $mapLabel = $this->mapLabel;
 
         return Voyager::view($view, compact('dataType',

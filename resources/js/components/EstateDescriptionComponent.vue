@@ -9,6 +9,13 @@
                 @change="onFileChangeLeft"
                 v-if="readOnly"
             />
+            <input
+                class="estate_description_left_photo"
+                name="estate_description_left_photo"
+                @change="onFileChangeLeft"
+                type="file"
+                v-else
+            />
             <input type="hidden" :value="url_path_left" name="estate_description_left_photo_hidden" />
         </div>
         <div class="col-md-6 text-left estate-description-images">
@@ -19,6 +26,13 @@
                 type="hidden"
                 @change="onFileChangeRight"
                 v-if="readOnly"
+            />
+            <input
+                class="estate_description_right_photo"
+                name="estate_description_right_photo"
+                @change="onFileChangeRight"
+                type="file"
+                v-else
             />
             <input type="hidden" :value="url_path_right" name="estate_description_right_photo_hidden" />
         </div>
