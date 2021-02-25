@@ -29,8 +29,15 @@ class MongoController extends VoyagerBaseController
         $searchNames = [];
         if ($dataType->server_side) {
             $dataRow = Voyager::model('DataRow')->whereDataTypeId($dataType->id)->orderBy('order', 'asc')->get();
+            $count = count($dataRow);
+            $i = 0;
             foreach ($dataRow as $key => $row) {
-              $searchNames[$row->field] = $row->display_name;
+                if ($i > 3 && $count > 3) {
+                    continue;
+                } else {
+                    $searchNames[$row->field] = $row->display_name;
+                }
+                $i++;
             }
         }
 

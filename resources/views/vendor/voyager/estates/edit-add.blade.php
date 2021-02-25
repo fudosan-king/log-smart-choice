@@ -47,7 +47,12 @@
                         @endif
 
                         @foreach($dataType->addRows as $row)
-                        @php if ($row->field == 'custom_field') { continue; } @endphp
+                        @php if ($row->field == 'custom_field' ||
+                                $row->field == 'estate_equipment' ||
+                                $row->field == 'estate_flooring') {
+                                continue;
+                                }
+                        @endphp
                         <div class="form-group">
                             <label for="name">{{ $row->getTranslatedAttribute('display_name') }}</label>
 
@@ -91,20 +96,33 @@
                         }
                         @endphp
 
+                        <h1>Description</h1>
+                        <hr>
+                        <div class="col-md-12 ">
+                            <estate-description-component :data="'{{ $dataTypeContent }}'" :data_read="false"></estate-description-component>
+                        </div>
+                        
+
                         <h1>Main Photo</h1>
                         <hr>
-                        <estatemainphoto-component :data="'{{ $mainPhoto }}'"></estatemainphoto-component>
+                        <estatemainphoto-component :data="{{ $estateInfo }}"></estatemainphoto-component>
 
                         <h1>Befor/After</h1>
                         <hr>
-                        <estatebeforafter-component :befor="'{{ $beforAfterPhoto[0] }}'" :after="'{{ $beforAfterPhoto[1] }}'"></estatebeforafter-component>
+                        <estatebeforafter-component :befor="'{{ isset($estateInfo->estate_befor_photo) ? $estateInfo->estate_befor_photo : '' }}'" :after="'{{ isset($estateInfo->estate_after_photo) ? $estateInfo->estate_after_photo : '' }}'"></estatebeforafter-component>
 
 
                         <h1>Photos</h1>
                         <hr>
-                        <estateimage-component :data=@json($imagesData)></estateimage-component>
+                        <estateimage-component :data="'{{ $estateInfo }}'"></estateimage-component>
 
+                        <h1>Slide Equipment</h1>
+                        <hr>
+                        <estate-equipment-component :data="'{{ $estateInfo }}'" :data_read="false"></estate-equipment-component>
 
+                        <h1>Flooring</h1>
+                        <hr>
+                        <estate-flooring-component :data="'{{ $estateInfo }}'" :data_read="false"></estate-flooring-component>
 
                     </div><!-- panel-body -->
 

@@ -1,13 +1,16 @@
 <template>
-<div>
-    <div class="col-md-6 text-center">
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-4 text-center">
         <img v-bind:src="url_path_befor" class="estate_image_url befor-photo">
-        <input name="estate_befor_photo" type="file" @change="onFileChangeBefor">
+        <input name="estate_befor_photo" class="estate_befor_photo" type="file" @change="onFileChangeBefor">
     </div>
-    <div class="col-md-6 text-center">
+    <div class="col-md-2"></div>
+    <div class="col-md-4 text-center">
         <img v-bind:src="url_path_after" class="estate_image_url after-photo">
-        <input name="estate_after_photo" type="file" @change="onFileChangeAfter">
+        <input name="estate_after_photo" class="estate_after_photo" type="file" @change="onFileChangeAfter">
     </div>
+    <div class="col-md-1"></div>
 </div>
 </template>
 

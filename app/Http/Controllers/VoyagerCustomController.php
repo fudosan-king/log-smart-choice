@@ -35,10 +35,16 @@ class VoyagerCustomController extends VoyagerBaseController
 
         $searchNames = [];
         if ($dataType->server_side) {
-            $searchable = Voyager::model('DataRow')->whereDataTypeId($dataType->id)->orderBy('order')->get();
-            foreach ($searchable as $key => $value) {
-                $displayName = ucwords(str_replace('_', ' ', $value->field));
-                $searchNames[$value->field] = $displayName;
+            $searchAble = Voyager::model('DataRow')->whereDataTypeId($dataType->id)->orderBy('order')->get();
+            $count = count($searchAble);
+            $i = 0;
+            foreach ($searchAble as $key => $value) {
+                if ($i > 3 && $count > 3) {
+                    continue;
+                } else {
+                    $displayName = ucwords(str_replace('_', ' ', $value->field));
+                    $searchNames[$value->field] = $displayName;
+                }
             }
         }
 

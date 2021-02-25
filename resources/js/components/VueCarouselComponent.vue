@@ -11,9 +11,10 @@
 	    },
 	    props: ['data'],
 	    data() {
-	    	let slider = [];
-	      	for(let i=0; i < this.data.length; i++){
-	      		slider.push('<div class="example-slide"><img src=' + this.data[i]['url_path'] + '/> </div>');
+            let slider = [];
+            let data = JSON.parse(this.data).renovation_media;
+	      	for(let i=0; i < data.length; i++){
+	      		slider.push('<div class="example-slide"><img src=' + data[i]['url_path'] +'> </div>');
 	      	}
 	      	return {
 	        	slider: slider

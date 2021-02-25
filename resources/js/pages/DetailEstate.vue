@@ -6,7 +6,7 @@
         </div>
     </section>
 
-    <section class="section_topinfo">
+    <section class="section_topinfo estate_info">
         <div class="container">
             <div class="row">
                 <div class="col-12 col-lg-12">
@@ -15,7 +15,7 @@
                             <div class="row no-gutters">
                                 <div class="col-12 col-lg-3 align-self-center">
                                     <div class="box_topinfo_img">
-                                        <img src="images/building.jpg" alt="" class="img-fluid" />
+                                        <img src="/assets/images/building.jpg" alt="" class="img-fluid" />
                                     </div>
                                 </div>
                                 <div class="col-12 col-lg-9 align-self-center">
@@ -162,10 +162,17 @@
                                 <div class="row">
                                     <div class="col-12 col-lg-5">
                                         <div class="box_intro_left">
-                                            <img src="/assets/images/family1.png" alt="" class="img-fluid">
-                                            <h3>夫婦＋子ども1人</h3>
-                                            <ul>
-                                                <li>子どもと暮らしやすい間取りにしたい</li>
+                                            <img v-if="estate.custom_field" :src="estate.custom_field.description_url_image_left" alt="" class="img-fluid">
+                                            <img v-else src="/assets/images/family1.png" alt="" class="img-fluid">
+                                            <h3 v-if="estate.custom_field" v-html="estate.custom_field.description_title"></h3>
+                                            <h3 v-else>Description title</h3>
+                                            <ul v-if="estate.custom_field" class="estate-description-content">
+                                                <pre id="pre-description">
+                                                    <li v-html="estate.custom_field.description_content"></li>
+                                                </pre>
+                                            </ul>
+                                            <ul v-else>
+                                                <li>Description content</li>
                                             </ul>
                                         </div>
                                     </div>
@@ -174,12 +181,13 @@
                                             <div class="row no-gutters">
                                                 <div class="col-8 col-lg-7">
                                                     <div class="box_intro_content_text">
-                                                        <p v-if="estate.custom_field" v-html="estate.custom_field.comment"></p>
+                                                        <p v-if="estate.custom_field">{{ (estate.custom_field.comment).replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/\t/g, "\\t") }}</p>
                                                         <p v-else>Comment</p>
                                                     </div>
                                                 </div>
                                                 <div class="col-4 col-lg-5">
-                                                    <img src="/assets/images/waves.png" alt="" class="img-fluid" width="209">
+                                                    <img v-if="estate.custom_field" :src="estate.custom_field.description_url_image_right" alt="" class="img-fluid">
+                                                    <img v-else src="/assets/images/waves.png" alt="" class="img-fluid">
                                                 </div>
                                             </div>
                                         </div>
@@ -246,57 +254,15 @@
             <p class="describe">建具はフローリングと同じく天然無垢材を使用。シンプルで飽きのこないデザインに仕上がります。<br>
             快適に心地よく暮らせる住まいのために、食器洗い乾燥機や浴室暖房乾燥機、温水洗浄付きトイレなど設備にもこだわっています。</p>
             <div class="box_equiment_carousel">
-                <div class="carousel carousel-main" data-flickity='{"pageDots": false, "contain": true, "wrapAround": true}'>
-                    <div class="carousel-cell">
-                        <img src="/assets/images/equipment/1.JPG" alt="" class="img-fluid">
-                        <p>キッチンはフローリングの無垢材と馴染むデザインに。食器洗い洗浄機も備えています。</p>
-                    </div>
-                    <div class="carousel-cell">
-                        <img src="/assets/images/equipment/2.JPG" alt="" class="img-fluid">
-                        <p>洗面台は忙しい朝にも混雑しないよう2つ設置することも。使い勝手の良いサイドの棚にも無垢材を使用しています。</p>
-                    </div>
-                    <div class="carousel-cell">
-                        <img src="/assets/images/equipment/3.JPG" alt="" class="img-fluid">
-                        <p>フローリングの無垢材の種類によってお部屋の雰囲気が変わります。アクセントになる天井の梁2本は標準仕様。</p>
-                    </div>
-                    <div class="carousel-cell">
-                        <img src="/assets/images/equipment/4.JPG" alt="" class="img-fluid">
-                        <p>寝室や子ども部屋も無垢材で。部屋の扉にも無垢材を使用しています。</p>
-                    </div>
-                    <div class="carousel-cell">
-                        <img src="/assets/images/equipment/5.JPG" alt="" class="img-fluid">
-                        <p>廊下の天井にも無垢材を使用すれば高級感が出ます。玄関には折り畳みベンチの設置も可能です。</p>
-                    </div>
-                    <div class="carousel-cell">
-                        <img src="/assets/images/equipment/6.JPG" alt="" class="img-fluid">
-                        <p>シューズや傘の収納も無垢材で。大きさや設置位置は間取りに合わせて調整いたします。</p>
-                    </div>
-                    <div class="carousel-cell">
-                        <img src="/assets/images/equipment/7.JPG" alt="" class="img-fluid">
-                        <p>浴室は汚れにくく、寒い季節も冷たさを感じにくい床を採用したシステムバスを使用しています。</p>
+                <div class="carousel carousel-main">
+                    <div class="carousel-cell" v-for="slide in estateInfo.estate_equipment" :key="slide.slide_equipment">
+                        <img :src="slide.slide_equipment" alt="" class="img-fluid">
+                        <p>{{ slide.caption_equipment }}</p>
                     </div>
                 </div>
-                <div class="carousel carousel-nav" data-flickity='{ "asNavFor": ".carousel-main", "contain": true, "pageDots": false, "prevNextButtons": false, "wrapAround": true }'>
-                    <div class="carousel-cell">
-                        <img src="/assets/images/equipment/1.JPG" alt="" class="img-fluid">
-                    </div>
-                    <div class="carousel-cell">
-                        <img src="/assets/images/equipment/2.JPG" alt="" class="img-fluid">
-                    </div>
-                    <div class="carousel-cell">
-                        <img src="/assets/images/equipment/3.JPG" alt="" class="img-fluid">
-                    </div>
-                    <div class="carousel-cell">
-                        <img src="/assets/images/equipment/4.JPG" alt="" class="img-fluid">
-                    </div>
-                    <div class="carousel-cell">
-                        <img src="/assets/images/equipment/5.JPG" alt="" class="img-fluid">
-                    </div>
-                    <div class="carousel-cell">
-                        <img src="/assets/images/equipment/6.JPG" alt="" class="img-fluid">
-                    </div>
-                    <div class="carousel-cell">
-                        <img src="/assets/images/equipment/7.JPG" alt="" class="img-fluid">
+                <div class="carousel carousel-nav">
+                    <div class="carousel-cell" v-for="slide in estateInfo.estate_equipment" :key="slide.slide_equipment">
+                        <img :src="slide.slide_equipment" alt="" class="img-fluid">
                     </div>
                 </div>
             </div>
@@ -318,6 +284,17 @@
                 <p class="subtitle2">天然無垢材は樹種によって、色味や木目が異なり、お部屋の仕上がりも大きく印象が変わります。<br>
                 本物の木だからこその味わいがお部屋のデザイン性を高めてくれます。</p>
                 <ul>
+                    <li v-for="estateImage in estateInfo.estate_flooring" :key="estateImage.flooring_image_url">
+                        <article>
+                            <p class="article_thumbnail">
+                                <a href="#"><img :src="estateImage.flooring_image_url" alt="" class="img-fluid"></a>
+                            </p>
+                            <header>
+                                <h2><a href="#">{{ estateImage.flooring_title }}</a></h2>
+                                <p>{{ estateImage.flooring_content }}</p>
+                            </header>
+                        </article>
+                    </li>
                     <li>
                         <article>
                             <p class="article_thumbnail">
@@ -326,39 +303,6 @@
                             <header>
                                 <h2><a href="#">オーク材</a></h2>
                                 <p>落ち着きのある明るいベージュ色が、さわやかな雰囲気を演出。はっきりとした美しい木目で耐久性にも優れています。</p>
-                            </header>
-                        </article>
-                    </li>
-                    <li>
-                        <article>
-                            <p class="article_thumbnail">
-                                <a href="#"><img src="/assets/images/flooring/2.png" alt="" class="img-fluid"></a>
-                            </p>
-                            <header>
-                                <h2><a href="#">樺桜</a></h2>
-                                <p>白くて淡いピンク色の樺桜は清潔感を与え、明るい空間に。無垢材ならではの木の木目や節目、また時とともに移ろう経年変化を楽しめるのも魅力です。</p>
-                            </header>
-                        </article>
-                    </li>
-                    <li>
-                        <article>
-                            <p class="article_thumbnail">
-                                <a href="#"><img src="/assets/images/flooring/3.png" alt="" class="img-fluid"></a>
-                            </p>
-                            <header>
-                                <h2><a href="#">ウォルナット</a></h2>
-                                <p>ヴィンテージな風合いのダークブラウン色は高級感があり味わい深い室内に。不規則な濃淡の木目は使うほどに味わいがでる人気の樹種です。</p>
-                            </header>
-                        </article>
-                    </li>
-                    <li>
-                        <article>
-                            <p class="article_thumbnail">
-                                <a href="#"><img src="/assets/images/flooring/4.png" alt="" class="img-fluid"></a>
-                            </p>
-                            <header>
-                                <h2><a href="#">チーク材</a></h2>
-                                <p>濃い黄金色と美しい木目は、経年変化によってより落ち着いた色に深みを増していきます。耐久・耐水性がよく、白アリや害虫に強いというメリットもあります。</p>
                             </header>
                         </article>
                     </li>
@@ -372,7 +316,6 @@
 <script>
 
     import moment from 'moment';
-
     export default {
         data() {
             return {
@@ -381,6 +324,7 @@
                 slider: [],
                 haveEstate: false,
                 moment,
+                estateInfo: [],
                 // transports: [],
             }
         },
@@ -404,10 +348,15 @@
                                     this.slider.push(this.estate['estate_information']['renovation_media'][i]['url_path']);
                                 }
                             }
+
+                            if (typeof (this.estate['estate_information']) != 'undefined') {
+                                this.estateInfo = this.estate['estate_information'];
+                            }
                         }
                     })
                     .catch(err => {
-                        this.$router.push('/');
+                        // this.$router.push('/');
+                        console.log(err);
                     }
                 );
             },
@@ -417,6 +366,18 @@
                 wrapAround: true,
                 prevNextButtons: false,
                 autoPlay: true
+            });
+            $('.carousel-main').flickity({
+                pageDots: false,
+                contain: true,
+                wrapAround : true,
+            });
+            $('.carousel-nav').flickity({
+                asNavFor: ".carousel-main",
+                contain: true,
+                pageDots: false,
+                prevNextButtons: false,
+                wrapAround: true ,
             });
         }
     };
