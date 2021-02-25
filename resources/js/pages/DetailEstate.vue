@@ -295,17 +295,6 @@
                             </header>
                         </article>
                     </li>
-                    <li>
-                        <article>
-                            <p class="article_thumbnail">
-                                <a href="#"><img src="/assets/images/flooring/1.png" alt="" class="img-fluid"></a>
-                            </p>
-                            <header>
-                                <h2><a href="#">オーク材</a></h2>
-                                <p>落ち着きのある明るいベージュ色が、さわやかな雰囲気を演出。はっきりとした美しい木目で耐久性にも優れています。</p>
-                            </header>
-                        </article>
-                    </li>
                 </ul>
             </div>
         </div>
