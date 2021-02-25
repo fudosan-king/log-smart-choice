@@ -28,7 +28,7 @@
         },
         props: ['data'],
         data(){
-            if (this.data) {
+            if ((Object.keys(JSON.parse(this.data)).length) > 0) {
                 const renovation_media = (JSON.parse(this.data)).renovation_media;
                 let images = [];
                 for(let i = 0; i < renovation_media.length; i++){

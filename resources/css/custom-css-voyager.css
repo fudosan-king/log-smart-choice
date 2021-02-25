@@ -10,7 +10,8 @@ div > div > div > .left-photo,
 div > div > div > .right-photo,
 .estate_description_left_photo,
 .estate_description_right_photo {
-    width: 60%;
+    width: 30%;
+    height: auto;
 }
 
 .estate-description-images {

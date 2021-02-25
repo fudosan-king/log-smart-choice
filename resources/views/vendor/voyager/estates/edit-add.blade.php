@@ -105,7 +105,7 @@
 
                         <h1>Main Photo</h1>
                         <hr>
-                        <estatemainphoto-component :data="{{ $estateInfo }}"></estatemainphoto-component>
+                        <estatemainphoto-component :data="'{{ $estateInfo }}'"></estatemainphoto-component>
 
                         <h1>Befor/After</h1>
                         <hr>
