@@ -89,7 +89,7 @@ export default {
                 .replace(/\t/g, '\\t')
         );
         let customField = '';
-        if (typeof data.custom_field != 'undefined') {
+        if (Object.keys(data.custom_field).length > 0) {
             customField = data.custom_field;
             if (customField.description_url_image_left) {
                 url_path_left = customField.description_url_image_left;
