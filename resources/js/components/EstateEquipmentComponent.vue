@@ -64,8 +64,8 @@ export default {
         let slides = [];
         if ((Object.keys(JSON.parse(this.data)).length) > 0) {
             let data = JSON.parse(this.data);
-            const slidesEquipment = data.estate_equipment;
-            if (slidesEquipment) {
+            if (typeof data.estate_equipment != 'undefined') {
+                const slidesEquipment = data.estate_equipment;
                 for (let i = 0; i < slidesEquipment.length; i++) {
                     slides.push([slidesEquipment[i]['slide_equipment'], slidesEquipment[i]['caption_equipment']]);
                 }

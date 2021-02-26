@@ -72,7 +72,6 @@
                 v-else
             ></textarea>
         </div>
-
     </div>
 </template>
 
@@ -89,7 +88,7 @@ export default {
                 .replace(/\t/g, '\\t')
         );
         let customField = '';
-        if (Object.keys(data.custom_field).length > 0) {
+        if (typeof data.custom_field != 'undefined') {
             customField = data.custom_field;
             if (customField.description_url_image_left) {
                 url_path_left = customField.description_url_image_left;

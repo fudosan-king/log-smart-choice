@@ -41,8 +41,8 @@ export default {
         let floorings = [];
         if ((Object.keys(JSON.parse(this.data)).length) > 0) {
             let data  = JSON.parse(this.data);
-            const estateFloorings = data.estate_flooring;
-            if (estateFloorings) {
+            if (typeof data.estate_flooring != 'undefined') {
+                const estateFloorings = data.estate_flooring;
                 for (let i = 0; i < estateFloorings.length; i++) {
                     floorings.push([
                         estateFloorings[i]['flooring_image_url'],
