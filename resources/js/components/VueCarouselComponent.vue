@@ -12,7 +12,7 @@
 	    props: ['data'],
 	    data() {
             let slider = [];
-            if ((Object.keys(JSON.parse(this.data)).length) > 0) {
+            if (typeof JSON.parse(this.data) != 'undefined') {
                 let data = JSON.parse(this.data).renovation_media;
                 for(let i=0; i < data.length; i++){
                     slider.push('<div class="example-slide"><img src=' + data[i]['url_path'] +'> </div>');
