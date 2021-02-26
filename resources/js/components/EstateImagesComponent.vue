@@ -28,7 +28,7 @@
         },
         props: ['data'],
         data(){
-            if (typeof JSON.parse(this.data) != 'undefined') {
+            if (typeof JSON.parse(this.data).renovation_media != 'undefined') {
                 const renovation_media = (JSON.parse(this.data)).renovation_media;
                 let images = [];
                 for(let i = 0; i < renovation_media.length; i++){
