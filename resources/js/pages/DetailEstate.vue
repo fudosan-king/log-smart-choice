@@ -338,7 +338,7 @@
                                 }
                             }
 
-                            if (typeof (this.estate['estate_information']) != 'undefined') {
+                            if (Object.keys(this.estate['estate_information']).length > 0) {
                                 this.estateInfo = this.estate['estate_information'];
                             }
                         }
