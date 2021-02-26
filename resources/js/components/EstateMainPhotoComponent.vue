@@ -14,7 +14,7 @@
         props: ['data'],
         data(){
             let url_path = '/images/image-main.jpeg';
-            if ((Object.keys(JSON.parse(this.data)).length) > 0) {
+            if (typeof JSON.parse(this.data) != 'undefined') {
                 url_path = (JSON.parse(this.data)).estate_main_photo;
             }
 

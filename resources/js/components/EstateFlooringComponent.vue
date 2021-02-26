@@ -39,7 +39,7 @@ export default {
     props: ['data', 'data_read'],
     data() {
         let floorings = [];
-        if ((Object.keys(JSON.parse(this.data)).length) > 0) {
+        if (typeof JSON.parse(this.data) != 'undefined') {
             let data  = JSON.parse(this.data);
             if (typeof data.estate_flooring != 'undefined') {
                 const estateFloorings = data.estate_flooring;
