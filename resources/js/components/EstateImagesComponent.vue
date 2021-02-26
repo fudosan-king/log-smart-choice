@@ -31,14 +31,14 @@
             let images = [];
             if ((JSON.parse(this.data)).renovation_media) {
                 const renovation_media = (JSON.parse(this.data)).renovation_media;
-                let images = [];
                 for(let i = 0; i < renovation_media.length; i++){
                     const url = renovation_media[i]['url_path'];
                     images.push([url, renovation_media[i]['description']]);
                 }
             }
-            return {images: images}
-            
+            return {
+                images: images,
+            }
         },
         methods: {
             addImage(){

@@ -39,9 +39,9 @@ export default {
     props: ['data', 'data_read'],
     data() {
         let floorings = [];
-        if (typeof JSON.parse(this.data) != 'undefined') {
+        if (JSON.parse(this.data)) {
             let data  = JSON.parse(this.data);
-            if (typeof data.estate_flooring != 'undefined') {
+            if (data.estate_flooring) {
                 const estateFloorings = data.estate_flooring;
                 for (let i = 0; i < estateFloorings.length; i++) {
                     floorings.push([

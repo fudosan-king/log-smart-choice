@@ -62,9 +62,9 @@ export default {
     props: ['data', 'data_read'],
     data() {
         let slides = [];
-        if (typeof JSON.parse(this.data) != 'undefined') {
+        if (JSON.parse(this.data)) {
             let data = JSON.parse(this.data);
-            if (typeof data.estate_equipment != 'undefined') {
+            if (data.estate_equipment) {
                 const slidesEquipment = data.estate_equipment;
                 for (let i = 0; i < slidesEquipment.length; i++) {
                     slides.push([slidesEquipment[i]['slide_equipment'], slidesEquipment[i]['caption_equipment']]);
