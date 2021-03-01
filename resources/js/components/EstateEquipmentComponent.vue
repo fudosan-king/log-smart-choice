@@ -64,10 +64,12 @@ export default {
         let slides = [];
         if (JSON.parse(this.data).length) {
             let data = JSON.parse(this.data);
-            if (data.estate_equipment) {
-                const slidesEquipment = data.estate_equipment;
-                for (let i = 0; i < slidesEquipment.length; i++) {
-                    slides.push([slidesEquipment[i]['slide_equipment'], slidesEquipment[i]['caption_equipment']]);
+            if (Object.keys(data).length) {
+                if (typeof JSON.parse(data).estate_equipment != 'undefined') {
+                    const slidesEquipment = data.estate_equipment;
+                    for (let i = 0; i < slidesEquipment.length; i++) {
+                        slides.push([slidesEquipment[i]['slide_equipment'], slidesEquipment[i]['caption_equipment']]);
+                    }
                 }
             }
         }
