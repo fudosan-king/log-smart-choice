@@ -89,7 +89,7 @@ export default {
         );
         let customField = '';
         if (Object.keys(data)) {
-            if (typeof JSON.parse(data).custom_field != 'undefined') {
+            if (typeof data.custom_field != 'undefined') {
                 customField = data.custom_field;
                 if (customField.description_url_image_left) {
                     url_path_left = customField.description_url_image_left;

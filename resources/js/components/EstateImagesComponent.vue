@@ -29,9 +29,10 @@
         props: ['data'],
         data(){
             let images = [];
-            if (Object.keys(JSON.parse(this.data))) {
-                if (typeof (JSON.parse(this.data)).renovation_media != 'undefined') {
-                    const renovation_media = (JSON.parse(this.data)).renovation_media;
+            let data = JSON.parse(this.data);
+            if (Object.keys(data)) {
+                if (typeof data.renovation_media != 'undefined') {
+                    const renovation_media = data.renovation_media;
                     for(let i = 0; i < renovation_media.length; i++) {
                         const url = renovation_media[i]['url_path'];
                         images.push([url, renovation_media[i]['description']]);
