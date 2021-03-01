@@ -12,11 +12,12 @@
 	    props: ['data'],
 	    data() {
             let slider = [];
-            if (Object.keys(this.data)) {
-                if (typeof (JSON.parse(this.data)).renovation_media != 'undefined') {
-                    let data = JSON.parse(this.data).renovation_media;
-                    for(let i=0; i < data.length; i++){
-                        slider.push('<div class="example-slide"><img src=' + data[i]['url_path'] +'> </div>');
+            let data = JSON.parse(this.data);
+            if (Object.keys(data)) {
+                if (typeof data.renovation_media != 'undefined') {
+                    let renovationMedia = data.renovation_media;
+                    for(let i=0; i < renovationMedia.length; i++){
+                        slider.push('<div class="example-slide"><img src=' + renovationMedia[i]['url_path'] +'> </div>');
                     }
                 }
             }
