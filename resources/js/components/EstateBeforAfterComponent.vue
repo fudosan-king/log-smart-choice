@@ -20,13 +20,13 @@
         data(){
             let url_path_befor = '/images/befor.png';
             
-            if (Object.keys(JSON.parse(this.befor)).length){
+            if (Object.keys(JSON.parse(this.befor))){
                 if (typeof (JSON.parse(this.after)).estate_befor_photo != 'undefined') {
                     url_path_befor = (JSON.parse(this.befor)).estate_befor_photo;
                 }
             }
             let url_path_after = '/images/after.png';
-            if (Object.keys(JSON.parse(this.after)).length){
+            if (Object.keys(JSON.parse(this.after))){
                 if (typeof (JSON.parse(this.after)).estate_after_photo != 'undefined') {
                     url_path_after = (JSON.parse(this.after)).estate_after_photo;
                 }

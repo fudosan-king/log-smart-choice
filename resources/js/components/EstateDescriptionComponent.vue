@@ -44,14 +44,14 @@
                 :value="customField.description_title"
                 class="form-control"
                 readonly
-                 v-if="readOnly"
+                v-if="readOnly"
             />
             <input
                 name="description_title"
                 type="text"
                 :value="customField.description_title"
                 class="form-control"
-                 v-else
+                v-else
             />
         </div>
         <div class="form-group">
@@ -88,14 +88,16 @@ export default {
                 .replace(/\t/g, '\\t')
         );
         let customField = '';
-        if (data.length) {
-            customField = data.custom_field;
-            if (customField.description_url_image_left) {
-                url_path_left = customField.description_url_image_left;
-            }
+        if (Object.keys(data)) {
+            if (typeof JSON.parse(data).custom_field != 'undefined') {
+                customField = data.custom_field;
+                if (customField.description_url_image_left) {
+                    url_path_left = customField.description_url_image_left;
+                }
 
-            if (customField.description_url_image_right) {
-                url_path_right = customField.description_url_image_right;
+                if (customField.description_url_image_right) {
+                    url_path_right = customField.description_url_image_right;
+                }
             }
         }
 

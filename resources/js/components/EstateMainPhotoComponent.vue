@@ -14,8 +14,10 @@
         props: ['data'],
         data(){
             let url_path = '/images/image-main.jpeg';
-            if (JSON.parse(this.data).estate_main_photo) {
-                url_path = (JSON.parse(this.data)).estate_main_photo;
+            if (Object.keys(JSON.parse(this.data))) {
+                if (typeof JSON.parse(this.data).estate_main_photo != 'undefined') {
+                    url_path = (JSON.parse(this.data)).estate_main_photo;
+                }
             }
 
             return {

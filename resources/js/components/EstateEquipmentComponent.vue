@@ -62,9 +62,9 @@ export default {
     props: ['data', 'data_read'],
     data() {
         let slides = [];
-        if (JSON.parse(this.data).length) {
+        if (JSON.parse(this.data)) {
             let data = JSON.parse(this.data);
-            if (Object.keys(data).length) {
+            if (Object.keys(data)) {
                 if (typeof JSON.parse(data).estate_equipment != 'undefined') {
                     const slidesEquipment = data.estate_equipment;
                     for (let i = 0; i < slidesEquipment.length; i++) {
