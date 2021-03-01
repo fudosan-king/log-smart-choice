@@ -29,7 +29,7 @@
         props: ['data'],
         data(){
             let images = [];
-            if (Object.keys(JSON.parse(this.data)).length) {
+            if (Object.keys(JSON.parse(this.data))) {
                 if (typeof (JSON.parse(this.data)).renovation_media != 'undefined') {
                     const renovation_media = (JSON.parse(this.data)).renovation_media;
                     for(let i = 0; i < renovation_media.length; i++) {

@@ -12,12 +12,15 @@
 	    props: ['data'],
 	    data() {
             let slider = [];
-            if ((JSON.parse(this.data)).renovation_media) {
-                let data = JSON.parse(this.data).renovation_media;
-                for(let i=0; i < data.length; i++){
-                    slider.push('<div class="example-slide"><img src=' + data[i]['url_path'] +'> </div>');
+            if (Object.keys(this.data)) {
+                if (typeof (JSON.parse(this.data)).renovation_media != 'undefined') {
+                    let data = JSON.parse(this.data).renovation_media;
+                    for(let i=0; i < data.length; i++){
+                        slider.push('<div class="example-slide"><img src=' + data[i]['url_path'] +'> </div>');
+                    }
                 }
             }
+
 	      	return {
 	        	slider: slider
 	      	};
