@@ -62,7 +62,7 @@ export default {
     props: ['data', 'data_read'],
     data() {
         let slides = [];
-        if (JSON.parse(this.data)) {
+        if (JSON.parse(this.data).length) {
             let data = JSON.parse(this.data);
             if (data.estate_equipment) {
                 const slidesEquipment = data.estate_equipment;
