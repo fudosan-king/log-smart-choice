@@ -1,7 +1,7 @@
 <template>
 	<div class="col-12 col-lg-12">
 	    <ul class="list_property" v-on:scroll="handleScroll">
-            <li v-for="(estate, index) in estates" v-bind:class="{'estate-last' : index === (estates.length-1)}">
+            <li v-for="(estate, index) in estates" :key="index._id" v-bind:class="{'estate-last' : index === (estates.length-1)}">
                 <div class="box_property_item">
                     <div class="box_property_item_img">
                         <a v-bind:href="'/detail/' + estate._id">

@@ -29,11 +29,13 @@
         props: ['data'],
         data(){
             let images = [];
-            if ((JSON.parse(this.data)).length) {
-                const renovation_media = (JSON.parse(this.data)).renovation_media;
-                for(let i = 0; i < renovation_media.length; i++){
-                    const url = renovation_media[i]['url_path'];
-                    images.push([url, renovation_media[i]['description']]);
+            if (Object.keys(JSON.parse(this.data)).length) {
+                if (typeof (JSON.parse(this.data)).renovation_media != 'undefined') {
+                    const renovation_media = (JSON.parse(this.data)).renovation_media;
+                    for(let i = 0; i < renovation_media.length; i++) {
+                        const url = renovation_media[i]['url_path'];
+                        images.push([url, renovation_media[i]['description']]);
+                    }
                 }
             }
             return {
