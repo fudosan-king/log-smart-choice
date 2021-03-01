@@ -19,12 +19,12 @@
         props: ['befor', 'after'],
         data(){
             let url_path_befor = '/images/befor.png';
-            if (this.befor){
-                url_path_befor = this.befor;
+            if (JSON.parse(this.befor).length){
+                url_path_befor = JSON.parse(this.befor);
             }
             let url_path_after = '/images/after.png';
-            if (this.after){
-                url_path_after = this.after;
+            if (JSON.parse(this.after).length){
+                url_path_after = JSON.parse(this.after);
             }
             return {
                 url_path_befor: url_path_befor,

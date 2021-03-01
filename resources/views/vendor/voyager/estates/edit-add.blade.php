@@ -109,7 +109,7 @@
 
                         <h1>Befor/After</h1>
                         <hr>
-                        <estatebeforafter-component :befor="'{{ isset($estateInfo->estate_befor_photo) ? $estateInfo->estate_befor_photo : '' }}'" :after="'{{ isset($estateInfo->estate_after_photo) ? $estateInfo->estate_after_photo : '' }}'"></estatebeforafter-component>
+                        <estatebeforafter-component :befor="'{{ $estateInfo }}'" :after="'{{ $estateInfo }}'"></estatebeforafter-component>
 
 
                         <h1>Photos</h1>

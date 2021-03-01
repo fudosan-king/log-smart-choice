@@ -88,7 +88,7 @@ export default {
                 .replace(/\t/g, '\\t')
         );
         let customField = '';
-        if (data.custom_field) {
+        if (data.length) {
             customField = data.custom_field;
             if (customField.description_url_image_left) {
                 url_path_left = customField.description_url_image_left;
