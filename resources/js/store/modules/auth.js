@@ -1,10 +1,12 @@
 import axios from 'axios';
+import Vue from 'vue';
+import globalVaiable from '../../../js/globalHelper';
 
-
+Vue.use(globalVaiable);
 const state = {
     status: '',
-    token: localStorage.getItem('access_token') || '',
-    refreshToken: localStorage.getItem('refresh_token') || '',
+    token: Vue.prototype.$getCookie('accessToken') ? Vue.prototype.$getCookie('accessToken') : '',
+    refreshToken: Vue.prototype.$getCookie('refreshToken') ? Vue.prototype.$getCookie('refreshToken') : '',
     customer: {}
 };
 const getters = {
@@ -19,10 +21,14 @@ const actions = {
     login({ commit }, customer) {
         return new Promise((resolve, reject) => {
             commit('auth_request');
+            const customAxios = axios.create({
+                baseURL: `${process.env.MIX_APP_URL}`
+            });
             let auth = {
                 username: `${process.env.MIX_BASIC_AUTH_USERNAME}`,
                 password: `${process.env.MIX_BASIC_AUTH_PASSWORD}`,
             }
+            
             axios({
                 url: '/login', data: customer, method: 'POST', headers: {
                     'content-type': 'application/json',
@@ -30,19 +36,46 @@ const actions = {
                 auth: auth,
             })
                 .then(resp => {
-                    const customerInfo = {
-                        token: resp.data.access_token,
-                        customer: resp.data.customer,
-                        refreshToken: resp.data.refresh_token,
-                    }
-                    localStorage.setItem('access_token', customerInfo.token);
-                    localStorage.setItem('refresh_token', customerInfo.refreshToken);
-                    commit('auth_success', customerInfo);
-                    resolve(resp);
+                    let clientId = resp.data.client_id;
+                    let clientSecret = resp.data.client_secret;
+                    let accessToken = {
+                        "grant_type": "password",
+                        "client_id": clientId,
+                        "client_secret": clientSecret,
+                        "username": customer.email,
+                        "password": customer.password,
+                        "scope": "*"
+                    };
+                    this._vm.$setCookie('clientId', clientId, 1);
+                    this._vm.$setCookie('clientSecret', clientSecret, 1);
+                    this._vm.$setCookie('userName', resp.data.customer.name, 1);
+
+                    customAxios({
+                        url: '/oauth/token', data: accessToken, method: 'POST', headers: {
+                            'content-type': 'application/json',
+                        },
+                        auth: auth,
+                    })
+                        .then(resp => {
+                            const tokenInfo = {
+                                token: resp.data.access_token,
+                                refreshToken: resp.data.refresh_token,
+                            }
+                            this._vm.$setCookie('accessToken', tokenInfo.token, 1);
+                            this._vm.$setCookie('refreshToken', tokenInfo.refreshToken, 1);
+
+                            commit('auth_success', tokenInfo);
+                            resolve(resp);
+                        }).catch(err => {
+                            commit('auth_error');
+                            reject(err);
+                        });
                 })
                 .catch(err => {
                     commit('auth_error');
-                    localStorage.removeItem('access_token');
+                    this._vm.$setCookie('accessToken', '', 1);
+                    this._vm.$setCookie('clientId', '', 1);
+                    this._vm.$setCookie('clientSecret', '', 1);
                     reject(err);
                 });
         });
@@ -51,7 +84,7 @@ const actions = {
     logout({ commit }) {
         return new Promise((resolve, reject) => {
             commit('logout');
-            let accessToken = localStorage.getItem('access_token');
+            let accessToken = this._vm.$getCookie('accessToken', '', 1);
             let auth = {
                 username: `${process.env.MIX_BASIC_AUTH_USERNAME}`,
                 password: `${process.env.MIX_BASIC_AUTH_PASSWORD}`,
@@ -64,14 +97,18 @@ const actions = {
                 auth: auth,
             })
                 .then(resp => {
-                    localStorage.removeItem('access_token');
-                    localStorage.removeItem('refresh_token');
+                    this._vm.$setCookie('accessToken', '', 1);
+                    this._vm.$setCookie('refreshToken', '', 1);
+                    this._vm.$setCookie('clientId', '', 1);
+                    this._vm.$setCookie('clientSecret', '', 1);
+                    this._vm.$setCookie('userName', '', 1);
                     delete axios.defaults.headers.common['Authorization'];
                     resolve(resp);
                 })
                 .catch(err => {
                     commit('auth_error');
-                    localStorage.removeItem('access_token');
+                    this._vm.$setCookie('accessToken', '', 1);
+                    this._vm.$setCookie('refreshToken', '', 1);
                     reject(err);
                 });
             resolve();
@@ -80,32 +117,43 @@ const actions = {
 
     refreshToken({ commit }) {
         return new Promise((resolve, reject) => {
-            let accessToken = localStorage.getItem('access_token');
-            let refreshToken = localStorage.getItem('refresh_token');
+            let refreshToken = this._vm.$getCookie('refreshToken');
+            let clientId = this._vm.$getCookie('clientId');
+            let clientSecret = this._vm.$getCookie('clientSecret');
             let auth = {
                 username: `${process.env.MIX_BASIC_AUTH_USERNAME}`,
                 password: `${process.env.MIX_BASIC_AUTH_PASSWORD}`,
-            }
-            axios({
-                url: '/login', method: 'PUT', headers: {
+            };
+            let getAccessToken = {
+                "grant_type": "refresh_token",
+                "refresh_token": refreshToken,
+                "client_id": clientId,
+                "client_secret": clientSecret,
+                "scope": "*"
+            };
+
+            const customAxios = axios.create({
+                baseURL: `${process.env.MIX_APP_URL}`
+            });
+            
+            customAxios({
+                url: '/oauth/token', data: getAccessToken, method: 'POST', headers: {
                     'content-type': 'application/json',
-                    'AuthorizationBearer': `Bearer ${accessToken}`,
                     'Refreshtoken': `${refreshToken}`,
                 },
                 auth: auth,
             }).then((response) => {
-                const customerInfo = {
+                const tokenInfo = {
                     accessToken: response.data.access_token,
-                    refreshToken: response.data.refresh_token,
-                    customer: response.data.customer,
+                    refreshToken: response.data.refresh_token
                 }
-                localStorage.setItem('access_token', customerInfo.accessToken);
-                localStorage.setItem('refresh_token', customerInfo.refreshToken);
-                commit('refreshToken', customerInfo);
+                this._vm.$setCookie('accessToken', tokenInfo.accessToken, 1);
+                this._vm.$setCookie('refreshToken', tokenInfo.refreshToken, 1);
+                commit('refreshToken', tokenInfo);
                 resolve(response);
             }).catch(error => {
-                localStorage.removeItem('access_token');
-                localStorage.removeItem('refresh_token');
+                this._vm.$setCookie('accessToken', '', 1);
+                this._vm.$setCookie('refreshToken', '', 1);
                 commit('logout');
                 reject(error);
             });
@@ -116,11 +164,10 @@ const mutations = {
     auth_request(state) {
         state.status = 'loading';
     },
-    auth_success(state, customerInfo) {
+    auth_success(state, tokenInfo) {
         state.status = 'success';
-        state.token = customerInfo.token;
-        state.refreshToken = customerInfo.refreshToken;
-        state.customer = customerInfo.customer;
+        state.token = tokenInfo.token;
+        state.refreshToken = tokenInfo.refreshToken;
     },
     auth_error(state) {
         state.status = 'error';
@@ -130,11 +177,10 @@ const mutations = {
         state.token = '';
         state.refreshToken = '';
     },
-    refreshToken(state, customerInfo) {
+    refreshToken(state, tokenInfo) {
         state.status = 'success';
-        state.token = customerInfo.accessToken;
-        state.refreshToken = customerInfo.refreshToken;
-        state.customer = customerInfo.customer;
+        state.token = tokenInfo.accessToken;
+        state.refreshToken = tokenInfo.refreshToken;
     },
 };
 export default {

@@ -87,7 +87,12 @@ class LoginController extends Controller
                 if ($customer->validateForPassportPasswordGrant($request->password)) {
                     $client = $this->_getCustomerClient();
                     if ($client) {
-                        return $this->getAccessToken($client, request('email'), request('password'), $customer);
+                        return response()->json([
+                            "message"       => "Success",
+                            'client_id'     => $client->id,
+                            'client_secret' => $client->secret,
+                            'customer' => $customer,
+                        ], 200);
                     }
                 }
                 $response = ["message" => Lang::get('auth.password_or_email_wrong')];
@@ -165,7 +170,7 @@ class LoginController extends Controller
                 return $result;
             }
         } catch (\Exception $e) {
-            return response()->json("unauthorized", 401);
+            return response()->json($e->getMessage(), 401);
         }
     }
 
