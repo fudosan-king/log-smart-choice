@@ -42,6 +42,7 @@
   </div>
 
   <script src="{{ asset('/js/frontend.js') }}"></script>
+  <script src="{{ asset('/js/globalHelper.js') }}"></script>
   <script src="/assets/js/jquery.min.js"></script>
   <script src="/assets/js/bootstrap.bundle.min.js"></script>
   <script src="/assets/js/flickity.pkgd.min.js"></script>

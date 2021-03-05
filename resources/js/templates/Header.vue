@@ -6,10 +6,10 @@
                     <li class="nav-item">
                         <a class="nav-link" href="https://www.logknot.co.jp/">会社概要</a>
                     </li>
-                    <!-- <li v-if="customerInfo.name" class="nav-item nav-header">
-                        <a class="nav-link">ようこそ {{ customerInfo.name }} 様。</a>
+                    <li v-if="customerInfo" class="nav-item nav-header">
+                        <a class="nav-link">ようこそ {{ customerInfo }} 様。</a>
                     </li>
-                    <li v-if="customerInfo.name" class="nav-item nav-header">
+                    <li v-if="customerInfo" class="nav-item nav-header">
                         <a class="nav-link" v-on:click="logout">
                             <img alt="" class="img-fluid" width="16" /> ログアウト
                         </a>
@@ -17,7 +17,7 @@
 
                     <li v-else class="nav-item">
                         <a class="nav-link" v-bind:href="'/login'"><span>ログイン</span></a>
-                    </li> -->
+                    </li>
                 </ul>
             </div>
         </div>
@@ -32,10 +32,10 @@
                     <li class="nav-item">
                         <a class="nav-link" href="https://www.logknot.co.jp/">会社概要</a>
                     </li>
-                    <!-- <li v-if="customerInfo.name" class="nav-item nav-header">
-                        <a class="nav-link">ようこそ {{ customerInfo.name }} 様。</a>
+                    <li v-if="customerInfo" class="nav-item nav-header">
+                        <a class="nav-link">ようこそ {{ customerInfo }} 様。</a>
                     </li>
-                    <li v-if="customerInfo.name" class="nav-item nav-header">
+                    <li v-if="customerInfo" class="nav-item nav-header">
                         <a class="nav-link" v-on:click="logout">
                             <img alt="" class="img-fluid" width="16" /> ログアウト
                         </a>
@@ -43,7 +43,7 @@
 
                     <li v-else class="nav-item">
                         <a class="nav-link" v-bind:href="'/login'"><span>ログイン</span></a>
-                    </li> -->
+                    </li>
                 </ul>
             </div>
         </div>
@@ -58,10 +58,10 @@
                     <li class="nav-item">
                         <a class="nav-link" href="https://www.logknot.co.jp/">会社概要</a>
                     </li>
-                    <!-- <li v-if="customerInfo.name" class="nav-item nav-header">
-                        <a class="nav-link">ようこそ {{ customerInfo.name }} 様。</a>
+                    <li v-if="customerInfo" class="nav-item nav-header">
+                        <a class="nav-link">ようこそ {{ customerInfo }} 様。</a>
                     </li>
-                    <li v-if="customerInfo.name" class="nav-item nav-header">
+                    <li v-if="customerInfo" class="nav-item nav-header">
                         <a class="nav-link" v-on:click="logout">
                             <img alt="" class="img-fluid" width="16" /> ログアウト
                         </a>
@@ -69,7 +69,7 @@
 
                     <li v-else class="nav-item">
                         <a class="nav-link" v-bind:href="'/login'"><span>ログイン</span></a>
-                    </li> -->
+                    </li>
                 </ul>
             </div>
         </div>
@@ -81,7 +81,11 @@ import { mapState } from 'vuex';
 export default {
     data() {
         const logoBlack = '/assets/images/SVG/logo_orderrenove_black.svg';
-        let page = this.$route.name;
+        let page = '';
+        if (this.$route.name) {
+            page = this.$route.name;
+        }
+
         return {
             page: page,
             logoBlack: logoBlack
@@ -92,16 +96,21 @@ export default {
             this.$store
                 .dispatch('logout')
                 .then(response => {
-                    localStorage.removeItem('access_token');
-                    localStorage.removeItem('refresh_token');
+                    this.$setCookie('accessToken', '', 1);
+                    this.$setCookie('refreshToken', '', 1);
+                    this.$setCookie('clientId', '', 1);
+                    this.$setCookie('clientSecret', '', 1);
+                    this.$setCookie('userName', '', 1);
+                    delete axios.defaults.headers.common['Authorization'];
                     this.$router.go(0);
                 })
-                .catch(error => {});
+                .catch(error => {
+                });
         }
     },
     computed: {
         customerInfo() {
-            return this.$store.getters.customerInfo;
+            return this.$getCookie('userName');
         }
     }
 };
