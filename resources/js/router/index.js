@@ -8,6 +8,9 @@ import DetailEstate from '../../js/pages/DetailEstate.vue';
 import PageNotFound from '../pages/PageNotFound.vue';
 import About from '../pages/About.vue';
 import Contact from '../pages/Contact.vue';
+import Register from '../pages/Register.vue';
+
+// store
 import store from '../store/index';
 
 // Routes
@@ -44,6 +47,11 @@ const routes = [
         path: '/contact',
         name: 'contact',
         component: Contact,
+    },
+    {
+        path: '/register',
+        name: 'register',
+        component: Register,
     },
     { path: "*", component: PageNotFound }
 ]

@@ -1776,6 +1776,162 @@ footer .phone_number a {
     justify-content: flex-end;
 }
 
+.section_register {
+    background: #ffffff;
+    padding: 0;
+}
+
+.section_register .container .register_title {
+    text-align: center;
+    font-size: 1.875em;
+    font-family: "SF Pro Display Medium", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ ProN W3", Meiryo, メイリオ, sans-serif;
+    margin-bottom: 60px;
+    background:#F8F8F8;
+    padding-bottom: 20px;
+}
+
+.section_register .container .register_title > span{
+    font-weight: 100;
+    font-size: 0.7em;
+}
+
+.section_register .frm_login .btnlogin {
+    border-radius: 4px;
+    background: #1F91B3;
+    color: #fff;
+    padding: 7px;
+    min-width: 282px;
+    font-size: 1.125em;
+    font-family: "SF Pro Display Medium", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ ProN W3", Meiryo, メイリオ, sans-serif;
+    font-weight: 700;
+}
+
+.section_register .deltail_login_left {
+    border-right: 1px solid #eaeaea;
+}
+
+/* Two-column layout */
+.section_register .col {
+    float: left;
+    margin: auto;
+    padding: 0px 25px 0 25px;
+    margin-top: 6px;
+}
+
+/* Shared */
+.login_btn {
+    box-sizing: border-box;
+    position: relative;
+    /* width: 13em;  - apply for fixed size */
+    margin: 0.2em;
+    padding: 0 15px 0 46px;
+    border: none;
+    text-align: left;
+    line-height: 34px;
+    white-space: nowrap;
+    border-radius: 0.2em;
+    font-size: 16px;
+    color: rgb(0, 0, 0);
+}
+
+.login_btn:focus {
+    outline: none;
+}
+.login_btn:active {
+    box-shadow: inset 0 0 0 32px rgba(0,0,0,0.1);
+}
+
+  /* Facebook */
+.login_btn--facebook {
+    background-color: rgb(24, 119, 242);
+    /* background-image: linear-gradient(#4C69BA, #3B55A0); */
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    padding: 8px;
+}
+.login_btn--facebook:before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    left: 5px;
+    width: 40px;
+    height: 100%;
+    background: url('../images/SVG/facebook.svg') 6px 6px no-repeat;
+    background-size: 82%;
+}
+
+  /* Google */
+.login_btn--google {
+    background: #ffffff;
+    width: 100%;
+    text-align: center;
+    padding: 8px;
+}
+
+.login_btn--google:before {
+    background: url('../images/icon_google.png') 6px 6px no-repeat;
+    background-size: 70%;
+}
+
+.login_btn--google:before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 40px;
+    height: 100%;
+}
+
+.login_btn--google:after {
+    background: url('../images/icon_google.png') 6px 6px no-repeat;
+    background-size: 70%;
+}
+
+.login_btn--google:after {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    top: 6px;
+    left: 50px;
+    width: 1px;
+    height: 76%;
+    background-color: #b5aeae;
+}
+
+.section_register .register_title h3 {
+    padding-top: 20px;
+}
+
+.section_register .notice_password {
+    font-size: 0.85rem;
+}
+
+.section_register .deltail_login_right {
+    padding-top: 50px;
+    padding-bottom: 60px;
+}
+
+.section_register .btn_login_submit {
+    margin-bottom: 5px;
+}
+
+.section_register .href_login {
+    color: #007562;
+}
+
+.section_register .notice_login{
+    color: gray;
+    font-size: 0.85rem;
+}
+
+.section_register .note_login_btn_social {
+    padding-bottom: 10px;
+}
+
 #main .estate_info {
     padding-top: 50px;
     padding-bottom: 0px;
