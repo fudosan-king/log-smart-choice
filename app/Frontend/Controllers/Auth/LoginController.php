@@ -51,9 +51,7 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
-        // $obj = ['customers'=> array('full_name'=> 'phong hai', 'estate_detail'=> 'landmark')];
-        // return view('auth.login',$obj);
-        return 'đã login thành công';
+        return response()->json(["message" => "Please login before call api"], 404);
     }
 
     /**
@@ -117,61 +115,6 @@ class LoginController extends Controller
         $response = ['message' => 'You have been successfully logged out!'];
         return response()->json($response, 200);
 
-    }
-
-    /**
-     * Get access token
-     *
-     * @param PPClient $client
-     * @param $email
-     * @param $password
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getAccessToken(PPClient $client, $email, $password, $customer)
-    {
-        $url = $this->_loginBasicAuth(env('MIX_BASIC_AUTH_USERNAME'), env('MIX_BASIC_AUTH_PASSWORD'));
-        $response = Http::asForm()->post($url, [
-            'grant_type'    => 'password',
-            'client_id'     => $client->id,
-            'client_secret' => $client->secret,
-            'username'      => $email,
-            'password'      => $password,
-            'scope'         => '*',
-        ]);
-        $result = json_decode((string)$response->getBody(), true);
-
-        $result['customer'] = $customer;
-        return response()->json($result, 200);
-    }
-
-    /**
-     * Get refresh token
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse|mixed
-     */
-    public function getRefreshToken(Request $request)
-    {
-        $refreshToken = $request->header('Refreshtoken');
-        $client = $this->_getCustomerClient();
-        $url = $this->_loginBasicAuth(env('MIX_BASIC_AUTH_USERNAME'), env('MIX_BASIC_AUTH_PASSWORD'));
-        try {
-            if ($client) {
-                $response = Http::asForm()->post($url, [
-                    'grant_type'    => 'refresh_token',
-                    'refresh_token' => $refreshToken,
-                    'client_id'     => $client->id,
-                    'client_secret' => $client->secret,
-                    'scope'         => '*',
-                ]);
-                $customer = $request->user();
-                $result = json_decode((string)$response->getBody(), true);
-                $result['customer'] = $customer;
-                return $result;
-            }
-        } catch (\Exception $e) {
-            return response()->json($e->getMessage(), 401);
-        }
     }
 
     /**

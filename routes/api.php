@@ -6,6 +6,8 @@ use App\Frontend\Controllers\Auth\ResetPasswordController;
 use App\Frontend\Controllers\Auth\LoginController;
 use App\Frontend\Controllers\EstateController;
 use App\Frontend\Controllers\Auth\VerificationController;
+use App\Frontend\Controllers\WishListController;
+use App\Frontend\Controllers\CustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,11 +23,18 @@ use App\Frontend\Controllers\Auth\VerificationController;
 Route::group(['middleware' => ['cors', ]], function () {
     Route::middleware('auth:api')->group(function () {
         Route::delete('/logout', [LoginController::class, 'logout'])->name('logout');
+
+        // WishList
+        Route::post('/wishlist', [WishListController::class, 'upsertWishList'])->name('wishlist.add');
+        Route::get('/wishlist', [WishListController::class, 'getWishLists'])->name('wishlist.get');
+
+        // Customer
+        Route::post('/customer', [CustomerController::class, 'getCustomer'])->name('customer.getInformation');
     });
     Route::get('/verify/{token}', [VerificationController::class, 'verifyEmail'])->name('verify.email');
-    Route::put('/login', [LoginController::class, 'getRefreshToken'])->name('refresh');
     Route::post('/register', [RegisterController::class, 'registerCustomer'])->name('customer.register');
     Route::post('/login', [LoginController::class, 'login'])->name('login.check');
+    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/forgot-password', [ResetPasswordController::class, 'forgotPassword'])->name('customer.forgotpassword');
     Route::post('/reset-password/{hash}', [ResetPasswordController::class, 'resetPassword'])->name('customer.resetpassword');
 
