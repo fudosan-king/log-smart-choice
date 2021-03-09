@@ -38,16 +38,41 @@
         },
         methods: {
             getListEstates(){
-                axios({url: '/list', method: 'POST', data: {'limit': 10, 'page': 1}})
-                    .then(resp => {
-                        this.estates = this.estates.concat(resp.data['data']);
-                        if (resp.data['data'].length) {
+                let accessToken = this.$getCookie('accessToken');
+                if (accessToken != '') {
+                    axios({
+                        url: '/customer', 
+                        method: 'POST', 
+                        data: {}, 
+                        headers: {
+                            'content-type': 'application/json',
+                            'Authorization': `Bearer ${accessToken}`,
+                        },
+                        })
+                        .then(resp => {
+                            let emailCustomer = resp.data.customer.email;
+                            axios({url: '/list', method: 'POST', data: {'limit': 10, 'page': 1, 'email' : emailCustomer}})
+                                .then(resp => {
+                                    this.estates = this.estates.concat(resp.data['data']);
+                                })
+                                .catch(err => {
+                                    console.log('Can not get list estates');
+                                }
+                            );
+                        })
+                        .catch(err => {});
+                } else {
+                    axios({url: '/list', method: 'POST', data: {'limit': 10, 'page': 1}})
+                        .then(resp => {
+                            this.estates = this.estates.concat(resp.data['data']);
+                            if (resp.data['data'].length) {
+                            }
+                        })
+                        .catch(err => {
+                            console.log('Can not get list estates');
                         }
-                    })
-                    .catch(err => {
-                        console.log('Can not get list estates');
-                    }
-                );
+                    );
+                }
             },
         }
 	};

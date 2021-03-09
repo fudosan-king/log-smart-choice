@@ -54,23 +54,48 @@
 		methods: {
 			// Gui yeu cau den server sau moi lan cuon xuong
 			getListEstates(){
-				axios({url: '/list', method: 'POST', data: {'limit': 10, 'page': this.page}})
-			        .then(resp => {
-			        	this.estates = this.estates.concat(resp.data['data']);
-			        	if (resp.data['data'].length) {
-			        		this.page = this.page + 1;
-			        		this.isHidden = true;
-			        	} else {
-			        		if (this.page > 1){
-			        			this.isHidden = true;
-			        		}
-			        	}
-			        })
-			        .catch(err => {
-			        	this.isHidden = false;
-			           	console.log('Can not get list estates');
-			    	}
-		    	);
+                let accessToken = this.$getCookie('accessToken');
+                if (accessToken != '') {
+                    axios({
+                        url: '/customer', 
+                        method: 'POST', 
+                        data: {}, 
+                        headers: {
+                            'content-type': 'application/json',
+                            'Authorization': `Bearer ${accessToken}`,
+                        },
+                        })
+                        .then(resp => {
+                            let emailCustomer = resp.data.customer.email;
+                            axios({url: '/list', method: 'POST', data: {'limit': 10, 'page': 1, 'email' : emailCustomer}})
+                                .then(resp => {
+                                    this.estates = this.estates.concat(resp.data['data']);
+                                })
+                                .catch(err => {
+                                    console.log('Can not get list estates');
+                                }
+                            );
+                        })
+                        .catch(err => {});
+                } else {
+                    axios({url: '/list', method: 'POST', data: {'limit': 10, 'page': this.page}})
+                        .then(resp => {
+                            this.estates = this.estates.concat(resp.data['data']);
+                            if (resp.data['data'].length) {
+                                this.page = this.page + 1;
+                                this.isHidden = true;
+                            } else {
+                                if (this.page > 1){
+                                    this.isHidden = true;
+                                }
+                            }
+                        })
+                        .catch(err => {
+                            this.isHidden = false;
+                            console.log('Can not get list estates');
+                        }
+                    );
+                }
 			},
 			// Khi them danh sach phia duoi thi tinh toan lai do cao
 			setOffsetTop(){

@@ -5,9 +5,10 @@ namespace App\Frontend\Controllers;
 
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
 use App\Models\Estates;
 use App\Models\EstateInformation;
-use App\Models\Groups;
+use App\Models\WishLists;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
@@ -29,6 +30,7 @@ class EstateController extends Controller
         $metreSquare = $request->has('metre_square') ? $request->get('metre_square') : '';
         $limit = $request->has('limit') ? intval($request->get('limit')) : 9;
         $page = $request->has('page') ? intval($request->get('page')) : 1;
+        $email = $request->has('email') ? $request->get('email') : '';
         $validator = Validator::make($request->all(), [
             'keyword'      => 'max:100',
             'metre_square' => 'numeric',
@@ -63,11 +65,26 @@ class EstateController extends Controller
             $estates->where('tatemono_menseki', '>=', (int)$getMetreSquare[0]);
             $estates->where('tatemono_menseki', '<=', (int)$getMetreSquare[1]);
         }
+
+        $customer = Customer::where('email', $email)->first();
+        $wishList = [];
+        if ($customer) {
+            $wishListForCustomer = WishLists::select('estate_id')
+                ->where('user_id', $customer->id)
+                ->where('is_wishlist', WishLists::ADDED_WISH_LIST)
+                ->get()->toArray();
+            if (!empty($wishListForCustomer)) {
+                foreach ($wishListForCustomer as $value) {
+                    $wishList[] = $value['estate_id'];
+                }
+            }
+        }
+
         $total = count($estates->paginate()->toArray()['data']);
         $data = $estates->paginate($limit, $page)->toArray();
 
         if ($data) {
-            $data = $this->_getEstateInformation($data['data']);
+            $data = $this->_getEstateInformation($data['data'], $wishList);
         }
 
         return response()->json(['data' => $data, 'total' => $total], 200);
@@ -136,13 +153,13 @@ class EstateController extends Controller
         return [$fromMetreSquare, $toMetreSquare];
     }
 
+
     /**
-     * Get Estate Information
-     *
      * @param $estates
+     * @param array $wishList
      * @return mixed
      */
-    private function _getEstateInformation($estates)
+    private function _getEstateInformation($estates, $wishList = [])
     {
         foreach ($estates as $key => $estate) {
             $estateInformation = EstateInformation::where('estate_id', $estates[$key]['_id'])->get()->first();
@@ -152,6 +169,13 @@ class EstateController extends Controller
             } else {
                 $photo_first = $this->_getFirstPhotos($estate);
             }
+
+            if (!empty($wishList)) {
+                if (in_array($estate['_id'], $wishList)) {
+                    $estates[$key]['is_wish'] = 1;
+                }
+            }
+
             $estates[$key]['photo_first'] = $photo_first;
             $estates[$key]['photos'] = $this->_getPhotosAll($estate);
         }
