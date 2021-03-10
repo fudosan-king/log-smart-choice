@@ -1936,3 +1936,39 @@ footer .phone_number a {
     padding-top: 50px;
     padding-bottom: 0px;
 }
+
+/* button like */
+.section_propertyinformation ul.list_property li .box_property_item .box_property_item_body h2 {
+    position: relative;
+}
+
+.section_propertyinformation ul.list_property li .box_property_item .box_property_item_body h2 .btn_like {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #d8d8da;
+    border-radius: 50%;
+    background-color: #fff;
+    cursor: pointer;
+    z-index: 99999;
+}
+
+.section_propertyinformation ul.list_property li .box_property_item .box_property_item_body h2 .btn_like .btn_like_wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.section_propertyinformation ul.list_property li .box_property_item .box_property_item_body h2 .btn_like .btn_like_wrapper .i_like {
+    width: 18px;
+    height: 18px;
+    fill: #d8d8da;
+}
+
+.section_propertyinformation ul.list_property li .box_property_item .box_property_item_body h2 .btn_like .btn_like_wrapper .i_like.active {
+    display: none;
+    fill: #ff6760;
+}
