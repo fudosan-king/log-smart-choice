@@ -55,9 +55,10 @@
 			// Gui yeu cau den server sau moi lan cuon xuong
 			getListEstates(){
                 let accessToken = this.$getCookie('accessToken');
-                console.log(this.$getCookie('log_smart_choice_session'));
-                console.log('here');
-                console.log(accessToken);
+                let auth = {
+                    username: `${process.env.MIX_BASIC_AUTH_USERNAME}`,
+                    password: `${process.env.MIX_BASIC_AUTH_PASSWORD}`,
+                }
                 if (accessToken != '') {
                     axios({
                         url: '/customer', 
@@ -65,8 +66,9 @@
                         data: {}, 
                         headers: {
                             'content-type': 'application/json',
-                            'Authorization': `Bearer ${accessToken}`,
+                            'AuthorizationBearer': `Bearer ${accessToken}`,
                         },
+                        auth: auth,
                         })
                         .then(resp => {
                             let emailCustomer = resp.data.customer.email;
