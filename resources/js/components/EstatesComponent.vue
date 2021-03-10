@@ -55,6 +55,9 @@
 			// Gui yeu cau den server sau moi lan cuon xuong
 			getListEstates(){
                 let accessToken = this.$getCookie('accessToken');
+                console.log(this.$getCookie('log_smart_choice_session'));
+                console.log('here');
+                console.log(accessToken);
                 if (accessToken != '') {
                     axios({
                         url: '/customer', 
@@ -78,25 +81,21 @@
                         })
                         .catch(err => {});
                 } else {
-                    axios({url: '/list', method: 'POST', data: {'limit': 10, 'page': this.page}})
+                    axios({url: '/list', method: 'POST', data: {'limit': 10, 'page': 1}, headers: {
+                            'content-type': 'application/json',
+                            'Authorization': `Bearer ${accessToken}`,
+                        },})
                         .then(resp => {
                             this.estates = this.estates.concat(resp.data['data']);
                             if (resp.data['data'].length) {
-                                this.page = this.page + 1;
-                                this.isHidden = true;
-                            } else {
-                                if (this.page > 1){
-                                    this.isHidden = true;
-                                }
                             }
                         })
                         .catch(err => {
-                            this.isHidden = false;
                             console.log('Can not get list estates');
                         }
                     );
                 }
-			},
+            },
 			// Khi them danh sach phia duoi thi tinh toan lai do cao
 			setOffsetTop(){
 				this.offsetTop = this.offsetTop + this.heigthOfList;

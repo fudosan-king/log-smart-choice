@@ -39,6 +39,10 @@
         methods: {
             getListEstates(){
                 let accessToken = this.$getCookie('accessToken');
+                let auth = {
+                    username: `${process.env.MIX_BASIC_AUTH_USERNAME}`,
+                    password: `${process.env.MIX_BASIC_AUTH_PASSWORD}`,
+                }
                 if (accessToken != '') {
                     axios({
                         url: '/customer', 
@@ -46,8 +50,9 @@
                         data: {}, 
                         headers: {
                             'content-type': 'application/json',
-                            'Authorization': `Bearer ${accessToken}`,
+                            'AuthorizationBearer': `Bearer ${accessToken}`,
                         },
+                        auth: auth,
                         })
                         .then(resp => {
                             let emailCustomer = resp.data.customer.email;
