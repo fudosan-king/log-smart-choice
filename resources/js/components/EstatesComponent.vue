@@ -9,7 +9,14 @@
                         </a>
                     </div>
                     <div class="box_property_item_body">
-                        <h2><a v-bind:href="'/detail/' + estate._id">{{ estate.custom_field ? estate.custom_field.content : "" }}</a></h2>
+                        <h2>
+                            <a v-bind:href="'/detail/' + estate._id">{{ estate.custom_field ? estate.custom_field.content : "" }}</a>
+                            <template v-if="customer.is_logged">
+                                <a @click="addToWishList(estate._id, estate.is_wish)">
+                                    <WishlistComponent :data-wished="estate.is_wish"></WishlistComponent>
+                                </a>
+                            </template>
+                        </h2>
                         <div class="row">
                             <div class="col-12 col-lg-6">
                                 <p>{{ estate.room_count }}{{ estate.service_rooms != '0' ? 'S' : '' }}{{ estate.room_kind }} / {{estate.tatemono_menseki }}㎡</p>
@@ -32,6 +39,7 @@
 </template>
 
 <script>
+    import WishlistComponent from '../components/WishlistComponent'
 	export default {
 		data() {
 	    	return {
@@ -39,9 +47,13 @@
 	    		page: 1,
 	    		offsetTop: 0,
 	    		heigthOfList: 0,
-	    		isHidden: false
+	    		isHidden: false,
+                customer: {}
 	    	}
 	    },
+        components: {
+		    WishlistComponent
+        },
 	    beforeMount() {
 	    	this.getListEstates();
 	    },
@@ -61,9 +73,9 @@
                 }
                 if (accessToken != '') {
                     axios({
-                        url: '/customer', 
-                        method: 'POST', 
-                        data: {}, 
+                        url: '/customer',
+                        method: 'POST',
+                        data: {},
                         headers: {
                             'content-type': 'application/json',
                             'AuthorizationBearer': `Bearer ${accessToken}`,
@@ -72,6 +84,7 @@
                         })
                         .then(resp => {
                             let emailCustomer = resp.data.customer.email;
+                            this.customer = resp.data.customer
                             axios({url: '/list', method: 'POST', data: {'limit': 10, 'page': 1, 'email' : emailCustomer}})
                                 .then(resp => {
                                     this.estates = this.estates.concat(resp.data['data']);
@@ -123,7 +136,38 @@
 					this.getListEstates();
 					this.setOffsetTop();
 				}
-			}
-		}
+			},
+
+            // Add states to wishlist
+            addToWishList(estateId, isWish) {
+                let accessToken = this.$getCookie('accessToken')
+                let auth = {
+                    username: `${process.env.MIX_BASIC_AUTH_USERNAME}`,
+                    password: `${process.env.MIX_BASIC_AUTH_PASSWORD}`,
+                }
+                if (accessToken != '') {
+                    let data = {
+                        estateId: estateId,
+                        is_wish: 1,
+                    }
+                    if (isWish === 1) {
+                        data = {
+                            estateId: estateId,
+                            is_wish: 0,
+                        }
+                    }
+                    axios.post("/wishlist", data, {
+                        headers: {
+                            'content-type': 'application/json',
+                            'AuthorizationBearer': `Bearer ${accessToken}`,
+                        },
+                        auth: auth,
+                    }).then((res) => {
+                    }, (error) => {
+                    });
+                }
+            },
+		},
+
 	};
 </script>

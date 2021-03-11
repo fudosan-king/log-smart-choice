@@ -60,6 +60,7 @@ const actions = {
                             const tokenInfo = {
                                 token: resp.data.access_token,
                                 refreshToken: resp.data.refresh_token,
+                                userName: this._vm.$getCookie('userName'),
                             }
                             this._vm.$setCookie('accessToken', tokenInfo.token, 1);
                             this._vm.$setCookie('refreshToken', tokenInfo.refreshToken, 1);
