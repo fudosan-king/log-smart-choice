@@ -9,6 +9,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class SendEmailVerifyAccount implements ShouldQueue
@@ -37,7 +39,12 @@ class SendEmailVerifyAccount implements ShouldQueue
      */
     public function handle()
     {
-        $email = new VerifyAccount($this->receiver, $this->data);
-        Mail::to($this->receiver)->send($email);
+        try {
+            $email = new VerifyAccount($this->receiver, $this->data);
+            Mail::to($this->receiver)->send($email);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
+
     }
 }
