@@ -9,6 +9,7 @@ import PageNotFound from '../pages/PageNotFound.vue';
 import About from '../pages/About.vue';
 import Contact from '../pages/Contact.vue';
 import Register from '../pages/Register.vue';
+import ForgotPassword from '../pages/ForgotPassword.vue';
 
 // store
 import store from '../store/index';
@@ -52,6 +53,11 @@ const routes = [
         path: '/register',
         name: 'register',
         component: Register,
+    },
+    {
+        path: '/forgot-password',
+        name: 'forgotPassword',
+        component: ForgotPassword,
     },
     { path: "*", component: PageNotFound }
 ]
