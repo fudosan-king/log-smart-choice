@@ -60,7 +60,10 @@
                                             <div class="form-group text-center">
                                                 <button type="submit" class="btn btnlogin">ログイン</button>
                                                 <p class="text-center">
-                                                    <a href="#">パスワードを忘れた場合</a><br />
+                                                    <router-link :to="{name: 'forgotPassword'}">
+                                                        パスワードを忘れた場合
+                                                    </router-link>
+                                                    <a href="#"></a><br />
                                                     <a href="#">確認メールが届いてない場合</a><br />
                                                     <a href="#">新規会員登録</a>
                                                 </p>
@@ -92,7 +95,7 @@ export default {
             if (!this.email) {
                 this.errors.push('メールアドレスを入力してください');
             } else if (!this.validEmail(this.email)) {
-                this.errors.push('Valid email required.');
+                this.errors.push('メールが必要です.');
             }
 
             if (!this.password) {
