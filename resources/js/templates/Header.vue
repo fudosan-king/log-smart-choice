@@ -7,7 +7,7 @@
                         <a class="nav-link" href="https://www.logknot.co.jp/">会社概要</a>
                     </li>
                     <li v-if="customerInfo" class="nav-item nav-header">
-                        <a class="nav-link">ようこそ {{ customerInfo }} 様。</a>
+                        <a class="nav-link">ようこそ {{ customerInfo }} 様</a>
                     </li>
                     <li v-if="customerInfo" class="nav-item nav-header">
                         <a class="nav-link" v-on:click="logout">
@@ -33,7 +33,7 @@
                         <a class="nav-link" href="https://www.logknot.co.jp/">会社概要</a>
                     </li>
                     <li v-if="customerInfo" class="nav-item nav-header">
-                        <a class="nav-link">ようこそ {{ customerInfo }} 様。</a>
+                        <a class="nav-link">ようこそ {{ customerInfo }} 様</a>
                     </li>
                     <li v-if="customerInfo" class="nav-item nav-header">
                         <a class="nav-link" v-on:click="logout">
@@ -59,7 +59,7 @@
                         <a class="nav-link" href="https://www.logknot.co.jp/">会社概要</a>
                     </li>
                     <li v-if="customerInfo" class="nav-item nav-header">
-                        <a class="nav-link">ようこそ {{ customerInfo }} 様。</a>
+                        <a class="nav-link">ようこそ {{ customerInfo }} 様</a>
                     </li>
                     <li v-if="customerInfo" class="nav-item nav-header">
                         <a class="nav-link" v-on:click="logout">
