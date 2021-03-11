@@ -96,10 +96,7 @@
                         })
                         .catch(err => {});
                 } else {
-                    axios({url: '/list', method: 'POST', data: {'limit': 10, 'page': 1}, headers: {
-                            'content-type': 'application/json',
-                            'Authorization': `Bearer ${accessToken}`,
-                        },})
+                    axios({url: '/list', method: 'POST', data: {'limit': 10, 'page': 1}, auth: auth,})
                         .then(resp => {
                             this.estates = this.estates.concat(resp.data['data']);
                             if (resp.data['data'].length) {

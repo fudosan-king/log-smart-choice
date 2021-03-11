@@ -82,17 +82,16 @@ export default {
                                     console.log('Can not get list estates');
                                 }
                             );
-                    })
-                    .catch(err => {
-                    });
-            } else {
-                axios({url: '/list', method: 'POST', data: {'limit': 10, 'page': 1}})
-                    .then(resp => {
-                        this.estates = this.estates.concat(resp.data['data']);
-                        if (resp.data['data'].length) {
-                        }
-                    })
-                    .catch(err => {
+                        })
+                        .catch(err => {});
+                } else {
+                    axios({url: '/list', method: 'POST', data: {'limit': 10, 'page': 1}, auth: auth,})
+                        .then(resp => {
+                            this.estates = this.estates.concat(resp.data['data']);
+                            if (resp.data['data'].length) {
+                            }
+                        })
+                        .catch(err => {
                             console.log('Can not get list estates');
                         }
                     );
