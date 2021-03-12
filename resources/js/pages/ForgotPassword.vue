@@ -36,7 +36,9 @@
                                     <div class="row">
                                         <div class="col-12 col-lg-8 offset-lg-2">
                                             <div class="form-group text-center">
-                                                <button type="submit" class="btn btnlogin btn-">メールを送信する</button>
+                                                <button type="button" class="btn btnlogin " @click="forgotPassword()">
+                                                    >メールを送信する
+                                                </button>
                                                 <p class="text-center">
                                                     <router-link :to="{name: 'login'}">
                                                         ログインに戻る
@@ -60,21 +62,38 @@ export default {
         return {
             email: null,
             errors: [],
-            errorsApi: {}
         };
     },
     methods: {
         forgotPassword() {
+            this.errors = [];
             if (!this.email) {
                 this.errors.push('メールアドレスを入力してください');
             } else if (!this.validEmail(this.email)) {
                 this.errors.push('メールが必要です.');
+            }
+            if (!this.errors.length) {
+                axios.post("/forgot-password", {email: this.email}, {
+                    headers: {
+                        'content-type': 'application/json',
+                    },
+                }).then(res => {
+                    if (res.data.status == true) {
+                        this.$router.push({name: 'login'}, () => {
+                        })
+                    } else{
+                        this.errors.push(res.data.message);
+                    }
+                }).catch((err) => {
+                })
+
             }
         },
         validEmail(email) {
             var response = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return response.test(email);
         }
-    }
-};
+    },
+}
+;
 </script>
