@@ -59,8 +59,8 @@ export default {
             let auth = {
                     username: `${process.env.MIX_BASIC_AUTH_USERNAME}`,
                     password: `${process.env.MIX_BASIC_AUTH_PASSWORD}`,
-                }
-                if (accessToken != '') {
+                };
+                if (accessToken.length > 0) {
                     axios({
                         url: '/customer',
                         method: 'POST',
@@ -70,10 +70,10 @@ export default {
                             'AuthorizationBearer': `Bearer ${accessToken}`,
                         },
                         auth: auth,
-                })
+                    })
                     .then(resp => {
                         let emailCustomer = resp.data.customer.email;
-                        this.customer = resp.data.customer
+                        this.customer = resp.data.customer;
                         axios({url: '/list', method: 'POST', data: {'limit': 10, 'page': 1, 'email': emailCustomer}})
                             .then(resp => {
                                 this.estates = this.estates.concat(resp.data['data']);
@@ -99,16 +99,16 @@ export default {
         },
         // Add states to wishlist
         addToWishList(estateId, isWish) {
-            let accessToken = this.$getCookie('accessToken')
+            let accessToken = this.$getCookie('accessToken');
             let auth = {
                 username: `${process.env.MIX_BASIC_AUTH_USERNAME}`,
                 password: `${process.env.MIX_BASIC_AUTH_PASSWORD}`,
-            }
-            if (accessToken != '') {
+            };
+            if (accessToken.length > 0) {
                 let data = {
                     estateId: estateId,
                     is_wish: 1,
-                }
+                };
                 if (isWish === 1) {
                     data = {
                         estateId: estateId,
