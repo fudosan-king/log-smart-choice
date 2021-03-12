@@ -290,7 +290,7 @@
                                 <a href="#"><img :src="estateImage.flooring_image_url" alt="" class="img-fluid"></a>
                             </p>
                             <header>
-                                <h2><a href="#">{{ estateImage.flooring_title }}</a></h2>
+                                <h2><a href="#" class="font-japanese">{{ estateImage.flooring_title }}</a></h2>
                                 <p>{{ estateImage.flooring_content }}</p>
                             </header>
                         </article>

@@ -44,7 +44,7 @@
 		data() {
 	    	return {
 	    		estates: [],
-	    		page: 1,
+	    		page: 2,
 	    		offsetTop: 0,
 	    		heigthOfList: 0,
 	    		isHidden: false,
@@ -65,7 +65,7 @@
 		},
 		methods: {
 			// Gui yeu cau den server sau moi lan cuon xuong
-			getListEstates(){
+			getListEstates(pageLoad){
                 let accessToken = this.$getCookie('accessToken');
                 let auth = {
                     username: `${process.env.MIX_BASIC_AUTH_USERNAME}`,
@@ -85,7 +85,7 @@
                         .then(resp => {
                             let emailCustomer = resp.data.customer.email;
                             this.customer = resp.data.customer
-                            axios({url: '/list', method: 'POST', data: {'limit': 10, 'page': 1, 'email' : emailCustomer}})
+                            axios({url: '/list', method: 'POST', data: {'limit': 4, 'page': pageLoad, 'email' : emailCustomer}})
                                 .then(resp => {
                                     this.estates = this.estates.concat(resp.data['data']);
                                 })
@@ -96,7 +96,7 @@
                         })
                         .catch(err => {});
                 } else {
-                    axios({url: '/list', method: 'POST', data: {'limit': 10, 'page': 1}, auth: auth,})
+                    axios({url: '/list', method: 'POST', data: {'limit': 4, 'page': pageLoad}, auth: auth,})
                         .then(resp => {
                             this.estates = this.estates.concat(resp.data['data']);
                             if (resp.data['data'].length) {
@@ -126,12 +126,13 @@
 				if(!this.heigthOfList){
 					this.setInitHeigthOfList();
 				}
-				let space = 423 * (this.page - 2);
-				// console.log('Sroll at %d - Offset Top at %d - Space: %d', document.documentElement.scrollTop, this.offsetTop, space);
-				if (this.offsetTop && document.documentElement.scrollTop - space > this.offsetTop) {
+                let space = 423 * (this.page - 2);
+                // console.log('Sroll at %d - Offset Top at %d - Space: %d', document.documentElement.scrollTop, this.offsetTop, space);
+				if (document.documentElement.scrollTop - space > this.offsetTop) {
 					this.isHidden = false;
-					this.getListEstates();
-					this.setOffsetTop();
+					this.getListEstates(this.page);
+                    this.setOffsetTop();
+                    this.page++;
 				}
 			},
 

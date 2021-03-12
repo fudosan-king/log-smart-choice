@@ -1937,6 +1937,10 @@ footer .phone_number a {
     padding-bottom: 0px;
 }
 
+.font-japanese {
+    font-family: 'Noto Serif JP';
+}
+
 /* button like */
 .section_propertyinformation ul.list_property li .box_property_item .box_property_item_body h2 {
     position: relative;
