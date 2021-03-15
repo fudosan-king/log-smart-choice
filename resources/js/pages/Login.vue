@@ -59,14 +59,21 @@
                                             </div>
                                             <div class="form-group text-center">
                                                 <button type="submit" class="btn btnlogin">ログイン</button>
-                                                <p class="text-center">
-                                                    <router-link :to="{name: 'forgotPassword'}">
-                                                        パスワードを忘れた場合
-                                                    </router-link>
-                                                    <a href="#"></a><br />
-                                                    <a href="#">確認メールが届いてない場合</a><br />
-                                                    <a href="#">新規会員登録</a>
-                                                </p>
+                                                <div class="text-center">
+                                                    <div class="text-center">
+                                                        <router-link :to="{name: 'forgotPassword'}">
+                                                            パスワードを忘れた場合
+                                                        </router-link>
+                                                    </div>
+                                                    <div class="text-center">
+                                                        <a href="#">確認メールが届いてない場合</a>
+                                                    </div>
+                                                    <div class="text-center">
+                                                        <router-link :to="{name: 'register'}">
+                                                            新規会員登録
+                                                        </router-link>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
