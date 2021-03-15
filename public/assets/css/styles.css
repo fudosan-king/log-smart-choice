@@ -1113,7 +1113,8 @@ footer .phone_number a {
     background: #1F91B3;
     color: #fff;
     padding: 15px;
-    min-width: 356px;
+    /*min-width: 356px;*/
+    width: 100%;
     font-size: 1.125em;
     font-family: "SF Pro Display Medium", "游ゴシック", YuGothic, "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ ProN W3", Meiryo, メイリオ, sans-serif;
     font-weight: 700;
