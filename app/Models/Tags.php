@@ -17,6 +17,8 @@ class Tags extends Model
         'page_id',
     ];
 
+    public $searchable = ['type', 'name', 'tag_content'];
+
     const TAG_NAME_CONTENT = [
         'keywords', 'description', 'twitter:card', 'twitter:site', 'robots'
     ];

@@ -3,19 +3,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PagesSeo;
-use App\Models\Tags;
+
+use App\Http\Traits\CustomAdminVoyager;
+use App\Models\CategoryTabSearch;
+use App\Models\EstateInformation;
+use App\Models\Estates;
+use App\Models\TabSearch;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use TCG\Voyager\Events\BreadDataAdded;
+use TCG\Voyager\Events\BreadDataDeleted;
 use TCG\Voyager\Events\BreadDataUpdated;
 use TCG\Voyager\Facades\Voyager;
 use TCG\Voyager\Http\Controllers\VoyagerBaseController;
 
-class TagsController extends VoyagerBaseController
+class TabSearchController extends VoyagerBaseController
 {
+
+    use CustomAdminVoyager;
 
     /**
      * @param Request $request
@@ -71,21 +78,29 @@ class TagsController extends VoyagerBaseController
                     $query = $query->withTrashed();
                 }
             }
-
             // If a column has a relationship associated with it, we do not want to show that field
             $this->removeRelationshipField($dataType, 'browse');
 
             if ($search->value != '' && $search->key && $search->filter) {
                 $searchFilter = ($search->filter == 'equals') ? '=' : 'LIKE';
                 $searchValue = ($search->filter == 'equals') ? $search->value : '%' . $search->value . '%';
+
                 switch ($search->key) {
+                    case 'category_tab_search_id':
+                        $query->join('category_tab_search', 'tab_search.category_tab_search_id', '=', 'category_tab_search.id');
+                        $query->where('category_tab_search.name', $searchFilter, $searchValue);
+                        break;
                     case 'name':
-                        $query = $this->syntaxFullTextSearch($query, $search->value, (new $dataType->model_name())->searchable);
+                        $query = $this->syntaxFullTextSearch($query, $searchValue, (new $dataType->model_name())->searchable);
                         break;
-                    case 'page_id':
-                        $query->join('pages_seo', 'tags.page_id', '=', 'pages_seo.id');
-                        $query->where('pages_seo.name', $searchFilter, $searchValue);
-                        break;
+                    case 'status':
+                        if ($searchValue == 'Activate' || $searchValue == '%Activate%') {
+                            $searchValue = TabSearch::ACTIVE;
+                        }
+
+                        if ($searchValue == 'Deactivate' || $searchValue == '%Deactivate%') {
+                            $searchValue = TabSearch::INACTIVE;
+                        }
                     default:
                         $query->where($search->key, $searchFilter, $searchValue);
                         break;
@@ -95,13 +110,13 @@ class TagsController extends VoyagerBaseController
             if ($orderBy && in_array($orderBy, $dataType->fields())) {
                 $querySortOrder = (!empty($sortOrder)) ? $sortOrder : 'desc';
                 $dataTypeContent = call_user_func([
-                    $query->orderBy($slug.'.'.$orderBy, $querySortOrder),
+                    $query->orderBy($slug.'.' . $orderBy, $querySortOrder),
                     $getter,
                 ]);
             } elseif ($model->timestamps) {
-                $dataTypeContent = call_user_func([$query->latest($slug.'.'.$model::CREATED_AT), $getter]);
+                $dataTypeContent = call_user_func([$query->latest($slug.'.' . $model::CREATED_AT), $getter]);
             } else {
-                $dataTypeContent = call_user_func([$query->orderBy($slug.'.'.$model->getKeyName(), 'DESC'), $getter]);
+                $dataTypeContent = call_user_func([$query->orderBy($slug.'.' . $model->getKeyName(), 'DESC'), $getter]);
             }
 
             // Replace relationships' keys for labels and create READ links if a slug is provided.
@@ -192,37 +207,18 @@ class TagsController extends VoyagerBaseController
         // Check permission
         $this->authorize('add', app($dataType->model_name));
 
-        // Check page seo exist
-        $pageId = $request->has('page_id') ? $request->get('page_id') : '';
-        $page = PagesSeo::where('id', $pageId)->get();
-
-        if ($page->isEmpty()) {
+        // Check category exist
+        $categoryName = $request->has('category_tab_search_id') ? $request->get('category_tab_search_id') : '';
+        $categoryTabSearch = CategoryTabSearch::where('id', $categoryName)->first();
+        if (!$categoryTabSearch) {
             return redirect()->back()->with([
-                'message'    => 'Page Seo not found',
+                'message'    => 'Category is not exist',
                 'alert-type' => 'error',
             ]);
         }
 
         // Validate fields with ajax
         $val = $this->validateBread($request->all(), $dataType->addRows)->validate();
-
-        // Validate name content
-        $tagType = $request->get('type');
-        $tagName = $request->get('name');
-        $nameContent = $request->get('name_content');
-        if (!$this->_validTag($tagType, $tagName, $nameContent)) {
-            if ($tagName == 'name') {
-                return redirect()->back()->with([
-                    'message'    => 'Meta name only support keywords, description, twitter:card, twitter:site, robots',
-                    'alert-type' => 'error',
-                ]);
-            } else {
-                return redirect()->back()->with([
-                    'message'    => 'Meta property only support og:locale, og:type, og:title, og:description, og:url, og:site_name',
-                    'alert-type' => 'error',
-                ]);
-            }
-        }
 
         $data = $this->insertUpdateData($request, $slug, $dataType->addRows, new $dataType->model_name());
 
@@ -272,38 +268,8 @@ class TagsController extends VoyagerBaseController
         // Check permission
         $this->authorize('edit', $data);
 
-        // Check page seo exist
-        $pageId = $request->has('page_id') ? $request->get('page_id') : '';
-        $page = PagesSeo::where('id', $pageId)->get();
-
-        if ($page->isEmpty()) {
-            return redirect()->back()->with([
-                'message'    => 'Page Seo not found',
-                'alert-type' => 'error',
-            ]);
-        }
-
         // Validate fields with ajax
         $val = $this->validateBread($request->all(), $dataType->editRows, $dataType->name, $id)->validate();
-
-        // Validate name content
-        $tagType = $request->get('type');
-        $tagName = $request->get('name');
-        $nameContent = $request->get('name_content');
-        if (!$this->_validTag($tagType, $tagName, $nameContent)) {
-            if ($tagName == 'name') {
-                return redirect()->back()->with([
-                    'message'    => 'Meta name only support keywords, description, twitter:card, twitter:site, robots',
-                    'alert-type' => 'error',
-                ]);
-            } else {
-                return redirect()->back()->with([
-                    'message'    => 'Meta property only support og:locale, og:type, og:title, og:description, og:url, og:site_name',
-                    'alert-type' => 'error',
-                ]);
-            }
-        }
-
         $this->insertUpdateData($request, $slug, $dataType->editRows, $data);
 
         event(new BreadDataUpdated($dataType, $data));
@@ -320,25 +286,71 @@ class TagsController extends VoyagerBaseController
         ]);
     }
 
-    /**
-     * @param $tagType
-     * @param $tagName
-     * @param $tagContent
-     * @return bool
-     */
-    private function _validTag($tagType, $tagName, $tagContent)
+    public function destroy(Request $request, $id)
     {
-        if ($tagType == 'meta') {
-            if ($tagName == 'name') {
-                if (!in_array($tagContent, Tags::TAG_NAME_CONTENT)) {
-                    return false;
-                }
-            } else {
-                if (!in_array($tagContent, Tags::TAG_PROPERTY_CONTENT)) {
-                    return false;
-                }
+        $slug = $this->getSlug($request);
+
+        $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
+
+        // Init array of IDs
+        $ids = [];
+        if (empty($id)) {
+            // Bulk delete, get IDs from POST
+            $ids = explode(',', $request->ids);
+        } else {
+            // Single item delete, get ID from URL
+            $ids[] = (int)$id;
+        }
+
+        // Check tags exists in estate
+        $estatesInformation = EstateInformation::whereIn('tab_search', $ids)->get();
+        $estateIds = [];
+
+        foreach ($estatesInformation as $estateInformation) {
+            $estateIds[] = $estateInformation->estate_id;
+        }
+        $estates = Estates::whereIn('_id', $estateIds)->get();
+        $estateName = '';
+        foreach ($estates as $estate) {
+            $estateName .= $estate->estate_name . ', ';
+        }
+
+        if ($estatesInformation->isNotEmpty()) {
+            return redirect()->back()->with([
+                'message'    => 'Please remove tag search inside estate '.$estateName.' before delete tab search',
+                'alert-type' => 'error',
+            ]);
+        }
+
+        foreach ($ids as $id) {
+            $data = call_user_func([$dataType->model_name, 'findOrFail'], $id);
+
+            // Check permission
+            $this->authorize('delete', $data);
+
+            $model = app($dataType->model_name);
+            if (!($model && in_array(SoftDeletes::class, class_uses_recursive($model)))) {
+                $this->cleanup($dataType, $data);
             }
         }
-        return true;
+
+        $displayName = count($ids) > 1 ? $dataType->getTranslatedAttribute('display_name_plural') : $dataType->getTranslatedAttribute('display_name_singular');
+
+        $res = $data->destroy($ids);
+        $data = $res
+            ? [
+                'message'    => __('voyager::generic.successfully_deleted')." {$displayName}",
+                'alert-type' => 'success',
+            ]
+            : [
+                'message'    => __('voyager::generic.error_deleting')." {$displayName}",
+                'alert-type' => 'error',
+            ];
+
+        if ($res) {
+            event(new BreadDataDeleted($dataType, $data));
+        }
+
+        return redirect()->route("voyager.{$dataType->slug}.index")->with($data);
     }
 }

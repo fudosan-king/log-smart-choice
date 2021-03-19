@@ -28,15 +28,10 @@ class MongoController extends VoyagerBaseController
 
         $searchNames = [];
         if ($dataType->server_side) {
-            $dataRow = Voyager::model('DataRow')->whereDataTypeId($dataType->id)->orderBy('order', 'asc')->get();
-            $count = count($dataRow);
+            $dataRow = Voyager::model('DataRow')->whereDataTypeId($dataType->id)->orderBy('order', 'asc')->where('browse', 1)->get();
             $i = 0;
             foreach ($dataRow as $key => $row) {
-                if ($i > 3 && $count > 3) {
-                    continue;
-                } else {
-                    $searchNames[$row->field] = $row->display_name;
-                }
+                $searchNames[$row->field] = $row->display_name;
                 $i++;
             }
         }
@@ -84,7 +79,6 @@ class MongoController extends VoyagerBaseController
             } else {
                 $dataTypeContent = call_user_func([$query->orderBy($model->getKeyName(), 'DESC'), $getter]);
             }
-
             // Replace relationships' keys for labels and create READ links if a slug is provided.
             $dataTypeContent = $this->resolveRelations($dataTypeContent, $dataType);
         } else {
