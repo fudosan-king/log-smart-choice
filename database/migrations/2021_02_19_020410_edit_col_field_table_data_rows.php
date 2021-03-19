@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 class EditColFieldTableDataRows extends Migration
 {
@@ -14,11 +15,11 @@ class EditColFieldTableDataRows extends Migration
     public function up()
     {
         Schema::table('data_rows', function (Blueprint $table) {
-            $dataEstate = DB::table('data_types')->where('name', 'estates')->get();
+            $dataEstate = DB::table('data_types')->where('name', 'estates')->first();
             if ($dataEstate) {
                 DB::table('data_rows')
                     ->insert([
-                        'data_type_id' => $dataEstate[0]->id,
+                        'data_type_id' => $dataEstate->id,
                         'field'        => 'estate_equipment',
                         'type'         => 'text',
                         'display_name' => 'Estate Equipment',
@@ -32,7 +33,7 @@ class EditColFieldTableDataRows extends Migration
                     ]);
                 DB::table('data_rows')
                     ->insert([
-                        'data_type_id' => $dataEstate[0]->id,
+                        'data_type_id' => $dataEstate->id,
                         'field'        => 'estate_flooring',
                         'type'         => 'text',
                         'display_name' => 'Estate Flooring',
