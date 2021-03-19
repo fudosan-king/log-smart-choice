@@ -4,7 +4,7 @@
 namespace Database\Seeds;
 
 
-use App\Http\Traits\PagesSeoList;
+use App\Http\Traits\CustomAdminVoyager;
 use App\Models\PagesSeo;
 use App\Models\Tags;
 use Illuminate\Database\Seeder;
@@ -18,7 +18,7 @@ use TCG\Voyager\Models\Permission;
 class TagsSeeder extends Seeder
 {
 
-    use PagesSeoList;
+    use CustomAdminVoyager;
 
     public function run()
     {

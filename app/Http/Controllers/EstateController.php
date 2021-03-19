@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\MongoController as Controller;
+use TCG\Voyager\Http\Controllers\VoyagerBaseController as Controller;
+use App\Models\CategoryTabSearch;
 use App\Models\EstateInformation;
+use App\Models\TabSearch;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use TCG\Voyager\Facades\Voyager;
@@ -22,9 +25,10 @@ class EstateController extends Controller
         'comment_textarea' => 'Comment'
     );
 
-    private function _loadImagesEstateInformation($estate_id, $default='renovation'){
+    private function _loadEstateInformation($estate_id, $default='renovation'){
         $estate = EstateInformation::select('renovation_media', 'estate_befor_photo',
-            'estate_after_photo', 'estate_main_photo', 'estate_equipment', 'estate_flooring')
+            'estate_after_photo', 'estate_main_photo', 'estate_equipment', 'estate_flooring', 'category_tab_search',
+        'tab_search')
             ->where('estate_id', $estate_id)->get()->first();
         return $estate ? $estate : '{}';
     }
@@ -145,8 +149,177 @@ class EstateController extends Controller
         }
     }
 
-    public function index(Request $request){
-        return parent::index($request);
+    public function index(Request $request)
+    {
+        // GET THE SLUG, ex. 'posts', 'pages', etc.
+        $slug = $this->getSlug($request);
+
+        // GET THE DataType based on the slug
+        $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
+
+        // Check permission
+        $this->authorize('browse', app($dataType->model_name));
+
+        $getter = $dataType->server_side ? 'paginate' : 'get';
+
+        $search = (object) ['value' => $request->get('s'), 'key' => $request->get('key'), 'filter' => $request->get('filter')];
+
+        $searchNames = [];
+        if ($dataType->server_side) {
+            $dataRow = Voyager::model('DataRow')->whereDataTypeId($dataType->id)->orderBy('order', 'asc')->where('browse', 1)->get();
+            $i = 0;
+            foreach ($dataRow as $key => $row) {
+                $searchNames[$row->field] = $row->display_name;
+                $i++;
+            }
+        }
+
+        $orderBy = $request->get('order_by', $dataType->order_column);
+        $sortOrder = $request->get('sort_order', $dataType->order_direction);
+        $usesSoftDeletes = false;
+        $showSoftDeleted = false;
+        // Next Get or Paginate the actual content from the MODEL that corresponds to the slug DataType
+        if (strlen($dataType->model_name) != 0) {
+            $model = app($dataType->model_name);
+
+            if ($dataType->scope && $dataType->scope != '' && method_exists($model, 'scope' . ucfirst($dataType->scope))) {
+                $query = $model->{$dataType->scope}();
+            } else {
+                $query = $model::select('*');
+            }
+            // Use withTrashed() if model uses SoftDeletes and if toggle is selected
+            if ($model && in_array(SoftDeletes::class, class_uses_recursive($model)) && Auth::user()->can('delete', app($dataType->model_name))) {
+                $usesSoftDeletes = true;
+
+                if ($request->get('showSoftDeleted')) {
+                    $showSoftDeleted = true;
+                    $query = $query->withTrashed();
+                }
+            }
+
+            // If a column has a relationship associated with it, we do not want to show that field
+            $this->removeRelationshipField($dataType, 'browse');
+
+            if ($search->value != '' && $search->key && $search->filter) {
+                $searchFilter = ($search->filter == 'equals') ? '=' : 'LIKE';
+                $searchValue = ($search->filter == 'equals') ? $search->value : '%' . $search->value . '%';
+                switch ($search->key) {
+                    case 'category_tab_search_id':
+                        $categories = CategoryTabSearch::where('name', $searchFilter, $searchValue)->get();
+                        $categoryIds = [];
+                        foreach ($categories as $category) {
+                            $categoryIds[] = $category->id;
+                        }
+                        $estateIds = [];
+                        $estatesInformation = EstateInformation::whereIn('category_tab_search', $categoryIds)->get();
+                        foreach ($estatesInformation as $estateInformation) {
+                            $estateIds[] = $estateInformation->estate_id;
+                        }
+                        $query->whereIn('_id', $estateIds);
+                        break;
+                    case 'tab_search_id':
+                        $tabsSearch = TabSearch::where('name', $searchFilter, $searchValue)->get();
+                        $tabIds = [];
+                        foreach ($tabsSearch as $tabSearch) {
+                            $tabIds[] = $tabSearch->id;
+                        }
+                        $estateIds = [];
+                        $estatesInformation = EstateInformation::whereIn('tab_search', $tabIds)->get();
+                        foreach ($estatesInformation as $estateInformation) {
+                            $estateIds[] = $estateInformation->estate_id;
+                        }
+                        $query->whereIn('_id', $estateIds);
+                        break;
+                    default:
+                        $query->where($search->key, $searchFilter, $searchValue);
+                        break;
+                }
+            }
+
+            if ($orderBy) {
+                $querySortOrder = (!empty($sortOrder)) ? $sortOrder : 'desc';
+                $dataTypeContent = call_user_func([
+                    $query->orderBy($orderBy, $querySortOrder),
+                    $getter,
+                ]);
+            } elseif ($model->timestamps) {
+                $dataTypeContent = call_user_func([$query->latest($model::CREATED_AT), $getter]);
+            } else {
+                $dataTypeContent = call_user_func([$query->orderBy($model->getKeyName(), 'DESC'), $getter]);
+            }
+            // Replace relationships' keys for labels and create READ links if a slug is provided.
+            $dataTypeContent = $this->resolveRelations($dataTypeContent, $dataType);
+        } else {
+            // If Model doesn't exist, get data from table name
+            $dataTypeContent = call_user_func([DB::table($dataType->name), $getter]);
+            $model = false;
+        }
+
+        // Check if BREAD is Translatable
+        $isModelTranslatable = is_bread_translatable($model);
+
+        // Eagerload Relations
+        $this->eagerLoadRelations($dataTypeContent, $dataType, 'browse', $isModelTranslatable);
+
+        // Check if server side pagination is enabled
+        $isServerSide = isset($dataType->server_side) && $dataType->server_side;
+
+        // Check if a default search key is set
+        $defaultSearchKey = $dataType->default_search_key ?? null;
+
+        // Actions
+        $actions = [];
+        if (!empty($dataTypeContent->first())) {
+            foreach (Voyager::actions() as $action) {
+                $action = new $action($dataType, $dataTypeContent->first());
+
+                if ($action->shouldActionDisplayOnDataType()) {
+                    $actions[] = $action;
+                }
+            }
+        }
+
+        // Define showCheckboxColumn
+        $showCheckboxColumn = false;
+        if (Auth::user()->can('delete', app($dataType->model_name))) {
+            $showCheckboxColumn = true;
+        } else {
+            foreach ($actions as $action) {
+                if (method_exists($action, 'massAction')) {
+                    $showCheckboxColumn = true;
+                }
+            }
+        }
+
+        // Define orderColumn
+        $orderColumn = [];
+        if ($orderBy) {
+            $index = $dataType->browseRows->where('field', $orderBy)->keys()->first() + ($showCheckboxColumn ? 1 : 0);
+            $orderColumn = [[$index, $sortOrder ?? 'desc']];
+        }
+
+        $view = 'voyager::bread.browse';
+
+        if (view()->exists("voyager::$slug.browse")) {
+            $view = "voyager::$slug.browse";
+        }
+
+        return Voyager::view($view, compact(
+            'actions',
+            'dataType',
+            'dataTypeContent',
+            'isModelTranslatable',
+            'search',
+            'orderBy',
+            'orderColumn',
+            'sortOrder',
+            'searchNames',
+            'isServerSide',
+            'defaultSearchKey',
+            'usesSoftDeletes',
+            'showSoftDeleted',
+            'showCheckboxColumn'
+        ));
     }
 
     public function create(Request $request)
@@ -318,13 +491,31 @@ class EstateController extends Controller
             }
         }
 
+        // category tab
+        $categoriesTab = [];
+        if (!empty($request->get('category'))) {
+            $categoriesTab = array_keys($request->get('category'));
+        }
+
+        // tab search
+        $tabsSearch = [];
+        if (!empty($request->get('tab_search'))) {
+            $tabsSearch = array_keys($request->get('tab_search'));
+        }
+
         // Validate fields with ajax
         $this->validateBread($request->all(), $dataType->editRows, $dataType->name, $id)->validate();
         // estate equipment
         $this->_insertDatabase($id, 'estate_equipment', $slidesEquipment);
         // estate flooring
         $this->_insertDatabase($id, 'estate_flooring', $flooring);
+        // category tab search
+        $this->_insertDatabase($id, 'category_tab_search', $categoriesTab);
+        // tab search
+        $this->_insertDatabase($id, 'tab_search', $tabsSearch);
         $this->insertUpdateData($request, $slug, $dataType->editRows, $data);
+
+
 
         if (auth()->user()->can('browse', app($dataType->model_name))) {
             $redirect = redirect()->route("voyager.{$dataType->slug}.index");
@@ -377,17 +568,18 @@ class EstateController extends Controller
 
         // Eagerload Relations
         $this->eagerLoadRelations($dataTypeContent, $dataType, 'edit', $isModelTranslatable);
-        $estateInfo = $this->_loadImagesEstateInformation($id);
-//        $imagesData = $this->_loadImages($id, 'renovation');
-//        $mainPhoto = $this->_loadImages($id, 'main');
-//        $beforAfterPhoto = $this->_loadImages($id, 'befor_after');
-//        $equipmentSlide = $this->_loadImages($id, 'estate_equipment');
-//        $flooring = $this->_loadImages($id, 'estate_flooring');
+        $estateInfo = $this->_loadEstateInformation($id);
+
+        // get category
+        $categoriesTabSearch = CategoryTabSearch::where('status', CategoryTabSearch::ACTIVE)->get();
+
+        // get tab search
+        $tabsSearch = TabSearch::where('status', TabSearch::ACTIVE)->get();
 
         $mapLabel = $this->mapLabel;
 
         return Voyager::view($view, compact('dataType',
-            'dataTypeContent', 'isModelTranslatable', 'mapLabel', 'estateInfo'
+            'dataTypeContent', 'isModelTranslatable', 'mapLabel', 'estateInfo', 'categoriesTabSearch', 'tabsSearch'
         ));
     }
 
@@ -444,7 +636,7 @@ class EstateController extends Controller
 //        $beforAfterPhoto = $this->_loadImages($id, 'befor_after');
 //        $equipmentSlide = $this->_loadImages($id, 'estate_equipment');
 //        $flooring = $this->_loadImages($id, 'estate_flooring');
-        $estateInfo = $this->_loadImagesEstateInformation($id);
+        $estateInfo = $this->_loadEstateInformation($id);
         $mapLabel = $this->mapLabel;
 
         return Voyager::view($view, compact('dataType',

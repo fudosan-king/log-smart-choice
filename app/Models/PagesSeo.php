@@ -15,6 +15,7 @@ class PagesSeo extends Model
     ];
 
     protected $table = 'pages_seo';
+    public $searchable = ['name'];
 
     const STATUS_ACTIVATE = 1;
     const STATUS_DEACTIVATE = 2;

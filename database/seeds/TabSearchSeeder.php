@@ -3,44 +3,46 @@
 
 namespace Database\Seeds;
 
-use App\Models\PagesSeo;
+
+use App\Models\TabSearch;
+use Illuminate\Database\Seeder;
 use TCG\Voyager\Models\DataRow;
 use TCG\Voyager\Models\DataType;
-use Illuminate\Database\Seeder;
-use TCG\Voyager\Models\Permission;
 use TCG\Voyager\Models\Menu;
 use TCG\Voyager\Models\MenuItem;
+use TCG\Voyager\Models\Permission;
 
-class PagesSeoSeeder extends Seeder
+class TabSearchSeeder extends Seeder
 {
+
     public function run()
     {
-        $dataType = $this->dataType('slug', 'pages_seo');
+        $dataType = $this->dataType('slug', 'tab_search');
         if (!$dataType->exists) {
             $dataType->fill([
-                'name'                  => 'pages_seo',
-                'display_name_singular' => __('Pages SEO'),
-                'display_name_plural'   => __('Pages SEO'),
-                'icon'                  => 'voyager-shop',
-                'model_name'            => 'App\Models\PagesSeo',
-                'controller'            => 'App\\Http\\Controllers\\PagesSeoController',
+                'name'                  => 'tab_search',
+                'display_name_singular' => __('Tab Search'),
+                'display_name_plural'   => __('Tab Search'),
+                'icon'                  => 'voyager-window-list',
+                'model_name'            => 'App\Models\TabSearch',
+                'controller'            => 'App\\Http\\Controllers\\TabSearchController',
                 'generate_permissions'  => 1,
                 'description'           => '',
                 'server_side'           => 1
             ])->save();
         }
 
-        Permission::generateFor('pages_seo');
-        Permission::firstOrCreate(['key' => 'edit_pages_seo', 'table_name' => 'pages_seo']);
+        Permission::generateFor('tab_search');
+        Permission::firstOrCreate(['key' => 'edit_tab_search', 'table_name' => 'tab_search']);
 
-        $groupsDataType = DataType::where('slug', 'pages_seo')->firstOrFail();
+        $groupsDataType = DataType::where('slug', 'tab_search')->firstOrFail();
 
         $dataRow = $this->dataRow($groupsDataType, 'name');
 
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'text',
-                'display_name' => __('Page Name'),
+                'display_name' => __('Name'),
                 'required'     => 1,
                 'browse'       => 1,
                 'read'         => 1,
@@ -81,10 +83,25 @@ class PagesSeoSeeder extends Seeder
                 'add'          => 1,
                 'delete'       => 1,
                 'order'        => 3,
-                'details'      => ["default" => "Activate", "options" => ["Activate" => "Activate", "Deactivate" => "Deactivate"]],
+                'details'      => ["default" => "Activate", "options" => [TabSearch::ACTIVE => "Activate", TabSearch::INACTIVE => "Deactivate"]],
             ])->save();
         }
 
+        $dataRow = $this->dataRow($groupsDataType, 'category_tab_search_id');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'select_dropdown',
+                'display_name' => __('Category'),
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'order'        => 4,
+                'details'      => [],
+            ])->save();
+        }
 
         Menu::firstOrCreate([
             'name' => 'admin',
@@ -94,32 +111,26 @@ class PagesSeoSeeder extends Seeder
 
         $menuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
-            'title'   => __('Pages SEO'),
-            'url'     => 'admin/pages_seo',
+            'title'   => __('Tab Search'),
+            'url'     => 'admin/tab_search',
             'route'   => null,
         ]);
+
+        $menuEstate = MenuItem::where('title', 'Estates')->where('url', 'admin/estates')->first();
+        $menuEstateId = null;
+        if ($menuEstate) {
+            $menuEstateId = $menuEstate->id;
+        }
+
         if (!$menuItem->exists) {
             $menuItem->fill([
                 'target'     => '_self',
-                'icon_class' => 'voyager-lab',
+                'icon_class' => 'voyager-window-list',
                 'color'      => null,
-                'parent_id'  => null,
-                'order'      => 2,
+                'parent_id'  => $menuEstateId,
+                'order'      => 4,
             ])->save();
         }
-
-        $pageDefault = PagesSeo::where('name', 'default')->where('status', PagesSeo::STATUS_ACTIVATE)->get();
-        if ($pageDefault->isEmpty()) {
-            $pageDefault = new PagesSeo();
-            $pageDefault->name = 'default';
-            $pageDefault->status = 'Activate';
-            $pageDefault->save();
-        }
-
-        $pageSeoDataType = DataType::where('model_name', 'App\Models\PagesSeo')->where('name', 'pages_seo')->first();
-        $pageSeoDataType->icon = 'voyager-lab';
-        $pageSeoDataType->save();
-
     }
 
     /**
