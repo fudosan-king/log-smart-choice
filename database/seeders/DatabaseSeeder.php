@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Database\Seeds\CategoryTabSearchSeeder;
+use Database\Seeds\CustomerSeeder;
 use Database\Seeds\EstateInformation;
 use Database\Seeds\PagesSeoSeeder;
 use Database\Seeds\RenovationSeeder;
@@ -38,6 +39,7 @@ class DatabaseSeeder extends Seeder
             CategoryTabSearchSeeder::class,
             TabSearchSeeder::class,
             EstateInformation::class,
+            CustomerSeeder::class,
         ]);
     }
 }

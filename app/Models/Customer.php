@@ -20,6 +20,13 @@ class Customer extends Authenticatable
 
     const TIME_VERIFY_ACCOUNT = 60;
     const EMAIL_VERIFY = 1;
+    const ROLE = [
+        1 => 'Interior Coordinator',
+        2 => 'Sale',
+        3 => 'Customer',
+    ];
+    const ACTIVE = 1;
+    const DEACTIVE = 0;
 
     protected $fillable = [
         'name',
@@ -57,5 +64,9 @@ class Customer extends Authenticatable
     public function validateForPassportPasswordGrant($password)
     {
         return Hash::check($password, $this->password);
+    }
+
+    public function getRole3dAttribute($value) {
+        return self::ROLE[$value];
     }
 }
