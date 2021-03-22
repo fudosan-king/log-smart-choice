@@ -12,7 +12,7 @@ class CustomerController extends Controller {
      */
     public function getCustomer() {
         $customerId = auth()->guard('api')->user()->id;
-        $customer = Customer::select('name', 'email', 'phone_number')->where('id', $customerId)->get()->toArray();
+        $customer = Customer::select('name', 'email', 'phone_number', 'role3d')->where('id', $customerId)->get()->toArray();
         if ($customer) {
             $customer[0]['is_logged'] = Auth::check();
             return response()->json(['customer' => $customer[0]], 200);

@@ -32,7 +32,6 @@ class CustomerSeeder extends Seeder
         }
 
         Permission::generateFor('customers');
-        Permission::firstOrCreate(['key' => 'customers', 'table_name' => 'customers']);
 
         $groupsDataType = DataType::where('slug', 'customers')->firstOrFail();
 
@@ -45,10 +44,26 @@ class CustomerSeeder extends Seeder
                 'required'     => 1,
                 'browse'       => 1,
                 'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
+                'edit'         => 0,
+                'add'          => 0,
                 'delete'       => 1,
                 'order'        => 1,
+            ])->save();
+        }
+
+        $dataRow = $this->dataRow($groupsDataType, 'email');
+
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => __('Email'),
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 0,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 1,
+                'order'        => 2,
             ])->save();
         }
 
@@ -64,7 +79,7 @@ class CustomerSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 2,
+                'order'        => 3,
             ])->save();
         }
 
@@ -81,24 +96,24 @@ class CustomerSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'order'        => 3,
-                'details'      => ["default" => "Activate", "options" => [Customer::ACTIVE => "Active", Customer::INACTIVE => "Deactive"]],
+                'order'        => 4,
+                'details'      => ["default" => "Activate", "options" => [Customer::ACTIVE => "Active", Customer::DEACTIVE => "Deactive"]],
             ])->save();
         }
 
-        $dataRow = $this->dataRow($groupsDataType, 'role');
+        $dataRow = $this->dataRow($groupsDataType, 'role3d');
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'select_dropdown',
-                'display_name' => __('Role'),
+                'display_name' => __('Role3D'),
                 'required'     => 1,
                 'browse'       => 1,
                 'read'         => 1,
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'order'        => 4,
-                'details'      => ["default" => "Customer", "options" => Customer::ROLE],
+                'order'        => 5,
+                'details'      => ["default" => 3, "options" => Customer::ROLE],
             ])->save();
         }
 
@@ -110,24 +125,18 @@ class CustomerSeeder extends Seeder
 
         $menuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
-            'title'   => __('Customer'),
-            'url'     => 'admin/tab_search',
+            'title'   => __('Customers'),
+            'url'     => 'admin/customers',
             'route'   => null,
         ]);
-
-        $menuEstate = MenuItem::where('title', 'Estates')->where('url', 'admin/customers')->first();
-        $menuEstateId = null;
-        if ($menuEstate) {
-            $menuEstateId = $menuEstate->id;
-        }
 
         if (!$menuItem->exists) {
             $menuItem->fill([
                 'target'     => '_self',
                 'icon_class' => 'voyager-group',
                 'color'      => null,
-                'parent_id'  => $menuEstateId,
-                'order'      => 4,
+                'parent_id'  => null,
+                'order'      => 5,
             ])->save();
         }
     }
