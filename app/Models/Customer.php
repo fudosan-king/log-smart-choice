@@ -66,7 +66,15 @@ class Customer extends Authenticatable
         return Hash::check($password, $this->password);
     }
 
+    /**
+     * @param $value
+     * @return mixed|string
+     */
     public function getRole3dAttribute($value) {
-        return self::ROLE[$value];
+        $role = '';
+        if ($value != 0) {
+            $role = self::ROLE[$value];
+        }
+        return $role;
     }
 }
