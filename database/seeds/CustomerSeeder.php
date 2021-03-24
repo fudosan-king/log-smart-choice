@@ -113,7 +113,7 @@ class CustomerSeeder extends Seeder
                 'add'          => 1,
                 'delete'       => 1,
                 'order'        => 5,
-                'details'      => ["default" => 3, "options" => Customer::ROLE],
+                'details'      => ["default" => 3, "options" => Customer::ROLE3D],
             ])->save();
         }
 

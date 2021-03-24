@@ -20,7 +20,7 @@ class Customer extends Authenticatable
 
     const TIME_VERIFY_ACCOUNT = 60;
     const EMAIL_VERIFY = 1;
-    const ROLE = [
+    const ROLE3D = [
         1 => 'Interior Coordinator',
         2 => 'Sale',
         3 => 'Customer',
