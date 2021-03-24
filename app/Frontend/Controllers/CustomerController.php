@@ -15,7 +15,7 @@ class CustomerController extends Controller {
         $customer = Customer::select('name', 'email', 'phone_number', 'role3d')->where('id', $customerId)->first();
         if ($customer) {
             $customer->is_logged = Auth::check();
-            $customer->role3d = Customer::ROLE[$customer->role3d];
+            $customer->role3d = isset(Customer::ROLE[$customer->role3d]) ? Customer::ROLE[$customer->role3d] : null;
             return response()->json(['customer' => $customer], 200);
         }
         return [];
