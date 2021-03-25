@@ -20,25 +20,24 @@ use App\Frontend\Controllers\CustomerController;
 |
 */
 
-Route::group(['middleware' => ['cors', ]], function () {
-    Route::middleware('auth:api')->group(function () {
-        Route::delete('/logout', [LoginController::class, 'logout'])->name('logout');
 
-        // WishList
-        Route::post('/wishlist', [WishListController::class, 'upsertWishList'])->name('wishlist.add');
-        Route::get('/wishlist', [WishListController::class, 'getWishLists'])->name('wishlist.get');
+Route::middleware('auth:api')->group(function () {
+    Route::delete('/logout', [LoginController::class, 'logout'])->name('logout');
 
-        // Customer
-        Route::post('/customer', [CustomerController::class, 'getCustomer'])->name('customer.getInformation');
-    });
-    Route::get('/verify/{token}', [VerificationController::class, 'verifyEmail'])->name('verify.email');
-    Route::post('/register', [RegisterController::class, 'registerCustomer'])->name('customer.register');
-    Route::post('/login', [LoginController::class, 'login'])->name('login.check');
-    Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-    Route::post('/forgot-password', [ResetPasswordController::class, 'forgotPassword'])->name('customer.forgotpassword');
-    Route::post('/reset-password/{hash}', [ResetPasswordController::class, 'resetPassword'])->name('customer.resetpassword');
+    // WishList
+    Route::post('/wishlist', [WishListController::class, 'upsertWishList'])->name('wishlist.add');
+    Route::get('/wishlist', [WishListController::class, 'getWishLists'])->name('wishlist.get');
 
+    // Customer
+    Route::post('/customer', [CustomerController::class, 'getCustomer'])->name('customer.getInformation');
 });
+Route::get('/verify/{token}', [VerificationController::class, 'verifyEmail'])->name('verify.email');
+Route::post('/register', [RegisterController::class, 'registerCustomer'])->name('customer.register');
+Route::post('/login', [LoginController::class, 'login'])->name('login.check');
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/forgot-password', [ResetPasswordController::class, 'forgotPassword'])->name('customer.forgotpassword');
+Route::post('/reset-password/{hash}', [ResetPasswordController::class, 'resetPassword'])->name('customer.resetpassword');
+
 
 Route::group(['prefix' => 'list'], function () {
     Route::post('/', [EstateController::class, 'search']);
