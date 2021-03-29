@@ -10,6 +10,7 @@ use App\Models\Estates;
 use App\Models\WishLists;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 
 class WishListController extends Controller
@@ -45,7 +46,7 @@ class WishListController extends Controller
             );
             return response()->json(['message' => 'Success'], 200);
         } catch (Exception $e) {
-            Logger::error($e->getMessage());
+            Log::error($e->getMessage());
         }
 
         return response()->json(['message' => 'Fail'], 400);

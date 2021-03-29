@@ -44,15 +44,20 @@ class RegisterController extends Controller
      */
     public function registerCustomer(Request $request)
     {
-        $validator = $this->validator($request->all());
+        $params = [
+            'name' => "User".rand(0,100000),
+            'email' => $request->email,
+            'password' => $request->password,
+            'password_confirmation' => $request->password_confirmation
+        ];
+        $validator = $this->validator($params);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
-
         if ($validator->passes()) {
-            if ($customer = $this->create($request->all())) {
+            if ($customer = $this->create($params)) {
                 $link = url('customer/verify') . "/" . $customer->email_verification_token;
                 $data = [
                     'link' => $link,
@@ -61,11 +66,10 @@ class RegisterController extends Controller
                 try {
                     $emailVerifyAccount = new SendEmailVerifyAccount($request->only('email'), $data);
                     dispatch($emailVerifyAccount);
-                    return response()->json(['status' => true, 'message' => Lang::get('customer.create_success')], 200);
+                    return response()->json(['status' => true, 'message' =>__('customer.create_success')], 200);
                 } catch (\Exception $ex) {
-                    return response()->json(['status' => false, 'message' =>'send email fail'], 404);
+                    return response()->json(['status' => false, 'message' => __('customer.create_fail')], 404);
                 }
-
             }
         }
         return response()->json(['status' => false, 'message' => Lang::get('customer.create_fail')], 422);
@@ -89,10 +93,10 @@ class RegisterController extends Controller
             'password.confirmed' => 'Password không giống nhau',
         ];
         return Validator::make($data, [
-            'name'                  => ['required', 'string'],
+            // 'name'                  => ['required', 'string'],
             'email'                 => ['required', 'string', 'email', 'max:100', 'unique:customers'],
             'password'              => ['required', 'string', 'min:8', 'confirmed', 'regex:/^(?=.*[a-z|A-Z])(?=.*[a-zA-Z])(?=.*\d).+$/'],
-            'phone_number'          => ['numeric'],
+                    //    'phone_number'          => ['numeric'],
             'password_confirmation' => ['required', 'string', 'min:8'],
         ], $messages);
     }
@@ -108,7 +112,7 @@ class RegisterController extends Controller
         $customer = new Customer();
         $customer->name = $data['name'];
         $customer->email = $data['email'];
-        $customer->phone_number = $data['phone_number'];
+        // $customer->phone_number = $data['phone_number'];
         $customer->password = Hash::make($data['password']);
         $customer->remember_token = Str::random(10);
         $customer->role3d = 3;

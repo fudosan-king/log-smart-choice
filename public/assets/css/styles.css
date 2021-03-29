@@ -1916,6 +1916,10 @@ footer .phone_number a {
     padding-bottom: 60px;
 }
 
+.section_register .deltail_login_right .error_api_register {
+    margin-top: 17px;
+}
+
 .section_register .btn_login_submit {
     margin-bottom: 5px;
 }

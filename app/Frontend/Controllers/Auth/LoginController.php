@@ -5,12 +5,15 @@ namespace App\Frontend\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Support\Facades\Http;
+use Exception;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Passport\Client as PPClient;
+use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller
 {
@@ -33,16 +36,6 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::HOME;
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth:api', ['except' => ['login', 'showLoginForm', 'refreshToken']]);
-    }
 
     /**
      * Show form login
@@ -89,7 +82,7 @@ class LoginController extends Controller
                             "message"       => "Success",
                             'client_id'     => $client->id,
                             'client_secret' => $client->secret,
-                            'customer' => $customer,
+                            'customer'      => $customer,
                         ], 200);
                     }
                 }
@@ -128,16 +121,49 @@ class LoginController extends Controller
     }
 
     /**
-     * @param $username
-     * @param $password
-     * @return \Illuminate\Contracts\Routing\UrlGenerator|string
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    private function _loginBasicAuth($username, $password)
+    public function googleLogin(Request $request)
     {
-        $url = 'http://' . $username . ':' . $password . '@' . env('URL_WEB') . '/oauth/token';
-        if (env('APP_ENV') != 'development') {
-            $url = url('oauth/token');
+        try {
+
+            $googleId = $request->get('googleId');
+            $fullName = $request->get('fullName');
+            $email = $request->get('email');
+
+            // valid email exist
+            $customerGoogle = Customer::where('email', $email)->where('social', 'google')->first();
+
+            if ($customerGoogle) {
+                $customerInfo = Customer::where('email', $email)->where('id', '!=', $customerGoogle->id)->first();
+                if ($customerInfo) {
+                    return response()->json(['message' => 'Email already exist, please use another one'], 400);
+                }
+            } else {
+                $customerGoogle = new Customer();
+                $customerGoogle->name = $fullName;
+                $customerGoogle->email = $email;
+                $customerGoogle->social = 'google';
+                $customerGoogle->password = Hash::make($googleId);
+                $customerGoogle->role3d = 3;
+                $customerGoogle->status = Customer::EMAIL_VERIFY;
+                $customerGoogle->save();
+            }
+
+            $client = $this->_getCustomerClient();
+            if ($client) {
+                return response()->json([
+                    "message"       => "Success",
+                    'client_id'     => $client->id,
+                    'client_secret' => $client->secret,
+                    'customer'      => $customerGoogle,
+                ], 200);
+            }
+
+            return response()->json(['message' => 'Login with client fail!'], 400);
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
         }
-        return $url;
     }
 }
