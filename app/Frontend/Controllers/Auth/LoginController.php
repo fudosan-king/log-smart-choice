@@ -133,23 +133,20 @@ class LoginController extends Controller
             $email = $request->get('email');
 
             // valid email exist
-            $customerGoogle = Customer::where('email', $email)->where('social', 'google')->first();
+            $customerGoogle = Customer::where('email', $email)->first();
 
             if ($customerGoogle) {
-                $customerInfo = Customer::where('email', $email)->where('id', '!=', $customerGoogle->id)->first();
-                if ($customerInfo) {
-                    return response()->json(['message' => 'Email already exist, please use another one'], 400);
-                }
-            } else {
-                $customerGoogle = new Customer();
-                $customerGoogle->name = $fullName;
-                $customerGoogle->email = $email;
-                $customerGoogle->social = 'google';
-                $customerGoogle->password = Hash::make($googleId);
-                $customerGoogle->role3d = 3;
-                $customerGoogle->status = Customer::EMAIL_VERIFY;
-                $customerGoogle->save();
+                return response()->json(['message' => 'Email already exist, please use another one'], 400);
             }
+
+            $customerGoogle = new Customer();
+            $customerGoogle->name = $fullName;
+            $customerGoogle->email = $email;
+            $customerGoogle->social = 'google';
+            $customerGoogle->password = Hash::make($googleId);
+            $customerGoogle->role3d = 3;
+            $customerGoogle->status = Customer::EMAIL_VERIFY;
+            $customerGoogle->save();
 
             $client = $this->_getCustomerClient();
             if ($client) {
