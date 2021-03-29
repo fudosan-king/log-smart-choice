@@ -21,3 +21,4 @@ package-lock.json
 /public/estates
 /public/logsmartchoice
 ./bootstrap
+/public/*.js
