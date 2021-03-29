@@ -4,7 +4,7 @@
             <div class="box_property_item">
                 <div class="box_property_item_img">
                     <a v-bind:href="'/detail/' + estate._id">
-                        <img v-bind:src="estate['photo_first'] ? estate.photo_first : '/images/no-image.png'" alt=""
+                        <img v-lazy="estate['photo_first'] ? estate.photo_first : '/images/no-image.png'" alt=""
                              class="img-fluid">
                     </a>
                 </div>

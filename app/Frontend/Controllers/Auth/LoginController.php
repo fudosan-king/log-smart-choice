@@ -57,7 +57,7 @@ class LoginController extends Controller
     {
         $rule = [
             'email'    => 'required|string|email',
-            'password' => 'required|string',
+            'password' => ['required', 'string', 'min:8', 'regex:/^(?=.*[a-z|A-Z])(?=.*[a-zA-Z])(?=.*\d).+$/'],
         ];
 
         $messages = [
@@ -65,6 +65,8 @@ class LoginController extends Controller
             'email.max'         => Lang::get('auth.email_max_length'),
             'email.email'       => Lang::get('auth.email_invalid'),
             'password.required' => Lang::get('auth.password_required'),
+            'password.min' => Lang::get('auth.pass_word_min_length_include_alphabet'),
+            'password.regex' => Lang::get('auth.pass_word_min_length_include_alphabet'),
         ];
         $validator = Validator::make($request->all(), $rule, $messages);
 
@@ -136,17 +138,19 @@ class LoginController extends Controller
             $customerGoogle = Customer::where('email', $email)->first();
 
             if ($customerGoogle) {
-                return response()->json(['message' => 'Email already exist, please use another one'], 400);
+                if (!$customerGoogle->social == "google") {
+                    return response()->json(['message' => 'Email already exist, please use another one'], 400);
+                }
+            } else {
+                $customerGoogle = new Customer();
+                $customerGoogle->name = $fullName;
+                $customerGoogle->email = $email;
+                $customerGoogle->social = 'google';
+                $customerGoogle->password = Hash::make($googleId);
+                $customerGoogle->role3d = 3;
+                $customerGoogle->status = Customer::EMAIL_VERIFY;
+                $customerGoogle->save();
             }
-
-            $customerGoogle = new Customer();
-            $customerGoogle->name = $fullName;
-            $customerGoogle->email = $email;
-            $customerGoogle->social = 'google';
-            $customerGoogle->password = Hash::make($googleId);
-            $customerGoogle->role3d = 3;
-            $customerGoogle->status = Customer::EMAIL_VERIFY;
-            $customerGoogle->save();
 
             $client = $this->_getCustomerClient();
             if ($client) {
