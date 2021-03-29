@@ -1,17 +1,4 @@
 import VueRouter from 'vue-router';
-
-// Pages
-import Home from '../../js/pages/Home.vue';
-import Login from '../../js/pages/Login.vue';
-import ListEstates from '../../js/pages/ListEstates.vue';
-import DetailEstate from '../../js/pages/DetailEstate.vue';
-import PageNotFound from '../pages/PageNotFound.vue';
-import About from '../pages/About.vue';
-import Contact from '../pages/Contact.vue';
-import Register from '../pages/Register.vue';
-import ForgotPassword from '../pages/ForgotPassword.vue';
-
-// store
 import store from '../store/index';
 
 // Routes
@@ -19,22 +6,22 @@ const routes = [
     {
         path: '/',
         name: 'home',
-        component: Home,
+        component: () => import('../../js/pages/Home.vue'),
     },
     {
         path: '/list',
         name: 'list',
-        component: ListEstates,
+        component: () => import('../../js/pages/ListEstates.vue'),
     },
     {
         path: '/detail/:estateId',
         name: 'detail',
-        component: DetailEstate,
+        component: () => import('../../js/pages/ListEstates.vue'),
     },
     {
         path: '/login',
         name: 'login',
-        component: Login,
+        component: () => import('../../js/pages/Login.vue'),
         meta: {
             guest: true,
         },
@@ -42,24 +29,24 @@ const routes = [
     {
         path: '/about',
         name: 'about',
-        component: About,
+        component: () => import('../pages/About.vue'),
     },
     {
         path: '/contact',
         name: 'contact',
-        component: Contact,
+        component: () => import('../pages/Contact.vue'),
     },
     {
         path: '/register',
         name: 'register',
-        component: Register,
+        component: () => import('../pages/Register.vue'),
     },
     {
         path: '/forgot-password',
         name: 'forgotPassword',
-        component: ForgotPassword,
+        component: () => import('../pages/ForgotPassword.vue'),
     },
-    { path: "*", component: PageNotFound }
+    { path: "*", component: () => import('../pages/PageNotFound.vue') }
 ]
 
 const router = new VueRouter({

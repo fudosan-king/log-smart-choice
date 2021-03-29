@@ -11,34 +11,34 @@
                             </div>
                             <div class="row">
                                 <div class="col deltail_login_left">
-                                    <form autocomplete="off" @submit.prevent="login" class="frm_login">
+                                    <form autocomplete="off" @submit.prevent="submit" class="frm_login">
                                         <div class="form-group">
-                                            <label for="">メールアドレス（※）</label>
-                                            <input type="email" class="form-control" />
+                                            <label>メールアドレス（※）</label>
+                                            <input type="email" class="form-control" v-model="email" />
                                         </div>
                                         <div class="form-group">
-                                            <label for="">パスワード（※）</label>
+                                            <label>パスワード（※）</label>
                                             <input
                                                 type="password"
                                                 class="form-control"
                                                 v-model="password"
                                                 placeholder="パスワードを確認する"
                                             />
-                                            <smal class="notice_password"
-                                                >8文字以上で、文字、数字、記号を含む必要があります。</smal
-                                            >
+                                            <p class="notice_password">
+                                                8文字以上で、文字、数字、記号を含む必要があります。
+                                            </p>
                                         </div>
                                         <div class="form-group">
-                                            <label for="">パスワード確認（※）</label>
+                                            <label>パスワード確認（※）</label>
                                             <input
                                                 type="password"
                                                 class="form-control"
                                                 v-model="password"
                                                 placeholder="パスワードを確認する"
                                             />
-                                            <smal class="notice_password"
-                                                >8文字以上で、文字、数字、記号を含む必要があります。</smal
-                                            >
+                                            <p class="notice_password">
+                                                8文字以上で、文字、数字、記号を含む必要があります。
+                                            </p>
                                         </div>
                                         <div class="form-group btn_login_submit text-center">
                                             <button type="submit" class="btn btnlogin">申し込む</button>
@@ -51,9 +51,14 @@
                                         Facebookでログイン
                                     </button>
                                     <p class="note_login_btn_social"></p>
-                                    <button class="login_btn login_btn--google border">
+                                    <button class="login_btn login_btn--google border" @click="googleLogin">
                                         Googleでログイン
                                     </button>
+                                    <div
+                                        class="alert alert-danger error_api_register"
+                                        v-text="errorsApi.error"
+                                        v-if="errorsApi.error"
+                                    ></div>
                                 </div>
                             </div>
                             <hr />
@@ -77,57 +82,71 @@
     </div>
 </template>
 <script>
+import { email, maxLength, required, minLength, sameAs } from 'vuelidate/lib/validators';
 export default {
     data() {
         return {
             email: null,
             password: null,
+            password_confirmation: null,
             errors: [],
             errorsApi: {}
         };
+    },
+    computed: {
+        vuelidate() {
+            return this.$v;
+        }
+    },
+    validations: {
+        email: {
+            required,
+            email,
+            maxLength: maxLength(255)
+        },
+        password: {
+            required,
+            minLength: minLength(8)
+        },
+        password_confirmation: {
+            sameAs: sameAs(function() {
+                return this.password;
+            })
+        }
+    },
+    methods: {
+        isRequired(val) {
+            return val !== null && val !== '' && val !== undefined;
+        },
+        submit() {
+            this.errorsApi = {};
+            this.vuelidate.$touch();
+            if (!this.vuelidate.$invalid) {
+            }
+        },
+        googleLogin() {
+            this.$store
+                .dispatch('googleLogin')
+                .then(response => {
+                    this.$setCookie('accessToken', response.token, 1);
+                    this.$setCookie('accessToken3d', response.token, 1);
+                    this.$setCookie('refreshToken', response.refreshToken, 1);
+                    window.location.href = '/';
+                })
+                .catch(error => {
+                    let responseErrors = error.response.data;
+                    let errors = {};
+                    if (typeof error.response.data != 'object') {
+                        errors = JSON.parse(responseErrors);
+                        for (var key in errors) {
+                            errors[key] = errors[key][0];
+                        }
+                    } else {
+                        errors['error'] = responseErrors['message'];
+                    }
+                    this.errorsApi = errors;
+                });
+        }
     }
-    // methods: {
-    //     login() {
-    //         this.errors = [];
-    //         if (!this.email) {
-    //             this.errors.push('メールアドレスを入力してください');
-    //         } else if (!this.validEmail(this.email)) {
-    //             this.errors.push('Valid email required.');
-    //         }
-
-    //         if (!this.password) {
-    //             this.errors.push('パスワードを入力してください');
-    //         }
-    //         if (!this.errors.length) {
-    //             let email = this.email;
-    //             let password = this.password;
-    //             this.$store
-    //                 .dispatch('login', { email, password })
-    //                 .then(response => {
-    //                     this.$router.push('/');
-    //                     this.$router.go(0);
-    //                 })
-    //                 .catch(error => {
-    //                     let responseErrors = error.response.data;
-    //                     let errors = {};
-    //                     if (typeof error.response.data != 'object') {
-    //                         errors = JSON.parse(responseErrors);
-    //                         for (var key in errors) {
-    //                             errors[key] = errors[key][0];
-    //                         }
-    //                     } else {
-    //                         errors['error'] = responseErrors['message'];
-    //                     }
-
-    //                     this.errorsApi = errors;
-    //                 });
-    //         }
-    //     },
-
-    //     validEmail(email) {
-    //         var response = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    //         return response.test(email);
-    //     }
-    // }
 };
 </script>

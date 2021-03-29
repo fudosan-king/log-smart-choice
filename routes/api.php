@@ -8,6 +8,7 @@ use App\Frontend\Controllers\EstateController;
 use App\Frontend\Controllers\Auth\VerificationController;
 use App\Frontend\Controllers\WishListController;
 use App\Frontend\Controllers\CustomerController;
+use App\Frontend\Controllers\GoogleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +38,7 @@ Route::post('/login', [LoginController::class, 'login'])->name('login.check');
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/forgot-password', [ResetPasswordController::class, 'forgotPassword'])->name('customer.forgotpassword');
 Route::post('/reset-password/{hash}', [ResetPasswordController::class, 'resetPassword'])->name('customer.resetpassword');
+Route::post('/google-login', [LoginController::class, 'googleLogin']);
 
 
 Route::group(['prefix' => 'list'], function () {

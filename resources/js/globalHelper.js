@@ -4,7 +4,7 @@ export default {
             var date = new Date();
             date.setTime(date.getTime() + (exdays * 24 * 60 * 60 * 1000));
             var expires = "expires=" + date.toUTCString();
-            if (name == 'accessToken') {
+            if (name == 'accessToken3d') {
                 document.cookie = name + "=" + value + ";" + expires + ";path=/" + ";domain=.order-renove.jp";
             } else {
                 document.cookie = name + "=" + value + ";" + expires + ";path=/";

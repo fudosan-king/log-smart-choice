@@ -46,11 +46,10 @@ export default {
             customer: {},
         }
     },
-
     components: {
         WishlistComponent
     },
-    beforeMount() {
+    mounted() {
         this.getListEstates();
     },
     methods: {

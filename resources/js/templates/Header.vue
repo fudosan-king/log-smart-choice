@@ -76,8 +76,6 @@
     </header>
 </template>
 <script>
-import { mapState } from 'vuex';
-
 export default {
     data() {
         const logoBlack = '/assets/images/SVG/logo_orderrenove_black.svg';
@@ -97,6 +95,7 @@ export default {
                 .dispatch('logout')
                 .then(response => {
                     this.$setCookie('accessToken', '', 1);
+                    this.$setCookie('accessToken3d', '', 1);
                     this.$setCookie('refreshToken', '', 1);
                     this.$setCookie('clientId', '', 1);
                     this.$setCookie('clientSecret', '', 1);
@@ -104,8 +103,7 @@ export default {
                     delete axios.defaults.headers.common['Authorization'];
                     this.$router.go(0);
                 })
-                .catch(error => {
-                });
+                .catch(error => {});
         }
     },
     computed: {

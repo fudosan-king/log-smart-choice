@@ -28,7 +28,7 @@ const actions = {
                 username: `${process.env.MIX_BASIC_AUTH_USERNAME}`,
                 password: `${process.env.MIX_BASIC_AUTH_PASSWORD}`,
             }
-            
+
             axios({
                 url: '/login', data: customer, method: 'POST', headers: {
                     'content-type': 'application/json',
@@ -63,6 +63,7 @@ const actions = {
                                 userName: this._vm.$getCookie('userName'),
                             }
                             this._vm.$setCookie('accessToken', tokenInfo.token, 1);
+                            this._vm.$setCookie('accessToken3d', tokenInfo.token, 1);
                             this._vm.$setCookie('refreshToken', tokenInfo.refreshToken, 1);
 
                             commit('auth_success', tokenInfo);
@@ -75,6 +76,7 @@ const actions = {
                 .catch(err => {
                     commit('auth_error');
                     this._vm.$setCookie('accessToken', '', 1);
+                    this._vm.$setCookie('accessToken3d', '', 1);
                     this._vm.$setCookie('clientId', '', 1);
                     this._vm.$setCookie('clientSecret', '', 1);
                     reject(err);
@@ -89,26 +91,32 @@ const actions = {
             let auth = {
                 username: `${process.env.MIX_BASIC_AUTH_USERNAME}`,
                 password: `${process.env.MIX_BASIC_AUTH_PASSWORD}`,
-            }
+            };
             axios({
                 url: '/logout', method: 'DELETE', headers: {
                     'content-type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`,
+                    'AuthorizationBearer': `Bearer ${accessToken}`,
                 },
                 auth: auth,
             })
                 .then(resp => {
                     this._vm.$setCookie('accessToken', '', 1);
+                    this._vm.$setCookie('accessToken3d', '', 1);
                     this._vm.$setCookie('refreshToken', '', 1);
                     this._vm.$setCookie('clientId', '', 1);
                     this._vm.$setCookie('clientSecret', '', 1);
                     this._vm.$setCookie('userName', '', 1);
                     delete axios.defaults.headers.common['Authorization'];
+                    let auth2 = window.gapi.auth2.getAuthInstance();
+                    if (auth2) {
+                        auth2.signOut();
+                    }
                     resolve(resp);
                 })
                 .catch(err => {
                     commit('auth_error');
                     this._vm.$setCookie('accessToken', '', 1);
+                    this._vm.$setCookie('accessToken3d', '', 1);
                     this._vm.$setCookie('refreshToken', '', 1);
                     reject(err);
                 });
@@ -136,7 +144,7 @@ const actions = {
             const customAxios = axios.create({
                 baseURL: `${process.env.MIX_APP_URL}`
             });
-            
+
             customAxios({
                 url: '/oauth/token', data: getAccessToken, method: 'POST', headers: {
                     'content-type': 'application/json',
@@ -149,35 +157,119 @@ const actions = {
                     refreshToken: response.data.refresh_token
                 }
                 this._vm.$setCookie('accessToken', tokenInfo.accessToken, 1);
+                this._vm.$setCookie('accessToken3d', tokenInfo.accessToken, 1);
                 this._vm.$setCookie('refreshToken', tokenInfo.refreshToken, 1);
                 commit('refreshToken', tokenInfo);
                 resolve(response);
             }).catch(error => {
                 this._vm.$setCookie('accessToken', '', 1);
+                this._vm.$setCookie('accessToken3d', '', 1);
                 this._vm.$setCookie('refreshToken', '', 1);
                 commit('logout');
                 reject(error);
             });
         });
-    }
+    },
+
+    googleLogin({ commit }) {
+        return new Promise((resolve, reject) => {
+            const customAxios = axios.create({
+                baseURL: `${process.env.MIX_APP_URL}`
+            });
+            window.gapi.auth2.getAuthInstance().signIn().then(() => {
+                let auth2 = window.gapi.auth2.getAuthInstance();
+                let auth = {
+                    username: `${process.env.MIX_BASIC_AUTH_USERNAME}`,
+                    password: `${process.env.MIX_BASIC_AUTH_PASSWORD}`,
+                }
+
+                if (auth2.isSignedIn.get()) {
+                    let profile = auth2.currentUser.get().getBasicProfile();
+                    let userInfo = {
+                        "googleId": profile.getId(),
+                        "fullName": profile.getName(),
+                        "email": profile.getEmail(),
+                        "imageUrl": profile.getImageUrl(),
+                    };
+                    axios({
+                        url: '/google-login', data: userInfo, method: 'POST', headers: {
+                            'content-type': 'application/json',
+                        },
+                        auth: auth,
+                    }).then(resp => {
+                        let clientId = resp.data.client_id;
+                        let clientSecret = resp.data.client_secret;
+                        let accessToken = {
+                            "grant_type": "password",
+                            "client_id": clientId,
+                            "client_secret": clientSecret,
+                            "username": resp.data.customer.email,
+                            "password": userInfo.googleId,
+                            "scope": "*"
+                        };
+                        this._vm.$setCookie('clientId', clientId, 1);
+                        this._vm.$setCookie('clientSecret', clientSecret, 1);
+                        this._vm.$setCookie('userName', resp.data.customer.name, 1);
+                        customAxios({
+                            url: '/oauth/token', data: accessToken, method: 'POST', headers: {
+                                'content-type': 'application/json',
+                            },
+                            auth: auth,
+                        }).then(resp => {
+                            const tokenInfo = {
+                                token: resp.data.access_token,
+                                refreshToken: resp.data.refresh_token,
+                                userName: this._vm.$getCookie('userName'),
+                            }
+                            commit('auth_success', tokenInfo);
+                            resolve(tokenInfo);
+                        }).catch(err => {
+                            commit('auth_error');
+                            reject(err);
+                        });
+                    }).catch(err => {
+                        commit('auth_error');
+                        this._vm.$setCookie('accessToken', '', 1);
+                        this._vm.$setCookie('accessToken3d', '', 1);
+                        this._vm.$setCookie('refreshToken', '', 1);
+                        reject(err);
+                    });
+                }
+            }).catch(err => {
+                commit('auth_error');
+                this._vm.$setCookie('accessToken', '', 1);
+                this._vm.$setCookie('accessToken3d', '', 1);
+                this._vm.$setCookie('refreshToken', '', 1);
+                reject(err);
+            });
+        })
+    },
+
+    googleLogout() {
+        
+    },
 };
 const mutations = {
     auth_request(state) {
         state.status = 'loading';
     },
+
     auth_success(state, tokenInfo) {
         state.status = 'success';
         state.token = tokenInfo.token;
         state.refreshToken = tokenInfo.refreshToken;
     },
+
     auth_error(state) {
         state.status = 'error';
     },
+
     logout(state) {
         state.status = '';
         state.token = '';
         state.refreshToken = '';
     },
+
     refreshToken(state, tokenInfo) {
         state.status = 'success';
         state.token = tokenInfo.accessToken;
