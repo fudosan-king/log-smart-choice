@@ -14,34 +14,105 @@
                                     <form autocomplete="off" @submit.prevent="submit" class="frm_login">
                                         <div class="form-group">
                                             <label>メールアドレス（※）</label>
-                                            <input type="email" class="form-control" v-model="email" />
+                                            <input
+                                                type="text"
+                                                v-model="customer.email"
+                                                name="email"
+                                                class="form-control"
+                                                :class="{
+                                                    'is-invalid':
+                                                        (submitted && $v.customer.email.$error) ||
+                                                        (errorsApi.email && errorsApi.email.length)
+                                                }"
+                                            />
+                                            <div
+                                                class="invalid-feedback"
+                                                v-if="errorsApi.email && errorsApi.email.length"
+                                            >
+                                                <span>{{ errorsApi.email[0] }}</span>
+                                            </div>
+                                            <div v-if="submitted && $v.customer.email.$error" class="invalid-feedback">
+                                                <span v-if="!$v.customer.email.required">メールが必要です</span>
+                                                <span v-if="!$v.customer.email.email">メールが無効です</span>
+                                            </div>
                                         </div>
+
                                         <div class="form-group">
                                             <label>パスワード（※）</label>
                                             <input
                                                 type="password"
                                                 class="form-control"
-                                                v-model="password"
+                                                v-model="customer.password"
                                                 placeholder="パスワードを確認する"
+                                                :class="{
+                                                    'is-invalid':
+                                                        (submitted && $v.customer.password.$error) ||
+                                                        (errorsApi.password && errorsApi.password.length)
+                                                }"
                                             />
-                                            <p class="notice_password">
-                                                8文字以上で、文字、数字、記号を含む必要があります。
-                                            </p>
+                                            <div
+                                                v-if="errorsApi.password && errorsApi.password.length"
+                                                class="invalid-feedback"
+                                            >
+                                                <span>
+                                                    {{ errorsApi.password[0] }}
+                                                </span>
+                                            </div>
+                                            <div
+                                                v-if="submitted && $v.customer.password.$error"
+                                                class="invalid-feedback"
+                                            >
+                                                <span v-if="!$v.customer.password.required"
+                                                    >パスワードを入力してください
+                                                </span>
+                                                <span v-if="!$v.customer.password.minLength">
+                                                    パスワードは8～16文字以内で指定してください
+                                                </span>
+                                                <span v-if="errorsApi.password && errorsApi.password.length">
+                                                    {{ errorsApi.password[0] }}
+                                                </span>
+                                            </div>
                                         </div>
                                         <div class="form-group">
                                             <label>パスワード確認（※）</label>
                                             <input
                                                 type="password"
                                                 class="form-control"
-                                                v-model="password"
+                                                v-model="customer.password_confirmation"
+                                                name="password_confirmation"
                                                 placeholder="パスワードを確認する"
+                                                :class="{
+                                                    'is-invalid':
+                                                        (submitted && $v.customer.password_confirmation.$error) ||
+                                                        (errorsApi.password_confirmation &&
+                                                            errorsApi.password_confirmation.length)
+                                                }"
                                             />
-                                            <p class="notice_password">
-                                                8文字以上で、文字、数字、記号を含む必要があります。
-                                            </p>
+                                            <div
+                                                v-if="
+                                                    errorsApi.password_confirmation &&
+                                                        errorsApi.password_confirmation.length
+                                                "
+                                                class="invalid-feedback"
+                                            >
+                                                <span>
+                                                    {{ errorsApi.password_confirmation[0] }}
+                                                </span>
+                                            </div>
+                                            <div
+                                                v-if="submitted && $v.customer.password_confirmation.$error"
+                                                class="invalid-feedback"
+                                            >
+                                                <span v-if="!$v.customer.password_confirmation.required"
+                                                    >パスワードを入力してください</span
+                                                >
+                                                <span v-else-if="!$v.customer.password_confirmation.minLength">
+                                                    パスワードが一致しません
+                                                </span>
+                                            </div>
                                         </div>
                                         <div class="form-group btn_login_submit text-center">
-                                            <button type="submit" class="btn btnlogin">申し込む</button>
+                                            <button type="submit" class="btn btnlogin" @click="submit">申し込む</button>
                                         </div>
                                     </form>
                                 </div>
@@ -82,46 +153,60 @@
     </div>
 </template>
 <script>
-import { email, maxLength, required, minLength, sameAs } from 'vuelidate/lib/validators';
+import { required, email, minLength, sameAs, maxLength, requiredIf } from 'vuelidate/lib/validators';
 export default {
     data() {
         return {
-            email: null,
-            password: null,
-            password_confirmation: null,
+            customer: {
+                email: null,
+                password: null,
+                password_confirmation: ''
+            },
             errors: [],
-            errorsApi: {}
+            errorsApi: {},
+            submitted: false
         };
     },
-    computed: {
-        vuelidate() {
-            return this.$v;
-        }
-    },
     validations: {
-        email: {
-            required,
-            email,
-            maxLength: maxLength(255)
-        },
-        password: {
-            required,
-            minLength: minLength(8)
-        },
-        password_confirmation: {
-            sameAs: sameAs(function() {
-                return this.password;
-            })
+        customer: {
+            email: {
+                required,
+                email
+            },
+            password: {
+                required,
+                minLength: minLength(8),
+                maxLength: maxLength(255)
+            },
+            password_confirmation: {
+                required: requiredIf(function() {
+                    return this.customer.password;
+                }),
+                sameAs: sameAs(function() {
+                    return this.customer.password;
+                })
+            }
         }
     },
     methods: {
-        isRequired(val) {
-            return val !== null && val !== '' && val !== undefined;
-        },
         submit() {
-            this.errorsApi = {};
-            this.vuelidate.$touch();
-            if (!this.vuelidate.$invalid) {
+            this.submitted = true;
+            this.$v.$touch();
+            if (!this.$v.$invalid && this.submitted) {
+                this.submitted = false;
+                axios
+                    .post('/register', this.customer, {
+                        headers: {
+                            'content-type': 'application/json'
+                        }
+                    })
+                    .then(res => {
+                        this.$router.push({ name: 'login' }, () => {});
+                    })
+                    .catch(err => {
+                        this.submitted = false;
+                        this.errorsApi = err.response.data;
+                    });
             }
         },
         googleLogin() {

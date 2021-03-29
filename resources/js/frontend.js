@@ -10,6 +10,7 @@ import router from './router/index';
 import globalHelper from './globalHelper';
 import Vuelidate from 'vuelidate';
 import Auth from './socialAuth';
+import Lazyload from 'vue-lazyload';
 
 // Set Vue router
 Vue.router = router;
@@ -22,6 +23,13 @@ const gAuthOption = {
     scope: "profile email",
 };
 Vue.use(Auth, gAuthOption);
+
+Vue.use(Lazyload, {
+    preLoad: 1.3,
+    error: 'images/no-image.png',
+    loading: 'images/loading.gif',
+    attempt: 1,
+})
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = `${process.env.MIX_APP_URL}/api`;
