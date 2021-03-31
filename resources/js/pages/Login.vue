@@ -38,19 +38,18 @@
                                             <br />
                                             <div
                                                 class="alert alert-danger"
-                                                v-text="errorsApi.email"
+                                                v-text="errorsApi.email[0]"
                                                 v-if="errorsApi.email"
                                             ></div>
                                             <div
                                                 class="alert alert-danger"
-                                                v-text="errorsApi.password"
-                                                v-if="errorsApi.password"
+                                                v-text="errorsApi.password[0]"
+                                                v-else-if="errorsApi.password"
                                             ></div>
-                                            <br />
                                             <div
                                                 class="alert alert-danger"
-                                                v-text="errorsApi.error"
-                                                v-if="errorsApi.error"
+                                                v-text="errorsApi.customer[0]"
+                                                v-else-if="errorsApi.customer"
                                             ></div>
                                             <div v-if="errors.length">
                                                 <div class="alert alert-danger" v-for="error in errors">
@@ -118,18 +117,7 @@ export default {
                         this.$router.go(0);
                     })
                     .catch(error => {
-                        let responseErrors = error.response.data;
-                        let errors = {};
-                        if (typeof error.response.data != 'object') {
-                            errors = JSON.parse(responseErrors);
-                            for (var key in errors) {
-                                errors[key] = errors[key][0];
-                            }
-                        } else {
-                            errors['error'] = responseErrors['message'];
-                        }
-
-                        this.errorsApi = errors;
+                        this.errorsApi = error.response.data.errors;
                     });
             }
         },
