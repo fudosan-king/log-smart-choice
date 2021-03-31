@@ -3,16 +3,15 @@
 namespace App\Frontend\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RegisterRequest;
 use App\Jobs\SendEmailVerifyAccount;
 use App\Models\Customer;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use App\Frontend\Controllers\Auth\LoginController;
 
 class RegisterController extends Controller
 {
@@ -42,63 +41,30 @@ class RegisterController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function registerCustomer(Request $request)
+    public function registerCustomer(RegisterRequest $request)
     {
         $params = [
-            'name' => "User".rand(0,100000),
-            'email' => $request->email,
-            'password' => $request->password,
+            'name'                  => "User" . rand(0, 100000),
+            'email'                 => $request->email,
+            'password'              => $request->password,
             'password_confirmation' => $request->password_confirmation
         ];
-        $validator = $this->validator($params);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
-
-        if ($validator->passes()) {
-            if ($customer = $this->create($params)) {
-                $link = url('customer/verify') . "/" . $customer->email_verification_token;
-                $data = [
-                    'link' => $link,
-                    'customer' => $customer,
-                ];
-                try {
-                    $emailVerifyAccount = new SendEmailVerifyAccount($request->only('email'), $data);
-                    dispatch($emailVerifyAccount);
-                    return response()->json(['status' => true, 'message' =>__('customer.create_success')], 200);
-                } catch (\Exception $ex) {
-                    return response()->json(['status' => false, 'message' => __('customer.create_fail')], 404);
-                }
+        if ($customer = $this->create($params)) {
+            $link = url('customer/verify') . "/" . $customer->email_verification_token;
+            $data = [
+                'link'     => $link,
+                'customer' => $customer,
+            ];
+            try {
+                $emailVerifyAccount = new SendEmailVerifyAccount($request->only('email'), $data);
+                dispatch($emailVerifyAccount);
+                return $this->response('Customer register success', 'customer', 200, [__('customer.create_success')]);
+            } catch (\Exception $ex) {
+                Log::error($ex->getMessage());
             }
         }
-        return response()->json(['status' => false, 'message' => Lang::get('customer.create_fail')], 422);
-    }
-
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param array $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        $messages = [
-            'email.required' => Lang::get('auth.email_required'),
-            'email.max' => Lang::get('auth.email_max_length'),
-            'email.email' => Lang::get('auth.email_invalid'),
-            'password.required' => Lang::get('auth.password_required'),
-            'password.min' => Lang::get('auth.pass_word_min_length_include_alphabet'),
-            'password.regex' => Lang::get('auth.pass_word_min_length_include_alphabet'),
-            'password.confirmed' => 'Password không giống nhau',
-        ];
-        return Validator::make($data, [
-            // 'name'                  => ['required', 'string'],
-            'email'                 => ['required', 'string', 'email', 'max:100', 'unique:customers'],
-            'password'              => ['required', 'string', 'min:8', 'confirmed', 'regex:/^(?=.*[a-z|A-Z])(?=.*[a-zA-Z])(?=.*\d).+$/'],
-                    //    'phone_number'          => ['numeric'],
-            'password_confirmation' => ['required', 'string', 'min:8'],
-        ], $messages);
+        return $this->response('Customer register fail', 'customer', 422, [__('customer.create_fail')]);
     }
 
     /**

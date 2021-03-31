@@ -51,7 +51,7 @@ class VerificationController extends Controller
     public function verifyEmail($token = null)
     {
         if ($token == null) {
-            return response()->json(['status' => false, 'message' => Lang::get('auth.token_null')], 422);
+            return $this->response('Token invalid', 'verify', 422, [__('auth.token_null')]);
         }
 
         $customer = Customer::where('email_verification_token', $token)->first();
@@ -61,8 +61,7 @@ class VerificationController extends Controller
             $timeVerify = date('Y-m-d H:i:s', strtotime($customer->created_at) + Customer::TIME_VERIFY_ACCOUNT);
 
             if ($timeCurrent > $timeVerify) {
-                session()->flash('message', Lang::get('customer.token_expired'));
-                return response()->json(['status' => false, 'message' => Lang::get('customer.token_expired')], 422);
+                return $this->response('Token invalid', 'verify', 422, [__('customer.token_expired')]);
             }
 
             $customer->status = Customer::EMAIL_VERIFY;
@@ -70,9 +69,8 @@ class VerificationController extends Controller
             $customer->email_verification_token = '';
             $customer->save();
 
-            return response()->json(['status' => true, 'message' => Lang::get('customer.activate_account_success')], 200);
+            return $this->response('Activate success', 'verify', 200, [__('customer.activate_account_success')]);
         }
-
-        return response()->json(['status' => false, 'message' => Lang::get('customer.activate_account_fail')], 422);
+        return $this->response('Activate invalid', 'verify', 422, [__('customer.activate_account_fail')]);
     }
 }

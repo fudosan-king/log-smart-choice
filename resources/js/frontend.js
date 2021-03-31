@@ -29,7 +29,7 @@ Vue.use(Lazyload, {
     error: 'images/no-image.png',
     loading: 'images/loading.gif',
     attempt: 1,
-})
+});
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = `${process.env.MIX_APP_URL}/api`;

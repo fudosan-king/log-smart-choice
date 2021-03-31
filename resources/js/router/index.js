@@ -16,7 +16,7 @@ const routes = [
     {
         path: '/detail/:estateId',
         name: 'detail',
-        component: () => import('../../js/pages/ListEstates.vue'),
+        component: () => import('../../js/pages/DetailEstate.vue'),
     },
     {
         path: '/login',

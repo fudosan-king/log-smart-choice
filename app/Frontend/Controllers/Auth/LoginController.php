@@ -3,6 +3,7 @@
 namespace App\Frontend\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\LoginRequest;
 use App\Models\Customer;
 use App\Providers\RouteServiceProvider;
 use Exception;
@@ -53,27 +54,8 @@ class LoginController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $rule = [
-            'email'    => 'required|string|email',
-            'password' => ['required', 'string', 'min:8', 'regex:/^(?=.*[a-z|A-Z])(?=.*[a-zA-Z])(?=.*\d).+$/'],
-        ];
-
-        $messages = [
-            'email.required'    => Lang::get('auth.email_required'),
-            'email.max'         => Lang::get('auth.email_max_length'),
-            'email.email'       => Lang::get('auth.email_invalid'),
-            'password.required' => Lang::get('auth.password_required'),
-            'password.min' => Lang::get('auth.pass_word_min_length_include_alphabet'),
-            'password.regex' => Lang::get('auth.pass_word_min_length_include_alphabet'),
-        ];
-        $validator = Validator::make($request->all(), $rule, $messages);
-
-        if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 404);
-        }
-
         $customer = Customer::where('email', $request->email)->first();
         if ($customer) {
             if ($customer->status == Customer::EMAIL_VERIFY) {
@@ -88,13 +70,11 @@ class LoginController extends Controller
                         ], 200);
                     }
                 }
-                $response = ["message" => Lang::get('auth.password_or_email_wrong')];
-                return response($response, 404);
+                return $this->response('Email or password invalid', 'customer', 422, [__('auth.password_or_email_wrong')]);
             }
-            $response = ["message" => Lang::get('auth.email_not_activated')];
-            return response()->json($response, 404);
+            return $this->response('Email invalid', 'customer', 422, [__('auth.email_not_activated')]);
         }
-        return response()->json(["message" => "Customer does not exist"], 200);
+        return $this->response('Customer invalid', 'customer', 422, ['Customer does not exist']);
     }
 
     /**
@@ -107,9 +87,7 @@ class LoginController extends Controller
     {
         $token = $request->user()->token();
         $token->revoke();
-        $response = ['message' => 'You have been successfully logged out!'];
-        return response()->json($response, 200);
-
+        return $this->response('Logout', 'customer', 200, ['You have been successfully logged out!']);
     }
 
     /**
@@ -139,7 +117,7 @@ class LoginController extends Controller
 
             if ($customerGoogle) {
                 if (!$customerGoogle->social == "google") {
-                    return response()->json(['message' => 'Email already exist, please use another one'], 400);
+                    return $this->response('Google Login invalid', 'customer', 422, ['Email already exist, please use another one']);
                 }
             } else {
                 $customerGoogle = new Customer();
@@ -162,7 +140,7 @@ class LoginController extends Controller
                 ], 200);
             }
 
-            return response()->json(['message' => 'Login with client fail!'], 400);
+            return $this->response('Client invalid', 'customer', 422, ['Login with client fail!']);
         } catch (Exception $e) {
             Log::error($e->getMessage());
         }

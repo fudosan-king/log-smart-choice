@@ -50,14 +50,7 @@
                                                         (errorsApi.password && errorsApi.password.length)
                                                 }"
                                             />
-                                            <div
-                                                v-if="errorsApi.password && errorsApi.password.length"
-                                                class="invalid-feedback"
-                                            >
-                                                <span>
-                                                    {{ errorsApi.password[0] }}
-                                                </span>
-                                            </div>
+
                                             <div
                                                 v-if="submitted && $v.customer.password.$error"
                                                 class="invalid-feedback"
@@ -68,7 +61,12 @@
                                                 <span v-if="!$v.customer.password.minLength">
                                                     パスワードは8～16文字以内で指定してください
                                                 </span>
-                                                <span v-if="errorsApi.password && errorsApi.password.length">
+                                            </div>
+                                            <div
+                                                v-else-if="errorsApi.password && errorsApi.password.length"
+                                                class="invalid-feedback"
+                                            >
+                                                <span>
                                                     {{ errorsApi.password[0] }}
                                                 </span>
                                             </div>
@@ -112,7 +110,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group btn_login_submit text-center">
-                                            <button type="submit" class="btn btnlogin" @click="submit">申し込む</button>
+                                            <button type="submit" class="btn btnlogin" >申し込む</button>
                                         </div>
                                     </form>
                                 </div>
