@@ -166,6 +166,21 @@ class EstateInformation extends Seeder {
             ])->save();
         }
 
+        $dataRow = $this->dataRow($estateDataType, 'decode');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => __('Decode'),
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => 9,
+            ])->save();
+        }
+
         Menu::firstOrCreate([
             'name' => 'admin',
         ]);
