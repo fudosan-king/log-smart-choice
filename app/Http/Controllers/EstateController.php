@@ -420,6 +420,15 @@ class EstateController extends Controller
         $descriptionUrlImageLeft = '';
         $descriptionUrlImageRight = '';
 
+        if ($request->has('decode')) {
+            if (!is_numeric($request->get('decode'))) {
+                return redirect()->back()->with([
+                    'message'    => 'Wrong format decode',
+                    'alert-type' => 'error',
+                ]);
+            }
+        }
+
         // Check estate description photo or hidden photo exist
         if ($request->hasFile('estate_description_left_photo')) {
             $estateDescriptionLeftPhoto = $request->file('estate_description_left_photo');

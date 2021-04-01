@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://log_smart_choice.local:8888/'],
+    'allowed_origins' => ['*'],
 
     'allowed_origins_patterns' => [],
 
