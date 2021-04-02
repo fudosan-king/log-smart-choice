@@ -28,7 +28,7 @@ class EstateController extends Controller
     private function _loadEstateInformation($estate_id, $default='renovation'){
         $estate = EstateInformation::select('renovation_media', 'estate_befor_photo',
             'estate_after_photo', 'estate_main_photo', 'estate_equipment', 'estate_flooring', 'category_tab_search',
-        'tab_search')
+        'tab_search', 'decode')
             ->where('estate_id', $estate_id)->get()->first();
         return $estate ? $estate : '{}';
     }
@@ -522,6 +522,9 @@ class EstateController extends Controller
         $this->_insertDatabase($id, 'category_tab_search', $categoriesTab);
         // tab search
         $this->_insertDatabase($id, 'tab_search', $tabsSearch);
+        // decode
+        $this->_insertDatabase($id, 'decode', $request->get('decode'));
+
         $this->insertUpdateData($request, $slug, $dataType->editRows, $data);
 
 
@@ -640,11 +643,6 @@ class EstateController extends Controller
             $view = "voyager::$slug.read";
         }
 
-//        $imagesData = $this->_loadImages($id, 'renovation');
-//        $mainPhoto = $this->_loadImages($id, 'main');
-//        $beforAfterPhoto = $this->_loadImages($id, 'befor_after');
-//        $equipmentSlide = $this->_loadImages($id, 'estate_equipment');
-//        $flooring = $this->_loadImages($id, 'estate_flooring');
         $estateInfo = $this->_loadEstateInformation($id);
         $mapLabel = $this->mapLabel;
 

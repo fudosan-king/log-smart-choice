@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 class EstateController extends Controller
 {
     private $linkS3 = 'https://fdk-production.s3-ap-northeast-1.amazonaws.com/';
+
     /**
      * Search Estate
      *
@@ -99,7 +100,7 @@ class EstateController extends Controller
     public function detail(Request $request)
     {
         $id = $request->has('id') ? $request->get('id') : '';
-        if (!$id){
+        if (!$id) {
             return response()->json(['data' => []], 200);
         }
         $estateRecommend = [];
@@ -113,7 +114,7 @@ class EstateController extends Controller
             'estate_equipment', 'estate_flooring', 'decode')
             ->where('_id', $id)
             ->where('status', '=', Estates::STATUS_SALE)
-            ->get()->toArray();
+            ->first()->toArray();
 
         if ($estate) {
             $estate = $this->_getEstateInformation($estate);
@@ -159,31 +160,33 @@ class EstateController extends Controller
      * @param array $wishList
      * @return mixed
      */
-    private function _getEstateInformation($estates, $wishList = [])
+    private function _getEstateInformation($estate, $wishList = [])
     {
-        foreach ($estates as $key => $estate) {
-            $estateInformation = EstateInformation::where('estate_id', $estates[$key]['_id'])->get()->first();
-            $estates[$key]['estate_information'] = $estateInformation;
-            if ($estateInformation && $estateInformation->estate_main_photo){
-                $photo_first = $estateInformation->estate_main_photo;
-            } else {
-                $photo_first = $this->_getFirstPhotos($estate);
-            }
-
-            if (!empty($wishList)) {
-                if (in_array($estate['_id'], $wishList)) {
-                    $estates[$key]['is_wish'] = 1;
-                }
-            }
-
-            $estates[$key]['photo_first'] = $photo_first;
-            $estates[$key]['photos'] = $this->_getPhotosAll($estate);
+        $estateInformation = EstateInformation::where('estate_id', $estate['_id'])->get()->first();
+        $estate['estate_information'] = $estateInformation;
+        if ($estateInformation && $estateInformation->estate_main_photo) {
+            $photo_first = $estateInformation->estate_main_photo;
+        } else {
+            $photo_first = $this->_getFirstPhotos($estate);
         }
-        return $estates;
+
+        if (!empty($wishList)) {
+            if (in_array($estate['_id'], $wishList)) {
+                $estate['is_wish'] = 1;
+            }
+        }
+        if (isset($estate['decode'])) {
+            $estate['decode'] = (float)$estate['decode'];
+        }
+        $estate['photo_first'] = $photo_first;
+        $estate['photos'] = $this->_getPhotosAll($estate);
+
+        return $estate;
     }
 
-    private function _getFirstPhotos($estate){
-        if (!isset($estate['photos'])){
+    private function _getFirstPhotos($estate)
+    {
+        if (!isset($estate['photos'])) {
             return null;
         }
         $photo = $estate['photos'][0];
@@ -194,14 +197,15 @@ class EstateController extends Controller
         return $photo_first;
     }
 
-    private function _getPhotosAll($estate){
-        if (!isset($estate['photos'])){
+    private function _getPhotosAll($estate)
+    {
+        if (!isset($estate['photos'])) {
             return array();
         }
         $photos_s3 = array();
         $photos = $estate['photos'];
         foreach ($photos as $photo) {
-            if ($photo['photo']){
+            if ($photo['photo']) {
                 $photo['photo'] = $this->linkS3 . substr($estate['_id'], -2) . '/' . $estate['_id'] . '/' . $photo['photo'] . '.jpeg';
                 array_push($photos_s3, $photo);
             }
