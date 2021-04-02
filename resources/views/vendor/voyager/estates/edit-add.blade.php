@@ -49,7 +49,8 @@
                         @foreach($dataType->addRows as $row)
                         @php if ($row->field == 'custom_field' ||
                                 $row->field == 'estate_equipment' ||
-                                $row->field == 'estate_flooring') {
+                                $row->field == 'estate_flooring' ||
+                                $row->field == 'decode') {
                                 continue;
                                 }
                         @endphp
@@ -60,6 +61,11 @@
 
                         </div>
                         @endforeach
+
+                        <div class="form-group">
+                            <label for="name">Decode</label>
+                            <input type="text" class="form-control" placeholder="0" value="{{ $estateInfo->decode }}" name="decode">
+                        </div>
 
                         @php
                         $custom_field = $dataTypeContent->custom_field;
