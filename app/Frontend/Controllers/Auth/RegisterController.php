@@ -3,7 +3,7 @@
 namespace App\Frontend\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Jobs\SendEmailVerifyAccount;
 use App\Models\Customer;
 use App\Providers\RouteServiceProvider;
