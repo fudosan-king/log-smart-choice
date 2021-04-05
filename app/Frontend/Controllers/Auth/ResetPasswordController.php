@@ -10,9 +10,7 @@ use App\Models\ResetPassword;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class ResetPasswordController extends Controller

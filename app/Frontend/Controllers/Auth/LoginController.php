@@ -3,18 +3,15 @@
 namespace App\Frontend\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\LoginRequest;
+use App\Http\Requests\Auth\LoginRequest;
 use App\Models\Customer;
 use App\Providers\RouteServiceProvider;
 use Exception;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Validator;
 use Laravel\Passport\Client as PPClient;
-use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller
 {
