@@ -25,10 +25,11 @@ class EstateController extends Controller
         'comment_textarea' => 'Comment'
     );
 
-    private function _loadEstateInformation($estate_id, $default='renovation'){
+    private function _loadEstateInformation($estate_id, $default = 'renovation')
+    {
         $estate = EstateInformation::select('renovation_media', 'estate_befor_photo',
             'estate_after_photo', 'estate_main_photo', 'estate_equipment', 'estate_flooring', 'category_tab_search',
-        'tab_search', 'decode')
+            'tab_search', 'decor')
             ->where('estate_id', $estate_id)->get()->first();
         return $estate ? $estate : '{}';
     }
@@ -420,14 +421,19 @@ class EstateController extends Controller
         $descriptionUrlImageLeft = '';
         $descriptionUrlImageRight = '';
 
-        if ($request->has('decode')) {
-            if (!is_numeric($request->get('decode'))) {
+        if ($request->has('decor')) {
+            if (!is_numeric($request->get('decor', 0))) {
                 return redirect()->back()->with([
-                    'message'    => 'Wrong format decode',
+                    'message' => 'Wrong format decor',
                     'alert-type' => 'error',
                 ]);
             }
         }
+        $price = 0;
+        if (isset($data->price)) {
+            $price = $data->price;
+        }
+        $request['total_price'] = (float)$request->get('decor') + $price;
 
         // Check estate description photo or hidden photo exist
         if ($request->hasFile('estate_description_left_photo')) {
@@ -522,11 +528,7 @@ class EstateController extends Controller
         $this->_insertDatabase($id, 'category_tab_search', $categoriesTab);
         // tab search
         $this->_insertDatabase($id, 'tab_search', $tabsSearch);
-        // decode
-        $this->_insertDatabase($id, 'decode', $request->get('decode'));
-
         $this->insertUpdateData($request, $slug, $dataType->editRows, $data);
-
 
 
         if (auth()->user()->can('browse', app($dataType->model_name))) {
