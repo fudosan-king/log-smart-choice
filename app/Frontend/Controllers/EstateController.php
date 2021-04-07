@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 class EstateController extends Controller
 {
     private $linkS3 = 'https://fdk-production.s3-ap-northeast-1.amazonaws.com/';
+
     /**
      * Search Estate
      *
@@ -28,6 +29,9 @@ class EstateController extends Controller
         $priceFrom = $request->has('price_from') ? $request->get('price_from') : '';
         $priceTo = $request->has('price_to') ? $request->get('price_to') : '';
         $metreSquare = $request->has('metre_square') ? $request->get('metre_square') : '';
+        $roomType = $request->has('room_type') ? $request->get('room_type') : '';
+
+
         $limit = $request->has('limit') ? intval($request->get('limit')) : 9;
         $page = $request->has('page') ? intval($request->get('page')) : 1;
         $email = $request->has('email') ? $request->get('email') : '';
@@ -36,6 +40,7 @@ class EstateController extends Controller
             'metre_square' => 'numeric',
             'price_from'   => 'numeric',
             'price_to'     => 'numeric',
+            'totalPrice'   => 'numeric',
         ]);
 
         if ($validator->fails()) {
@@ -44,7 +49,8 @@ class EstateController extends Controller
 
         $estates = Estates::select('estate_name', 'price', 'balcony_space',
             'address', 'tatemono_menseki', 'motoduke', 'room_count', 'room_kind',
-            'room_floor', 'land_space', 'homepage', 'photos', 'service_rooms', 'custom_field');
+            'room_floor', 'land_space', 'homepage', 'photos', 'service_rooms',
+            'custom_field', 'decor', 'total_price', 'room_type');
 
         $estates->where('status', '=', Estates::STATUS_SALE);
 
@@ -53,17 +59,21 @@ class EstateController extends Controller
         }
 
         if ($priceFrom) {
-            $estates->where('price', '>=', $priceFrom);
+            $estates->where('total_price', '>=', $priceFrom);
         }
 
         if ($priceTo) {
-            $estates->where('price', '<=', $priceTo);
+            $estates->where('total_price', '<=', $priceTo);
         }
 
         if ($metreSquare) {
             $getMetreSquare = $this->_getConditionMetreSquare($metreSquare);
             $estates->where('tatemono_menseki', '>=', (int)$getMetreSquare[0]);
             $estates->where('tatemono_menseki', '<=', (int)$getMetreSquare[1]);
+        }
+
+        if ($roomType) {
+            $estates->where('room_type', "like", "%" . $roomType);
         }
 
         $customer = Customer::where('email', $email)->first();
@@ -86,7 +96,6 @@ class EstateController extends Controller
         if ($data) {
             $data = $this->_getEstateInformation($data['data'], $wishList);
         }
-
         return response()->json(['data' => $data, 'total' => $total], 200);
     }
 
@@ -99,7 +108,7 @@ class EstateController extends Controller
     public function detail(Request $request)
     {
         $id = $request->has('id') ? $request->get('id') : '';
-        if (!$id){
+        if (!$id) {
             return response()->json(['data' => []], 200);
         }
         $estateRecommend = [];
@@ -110,7 +119,7 @@ class EstateController extends Controller
             'balcony_space', 'structure', 'room_floor', 'total_houses', 'built_date', 'delivery',
             'renovation_done_date', 'house_status', 'delivery_date_type',
             'management_company', 'management_scope', 'land_rights', 'trade_type', 'date_last_modified',
-            'estate_equipment', 'estate_flooring', 'decode')
+            'estate_equipment', 'estate_flooring', 'decor', 'total_price')
             ->where('_id', $id)
             ->where('status', '=', Estates::STATUS_SALE)
             ->get()->toArray();
@@ -162,9 +171,13 @@ class EstateController extends Controller
     private function _getEstateInformation($estates, $wishList = [])
     {
         foreach ($estates as $key => $estate) {
+            // force type decor field
+            if (isset($estates[$key]['decor'])) {
+                $estates[$key]['decor'] = (float)$estates[$key]['decor'];
+            }
             $estateInformation = EstateInformation::where('estate_id', $estates[$key]['_id'])->get()->first();
             $estates[$key]['estate_information'] = $estateInformation;
-            if ($estateInformation && $estateInformation->estate_main_photo){
+            if ($estateInformation && $estateInformation->estate_main_photo) {
                 $photo_first = $estateInformation->estate_main_photo;
             } else {
                 $photo_first = $this->_getFirstPhotos($estate);
@@ -176,18 +189,15 @@ class EstateController extends Controller
                 }
             }
 
-            if (isset($estateInformation['decode'])) {
-                $estates[$key]['decode'] = (float)$estateInformation['decode'];
-            }
-
             $estates[$key]['photo_first'] = $photo_first;
             $estates[$key]['photos'] = $this->_getPhotosAll($estate);
         }
         return $estates;
     }
 
-    private function _getFirstPhotos($estate){
-        if (!isset($estate['photos'])){
+    private function _getFirstPhotos($estate)
+    {
+        if (!isset($estate['photos'])) {
             return null;
         }
         $photo = $estate['photos'][0];
@@ -198,14 +208,15 @@ class EstateController extends Controller
         return $photo_first;
     }
 
-    private function _getPhotosAll($estate){
-        if (!isset($estate['photos'])){
+    private function _getPhotosAll($estate)
+    {
+        if (!isset($estate['photos'])) {
             return array();
         }
         $photos_s3 = array();
         $photos = $estate['photos'];
         foreach ($photos as $photo) {
-            if ($photo['photo']){
+            if ($photo['photo']) {
                 $photo['photo'] = $this->linkS3 . substr($estate['_id'], -2) . '/' . $estate['_id'] . '/' . $photo['photo'] . '.jpeg';
                 array_push($photos_s3, $photo);
             }

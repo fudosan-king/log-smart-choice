@@ -83,6 +83,8 @@ class FDKImporter {
         	}
             try {
                 $estate = new Estates();
+                // add room type in after import into order-renove
+                $estateData->room_type = $estateData->room_floor . $estateData->room_kind;
                 $importedEstate = $estate->upsertFromFDKData($estateData);
 
                 if ($importedEstate !== null) {
