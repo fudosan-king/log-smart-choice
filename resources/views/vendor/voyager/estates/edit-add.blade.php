@@ -50,7 +50,7 @@
                         @php if ($row->field == 'custom_field' ||
                                 $row->field == 'estate_equipment' ||
                                 $row->field == 'estate_flooring' ||
-                                $row->field == 'decode') {
+                                $row->field == 'decor') {
                                 continue;
                                 }
                         @endphp
@@ -63,8 +63,8 @@
                         @endforeach
 
                         <div class="form-group">
-                            <label for="name">Decode</label>
-                            <input type="text" class="form-control" placeholder="0" value="{{ $estateInfo->decode }}" name="decode">
+                            <label for="name">Decor</label>
+                            <input type="text" class="form-control" placeholder="0" value="{{ isset($dataTypeContent->decor) ? $dataTypeContent->decor : 0 }}" name="decor">
                         </div>
 
                         @php
@@ -99,7 +99,7 @@
                                                id="category_{{ $categoryTabSearch->name.$key }}"
                                                name="category[{{ $categoryTabSearch->id }}]"
                                                 @php
-                                                    if ($estateInfo->tab_search && in_array($categoryTabSearch->id, $estateInfo->category_tab_search)) {
+                                                    if (isset($estateInfo->tab_search) && in_array($categoryTabSearch->id, $estateInfo->category_tab_search)) {
                                                          echo "checked";
                                                      }
                                                 @endphp
@@ -118,14 +118,9 @@
                                 @foreach($tabsSearch as $key => $tabSearch)
                                     <div class="form-check category_checkbox">
                                         <input type="checkbox" class="form-check-input" id="tab_search_{{ $tabSearch->name.$key }}" name="tab_search[{{ $tabSearch->id }}]"
-                                                @php
-
-                                                    if ($estateInfo->tab_search && in_array($tabSearch->id, $estateInfo->tab_search)) {
-                                                         echo "checked";
-                                                     }
-                                                @endphp
+                                                @if (isset($estateInfo->tab_search) && in_array($tabSearch->id, $estateInfo->tab_search)) checked @endif
                                         >
-                                        <label class="form-check-label" for="tab_search_{{ $tabSearch->name.$key }}">{{ $tabSearch->name }}</label>
+                                        <label for="tab_search_{{ $tabSearch->name.$key }}" class="form-check-label" forendif="tab_search_{{ $tabSearch->name.$key }}">{{ $tabSearch->name }}</label>
                                     </div>
                                 @endforeach
                             @endif

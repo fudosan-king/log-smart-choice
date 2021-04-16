@@ -8,7 +8,7 @@ use App\Frontend\Controllers\EstateController;
 use App\Frontend\Controllers\Auth\VerificationController;
 use App\Frontend\Controllers\WishListController;
 use App\Frontend\Controllers\CustomerController;
-use App\Frontend\Controllers\GoogleController;
+use App\Frontend\Controllers\StationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +32,9 @@ Route::middleware('auth:api')->group(function () {
     // Customer
     Route::post('/customer', [CustomerController::class, 'getCustomer'])->name('customer.getInformation');
 });
+
+// auth
+
 Route::get('/verify/{token}', [VerificationController::class, 'verifyEmail'])->name('verify.email');
 Route::post('/register', [RegisterController::class, 'registerCustomer'])->name('customer.register');
 Route::post('/login', [LoginController::class, 'login'])->name('login.check');
@@ -39,6 +42,9 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/forgot-password', [ResetPasswordController::class, 'forgotPassword'])->name('customer.forgotpassword');
 Route::post('/reset-password/{hash}', [ResetPasswordController::class, 'resetPassword'])->name('customer.resetpassword');
 Route::post('/google-login', [LoginController::class, 'googleLogin']);
+
+// station
+Route::get('/stations/list', [StationController::class, 'getAll']);
 
 
 Route::group(['prefix' => 'list'], function () {

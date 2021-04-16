@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 
-class RouteServiceProvider extends ServiceProvider
+class  RouteServiceProvider extends ServiceProvider
 {
     /**
      * The path to the "home" route for your application.
@@ -26,7 +26,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string|null
      */
-    // protected $namespace = 'App\\Http\\Controllers';
+     protected $namespaceBackend = 'App\\Http\\Controllers';
      protected $namespace = 'App\\FrontEnd\\Controllers';
 
     /**
@@ -65,7 +65,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix('admin')
             ->middleware('web')
-            ->namespace($this->namespace)
+            ->namespace($this->namespaceBackend)
             ->group(base_path('routes/admin.php'));
     }
 

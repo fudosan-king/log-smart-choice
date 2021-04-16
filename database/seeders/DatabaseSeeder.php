@@ -16,6 +16,7 @@ use Illuminate\Database\Seeder;
 use Database\Seeds\EstateSeeder;
 use Database\Seeds\GroupsSeeder;
 use Database\Seeds\DefaultTagsSEO;
+use Database\Seeds\StationSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -40,6 +41,7 @@ class DatabaseSeeder extends Seeder
             TabSearchSeeder::class,
             EstateInformation::class,
             CustomerSeeder::class,
+            StationSeeder::class
         ]);
     }
 }

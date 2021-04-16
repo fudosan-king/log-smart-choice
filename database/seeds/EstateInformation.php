@@ -181,6 +181,49 @@ class EstateInformation extends Seeder {
             ])->save();
         }
 
+        if ($dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => __('Decode'),
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => 9,
+            ])->delete();
+        }
+
+      $dataRow = $this->dataRow($estateDataType, 'decor');
+      if (!$dataRow->exists) {
+        $dataRow->fill([
+          'type'         => 'text',
+          'display_name' => __('Decor'),
+          'required'     => 0,
+          'browse'       => 0,
+          'read'         => 1,
+          'edit'         => 1,
+          'add'          => 0,
+          'delete'       => 0,
+          'order'        => 9,
+        ])->save();
+      }
+
+        $dataRow = $this->dataRow($estateDataType, 'total_price');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => __('Total price'),
+                'required'     => 0,
+                'browse'       => 0,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => 10,
+            ])->save();
+        }
         Menu::firstOrCreate([
             'name' => 'admin',
         ]);
