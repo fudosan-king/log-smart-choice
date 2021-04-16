@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\EstateController;
+use App\Http\Controllers\ImportManagementSystemController;
 use Illuminate\Support\Facades\Route;
 use TCG\Voyager\Facades\Voyager;
 use App\Http\Controllers\GroupEstateController;
@@ -28,5 +29,7 @@ Route::group(['/'], function () {
     });
 
     Route::get('/{pageId}/tags', [TagsController::class, 'indexTags'])->name('admin.page.tags.index');
+    Route::get('/import', 'ImportManagementSystemController@index')->name('admin.station.index');
+    Route::post('/import', 'ImportManagementSystemController@import')->name('admin.station.import');
 
 });
