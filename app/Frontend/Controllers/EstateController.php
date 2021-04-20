@@ -25,16 +25,17 @@ class EstateController extends Controller
      */
     public function search(Request $request)
     {
-        $keyword = $request->has('keyword') ? $request->get('keyword') : '';
-        $priceFrom = $request->has('price_from') ? $request->get('price_from') : '';
-        $priceTo = $request->has('price_to') ? $request->get('price_to') : '';
-        $metreSquare = $request->has('metre_square') ? $request->get('metre_square') : '';
-        $roomType = $request->has('room_type') ? $request->get('room_type') : '';
-
+        $address = $request->get('address') ?? '';
+        $priceFrom = $request->get('price_from') ?? '';
+        $priceTo = $request->get('price_to') ?? '';
+        $metreSquare = $request->get('metre_square') ?? '';
+        $roomTypeFrom = $request->get('room_type_from') ?? '';
+        $roomTypeTo = $request->get('room_type_to') ?? '';
+        $station = $request->get('station') ?? '';
+        $email = $request->get('email') ?? '';
 
         $limit = $request->has('limit') ? intval($request->get('limit')) : 9;
         $page = $request->has('page') ? intval($request->get('page')) : 1;
-        $email = $request->has('email') ? $request->get('email') : '';
         $validator = Validator::make($request->all(), [
             'keyword'      => 'max:100',
             'metre_square' => 'numeric',
@@ -50,14 +51,16 @@ class EstateController extends Controller
         $estates = Estates::select('estate_name', 'price', 'balcony_space',
             'address', 'tatemono_menseki', 'motoduke', 'room_count', 'room_kind',
             'room_floor', 'land_space', 'homepage', 'photos', 'service_rooms',
-            'custom_field', 'decor', 'total_price', 'room_type');
+            'custom_field', 'decor', 'total_price', 'room_type', 'transports');
 
-        $estates->where('status', '=', Estates::STATUS_SALE);
+        $estates->where('status', Estates::STATUS_SALE);
 
-        if ($keyword) {
-            $estates->where('estate_name', "like", "%" . $keyword . "%");
+        // address
+        if ($address) {
+            $estates->where('address.city', "like", "%" . $address . "%");
         }
 
+        // total price
         if ($priceFrom) {
             $estates->where('total_price', '>=', $priceFrom);
         }
@@ -66,14 +69,31 @@ class EstateController extends Controller
             $estates->where('total_price', '<=', $priceTo);
         }
 
+        // area
         if ($metreSquare) {
             $getMetreSquare = $this->_getConditionMetreSquare($metreSquare);
             $estates->where('tatemono_menseki', '>=', (int)$getMetreSquare[0]);
             $estates->where('tatemono_menseki', '<=', (int)$getMetreSquare[1]);
         }
 
-        if ($roomType) {
-            $estates->where('room_type', "like", "%" . $roomType);
+        // station name
+        if ($station) {
+            $estates->where('transports.station_name', $station);
+        }
+
+        // room kind & room count
+        $roomTypeFrom = $this->_getRoomType($roomTypeFrom);
+        $roomTypeTo = $this->_getRoomType($roomTypeTo);
+        $roomKind = [];
+
+        if ($roomTypeTo) {
+            array_push($roomKind, $roomTypeTo[0]);
+        }
+
+        if ($roomTypeFrom) {
+            array_push($roomKind, $roomTypeFrom[0]);
+            $estates->whereIn('room_count', $roomKind);
+            $estates->whereIn('room_kind', [$roomTypeFrom[1], $roomTypeFrom[2]]);
         }
 
         $customer = Customer::where('email', $email)->first();
@@ -92,7 +112,6 @@ class EstateController extends Controller
 
         $total = count($estates->paginate()->toArray()['data']);
         $data = $estates->paginate($limit, $page)->toArray();
-
         if ($data) {
             $data = $this->_getEstateInformation($data['data'], $wishList);
         }
@@ -162,6 +181,20 @@ class EstateController extends Controller
         return [$fromMetreSquare, $toMetreSquare];
     }
 
+
+    /**
+     * @param $roomType
+     * @return array
+     */
+    private function _getRoomType($roomType): array
+    {
+        $room = explode('/', $roomType);
+        if (count($room) != 3) {
+            return $room = [];
+        }
+
+        return [(int)substr($room[0], 0, 1), strtoupper($room[1]), strtoupper($room[2])];
+    }
 
     /**
      * @param $estates
