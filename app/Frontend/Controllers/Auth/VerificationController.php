@@ -3,6 +3,8 @@
 namespace App\Frontend\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendEmailResetPassword;
+use App\Jobs\SendMailConfirmAccount;
 use App\Models\Customer;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\VerifiesEmails;
@@ -69,6 +71,12 @@ class VerificationController extends Controller
             $customer->email_verification_token = '';
             $customer->save();
 
+            $data = [
+                'customer' => $customer,
+            ];
+
+            $emailConfirmAccount = new SendMailConfirmAccount($customer->email, $data);
+            dispatch($emailConfirmAccount);
             return $this->response('Activate success', 'verify', 200, [__('customer.activate_account_success')]);
         }
         return $this->response('Activate invalid', 'verify', 422, [__('customer.activate_account_fail')]);
