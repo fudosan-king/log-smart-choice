@@ -1,0 +1,59 @@
+.panel-body form #search-input div .select2 {
+    width: 200px !important;
+}
+
+.estate-description {
+    padding-bottom: 20px;
+}
+
+div > div > div > .left-photo,
+div > div > div > .right-photo,
+.estate_description_left_photo,
+.estate_description_right_photo {
+    width: 30%;
+    height: auto;
+}
+
+.estate-description-images {
+    padding-bottom: 20px;
+}
+
+.estate_befor_photo,
+.estate_after_photo,
+div > div > .estate_image_url,
+div > div > .estate_image_url {
+    width: 100%;
+}
+
+#hp_photo_wrap {
+    padding-bottom: 50px;
+}
+
+.remove-image {
+    cursor: pointer;
+}
+
+.estate_flooring_title {
+    width: 100%;
+}
+
+.imageInfo .equipment-estate, .imageInfo .flooring-estate, #imageInfo .image-photo {
+    height: 30%;
+    background:black;
+}
+
+.category_tab_search .category_checkbox {
+    float: left;
+    width: 25%;
+}
+
+.padding_tab_search {
+    float: left;
+    width: 100%;
+}
+
+.hr_tab_search {
+    float: left;
+    width: 100%;
+    margin-top: 3px;
+}

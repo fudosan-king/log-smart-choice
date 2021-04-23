@@ -89,7 +89,7 @@
     var Grid;
     $(document).ready(function(){
         Grid = new GridData('form-search', '.row_id', '.js_serialize_fields' , '#search_selected' , '#select_all', {{ $grid->ajaxUrl() }});
-    })
+    });
 
     $('#search-input select').select2({
         minimumResultsForSearch: Infinity

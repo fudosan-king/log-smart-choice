@@ -11,9 +11,9 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js')
-    .postCss('resources/css/app.css', 'public/css', [
-        //
-    ]);
-
+mix.js('resources/js/app.js', 'public/js');
+mix.js('resources/js/frontend.js', 'public/js');
+mix.js('resources/js/globalHelper.js', 'public/js');
+mix.styles('resources/css/app.css', 'public/css/app.css');
 mix.styles('resources/css/estates_images.css', 'public/css/estate.css');
+mix.styles('resources/css/custom-css-voyager.css', 'public/css/custom-css-voyager.css');

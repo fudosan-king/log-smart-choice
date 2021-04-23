@@ -3,14 +3,15 @@
 namespace App\Frontend\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Jobs\SendEmailRegisterCustomerSuccess;
+use App\Http\Requests\Auth\RegisterRequest;
+use App\Jobs\SendEmailVerifyAccount;
 use App\Models\Customer;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Auth\Events\Registered;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -35,63 +36,55 @@ class RegisterController extends Controller
     protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
-     * Create a new controller instance.
+     * Register customer
      *
-     * @return void
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function __construct()
+    public function registerCustomer(RegisterRequest $request)
     {
-        // $this->middleware('guest');
-    }
+        $params = [
+            'name'                  => "User" . rand(0, 100000),
+            'email'                 => $request->email,
+            'password'              => $request->password,
+            'password_confirmation' => $request->password_confirmation
+        ];
 
-    public function registerCustomer(Request $request) {
-        $data = $request->all();
-        $validator = $this->validator($data);
-            
-        if ($validator->fails()) {
-        return response()->json($validator->errors(), 422);
+        if ($customer = $this->create($params)) {
+            $link = url('customer/verify') . "/" . $customer->email_verification_token;
+            $data = [
+                'link'     => $link,
+                'customer' => $customer,
+            ];
+            try {
+                $emailVerifyAccount = new SendEmailVerifyAccount($request->only('email'), $data);
+                dispatch($emailVerifyAccount);
+                return $this->response('Customer register success', 'customer', 200, [__('customer.create_success')]);
+            } catch (\Exception $ex) {
+                Log::error($ex->getMessage());
+            }
         }
-
-        if ($customer = $this->create($data)) {
-
-            event(new Registered($customer));
-            return response()->json(['status' => true, 'message' => 'Customer created successfully', 'data' => $customer], 422);
-        }
-        
-        return response()->json(['status' => false, 'message' => 'Customer created fail'], 422);
-    }
-
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:customers'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'phone_number' => ['required', 'numeric'],
-            'password_confirmation' => ['required', 'string', 'min:8'],
-        ]);
-
+        return $this->response('Customer register fail', 'customer', 422, [__('customer.create_fail')]);
     }
 
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \App\Models\Customer
      */
     protected function create(array $data)
     {
-        return Customer::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'phone_number' => $data['phone_number'],
-            'password' => Hash::make($data['password']),
-        ]);
+        $customer = new Customer();
+        $customer->name = $data['name'];
+        $customer->email = $data['email'];
+        // $customer->phone_number = $data['phone_number'];
+        $customer->password = Hash::make($data['password']);
+        $customer->remember_token = Str::random(10);
+        $customer->role3d = Customer::ROLE_3D_CUSTOMER;
+        $customer->email_verification_token = Str::random(32);
+        $customer->save();
+
+        return $customer;
     }
 }

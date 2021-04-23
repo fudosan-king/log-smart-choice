@@ -28,8 +28,8 @@ class MenuSeeder extends Seeder {
 
         $menuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
-            'title'   => __('Estate'),
-            'url'     => 'admin/estate',
+            'title'   => __('Estates'),
+            'url'     => 'admin/estates',
             'route'   => null,
         ]);
 
@@ -59,6 +59,6 @@ class MenuSeeder extends Seeder {
                 'order'      => 1,
             ])->save();
         }
-        
+
     }
 }

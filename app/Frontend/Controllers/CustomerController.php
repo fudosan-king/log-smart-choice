@@ -1,9 +1,29 @@
 <?php
+
 namespace App\Frontend\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\Customer;
+use Illuminate\Support\Facades\Auth;
 
-class CustomerController extends Controller {
-    
+class CustomerController extends Controller
+{
+
+    /**
+     * @return array|\Illuminate\Http\JsonResponse
+     */
+    public function getCustomer()
+    {
+        $customerId = auth()->guard('api')->user()->id;
+        $customer = Customer::select('name', 'email', 'phone_number', 'role3d')
+            ->where('id', $customerId)
+            ->where('status', Customer::ACTIVE)
+            ->first();
+        if ($customer) {
+            $customer->is_logged = Auth::check();
+            $customer->role3d = Customer::ROLE3D[$customer->role3d];
+            return response()->json(['customer' => $customer], 200);
+        }
+        return $this->response('Get customer error', 'Customer', 422, 'Customer invalid');
+    }
 }

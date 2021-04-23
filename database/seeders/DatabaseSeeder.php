@@ -2,12 +2,21 @@
 
 namespace Database\Seeders;
 
+use Database\Seeds\CategoryTabSearchSeeder;
+use Database\Seeds\CustomerSeeder;
+use Database\Seeds\EstateInformation;
+use Database\Seeds\PagesSeoSeeder;
 use Database\Seeds\RenovationSeeder;
 use Database\Seeds\SaleSeeder;
 use App\Models\GroupsEstate;
+use Database\Seeds\TabSearchSeeder;
+use Database\Seeds\TagsSeeder;
+use Database\Seeds\VoyagerDatabaseSeeder;
 use Illuminate\Database\Seeder;
 use Database\Seeds\EstateSeeder;
 use Database\Seeds\GroupsSeeder;
+use Database\Seeds\DefaultTagsSEO;
+use Database\Seeds\StationSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,7 +32,16 @@ class DatabaseSeeder extends Seeder
             RenovationSeeder::class,
             SaleSeeder::class,
             EstateSeeder::class,
-            GroupsSeeder::class
+            GroupsSeeder::class,
+            PagesSeoSeeder::class,
+            TagsSeeder::class,
+            VoyagerDatabaseSeeder::class,
+            DefaultTagsSEO::class,
+            CategoryTabSearchSeeder::class,
+            TabSearchSeeder::class,
+            EstateInformation::class,
+            CustomerSeeder::class,
+            StationSeeder::class
         ]);
     }
 }

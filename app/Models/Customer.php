@@ -3,25 +3,41 @@
 namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
+use Illuminate\Support\Facades\Hash;
 
-class Customer extends Authenticatable implements MustVerifyEmail
+class Customer extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
+
+    const TIME_VERIFY_ACCOUNT = 60;
+    const EMAIL_VERIFY = 1;
+    const ROLE3D = [
+        1 => 'Interior Coordinator',
+        2 => 'Sale',
+        3 => 'Customer',
+    ];
+    const ACTIVE = 1;
+    const DEACTIVE = 0;
+    const ROLE_3D_COORDINATOR = 1;
+    const ROLE_3D_SALE = 2;
+    const ROLE_3D_CUSTOMER = 3;
+
     protected $fillable = [
         'name',
         'email',
         'password',
         'phone_number',
         'email_verified_at',
+        'social',
     ];
 
     /**
@@ -43,4 +59,14 @@ class Customer extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    /**
+     * Validate the password of the user for the Passport password grant.
+     *
+     * @param string $password
+     * @return bool
+     */
+    public function validateForPassportPasswordGrant($password)
+    {
+        return Hash::check($password, $this->password);
+    }
 }

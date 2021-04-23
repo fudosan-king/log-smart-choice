@@ -15,101 +15,6 @@ class EstateSeeder extends Seeder {
     * @return void
     */
     public function run() {
-        $dataType = $this->dataType('slug', 'estate');
-        if (!$dataType->exists) {
-            $dataType->fill([
-                'name'                  => 'estate',
-                'display_name_singular' => __('Estate Baibai'),
-                'display_name_plural'   => __('Estate Baibai'),
-                'icon'                  => 'estates-icon',
-                'model_name'            => 'App\Models\Estate',
-                'controller'            => 'App\\Http\\Controllers\\EstateController',
-                'generate_permissions'  => 1,
-                'description'           => '',
-                'server_side'           => 1
-            ])->save();
-        }
-
-        Permission::generateFor('estate');
-
-        $estateDataType = DataType::where('slug', 'estate')->firstOrFail();
-        $dataRow = $this->dataRow($estateDataType, 'id');
-
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'number',
-                'display_name' => __('voyager::seeders.data_rows.id'),
-                'required'     => 1,
-                'browse'       => 0,
-                'read'         => 0,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'order'        => 1,
-            ])->save();
-        }
-
-        $dataRow = $this->dataRow($estateDataType, 'estate_name');
-
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
-                'display_name' => __('Estate Name'),
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'order'        => 1,
-            ])->save();
-        }
-
-        $dataRow = $this->dataRow($estateDataType, 'price');
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
-                'display_name' => __('Price'),
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'order'        => 3,
-            ])->save();
-        }
-
-        $dataRow = $this->dataRow($estateDataType, 'trade_status');
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
-                'display_name' => __('Trade Status'),
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'order'        => 3,
-            ])->save();
-        }
-
-        $dataRow = $this->dataRow($estateDataType, 'date_created');
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'timestamp',
-                'display_name' => __('Date Created'),
-                'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'order'        => 6,
-            ])->save();
-        }
-
         Menu::firstOrCreate([
             'name' => 'admin',
         ]);
@@ -118,8 +23,8 @@ class EstateSeeder extends Seeder {
 
         $menuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
-            'title'   => __('Estate'),
-            'url'     => 'admin/estate',
+            'title'   => __('Estates'),
+            'url'     => 'admin/estates',
             'route'   => null,
         ]);
         if (!$menuItem->exists) {

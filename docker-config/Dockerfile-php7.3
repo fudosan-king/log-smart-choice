@@ -19,3 +19,5 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
 RUN echo "extension=mongodb.so" | tee /usr/local/etc/php/conf.d/mongodb.ini
 
 COPY ./docker-config/000-default.conf /etc/apache2/sites-enabled/000-default.conf
+
+COPY ./docker-config/ports.conf /etc/apache2/ports.conf

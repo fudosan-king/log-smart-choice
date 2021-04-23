@@ -14,6 +14,7 @@
 * Tokenizer PHP Extension
 * XML PHP Extension
 * PDO PHP Extension
+* <a href="https://laravel.com/docs/8.x/passport">Passport >= 10.1</a>
 ### Check modules has been loaded:<br>
 `$ php -m`
 
@@ -41,26 +42,41 @@ mysql -u root
 > GRANT ALL PRIVILEGES ON log_smart.* TO log_smart@localhost WITH GRANT OPTION;<br>
 > FLUSH PRIVILEGES;<br>
 
+## Import estates in FDK
+Config in .env
+```
+FDK_HOST=fudosan-king.jp
+FDK_URL=http://fudosan-king.jp
+LOG_SMART_CHOICE_API_PATH=/api/log_smart_choice // path(log_smart_choice): define return estates checked log_smart_choice
+```
+How to run
+>php artisan estates:import_from_fdk
 
-## Docker
+Add crontab to Schedule
+```
+* * * * * php ~/project/log-smart-choice/artisan schedule:run
+```
 
-# Build docker
+
+# Docker
+
+## Build docker
 ```
 docker-compose build --no-cache
 ```
-# Run docker
+## Run docker
 ```
 docker-compose up
 ```
-# Run docker as background
+## Run docker as background
 ```
 docker-compose up -d
 ```
-# Clean docker image
+## Clean docker image
 ```
 docker image rm -f $(docker image ls | awk -F' ' '/none/{print $3}')
 ```
-# How to install composer and npm
+## How to install composer and npm
 ```
 docker-compose build
 docker-compose up
@@ -68,4 +84,6 @@ docker ps
 docker exec -it [CONTAINER ID of log-smart-choice_laravel_1] /bin/bash;
 ./docker-config/install.sh
 php artisan voyager:admin your@email.com --create
+
+php artisan passport:client --personal
 ```

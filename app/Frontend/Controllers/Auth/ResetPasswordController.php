@@ -3,14 +3,14 @@
 namespace App\Frontend\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Jobs\SendEmailResetPassword;
 use App\Models\Customer;
 use App\Models\ResetPassword;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class ResetPasswordController extends Controller
@@ -35,64 +35,86 @@ class ResetPasswordController extends Controller
      */
     protected $redirectTo = RouteServiceProvider::HOME;
 
-    public function getForgotPasswordCustomer(Request $request)
+    /**
+     *
+     * Forgot password
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function forgotPassword(ResetPasswordRequest $request)
     {
-        request()->validate(['email' => 'required|email']);
-
-        $validate = Validator::make($request->all(), [
-            'email' => ['required', 'string', 'email', 'max:255'],
-        ]);
-
-        if ($validate->fails()) {
-            return response()->json($validate->errors(), 422);
+        $customer = Customer::where('email', $request->email)->first();
+        if (!$customer) {
+            return $this->response('Email invalid', 'resetpassword', 422, [__('auth.email_not_exist')]);
         }
 
-        $result = Customer::where('email', $request->email)->first();
-        if (!$result) {
-            $link = Lang::get('auth.email_not_exist');
-            return response()->json(['status' => false, 'message' => $link]);
+        // create or update if exists
+        $resetPassword = ResetPassword::where('email', $request->email)->first();
+        if ($resetPassword) {
+            $resetPassword->token = Str::random(60);
+            $resetPassword->created_at = date("Y-m-d H:i:s");
+            $resetPassword->save();
+        } else {
+            $resetPassword = new ResetPassword();
+            $resetPassword->email = $request->email;
+            $resetPassword->token = Str::random(60);
+            $resetPassword->created_at = date("Y-m-d H:i:s");
+            $resetPassword->save();
         }
 
-        ResetPassword::firstOrCreate(['email' => $request->email, 'token' => Str::random(60), 'created_at' => date("Y-m-d H:i:s")]);
-
-        $token = ResetPassword::where('email', $request->email)->first();
-        $link = url('customer/reset-password') . "/" . $token->token;
+        $link = url('/reset-password') . "/" . $resetPassword->token;
 
         $data = [
-            'link' => $link
+            'link' => $link,
+            'customer' => $customer
         ];
 
         $emailResetPassword = new SendEmailResetPassword($request->only('email'), $data);
         dispatch($emailResetPassword);
-        return response()->json(['status' => true, 'message' => $link]);
+
+        return $this->response('Reset password fail', 'resetpassword', 200, [__('auth.send_email_reset_link')]);
     }
 
-    public function newPassword(Request $request)
+    /**
+     *
+     * Creat new password
+     *
+     * @param Request $request
+     * @param $hash
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
+    public function resetPassword(ResetPasswordRequest $request, $hash)
     {
-        $validate = Validator::make($request->all(), [
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'password_confirmation' => ['required', 'string', 'min:8'],
-        ]);
-
-        if ($validate->fails()) {
-            return response()->json($validate->errors(), 422);
-        }
-
         // Check password confirm
         if ($request->password == $request->password_confirmation) {
             // Check email with token
-            $result = ResetPassword::where('token', $request->token)->first();
-            if ($result) {
-                // Update new password 
-                Customer::where('email', $result->email)->update(['password' => bcrypt($request->password)]);
+            $resetPassword = ResetPassword::where('token', $hash)->first();
 
-                // Delete token
-                ResetPassword::where('token', $request->token)->delete();
+            if ($resetPassword) {
+                $timeCurrent = date('Y-m-d H:i:s');
+                $timeVerify = date('Y-m-d H:i:s', strtotime($resetPassword->created_at) + Customer::TIME_VERIFY_ACCOUNT);
 
-                return redirect()->route('login');
+                if ($timeCurrent > $timeVerify) {
+                    return $this->response('Token resetpassword  invalid', 'resetpassword', 422, [__('auth.token_forgotpassword_expired')]);
+                }
+
+                try {
+                    // Update new password
+                    $customer = Customer::where('email', $resetPassword->email)->first();
+                    $customer->password = bcrypt($request->password);
+                    $customer->save();
+
+                    // Delete token
+                    ResetPassword::where('email', $resetPassword->email)->delete();
+                } catch (\Exception $e) {
+                    Log::error($e->getMessage());
+                }
+
+                return $this->response('Reset password success', 'resetpassword', 200, ['Reset password success']);
             }
-            return response()->json(['status' => false, 'message' => Lang::get('auth.link_check_token_password_fail')], 422);
+            return $this->response('Password invalid', 'resetpassword', 422, [__('auth.link_check_token_password_fail')]);
         }
-        return response()->json(['status' => false, 'message' => Lang::get('auth.password_not_match')], 422);
+        return $this->response('Password invalid', 'resetpassword', 422, [__('auth.password_not_match')]);
     }
 }

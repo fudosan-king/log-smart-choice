@@ -7,6 +7,8 @@
     display: block;
     padding: 13px 11px 9px;
     float: left;
+    width: 15%;
+    height: 450px;
 }
 
 li {
@@ -73,5 +75,44 @@ li {
 }
 
 .append-image {
-    float:right;
+    float:left;
+}
+
+.button-submit-estate {
+    width: 100%;
+    height: 56px;
+}
+
+.estate_image_url,
+.estate_image_file {
+    width: 100%;
+}
+
+.befor-photo,
+.after-photo {
+    width: auto;
+    height: 500px;
+}
+
+.carousel__list {
+    text-align: center;
+}
+
+@media (max-width: 1800px) {
+    .befor-photo,
+    .after-photo {
+        width: auto;
+        height: 450px;
+    }
+}
+@media (max-width: 1024px) {
+    .hp_photo_wrap ul li {
+        width: 49%;
+        height: 420px;
+    }
+    .befor-photo,
+    .after-photo {
+        width: 100%;
+        height: auto;
+    }
 }
