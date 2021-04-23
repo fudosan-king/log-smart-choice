@@ -110,13 +110,13 @@
                                             </div>
                                         </div>
                                         <div class="form-group btn_login_submit text-center">
-                                            <button type="submit" class="btn btnlogin" >申し込む</button>
+                                            <button type="submit" class="btn btnlogin">申し込む</button>
                                         </div>
                                     </form>
                                 </div>
                                 <div class="col deltail_login_right">
                                     <p class="note_login_btn_social">ソーシャルアカウントでのログインはこちら</p>
-                                    <button class="login_btn login_btn--facebook">
+                                    <button class="login_btn login_btn--facebook" @click="facebookLogin('facebook')">
                                         Facebookでログイン
                                     </button>
                                     <p class="note_login_btn_social"></p>
@@ -152,6 +152,11 @@
 </template>
 <script>
 import { required, email, minLength, sameAs, maxLength, requiredIf } from 'vuelidate/lib/validators';
+import Vue from 'vue';
+import globalVaiable from '../globalHelper';
+
+Vue.use(globalVaiable);
+
 export default {
     data() {
         return {
@@ -203,32 +208,26 @@ export default {
                     })
                     .catch(err => {
                         this.submitted = false;
-                        this.errorsApi = err.response.data;
+                        this.errorsApi = err.response.data.errors;
                     });
             }
         },
         googleLogin() {
-            this.$store
-                .dispatch('googleLogin')
-                .then(response => {
-                    this.$setCookie('accessToken', response.token, 1);
-                    this.$setCookie('accessToken3d', response.token, 1);
-                    this.$setCookie('refreshToken', response.refreshToken, 1);
-                    window.location.href = '/';
-                })
-                .catch(error => {
-                    let responseErrors = error.response.data;
-                    let errors = {};
-                    if (typeof error.response.data != 'object') {
-                        errors = JSON.parse(responseErrors);
-                        for (var key in errors) {
-                            errors[key] = errors[key][0];
-                        }
-                    } else {
-                        errors['error'] = responseErrors['message'];
-                    }
-                    this.errorsApi = errors;
-                });
+            this.$store.dispatch('googleLogin').then(response => {
+                window.location.href = '/';
+            });
+        },
+
+        facebookLogin() {
+            const store = this.$store;
+            FB.login(function(response) {
+                if (response.authResponse) {
+                    store.dispatch('facebookLogin').then(response => {
+                        window.location.href = '/';
+                    });
+                }
+            });
+            return false;
         }
     }
 };

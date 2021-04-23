@@ -81,7 +81,7 @@ class RegisterController extends Controller
         // $customer->phone_number = $data['phone_number'];
         $customer->password = Hash::make($data['password']);
         $customer->remember_token = Str::random(10);
-        $customer->role3d = 3;
+        $customer->role3d = Customer::ROLE_3D_CUSTOMER;
         $customer->email_verification_token = Str::random(32);
         $customer->save();
 

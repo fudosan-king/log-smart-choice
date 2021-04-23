@@ -96,9 +96,6 @@ export default {
                 .then(response => {
                     this.$setCookie('accessToken', '', 1);
                     this.$setCookie('accessToken3d', '', 1);
-                    this.$setCookie('refreshToken', '', 1);
-                    this.$setCookie('clientId', '', 1);
-                    this.$setCookie('clientSecret', '', 1);
                     this.$setCookie('userName', '', 1);
                     delete axios.defaults.headers.common['Authorization'];
                     this.$router.go(0);

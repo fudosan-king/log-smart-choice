@@ -41,7 +41,8 @@ Route::post('/login', [LoginController::class, 'login'])->name('login.check');
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/forgot-password', [ResetPasswordController::class, 'forgotPassword'])->name('customer.forgotpassword');
 Route::post('/reset-password/{hash}', [ResetPasswordController::class, 'resetPassword'])->name('customer.resetpassword');
-Route::post('/google-login', [LoginController::class, 'googleLogin']);
+Route::post('/google-login', [LoginController::class, 'socialLogin']);
+Route::post('/facebook-login', [LoginController::class, 'socialLogin']);
 
 // station
 Route::get('/stations/list', [StationController::class, 'getAll']);

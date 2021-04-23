@@ -9,8 +9,9 @@ import store from './store/index';
 import router from './router/index';
 import globalHelper from './globalHelper';
 import Vuelidate from 'vuelidate';
-import Auth from './socialAuth';
+import gInit from './config/googleAuth';
 import Lazyload from 'vue-lazyload';
+import fbInit from './config/facebookAuth';
 
 // Set Vue router
 Vue.router = router;
@@ -22,7 +23,10 @@ const gAuthOption = {
     clientId: process.env.MIX_GOOGLE_CLIENT_ID,
     scope: "profile email",
 };
-Vue.use(Auth, gAuthOption);
+
+Vue.use(gInit, gAuthOption);
+
+Vue.use(fbInit);
 
 Vue.use(Lazyload, {
     preLoad: 1.3,
@@ -46,7 +50,8 @@ new Vue({
         getRefreshTokenApi: function () {
             let isLoggedIn = this.$store.getters.isLoggedIn;
             if (isLoggedIn) {
-                this.$store.dispatch('refreshToken').then(resp => { }).catch(error => {
+                this.$store.dispatch('customerInfo').then(resp => {
+                }).catch(error => {
                     this.$setCookie('accessToken', '', 1);
                     this.$setCookie('accessToken3d', '', 1);
                     this.$setCookie('refreshToken', '', 1);
@@ -54,6 +59,7 @@ new Vue({
                     this.$setCookie('clientSecret', '', 1);
                     this.$setCookie('userName', '', 1);
                     delete axios.defaults.headers.common['Authorization'];
+                    this.$router.go(0);
                 });
             }
         },
@@ -61,6 +67,5 @@ new Vue({
     mounted() {
         // milisecond
         setInterval(this.getRefreshTokenApi, 15000000);
-
     }
 });

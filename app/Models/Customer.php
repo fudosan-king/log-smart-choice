@@ -27,6 +27,9 @@ class Customer extends Authenticatable
     ];
     const ACTIVE = 1;
     const DEACTIVE = 0;
+    const ROLE_3D_COORDINATOR = 1;
+    const ROLE_3D_SALE = 2;
+    const ROLE_3D_CUSTOMER = 3;
 
     protected $fillable = [
         'name',
@@ -59,7 +62,7 @@ class Customer extends Authenticatable
     /**
      * Validate the password of the user for the Passport password grant.
      *
-     * @param  string  $password
+     * @param string $password
      * @return bool
      */
     public function validateForPassportPasswordGrant($password)
