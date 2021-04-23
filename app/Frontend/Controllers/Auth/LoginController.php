@@ -7,11 +7,10 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Models\Customer;
 use App\Providers\RouteServiceProvider;
 use Exception;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Laravel\Passport\Client as PPClient;
 
 class LoginController extends Controller
 {
@@ -54,18 +53,19 @@ class LoginController extends Controller
     public function login(LoginRequest $request)
     {
         $customer = Customer::where('email', $request->email)->first();
+
         if ($customer) {
             if ($customer->status == Customer::EMAIL_VERIFY) {
                 if ($customer->validateForPassportPasswordGrant($request->password)) {
-                    $client = $this->_getCustomerClient();
-                    if ($client) {
-                        return response()->json([
-                            "message"       => "Success",
-                            'client_id'     => $client->id,
-                            'client_secret' => $client->secret,
-                            'customer'      => $customer,
-                        ], 200);
-                    }
+                    $objectToken = $this->_getAccessToken($customer);
+                    return response()->json([
+                        'access_token'  => $objectToken->accessToken,
+                        'token_type'    => 'Bearer',
+                        'expires_at'    => Carbon::parse(
+                            $objectToken->token->expires_at
+                        )->toDateTimeString(),
+                        'customer_name' => $customer->name,
+                    ]);
                 }
                 return $this->response('Email or password invalid', 'customer', 422, [__('auth.password_or_email_wrong')]);
             }
@@ -88,58 +88,52 @@ class LoginController extends Controller
     }
 
     /**
-     * Get customer client
-     *
-     * @return mixed
-     */
-    private function _getCustomerClient()
-    {
-        return PPClient::where('password_client', 1)->where('provider', 'customers')->first();
-    }
-
-    /**
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function googleLogin(Request $request)
+    public function socialLogin(Request $request)
     {
         try {
-
-            $googleId = $request->get('googleId');
-            $fullName = $request->get('fullName');
-            $email = $request->get('email');
+            $socialId = $request->get('socialId');
+            $socialType = $request->get('socialType');
 
             // valid email exist
-            $customerGoogle = Customer::where('email', $email)->first();
+            $customerGoogle = Customer::where('social_id', $socialId)->where('status', Customer::ACTIVE)->first();
 
-            if ($customerGoogle) {
-                if (!$customerGoogle->social == "google") {
-                    return $this->response('Google Login invalid', 'customer', 422, ['Email already exist, please use another one']);
-                }
-            } else {
+            if (!$customerGoogle) {
                 $customerGoogle = new Customer();
-                $customerGoogle->name = $fullName;
-                $customerGoogle->email = $email;
-                $customerGoogle->social = 'google';
-                $customerGoogle->password = Hash::make($googleId);
-                $customerGoogle->role3d = 3;
+                $customerGoogle->name = "User" . rand(0, 100000);
+                $customerGoogle->social_type = $socialType;
+                $customerGoogle->social_id = $socialId;
+                $customerGoogle->role3d = Customer::ROLE_3D_CUSTOMER;
                 $customerGoogle->status = Customer::EMAIL_VERIFY;
                 $customerGoogle->save();
             }
 
-            $client = $this->_getCustomerClient();
-            if ($client) {
-                return response()->json([
-                    "message"       => "Success",
-                    'client_id'     => $client->id,
-                    'client_secret' => $client->secret,
-                    'customer'      => $customerGoogle,
-                ], 200);
-            }
+            $objectToken = $this->_getAccessToken($customerGoogle);
 
-            return $this->response('Client invalid', 'customer', 422, ['Login with client fail!']);
+            return response()->json([
+                'access_token'  => $objectToken->accessToken,
+                'token_type'    => 'Bearer',
+                'expires_at'    => Carbon::parse(
+                    $objectToken->token->expires_at
+                )->toDateTimeString(),
+                'customer_name' => $customerGoogle->name,
+            ]);
         } catch (Exception $e) {
             Log::error($e->getMessage());
         }
+    }
+
+    /**
+     * @param $customer
+     * @return mixed
+     */
+    private function _getAccessToken($customer)
+    {
+        $tokenResult = $customer->createToken('log-smart-choice-local');
+        $token = $tokenResult->token;
+        $token->save();
+        return $tokenResult;
     }
 }

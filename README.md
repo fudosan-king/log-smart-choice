@@ -85,5 +85,5 @@ docker exec -it [CONTAINER ID of log-smart-choice_laravel_1] /bin/bash;
 ./docker-config/install.sh
 php artisan voyager:admin your@email.com --create
 
-php artisan passport:client --password
+php artisan passport:client --personal
 ```

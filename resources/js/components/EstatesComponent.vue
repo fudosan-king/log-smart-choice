@@ -67,10 +67,7 @@
 			// Gui yeu cau den server sau moi lan cuon xuong
 			getListEstates(pageLoad){
                 let accessToken = this.$getCookie('accessToken');
-                let auth = {
-                    username: `${process.env.MIX_BASIC_AUTH_USERNAME}`,
-                    password: `${process.env.MIX_BASIC_AUTH_PASSWORD}`,
-                }
+                const auth = this.auth;
                 if (accessToken != '') {
                     axios({
                         url: '/customer',
@@ -139,10 +136,7 @@
             // Add states to wishlist
             addToWishList(estateId, isWish) {
                 let accessToken = this.$getCookie('accessToken')
-                let auth = {
-                    username: `${process.env.MIX_BASIC_AUTH_USERNAME}`,
-                    password: `${process.env.MIX_BASIC_AUTH_PASSWORD}`,
-                }
+                const auth = this.auth;
                 if (accessToken != '') {
                     let data = {
                         estateId: estateId,

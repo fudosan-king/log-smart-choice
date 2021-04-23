@@ -55,10 +55,7 @@ export default {
     methods: {
         getListEstates() {
             let accessToken = this.$getCookie('accessToken');
-            let auth = {
-                    username: `${process.env.MIX_BASIC_AUTH_USERNAME}`,
-                    password: `${process.env.MIX_BASIC_AUTH_PASSWORD}`,
-                };
+            const auth = this.auth;
                 if (accessToken.length > 0) {
                     axios({
                         url: '/customer',
@@ -99,10 +96,7 @@ export default {
         // Add states to wishlist
         addToWishList(estateId, isWish) {
             let accessToken = this.$getCookie('accessToken');
-            let auth = {
-                username: `${process.env.MIX_BASIC_AUTH_USERNAME}`,
-                password: `${process.env.MIX_BASIC_AUTH_PASSWORD}`,
-            };
+            const auth = this.auth;
             if (accessToken.length > 0) {
                 let data = {
                     estateId: estateId,

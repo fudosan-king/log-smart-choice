@@ -88,9 +88,7 @@ export default {
                     } else{
                         this.errors.push(res.data.message);
                     }
-                }).catch((err) => {
                 })
-
             }
         },
         validEmail(email) {

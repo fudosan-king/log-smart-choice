@@ -46,7 +46,12 @@ const routes = [
         name: 'forgotPassword',
         component: () => import('../pages/ForgotPassword.vue'),
     },
-    { path: "*", component: () => import('../pages/PageNotFound.vue') }
+    { path: "*", component: () => import('../pages/PageNotFound.vue') },
+    {
+        path: '/login-social',
+        name: 'loginSocial',
+        component: () => import('../pages/LoginSocial.vue'),
+    }
 ]
 
 const router = new VueRouter({

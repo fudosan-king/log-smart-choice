@@ -1,5 +1,10 @@
 export default {
     install(Vue, options) {
+
+        Vue.auth = {
+            username: `${process.env.MIX_BASIC_AUTH_USERNAME}`,
+            password: `${process.env.MIX_BASIC_AUTH_PASSWORD}`
+        };
         Vue.prototype.$setCookie = (name, value, exdays) => {
             var date = new Date();
             date.setTime(date.getTime() + (exdays * 24 * 60 * 60 * 1000));
