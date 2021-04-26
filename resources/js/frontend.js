@@ -25,7 +25,6 @@ const gAuthOption = {
 };
 
 Vue.use(gInit, gAuthOption);
-
 Vue.use(fbInit);
 
 Vue.use(Lazyload, {
