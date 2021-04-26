@@ -11,7 +11,7 @@ import globalHelper from './globalHelper';
 import Vuelidate from 'vuelidate';
 import gInit from './config/googleAuth';
 import Lazyload from 'vue-lazyload';
-import fbInit from './config/facebookAuth';
+import FBAuth from './config/facebookAuth';
 
 // Set Vue router
 Vue.router = router;
@@ -25,7 +25,15 @@ const gAuthOption = {
 };
 
 Vue.use(gInit, gAuthOption);
-Vue.use(fbInit);
+
+const fbAuthOption = {
+    appID: process.env.MIX_FACEBOOK_APP_ID,
+    jsID: "facebook-jssdk",
+    jsSrc: "https://connect.facebook.net/en_US/sdk.js",
+}
+
+Vue.use(FBAuth, fbAuthOption);
+
 
 Vue.use(Lazyload, {
     preLoad: 1.3,

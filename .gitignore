@@ -17,6 +17,7 @@ npm-debug.log
 yarn-error.log
 .DS_Store
 package-lock.json
+composer.lock
 .idea/
 /public/estates
 /public/logsmartchoice
