@@ -33,6 +33,7 @@ class EstateController extends Controller
         $roomTypeTo = $request->get('room_type_to') ?? '';
         $station = $request->get('station') ?? '';
         $email = $request->get('email') ?? '';
+        $isSocial = $request->get('isSocial') ?? '';
 
         $limit = $request->has('limit') ? intval($request->get('limit')) : 9;
         $page = $request->has('page') ? intval($request->get('page')) : 1;
@@ -97,6 +98,10 @@ class EstateController extends Controller
         }
 
         $customer = Customer::where('email', $email)->first();
+        if ($isSocial) {
+            $customer = Customer::where('social_id', $email)->first();
+        }
+
         $wishList = [];
         if ($customer) {
             $wishListForCustomer = WishLists::select('estate_id')

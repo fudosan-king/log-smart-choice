@@ -25,6 +25,7 @@ const actions = {
             })
                 .then(resp => {
                     this.customer = resp.data.customer;
+                    this._vm.$setCookie('userName', resp.data.customer.name, 1);
                     relove(this.customer);
                 })
                 .catch(err => { 

@@ -10,3 +10,6 @@ ul.estate-description-content {
     list-style-type: none;
 }
 
+.list_property .img-fluid-loading {
+    padding-left: 12%;
+}

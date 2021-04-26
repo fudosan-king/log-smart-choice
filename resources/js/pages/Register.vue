@@ -116,7 +116,7 @@
                                 </div>
                                 <div class="col deltail_login_right">
                                     <p class="note_login_btn_social">ソーシャルアカウントでのログインはこちら</p>
-                                    <button class="login_btn login_btn--facebook" @click="facebookLogin('facebook')">
+                                    <button class="login_btn login_btn--facebook" @click="facebookLogin()">
                                         Facebookでログイン
                                     </button>
                                     <p class="note_login_btn_social"></p>

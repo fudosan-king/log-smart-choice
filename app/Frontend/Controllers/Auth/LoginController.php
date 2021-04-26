@@ -65,6 +65,8 @@ class LoginController extends Controller
                             $objectToken->token->expires_at
                         )->toDateTimeString(),
                         'customer_name' => $customer->name,
+                        'customer_email'=> $customer->email,
+                        'customer_social_id' => $customer->social_id,
                     ]);
                 }
                 return $this->response('Email or password invalid', 'customer', 422, [__('auth.password_or_email_wrong')]);
@@ -98,19 +100,19 @@ class LoginController extends Controller
             $socialType = $request->get('socialType');
 
             // valid email exist
-            $customerGoogle = Customer::where('social_id', $socialId)->where('status', Customer::ACTIVE)->first();
+            $customer = Customer::where('social_id', $socialId)->where('status', Customer::ACTIVE)->first();
 
-            if (!$customerGoogle) {
-                $customerGoogle = new Customer();
-                $customerGoogle->name = "User" . rand(0, 100000);
-                $customerGoogle->social_type = $socialType;
-                $customerGoogle->social_id = $socialId;
-                $customerGoogle->role3d = Customer::ROLE_3D_CUSTOMER;
-                $customerGoogle->status = Customer::EMAIL_VERIFY;
-                $customerGoogle->save();
+            if (!$customer) {
+                $customer = new Customer();
+                $customer->name = "User" . rand(0, 100000);
+                $customer->social_type = $socialType;
+                $customer->social_id = $socialId;
+                $customer->role3d = Customer::ROLE_3D_CUSTOMER;
+                $customer->status = Customer::EMAIL_VERIFY;
+                $customer->save();
             }
 
-            $objectToken = $this->_getAccessToken($customerGoogle);
+            $objectToken = $this->_getAccessToken($customer);
 
             return response()->json([
                 'access_token'  => $objectToken->accessToken,
@@ -118,7 +120,9 @@ class LoginController extends Controller
                 'expires_at'    => Carbon::parse(
                     $objectToken->token->expires_at
                 )->toDateTimeString(),
-                'customer_name' => $customerGoogle->name,
+                'customer_name' => $customer->name,
+                'customer_email'=> $customer->email,
+                'customer_social_id' => $customer->social_id,
             ]);
         } catch (Exception $e) {
             Log::error($e->getMessage());

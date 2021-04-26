@@ -15,7 +15,7 @@ class CustomerController extends Controller
     public function getCustomer()
     {
         $customerId = auth()->guard('api')->user()->id;
-        $customer = Customer::select('name', 'email', 'phone_number', 'role3d')
+        $customer = Customer::select('name', 'email', 'phone_number', 'role3d', 'social_id')
             ->where('id', $customerId)
             ->where('status', Customer::ACTIVE)
             ->first();
