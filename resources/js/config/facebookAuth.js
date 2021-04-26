@@ -1,4 +1,4 @@
-export default () => {
+export default ({}, fbOption) => {
     return new Promise(resolve => {
         var js,
             fjs = document.getElementsByTagName("script")[0];
@@ -6,13 +6,13 @@ export default () => {
             return;
         }
         js = document.createElement("script");
-        js.id = "facebook-jssdk";
-        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        js.id = fbOption.jsID;
+        js.src = fbOption.jsSrc;
         fjs.parentNode.insertBefore(js, fjs);
-
+        var appID = fbOption.appID;
         window.fbAsyncInit = function () {
             FB.init({
-                appId: process.env.MIX_FACEBOOK_APP_ID,
+                appId: appID,
                 xfbml: true,
                 version: 'v10.0'
             });
