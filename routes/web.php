@@ -22,4 +22,7 @@ Route::get('/{any?}', [AppController::class, 'get'])
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
+
+    // overwrite store admin users
+    Route::post('admin/users', ['uses' => 'UserControllers@store', 'as' => 'custom.users.store']);
 });
