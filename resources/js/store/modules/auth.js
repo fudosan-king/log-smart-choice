@@ -39,6 +39,9 @@ const actions = {
                     commit('auth_error');
                     this._vm.$setCookie('accessToken', '', 1);
                     this._vm.$setCookie('accessToken3d', '', 1);
+                    this._vm.$setCookie('userName', '', 1);
+                    this._vm.$setCookie('userEmail', '', 1);
+                    this._vm.$setCookie('userSocialId', '', 1);
                     reject(err);
                 });
         });
@@ -60,6 +63,8 @@ const actions = {
                     this._vm.$setCookie('accessToken', '', 1);
                     this._vm.$setCookie('accessToken3d', '', 1);
                     this._vm.$setCookie('userName', '', 1);
+                    this._vm.$setCookie('userEmail', '', 1);
+                    this._vm.$setCookie('userSocialId', '', 1);
                     delete axios.defaults.headers.common['Authorization'];
                     let auth2 = window.gapi.auth2.getAuthInstance();
                     if (auth2) {
@@ -71,6 +76,9 @@ const actions = {
                     commit('auth_error');
                     this._vm.$setCookie('accessToken', '', 1);
                     this._vm.$setCookie('accessToken3d', '', 1);
+                    this._vm.$setCookie('userName', '', 1);
+                    this._vm.$setCookie('userEmail', '', 1);
+                    this._vm.$setCookie('userSocialId', '', 1);
                     reject(err);
                 });
             resolve();
@@ -113,6 +121,9 @@ const actions = {
                         commit('auth_error');
                         this._vm.$setCookie('accessToken', '', 1);
                         this._vm.$setCookie('accessToken3d', '', 1);
+                        this._vm.$setCookie('userName', '', 1);
+                        this._vm.$setCookie('userEmail', '', 1);
+                        this._vm.$setCookie('userSocialId', '', 1);
                         reject(err);
                     });
                 }
@@ -120,6 +131,9 @@ const actions = {
                 commit('auth_error');
                 this._vm.$setCookie('accessToken', '', 1);
                 this._vm.$setCookie('accessToken3d', '', 1);
+                this._vm.$setCookie('userName', '', 1);
+                this._vm.$setCookie('userEmail', '', 1);
+                this._vm.$setCookie('userSocialId', '', 1);
                 reject(err);
             });
         })
@@ -162,6 +176,8 @@ const actions = {
                             commit('auth_error');
                             vueVM.$setCookie('accessToken', '', 1);
                             vueVM.$setCookie('accessToken3d', '', 1);
+                            vueVM.$setCookie('userEmail', '', 1);
+                            vueVM.$setCookie('userSocialId', '', 1);
                             reject(err);
                         });
                 }

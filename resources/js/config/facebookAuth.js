@@ -9,12 +9,13 @@ export default ({}, fbOption) => {
         js.id = fbOption.jsID;
         js.src = fbOption.jsSrc;
         fjs.parentNode.insertBefore(js, fjs);
-        var appID = fbOption.appID;
+        let appID = fbOption.appID;
+        let version = fbOption.version;
         window.fbAsyncInit = function () {
             FB.init({
                 appId: appID,
                 xfbml: true,
-                version: 'v10.0'
+                version: version
             });
             FB.AppEvents.logPageView();
         };

@@ -9,7 +9,7 @@ import store from './store/index';
 import router from './router/index';
 import globalHelper from './globalHelper';
 import Vuelidate from 'vuelidate';
-import gInit from './config/googleAuth';
+import gAuth from './config/googleAuth';
 import Lazyload from 'vue-lazyload';
 import FBAuth from './config/facebookAuth';
 
@@ -22,14 +22,16 @@ Vue.use(Vuelidate);
 const gAuthOption = {
     clientId: process.env.MIX_GOOGLE_CLIENT_ID,
     scope: "profile email",
+    jsSrc: "https://apis.google.com/js/api.js",
 };
 
-Vue.use(gInit, gAuthOption);
+Vue.use(gAuth, gAuthOption);
 
 const fbAuthOption = {
     appID: process.env.MIX_FACEBOOK_APP_ID,
     jsID: "facebook-jssdk",
     jsSrc: "https://connect.facebook.net/en_US/sdk.js",
+    version: "v10.0",
 }
 
 Vue.use(FBAuth, fbAuthOption);
