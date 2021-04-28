@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ImportManagementSystemRequest;
 use App\Models\Station;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -27,17 +28,12 @@ class ImportManagementSystemController extends VoyagerBaseController
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function import(Request $request)
+    public function importStation(ImportManagementSystemRequest $request)
     {
+        $colStationName = 6;
         DB::beginTransaction();
         try {
             $fileExt = $request->file('import_file')->getClientOriginalExtension();
-            if ($fileExt != 'csv') {
-                return redirect()->back()->with([
-                    'message'    => 'Wrong format',
-                    'alert-type' => 'error',
-                ]);
-            }
             $fileNameToStore = 'importStation' . '-' . date('Y-m-d') . '.' . $fileExt;
             $request->file('import_file')->storeAs('public/station/', $fileNameToStore);
             $row = 1;
@@ -49,7 +45,7 @@ class ImportManagementSystemController extends VoyagerBaseController
                     $num = count($data);
                     for ($i = 0; $i < $num; $i++) {
                         if ($i != 0) {
-                            if ($i % 6 == 0) {
+                            if ($i % $colStationName == 0) {
 
                                 // validate empty value
                                 if (empty($data[$i])) {
