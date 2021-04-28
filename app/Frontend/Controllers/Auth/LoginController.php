@@ -103,8 +103,11 @@ class LoginController extends Controller
             $token = $request->get('token');
 
             if ($user = $data->userFromToken($token)) {
-                // check email exist
-                $customer = Customer::where('email', $user->email)->where('status', Customer::ACTIVE)->first();
+                $customer = Customer::where('social_id', $socialId)->where('status', Customer::ACTIVE)->first();
+
+                if ($user->email) {
+                    $customer = Customer::where('email', $user->email)->where('status', Customer::ACTIVE)->first();
+                }
 
                 if (!$customer) {
                     $customer = new Customer();
