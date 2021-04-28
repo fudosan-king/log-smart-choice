@@ -17,7 +17,7 @@ const actions = {
                 .post('/wishlist', data, {
                     headers: {
                         'content-type': 'application/json',
-                        AuthorizationBearer: `Bearer ${accessToken}`
+                        AuthorizationBearer: 'Bearer '+ data.accessToken,
                     },
                     auth: auth
                 })
