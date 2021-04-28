@@ -87,12 +87,13 @@ export default {
             if (accessToken != '') {
                 let data = {
                     estateId: estateId,
-                    is_wish: 1
+                    is_wish: 1,
+                    accessToken: accessToken,
                 };
                 if (isWish === 1) {
                     data.is_wish = 0;
                 }
-                this.$store.dispatch('addWishList', data);
+                this.$store.dispatch('addWishList', data, accessToken);
             }
         }
     }

@@ -132,11 +132,7 @@
                             </div>
                             <hr />
                             <div class="register_footer text-center">
-                                <p>
-                                    アカウントをお持ちでしょうか？ &nbsp<a href="#" class="href_login"
-                                        >ログインする＞</a
-                                    >
-                                </p>
+                                <p>アカウントをお持ちでしょうか？ <a href="#" class="href_login">ログインする＞</a></p>
                                 <p class="notice_login">
                                     新規登録またはログインして続行することにより、<a href="#" class="href_login"
                                         >Order-Renoveの利用規約</a

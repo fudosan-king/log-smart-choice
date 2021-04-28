@@ -87,8 +87,9 @@ const actions = {
 
     googleLogin({ commit }) {
         return new Promise((resolve, reject) => {
-            window.gapi.auth2.getAuthInstance().signIn().then(() => {
-                let auth2 = window.gapi.auth2.getAuthInstance();
+            let auth2 = window.gapi.auth2.getAuthInstance();
+            auth2.signIn().then(() => {
+                let userAuth = auth2.currentUser.get().getAuthResponse();
                 const auth = this.auth
                 if (auth2.isSignedIn.get()) {
                     let profile = auth2.currentUser.get().getBasicProfile();
@@ -99,6 +100,7 @@ const actions = {
                         "imageUrl": profile.getImageUrl(),
                         "socialType": "google",
                         "socialId": profile.getId(),
+                        "token": userAuth.access_token,
                     };
                     axios({
                         url: '/google-login', data: userInfo, method: 'POST', headers: {
@@ -145,9 +147,11 @@ const actions = {
             const auth = this.auth
             FB.getLoginStatus(function (response) {
                 if (response.status === 'connected') {
+                    console.log(response.authResponse.accessToken);
                     let userInfo = {
                         "socialType": "facebook",
                         "socialId": response.authResponse.userID,
+                        "token": response.authResponse.accessToken,
                     };
 
                     axios({

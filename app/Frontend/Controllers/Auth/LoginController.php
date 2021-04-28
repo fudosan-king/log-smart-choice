@@ -11,6 +11,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller
 {
@@ -98,32 +99,37 @@ class LoginController extends Controller
         try {
             $socialId = $request->get('socialId');
             $socialType = $request->get('socialType');
+            $data = Socialite::driver($socialType);
+            $token = $request->get('token');
 
-            // valid email exist
-            $customer = Customer::where('social_id', $socialId)->where('status', Customer::ACTIVE)->first();
+            if ($user = $data->userFromToken($token)) {
+                // check email exist
+                $customer = Customer::where('email', $user->email)->where('status', Customer::ACTIVE)->first();
 
-            if (!$customer) {
-                $customer = new Customer();
-                $customer->name = "User" . rand(0, 100000);
-                $customer->social_type = $socialType;
-                $customer->social_id = $socialId;
-                $customer->role3d = Customer::ROLE_3D_CUSTOMER;
-                $customer->status = Customer::EMAIL_VERIFY;
-                $customer->save();
+                if (!$customer) {
+                    $customer = new Customer();
+                    $customer->name = $user->name;
+                    $customer->email = $user->email;
+                    $customer->social_type = $socialType;
+                    $customer->social_id = $socialId;
+                    $customer->role3d = Customer::ROLE_3D_CUSTOMER;
+                    $customer->status = Customer::EMAIL_VERIFY;
+                    $customer->save();
+                }
+
+                $objectToken = $this->_getAccessToken($customer);
+
+                return response()->json([
+                    'access_token'  => $objectToken->accessToken,
+                    'token_type'    => 'Bearer',
+                    'expires_at'    => Carbon::parse(
+                        $objectToken->token->expires_at
+                    )->toDateTimeString(),
+                    'customer_name' => $customer->name,
+                    'customer_email'=> $customer->email,
+                    'customer_social_id' => $customer->social_id,
+                ]);
             }
-
-            $objectToken = $this->_getAccessToken($customer);
-
-            return response()->json([
-                'access_token'  => $objectToken->accessToken,
-                'token_type'    => 'Bearer',
-                'expires_at'    => Carbon::parse(
-                    $objectToken->token->expires_at
-                )->toDateTimeString(),
-                'customer_name' => $customer->name,
-                'customer_email'=> $customer->email,
-                'customer_social_id' => $customer->social_id,
-            ]);
         } catch (Exception $e) {
             Log::error($e->getMessage());
         }

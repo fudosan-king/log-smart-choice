@@ -32,7 +32,7 @@ const fbAuthOption = {
     jsID: "facebook-jssdk",
     jsSrc: "https://connect.facebook.net/en_US/sdk.js",
     version: "v10.0",
-}
+};
 
 Vue.use(FBAuth, fbAuthOption);
 
@@ -74,7 +74,7 @@ new Vue({
         },
     },
     mounted() {
-        // milisecond
+        // mili seconds
         setInterval(this.getRefreshTokenApi, 15000000);
     }
 });
