@@ -39,4 +39,5 @@ return [
     'password_or_email_wrong' => 'Email or password is wrong',
     'email_not_activated' => 'Email is not activated',
     'email_invalid' => 'Email invalid',
+    'confirmation' => "Register successfully"
 ];
