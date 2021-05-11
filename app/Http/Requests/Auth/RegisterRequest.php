@@ -39,6 +39,7 @@ class RegisterRequest extends FormRequest
             'email.required'     => __('auth.email_required'),
             'email.max'          => __('auth.email_max_length'),
             'email.email'        => __('auth.email_invalid'),
+            'email.unique'       => __('auth.email_already_exist'),
             'password.required'  => __('auth.password_required'),
             'password.min'       => __('auth.pass_word_min_length_include_alphabet'),
             'password.regex'     => __('auth.pass_word_min_length_include_alphabet'),

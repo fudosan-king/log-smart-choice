@@ -34,13 +34,16 @@ Route::middleware('auth:api')->group(function () {
 });
 
 // auth
-
 Route::get('/verify/{token}', [VerificationController::class, 'verifyEmail'])->name('verify.email');
 Route::post('/register', [RegisterController::class, 'registerCustomer'])->name('customer.register');
+Route::post('/reconfirmation-email', [RegisterController::class, 'reconfirmEmail'])->name('customer.forgotpassword');
 Route::post('/login', [LoginController::class, 'login'])->name('login.check');
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/forgot-password', [ResetPasswordController::class, 'forgotPassword'])->name('customer.forgotpassword');
 Route::post('/reset-password/{hash}', [ResetPasswordController::class, 'resetPassword'])->name('customer.resetpassword');
+
+
+// register social network
 Route::post('/google-login', [LoginController::class, 'socialLogin']);
 Route::post('/facebook-login', [LoginController::class, 'socialLogin']);
 
@@ -56,10 +59,10 @@ Route::group(['prefix' => 'detail'], function () {
     Route::post('/', [EstateController::class, 'detail']);
 });
 
-Route::get('test_import_estates', function() {
+Route::get('test_import_estates', function () {
     $estates = array();
     foreach (range(1, 11) as $number) {
-        try{
+        try {
             $estate_data = file_get_contents(base_path() . '/tests/data/estate' . $number . '.json');
             $estate = json_decode($estate_data, true);
             array_push($estates, $estate);

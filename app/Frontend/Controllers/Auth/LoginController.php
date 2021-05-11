@@ -53,28 +53,26 @@ class LoginController extends Controller
      */
     public function login(LoginRequest $request)
     {
-        $customer = Customer::where('email', $request->email)->first();
+        $customer = Customer::where('email', $request->email)->where('status', Customer::EMAIL_VERIFY)->first();
 
         if ($customer) {
-            if ($customer->status == Customer::EMAIL_VERIFY) {
-                if ($customer->validateForPassportPasswordGrant($request->password)) {
-                    $objectToken = $this->_getAccessToken($customer);
-                    return response()->json([
-                        'access_token'  => $objectToken->accessToken,
-                        'token_type'    => 'Bearer',
-                        'expires_at'    => Carbon::parse(
-                            $objectToken->token->expires_at
-                        )->toDateTimeString(),
-                        'customer_name' => $customer->name,
-                        'customer_email'=> $customer->email,
-                        'customer_social_id' => $customer->social_id,
-                    ]);
-                }
-                return $this->response('Email or password invalid', 'customer', 422, [__('auth.password_or_email_wrong')]);
+            if ($customer->validateForPassportPasswordGrant($request->password)) {
+                $objectToken = $this->_getAccessToken($customer);
+                $data = [
+                    'access_token'       => $objectToken->accessToken,
+                    'token_type'         => 'Bearer',
+                    'expires_at'         => Carbon::parse(
+                        $objectToken->token->expires_at
+                    )->toDateTimeString(),
+                    'customer_name'      => $customer->name,
+                    'customer_email'     => $customer->email,
+                    'customer_social_id' => $customer->social_id,
+                ];
+                return $this->response(200, __('auth.login_success'), $data, true);
             }
-            return $this->response('Email invalid', 'customer', 422, [__('auth.email_not_activated')]);
+            return $this->response(422, __('auth.password_or_email_wrong'));
         }
-        return $this->response('Customer invalid', 'customer', 422, ['Customer does not exist']);
+        return $this->response(422, __('auth.customer_not_found'));
     }
 
     /**
@@ -87,7 +85,7 @@ class LoginController extends Controller
     {
         $token = $request->user()->token();
         $token->revoke();
-        return $this->response('Logout', 'customer', 200, ['You have been successfully logged out!']);
+        return $this->response(200, __('auth.logout_success'), [], true);
     }
 
     /**
@@ -122,16 +120,17 @@ class LoginController extends Controller
 
                 $objectToken = $this->_getAccessToken($customer);
 
-                return response()->json([
-                    'access_token'  => $objectToken->accessToken,
-                    'token_type'    => 'Bearer',
-                    'expires_at'    => Carbon::parse(
+                $data = [
+                    'access_token'       => $objectToken->accessToken,
+                    'token_type'         => 'Bearer',
+                    'expires_at'         => Carbon::parse(
                         $objectToken->token->expires_at
                     )->toDateTimeString(),
-                    'customer_name' => $customer->name,
-                    'customer_email'=> $customer->email,
+                    'customer_name'      => $customer->name,
+                    'customer_email'     => $customer->email,
                     'customer_social_id' => $customer->social_id,
-                ]);
+                ];
+                return $this->response(200, __('auth.login_success'), $data, true);
             }
         } catch (Exception $e) {
             Log::error($e->getMessage());

@@ -14,11 +14,22 @@
                                         </div>
                                         <div class="col-12 col-lg-8 align-self-center">
                                             <input
-                                                type="email"
                                                 class="form-control"
                                                 placeholder="例：xxxxxxx@hchinokanri.co.jp"
-                                                v-model="email"
+                                                v-model="customer.email"
+                                                :class="{
+                                                    'is-invalid':
+                                                        (submitted && $v.customer.email.$error) ||
+                                                        (errors && errors.length)
+                                                }"
                                             />
+                                            <div v-if="submitted && $v.customer.email.$error" class="invalid-feedback">
+                                                <span v-if="!$v.customer.email.required">メールが必要です</span>
+                                                <span v-if="!$v.customer.email.email">メールが無効です</span>
+                                            </div>
+                                            <div class="invalid-feedback" v-if="errors.email">
+                                                {{ errors.email }}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -28,47 +39,49 @@
                                             <label class="font-weight-bold" for="">パスワード（※）</label>
                                         </div>
                                         <div class="col-12 col-lg-8">
-                                            <input type="password" class="form-control" v-model="password" />
-                                            <!-- <div class="custom-control custom-checkbox mt-2">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck1" />
-                                                <label class="custom-control-label" for="customCheck1"
-                                                    >入力した情報を保存する</label
-                                                >
-                                            </div> -->
-                                            <br />
-                                            <div
-                                                class="alert alert-danger"
-                                                v-text="errorsApi.email[0]"
-                                                v-if="errorsApi.email"
-                                            ></div>
-                                            <div
-                                                class="alert alert-danger"
-                                                v-text="errorsApi.password[0]"
-                                                v-else-if="errorsApi.password"
-                                            ></div>
-                                            <div
-                                                class="alert alert-danger"
-                                                v-text="errorsApi.customer[0]"
-                                                v-else-if="errorsApi.customer"
-                                            ></div>
-                                            <div v-if="errors.length">
-                                                <div class="alert alert-danger" v-for="error in errors">
-                                                    {{ error }}
-                                                </div>
+                                            <input
+                                                type="password"
+                                                class="form-control"
+                                                v-model="customer.password"
+                                                :class="{
+                                                    'is-invalid':
+                                                        (submitted && $v.customer.password.$error) ||
+                                                        (errors && errors.length)
+                                                }"
+                                            />
+                                            <div class="text-danger" v-for="error in errors.password">
+                                                <small>{{ error }}</small>
                                             </div>
+                                            <div class="text-danger" v-for="error in errors.messages">
+                                                <small>{{ error }}</small>
+                                            </div>
+                                            <div
+                                                v-if="submitted && $v.customer.password.$error"
+                                                class="invalid-feedback"
+                                            >
+                                                <span v-if="!$v.customer.password.required"
+                                                    >パスワードを入力してください
+                                                </span>
+                                                <span v-if="!$v.customer.password.minLength">
+                                                    パスワードは8～16文字以内で指定してください
+                                                </span>
+                                            </div>
+
                                             <div class="form-group text-center">
                                                 <button type="submit" class="btn btnlogin">ログイン</button>
                                                 <div class="text-center">
                                                     <div class="text-center">
-                                                        <router-link :to="{name: 'forgotPassword'}">
+                                                        <router-link :to="{ name: 'forgotPassword' }">
                                                             パスワードを忘れた場合
                                                         </router-link>
                                                     </div>
                                                     <div class="text-center">
-                                                        <a href="#">確認メールが届いてない場合</a>
+                                                        <router-link :to="{ name: 'reconfirmEmail' }">
+                                                            確認メールが届いてない場合
+                                                        </router-link>
                                                     </div>
                                                     <div class="text-center">
-                                                        <router-link :to="{name: 'register'}">
+                                                        <router-link :to="{ name: 'register' }">
                                                             新規会員登録
                                                         </router-link>
                                                     </div>
@@ -86,30 +99,41 @@
     </div>
 </template>
 <script>
+import { required, email, minLength, maxLength } from 'vuelidate/lib/validators';
+
 export default {
     data() {
         return {
-            email: null,
-            password: null,
-            errors: [],
-            errorsApi: {}
+            customer: {
+                email: null,
+                password: null
+            },
+            errors: {},
+            submitted: false
         };
+    },
+    validations: {
+        customer: {
+            email: {
+                required,
+                email
+            },
+            password: {
+                required,
+                minLength: minLength(8),
+                maxLength: maxLength(255)
+            }
+        }
     },
     methods: {
         login() {
-            this.errors = [];
-            if (!this.email) {
-                this.errors.push('メールアドレスを入力してください');
-            } else if (!this.validEmail(this.email)) {
-                this.errors.push('メールが必要です.');
-            }
-
-            if (!this.password) {
-                this.errors.push('パスワードを入力してください');
-            }
-            if (!this.errors.length) {
-                let email = this.email;
-                let password = this.password;
+            this.submitted = true;
+            this.errors = {};
+            this.$v.$touch();
+            if (!this.$v.$invalid && this.submitted) {
+                let email = this.customer.email;
+                let password = this.customer.password;
+                this.submitted = false;
                 this.$store
                     .dispatch('login', { email, password })
                     .then(response => {
@@ -117,14 +141,9 @@ export default {
                         this.$router.go(0);
                     })
                     .catch(error => {
-                        this.errorsApi = error.response.data.errors;
+                        this.errors = error.response.data.errors;
                     });
             }
-        },
-
-        validEmail(email) {
-            var response = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            return response.test(email);
         }
     }
 };

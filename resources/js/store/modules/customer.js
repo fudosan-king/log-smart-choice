@@ -24,8 +24,8 @@ const actions = {
                 auth: auth,
             })
                 .then(resp => {
-                    this.customer = resp.data.customer;
-                    this._vm.$setCookie('userName', resp.data.customer.name, 1);
+                    this.customer = resp.data.data;
+                    this._vm.$setCookie('userName', resp.data.data.name, 1);
                     relove(this.customer);
                 })
                 .catch(err => { 

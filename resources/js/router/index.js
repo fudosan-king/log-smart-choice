@@ -51,7 +51,12 @@ const routes = [
         path: '/login-social',
         name: 'loginSocial',
         component: () => import('../pages/LoginSocial.vue'),
-    }
+    },
+    {
+        path: '/reconfirmation-email',
+        name: 'reconfirmEmail',
+        component: () => import('../pages/ReconfirmEmail.vue'),
+    },
 ]
 
 const router = new VueRouter({
