@@ -28,11 +28,12 @@ const actions = {
                 auth: auth,
             })
                 .then(resp => {
-                    this._vm.$setCookie('userName', resp.data.customer_name, 1);
-                    this._vm.$setCookie('userEmail', resp.data.customer_email, 1);
-                    this._vm.$setCookie('userSocialId', resp.data.customer_social_id, 1);
-                    this._vm.$setCookie('accessToken', resp.data.access_token, 1);
-                    this._vm.$setCookie('accessToken3d', resp.data.access_token, 1);
+                    this._vm.$setCookie('userName', resp.data.data.customer_name, 1);
+                    this._vm.$setCookie('userEmail', resp.data.data.customer_email, 1);
+                    this._vm.$setCookie('userSocialId', resp.data.data.customer_social_id, 1);
+                    this._vm.$setCookie('accessToken', resp.data.data.access_token, 1);
+                    this._vm.$setCookie('accessToken3d', resp.data.data.access_token, 1);
+                    
                     resolve(resp);
                 })
                 .catch(err => {
@@ -109,14 +110,14 @@ const actions = {
                         auth: auth,
                     }).then(resp => {
                         const tokenInfo = {
-                            token: resp.data.access_token,
-                            customerName: resp.data.customer_name,
+                            token: resp.data.data.access_token,
+                            customerName: resp.data.data.customer_name,
                         };
                         this._vm.$setCookie('accessToken', tokenInfo.token, 1);
                         this._vm.$setCookie('accessToken3d', tokenInfo.token, 1);
                         this._vm.$setCookie('userName', tokenInfo.customerName, 1);
-                        this._vm.$setCookie('userEmail', resp.data.customer_email, 1);
-                        this._vm.$setCookie('userSocialId', resp.data.customer_social_id, 1);
+                        this._vm.$setCookie('userEmail', resp.data.data.customer_email, 1);
+                        this._vm.$setCookie('userSocialId', resp.data.data.customer_social_id, 1);
                         commit('auth_success', tokenInfo);
                         resolve(tokenInfo);
                     }).catch(err => {
@@ -165,14 +166,14 @@ const actions = {
                     })
                         .then(resp => {
                             const tokenInfo = {
-                                token: resp.data.access_token,
-                                customerName: resp.data.customer_name,
+                                token: resp.data.data.access_token,
+                                customerName: resp.data.data.customer_name,
                             };
                             vueVM.$setCookie('accessToken', tokenInfo.token, 1);
                             vueVM.$setCookie('accessToken3d', tokenInfo.token, 1);
                             vueVM.$setCookie('userName', tokenInfo.customerName, 1);
-                            vueVM.$setCookie('userEmail', resp.data.customer_email, 1);
-                            vueVM.$setCookie('userSocialId', resp.data.customer_social_id, 1);
+                            vueVM.$setCookie('userEmail', resp.data.data.customer_email, 1);
+                            vueVM.$setCookie('userSocialId', resp.data.data.customer_social_id, 1);
                             commit('auth_success', tokenInfo);
                             resolve(tokenInfo);
                         })

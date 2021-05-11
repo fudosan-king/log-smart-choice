@@ -7,4 +7,6 @@ return [
     'token_expired' => 'Token hết hạn, vui lòng kiểm tra lại',
     'activate_account_success' => 'Kích hoạt tài khoản thành công',
     'activate_account_fail' => 'Kích hoạt tài khoản thất bại',
+    'customer_fail' => 'Customer invalid',
+    'customer_success' => 'Customer get success',
 ];

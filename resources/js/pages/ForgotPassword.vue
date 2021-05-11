@@ -6,9 +6,11 @@
                     <div class="row">
                         <div class="col-12 col-lg-6 m-auto">
                             <h2>パスワード再設定</h2>
-                            <p>下記に登録したメールアドレスを入力してください。パスワード再設定のご案内をメールでお送りします。</p>
+                            <p>
+                                下記に登録したメールアドレスを入力してください。パスワード再設定のご案内をメールでお送りします。
+                            </p>
                             <p>メールアドレス</p>
-                            <form autocomplete="off"  class="frm_login">
+                            <form autocomplete="off" class="frm_login">
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-12 col-lg-12 col-md-12 align-self-center">
@@ -17,30 +19,38 @@
                                                 class="form-control"
                                                 placeholder="例：xxxxxxx@hchinokanri.co.jp"
                                                 v-model="email"
+                                                :class="{
+                                                    'is-invalid':
+                                                        (submitted && $v.email.$error) || (error && error.length)
+                                                }"
                                             />
-                                        </div>
-                                    </div>
-                                    <div class="row pt-4">
-                                        <div class="col-12 col-lg-12 col-md-12 align-self-center">
-                                            <div v-if="errors.length">
-                                                <div class="alert alert-danger" v-for="error in errors">
-                                                    {{ error }}
-                                                </div>
+                                            <div v-if="submitted && $v.email.$error" class="invalid-feedback">
+                                                <span v-if="!$v.email.required">メールアドレスを入力してください</span>
+                                                <span v-if="!$v.email.email">メールが必要です.</span>
+                                            </div>
+                                            <div class="invalid-feedback" v-for="item in error" :key="item">
+                                                {{ item }}
+                                            </div>
+                                            <div class="valid-feedback d-block" v-for="item in message" :key="item">
+                                                {{ item }}
                                             </div>
                                         </div>
                                     </div>
-
-
                                 </div>
                                 <div class="form-group">
                                     <div class="row">
                                         <div class="col-12 col-lg-8 offset-lg-2">
                                             <div class="form-group text-center">
-                                                <button type="button" class="btn btnlogin " @click="forgotPassword()" :disabled="disabled">
+                                                <button
+                                                    type="button"
+                                                    class="btn btnlogin "
+                                                    @click="forgotPassword()"
+                                                    :disabled="disabled"
+                                                >
                                                     >メールを送信する
                                                 </button>
                                                 <p class="text-center">
-                                                    <router-link :to="{name: 'login'}">
+                                                    <router-link :to="{ name: 'login' }">
                                                         ログインに戻る
                                                     </router-link>
                                                 </p>
@@ -57,45 +67,53 @@
     </div>
 </template>
 <script>
+import { required, email } from 'vuelidate/lib/validators';
+
 export default {
     data() {
         return {
             email: null,
-            errors: [],
+            error: {},
             disabled: false,
+            message: {},
+            submitted: false
         };
+    },
+    validations: {
+        email: {
+            required,
+            email
+        }
     },
     methods: {
         forgotPassword() {
-            this.disabled = true ;
-            this.errors = [];
-            if (!this.email) {
-                this.errors.push('メールアドレスを入力してください');
-                this.disabled = false ;
-            } else if (!this.validEmail(this.email)) {
-                this.errors.push('メールが必要です.');
-                this.disabled = false ;
+            this.error = [];
+            this.message = [];
+            this.submitted = true;
+            this.$v.$touch();
+            if (!this.$v.$invalid && this.submitted) {
+                axios
+                    .post(
+                        '/forgot-password',
+                        { email: this.email },
+                        {
+                            headers: {
+                                'content-type': 'application/json'
+                            }
+                        }
+                    )
+                    .then(res => {
+                        this.disabled = true;
+                        this.message = res.data.success.messages;
+                        setInterval(() => {
+                            this.$router.push({ name: 'login' });
+                        }, 2000);
+                    })
+                    .catch(error => {
+                        this.error = error.response.data.errors.messages;
+                    });
             }
-            if (!this.errors.length) {
-                axios.post("/forgot-password", {email: this.email}, {
-                    headers: {
-                        'content-type': 'application/json',
-                    },
-                }).then(res => {
-                    this.disabled = false ;
-                    if (res.data.status == true) {
-                        this.$router.push({name: 'login'});
-                    } else{
-                        this.errors.push(res.data.message);
-                    }
-                })
-            }
-        },
-        validEmail(email) {
-            var response = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            return response.test(email);
         }
-    },
-}
-;
+    }
+};
 </script>

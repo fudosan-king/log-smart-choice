@@ -53,7 +53,7 @@ class VerificationController extends Controller
     public function verifyEmail($token = null)
     {
         if ($token == null) {
-            return $this->response('Token invalid', 'verify', 422, [__('auth.token_null')]);
+            return $this->response(422, __('auth.token_null'));
         }
 
         $customer = Customer::where('email_verification_token', $token)->first();
@@ -63,7 +63,7 @@ class VerificationController extends Controller
             $timeVerify = date('Y-m-d H:i:s', strtotime($customer->created_at) + Customer::TIME_VERIFY_ACCOUNT);
 
             if ($timeCurrent > $timeVerify) {
-                return $this->response('Token invalid', 'verify', 422, [__('customer.token_expired')]);
+                return $this->response(422, __('customer.token_expired'));
             }
 
             $customer->status = Customer::EMAIL_VERIFY;
@@ -77,8 +77,8 @@ class VerificationController extends Controller
 
             $emailConfirmAccount = new SendMailConfirmAccount($customer->email, $data);
             dispatch($emailConfirmAccount);
-            return $this->response('Activate success', 'verify', 200, [__('customer.activate_account_success')]);
+            return $this->response(200, __('customer.activate_account_success'), [],true);
         }
-        return $this->response('Activate invalid', 'verify', 422, [__('customer.activate_account_fail')]);
+        return $this->response(422, __('customer.activate_account_fail'));
     }
 }

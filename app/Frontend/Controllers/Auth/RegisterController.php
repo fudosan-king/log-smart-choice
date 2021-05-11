@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 class RegisterController extends Controller
@@ -50,21 +51,16 @@ class RegisterController extends Controller
             'password_confirmation' => $request->password_confirmation
         ];
 
-        if ($customer = $this->create($params)) {
-            $link = url('customer/verify') . "/" . $customer->email_verification_token;
-            $data = [
-                'link'     => $link,
-                'customer' => $customer,
-            ];
-            try {
-                $emailVerifyAccount = new SendEmailVerifyAccount($request->only('email'), $data);
-                dispatch($emailVerifyAccount);
-                return $this->response('Customer register success', 'customer', 200, [__('customer.create_success')]);
-            } catch (\Exception $ex) {
-                Log::error($ex->getMessage());
+        try {
+            if ($customer = $this->create($params)) {
+                $this->_sendActiveEmail($customer);
+                return $this->response(200, __('customer.create_success'), [], true);
+
             }
+        } catch (\Exception $ex) {
+            Log::error($ex->getMessage());
         }
-        return $this->response('Customer register fail', 'customer', 422, [__('customer.create_fail')]);
+        return $this->response(422, __('customer.create_fail'));
     }
 
     /**
@@ -86,5 +82,43 @@ class RegisterController extends Controller
         $customer->save();
 
         return $customer;
+    }
+
+    public function reconfirmEmail(Request $request)
+    {
+
+        $email = $request->get('email');
+        $rules = [
+            'email' => 'required| string| email| max:100|',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages = [
+            'email.required' => __('auth.email_required'),
+            'email.email'    => __('auth.email_invalid'),
+        ]);
+
+        if ($validator->fails()) {
+            return $this->response(422, $validator->errors()->first());
+        }
+
+        $customer = Customer::where('email', $email)->where('status', Customer::DEACTIVE)->first();
+
+        if (!$customer) {
+            return $this->response(422, __('auth.email_not_exist'));
+        }
+
+        $this->_sendActiveEmail($customer);
+        return $this->response(200, __('customer.reconfirm_email_success'), [], true);
+    }
+
+    private function _sendActiveEmail(Customer $customer) {
+        $link = url('customer/verify') . "/" . $customer->email_verification_token;
+        $data = [
+            'link'     => $link,
+            'customer' => $customer,
+        ];
+
+        $emailVerifyAccount = new SendEmailVerifyAccount($customer->email, $data);
+        dispatch($emailVerifyAccount);
     }
 }

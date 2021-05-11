@@ -25,6 +25,7 @@ return [
     'password_not_match' => "Password doesn't match",
     'link_check_token_password_fail' => "Link is invalid",
     'email_not_exist' => "Email is not exist, please check again!",
+    'email_already_exist' => "Email has already has been taken, please try again!",
     'reset_password' => 'Reset Password',
     'token_null' => 'Invalid Login attempt',
     'token_expired' => 'Expired activate your account',
@@ -39,5 +40,12 @@ return [
     'password_or_email_wrong' => 'Email or password is wrong',
     'email_not_activated' => 'Email is not activated',
     'email_invalid' => 'Email invalid',
-    'confirmation' => "Register successfully"
+    'confirmation' => "Register successfully",
+    'reconfirm_email_fail' => 'Reconfirm email fail.',
+    'reconfirm_email_success' => 'Reconfirm email success.',
+    'login_success' => 'Login successful',
+    'login_fail' => 'Login fail',
+    'logout_success' => 'Logout successful',
+    'logout_fail' => 'Logout fail',
+    'reset_password_success' => 'Reset password successfull',
 ];

@@ -22,8 +22,8 @@ class CustomerController extends Controller
         if ($customer) {
             $customer->is_logged = Auth::check();
             $customer->role3d = Customer::ROLE3D[$customer->role3d];
-            return response()->json(['customer' => $customer], 200);
+            return $this->response(200, __('customer.customer_success'), $customer, true);
         }
-        return $this->response('Get customer error', 'Customer', 422, 'Customer invalid');
+        return $this->response(422, __('customer.customer_fail'));
     }
 }

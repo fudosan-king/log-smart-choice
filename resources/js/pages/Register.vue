@@ -191,6 +191,7 @@ export default {
         submit() {
             this.submitted = true;
             this.$v.$touch();
+            this.errorsApi = {};
             if (!this.$v.$invalid && this.submitted) {
                 this.submitted = false;
                 axios
