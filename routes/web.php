@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use TCG\Voyager\Facades\Voyager;
 use App\Http\Controllers\AppController;
-
+use App\Http\Controllers\DistrictController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,8 +21,12 @@ Route::get('/{any?}', [AppController::class, 'get'])
 
 
 Route::group(['prefix' => 'admin'], function () {
-    Voyager::routes();
-
     // overwrite store admin users
     Route::post('admin/users', ['uses' => 'UserControllers@store', 'as' => 'custom.users.store']);
+
+    // District Import
+    Route::group(['prefix' => 'districts'], function () {
+        Route::get('/import', [DistrictController::class, 'indexDistrictImport'])->name('admin.districts.import.index');
+        Route::post('/import', [DistrictController::class, 'importDistrict'])->name('admin.districts.import');
+    });
 });

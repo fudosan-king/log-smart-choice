@@ -1,14 +1,14 @@
 @extends('voyager::master')
 
-@section('head')
-    <script src="{{ asset('js/app.js') }}" defer></script>
-@endsection
+{{--@section('page_title', __('voyager::generic.viewing').' '.$dataType->getTranslatedAttribute('display_name_plural'))--}}
+
 
 @section('page_header')
-    <h1 class="page-title">
-        <i class="{{ $dataType->icon }}"></i>
-        {{ __('voyager::generic.'.(isset($dataTypeContent->id) ? 'edit' : 'add')).' '.$dataType->getTranslatedAttribute('display_name_singular') }}
-    </h1>
+    <div class="container-fluid">
+        <h1 class="page-title">
+            <i class="{{ $dataType->icon }}"></i> Import {{ $dataType->getTranslatedAttribute('display_name_plural') }}
+        </h1>
+    </div>
 @stop
 
 @section('content')
@@ -16,7 +16,7 @@
         @include('voyager::alerts')
         <div class="panel panel-bordered">
             <!-- form start -->
-            <form action="{{route('admin.station.import')}}" method="post" enctype="multipart/form-data">
+            <form action="{{route('admin.districts.import')}}" method="post" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <div class="panel-body">
                     @if (count($errors) > 0)
@@ -43,8 +43,10 @@
         </div>
     </div>
 @endsection
-@section('javascript')
-    <script>
 
-    </script>
-@endsection
+@section('css')
+    @if(!$dataType->server_side && config('dashboard.data_tables.responsive'))
+        <link rel="stylesheet" href="{{ voyager_asset('lib/css/responsive.dataTables.min.css') }}">
+    @endif
+@stop
+

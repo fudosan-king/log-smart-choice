@@ -3,7 +3,9 @@
 namespace Database\Seeders;
 
 use Database\Seeds\CategoryTabSearchSeeder;
+use Database\Seeds\CitySeeder;
 use Database\Seeds\CustomerSeeder;
+use Database\Seeds\DistrictSeeder;
 use Database\Seeds\EstateInformation;
 use Database\Seeds\PagesSeoSeeder;
 use Database\Seeds\RenovationSeeder;
@@ -41,7 +43,9 @@ class DatabaseSeeder extends Seeder
             TabSearchSeeder::class,
             EstateInformation::class,
             CustomerSeeder::class,
-            StationSeeder::class
+            StationSeeder::class,
+            CitySeeder::class,
+            DistrictSeeder::class,
         ]);
     }
 }

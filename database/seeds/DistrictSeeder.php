@@ -4,7 +4,8 @@
 namespace Database\Seeds;
 
 
-use App\Models\Customer;
+use App\Http\Traits\CustomAdminVoyager;
+use App\Models\District;
 use Illuminate\Database\Seeder;
 use TCG\Voyager\Models\DataRow;
 use TCG\Voyager\Models\DataType;
@@ -12,60 +13,29 @@ use TCG\Voyager\Models\Menu;
 use TCG\Voyager\Models\MenuItem;
 use TCG\Voyager\Models\Permission;
 
-class CustomerSeeder extends Seeder
+class DistrictSeeder extends Seeder
 {
+    use CustomAdminVoyager;
+
     public function run()
     {
-        $dataType = $this->dataType('slug', 'customers');
+        $dataType = $this->dataType('slug', 'districts');
         if (!$dataType->exists) {
             $dataType->fill([
-                'name'                  => 'customers',
-                'display_name_singular' => __('Customers'),
-                'display_name_plural'   => __('Customers'),
-                'icon'                  => 'voyager-group',
-                'model_name'            => 'App\Models\Customer',
-                'controller'            => 'App\\FrontEnd\\Controllers\\CustomerController',
-                'generate_permissions'  => 1,
+                'name'                  => 'districts',
+                'display_name_singular' => __('Districts'),
+                'display_name_plural'   => __('Districts'),
+                'icon'                  => 'voyager-sound',
+                'model_name'            => 'App\Models\District',
+                'controller'            => 'App\\Http\\Controllers\\DistrictController',
                 'description'           => '',
                 'server_side'           => 1
             ])->save();
         }
+        Permission::generateFor('districts');
 
-        Permission::generateFor('customers');
+        $groupsDataType = DataType::where('slug', 'districts')->firstOrFail();
 
-        $groupsDataType = DataType::where('slug', 'customers')->firstOrFail();
-
-        $dataRow = $this->dataRow($groupsDataType, 'name');
-
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
-                'display_name' => __('Name'),
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 1,
-                'order'        => 1,
-            ])->save();
-        }
-
-        $dataRow = $this->dataRow($groupsDataType, 'email');
-
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
-                'display_name' => __('Email'),
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 0,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 1,
-                'order'        => 2,
-            ])->save();
-        }
 
         $dataRow = $this->dataRow($groupsDataType, 'id');
 
@@ -79,10 +49,25 @@ class CustomerSeeder extends Seeder
                 'edit'         => 0,
                 'add'          => 0,
                 'delete'       => 0,
-                'order'        => 3,
+                'order'        => 2,
             ])->save();
         }
 
+        $dataRow = $this->dataRow($groupsDataType, 'name');
+
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => __('District name'),
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'order'        => 1,
+            ])->save();
+        }
 
         $dataRow = $this->dataRow($groupsDataType, 'status');
 
@@ -96,16 +81,19 @@ class CustomerSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'order'        => 4,
-                'details'      => ["default" => "Activate", "options" => [Customer::ACTIVE => "Active", Customer::DEACTIVE => "Deactive"]],
+                'order'        => 3,
+                'details'      => ["default" => "Activate", "options" => [District::STATUS_ACTIVATE => "Activate", District::STATUS_DEACTIVATE => "Deactivate"]],
             ])->save();
         }
 
-        $dataRow = $this->dataRow($groupsDataType, 'role3d');
+        $dataRow = $this->dataRow($groupsDataType, 'city_id');
+
+        $allCity = $this->getCities();
+
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'select_dropdown',
-                'display_name' => __('Role3D'),
+                'display_name' => __('City'),
                 'required'     => 1,
                 'browse'       => 1,
                 'read'         => 1,
@@ -113,7 +101,7 @@ class CustomerSeeder extends Seeder
                 'add'          => 1,
                 'delete'       => 1,
                 'order'        => 5,
-                'details'      => ["default" => 3, "options" => Customer::ROLE3D],
+                'details'      => ["options" => $allCity, "default" => array_shift($allCity)],
             ])->save();
         }
 
@@ -125,20 +113,27 @@ class CustomerSeeder extends Seeder
 
         $menuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
-            'title'   => __('Customers'),
-            'url'     => 'admin/customers',
+            'title'   => __('Districts'),
+            'url'     => 'admin/districts',
             'route'   => null,
         ]);
+
+        $menuEstate = MenuItem::where('title', 'Estates')->where('url', 'admin/estates')->first();
+        $menuEstateId = null;
+        if ($menuEstate) {
+            $menuEstateId = $menuEstate->id;
+        }
 
         if (!$menuItem->exists) {
             $menuItem->fill([
                 'target'     => '_self',
-                'icon_class' => 'voyager-group',
+                'icon_class' => 'voyager-sound',
                 'color'      => null,
-                'parent_id'  => null,
+                'parent_id'  => $menuEstateId,
                 'order'      => 5,
             ])->save();
         }
+
     }
 
     /**
