@@ -5,10 +5,7 @@ namespace Database\Seeds;
 
 
 use App\Http\Traits\CustomAdminVoyager;
-use App\Models\PagesSeo;
-use App\Models\Tags;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use TCG\Voyager\Models\DataRow;
 use TCG\Voyager\Models\DataType;
 use TCG\Voyager\Models\Menu;

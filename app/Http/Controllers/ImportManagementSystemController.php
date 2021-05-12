@@ -28,12 +28,18 @@ class ImportManagementSystemController extends VoyagerBaseController
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function importStation(ImportManagementSystemRequest $request)
+    public function importStation(Request $request)
     {
         $colStationName = 6;
         DB::beginTransaction();
         try {
             $fileExt = $request->file('import_file')->getClientOriginalExtension();
+            if ($fileExt != 'csv') {
+                return redirect()->back()->with([
+                    'message'    => 'Wrong format',
+                    'alert-type' => 'error',
+                ]);
+            }
             $fileNameToStore = 'importStation' . '-' . date('Y-m-d') . '.' . $fileExt;
             $request->file('import_file')->storeAs('public/station/', $fileNameToStore);
             $row = 1;
@@ -64,7 +70,7 @@ class ImportManagementSystemController extends VoyagerBaseController
                                     $errors[][$i] = 'Row: ' . $row . ', data: ' . $data[$i] . 'in not special character ';
                                     continue;
                                 }
-                                $this->_importData($data[$i]);
+                                $this->_importStationData($data[$i]);
                             }
                         }
                     }
@@ -100,7 +106,7 @@ class ImportManagementSystemController extends VoyagerBaseController
     /**
      * @param $data
      */
-    private function _importData($data)
+    private function _importStationData($data)
     {
         Station::upsert([['name' => $data],], ['name']);
     }

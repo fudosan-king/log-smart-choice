@@ -145,10 +145,9 @@ const actions = {
     facebookLogin({ commit }) {
         return new Promise(async (resolve, reject) => {
             let vueVM = this._vm;
-            const auth = this.auth
+            const auth = this.auth;
             FB.getLoginStatus(function (response) {
                 if (response.status === 'connected') {
-                    console.log(response.authResponse.accessToken);
                     let userInfo = {
                         "socialType": "facebook",
                         "socialId": response.authResponse.userID,

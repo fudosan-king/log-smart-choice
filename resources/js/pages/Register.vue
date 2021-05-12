@@ -223,7 +223,7 @@ export default {
                         window.location.href = '/';
                     });
                 }
-            });
+            }, {scope: 'public_profile, email'});
             return false;
         }
     }

@@ -2,27 +2,30 @@
 
 namespace App\Http\Traits;
 
+use App\Models\City;
 use App\Models\PagesSeo;
-use Illuminate\Database\Eloquent\Model;
 use TCG\Voyager\Models\DataRow;
 
 trait CustomAdminVoyager
 {
+    private function _mergeArray($count, $elements = []) {
+        $list = [];
+        $allList = [];
+        for ($i = 0; $i < $count; $i++) {
+            $list = array_merge($list, [$elements[$i]['id'] => $elements[$i]['name']]);
+            $allList[$elements[$i]['id']] = $list[$i];
+        }
+        return $allList;
+    }
 
     /**
      * @return array
      */
-    protected function getPagesSeo()
+    public function getPagesSeo()
     {
         $page = PagesSeo::where('status', PagesSeo::STATUS_ACTIVATE)->get()->toArray();
         $count = count($page);
-        $pageList = [];
-        $allPage = [];
-        for ($i = 0; $i < $count; $i++) {
-            $pageList = array_merge($pageList, [$page[$i]['id'] => $page[$i]['name']]);
-            $allPage[$page[$i]['id']] = $pageList[$i];
-        }
-        return $allPage;
+        return $this->_mergeArray($count, $page);
     }
 
     /**
@@ -31,7 +34,7 @@ trait CustomAdminVoyager
      * @param string $term
      * @return string
      */
-    protected function fullTextWildcards($string)
+    public function fullTextWildcards($string)
     {
         // removing symbols used by MySQL
         $reservedSymbols = ['-', '+', '<', '>', '@', '(', ')', '~'];
@@ -87,5 +90,11 @@ trait CustomAdminVoyager
         }
 
         return $query;
+    }
+
+    public function getCities() {
+        $page = City::where('status', City::STATUS_ACTIVE)->get()->toArray();
+        $count = count($page);
+        return $this->_mergeArray($count, $page);
     }
 }
