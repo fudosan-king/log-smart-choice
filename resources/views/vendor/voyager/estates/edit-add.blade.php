@@ -64,7 +64,13 @@
 
                         <div class="form-group">
                             <label for="name">Decor</label>
-                            <input type="text" class="form-control" placeholder="0" value="{{ isset($dataTypeContent->decor) ? $dataTypeContent->decor : 0 }}" name="decor">
+                            <input type="text" class="form-control" placeholder="0" value="{{ $dataTypeContent->decor ?? 0 }}" name="decor">
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="name">ID Estate 3D</label>
+                            <input type="text" class="form-control" value="{{ $estateInfo->id_estate_3d ?? '' }}" name="id_estate_3d">
                         </div>
 
                         @php
@@ -141,7 +147,7 @@
                         <div class="col-md-12 ">
                             <estate-description-component :data="'{{ $dataTypeContent }}'" :data_read="false"></estate-description-component>
                         </div>
-                        
+
 
                         <h1 class="padding_tab_search">Main Photo</h1>
                         <hr class="hr_tab_search">

@@ -8,14 +8,12 @@ use TCG\Voyager\Models\DataRow;
 
 trait CustomAdminVoyager
 {
-    private function _mergeArray($count, $elements = []) {
+    private function _mergeList($count, $elements = []) {
         $list = [];
-        $allList = [];
         for ($i = 0; $i < $count; $i++) {
-            $list = array_merge($list, [$elements[$i]['id'] => $elements[$i]['name']]);
-            $allList[$elements[$i]['id']] = $list[$i];
+            $list[$elements[$i]['id']] = $elements[$i]['name'];
         }
-        return $allList;
+        return $list;
     }
 
     /**
@@ -25,7 +23,7 @@ trait CustomAdminVoyager
     {
         $page = PagesSeo::where('status', PagesSeo::STATUS_ACTIVATE)->get()->toArray();
         $count = count($page);
-        return $this->_mergeArray($count, $page);
+        return $this->_mergeList($count, $page);
     }
 
     /**
@@ -95,6 +93,6 @@ trait CustomAdminVoyager
     public function getCities() {
         $page = City::where('status', City::STATUS_ACTIVE)->get()->toArray();
         $count = count($page);
-        return $this->_mergeArray($count, $page);
+        return $this->_mergeList($count, $page);
     }
 }
