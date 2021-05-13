@@ -29,7 +29,7 @@ class EstateController extends Controller
     {
         $estate = EstateInformation::select('renovation_media', 'estate_befor_photo',
             'estate_after_photo', 'estate_main_photo', 'estate_equipment', 'estate_flooring', 'category_tab_search',
-            'tab_search', 'decor')
+            'tab_search', 'id_estate_3d')
             ->where('estate_id', $estate_id)->get()->first();
         return $estate ? $estate : '{}';
     }
@@ -421,6 +421,7 @@ class EstateController extends Controller
         $descriptionUrlImageLeft = '';
         $descriptionUrlImageRight = '';
 
+        // Check decor is_numberic
         if ($request->has('decor')) {
             if (!is_numeric($request->get('decor', 0))) {
                 return redirect()->back()->with([
@@ -528,6 +529,8 @@ class EstateController extends Controller
         $this->_insertDatabase($id, 'category_tab_search', $categoriesTab);
         // tab search
         $this->_insertDatabase($id, 'tab_search', $tabsSearch);
+        // estate id 3d
+        $this->_insertDatabase($id, 'id_estate_3d', $request->get('id_estate_3d'));
         $this->insertUpdateData($request, $slug, $dataType->editRows, $data);
 
 
