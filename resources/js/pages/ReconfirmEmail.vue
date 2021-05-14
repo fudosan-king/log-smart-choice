@@ -85,7 +85,11 @@ export default {
             this.$v.$touch();
             if (!this.$v.$invalid && this.submitted) {
                 this.submitted = false;
-                axios({ url: '/reconfirmation-email', method: 'POST', data: { email: this.email } })
+                let data = {
+                    email: this.email,
+                };
+                this.$store
+                    .dispatch('reconfirmEmail', data )
                     .then(resp => {
                         this.disabled = true;
                         this.message = resp.data.success.messages;

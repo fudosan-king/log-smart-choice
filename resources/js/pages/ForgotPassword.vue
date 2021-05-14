@@ -92,24 +92,20 @@ export default {
             this.submitted = true;
             this.$v.$touch();
             if (!this.$v.$invalid && this.submitted) {
-                axios
-                    .post(
-                        '/forgot-password',
-                        { email: this.email },
-                        {
-                            headers: {
-                                'content-type': 'application/json'
-                            }
-                        }
-                    )
-                    .then(res => {
+                let data = {
+                    email: this.email
+                };
+                this.$store
+                    .dispatch('forgotPassword', data)
+                    .then(resp => {
                         this.disabled = true;
-                        this.message = res.data.success.messages;
+                        this.message = resp.data.success.messages;
                         setInterval(() => {
                             this.$router.push({ name: 'login' });
                         }, 2000);
                     })
                     .catch(error => {
+                        this.disabled = false;
                         this.error = error.response.data.errors.messages;
                     });
             }
