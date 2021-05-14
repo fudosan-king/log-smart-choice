@@ -47,6 +47,8 @@
 
 <script>
 import WishlistComponent from '../components/WishlistComponent';
+import estateModule from '../store/modules/estate.js';
+
 export default {
     data() {
         return {
@@ -66,6 +68,10 @@ export default {
     },
     created() {
         window.addEventListener('scroll', this.handleScroll);
+        this.$store.registerModule('estate', estateModule);
+    },
+    beforeDestroy() {
+        this.$store.unregisterModule('estate');
     },
     destroyed() {
         window.removeEventListener('scroll', this.handleScroll);

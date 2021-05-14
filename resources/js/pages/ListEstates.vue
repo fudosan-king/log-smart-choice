@@ -11,10 +11,9 @@
 </template>
 
 <script>
-	import EstatesComponent from '../components/EstatesComponent'
     export default {
     	components: {
-            EstatesComponent,
+            EstatesComponent: () => import('../components/EstatesComponent'),
         },
     };
 </script>

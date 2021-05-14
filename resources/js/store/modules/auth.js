@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { reject } from 'lodash';
 import Vue from 'vue';
 import globalVaiable from '../../../js/globalHelper';
 
@@ -33,7 +34,6 @@ const actions = {
                     this._vm.$setCookie('userSocialId', resp.data.data.customer_social_id, 1);
                     this._vm.$setCookie('accessToken', resp.data.data.access_token, 1);
                     this._vm.$setCookie('accessToken3d', resp.data.data.access_token, 1);
-                    
                     resolve(resp);
                 })
                 .catch(err => {
@@ -143,7 +143,7 @@ const actions = {
     },
 
     facebookLogin({ commit }) {
-        return new Promise(async (resolve, reject) => {
+        return new Promise((resolve, reject) => {
             let vueVM = this._vm;
             const auth = this.auth;
             FB.getLoginStatus(function (response) {
@@ -185,6 +185,58 @@ const actions = {
                             reject(err);
                         });
                 }
+            });
+        });
+    },
+
+    reconfirmEmail({ commit }, data) {
+        return new Promise((resolve, reject) => {
+            const auth = this.auth;
+            commit('auth_request');
+            axios({
+                url: '/reconfirmation-email', method: 'POST', data: data, auth: auth, headers: {
+                    'content-type': 'application/json'
+                },
+            })
+                .then(resp => {
+                    resolve(resp);
+                })
+                .catch(error => {
+                    reject(error);
+                });
+        });
+    },
+
+    forgotPassword({ commit }, data) {
+        return new Promise((resolve, reject) => {
+            const auth = this.auth;
+            commit('auth_request');
+            axios({
+                url: '/forgot-password', method: 'POST', data: data, auth: auth, headers: {
+                    'content-type': 'application/json'
+                },
+            })
+                .then(resp => {
+                    resolve(resp);
+                })
+                .catch(error => {
+                    reject(error);
+                });
+        });
+    },
+
+    verifyEmail({ commit }, data) {
+        return new Promise((resolve, reject) => {
+            const auth = this.auth;
+            commit('auth_request');
+            axios({
+                url: '/verify', method: 'POST', data: data, auth: auth, headers: {
+                    'content-type': 'application/json'
+                },
+            }).then(resp => {
+                resolve(resp);
+            }).catch(error => {
+                reject(error);
             });
         });
     }

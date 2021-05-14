@@ -176,7 +176,6 @@
     </main>
 </template>
 <script>
-    import EstatesTopComponent from '../components/EstatesTopComponent';
     import Lazyload from 'vue-lazyload';
     import Vue from 'vue';
 
@@ -188,7 +187,7 @@
     });
     export default {
         components: {
-            EstatesTopComponent,
+            EstatesTopComponent: () => import('../components/EstatesTopComponent'),
         },
     };
 </script>

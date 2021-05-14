@@ -41,6 +41,7 @@
 
 <script>
 import WishlistComponent from '../components/WishlistComponent';
+import estateModule from '../store/modules/estate.js';
 
 export default {
     data() {
@@ -49,6 +50,12 @@ export default {
             accessToken: false,
             existedEstate: false
         };
+    },
+    created() {
+        this.$store.registerModule('estate', estateModule);
+    },
+    beforeDestroy() {
+        this.$store.unregisterModule('estate');
     },
     components: {
         WishlistComponent
@@ -88,7 +95,7 @@ export default {
                 let data = {
                     estateId: estateId,
                     is_wish: 1,
-                    accessToken: accessToken,
+                    accessToken: accessToken
                 };
                 if (isWish === 1) {
                     data.is_wish = 0;
@@ -96,6 +103,6 @@ export default {
                 this.$store.dispatch('addWishList', data, accessToken);
             }
         }
-    }
+    },
 };
 </script>

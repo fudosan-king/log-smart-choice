@@ -34,7 +34,7 @@ Route::middleware('auth:api')->group(function () {
 });
 
 // auth
-Route::get('/verify/{token}', [VerificationController::class, 'verifyEmail'])->name('verify.email');
+Route::post('/verify', [VerificationController::class, 'verifyEmail'])->name('verify.email');
 Route::post('/register', [RegisterController::class, 'registerCustomer'])->name('customer.register');
 Route::post('/reconfirmation-email', [RegisterController::class, 'reconfirmEmail'])->name('customer.forgotpassword');
 Route::post('/login', [LoginController::class, 'login'])->name('login.check');

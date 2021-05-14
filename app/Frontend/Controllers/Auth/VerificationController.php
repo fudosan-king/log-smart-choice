@@ -8,6 +8,7 @@ use App\Jobs\SendMailConfirmAccount;
 use App\Models\Customer;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\VerifiesEmails;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 
 class VerificationController extends Controller
@@ -50,8 +51,9 @@ class VerificationController extends Controller
      * @param null $token
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function verifyEmail($token = null)
+    public function verifyEmail(Request $request)
     {
+        $token = $request->get('token');
         if ($token == null) {
             return $this->response(422, __('auth.token_null'));
         }

@@ -55,7 +55,6 @@ class RegisterController extends Controller
             if ($customer = $this->create($params)) {
                 $this->_sendActiveEmail($customer);
                 return $this->response(200, __('customer.create_success'), [], true);
-
             }
         } catch (\Exception $ex) {
             Log::error($ex->getMessage());
@@ -84,15 +83,20 @@ class RegisterController extends Controller
         return $customer;
     }
 
+    /**
+     * Reconfirm Email
+     *
+     * @param Request $request
+     * @return void
+     */
     public function reconfirmEmail(Request $request)
     {
-
         $email = $request->get('email');
         $rules = [
             'email' => 'required| string| email| max:100|',
         ];
 
-        $validator = Validator::make($request->all(), $rules, $messages = [
+        $validator = Validator::make($request->all(), $rules, [
             'email.required' => __('auth.email_required'),
             'email.email'    => __('auth.email_invalid'),
         ]);
@@ -108,11 +112,18 @@ class RegisterController extends Controller
         }
 
         $this->_sendActiveEmail($customer);
-        return $this->response(200, __('customer.reconfirm_email_success'), [], true);
+        return $this->response(200, __('auth.reconfirm_email_success'), [], true);
     }
 
-    private function _sendActiveEmail(Customer $customer) {
-        $link = url('customer/verify') . "/" . $customer->email_verification_token;
+    /**
+     * Send activate email
+     *
+     * @param Customer $customer
+     * @return void
+     */
+    private function _sendActiveEmail(Customer $customer)
+    {
+        $link = url('customer') .'/'. $customer->email_verification_token;
         $data = [
             'link'     => $link,
             'customer' => $customer,

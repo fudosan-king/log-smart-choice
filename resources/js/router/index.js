@@ -57,6 +57,11 @@ const routes = [
         name: 'reconfirmEmail',
         component: () => import('../pages/ReconfirmEmail.vue'),
     },
+    {
+        path: '/customer/:verify',
+        name: 'ActiveEmail',
+        component: () => import('../pages/ActiveEmail.vue'),
+    },
 ]
 
 const router = new VueRouter({
