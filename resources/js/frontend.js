@@ -13,6 +13,7 @@ import gAuth from './config/googleAuth';
 import Lazyload from 'vue-lazyload';
 import FBAuth from './config/facebookAuth';
 
+
 // Set Vue router
 Vue.router = router;
 Vue.use(VueRouter);

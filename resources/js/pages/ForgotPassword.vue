@@ -100,7 +100,7 @@ export default {
                     .then(resp => {
                         this.disabled = true;
                         this.message = resp.data.success.messages;
-                        setInterval(() => {
+                        setTimeout(() => {
                             this.$router.push({ name: 'login' });
                         }, 2000);
                     })

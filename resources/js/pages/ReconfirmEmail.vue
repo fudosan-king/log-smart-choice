@@ -93,6 +93,9 @@ export default {
                     .then(resp => {
                         this.disabled = true;
                         this.message = resp.data.success.messages;
+                        setTimeout(() => {
+                            this.$router.push({ name: 'login' });
+                        }, 2000);
                     })
                     .catch(error => {
                         this.disabled = false;
