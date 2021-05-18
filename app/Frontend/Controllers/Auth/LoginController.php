@@ -104,7 +104,9 @@ class LoginController extends Controller
                 $customer = Customer::where('social_id', $socialId)->where('status', Customer::ACTIVE)->first();
 
                 if ($user->email) {
-                    $customer = Customer::where('email', $user->email)->where('status', Customer::ACTIVE)->first();
+                    $customer = Customer::where('email', $user->email)->first();
+                    $customer->status = Customer::EMAIL_VERIFY;
+                    $customer->save();
                 }
 
                 if (!$customer) {

@@ -8,17 +8,10 @@
     </div>
 </template>
 <script>
-import headerBar from './templates/Header';
-import footerBar from './templates/Footer';
 export default {
-    data() {
-        return {
-            //
-        };
-    },
     components: {
-        headerBar,
-        footerBar
+        headerBar: () => import('./templates/Header'),
+        footerBar: () => import('./templates/Footer')
     }
 };
 </script>
