@@ -24,7 +24,7 @@ class CustomerSeeder extends Seeder
                 'display_name_plural'   => __('Customers'),
                 'icon'                  => 'voyager-group',
                 'model_name'            => 'App\Models\Customer',
-                'controller'            => 'App\\FrontEnd\\Controllers\\CustomerController',
+                'controller'            => 'App\\Http\\Controllers\\CustomerController',
                 'generate_permissions'  => 1,
                 'description'           => '',
                 'server_side'           => 1

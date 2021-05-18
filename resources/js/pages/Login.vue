@@ -99,7 +99,27 @@
     </div>
 </template>
 <script>
+import gAuth from '../config/googleAuth';
+import FBAuth from '../config/facebookAuth';
+import Vue from 'vue';
 import { required, email, minLength, maxLength } from 'vuelidate/lib/validators';
+
+const gAuthOption = {
+    clientId: process.env.MIX_GOOGLE_CLIENT_ID,
+    scope: "profile email",
+    jsSrc: "https://apis.google.com/js/api.js",
+};
+
+Vue.use(gAuth, gAuthOption);
+
+const fbAuthOption = {
+    appID: process.env.MIX_FACEBOOK_APP_ID,
+    jsID: "facebook-jssdk",
+    jsSrc: "https://connect.facebook.net/en_US/sdk.js",
+    version: "v10.0",
+};
+
+Vue.use(FBAuth, fbAuthOption);
 
 export default {
     data() {

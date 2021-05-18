@@ -3,14 +3,21 @@
 
 namespace App\Http\Controllers;
 
-use TCG\Voyager\Http\Controllers\VoyagerBaseController;
-use Illuminate\Support\Facades\Auth;
+
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use TCG\Voyager\Facades\Voyager;
+use TCG\Voyager\Http\Controllers\VoyagerBaseController;
 
-class MongoController extends VoyagerBaseController
+class CustomerController extends VoyagerBaseController
 {
+    /**
+     * @param Request $request
+     * @return mixed
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function index(Request $request)
     {
         // GET THE SLUG, ex. 'posts', 'pages', etc.
@@ -24,7 +31,7 @@ class MongoController extends VoyagerBaseController
 
         $getter = $dataType->server_side ? 'paginate' : 'get';
 
-        $search = (object) ['value' => $request->get('s'), 'key' => $request->get('key'), 'filter' => $request->get('filter')];
+        $search = (object)['value' => $request->get('s'), 'key' => $request->get('key'), 'filter' => $request->get('filter')];
 
         $searchNames = [];
         if ($dataType->server_side) {
@@ -40,6 +47,7 @@ class MongoController extends VoyagerBaseController
         $sortOrder = $request->get('sort_order', $dataType->order_direction);
         $usesSoftDeletes = false;
         $showSoftDeleted = false;
+
         // Next Get or Paginate the actual content from the MODEL that corresponds to the slug DataType
         if (strlen($dataType->model_name) != 0) {
             $model = app($dataType->model_name);
@@ -49,6 +57,7 @@ class MongoController extends VoyagerBaseController
             } else {
                 $query = $model::select('*');
             }
+
             // Use withTrashed() if model uses SoftDeletes and if toggle is selected
             if ($model && in_array(SoftDeletes::class, class_uses_recursive($model)) && Auth::user()->can('delete', app($dataType->model_name))) {
                 $usesSoftDeletes = true;
@@ -65,20 +74,32 @@ class MongoController extends VoyagerBaseController
             if ($search->value != '' && $search->key && $search->filter) {
                 $searchFilter = ($search->filter == 'equals') ? '=' : 'LIKE';
                 $searchValue = ($search->filter == 'equals') ? $search->value : '%' . $search->value . '%';
-                $query->where($search->key, $searchFilter, $searchValue);
+                switch ($search->key) {
+                    case 'name':
+                        $query = $this->syntaxFullTextSearch($query, $search->value, (new $dataType->model_name())->searchable);
+                        break;
+                    case 'page_id':
+                        $query->join('pages_seo', 'tags.page_id', '=', 'pages_seo.id');
+                        $query->where('pages_seo.name', $searchFilter, $searchValue);
+                        break;
+                    default:
+                        $query->where($search->key, $searchFilter, $searchValue);
+                        break;
+                }
             }
 
-            if ($orderBy) {
+            if ($orderBy && in_array($orderBy, $dataType->fields())) {
                 $querySortOrder = (!empty($sortOrder)) ? $sortOrder : 'desc';
                 $dataTypeContent = call_user_func([
-                    $query->orderBy($orderBy, $querySortOrder),
+                    $query->orderBy($slug . '.' . $orderBy, $querySortOrder),
                     $getter,
                 ]);
             } elseif ($model->timestamps) {
-                $dataTypeContent = call_user_func([$query->latest($model::CREATED_AT), $getter]);
+                $dataTypeContent = call_user_func([$query->latest($slug . '.' . $model::CREATED_AT), $getter]);
             } else {
-                $dataTypeContent = call_user_func([$query->orderBy($model->getKeyName(), 'DESC'), $getter]);
+                $dataTypeContent = call_user_func([$query->orderBy($slug . '.' . $model->getKeyName(), 'DESC'), $getter]);
             }
+
             // Replace relationships' keys for labels and create READ links if a slug is provided.
             $dataTypeContent = $this->resolveRelations($dataTypeContent, $dataType);
         } else {
@@ -104,7 +125,6 @@ class MongoController extends VoyagerBaseController
         if (!empty($dataTypeContent->first())) {
             foreach (Voyager::actions() as $action) {
                 $action = new $action($dataType, $dataTypeContent->first());
-
                 if ($action->shouldActionDisplayOnDataType()) {
                     $actions[] = $action;
                 }

@@ -396,7 +396,7 @@ export default {
             slider: [],
             haveEstate: false,
             moment,
-            estateInfo: [],
+            estateInfo: []
         };
     },
     beforeMount() {
@@ -408,17 +408,17 @@ export default {
             axios({ url: '/detail', method: 'POST', data: { id: id } }).then(resp => {
                 if (resp.data['data'] && resp.data['data']['estate'].length) {
                     this.estate = resp.data['data']['estate'][0];
-                    if (this.estate['estate_information']['estate_main_photo']) {
-                        this.mainPhoto = this.estate['estate_information']['estate_main_photo'];
-                        this.noEstate = true;
-                    }
-                    if (this.estate['estate_information']['renovation_media'].length) {
-                        for (let i = 0; i < this.estate['estate_information']['renovation_media'].length; i++) {
-                            this.slider.push(this.estate['estate_information']['renovation_media'][i]['url_path']);
+                    if (this.estate['estate_information']) {
+                        if (this.estate['estate_information']['estate_main_photo']) {
+                            this.mainPhoto = this.estate['estate_information']['estate_main_photo'];
+                            this.noEstate = true;
                         }
-                    }
 
-                    if (Object.keys(this.estate['estate_information']).length > 0) {
+                        if (this.estate['estate_information']['renovation_media']) {
+                            for (let i = 0; i < this.estate['estate_information']['renovation_media'].length; i++) {
+                                this.slider.push(this.estate['estate_information']['renovation_media'][i]['url_path']);
+                            }
+                        }
                         this.estateInfo = this.estate['estate_information'];
                     }
                 }

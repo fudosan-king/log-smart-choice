@@ -31,12 +31,12 @@ class WishListController extends Controller
         // check estateId
         $estateInfo = Estates::where('_id', $estateId)->where('status', Estates::STATUS_SALE)->get();
         if ($estateInfo->isEmpty()) {
-            return response()->json(['message' => 'Estate invalid'], 400);
+            return $this->response(400, 'Estate invalid', []);
         }
 
         // check status wish
         if (!in_array($isWish, $wishStatus)) {
-            return response()->json(['message' => 'Wish status invalid'], 400);
+            return $this->response(400, 'Wish status invalid', []);
         }
 
         try {
@@ -44,12 +44,11 @@ class WishListController extends Controller
                 ['estate_id' => $estateId, 'user_id' => $userId],
                 ['is_wishlist' => $isWish]
             );
-            return response()->json(['message' => 'Success'], 200);
-        } catch (Exception $e) {
+            return $this->response(200, 'Success', [], true);
+        } catch (\Exception $e) {
             Log::error($e->getMessage());
         }
-
-        return response()->json(['message' => 'Fail'], 400);
+        return $this->response(400, 'Fail', []);
     }
 
     /**
@@ -71,6 +70,7 @@ class WishListController extends Controller
             ->whereIn('_id', $wishListIds)
             ->where('status', Estates::STATUS_SALE)->get()->toArray();
 
-        return response()->json(['data' => $estates ? $estates : []], 200);
+        // return response()->json(['data' => $estates ? $estates : []], 200);
+        return $this->response(200, 'Success', $estates, true);
     }
 }
