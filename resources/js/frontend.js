@@ -7,7 +7,22 @@ import store from './store/index';
 import router from './router/index';
 import globalHelper from './globalHelper';
 import Vuelidate from 'vuelidate';
-import customerMododul from './store/modules/customer.js';
+import customerModule from './store/modules/customer.js';
+import gAuth from './config/googleAuth';
+import FBAuth from './config/facebookAuth';
+
+const gAuthOption = {
+    clientId: process.env.MIX_GOOGLE_CLIENT_ID,
+    scope: "profile email",
+    jsSrc: "https://apis.google.com/js/api.js",
+};
+
+const fbAuthOption = {
+    appID: process.env.MIX_FACEBOOK_APP_ID,
+    jsID: "facebook-jssdk",
+    jsSrc: "https://connect.facebook.net/en_US/sdk.js",
+    version: "v10.0",
+};
 
 
 // Set Vue router
@@ -15,6 +30,8 @@ Vue.router = router;
 Vue.use(VueRouter);
 Vue.use(globalHelper);
 Vue.use(Vuelidate);
+Vue.use(gAuth, gAuthOption);
+Vue.use(FBAuth, fbAuthOption);
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = `${process.env.MIX_APP_URL}/api`;
@@ -27,7 +44,7 @@ new Vue({
         Index: () => import('./Index.vue'),
      },
     created() {
-        this.$store.registerModule('customer', customerMododul);
+        this.$store.registerModule('customer', customerModule);
         this.getRefreshTokenApi();
     },
     beforeDestroy() {
