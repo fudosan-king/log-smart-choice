@@ -40,6 +40,7 @@ return [
     'password_or_email_wrong' => 'メールアドレスまたはパスワードが正しくありません',
     'email_not_activated' => 'まだ本登録が完了していません',
     'email_invalid' => '無効なメール形式',
+    'confirmation' => '登録成功',
     'reconfirm_email_fail' => 'Reconfirm email fail.',
     'reconfirm_email_success' => 'Reconfirm email success.',
     'login_success' => 'Login successful',
