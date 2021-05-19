@@ -99,14 +99,14 @@ class LoginController extends Controller
             $socialType = $request->get('socialType');
             $data = Socialite::driver($socialType);
             $token = $request->get('token');
-
             if ($user = $data->userFromToken($token)) {
                 $customer = Customer::where('social_id', $socialId)->where('status', Customer::ACTIVE)->first();
-
                 if ($user->email) {
                     $customer = Customer::where('email', $user->email)->first();
-                    $customer->status = Customer::EMAIL_VERIFY;
-                    $customer->save();
+                    if ($customer) {
+                        $customer->status = Customer::EMAIL_VERIFY;
+                        $customer->save();
+                    }
                 }
 
                 if (!$customer) {
@@ -132,6 +132,7 @@ class LoginController extends Controller
                     'customer_email'     => $customer->email,
                     'customer_social_id' => $customer->social_id,
                 ];
+                
                 return $this->response(200, __('auth.login_success'), $data, true);
             }
         } catch (Exception $e) {
