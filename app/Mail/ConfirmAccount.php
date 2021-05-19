@@ -30,6 +30,6 @@ class ConfirmAccount extends Mailable
     public function build()
     {
         return $this->view('emails.register-success', ['data' => $this->data])
-            ->subject(Lang::get('auth.confirmation'));
+            ->subject(__('auth.confirmation'));
     }
 }
