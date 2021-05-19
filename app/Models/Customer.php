@@ -18,7 +18,8 @@ class Customer extends Authenticatable
      * @var array
      */
 
-    const TIME_VERIFY_ACCOUNT = 60;
+    // verify email expired after 1 day
+    const TIME_VERIFY_ACCOUNT = 86400;
     const EMAIL_VERIFY = 1;
     const ROLE3D = [
         1 => 'Interior Coordinator',
