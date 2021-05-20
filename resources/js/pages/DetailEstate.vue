@@ -184,7 +184,12 @@
                                                     alt=""
                                                     class="img-fluid"
                                                 />
-                                                <img v-else v-lazy="`/assets/images/family1.png`" alt="" class="img-fluid" />
+                                                <img
+                                                    v-else
+                                                    v-lazy="`/assets/images/family1.png`"
+                                                    alt=""
+                                                    class="img-fluid"
+                                                />
                                                 <h3
                                                     v-if="estate.custom_field"
                                                     v-html="estate.custom_field.description_title"
@@ -241,13 +246,13 @@
                                             <div class="box_beforeafter_img">
                                                 <span>Before</span>
                                                 <img
-                                                    v-if="estate.estate_information.estate_befor_photo"
-                                                    v-lazy="estate.estate_information.estate_befor_photo"
+                                                    v-if="!imageBefore"
+                                                    v-lazy="`/assets/images/Rectangle 41.png`"
                                                     alt=""
                                                     class="img-fluid"
                                                 />
                                                 <img
-                                                    v-lazy="`/assets/images/Rectangle 41.png`"
+                                                    v-lazy="estate.estate_information.estate_befor_photo"
                                                     alt=""
                                                     class="img-fluid"
                                                     v-else
@@ -258,13 +263,13 @@
                                             <div class="box_beforeafter_img">
                                                 <span>After</span>
                                                 <img
-                                                    v-if="estate.estate_information.estate_after_photo"
-                                                    v-lazy="estate.estate_information.estate_after_photo"
+                                                    v-if="!imageAfter"
+                                                    v-lazy="`/assets/images/Rectangle 42.png`"
                                                     alt=""
                                                     class="img-fluid"
                                                 />
                                                 <img
-                                                    v-lazy="`/assets/images/Rectangle 42.png`"
+                                                    v-lazy="estate.estate_information.estate_after_photo"
                                                     alt=""
                                                     class="img-fluid"
                                                     v-else
@@ -405,7 +410,9 @@ export default {
             slider: [],
             haveEstate: false,
             moment,
-            estateInfo: []
+            estateInfo: [],
+            imageBefore:'',
+            imageAfter:'',
         };
     },
     beforeMount() {
@@ -428,6 +435,15 @@ export default {
                                 this.slider.push(this.estate['estate_information']['renovation_media'][i]['url_path']);
                             }
                         }
+
+                        if (this.estate['estate_information']['estate_befor_photo']) {
+                            this.imageBefore = this.estate['estate_information']['estate_befor_photo'];
+                        }
+
+                        if (this.estate['estate_information']['estate_after_photo']) {
+                            this.imageAfter = this.estate['estate_information']['estate_after_photo'];
+                        }
+
                         this.estateInfo = this.estate['estate_information'];
                     }
                 }
