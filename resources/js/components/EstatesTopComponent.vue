@@ -35,14 +35,21 @@
         </li>
     </ul>
     <ul class="list_property" v-else>
-        <img v-lazy="'images/loading.gif'" alt="" class="img-fluid img-fluid-loading" />
+        <img v-lazy="`images/loading.gif`" alt="" class="img-fluid img-fluid-loading" />
     </ul>
 </template>
 
 <script>
-import WishlistComponent from '../components/WishlistComponent';
 import estateModule from '../store/modules/estate.js';
+import Lazyload from 'vue-lazyload';
+import Vue from 'vue';
 
+Vue.use(Lazyload, {
+    preLoad: 1.3,
+    error: 'images/no-image.png',
+    loading: 'images/loading.gif',
+    attempt: 1
+});
 export default {
     data() {
         return {
@@ -58,7 +65,7 @@ export default {
         this.$store.unregisterModule('estate');
     },
     components: {
-        WishlistComponent
+        WishlistComponent: () => import('../components/WishlistComponent')
     },
     mounted() {
         this.getListEstates();
@@ -103,6 +110,6 @@ export default {
                 this.$store.dispatch('addWishList', data, accessToken);
             }
         }
-    },
+    }
 };
 </script>

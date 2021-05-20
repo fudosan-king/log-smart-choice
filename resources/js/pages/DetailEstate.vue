@@ -2,7 +2,7 @@
     <main id="main">
         <section class="section_subbanner p-0">
             <div class="w_subbanner_img">
-                <img v-bind:src="mainPhoto" alt="" class="img-fluid w-100" />
+                <img v-lazy="mainPhoto" alt="" class="img-fluid w-100" />
             </div>
         </section>
 
@@ -15,7 +15,7 @@
                                 <div class="row no-gutters">
                                     <div class="col-12 col-lg-3 align-self-center">
                                         <div class="box_topinfo_img">
-                                            <img src="/assets/images/building.jpg" alt="" class="img-fluid" />
+                                            <img v-lazy="`/assets/images/building.jpg`" alt="" class="img-fluid" />
                                         </div>
                                     </div>
                                     <div class="col-12 col-lg-9 align-self-center">
@@ -180,11 +180,11 @@
                                             <div class="box_intro_left">
                                                 <img
                                                     v-if="estate.custom_field"
-                                                    :src="estate.custom_field.description_url_image_left"
+                                                    v-lazy="estate.custom_field.description_url_image_left"
                                                     alt=""
                                                     class="img-fluid"
                                                 />
-                                                <img v-else src="/assets/images/family1.png" alt="" class="img-fluid" />
+                                                <img v-else v-lazy="`/assets/images/family1.png`" alt="" class="img-fluid" />
                                                 <h3
                                                     v-if="estate.custom_field"
                                                     v-html="estate.custom_field.description_title"
@@ -219,13 +219,13 @@
                                                     <div class="col-4 col-lg-5">
                                                         <img
                                                             v-if="estate.custom_field"
-                                                            :src="estate.custom_field.description_url_image_right"
+                                                            v-lazy="estate.custom_field.description_url_image_right"
                                                             alt=""
                                                             class="img-fluid"
                                                         />
                                                         <img
                                                             v-else
-                                                            src="/assets/images/waves.png"
+                                                            v-lazy="`/assets/images/waves.png`"
                                                             alt=""
                                                             class="img-fluid"
                                                         />
@@ -241,13 +241,13 @@
                                             <div class="box_beforeafter_img">
                                                 <span>Before</span>
                                                 <img
-                                                    v-if="estate.estate_information"
-                                                    v-bind:src="estate.estate_information.estate_befor_photo"
+                                                    v-if="estate.estate_information.estate_befor_photo"
+                                                    v-lazy="estate.estate_information.estate_befor_photo"
                                                     alt=""
                                                     class="img-fluid"
                                                 />
                                                 <img
-                                                    src="/assets/images/Rectangle 41.png"
+                                                    v-lazy="`/assets/images/Rectangle 41.png`"
                                                     alt=""
                                                     class="img-fluid"
                                                     v-else
@@ -258,13 +258,13 @@
                                             <div class="box_beforeafter_img">
                                                 <span>After</span>
                                                 <img
-                                                    v-if="estate.estate_information"
-                                                    v-bind:src="estate.estate_information.estate_after_photo"
+                                                    v-if="estate.estate_information.estate_after_photo"
+                                                    v-lazy="estate.estate_information.estate_after_photo"
                                                     alt=""
                                                     class="img-fluid"
                                                 />
                                                 <img
-                                                    src="/assets/images/Rectangle 42.png"
+                                                    v-lazy="`/assets/images/Rectangle 42.png`"
                                                     alt=""
                                                     class="img-fluid"
                                                     v-else
@@ -284,7 +284,7 @@
             <div class="expand_room_carousel">
                 <div class="carousel slider-detail">
                     <div class="carousel-cell" v-for="(src, index) in slider">
-                        <img v-bind:src="src" alt="" class="img-fluid" />
+                        <img v-lazy="src" alt="" class="img-fluid" />
                     </div>
                 </div>
             </div>
@@ -292,20 +292,20 @@
         <section class="section_expand_room_carousel" v-else>
             <div class="expand_room_carousel">
                 <div
-                    class="carousel"
+                    class="carousel slider-detail"
                     data-flickity='{ "wrapAround": true, "prevNextButtons": false, "autoPlay": true }'
                 >
                     <div class="carousel-cell">
-                        <img src="/assets/images/slider/1.png" alt="" class="img-fluid" />
+                        <img v-lazy="`/assets/images/slider/1.png`" alt="" class="img-fluid" />
                     </div>
                     <div class="carousel-cell">
-                        <img src="/assets/images/slider/2.jpg" alt="" class="img-fluid" />
+                        <img v-lazy="`/assets/images/slider/2.jpg`" alt="" class="img-fluid" />
                     </div>
                     <div class="carousel-cell">
-                        <img src="/assets/images/slider/3.jpg" alt="" class="img-fluid" />
+                        <img v-lazy="`/assets/images/slider/3.jpg`" alt="" class="img-fluid" />
                     </div>
                     <div class="carousel-cell">
-                        <img src="/assets/images/slider/4.jpg" alt="" class="img-fluid" />
+                        <img v-lazy="`/assets/images/slider/4.jpg`" alt="" class="img-fluid" />
                     </div>
                 </div>
             </div>
@@ -335,7 +335,7 @@
                             v-for="slide in estateInfo.estate_equipment"
                             :key="slide.slide_equipment"
                         >
-                            <img :src="slide.slide_equipment" alt="" class="img-fluid" />
+                            <img v-lazy="slide.slide_equipment" alt="" class="img-fluid" />
                         </div>
                     </div>
                 </div>
@@ -368,7 +368,7 @@
                             <article>
                                 <p class="article_thumbnail">
                                     <a href="#"
-                                        ><img :src="estateImage.flooring_image_url" alt="" class="img-fluid"
+                                        ><img v-lazy="estateImage.flooring_image_url" alt="" class="img-fluid"
                                     /></a>
                                 </p>
                                 <header>
@@ -388,6 +388,15 @@
 
 <script>
 import moment from 'moment';
+import Lazyload from 'vue-lazyload';
+import Vue from 'vue';
+
+Vue.use(Lazyload, {
+    preLoad: 1.3,
+    error: '../images/no-image.png',
+    loading: '../images/loading.gif',
+    attempt: 1
+});
 export default {
     data() {
         return {

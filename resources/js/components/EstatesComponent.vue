@@ -21,7 +21,7 @@
                             <a v-bind:href="'/detail/' + estate._id">{{
                                 estate.custom_field ? estate.custom_field.content : ''
                             }}</a>
-                            <template v-if="customer.is_logged">
+                            <template v-if="accessToken">
                                 <a @click="addToWishList(estate._id, estate.is_wish)">
                                     <WishlistComponent :data-wished="estate.is_wish"></WishlistComponent>
                                 </a>
@@ -40,15 +40,22 @@
             </li>
         </ul>
         <div class="loading" v-if="!isHidden" style="text-align: center;">
-            <img src="/images/loading.gif" />
+            <img v-lazy="`/images/loading.gif`" />
         </div>
     </div>
 </template>
 
 <script>
-import WishlistComponent from '../components/WishlistComponent';
 import estateModule from '../store/modules/estate.js';
+import Lazyload from 'vue-lazyload';
+import Vue from 'vue';
 
+Vue.use(Lazyload, {
+    preLoad: 1.3,
+    error: 'images/no-image.png',
+    loading: 'images/loading.gif',
+    attempt: 1
+});
 export default {
     data() {
         return {
@@ -57,18 +64,18 @@ export default {
             offsetTop: 0,
             heigthOfList: 0,
             isHidden: false,
-            customer: {}
+            accessToken: false
         };
     },
     components: {
-        WishlistComponent
+        WishlistComponent: () => import('../components/WishlistComponent')
     },
     beforeMount() {
         this.getListEstates();
     },
     created() {
-        window.addEventListener('scroll', this.handleScroll);
         this.$store.registerModule('estate', estateModule);
+        window.addEventListener('scroll', this.handleScroll);
     },
     beforeDestroy() {
         this.$store.unregisterModule('estate');
@@ -93,7 +100,7 @@ export default {
                     data.isSocial = false;
                 }
                 this.$store.dispatch('getEstateList', data).then(res => {
-                    this.estates = res;
+                    this.estates = this.estates.concat(res);
                 });
             } else {
                 this.$store.dispatch('getEstateList', data).then(res => {

@@ -40,9 +40,9 @@ new Vue({
     el: '#app',
     router,
     store,
-    components: { 
+    components: {
         Index: () => import('./Index.vue'),
-     },
+    },
     created() {
         this.$store.registerModule('customer', customerModule);
         this.getRefreshTokenApi();
