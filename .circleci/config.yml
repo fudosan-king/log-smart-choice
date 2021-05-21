@@ -45,5 +45,6 @@ jobs:
           rm database/seeders/RolesTableSeeder.php database/seeders/SettingsTableSeeder.php 
           rm database/seeders/TranslationsTableSeeder.php database/seeders/VoyagerDatabaseSeeder.php
           rm database/seeders/VoyagerDummyDatabaseSeeder.php
+          sudo chmod -R 777 storage/logs
       - run: ./vendor/phpcheckstyle/phpcheckstyle/phpcheckstyle --src . --exclude ./vendor --exclude ./database/migrations --exclude ./storage --exclude ./resources/views --outdir report --config ./check_php.xml
       - run: ./vendor/bin/phpunit
