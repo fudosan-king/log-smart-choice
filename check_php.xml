@@ -68,7 +68,7 @@
 		level="error" />
 
 	<!-- Check Private Function Naming -->
-	<test name="privateFunctionNaming" regexp="/^_[a-z][a-zA-Z0-9]*$/"
+	<test name="privateFunctionNaming" regexp="/^[a-z][a-zA-Z0-9]*$/"
 		level="error" />
 
 	<!-- Checks the constuctor naming -->
