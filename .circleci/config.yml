@@ -39,5 +39,12 @@ jobs:
           php artisan voyager:install
           php artisan passport:install
           npm run dev
+          rm database/seeders/DataRowsTableSeeder.php database/seeders/DataTypesTableSeeder.php 
+          rm database/seeders/MenuItemsTableSeeder.php database/seeders/MenusTableSeeder.php 
+          rm database/seeders/PermissionRoleTableSeeder.php database/seeders/PermissionsTableSeeder.php 
+          rm database/seeders/RolesTableSeeder.php database/seeders/SettingsTableSeeder.php 
+          rm database/seeders/TranslationsTableSeeder.php database/seeders/VoyagerDatabaseSeeder.php
+          rm database/seeders/VoyagerDummyDatabaseSeeder.php
+          sudo chmod -R 777 storage/logs
       - run: ./vendor/phpcheckstyle/phpcheckstyle/phpcheckstyle --src . --exclude ./vendor --exclude ./database/migrations --exclude ./storage --exclude ./resources/views --outdir report --config ./check_php.xml
       - run: ./vendor/bin/phpunit
