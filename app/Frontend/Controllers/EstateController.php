@@ -286,7 +286,13 @@ class EstateController extends Controller
         }
         return $photos_s3;
     }
-
+    
+    /**
+     * updateEstateId3D
+     *
+     * @param  mixed $request
+     * @return void
+     */
     public function updateEstateId3D(Request $request)
     {
 

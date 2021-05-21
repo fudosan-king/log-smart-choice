@@ -4,6 +4,7 @@ namespace App\Frontend\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CustomerController extends Controller
@@ -25,5 +26,9 @@ class CustomerController extends Controller
             return $this->response(200, __('customer.customer_success'), $customer, true);
         }
         return $this->response(422, __('customer.customer_fail'));
+    }
+
+    public function update(Request $request) {
+        dd($request->all());
     }
 }
