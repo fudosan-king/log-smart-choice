@@ -533,8 +533,6 @@ class EstateController extends Controller
         $this->_insertDatabase($id, 'category_tab_search', $categoriesTab);
         // tab search
         $this->_insertDatabase($id, 'tab_search', $tabsSearch);
-        // estate id 3d
-        $this->_insertDatabase($id, 'id_estate_3d', $request->get('id_estate_3d'));
         $this->insertUpdateData($request, $slug, $dataType->editRows, $data);
 
 

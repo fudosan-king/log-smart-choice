@@ -67,12 +67,6 @@
                             <input type="text" class="form-control" placeholder="0" value="{{ $dataTypeContent->decor ?? 0 }}" name="decor">
                         </div>
 
-
-                        <div class="form-group">
-                            <label for="name">ID Estate 3D</label>
-                            <input type="text" class="form-control" value="{{ $estateInfo->id_estate_3d ?? '' }}" name="id_estate_3d">
-                        </div>
-
                         @php
                         $custom_field = $dataTypeContent->custom_field;
                         foreach ($mapLabel as $key => $value) {
