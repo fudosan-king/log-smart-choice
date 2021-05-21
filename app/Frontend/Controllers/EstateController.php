@@ -11,7 +11,8 @@ use App\Models\EstateInformation;
 use App\Models\WishLists;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class EstateController extends Controller
 {
@@ -138,12 +139,36 @@ class EstateController extends Controller
         $estateRecommend = [];
         $listEstateRecommend = [];
         $estate = Estates::select(
-            'estate_name', 'homepage', 'address', 'price', 'transports', 'custom_field', 'service_rooms',
-            'room_count', 'room_kind', 'tatemono_menseki', 'photos',
-            'balcony_space', 'structure', 'room_floor', 'total_houses', 'built_date', 'delivery',
-            'renovation_done_date', 'house_status', 'delivery_date_type',
-            'management_company', 'management_scope', 'land_rights', 'trade_type', 'date_last_modified',
-            'estate_equipment', 'estate_flooring', 'decor', 'total_price')
+            'estate_name',
+            'homepage',
+            'address',
+            'price',
+            'transports',
+            'custom_field',
+            'service_rooms',
+            'room_count',
+            'room_kind',
+            'tatemono_menseki',
+            'photos',
+            'balcony_space',
+            'structure',
+            'room_floor',
+            'total_houses',
+            'built_date',
+            'delivery',
+            'renovation_done_date',
+            'house_status',
+            'delivery_date_type',
+            'management_company',
+            'management_scope',
+            'land_rights',
+            'trade_type',
+            'date_last_modified',
+            'estate_equipment',
+            'estate_flooring',
+            'decor',
+            'total_price'
+        )
             ->where('_id', $id)
             ->where('status', '=', Estates::STATUS_SALE)
             ->get()->toArray();
@@ -260,5 +285,44 @@ class EstateController extends Controller
             }
         }
         return $photos_s3;
+    }
+
+    public function updateEstateId3D(Request $request)
+    {
+
+        $user = Auth::user();
+
+        if ($user->role3d == Customer::ROLE_3D_CUSTOMER) {
+            return $this->response(401, 'Permission denied', []);
+        }
+
+        $id = $request->get('id');
+        $idEstate3D = $request->get('id_estate_3d');
+
+
+        $rules = [
+            'id' => 'required|string',
+            'id_estate_3d' => 'required|string'
+        ];
+
+        $validator = Validator::make($request->all(), $rules, []);
+
+        if ($validator->fails()) {
+            return $this->response(422, $validator->errors(), []);
+        }
+
+        $estate = Estates::where('_id', $id)->where('status', Estates::STATUS_SALE)->first();
+        if (!$estate) {
+            return $this->response(422, 'Estate not found', []);
+        }
+
+        try {
+            $estate->id_estate_3d = $idEstate3D;
+            $estate->save();
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
+
+        return $this->response(200, 'Update id estate 3d success', []);
     }
 }
