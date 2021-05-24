@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Estates;
 use App\Models\WishLists;
+use App\Repositories\EstateRepository;
+use App\Repositories\WishListRepository;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -20,6 +22,18 @@ class WishListController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
+    protected $wishListRepository;
+    protected $estateRepository;
+
+    public function __construct(
+        WishListRepository $wishListRepository,
+        EstateRepository $estateRepository
+    )
+    {
+        $this->wishListRepository = $wishListRepository;
+        $this->estateRepository = $estateRepository;
+    }
+
     public function upsertWishList(Request $request)
     {
         $estateId = $request->get('estateId');
@@ -29,7 +43,7 @@ class WishListController extends Controller
         $wishStatus = [WishLists::ADDED_WISH_LIST, Wishlists::NOT_YET_WISH_LIST];
 
         // check estateId
-        $estateInfo = Estates::where('_id', $estateId)->where('status', Estates::STATUS_SALE)->get();
+        $estateInfo = $this->estateRepository->getEstateInfo($estateId);
         if ($estateInfo->isEmpty()) {
             return $this->response(400, 'Estate invalid', []);
         }
@@ -58,19 +72,12 @@ class WishListController extends Controller
     public function getWishLists()
     {
         $userId = auth()->guard('api')->user()->id;
-        $wishLists = WishLists::select('estate_id')->where('user_id', $userId)->where('is_wishlist', WishLists::ADDED_WISH_LIST)->get();
+        $wishLists = $this->wishListRepository->getWishList($userId);
         $wishListIds = [];
         foreach ($wishLists as $wishList) {
             $wishListIds[] = $wishList->estate_id;
         }
-
-        $estates = Estates::select('estate_name', 'price', 'balcony_space',
-            'address', 'tatemono_menseki', 'motoduke', 'room_count', 'room_kind',
-            'room_floor', 'land_space', 'homepage', 'photos', 'service_rooms', 'custom_field')
-            ->whereIn('_id', $wishListIds)
-            ->where('status', Estates::STATUS_SALE)->get()->toArray();
-
-        // return response()->json(['data' => $estates ? $estates : []], 200);
+        $estates = $this->estateRepository->getEstateWishList($wishListIds);
         return $this->response(200, 'Success', $estates, true);
     }
 }
