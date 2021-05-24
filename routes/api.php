@@ -32,6 +32,7 @@ Route::middleware('auth:api')->group(function () {
     // Customer
     Route::post('/customer', [CustomerController::class, 'getCustomer'])->name('customer.getInformation');
     Route::post('/customer/update', [CustomerController::class, 'update'])->name('customer.update');
+    Route::post('/customer/update-announcement-condition', [CustomerController::class, 'updateAnnouncementCondition'])->name('customer.update.announcementCondition');
 
     // Estate
     Route::post('/estate/estate-3d', [EstateController::class, 'updateEstateId3D'])->name('estate.updateIdEstate3D');

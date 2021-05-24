@@ -7,6 +7,7 @@ use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class CustomerController extends Controller
 {
@@ -37,12 +38,24 @@ class CustomerController extends Controller
      */
     public function update(Request $request)
     {
+
         $customerId = Auth::user()->id;
-        $name = $request->get('name') ?? "User" . rand(0, 100000);
+        $name = $request->get('name');
         $email = $request->get('email');
         $phoneNumber = $request->get('phone_number');
         $birthday = $request->get('birthday');
 
+
+        $rule = [
+            'name' => 'required',
+            'email' => 'required|email',
+        ];
+
+        $validate = Validator::make($request->all(), $rule);
+
+        if ($validate->fails()) {
+            return $this->response(422, $validate->errors(), []);
+        }
 
         if ($email) {
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -66,39 +79,63 @@ class CustomerController extends Controller
         }
 
         if ($birthday) {
-            if ($birthday['month'] < 0 || $birthday['month'] >  13) {
-                return $this->response(422, 'Invalid month of birthday', []);
+            if (!checkdate((int)$birthday['month'], (int)$birthday['day'], (int)$birthday['year'])) {
+                return $this->response(422, 'Your birthday is invalid', []);
             }
-
-            if ($birthday['month'] == 2) {
-                if ($birthday['year'] % 4 == 0) {
-                    if ($birthday['day'] > 29) {
-                        return $this->response(422, 'Invalid day of birthday', []);
-                    }
-                } else {
-                    if ($birthday['day'] > 28) {
-                        return $this->response(422, 'Invalid day of birthday', []);
-                    }
-                }
-            }
-
-            if ($birthday['year'] < 1921) {
-                return $this->response(422, 'Invalid year of birthday', []);
-            }
+            $birthday = (int)$birthday['year'] . '-' . (int)$birthday['month'] . '-' . (int)$birthday['day'];
         }
 
         try {
             $customer = Customer::find($customerId);
-            $customer->name = $name;
-            $customer->email = $email;
+            $customer->name = $name ?? $customer->name;
+            $customer->email =  $email ?? $customer->email;
             $customer->phone_number = $phoneNumber;
-            $customer->birthday = $birthday['year'] . '-' . $birthday['month'] . '-' . $birthday['day'];
+            $customer->birthday = $birthday ?: '';
             $customer->save();
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             return $this->response(422, 'Customer update fail', []);
         }
 
-        return $this->response(200, 'Customer update success', []);
+        return $this->response(200, 'Customer update success', [], true);
+    }
+
+    /**
+     * updateAnnouncementCondition
+     *
+     * @param  mixed $request
+     * @return void
+     */
+    public function updateAnnouncementCondition(Request $request)
+    {
+        $customerId = Auth::user()->id;
+
+        $city = $request->get('city');
+        $price = $request->get('price');
+        $square = $request->get('square');
+
+        if ($price && $price['min'] > $price['max']) {
+            return $this->response(422, 'Invalid price', []);
+        }
+
+        if ($square && $square['min'] > $square['max']) {
+            return $this->response(422, 'Invalid square', []);
+        }
+
+        $data = [
+            'city' => $city,
+            'price' => $price,
+            'square' => $square,
+        ];
+
+        try {
+            $customer = Customer::find($customerId);
+            $customer->announcement_condition = $data;
+            $customer->save();
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return $this->response(422, 'Customer update announcement condition fail', []);
+        }
+        return $this->response(200, 'Customer update announcement condition success', [], true);
     }
 }
