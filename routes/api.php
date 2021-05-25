@@ -1,5 +1,6 @@
 <?php
 
+use App\Frontend\Controllers\Auth\ConfirmPasswordController;
 use Illuminate\Support\Facades\Route;
 use App\Frontend\Controllers\Auth\RegisterController;
 use App\Frontend\Controllers\Auth\ResetPasswordController;
@@ -31,8 +32,11 @@ Route::middleware('auth:api')->group(function () {
 
     // Customer
     Route::post('/customer', [CustomerController::class, 'getCustomer'])->name('customer.getInformation');
-    Route::post('/customer/update', [CustomerController::class, 'update'])->name('customer.update');
-    Route::post('/customer/update-announcement-condition', [CustomerController::class, 'updateAnnouncementCondition'])->name('customer.update.announcementCondition');
+    Route::put('/customer', [CustomerController::class, 'update'])->name('customer.update');
+    Route::put('/customer/announcement-condition', [CustomerController::class, 'updateAnnouncementCondition'])->name('customer.update.announcementCondition');
+
+    // Confirm password
+    Route::put('/confirm-password' ,[ConfirmPasswordController::class, 'updatePassword'])->name('customer.update.password');
 
     // Estate
     Route::post('/estate/estate-3d', [EstateController::class, 'updateEstateId3D'])->name('estate.updateIdEstate3D');

@@ -35,8 +35,9 @@ return [
     'send_email_reset_link' => 'We have e-mailed your password reset link!',
     'email_required' => 'Email is required',
     'email_min_length' => 'Min length email must be shorter than 100 character',
-    'pass_word_min_length_include_alphabet' => 'Password must be include aphabet and minimun 6 character',
+    'pass_word_min_length_include_alphabet' => 'Password must be include aphabet and minimun 8 character',
     'password_required' => 'Password is required',
+    'password_confirmation_required' => 'Password confirmation is required',
     'password_or_email_wrong' => 'Email or password is wrong',
     'email_not_activated' => 'Email is not activated',
     'email_invalid' => 'Email invalid',
@@ -48,4 +49,6 @@ return [
     'logout_success' => 'Logout successful',
     'logout_fail' => 'Logout fail',
     'reset_password_success' => 'Reset password successfull',
+    'update_password_success' => 'Update password succcess',
+    'update_password_fail' => 'Update password fail',
 ];
