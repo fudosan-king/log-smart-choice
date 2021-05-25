@@ -56,29 +56,12 @@ abstract class BaseRepository
     }
 
     /**
-     * Get All with SoftDeletes
+     * Get All
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
     public function getAll()
     {
-        return $this->model->whereNull('deleted_at')->get();
-    }
-
-    /**
-     * All
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
-     */
-    public function all($field = 'created_at', $sort = 'asc')
-    {
-        return $this->model->orderBy($field, $sort)->get();
-    }
-
-    public function filterByAuth()
-    {
-        $customer = \Auth::guard('customers')->user();
-        if ($customer) {
-            return $this->model->where('customer_id', $customer->id);
-        }
+        return $this->model->get();
     }
 
     /**
@@ -88,9 +71,8 @@ abstract class BaseRepository
      */
     public function find($id)
     {
-        $result = $this->model->find($id);
+        return $this->model->find($id);
 
-        return $result;
     }
 
     public function findBy($field, $value)
@@ -131,9 +113,8 @@ abstract class BaseRepository
     public function findOrFail($id)
     {
         try {
-            $result = $this->model->whereNull('deleted_at')->findOrFail($id);
+            $result = $this->model->findOrFail($id);
         } catch (\Exception $e) {
-            dd($e);
             throw new ModelNotFoundException($this->msgNotFound, 0);
         }
 
@@ -244,5 +225,21 @@ abstract class BaseRepository
                 ->where('updated_at', '=', $record->updated_at)
                 ->update($attributes);
         } while (!$updated);
+    }
+
+    public function updateOrCreateData($condition, $values)
+    {
+        return $this->model->updateOrCreate($condition, $values);
+    }
+
+    public function rollbackAndUpdate($id, array $attributes)
+    {
+        $object = $this->model->withTrashed()->find($id);
+        if ($object) {
+            $object->restore();
+            $object->update($attributes);
+            return $object;
+        }
+        return false;
     }
 }
