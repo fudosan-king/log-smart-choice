@@ -11,6 +11,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Laravel\Passport\Token;
 use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller
@@ -146,7 +147,12 @@ class LoginController extends Controller
      */
     private function _getAccessToken($customer)
     {
-        $tokenResult = $customer->createToken('log-smart-choice-local');
+        $customerToken = Token::where('user_id', $customer->id)->where('revoked', 0)->first();
+        if ($customerToken) {
+            $customerToken->revoked = 1;
+            $customerToken->save();
+        }
+        $tokenResult = $customer->createToken('log-smart-choice');
         $token = $tokenResult->token;
         $token->save();
         return $tokenResult;

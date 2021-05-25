@@ -25,7 +25,7 @@ class ResetPasswordRequest extends FormRequest
     {
         if ($this->get('password')) {
             return [
-                'password'              => ['required', 'string', ' min:8', 'confirmed', 'regex:/^(?=.*[a-z|A-Z])(?=.*[a-zA-Z])(?=.*\d).+$/'],
+                'password'              => ['required', 'string', ' min:8', 'confirmed', 'regex:/^(?=.*[A-Z]|[a-z])(?=.*\d).+$/'],
                 'password_confirmation' => ['required', 'string', 'min:8'],
             ];
         }
