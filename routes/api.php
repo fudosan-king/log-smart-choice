@@ -43,7 +43,9 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/estate/estate-3d', [EstateController::class, 'updateEstateId3D'])->name('estate.updateIdEstate3D');
 
     // Annoucement
-    Route::delete('/annoucement', [AnnouncementController::class, 'delete'])->name('annoucement.delete');
+    Route::put('/announcement', [AnnouncementController::class, 'markRead'])->name('announcement.update.read');
+    Route::delete('/announcement', [AnnouncementController::class, 'delete'])->name('announcement.delete');
+    
 });
 
 // auth
