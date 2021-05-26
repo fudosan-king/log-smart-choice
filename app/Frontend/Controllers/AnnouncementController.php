@@ -19,7 +19,7 @@ class AnnouncementController extends Controller
     {
         $id = $request->get('id');
         try {
-            Announcement::findOrFail($id)->delete();
+            Announcement::whereIn('id', $id)->delete();
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             return $this->response(422, 'Delete announcement fail', []);
@@ -31,7 +31,6 @@ class AnnouncementController extends Controller
     public function markRead(Request $request)
     {
         $id = $request->get('id');
-
         try {
             $announcement = Announcement::findOrFail($id);
             $announcement->is_read = true;
@@ -41,6 +40,6 @@ class AnnouncementController extends Controller
             return $this->response(422, 'Update read announcement fail', []);
         }
 
-        return $this->response(200, 'Update read announcement success', [], true);
+        return $this->response(200, 'Update read announcement success', ['estateId' => $announcement->estate_id], true);
     }
 }
