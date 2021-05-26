@@ -17,9 +17,13 @@ class AnnouncementController extends Controller
      */
     public function delete(Request $request)
     {
-        $id = $request->get('id');
+        $ids = $request->get('id');
         try {
-            Announcement::whereIn('id', $id)->delete();
+            $announcement = Announcement::select('id');
+            foreach ($ids as $value) {
+                $announcement->orWhere('id', $value);
+            }
+            $announcement->delete();
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             return $this->response(422, 'Delete announcement fail', []);
