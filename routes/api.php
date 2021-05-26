@@ -1,5 +1,6 @@
 <?php
 
+use App\Frontend\Controllers\AnnouncementController;
 use App\Frontend\Controllers\Auth\ConfirmPasswordController;
 use Illuminate\Support\Facades\Route;
 use App\Frontend\Controllers\Auth\RegisterController;
@@ -40,6 +41,9 @@ Route::middleware('auth:api')->group(function () {
 
     // Estate
     Route::post('/estate/estate-3d', [EstateController::class, 'updateEstateId3D'])->name('estate.updateIdEstate3D');
+
+    // Annoucement
+    Route::delete('/annoucement', [AnnouncementController::class, 'delete'])->name('annoucement.delete');
 });
 
 // auth
