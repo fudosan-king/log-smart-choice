@@ -55,22 +55,26 @@ class WishListController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function getWishLists()
+    public function getWishLists(Request $request)
     {
+        $limit = 8;
+        $page = $request->get('page');
         $userId = auth()->guard('api')->user()->id;
         $wishLists = WishLists::select('estate_id')->where('user_id', $userId)->where('is_wishlist', WishLists::ADDED_WISH_LIST)->get();
-        $wishListIds = [];
+        $estateIds = [];
         foreach ($wishLists as $wishList) {
-            $wishListIds[] = $wishList->estate_id;
+            $estateIds[] = $wishList->estate_id;
         }
 
-        $estates = Estates::select('estate_name', 'price', 'balcony_space',
+        $estates = Estates::select('estate_name', 'total_price', 'balcony_space',
             'address', 'tatemono_menseki', 'motoduke', 'room_count', 'room_kind',
-            'room_floor', 'land_space', 'homepage', 'photos', 'service_rooms', 'custom_field')
-            ->whereIn('_id', $wishListIds)
-            ->where('status', Estates::STATUS_SALE)->get()->toArray();
+            'room_floor')
+            ->whereIn('_id', $estateIds)
+            ->where('status', Estates::STATUS_SALE)->paginate($limit, $page);
 
-        // return response()->json(['data' => $estates ? $estates : []], 200);
-        return $this->response(200, 'Success', $estates, true);
+        $estateController = new EstateController();
+        $estateInfo = $estateController->getEstateInformation($estates);
+
+        return $this->response(200, 'Success', $estateInfo, true);
     }
 }
