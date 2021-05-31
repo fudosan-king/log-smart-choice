@@ -119,7 +119,7 @@ class EstateController extends Controller
         $total = count($estates->paginate()->toArray()['data']);
         $data = $estates->paginate($limit, $page)->toArray();
         if ($data) {
-            $data = $this->_getEstateInformation($data['data'], $wishList);
+            $data = $this->getEstateInformation($data['data'], $wishList);
         }
         return response()->json(['data' => $data, 'total' => $total], 200);
     }
@@ -174,7 +174,7 @@ class EstateController extends Controller
             ->get()->toArray();
 
         if ($estate) {
-            $estate = $this->_getEstateInformation($estate);
+            $estate = $this->getEstateInformation($estate);
         }
 
         if ($estate) {
@@ -231,7 +231,7 @@ class EstateController extends Controller
      * @param array $wishList
      * @return mixed
      */
-    private function _getEstateInformation($estates, $wishList = [])
+    public function getEstateInformation($estates, $wishList = [])
     {
         foreach ($estates as $key => $estate) {
             // force type decor field

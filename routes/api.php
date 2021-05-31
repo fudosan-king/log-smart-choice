@@ -29,7 +29,7 @@ Route::middleware('auth:api')->group(function () {
 
     // WishList
     Route::post('/wishlist', [WishListController::class, 'upsertWishList'])->name('wishlist.add');
-    Route::get('/wishlist', [WishListController::class, 'getWishLists'])->name('wishlist.get');
+    Route::post('/wishlist/list', [WishListController::class, 'getWishLists'])->name('wishlist.list');
 
     // Customer
     Route::post('/customer', [CustomerController::class, 'getCustomer'])->name('customer.getInformation');
