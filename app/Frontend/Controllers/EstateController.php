@@ -136,56 +136,30 @@ class EstateController extends Controller
         if (!$id) {
             return response()->json(['data' => []], 200);
         }
-        $estateRecommend = [];
-        $listEstateRecommend = [];
-        $estate = Estates::select(
-            'estate_name',
-            'homepage',
-            'address',
-            'price',
-            'transports',
-            'custom_field',
-            'service_rooms',
-            'room_count',
-            'room_kind',
-            'tatemono_menseki',
-            'photos',
-            'balcony_space',
-            'structure',
-            'room_floor',
-            'total_houses',
-            'built_date',
-            'delivery',
-            'renovation_done_date',
-            'house_status',
-            'delivery_date_type',
-            'management_company',
-            'management_scope',
-            'land_rights',
-            'trade_type',
-            'date_last_modified',
-            'estate_equipment',
-            'estate_flooring',
-            'decor',
-            'total_price'
+        $estate = Estates::select('estate_name', 'address', 'price', 'custom_field', 'tatemono_menseki',
+            'structure', 'management_fee', 'room_floor', 'total_houses', 'built_date', 'delivery',
+            'renovation_done_date', 'house_status', 'delivery_date_type', 'decor', 'total_price',
+            'repair_reserve_fee', 'other_fee', 'total_houses', 'built_date', 'motoduke.company', 'constructor_label',
+            'management_company', 'management_scope', 'land_rights',
         )
             ->where('_id', $id)
             ->where('status', '=', Estates::STATUS_SALE)
             ->get()->toArray();
+        $estateAddress = $estate[0]['address'];
+        $estateNearAddress = Estates::select('renovation_type', 'total_price', 'address', 'tatemono_menseki')
+            ->where('_id', '!=', $id)
+            ->where('address.city', $estateAddress['city'])->take(Estates::LIMIT_ESTATE_NEAR_AREA)->orderBy('date_created', 'desc')
+            ->get();
 
         if ($estate) {
             $estate = $this->getEstateInformation($estate);
         }
 
         if ($estate) {
-            return response()->json([
-                'data' => [
-                    'estate' => $estate
-                ],
-            ], 200);
+            return $this->response(200, 'Get estate detail success', ['estate' => $estate, 'estateNearAddress' => $estateNearAddress], true);
         }
 
-        return response()->json(['data' => []], 200);
+        return $this->response(422, 'Get estate detail fail', []);
     }
 
     /**
@@ -238,7 +212,11 @@ class EstateController extends Controller
             if (isset($estates[$key]['decor'])) {
                 $estates[$key]['decor'] = (float)$estates[$key]['decor'];
             }
-            $estateInformation = EstateInformation::where('estate_id', $estates[$key]['_id'])->get()->first();
+            $estateInformation = EstateInformation::select(
+                'estate_id', 'id_estate_3d', 'estate_main_photo',
+                'renovation_media', 'estate_befor_photo', 'estate_after_photo',
+            )
+                ->where('estate_id', $estates[$key]['_id'])->get()->first();
             $estates[$key]['estate_information'] = $estateInformation;
             if ($estateInformation && $estateInformation->estate_main_photo) {
                 $photo_first = $estateInformation->estate_main_photo;
