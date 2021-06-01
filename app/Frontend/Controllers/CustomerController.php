@@ -41,13 +41,16 @@ class CustomerController extends Controller
 
         $customerId = Auth::user()->id;
         $name = $request->get('name');
+        $lastName = $request->get('last_name');
         $email = $request->get('email');
         $phoneNumber = $request->get('phone_number');
+        $landLine = $request->get('land_line');
         $birthday = $request->get('birthday');
-
+        $patternPhoneNumber = '/^(?=\d).*$/';
 
         $rule = [
             'name' => 'required',
+            'last_name' => 'required',
             'email' => 'required|email',
         ];
 
@@ -72,9 +75,18 @@ class CustomerController extends Controller
                 return $this->response(422, 'Invalid phone number format', []);
             }
 
-            $patternPhoneNumber = '/^(?=.*[0-9])(?!.*[~!@#$%^&*()_+])(?!.*[a-zA-Z]).*$/';
             if (!preg_match($patternPhoneNumber, $phoneNumber)) {
                 return $this->response(422, 'Invalid phone number format', []);
+            }
+        }
+
+        if ($landLine) {
+            if (strlen($landLine) != 10) {
+                return $this->response(422, 'Invalid landline format', []);
+            }
+
+            if (!preg_match($patternPhoneNumber, $landLine)) {
+                return $this->response(422, 'Invalid landline format', []);
             }
         }
 
@@ -88,8 +100,10 @@ class CustomerController extends Controller
         try {
             $customer = Customer::find($customerId);
             $customer->name = $name ?? $customer->name;
+            $customer->last_name = $lastName;
             $customer->email =  $email ?? $customer->email;
             $customer->phone_number = $phoneNumber;
+            $customer->land_line = $landLine;
             $customer->birthday = $birthday ?: '';
             $customer->save();
         } catch (\Exception $e) {

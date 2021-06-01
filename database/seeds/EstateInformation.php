@@ -195,6 +195,29 @@ class EstateInformation extends Seeder {
                 'order'        => 10,
             ])->save();
         }
+
+        $dataRow = $this->dataRow($estateDataType, 'renovation_type');
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'select_dropdown',
+                'display_name' => __('リノベーション状態'),
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'details'      => [
+                    'default' => 'カスタム可能物件',
+                    'options' => [
+                        'カスタム可能物件' => 'カスタム可能物件',
+                        'リノベ済物件' => 'リノベ済物件',
+                    ]
+                ],
+                'order'        => 11,
+            ])->save();
+        }
+
         Menu::firstOrCreate([
             'name' => 'admin',
         ]);

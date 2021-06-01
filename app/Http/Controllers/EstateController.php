@@ -29,7 +29,7 @@ class EstateController extends Controller
     {
         $estate = EstateInformation::select('renovation_media', 'estate_befor_photo',
             'estate_after_photo', 'estate_main_photo', 'estate_equipment', 'estate_flooring', 'category_tab_search',
-            'tab_search', 'id_estate_3d')
+            'tab_search', 'id_estate_3d', 'time_to_join', 'direction', 'company_design', 'near_primary_high_school',)
             ->where('estate_id', $estate_id)->get()->first();
         return $estate ? $estate : '{}';
     }
@@ -57,18 +57,12 @@ class EstateController extends Controller
 
     private function _insertDatabase($estate_id, $key, $value){
         try {
-            $estateInformation = null;
-            if ($estate_id) {
-                $estateInformation = EstateInformation::where('estate_id', $estate_id)->get()->first();
-            }
-            if (!isset($estateInformation) && $estate_id) {
-                $estateInformation = new EstateInformation();
-                $estateInformation->estate_id = $estate_id;
-            }
+            $estateInformation = EstateInformation::where('estate_id', $estate_id)->get()->first();
             if ($estateInformation) {
                 $estateInformation[$key] = $value;
                 $estateInformation->save();
             }
+
         } catch (\Exception $ex) {
             Log::error($ex->getMessage());
         }
@@ -525,14 +519,15 @@ class EstateController extends Controller
 
         // Validate fields with ajax
         $this->validateBread($request->all(), $dataType->editRows, $dataType->name, $id)->validate();
-        // estate equipment
         $this->_insertDatabase($id, 'estate_equipment', $slidesEquipment);
-        // estate flooring
         $this->_insertDatabase($id, 'estate_flooring', $flooring);
-        // category tab search
         $this->_insertDatabase($id, 'category_tab_search', $categoriesTab);
-        // tab search
         $this->_insertDatabase($id, 'tab_search', $tabsSearch);
+        $this->_insertDatabase($id, 'time_to_join', $request->get('time_to_join'));
+        $this->_insertDatabase($id, 'direction', $request->get('direction'));
+        $this->_insertDatabase($id, 'company_design', $request->get('company_design'));
+        $this->_insertDatabase($id, 'near_primary_high_school', $request->get('near_primary_high_school'));
+
         $this->insertUpdateData($request, $slug, $dataType->editRows, $data);
 
 
