@@ -66,7 +66,7 @@
                             <label for="name">Decor</label>
                             <input type="text" class="form-control" placeholder="0" value="{{ $dataTypeContent->decor ?? 0 }}" name="decor">
                         </div>
-
+<!-- 
                         @php
                         $custom_field = $dataTypeContent->custom_field;
                         foreach ($mapLabel as $key => $value) {
@@ -87,7 +87,7 @@
                             </div>
                         @php
                         }
-                        @endphp
+                        @endphp -->
                         <div class="form-group">
                             <label for="name">入居時間</label>
                             <input name="time_to_join" value="{{ $estateInfo->time_to_join ?? '' }}" class="form-control">
@@ -108,7 +108,7 @@
                             <input name="near_primary_high_school" value="{{ $estateInfo->near_primary_high_school ?? '' }}" class="form-control">
                         </div>
 
-                        <h2 class="padding_tab_search"> Category</h2>
+                        <!-- <h2 class="padding_tab_search"> Category</h2>
                         <hr class="hr_tab_search">
                         <div class="category_tab_search">
                             @if($categoriesTabSearch)
@@ -159,38 +159,34 @@
                         <hr class="hr_tab_search">
                         <div class="col-md-12 ">
                             <estate-description-component :data="'{{ $dataTypeContent }}'" :data_read="false"></estate-description-component>
-                        </div>
-
+                        </div> -->
 
                         <h1 class="padding_tab_search">Main Photo</h1>
                         <hr class="hr_tab_search">
                         <estatemainphoto-component :data="'{{ $estateInfo }}'"></estatemainphoto-component>
 
-                        <h1>Befor/After</h1>
-                        <hr>
+                        <!-- <h1>Befor/After</h1>
+                        <hr> -->
                         <estatebeforafter-component :befor="'{{ $estateInfo }}'" :after="'{{ $estateInfo }}'"></estatebeforafter-component>
-
 
                         <h1>Photos</h1>
                         <hr>
                         <estateimage-component :data="'{{ $estateInfo }}'"></estateimage-component>
 
-                        <h1>Slide Equipment</h1>
+                        <!-- <h1>Slide Equipment</h1>
                         <hr>
                         <estate-equipment-component :data="'{{ $estateInfo }}'" :data_read="false"></estate-equipment-component>
 
                         <h1>Flooring</h1>
                         <hr>
-                        <estate-flooring-component :data="'{{ $estateInfo }}'" :data_read="false"></estate-flooring-component>
+                        <estate-flooring-component :data="'{{ $estateInfo }}'" :data_read="false"></estate-flooring-component> -->
 
                     </div><!-- panel-body -->
 
                     <div class="panel-footer">
                         <button type="submit" class="btn btn-primary button-submit-estate">{{ __('voyager::generic.submit') }}</button>
                     </div>
-
                 </form>
-
 
             </div>
         </div>
