@@ -19,11 +19,11 @@ class DistrictSeeder extends Seeder
 
     public function run()
     {
-        $dataType = $this->dataType('slug', 'districts');
+        $dataType = $this->dataType('slug', 'district');
         if (!$dataType->exists) {
             $dataType->fill([
-                'name'                  => 'districts',
-                'display_name_singular' => __('Districts'),
+                'name'                  => 'district',
+                'display_name_singular' => __('District'),
                 'display_name_plural'   => __('Districts'),
                 'icon'                  => 'voyager-sound',
                 'model_name'            => 'App\Models\District',
@@ -34,7 +34,7 @@ class DistrictSeeder extends Seeder
         }
         Permission::generateFor('districts');
 
-        $groupsDataType = DataType::where('slug', 'districts')->firstOrFail();
+        $groupsDataType = DataType::where('slug', 'district')->firstOrFail();
 
 
         $dataRow = $this->dataRow($groupsDataType, 'id');
@@ -114,7 +114,7 @@ class DistrictSeeder extends Seeder
         $menuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
             'title'   => __('Districts'),
-            'url'     => 'admin/districts',
+            'url'     => 'admin/district',
             'route'   => null,
         ]);
 

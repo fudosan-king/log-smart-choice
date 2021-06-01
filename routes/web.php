@@ -25,8 +25,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post('admin/users', ['uses' => 'UserControllers@store', 'as' => 'custom.users.store']);
 
     // District Import
-    Route::group(['prefix' => 'districts'], function () {
-        Route::get('/import', [DistrictController::class, 'indexDistrictImport'])->name('admin.districts.import.index');
-        Route::post('/import', [DistrictController::class, 'importDistrict'])->name('admin.districts.import');
+    Route::group(['prefix' => 'district'], function () {
+        Route::get('/import', [DistrictController::class, 'indexDistrictImport'])->name('admin.district.import.index');
+        Route::post('/import', [DistrictController::class, 'importDistrict'])->name('admin.district.import');
     });
 });

@@ -32,7 +32,7 @@
                 @include('voyager::bread.partials.actions', ['action' => $action, 'data' => null])
             @endif
         @endforeach
-        <a href="{{ route('admin.districts.import.index') }}" class="btn btn-primary save">
+        <a href="{{ route('admin.district.import.index') }}" class="btn btn-primary save">
             <i class="voyager-sound"></i> <span>Import</span>
         </a>
         @include('voyager::multilingual.language-selector')
