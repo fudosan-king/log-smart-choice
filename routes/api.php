@@ -10,6 +10,7 @@ use App\Frontend\Controllers\EstateController;
 use App\Frontend\Controllers\Auth\VerificationController;
 use App\Frontend\Controllers\WishListController;
 use App\Frontend\Controllers\CustomerController;
+use App\Frontend\Controllers\DistrictController;
 use App\Frontend\Controllers\StationController;
 
 /*
@@ -46,6 +47,8 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/announcement', [AnnouncementController::class, 'markRead'])->name('announcement.update.read');
     Route::delete('/announcement', [AnnouncementController::class, 'delete'])->name('announcement.delete');
     
+    // District
+    Route::post('/district', [DistrictController::class, 'list'])->name('district.list');
 });
 
 // auth

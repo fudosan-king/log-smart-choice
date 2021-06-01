@@ -33,10 +33,8 @@ class DistrictController extends VoyagerBaseController
 
     public function indexDistrictImport(Request $request)
     {
-//        dd('here');
         // GET THE SLUG, ex. 'posts', 'pages', etc.
-        $slug = $this->getSlug($request);
-
+        $slug = 'district';
         // GET THE DataType based on the slug
         $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
 
@@ -114,7 +112,7 @@ class DistrictController extends VoyagerBaseController
         // Eagerload Relations
         $this->eagerLoadRelations($dataTypeContent, $dataType, 'browse', $isModelTranslatable);
 
-        $view = 'vendor.voyager.districts.import';
+        $view = 'vendor.voyager.district.import';
         return Voyager::view($view, compact(
             'dataType'
         ));
@@ -176,7 +174,7 @@ class DistrictController extends VoyagerBaseController
             }
 
             $allCity = $this->getCities();
-            $slug = DataType::where('slug', 'districts')->first();
+            $slug = DataType::where('slug', 'district')->first();
 
             DataRow::where('data_type_id', $slug->id)->where('field', 'city_id')->update(['details' => ["options" => $allCity, "default" => array_shift($allCity)]]);
 
