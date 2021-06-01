@@ -88,6 +88,25 @@
                         @php
                         }
                         @endphp
+                        <div class="form-group">
+                            <label for="name">入居時間</label>
+                            <input name="time_to_join" value="{{ $estateInfo->time_to_join ?? '' }}" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="name">方角</label>
+                            <input name="direction" value="{{ $estateInfo->direction ?? '' }}" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="name">設計会社</label>
+                            <input name="company_design" value="{{ $estateInfo->company_design ?? '' }}" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="name">小学校区域・中学校区域</label>
+                            <input name="near_primary_high_school" value="{{ $estateInfo->near_primary_high_school ?? '' }}" class="form-control">
+                        </div>
 
                         <h2 class="padding_tab_search"> Category</h2>
                         <hr class="hr_tab_search">
