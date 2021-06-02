@@ -32,7 +32,7 @@ class DistrictSeeder extends Seeder
                 'server_side'           => 1
             ])->save();
         }
-        Permission::generateFor('districts');
+        Permission::generateFor('district');
 
         $groupsDataType = DataType::where('slug', 'district')->firstOrFail();
 
