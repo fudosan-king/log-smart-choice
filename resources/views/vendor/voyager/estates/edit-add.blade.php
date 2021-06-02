@@ -166,8 +166,8 @@
                         <estatemainphoto-component :data="'{{ $estateInfo }}'"></estatemainphoto-component>
 
                         <!-- <h1>Befor/After</h1>
-                        <hr> -->
-                        <estatebeforafter-component :befor="'{{ $estateInfo }}'" :after="'{{ $estateInfo }}'"></estatebeforafter-component>
+                        <hr>
+                        <estatebeforafter-component :befor="'{{ $estateInfo }}'" :after="'{{ $estateInfo }}'"></estatebeforafter-component> -->
 
                         <h1>Photos</h1>
                         <hr>

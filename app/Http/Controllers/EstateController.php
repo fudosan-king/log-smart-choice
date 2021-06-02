@@ -110,15 +110,24 @@ class EstateController extends Controller
     }
 
     private function _insertMainImage($request, $estate_id){
-        try {
-            $estate_main_photo = $request->file('estate_main_photo');
-        } catch (Exception $e) {
-            $estate_main_photo = null;
+
+        $main = [];
+        if ($request->has('estate_main_photo_hidden')) {
+            $imageMainCount = count($request->get('estate_main_photo_hidden'));
+            for ($i = 0; $i < $imageMainCount; $i++) {
+                $urlImageMain = $request->get('estate_main_photo_hidden')[$i];
+                if (isset($request->file('estate_main_photo')[$i])) {
+                    $imageFlooring = $request->file('estate_main_photo')[$i];
+                    $urlImageMain = $this->_uploadPhoto($estate_id, $imageFlooring, '_main_photo', 'main_photo', 1920, 600, 'maxheight');
+                }
+
+                $main[] = [
+                    'url_path' => $urlImageMain,
+                ];
+            }
         }
-        if($estate_main_photo){
-            $url_path = $this->_uploadPhoto($estate_id, $estate_main_photo, '_main_photo', 'main_photo', 1920, 600, 'maxheight');
-            $this->_insertDatabase($estate_id, 'estate_main_photo', $url_path);
-        }
+
+        $this->_insertDatabase($estate_id, 'estate_main_photo', $main);
     }
 
     private function _insertBeforAfterImage($request, $estate_id){
