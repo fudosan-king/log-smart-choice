@@ -3,7 +3,7 @@
         <li v-for="(estate, index) in estates">
             <div class="box_property_item" v-if="estate">
                 <div class="box_property_item_img">
-                    <a v-bind:href="'/detail/' + estate._id">
+                    <a v-bind:href="'/detail/'+ estate.district_romaji +'/'+ estate.station_romaji +'/'+ estate._id">
                         <img
                             v-lazy="estate.photo_first ? estate.photo_first : '/images/no-image.png'"
                             alt=""
@@ -13,7 +13,7 @@
                 </div>
                 <div class="box_property_item_body">
                     <h2>
-                        <a v-bind:href="'/detail/' + estate._id">{{
+                        <a v-bind:href="'/detail/'+ estate.district_romaji +'/'+ estate.station_romaji +'/'+ estate._id">{{
                             estate.custom_field ? estate.custom_field.content : ''
                         }}</a>
                         <template v-if="accessToken">

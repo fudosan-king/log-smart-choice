@@ -6,8 +6,10 @@ namespace App\Frontend\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\District;
 use App\Models\Estates;
 use App\Models\EstateInformation;
+use App\Models\Station;
 use App\Models\WishLists;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -212,6 +214,16 @@ class EstateController extends Controller
             if (isset($estates[$key]['decor'])) {
                 $estates[$key]['decor'] = (float)$estates[$key]['decor'];
             }
+            $estateDistrictRomaji = District::where('name', $estate['address']['city'])->where('status', District::STATUS_ACTIVATE)->first();
+
+            $estateStationRomaji = '';
+            foreach ($estate['transports'] as $station) {
+                if ($station['station_name']) {
+                    $estateStationRomaji = Station::where('name', $station['station_name'])->first();
+                    break;
+                }
+            }
+            
             $estateInformation = EstateInformation::select(
                 'estate_id', 'id_estate_3d', 'estate_main_photo',
                 'renovation_media', 'estate_befor_photo', 'estate_after_photo',
@@ -232,6 +244,8 @@ class EstateController extends Controller
 
             $estates[$key]['photo_first'] = $photo_first;
             $estates[$key]['photos'] = $this->_getPhotosAll($estate);
+            $estates[$key]['district_romaji'] = $estateDistrictRomaji->name_romaji ?? 'no_name_romaji_district';
+            $estates[$key]['station_romaji'] = $estateStationRomaji->name_romaji ?? 'no_name_romaji_station';
         }
         return $estates;
     }

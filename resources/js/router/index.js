@@ -14,7 +14,7 @@ const routes = [
         component: () => import('../../js/pages/ListEstates.vue'),
     },
     {
-        path: '/detail/:estateId',
+        path: '/detail/:city/:station/:estateId',
         name: 'detail',
         component: () => import('../../js/pages/DetailEstate.vue'),
     },
