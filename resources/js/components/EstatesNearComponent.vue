@@ -3,7 +3,8 @@
         <li v-for="(estate, index) in estates">
             <div class="property_img">
                 <a v-bind:href="'/detail/' + estate._id"
-                    ><img
+                    >
+                    <img
                         v-lazy="
                             estate.estate_information
                                 ? estate.estate_information.estate_main_photo[0].url_path
@@ -11,10 +12,10 @@
                         "
                         alt=""
                         class="img-fluid"
-                /></a>
+                />
+                </a>
                 <p class="total_price">
                     {{ estate.total_price }}<span>万円</span><span class="sub">（物件＋リノベーション）</span>
-                </p>
                 <p class="label_custom" v-if="estate.renovation_type == 'カスタム可能物件'">カスタム<br />可能物件</p>
                 <p class="label_custom renovated" v-else>リノベ済<br />物件</p>
             </div>
@@ -44,7 +45,6 @@
 </template>
 
 <script>
-import estateModule from '../store/modules/estate.js';
 import Lazyload from 'vue-lazyload';
 import Vue from 'vue';
 
@@ -66,15 +66,12 @@ export default {
         WishlistComponent: () => import('../components/WishlistComponent')
     },
     mounted() {
-        this.getListEstates();
+        this.getNearEstates();
     },
     methods: {
-        getListEstates() {
+        getNearEstates() {
             let accessToken = this.$getCookie('accessToken');
-            let data = {
-                limit: 4,
-                page: 1
-            };
+            let data = {};
             if (accessToken.length > 0) {
                 data.email = this.$getCookie('userSocialId');
                 data.isSocial = true;
@@ -83,12 +80,12 @@ export default {
                     data.email = this.$getCookie('userEmail');
                     data.isSocial = false;
                 }
-                this.$store.dispatch('getEstateList', data).then(res => {
-                    this.estates = res['data'];
+                this.$store.dispatch('getEstatesNear', data).then(res => {
+                    this.estates = res;
                 });
             } else {
-                this.$store.dispatch('getEstateList', data).then(res => {
-                    this.estates = res['data'];
+                this.$store.dispatch('getEstatesNear', data).then(res => {
+                    this.estates = res;
                 });
             }
         },

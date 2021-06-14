@@ -1,39 +1,48 @@
 <template>
     <div class="col-12 col-lg-12">
+        <h2 class="title" v-if="lastEstate.address">{{ lastEstate.address.city }}</h2>
+        <h2 class="title">リノベーション・中古マンション物件一覧</h2>
         <ul v-if="estates.length" class="list_property" v-on:scroll="handleScroll">
             <li
                 v-for="(estate, index) in estates"
                 :key="index._id"
                 v-bind:class="{ 'estate-last': index === estates.length - 1 }"
             >
-                <div class="box_property_item">
-                    <div class="box_property_item_img">
-                        <a v-bind:href="'/detail/' + estate._id">
-                            <img
-                                v-lazy="estate.photo_first ? estate.photo_first : '/images/no-image.png'"
-                                alt=""
-                                class="img-fluid"
-                            />
-                        </a>
-                    </div>
-                    <div class="box_property_item_body">
-                        <h2>
-                            <a v-bind:href="'/detail/' + estate._id">{{
-                                estate.custom_field ? estate.custom_field.content : ''
-                            }}</a>
+                <div class="property_img">
+                    <a v-bind:href="'/detail/' + estate._id"
+                        ><img
+                            v-lazy="
+                                estate.estate_information
+                                    ? estate.estate_information.estate_main_photo[0].url_path
+                                    : '/images/no-image.png'
+                            "
+                            alt=""
+                            class="img-fluid"
+                    /></a>
+                    <p class="total_price">
+                        {{ estate.total_price }}<span>万円</span><span class="sub">（物件＋リノベーション）</span>
+                    </p>
+                    <p class="label_custom" v-if="estate.renovation_type == 'カスタム可能物件'">
+                        カスタム<br />可能物件
+                    </p>
+                    <p class="label_custom renovated" v-else>リノベ済<br />物件</p>
+                </div>
+                <div class="property_head">
+                    <div class="row">
+                        <div class="col-10 col-lg-10">
+                            {{estate._id}}
+                            <p class="property_name">{{ estate.estate_name }}</p>
+                            <p class="property_address" v-if="estate.address">
+                                {{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}
+                            </p>
+                            <p class="property_square">{{ estate.tatemono_menseki }}m²</p>
+                        </div>
+                        <div class="col-2 col-lg-2">
                             <template v-if="accessToken">
                                 <a @click="addToWishList(estate._id, estate.is_wish)">
                                     <WishlistComponent :data-wished="estate.is_wish"></WishlistComponent>
                                 </a>
                             </template>
-                        </h2>
-                        <div class="row">
-                            <div class="col-12 col-lg-6">
-                                <p>
-                                    {{ estate.room_count }}{{ estate.service_rooms != '0' ? 'S' : ''
-                                    }}{{ estate.room_kind }} / {{ estate.tatemono_menseki }}㎡
-                                </p>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -64,7 +73,8 @@ export default {
             offsetTop: 0,
             heigthOfList: 0,
             isHidden: false,
-            accessToken: false
+            accessToken: false,
+            lastEstate:[],
         };
     },
     components: {
@@ -100,11 +110,13 @@ export default {
                     data.isSocial = false;
                 }
                 this.$store.dispatch('getEstateList', data).then(res => {
-                    this.estates = this.estates.concat(res);
+                    this.estates = this.estates.concat(res[0]['data']);
+                    this.lastEstate = res[0]['lastedEstate'];
                 });
             } else {
                 this.$store.dispatch('getEstateList', data).then(res => {
-                    this.estates = this.estates.concat(res);
+                    this.estates = this.estates.concat(res[0]['data']);
+                    this.lastEstate = res[0]['lastedEstate'];
                 });
             }
         },
@@ -137,8 +149,20 @@ export default {
         },
 
         // Add states to wishlist
+        
         addToWishList(estateId, isWish) {
-            this.$store.dispatch('addWishList', estateId, isWish);
+            let accessToken = this.$getCookie('accessToken');
+            if (accessToken != '') {
+                let data = {
+                    estateId: estateId,
+                    is_wish: 1,
+                    accessToken: accessToken
+                };
+                if (isWish === 1) {
+                    data.is_wish = 0;
+                }
+                this.$store.dispatch('addWishList', data, accessToken);
+            }
         }
     }
 };

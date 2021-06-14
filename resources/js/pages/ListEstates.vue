@@ -1,6 +1,6 @@
 <template>
 	<main id="main">
-	    <section class="section_propertyinformation">
+	    <section class="section_propertyinformation list_estate">
 	        <div class="container">
 	            <div class="row">
                 	<EstatesComponent></EstatesComponent>

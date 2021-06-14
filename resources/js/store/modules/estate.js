@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { reject } from 'lodash';
 import Vue from 'vue';
 import globalVaiable from '../../../js/globalHelper';
 
@@ -28,7 +27,23 @@ const actions = {
         return new Promise((relove, reject) => {
             const auth = this.auth;
             axios({ url: '/list', method: 'POST', data: data, auth: auth }).then(resp => {
-                this.existedEstate = true;
+                if (resp.data['data']) {
+                    let data = {
+                        'data':resp.data['data'],
+                        'lastedEstate': resp.data['lasted_estate']
+                    }
+                    relove(data);
+                }
+            }).catch(error => {
+                reject(error);
+            });
+        })
+    },
+
+    getEstatesNear({}, data) {
+        return new Promise((relove, reject) => {
+            const auth = this.auth;
+            axios({ url: '/estate/near', method: 'POST', data: data, auth: auth }).then(resp => {
                 if (resp.data['data']) {
                     relove(resp.data['data']);
                 }
@@ -36,7 +51,8 @@ const actions = {
                 reject(error);
             });
         })
-    }
+    },
+
 };
 
 const mutations = {};

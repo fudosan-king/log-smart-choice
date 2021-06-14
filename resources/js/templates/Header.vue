@@ -1,78 +1,248 @@
 <template>
-    <header v-if="page === 'home'">
-        <div class="navbar navbar-expand-lg bsnav bsnav-transparent">
-            <div class="collapse navbar-collapse justify-content-md-end">
-                <ul class="navbar-nav navbar-mobile mr-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://www.logknot.co.jp/">会社概要</a>
-                    </li>
-                    <li v-if="customerInfo" class="nav-item nav-header">
-                        <a class="nav-link">ようこそ {{ customerInfo }} 様</a>
-                    </li>
-                    <li v-if="customerInfo" class="nav-item nav-header">
-                        <a class="nav-link" v-on:click="logout">
-                            <img alt="" class="img-fluid" width="16" /> ログアウト
-                        </a>
-                    </li>
+    <header class="fixed-top">
+        <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
+            <a class="navbar-brand" href="/">
+                <img
+                    src="images/svg/logo_orderrenove_white.svg"
+                    alt=""
+                    class="img-fluid d-none d-lg-inline-block"
+                    width="224"
+                />
+                <img
+                    src="images/svg/logo_orderrenove_black.svg"
+                    alt=""
+                    class="img-fluid d-inline-block d-lg-none"
+                    width="134"
+                />
+            </a>
+            <div class="ml-auto box_user">
+                <div class="dropdown dropdown_user">
+                    <a id="dropdown_user" href="javascript:void(0)" v-on:click="dropUser">
+                        <img src="images/svg/i_user.svg" alt="" class="img-fluid d-none d-lg-inline-block" width="15" />
+                        <img
+                            src="images/svg/i_user_black.svg"
+                            alt=""
+                            class="img-fluid d-inline-block d-lg-none"
+                            width="15"
+                        />
+                        <span>ログイン</span>
+                    </a>
+                    <div class="dropdown_user_content" style="display: none;">
+                        <ul>
+                            <li>
+                                <a href="javascript:void(0)" v-if="userName">{{ userName }}さま</a>
+                            </li>
+                            <li><a href="javascript:void(0)">会員登録情報</a></li>
+                            <li><a href="javascript:void(0)">メルマガ配信希望条件</a></li>
+                            <li>
+                                <a href="javascript:void(0)">お知らせ <span>10</span></a>
+                            </li>
+                            <li><a href="javascript:void(0)">お気に入り</a></li>
+                            <li><a href="javascript:void(0)" v-on:click="logout">ログアウト</a></li>
+                        </ul>
+                    </div>
+                </div>
 
-                    <li v-else class="nav-item">
-                        <a class="nav-link" v-bind:href="'/login'"><span>ログイン</span></a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </header>
-    <header v-else-if="page === 'detail'">
-        <div class="navbar navbar-expand-lg bsnav bsnav-transparent">
-            <a class="navbar-brand" v-bind:href="'/'"
-                ><img v-bind:src="logoBlack" alt="" class="img-fluid" width="220"
-            /></a>
-            <div class="collapse navbar-collapse justify-content-md-end">
-                <ul class="navbar-nav navbar-mobile mr-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://www.logknot.co.jp/">会社概要</a>
-                    </li>
-                    <li v-if="customerInfo" class="nav-item nav-header">
-                        <a class="nav-link">ようこそ {{ customerInfo }} 様</a>
-                    </li>
-                    <li v-if="customerInfo" class="nav-item nav-header">
-                        <a class="nav-link" v-on:click="logout">
-                            <img alt="" class="img-fluid" width="16" /> ログアウト
-                        </a>
-                    </li>
+                <div class="dropdown dropdown_search">
+                    <a id="dropdown_search" href="#" v-on:click="dropSearch">
+                        <img
+                            src="images/svg/i_search.svg"
+                            alt=""
+                            class="img-fluid d-none d-lg-inline-block"
+                            width="16"
+                        />
+                        <img
+                            src="images/svg/i_search_black.svg"
+                            alt=""
+                            class="img-fluid d-inline-block d-lg-none"
+                            width="16"
+                        />
+                    </a>
+                    <div class="dropdown_search_content" style="display: none;">
+                        <div class="accordion" id="accordionExample">
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <h2 class="mb-0">
+                                        <button
+                                            class="btn btn-block text-left"
+                                            type="button"
+                                            data-toggle="collapse"
+                                            data-target="#collapseOne"
+                                            aria-expanded="true"
+                                            aria-controls="collapseOne"
+                                        >
+                                            <img src="images/svg/i_map_black.svg" alt="" class="img-fluid" width="18" />
+                                            エリアから探す
+                                        </button>
+                                    </h2>
+                                </div>
 
-                    <li v-else class="nav-item">
-                        <a class="nav-link" v-bind:href="'/login'"><span>ログイン</span></a>
-                    </li>
-                </ul>
+                                <div
+                                    id="collapseOne"
+                                    class="collapse show"
+                                    aria-labelledby="headingOne"
+                                    data-parent="#accordionExample"
+                                >
+                                    <div class="card-body">
+                                        <ul>
+                                            <li><a href="#">足立区</a></li>
+                                            <li><a href="">荒川区</a></li>
+                                            <li><a href="">板橋区</a></li>
+                                            <li><a href="">江戸川区</a></li>
+                                            <li><a href="">大田区</a></li>
+                                            <li><a href="">葛飾区</a></li>
+                                            <li><a href="">北区</a></li>
+                                            <li><a href="">江東区</a></li>
+                                            <li><a href="">品川区</a></li>
+                                            <li><a href="">渋谷区</a></li>
+                                            <li><a href="">新宿区</a></li>
+                                            <li><a href="">杉並区</a></li>
+                                            <li><a href="">墨田区</a></li>
+                                            <li><a href="">世田谷区</a></li>
+                                            <li><a href="">台東区</a></li>
+                                            <li><a href="">千代田区</a></li>
+                                            <li><a href="">中央区</a></li>
+                                            <li><a href="">豊島区</a></li>
+                                            <li><a href="">中野区</a></li>
+                                            <li><a href="">練馬区</a></li>
+                                            <li><a href="">文京区</a></li>
+                                            <li><a href="">港区</a></li>
+                                            <li><a href="">目黒区</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="headingTwo">
+                                    <h2 class="mb-0">
+                                        <button
+                                            class="btn btn-block text-left collapsed"
+                                            type="button"
+                                            data-toggle="collapse"
+                                            data-target="#collapseTwo"
+                                            aria-expanded="false"
+                                            aria-controls="collapseTwo"
+                                        >
+                                            <img
+                                                src="images/svg/i_stations_black.svg"
+                                                alt=""
+                                                class="img-fluid"
+                                                width="13"
+                                            />
+                                            沿線から探す
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div
+                                    id="collapseTwo"
+                                    class="collapse"
+                                    aria-labelledby="headingTwo"
+                                    data-parent="#accordionExample"
+                                >
+                                    <div class="card-body">
+                                        <ul>
+                                            <li><a href="#">足立区</a></li>
+                                            <li><a href="">荒川区</a></li>
+                                            <li><a href="">板橋区</a></li>
+                                            <li><a href="">江戸川区</a></li>
+                                            <li><a href="">大田区</a></li>
+                                            <li><a href="">葛飾区</a></li>
+                                            <li><a href="">北区</a></li>
+                                            <li><a href="">江東区</a></li>
+                                            <li><a href="">品川区</a></li>
+                                            <li><a href="">渋谷区</a></li>
+                                            <li><a href="">新宿区</a></li>
+                                            <li><a href="">杉並区</a></li>
+                                            <li><a href="">墨田区</a></li>
+                                            <li><a href="">世田谷区</a></li>
+                                            <li><a href="">台東区</a></li>
+                                            <li><a href="">千代田区</a></li>
+                                            <li><a href="">中央区</a></li>
+                                            <li><a href="">豊島区</a></li>
+                                            <li><a href="">中野区</a></li>
+                                            <li><a href="">練馬区</a></li>
+                                            <li><a href="">文京区</a></li>
+                                            <li><a href="">港区</a></li>
+                                            <li><a href="">目黒区</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header" id="headingThree">
+                                    <h2 class="mb-0">
+                                        <button
+                                            class="btn btn-block text-left collapsed"
+                                            type="button"
+                                            data-toggle="collapse"
+                                            data-target="#collapseThree"
+                                            aria-expanded="false"
+                                            aria-controls="collapseThree"
+                                        >
+                                            <img
+                                                src="images/svg/i_locations_black.svg"
+                                                alt=""
+                                                class="img-fluid"
+                                                width="14"
+                                            />
+                                            MAPから探す
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div
+                                    id="collapseThree"
+                                    class="collapse"
+                                    aria-labelledby="headingThree"
+                                    data-parent="#accordionExample"
+                                >
+                                    <div class="card-body">
+                                        <ul>
+                                            <li><a href="#">足立区</a></li>
+                                            <li><a href="">荒川区</a></li>
+                                            <li><a href="">板橋区</a></li>
+                                            <li><a href="">江戸川区</a></li>
+                                            <li><a href="">大田区</a></li>
+                                            <li><a href="">葛飾区</a></li>
+                                            <li><a href="">北区</a></li>
+                                            <li><a href="">江東区</a></li>
+                                            <li><a href="">品川区</a></li>
+                                            <li><a href="">渋谷区</a></li>
+                                            <li><a href="">新宿区</a></li>
+                                            <li><a href="">杉並区</a></li>
+                                            <li><a href="">墨田区</a></li>
+                                            <li><a href="">世田谷区</a></li>
+                                            <li><a href="">台東区</a></li>
+                                            <li><a href="">千代田区</a></li>
+                                            <li><a href="">中央区</a></li>
+                                            <li><a href="">豊島区</a></li>
+                                            <li><a href="">中野区</a></li>
+                                            <li><a href="">練馬区</a></li>
+                                            <li><a href="">文京区</a></li>
+                                            <li><a href="">港区</a></li>
+                                            <li><a href="">目黒区</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button> -->
             </div>
-        </div>
-    </header>
-    <header class="sub_header" v-else>
-        <div class="navbar navbar-expand-lg bsnav">
-            <a class="navbar-brand" v-bind:href="'/'"
-                ><img v-bind:src="logoBlack" alt="" class="img-fluid" width="220"
-            /></a>
-            <div class="collapse navbar-collapse justify-content-md-end">
-                <ul class="navbar-nav navbar-mobile mr-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://www.logknot.co.jp/">会社概要</a>
-                    </li>
-                    <li v-if="customerInfo" class="nav-item nav-header">
-                        <a class="nav-link">ようこそ {{ customerInfo }} 様</a>
-                    </li>
-                    <li v-if="customerInfo" class="nav-item nav-header">
-                        <a class="nav-link" v-on:click="logout">
-                            <img alt="" class="img-fluid" width="16" /> ログアウト
-                        </a>
-                    </li>
 
-                    <li v-else class="nav-item">
-                        <a class="nav-link" v-bind:href="'/login'"><span>ログイン</span></a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+            <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#"><img src="images/svg/i_user.svg" alt="" class="img-fluid" width="15"> ログイン</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><img src="images/svg/i_search.svg" alt="" class="img-fluid" width="16"></a>
+                </li>
+            </ul>
+        </div> -->
+        </nav>
     </header>
 </template>
 <script>
@@ -83,11 +253,19 @@ export default {
         if (this.$route.name) {
             page = this.$route.name;
         }
-
+        let userName = this.$getCookie('userName');
         return {
             page: page,
-            logoBlack: logoBlack
+            logoBlack: logoBlack,
+            userName: userName
         };
+    },
+    mounted() {
+        window.addEventListener('scroll', this.scrollListener);
+        let compressHeaders = ['home'];
+        if (!compressHeaders.includes(this.$route.name)) {
+            $('header').addClass('compressed');
+        }
     },
     methods: {
         logout() {
@@ -103,6 +281,34 @@ export default {
                     this.$router.go(0);
                 })
                 .catch(error => {});
+        },
+
+        dropUser(event) {
+            let accessToken = this.$getCookie('accessToken');
+            if (accessToken != '') {
+                event.preventDefault();
+                $('.dropdown_user_content').slideToggle('fast');
+                $('.dropdown_search_content').hide();
+            } else {
+                this.$router.push({ name: 'login' });
+            }
+        },
+
+        dropSearch(event) {
+            event.preventDefault();
+            $('.dropdown_search_content').slideToggle('fast');
+            $('.dropdown_user_content').hide();
+        },
+
+        scrollListener() {
+            let compressHeaders = ['home'];
+            if (compressHeaders.includes(this.$route.name)) {
+                if (window.pageYOffset > 0) {
+                    $('header').addClass('compressed');
+                } else {
+                    $('header').removeClass('compressed');
+                }
+            }
         }
     },
     computed: {
