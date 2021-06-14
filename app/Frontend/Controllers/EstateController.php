@@ -9,6 +9,7 @@ use App\Models\Customer;
 use App\Models\Estates;
 use App\Models\EstateInformation;
 use App\Models\WishLists;
+use DateTime;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,6 +18,18 @@ use Illuminate\Support\Facades\Log;
 class EstateController extends Controller
 {
     private $linkS3 = 'https://fdk-production.s3-ap-northeast-1.amazonaws.com/';
+
+
+    protected $selectField;
+
+    public function __construct()
+    {
+        $this->selectField = [
+            'estate_name', 'price', 'address', 
+            'tatemono_menseki', 'total_price', 'transports',
+            'renovation_type', 'date_created'
+        ];
+    }
 
     /**
      * Search Estate
@@ -36,7 +49,7 @@ class EstateController extends Controller
         $email = $request->get('email') ?? '';
         $isSocial = $request->get('isSocial') ?? '';
 
-        $limit = $request->has('limit') ? intval($request->get('limit')) : 9;
+        $limit = $request->has('limit') ? intval($request->get('limit')) : 4;
         $page = $request->has('page') ? intval($request->get('page')) : 1;
         $validator = Validator::make($request->all(), [
             'keyword'      => 'max:100',
@@ -50,10 +63,7 @@ class EstateController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        $estates = Estates::select('estate_name', 'price', 'balcony_space',
-            'address', 'tatemono_menseki', 'motoduke', 'room_count', 'room_kind',
-            'room_floor', 'land_space', 'homepage', 'photos', 'service_rooms',
-            'custom_field', 'decor', 'total_price', 'room_type', 'transports');
+        $estates = Estates::select($this->selectField);
 
         $estates->where('status', Estates::STATUS_SALE);
 
@@ -115,13 +125,17 @@ class EstateController extends Controller
                 }
             }
         }
+        $estates->orderBy('date_created', 'desc');
 
-        $total = count($estates->paginate()->toArray()['data']);
-        $data = $estates->paginate($limit, $page)->toArray();
-        if ($data) {
-            $data = $this->getEstateInformation($data['data'], $wishList);
+        $lists = $estates->paginate($limit, $page)->toArray();
+
+        if ($lists['data']) {
+            $lists['data'] = $this->getEstateInformation($lists['data'], $wishList);
+            $lists['lasted_estate'] = $lists['data'][0];
+            return response()->json($lists, 200);
         }
-        return response()->json(['data' => $data, 'total' => $total], 200);
+
+        return response()->json([], 422);
     }
 
     /**
@@ -308,5 +322,69 @@ class EstateController extends Controller
         }
 
         return $this->response(200, 'Update id estate 3d success', []);
+    }
+
+    public function getEstateNear(Request $request) {
+
+        $email = $request->get('email') ?? '';
+        $isSocial = $request->get('isSocial') ?? '';
+        $idLastEstate = $request->get('estate_id') ?? '';
+        $customer = Customer::where('email', $email)->first();
+        if ($isSocial) {
+            $customer = Customer::where('social_id', $email)->first();
+        }
+        
+        $estateLasted = Estates::select($this->selectField)
+            ->where('status', Estates::STATUS_SALE)
+            ->orderBy('date_created', 'desc')
+            ->first();
+
+        if ($idLastEstate) {
+            $estateLasted = Estates::select($this->selectField)
+                ->where('_id', $idLastEstate)
+                ->first();
+        }
+        if ($estateLasted) {
+            $nearAddress = $estateLasted->address['city'];
+            $nearStation = '';
+            foreach ($estateLasted->transports as $transport) {
+                if ($transport['station_name']) {
+                    $nearStation = $transport['station_name'];
+                    break;
+                }
+            }
+    
+            // list estate same city/station with last estates
+            $estatesNear = Estates::select($this->selectField)
+                ->where('status', Estates::STATUS_SALE)
+                ->where('_id', '!=', $estateLasted['_id'])
+                ->where(function ($query) use ($nearAddress, $nearStation) {
+                    $query->orWhere('address.city', $nearAddress);
+                    $query->orWhere('transports.station_name', $nearStation);
+                })
+                ->orderBy('date_created', 'desc')->take(Estates::LIMIT_ESTATE_NEAR_AREA)
+                ->get()->toArray();
+    
+            
+            if ($estatesNear) {
+                $wishList = [];
+                if ($customer) {
+                    $wishListForCustomer = WishLists::select('estate_id')
+                        ->where('user_id', $customer->id)
+                        ->where('is_wishlist', WishLists::ADDED_WISH_LIST)
+                        ->get()->toArray();
+                    if (!empty($wishListForCustomer)) {
+                        foreach ($wishListForCustomer as $value) {
+                            $wishList[] = $value['estate_id'];
+                        }
+                    }
+                }
+                $lists = $this->getEstateInformation($estatesNear, $wishList);
+    
+                return $this->response(200, 'Get near estate success', $lists, true);
+            }
+        }
+
+        return $this->response(422, 'Get near estate fail', []);
     }
 }

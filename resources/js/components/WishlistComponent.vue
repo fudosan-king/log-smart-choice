@@ -1,5 +1,9 @@
 <template>
-    <button class="btn btn_like" @click="onClick">
+<!-- <template v-if="checkItem == 1"> -->
+    
+    <a href="javascript:void(0);" class="btn_wishlist" @click="onClick" v-if="checkItem == 1" :class="{on: !isActive}"></a>
+    <a href="javascript:void(0);" class="btn_wishlist" @click="onClick" :class="{on: isActive}" v-else></a>
+    <!-- <button class="btn btn_like" @click="onClick">
 
         <div class="btn_like_wrapper">
             <template v-if="checkItem == 1">
@@ -15,34 +19,34 @@
                      :class="{active: isActive}">
             </template>
         </div>
-    </button>
+    </button> -->
 </template>
 
 <script>
 export default {
-    name: "WishlistComponent",
+    name: 'WishlistComponent',
     props: ['dataWished'],
     data() {
         let activeItem = 0;
-        if (typeof this.dataWished != "undefined") {
+        if (typeof this.dataWished != 'undefined') {
             activeItem = this.dataWished;
         }
         return {
-            isActive: true,
+            isActive: false,
             estates: [],
-            checkItem: activeItem,
-        }
+            checkItem: activeItem
+        };
     },
     methods: {
         onClick() {
             this.isActive = !this.isActive;
-        },
+        }
     }
-}
+};
 </script>
 
 <style scoped>
 .active {
-    display: none
+    display: none;
 }
 </style>

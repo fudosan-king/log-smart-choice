@@ -69,6 +69,7 @@ Route::post('/facebook-login', [LoginController::class, 'socialLogin']);
 Route::get('/stations/list', [StationController::class, 'getAll']);
 
 
+//estate
 Route::group(['prefix' => 'list'], function () {
     Route::post('/', [EstateController::class, 'search']);
 });
@@ -76,6 +77,8 @@ Route::group(['prefix' => 'list'], function () {
 Route::group(['prefix' => 'detail'], function () {
     Route::post('/', [EstateController::class, 'detail']);
 });
+
+Route::post('/estate/near', [EstateController::class, 'getEstateNear'])->name('estate.near');
 
 Route::get('test_import_estates', function () {
     $estates = array();

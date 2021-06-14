@@ -13,3 +13,19 @@ ul.estate-description-content {
 .list_property .img-fluid-loading {
     padding-left: 12%;
 }
+
+.dropdown_user .dropdown_user_content:after, .dropdown_search .dropdown_search_content:after {
+    content: '';
+    position: fixed;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    left: 0;
+    right: 0;
+    top: 90px;
+}
+
+#main .list_estate {
+    padding-top: 9%;
+}
