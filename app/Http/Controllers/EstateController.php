@@ -127,7 +127,7 @@ class EstateController extends Controller
                 if (isset($request->file('estate_main_photo')[$i])) {
                     $imageFlooring = $request->file('estate_main_photo')[$i];
                     // $urlImageMain = $this->_uploadPhoto($estate_id, $imageFlooring, '_main_photo', 'main_photo', 1920, 600, 'maxheight');
-                    $urlImageMain = $this->_uploadPhoto($estate_id, $imageFlooring, '_main_photo', 'main_photo');
+                    $urlImageMain = $this->_uploadPhoto($estate_id, $imageFlooring, '_main_photo'.$i, 'main_photo');
                 }
 
                 $main[] = [
@@ -558,9 +558,9 @@ class EstateController extends Controller
 
         $this->validate($request, [
             'estate_image.*' => 'image|mimes:jpg,png,jpeg|max:2048',
+            'estate_main_photo.*' => 'image|mimes:jpg,png,jpeg|max:2048',
         ]);
 
-        // dd($request->all());
         $this->_insertMainImage($request, $id);
         $this->_insertImages($request, $id);
         // $this->_insertBeforAfterImage($request, $id);
