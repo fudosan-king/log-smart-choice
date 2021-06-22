@@ -154,7 +154,7 @@ class EstateController extends Controller
             'structure', 'management_fee', 'room_floor', 'total_houses', 'built_date', 'delivery',
             'renovation_done_date', 'house_status', 'delivery_date_type', 'decor', 'total_price',
             'repair_reserve_fee', 'other_fee', 'total_houses', 'built_date', 'motoduke.company', 'constructor_label',
-            'management_company', 'management_scope', 'land_rights',
+            'management_company', 'management_scope', 'land_rights', 'latitude', 'longitude'
         )
             ->where('_id', $id)
             ->where('status', '=', Estates::STATUS_SALE)
@@ -229,6 +229,7 @@ class EstateController extends Controller
             $estateInformation = EstateInformation::select(
                 'estate_id', 'id_estate_3d', 'estate_main_photo',
                 'renovation_media', 'estate_befor_photo', 'estate_after_photo',
+                'time_to_join', 'direction', 'company_design', 'near_primary_high_school'
             )
                 ->where('estate_id', $estates[$key]['_id'])->get()->first();
             $estates[$key]['estate_information'] = $estateInformation;
