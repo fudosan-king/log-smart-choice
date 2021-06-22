@@ -57,10 +57,15 @@ class EstateController extends Controller
 
     private function _insertDatabase($estate_id, $key, $value){
         try {
-            $estateInformation = EstateInformation::where('estate_id', $estate_id)->get()->first();
+            $estateInformation = EstateInformation::where('estate_id', $estate_id)->first();
             if ($estateInformation) {
                 $estateInformation[$key] = $value;
                 $estateInformation->save();
+            } else {
+                $estateInfomationNew = new EstateInformation();
+                $estateInfomationNew->$key = $value;
+                $estateInfomationNew->estate_id = $estate_id;
+                $estateInfomationNew->save();
             }
 
         } catch (\Exception $ex) {
@@ -85,6 +90,7 @@ class EstateController extends Controller
         // Process insert images
         $estateImages = [];
         $list_images = $request->get('estate_image_hidden');
+        $list_images_full = $request->get('estate_image');
         $i = 0;
         if($list_images){
             foreach ($list_images as $list_image) {
@@ -94,7 +100,8 @@ class EstateController extends Controller
                     $estate_image = null;
                 }
                 if($estate_image){
-                    $url_path = $this->_uploadPhoto($estate_id, $estate_image, $i, 'images', 1920, 600, 'maxheight');
+                    // $url_path = $this->_uploadPhoto($estate_id, $estate_image, $i, 'images', 1920, 600, 'maxheight');
+                    $url_path = $this->_uploadPhoto($estate_id, $estate_image, $i, 'images');
                 }else{
                     $url_path = $request->get('estate_image_hidden')[$i];
                 }
@@ -106,11 +113,12 @@ class EstateController extends Controller
                 $i++;
             }
         }
+        
         $this->_insertDatabase($estate_id, 'renovation_media', $estateImages);
     }
 
-    private function _insertMainImage($request, $estate_id){
-
+    private function _insertMainImage($request, $estate_id) {
+        
         $main = [];
         if ($request->has('estate_main_photo_hidden')) {
             $imageMainCount = count($request->get('estate_main_photo_hidden'));
@@ -118,14 +126,16 @@ class EstateController extends Controller
                 $urlImageMain = $request->get('estate_main_photo_hidden')[$i];
                 if (isset($request->file('estate_main_photo')[$i])) {
                     $imageFlooring = $request->file('estate_main_photo')[$i];
-                    $urlImageMain = $this->_uploadPhoto($estate_id, $imageFlooring, '_main_photo', 'main_photo', 1920, 600, 'maxheight');
+                    // $urlImageMain = $this->_uploadPhoto($estate_id, $imageFlooring, '_main_photo', 'main_photo', 1920, 600, 'maxheight');
+                    $urlImageMain = $this->_uploadPhoto($estate_id, $imageFlooring, '_main_photo', 'main_photo');
                 }
 
                 $main[] = [
                     'url_path' => $urlImageMain,
                 ];
             }
-        }
+
+        } 
 
         $this->_insertDatabase($estate_id, 'estate_main_photo', $main);
     }
@@ -424,7 +434,7 @@ class EstateController extends Controller
         // Check permission
         $this->authorize('edit', $data);
 
-        $customerField = $this->_setCustomField($request);
+        // $customerField = $this->_setCustomField($request);
         $descriptionUrlImageLeft = '';
         $descriptionUrlImageRight = '';
 
@@ -444,94 +454,94 @@ class EstateController extends Controller
         $request['total_price'] = (float)$request->get('decor') + $price;
 
         // Check estate description photo or hidden photo exist
-        if ($request->hasFile('estate_description_left_photo')) {
-            $estateDescriptionLeftPhoto = $request->file('estate_description_left_photo');
-            $imageName = explode('.', $estateDescriptionLeftPhoto->getClientOriginalName());
-            $descriptionUrlImageLeft = $this->_uploadPhoto($id, $estateDescriptionLeftPhoto, $imageName[0], 'images');
-        } elseif ($request->has('estate_description_left_photo_hidden')) {
-            $descriptionUrlImageLeft = $request->get('estate_description_left_photo_hidden');
-        }
+        // if ($request->hasFile('estate_description_left_photo')) {
+        //     $estateDescriptionLeftPhoto = $request->file('estate_description_left_photo');
+        //     $imageName = explode('.', $estateDescriptionLeftPhoto->getClientOriginalName());
+        //     $descriptionUrlImageLeft = $this->_uploadPhoto($id, $estateDescriptionLeftPhoto, $imageName[0], 'images');
+        // } elseif ($request->has('estate_description_left_photo_hidden')) {
+        //     $descriptionUrlImageLeft = $request->get('estate_description_left_photo_hidden');
+        // }
 
-        if ($request->hasFile('estate_description_right_photo')) {
-            $estateDescriptionRightPhoto = $request->file('estate_description_right_photo');
-            $imageName = explode('.', $estateDescriptionRightPhoto->getClientOriginalName());
-            $descriptionUrlImageRight = $this->_uploadPhoto($id, $estateDescriptionRightPhoto, $imageName[0], 'images');
-        } elseif ($request->has('estate_description_right_photo_hidden')) {
-            $descriptionUrlImageRight = $request->get('estate_description_right_photo_hidden');
-        }
+        // if ($request->hasFile('estate_description_right_photo')) {
+        //     $estateDescriptionRightPhoto = $request->file('estate_description_right_photo');
+        //     $imageName = explode('.', $estateDescriptionRightPhoto->getClientOriginalName());
+        //     $descriptionUrlImageRight = $this->_uploadPhoto($id, $estateDescriptionRightPhoto, $imageName[0], 'images');
+        // } elseif ($request->has('estate_description_right_photo_hidden')) {
+        //     $descriptionUrlImageRight = $request->get('estate_description_right_photo_hidden');
+        // }
 
-        $descriptionEstate = [
-            'description_title' => htmlspecialchars($request->get('description_title'), ENT_QUOTES),
-            'description_content' => htmlspecialchars($request->get('description_content'), ENT_QUOTES),
-            'description_url_image_left' => $descriptionUrlImageLeft,
-            'description_url_image_right' => $descriptionUrlImageRight,
-        ];
+        // $descriptionEstate = [
+        //     'description_title' => htmlspecialchars($request->get('description_title'), ENT_QUOTES),
+        //     'description_content' => htmlspecialchars($request->get('description_content'), ENT_QUOTES),
+        //     'description_url_image_left' => $descriptionUrlImageLeft,
+        //     'description_url_image_right' => $descriptionUrlImageRight,
+        // ];
 
         // set custom field description estate
-        foreach( $descriptionEstate as $key => $value) {
-            $customerField[$key] = $value;
-        }
-        $customerField = array_merge($customerField, $descriptionEstate);
-        $request['custom_field'] = $customerField;
+        // foreach( $descriptionEstate as $key => $value) {
+        //     $customerField[$key] = $value;
+        // }
+        // $customerField = array_merge($customerField, $descriptionEstate);
+        // $request['custom_field'] = $customerField;
 
         // slide Equiment
-        $slidesEquipment = [];
-        if ($request->has('estate_image_equipment_hidden')) {
-            $slideEquipmentHiddenCount = count($request->get('estate_image_equipment_hidden'));
+        // $slidesEquipment = [];
+        // if ($request->has('estate_image_equipment_hidden')) {
+        //     $slideEquipmentHiddenCount = count($request->get('estate_image_equipment_hidden'));
 
-            for ($i = 0; $i < $slideEquipmentHiddenCount; $i++) {
-                $slideEquipment = null;
-                $urlSlideEquipment = $request->get('estate_image_equipment_hidden')[$i];
-                if (isset($request->file('estate_image_equipment')[$i])) {
-                    $slideEquipment = $request->file('estate_image_equipment')[$i];
-                    $urlSlideEquipment = $this->_uploadPhoto($id, $slideEquipment, $i, 'slides_equipment');
-                }
+        //     for ($i = 0; $i < $slideEquipmentHiddenCount; $i++) {
+        //         $slideEquipment = null;
+        //         $urlSlideEquipment = $request->get('estate_image_equipment_hidden')[$i];
+        //         if (isset($request->file('estate_image_equipment')[$i])) {
+        //             $slideEquipment = $request->file('estate_image_equipment')[$i];
+        //             $urlSlideEquipment = $this->_uploadPhoto($id, $slideEquipment, $i, 'slides_equipment');
+        //         }
 
-                $slidesEquipment[] = [
-                    'slide_equipment' => $urlSlideEquipment,
-                    'caption_equipment' => $request->get('estate_image_equipment_caption')[$i],
-                ];
-            }
-        }
+        //         $slidesEquipment[] = [
+        //             'slide_equipment' => $urlSlideEquipment,
+        //             'caption_equipment' => $request->get('estate_image_equipment_caption')[$i],
+        //         ];
+        //     }
+        // }
 
         // flooring
-        $flooring = [];
-        if ($request->has('estate_image_flooring_hidden')) {
-            $imageFlooringCount = count($request->get('estate_image_flooring_hidden'));
-            for ($i = 0; $i < $imageFlooringCount; $i++) {
-                $slideEquipment = null;
-                $urlImageFlooring = $request->get('estate_image_flooring_hidden')[$i];
-                if (isset($request->file('estate_image_flooring')[$i])) {
-                    $imageFlooring = $request->file('estate_image_flooring')[$i];
-                    $urlImageFlooring = $this->_uploadPhoto($id, $imageFlooring, $i, 'flooring');
-                }
+        // $flooring = [];
+        // if ($request->has('estate_image_flooring_hidden')) {
+        //     $imageFlooringCount = count($request->get('estate_image_flooring_hidden'));
+        //     for ($i = 0; $i < $imageFlooringCount; $i++) {
+        //         $slideEquipment = null;
+        //         $urlImageFlooring = $request->get('estate_image_flooring_hidden')[$i];
+        //         if (isset($request->file('estate_image_flooring')[$i])) {
+        //             $imageFlooring = $request->file('estate_image_flooring')[$i];
+        //             $urlImageFlooring = $this->_uploadPhoto($id, $imageFlooring, $i, 'flooring');
+        //         }
 
-                $flooring[] = [
-                    'flooring_image_url' => $urlImageFlooring,
-                    'flooring_title' => $request->get('estate_flooring_title')[$i],
-                    'flooring_content' => $request->get('estate_flooring_content')[$i],
-                ];
-            }
-        }
+        //         $flooring[] = [
+        //             'flooring_image_url' => $urlImageFlooring,
+        //             'flooring_title' => $request->get('estate_flooring_title')[$i],
+        //             'flooring_content' => $request->get('estate_flooring_content')[$i],
+        //         ];
+        //     }
+        // }
 
         // category tab
-        $categoriesTab = [];
-        if (!empty($request->get('category'))) {
-            $categoriesTab = array_keys($request->get('category'));
-        }
+        // $categoriesTab = [];
+        // if (!empty($request->get('category'))) {
+        //     $categoriesTab = array_keys($request->get('category'));
+        // }
 
         // tab search
-        $tabsSearch = [];
-        if (!empty($request->get('tab_search'))) {
-            $tabsSearch = array_keys($request->get('tab_search'));
-        }
+        // $tabsSearch = [];
+        // if (!empty($request->get('tab_search'))) {
+        //     $tabsSearch = array_keys($request->get('tab_search'));
+        // }
 
         // Validate fields with ajax
         $this->validateBread($request->all(), $dataType->editRows, $dataType->name, $id)->validate();
-        $this->_insertDatabase($id, 'estate_equipment', $slidesEquipment);
-        $this->_insertDatabase($id, 'estate_flooring', $flooring);
-        $this->_insertDatabase($id, 'category_tab_search', $categoriesTab);
-        $this->_insertDatabase($id, 'tab_search', $tabsSearch);
+        // $this->_insertDatabase($id, 'estate_equipment', $slidesEquipment);
+        // $this->_insertDatabase($id, 'estate_flooring', $flooring);
+        // $this->_insertDatabase($id, 'category_tab_search', $categoriesTab);
+        // $this->_insertDatabase($id, 'tab_search', $tabsSearch);
         $this->_insertDatabase($id, 'time_to_join', $request->get('time_to_join'));
         $this->_insertDatabase($id, 'direction', $request->get('direction'));
         $this->_insertDatabase($id, 'company_design', $request->get('company_design'));
@@ -550,9 +560,10 @@ class EstateController extends Controller
             'estate_image.*' => 'image|mimes:jpg,png,jpeg|max:2048',
         ]);
 
-        $this->_insertImages($request, $id);
+        // dd($request->all());
         $this->_insertMainImage($request, $id);
-        $this->_insertBeforAfterImage($request, $id);
+        $this->_insertImages($request, $id);
+        // $this->_insertBeforAfterImage($request, $id);
 
         return $redirect->with([
             'message'    => __('voyager::generic.successfully_updated') . " {$dataType->getTranslatedAttribute('display_name_singular')}",
