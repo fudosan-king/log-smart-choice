@@ -120,6 +120,10 @@ h2 {
     font-size: 1.5em;
 }
 
+.red {
+    color: #EB5757;
+}
+
 .form-control {
     font-size: 0.875em;
     border-color: #BDBDBD;
@@ -141,6 +145,15 @@ h2 {
 
 .custom-control-input:focus ~ .custom-control-label::before {
     box-shadow: none;
+}
+
+.custom-control-label::before {
+    border-color: #EB5757;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+    background-color: #EB5757;
+    border-color: #EB5757;
 }
 
 .relative {
@@ -171,6 +184,11 @@ header {
     transition: all 0.3s;
 }
 
+header #dropdown_user {
+    border: 1px solid #fff;
+    margin-right: 30px;
+}
+
 header .dropdown_user {
     border: 1px solid #fff;
 }
@@ -193,6 +211,8 @@ header .box_user a {
 
 header .box_user a span {
     margin-left: 5px;
+    font-size: 0.75em;
+    font-weight: 600;
 }
 
 header .box_user a:last-of-type {
@@ -632,15 +652,10 @@ ul.list_property li .property_img {
     position: relative;
     width: 100%;
     height: 359px;
-    overflow: hidden;
 }
 
 ul.list_property li .property_img * {
     transition: 0.3s;
-}
-
-ul.list_property li .property_img:hover img {
-    transform: scale(1.1);
 }
 
 ul.list_property li .property_img img {
@@ -952,6 +967,10 @@ footer .footer_bottom .btn img {
     width: auto;
 }
 
+.section_property_main .box_calcu .frm_calcu .repayment_amount {
+    max-width: 162px;
+}
+
 .section_property_main .box_calcu .frm_calcu .title_simulation_result {
     width: auto;
     display: block;
@@ -1188,19 +1207,6 @@ footer .footer_bottom .btn img {
     color: #EB5757;
 }
 
-.section_pass .frm_settingpass .btnsave {
-    background: #EB5757;
-    width: 100%;
-    color: #fff;
-    padding: 13.5px 30px;
-    margin-top: 10px;
-    font-size: 0.875em;
-}
-
-.section_pass .frm_settingpass .btnsave:hover {
-    background: #000;
-}
-
 .section_pass .frm_settingpass p {
     font-size: 0.875em;
 }
@@ -1209,6 +1215,20 @@ footer .footer_bottom .btn img {
     color: #EB5757;
     text-decoration: underline;
     font-weight: 500;
+}
+
+.btnsave {
+    background: #EB5757;
+    width: 100%;
+    color: #fff;
+    padding: 13.5px 30px;
+    margin-top: 10px;
+    font-size: 0.875em;
+}
+
+.btnsave:hover {
+    background: #000;
+    color: #fff;
 }
 
 .section_notice {
@@ -1377,9 +1397,13 @@ footer .footer_bottom .btn img {
     margin-top: 15px;
 }
 
+.section_accinfo h4 span {
+    color: #EB5757;
+}
+
 .section_accinfo p {
     margin-bottom: 0;
-    font-size: 0.875em;
+    font-size: 0.8em;
     padding: 10px 0;
 }
 
@@ -1403,6 +1427,106 @@ footer .footer_bottom .btn img {
     background: #EB5757;
     color: #fff;
     border-color: #EB5757;
+}
+
+.frm_accinfo h4 {
+    margin-bottom: 15px;
+}
+
+.frm_accinfo .box_date {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.frm_accinfo .box_date:after {
+    content: '';
+    position: absolute;
+    right: 40px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background: url("../images/svg/i_down2.svg") no-repeat;
+    width: 8px;
+    height: 8px;
+}
+
+.frm_accinfo .box_date span {
+    margin-left: 10px;
+}
+
+.list_area {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    align-content: stretch;
+}
+
+.list_area li {
+    width: 115px;
+    margin-bottom: 20px;
+}
+
+.list_area li label {
+    font-size: 0.875em;
+}
+
+.box_select {
+    position: relative;
+}
+
+.box_select:after {
+    content: '⁓';
+    position: absolute;
+    right: -22px;
+    top: 5px;
+    bottom: 0;
+    margin: auto;
+}
+
+#chartdiv {
+    width: 100%;
+    height: 213px;
+}
+
+.box_showmore {
+    text-align: center;
+}
+
+.box_showmore span {
+    font-size: 0.875em;
+    display: block;
+    margin-top: 5px;
+}
+
+.btnshowhide {
+    background: url("../images/svg/showhide_down.svg") no-repeat center;
+    text-align: center;
+    display: block;
+    position: relative;
+}
+
+.btnshowhide:after {
+    content: 'お支払いの詳細を見る';
+    position: absolute;
+    top: -30px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    font-size: 0.875em;
+}
+
+.btnshowhide.show {
+    background-image: url("../images/svg/showhide.svg");
+}
+
+.btnshowhide.show:after {
+    opacity: 0;
 }
 
 @media (min-width: 1200px) {
@@ -1469,6 +1593,7 @@ footer .footer_bottom .btn img {
 
     .subtitle {
         margin-bottom: 30px;
+        line-height: 1.3em;
     }
 
     .box_template {
@@ -1640,6 +1765,7 @@ footer .footer_bottom .btn img {
         padding-left: 30px;
         padding-right: 30px;
         margin-right: 5px;
+        width: 48%;
     }
 
     ul.list_property li {
@@ -1654,6 +1780,11 @@ footer .footer_bottom .btn img {
 
     ul.list_property li .property_img p.total_price {
         font-size: 0.75em;
+    }
+
+    ul.list_property li .property_img p.label_custom {
+        padding: 5px;
+        font-size: .5em;
     }
 
     ul.list_property li .property_img img {
@@ -1690,8 +1821,6 @@ footer .footer_bottom .btn img {
     .section_near_property ul.list_property li .property_head {
         border: none;
         padding-top: 0;
-        padding-left: 0;
-        padding-right: 0;
     }
 
     .section_near_property ul.list_property li .property_head p.property_name {
@@ -1704,7 +1833,7 @@ footer .footer_bottom .btn img {
 
     .section_near_property ul.list_property li .property_head p.property_square {
         font-size: 0.625em;
-        margin-left: 10px;
+        line-height: 1em;
     }
 
     .section_near_property ul.list_property li .property_head .btn_wishlist {
@@ -1773,18 +1902,23 @@ footer .footer_bottom .btn img {
         margin-bottom: 0;
     }
 
+    .section_property_main .box_calcu .frm_calcu .form-control {
+        font-size: 1.3em;
+    }
+
+    .section_property_main .box_calcu .frm_calcu .repayment_amount {
+        max-width: 110px;
+    }
+
     .box_renovation_specifications p {
         font-size: 0.75em;
     }
 
     .section_notice .box_notice_item {
         margin: 0 -15px;
+        padding: 10px;
         overflow: hidden;
         transition: all 0.3s;
-    }
-
-    .section_notice .box_notice_item:hover .btn_del {
-        right: 0;
     }
 
     .section_notice .box_notice_item .box_notice_img {
@@ -1796,7 +1930,8 @@ footer .footer_bottom .btn img {
     }
 
     .section_notice .box_notice_item .box_notice_content {
-        padding-left: 15px;
+        padding-left: 10px;
+        padding-right: 10px;
     }
 
     .section_notice .box_notice_item .box_notice_content p {
@@ -1817,13 +1952,14 @@ footer .footer_bottom .btn img {
     }
 
     .section_notice .box_notice_item .btn_del {
-        right: -120px;
-        bottom: 0;
-        top: 0;
-        background: #EB5757;
-        border-radius: 0;
-        width: 120px;
-        height: 100%;
+        right: 10px;
+        bottom: 10px;
+        width: 30px;
+        height: 30px;
+    }
+
+    .section_notice .box_notice_item .btn_del img {
+        width: 60%;
     }
 
     .box_toplogin ul {
@@ -1835,12 +1971,22 @@ footer .footer_bottom .btn img {
         margin-bottom: 10px;
     }
 
+    .section_accinfo h4 {
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+
     .section_accinfo p.head {
         margin-left: 0;
     }
 
     .section_accinfo .btnedit {
         margin-right: 0;
+    }
+
+    .frm_accinfo h4 {
+        margin-left: -15px;
+        margin-right: -15px;
     }
 }
 
@@ -1862,6 +2008,11 @@ footer .footer_bottom .btn img {
     .dropdown_search .dropdown_search_content {
         min-width: 385px;
     }
+
+    footer .footer_bottom .btn {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
 }
 
 @media (max-width: 320px) {
@@ -1871,10 +2022,5 @@ footer .footer_bottom .btn img {
 
     .section_near_property ul.list_property li {
         width: 46.5%;
-    }
-
-    footer .footer_bottom .btn {
-        padding-left: 15px;
-        padding-right: 15px;
     }
 }

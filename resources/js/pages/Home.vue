@@ -2,25 +2,25 @@
     <main id="main">
         <section class="section_banner" style="background-image: url('images/KV.jpg');">
                 <div class="caption d-none d-lg-block">
-                    <img src="images/svg/label.svg" alt="" class="img-fluid" width="430">
+                    <img src="/assets/images/svg/label.svg" alt="" class="img-fluid" width="430">
                     <p>『自分に合った住まい』を考え、新しい暮らしの夢を膨らませませんか？<br>
                     自宅にいながら最適なリノベーションを全力でサポートいたします。</p>
                 </div>
                 <ul>
                     <li>
                         <a href="#">
-                        <img src="images/svg/i_map.svg" alt="" class="img-fluid d-none d-lg-inline-block" width="18">
-                        <img src="images/svg/i_map_black.svg" alt="" class="img-fluid d-inline-block d-lg-none" width="18"> 
+                        <img src="/assets/images/svg/i_map.svg" alt="" class="img-fluid d-none d-lg-inline-block" width="18">
+                        <img src="/assets/images/svg/i_map_black.svg" alt="" class="img-fluid d-inline-block d-lg-none" width="18"> 
                         エリアから探す</a>
                     </li>
                     <li><a href="#">
-                        <img src="images/svg/i_stations.svg" alt="" class="img-fluid d-none d-lg-inline-block" width="13">
-                        <img src="images/svg/i_stations_black.svg" alt="" class="img-fluid d-inline-block d-lg-none" width="13">
+                        <img src="/assets/images/svg/i_stations.svg" alt="" class="img-fluid d-none d-lg-inline-block" width="13">
+                        <img src="/assets/images/svg/i_stations_black.svg" alt="" class="img-fluid d-inline-block d-lg-none" width="13">
                          沿線から探す</a></li>
                     <li>
                         <a href="#">
-                        <img src="images/svg/i_locations.svg" alt="" class="img-fluid d-none d-lg-inline-block" width="14">
-                        <img src="images/svg/i_locations_black.svg" alt="" class="img-fluid d-inline-block d-lg-none" width="14">
+                        <img src="/assets/images/svg/i_locations.svg" alt="" class="img-fluid d-none d-lg-inline-block" width="14">
+                        <img src="/assets/images/svg/i_locations_black.svg" alt="" class="img-fluid d-inline-block d-lg-none" width="14">
                          MAPから探す</a>
                     </li>
                 </ul>

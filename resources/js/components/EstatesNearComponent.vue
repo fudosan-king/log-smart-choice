@@ -55,6 +55,7 @@ Vue.use(Lazyload, {
     attempt: 1
 });
 export default {
+    props: ['dataEstateId'],
     data() {
         return {
             estates: [],
@@ -72,6 +73,7 @@ export default {
         getNearEstates() {
             let accessToken = this.$getCookie('accessToken');
             let data = {};
+            data.estate_id = this.dataEstateId;
             if (accessToken.length > 0) {
                 data.email = this.$getCookie('userSocialId');
                 data.isSocial = true;

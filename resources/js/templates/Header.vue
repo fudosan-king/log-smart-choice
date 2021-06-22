@@ -3,13 +3,13 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
             <a class="navbar-brand" href="/">
                 <img
-                    src="images/svg/logo_orderrenove_white.svg"
+                    src="/assets/images/svg/logo_orderrenove_white.svg"
                     alt=""
                     class="img-fluid d-none d-lg-inline-block"
                     width="224"
                 />
                 <img
-                    src="images/svg/logo_orderrenove_black.svg"
+                    src="/assets/images/svg/logo_orderrenove_black.svg"
                     alt=""
                     class="img-fluid d-inline-block d-lg-none"
                     width="134"
@@ -18,9 +18,9 @@
             <div class="ml-auto box_user">
                 <div class="dropdown dropdown_user">
                     <a id="dropdown_user" href="javascript:void(0)" v-on:click="dropUser">
-                        <img src="images/svg/i_user.svg" alt="" class="img-fluid d-none d-lg-inline-block" width="15" />
+                        <img src="/assets/images/svg/i_user.svg" alt="" class="img-fluid d-none d-lg-inline-block" width="15" />
                         <img
-                            src="images/svg/i_user_black.svg"
+                            src="/assets/images/svg/i_user_black.svg"
                             alt=""
                             class="img-fluid d-inline-block d-lg-none"
                             width="15"
@@ -46,13 +46,13 @@
                 <div class="dropdown dropdown_search">
                     <a id="dropdown_search" href="#" v-on:click="dropSearch">
                         <img
-                            src="images/svg/i_search.svg"
+                            src="/assets/images/svg/i_search.svg"
                             alt=""
                             class="img-fluid d-none d-lg-inline-block"
                             width="16"
                         />
                         <img
-                            src="images/svg/i_search_black.svg"
+                            src="/assets/images/svg/i_search_black.svg"
                             alt=""
                             class="img-fluid d-inline-block d-lg-none"
                             width="16"
@@ -71,7 +71,7 @@
                                             aria-expanded="true"
                                             aria-controls="collapseOne"
                                         >
-                                            <img src="images/svg/i_map_black.svg" alt="" class="img-fluid" width="18" />
+                                            <img src="/images/svg/i_map_black.svg" alt="" class="img-fluid" width="18" />
                                             エリアから探す
                                         </button>
                                     </h2>
@@ -124,7 +124,7 @@
                                             aria-controls="collapseTwo"
                                         >
                                             <img
-                                                src="images/svg/i_stations_black.svg"
+                                                src="/assets/images/svg/i_stations_black.svg"
                                                 alt=""
                                                 class="img-fluid"
                                                 width="13"
@@ -180,7 +180,7 @@
                                             aria-controls="collapseThree"
                                         >
                                             <img
-                                                src="images/svg/i_locations_black.svg"
+                                                src="/assets/images/svg/i_locations_black.svg"
                                                 alt=""
                                                 class="img-fluid"
                                                 width="14"

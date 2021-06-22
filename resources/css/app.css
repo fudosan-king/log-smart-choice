@@ -29,3 +29,8 @@ ul.estate-description-content {
 #main .list_estate {
     padding-top: 9%;
 }
+
+#page .dropdown_user #dropdown_user {
+    border: 0;
+    margin-right: 0;
+}
