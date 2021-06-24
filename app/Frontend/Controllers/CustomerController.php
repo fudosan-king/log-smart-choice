@@ -18,7 +18,7 @@ class CustomerController extends Controller
     public function getCustomer()
     {
         $customerId = auth()->guard('api')->user()->id;
-        $customer = Customer::select('name', 'email', 'phone_number', 'role3d', 'social_id')
+        $customer = Customer::select('name', 'last_name', 'email', 'phone_number', 'role3d', 'social_id', 'birthday', 'land_line')
             ->where('id', $customerId)
             ->where('status', Customer::ACTIVE)
             ->first();
@@ -66,35 +66,35 @@ class CustomerController extends Controller
             }
             $customer = Customer::where('email', $email)->where('id', '<>', $customerId)->first();
             if ($customer) {
-                return $this->response(422, __('auth.email_already_exist'), []);
+                return $this->response(422, ['email' => __('auth.email_already_exist')], []);
             }
         }
 
         if ($phoneNumber) {
             if (strlen($phoneNumber) != 10) {
-                return $this->response(422, 'Invalid phone number format', []);
+                return $this->response(422, ['phone_number' => ['Invalid phone number format']], []);
             }
 
             if (!preg_match($patternPhoneNumber, $phoneNumber)) {
-                return $this->response(422, 'Invalid phone number format', []);
+                return $this->response(422, ['phone_number' => ['Invalid phone number format']], []);
             }
         }
 
         if ($landLine) {
             if (strlen($landLine) != 10) {
-                return $this->response(422, 'Invalid landline format', []);
+                return $this->response(422, ['land_line' => ['Invalid landline format']], []);
             }
 
             if (!preg_match($patternPhoneNumber, $landLine)) {
-                return $this->response(422, 'Invalid landline format', []);
+                return $this->response(422, ['land_line' => ['Invalid landline format']], []);
             }
         }
 
         if ($birthday) {
             if (!checkdate((int)$birthday['month'], (int)$birthday['day'], (int)$birthday['year'])) {
-                return $this->response(422, 'Your birthday is invalid', []);
+                return $this->response(422, ['birthday' => ['Your birthday is invalid']], []);
             }
-            $birthday = (int)$birthday['year'] . '-' . (int)$birthday['month'] . '-' . (int)$birthday['day'];
+            $birthday = (int)$birthday['year'] . '-' . $birthday['month'] . '-' . $birthday['day'];
         }
 
         try {

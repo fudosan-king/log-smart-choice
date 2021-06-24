@@ -354,7 +354,7 @@ class EstateController extends Controller
                     break;
                 }
             }
-    
+
             // list estate same city/station with last estates
             $estatesNear = Estates::select($this->selectField)
                 ->where('status', Estates::STATUS_SALE)

@@ -18,7 +18,12 @@
             <div class="ml-auto box_user">
                 <div class="dropdown dropdown_user">
                     <a id="dropdown_user" href="javascript:void(0)" v-on:click="dropUser">
-                        <img src="/assets/images/svg/i_user.svg" alt="" class="img-fluid d-none d-lg-inline-block" width="15" />
+                        <img
+                            src="/assets/images/svg/i_user.svg"
+                            alt=""
+                            class="img-fluid d-none d-lg-inline-block"
+                            width="15"
+                        />
                         <img
                             src="/assets/images/svg/i_user_black.svg"
                             alt=""
@@ -32,7 +37,9 @@
                             <li>
                                 <a href="javascript:void(0)" v-if="userName">{{ userName }}さま</a>
                             </li>
-                            <li><a href="javascript:void(0)">会員登録情報</a></li>
+                            <li>
+                                <a href="/customer/information">会員登録情報</a>
+                            </li>
                             <li><a href="javascript:void(0)">メルマガ配信希望条件</a></li>
                             <li>
                                 <a href="javascript:void(0)">お知らせ <span>10</span></a>
@@ -71,7 +78,12 @@
                                             aria-expanded="true"
                                             aria-controls="collapseOne"
                                         >
-                                            <img src="/images/svg/i_map_black.svg" alt="" class="img-fluid" width="18" />
+                                            <img
+                                                src="/images/svg/i_map_black.svg"
+                                                alt=""
+                                                class="img-fluid"
+                                                width="18"
+                                            />
                                             エリアから探す
                                         </button>
                                     </h2>
@@ -290,7 +302,7 @@ export default {
                 $('.dropdown_user_content').slideToggle('fast');
                 $('.dropdown_search_content').hide();
             } else {
-                this.$router.push({ name: 'login' });
+                this.$router.push({ name: 'login' }).catch(()=>{});
             }
         },
 

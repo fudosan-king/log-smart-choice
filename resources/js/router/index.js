@@ -58,9 +58,33 @@ const routes = [
         component: () => import('../pages/ReconfirmEmail.vue'),
     },
     {
-        path: '/customer/:verify',
-        name: 'ActiveEmail',
+        path: '/customer/:verify/active-email',
+        name: 'activeEmail',
         component: () => import('../pages/ActiveEmail.vue'),
+    },
+    {
+        path: '/customer/information',
+        name: 'information',
+        component: () => import('../pages/AccountInformation.vue'),
+        meta: {
+            requiresAuth: true,
+        },
+    },
+    {
+        path: '/customer/change-password',
+        name: 'ChangePassword',
+        component: () => import('../pages/ChangePassword.vue'),
+        meta: {
+            requiresAuth: true,
+        },
+    },
+    {
+        path: '/customer/update',
+        name: 'Information',
+        component: () => import('../pages/UpdateInformation.vue'),
+        meta: {
+            requiresAuth: true,
+        },
     },
 ]
 

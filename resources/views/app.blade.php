@@ -27,6 +27,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/css/bootstrap-datepicker.min.css" type="text/css">
+  <link rel="stylesheet" href="/assets/css/bootstrap-datepicker.standalone.min.css" type="text/css">
   <link rel="stylesheet" href="/assets/css/animate.min.css" type="text/css">
   <link rel="stylesheet" type="text/css" href="/assets/css/flickity.min.css">
   <link rel="stylesheet" type="text/css" href="/assets/css/bsnav.min.css">
