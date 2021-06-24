@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { reject } from 'lodash';
 import Vue from 'vue';
 import globalVaiable from '../../../js/globalHelper';
 
@@ -10,7 +11,7 @@ const getters = {};
 
 const actions = {
     customerInfo() {
-        return new Promise((relove, reject) => {
+        return new Promise((resolve, reject) => {
             let accessToken = this._vm.$getCookie('accessToken');
             const auth = this.auth;
             axios({
@@ -24,13 +25,50 @@ const actions = {
                 auth: auth,
             })
                 .then(resp => {
-                    this.customer = resp.data.data;
                     this._vm.$setCookie('userName', resp.data.data.name, 1);
-                    relove(this.customer);
+                    resolve(resp.data.data);
                 })
-                .catch(err => { 
+                .catch(err => {
                     reject(err);
                 });
+        });
+    },
+    changePassword({ }, data) {
+        return new Promise((resolve, reject) => {
+            let accessToken = this._vm.$getCookie('accessToken');
+            const auth = this.auth;
+            axios({
+                url: '/confirm-password',
+                method: 'PUT',
+                data,
+                headers: {
+                    'content-type': 'application/json',
+                    'AuthorizationBearer': `Bearer ${accessToken}`,
+                }, auth: auth,
+            }).then(resp => {
+                resolve(resp.data);
+            }).catch(err => {
+                reject(err);
+            });
+        });
+    },
+    updateInformation({ }, data) {
+        return new Promise((resolve, reject) => {
+            let accessToken = this._vm.$getCookie('accessToken');
+            const auth = this.auth;
+            axios({
+                url: '/customer',
+                method: 'PUT',
+                data,
+                headers: {
+                    'content-type': 'application/json',
+                    'AuthorizationBearer': `Bearer ${accessToken}`,
+                }, auth: auth,
+            }).then(resp => {
+                resolve(resp.data);
+            }).catch(err => {
+                reject(err);
+            });
         });
     }
 };

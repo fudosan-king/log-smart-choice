@@ -123,7 +123,7 @@ class RegisterController extends Controller
      */
     private function _sendActiveEmail(Customer $customer)
     {
-        $link = url('customer') .'/'. $customer->email_verification_token;
+        $link = url('customer') .'/'. $customer->email_verification_token . '/active-email';
         $data = [
             'link'     => $link,
             'customer' => $customer,

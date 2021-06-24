@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { reject } from 'lodash';
 import Vue from 'vue';
 import globalVaiable from '../../../js/globalHelper';
 
