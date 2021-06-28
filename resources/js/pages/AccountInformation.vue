@@ -61,22 +61,24 @@
                                     <p class="head">エリア：</p>
                                 </div>
                                 <div class="col-4 col-lg-4 align-self-center">
-                                    <p>設定無し</p>
+                                    <p>{{ districtList }}</p>
                                 </div>
                                 <div class="col-4 col-lg-4 align-self-center">
-                                    <a href="edit_account_information.php" class="btn btnedit">設定</a>
+                                    <a href="/customer/announcement-condition" class="btn btnedit">設定</a>
                                 </div>
                                 <div class="col-4 col-lg-4">
                                     <p class="head">広さ：</p>
                                 </div>
                                 <div class="col-8 col-lg-8">
-                                    <p>設定無し</p>
+                                    <p v-if="customerInfo.announcement_condition">{{ customerInfo.announcement_condition.price.min }} ~ {{ customerInfo.announcement_condition.price.max }}</p>
+                                    <p v-else>-/-</p>
                                 </div>
                                 <div class="col-4 col-lg-4">
                                     <p class="head">価格：</p>
                                 </div>
                                 <div class="col-8 col-lg-8">
-                                    <p>設定無し</p>
+                                    <p v-if="customerInfo.announcement_condition">{{ customerInfo.announcement_condition.square.min }} ~ {{ customerInfo.announcement_condition.square.max }}</p>
+                                    <p v-else>-/-</p>
                                 </div>
                             </div>
                             <h4>パスワード</h4>
@@ -102,7 +104,8 @@ export default {
     data() {
         return {
             customerInfo: '',
-            moment
+            moment,
+            districtList: '',
         };
     },
     mounted() {
@@ -112,6 +115,16 @@ export default {
         getCustomerInformation() {
             this.$store.dispatch('customerInfo').then(resp => {
                 this.customerInfo = resp;
+                let count = resp.announcement_condition.city.length;
+                let i = 1;
+                resp.announcement_condition.city.forEach(element => {
+                    if (i != count) {
+                        this.districtList += element + ', ';
+                    } else {
+                        this.districtList += element;
+                    }
+                    i++;
+                });
             });
         },
         convertPhone(number) {

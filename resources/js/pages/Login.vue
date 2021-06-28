@@ -94,10 +94,10 @@
                                     </div>
 
 
-                                    <div class="custom-control custom-checkbox mb-3">
+                                    <!-- <div class="custom-control custom-checkbox mb-3">
                                         <input type="checkbox" class="custom-control-input" id="customCheck1">
                                         <label class="custom-control-label" for="customCheck1">入力した情報を保存する</label>
-                                    </div>
+                                    </div> -->
 
                                     <button type="submit" class="btn btnsave mb-3">ログイン</button>
                                     <p class="text-center red">
