@@ -38,7 +38,7 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/customer/announcement-condition', [CustomerController::class, 'updateAnnouncementCondition'])->name('customer.update.announcementCondition');
 
     // Confirm password
-    Route::put('/confirm-password' ,[ConfirmPasswordController::class, 'updatePassword'])->name('customer.update.password');
+    Route::put('/confirm-password', [ConfirmPasswordController::class, 'updatePassword'])->name('customer.update.password');
 
     // Estate
     Route::post('/estate/estate-3d', [EstateController::class, 'updateEstateId3D'])->name('estate.updateIdEstate3D');
@@ -46,9 +46,6 @@ Route::middleware('auth:api')->group(function () {
     // Annoucement
     Route::put('/announcement', [AnnouncementController::class, 'markRead'])->name('announcement.update.read');
     Route::delete('/announcement', [AnnouncementController::class, 'delete'])->name('announcement.delete');
-    
-    // District
-    Route::post('/district', [DistrictController::class, 'list'])->name('district.list');
 });
 
 // auth
@@ -66,8 +63,10 @@ Route::post('/google-login', [LoginController::class, 'socialLogin']);
 Route::post('/facebook-login', [LoginController::class, 'socialLogin']);
 
 // station
-Route::get('/stations/list', [StationController::class, 'getAll']);
+Route::post('/stations/list', [StationController::class, 'getAll'])->name('station.list');
 
+// District
+Route::post('/district/list', [DistrictController::class, 'list'])->name('district.list');
 
 //estate
 Route::group(['prefix' => 'list'], function () {

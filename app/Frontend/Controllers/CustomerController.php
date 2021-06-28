@@ -18,13 +18,18 @@ class CustomerController extends Controller
     public function getCustomer()
     {
         $customerId = auth()->guard('api')->user()->id;
-        $customer = Customer::select('name', 'last_name', 'email', 'phone_number', 'role3d', 'social_id', 'birthday', 'land_line')
+        $customer = Customer::select(
+            'name', 'last_name', 'email', 'phone_number',
+            'role3d', 'social_id', 'birthday', 'land_line',
+            'announcement_condition'
+            )
             ->where('id', $customerId)
             ->where('status', Customer::ACTIVE)
             ->first();
         if ($customer) {
             $customer->is_logged = Auth::check();
             $customer->role3d = Customer::ROLE3D[$customer->role3d];
+            $customer->announcement_condition = json_decode($customer->announcement_condition, true);
             return $this->response(200, __('customer.customer_success'), $customer, true);
         }
         return $this->response(422, __('customer.customer_fail'));
@@ -129,11 +134,11 @@ class CustomerController extends Controller
         $square = $request->get('square');
 
         if ($price && $price['min'] > $price['max']) {
-            return $this->response(422, 'Invalid price', []);
+            return $this->response(422, ['total_price' => ['Invalid price']], []);
         }
 
         if ($square && $square['min'] > $square['max']) {
-            return $this->response(422, 'Invalid square', []);
+            return $this->response(422, ['square' => ['Invalid square']], []);
         }
 
         $data = [

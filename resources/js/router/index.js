@@ -80,8 +80,16 @@ const routes = [
     },
     {
         path: '/customer/update',
-        name: 'Information',
+        name: 'updateInformation',
         component: () => import('../pages/UpdateInformation.vue'),
+        meta: {
+            requiresAuth: true,
+        },
+    },
+    {
+        path: '/customer/announcement-condition',
+        name: 'announcementCondition',
+        component: () => import('../pages/AnnouncementCondition.vue'),
         meta: {
             requiresAuth: true,
         },

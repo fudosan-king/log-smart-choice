@@ -5,29 +5,24 @@
                 <img
                     src="/assets/images/svg/logo_orderrenove_white.svg"
                     alt=""
-                    class="img-fluid d-none d-lg-inline-block"
+                    class="img-fluid white-logo"
                     width="224"
                 />
                 <img
                     src="/assets/images/svg/logo_orderrenove_black.svg"
                     alt=""
-                    class="img-fluid d-inline-block d-lg-none"
-                    width="134"
+                    class="img-fluid black-logo"
+                    width="224"
                 />
             </a>
             <div class="ml-auto box_user">
-                <div class="dropdown dropdown_user">
-                    <a id="dropdown_user" href="javascript:void(0)" v-on:click="dropUser">
-                        <img
-                            src="/assets/images/svg/i_user.svg"
-                            alt=""
-                            class="img-fluid d-none d-lg-inline-block"
-                            width="15"
-                        />
+                <div class="dropdown dropdown_user mr-3">
+                    <a class="dropdown_user drop-user" href="javascript:void(0)" v-on:click="dropUser">
+                        <img src="/assets/images/svg/i_user.svg" alt="" class="img-fluid icon-user-white" width="15" />
                         <img
                             src="/assets/images/svg/i_user_black.svg"
                             alt=""
-                            class="img-fluid d-inline-block d-lg-none"
+                            class="img-fluid icon-user-black"
                             width="15"
                         />
                         <span>ログイン</span>
@@ -55,13 +50,13 @@
                         <img
                             src="/assets/images/svg/i_search.svg"
                             alt=""
-                            class="img-fluid d-none d-lg-inline-block"
+                            class="img-fluid icon-search-white"
                             width="16"
                         />
                         <img
                             src="/assets/images/svg/i_search_black.svg"
                             alt=""
-                            class="img-fluid d-inline-block d-lg-none"
+                            class="img-fluid icon-search-black"
                             width="16"
                         />
                     </a>
@@ -274,9 +269,25 @@ export default {
     },
     mounted() {
         window.addEventListener('scroll', this.scrollListener);
-        let compressHeaders = ['home'];
+        let compressHeaders = ['home', 'announcementCondition'];
+        let subHeader = ['announcementCondition'];
         if (!compressHeaders.includes(this.$route.name)) {
             $('header').addClass('compressed');
+        }
+        if (subHeader.includes(this.$route.name)) {
+            $('header').addClass('subheader');
+            $('.white-logo').addClass('d-none');
+            $('.icon-user-white').addClass('d-none');
+            $('.icon-search-white').addClass('d-none');
+            $('.drop-user').css('border-color', '#000');
+            $('.drop-user').css('border', '1px solid');
+            $('.drop-user').css('color', '#000');
+        }
+
+        if (this.$route.name == 'home') {
+            $('.black-logo').addClass('d-lg-none');
+            $('.icon-user-black').addClass('d-lg-none');
+            $('.icon-search-black').addClass('d-lg-none');
         }
     },
     methods: {
@@ -302,7 +313,7 @@ export default {
                 $('.dropdown_user_content').slideToggle('fast');
                 $('.dropdown_search_content').hide();
             } else {
-                this.$router.push({ name: 'login' }).catch(()=>{});
+                this.$router.push({ name: 'login' }).catch(() => {});
             }
         },
 
@@ -313,12 +324,37 @@ export default {
         },
 
         scrollListener() {
-            let compressHeaders = ['home'];
+            let compressHeaders = ['home', 'announcementCondition'];
             if (compressHeaders.includes(this.$route.name)) {
                 if (window.pageYOffset > 0) {
                     $('header').addClass('compressed');
                 } else {
                     $('header').removeClass('compressed');
+                    // $('.white-logo').addClass('d-none d-lg-inline-block');
+                    // $('.black-logo').addClass('d-inline-block d-lg-none');
+                }
+            }
+            if (this.$route.name == 'announcementCondition') {
+                if (window.pageYOffset > 0) {
+                    $('.white-logo').removeClass('d-none');
+                    $('.icon-user-white').removeClass('d-none');
+                    $('.icon-search-white').removeClass('d-none');
+                    $('.black-logo').addClass('d-none');
+                    $('.icon-user-black').addClass('d-lg-none');
+                    $('.icon-search-black').addClass('d-lg-none');
+                    $('.drop-user').css('border-color', 'white');
+                    $('.drop-user').css('border', '1px solid');
+                    $('.drop-user').css('color', 'white');
+                } else {
+                    $('.black-logo').removeClass('d-none');
+                    $('.icon-user-black').removeClass('d-lg-none');
+                    $('.icon-search-black').removeClass('d-lg-none');
+                    $('.white-logo').addClass('d-none');
+                    $('.icon-user-white').addClass('d-none');
+                    $('.icon-search-white').addClass('d-none');
+                    $('.drop-user').css('border-color', '#000');
+                    $('.drop-user').css('border', '1px solid');
+                    $('.drop-user').css('color', '#000');
                 }
             }
         }

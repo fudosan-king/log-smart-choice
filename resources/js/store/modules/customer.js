@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { reject } from 'lodash';
 import Vue from 'vue';
 import globalVaiable from '../../../js/globalHelper';
 
@@ -57,7 +56,7 @@ const actions = {
             let accessToken = this._vm.$getCookie('accessToken');
             const auth = this.auth;
             axios({
-                url: '/customer',
+                url: '/customer/announcement-condition',
                 method: 'PUT',
                 data,
                 headers: {
