@@ -2,8 +2,7 @@
     <ul class="list_property" v-if="estates.length">
         <li v-for="(estate, index) in estates">
             <div class="property_img">
-                <a v-bind:href="'/detail/' + estate._id"
-                    >
+                <a v-bind:href="'/detail/' + estate._id">
                     <img
                         v-lazy="
                             estate.estate_information
@@ -12,10 +11,12 @@
                         "
                         alt=""
                         class="img-fluid"
-                />
+                    />
                 </a>
                 <p class="total_price">
                     {{ estate.total_price }}<span>万円</span><span class="sub">（物件＋リノベーション）</span>
+                </p>
+
                 <p class="label_custom" v-if="estate.renovation_type == 'カスタム可能物件'">カスタム<br />可能物件</p>
                 <p class="label_custom renovated" v-else>リノベ済<br />物件</p>
             </div>
@@ -55,12 +56,15 @@ Vue.use(Lazyload, {
     attempt: 1
 });
 export default {
-    props: ['dataEstateId'],
+    props: {
+        estateId: String
+    },
     data() {
         return {
             estates: [],
             accessToken: false,
-            existedEstate: false
+            existedEstate: false,
+
         };
     },
     components: {
@@ -73,7 +77,7 @@ export default {
         getNearEstates() {
             let accessToken = this.$getCookie('accessToken');
             let data = {};
-            data.estate_id = this.dataEstateId;
+            data.estate_id = this.estateId;
             if (accessToken.length > 0) {
                 data.email = this.$getCookie('userSocialId');
                 data.isSocial = true;
