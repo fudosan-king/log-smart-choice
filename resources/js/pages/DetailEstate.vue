@@ -379,7 +379,12 @@
                     <div class="row">
                         <div class="col-12 col-lg-12">
                             <h2 class="title">表参道エリアの物件</h2>
-                            <estates-near-component :data-estate-id="estate._id"></estates-near-component>
+                            <template v-if="estate._id">
+                                <div>
+                                    <estates-near-component :estate-id="estate._id"></estates-near-component>
+                                </div>
+                            </template>
+
                             <p class="text-center mt-3">
                                 <a v-bind:href="'/list'" class="btn btnSeemore">もっと見る</a>
                             </p>
@@ -408,15 +413,6 @@ export default {
         PieChartComponent: () => import('../components/PieChartComponent')
     },
     data() {
-        $('.js-range-slider').ionRangeSlider({
-            min: 0,
-            max: 35,
-            from: 10,
-            onChange: function(data) {
-                console.log(estate['total_price']);
-            }
-        });
-
         return {
             estate: [],
             mainPhoto: '/assets/images/bg_top.jpg',
@@ -428,10 +424,10 @@ export default {
             imageAfter: '',
             otherFee: [],
             payTerm: '',
-            srcMap: ''
+            srcMap: '',
         };
     },
-    created() {
+    mounted() {
         this.getListEstates();
     },
     methods: {
@@ -473,7 +469,6 @@ export default {
                         }
                         this.estateInfo = this.estate['estate_information'];
                     }
-                    console.log(this.estate);
                     if (this.estate.latitude && this.estate.longitude) {
                         this.srcMap =
                             'https://www.google.com/maps?q=' +
@@ -485,7 +480,8 @@ export default {
                 }
             });
         },
-        change() {}
+        change() {
+        }
     },
     updated() {
         let estate = this.estate;
@@ -505,15 +501,20 @@ export default {
             pageDots: false,
             prevNextButtons: false
         });
+
         $('.js-range-slider').ionRangeSlider({
             min: 0,
-            from: 10
+            max: 35,
+            from: 10,
+            onChange: function(data) {
+                console.log(data);
+            }
         });
 
-        var monthlyLoanPayment = $('.monthly-loan-payment');
+        // var monthlyLoanPayment = $('.monthly-loan-payment');
 
         var payTerm = $('.js-range-slider1');
-        var payTermInput, interestInput;
+        var payTermInput , interestInput;
         payTerm.ionRangeSlider({
             min: 0,
             max: 35,
@@ -524,6 +525,7 @@ export default {
             let input = $(this);
             $('.pay-term').val(input.data('from'));
             payTermInput = input.data('from');
+
         });
 
         var interest = $('.js-range-slider2');
@@ -539,7 +541,6 @@ export default {
             $('.interest').val(input.data('from'));
             interestInput = input.data('from');
         });
-
         // console.log(interestInput);
         // console.log(payTermInput);
         // var monthlyPayment = payTermInput * (interestInput / 12) * (1 + (interestInput/12));

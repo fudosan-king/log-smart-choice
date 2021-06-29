@@ -46,6 +46,8 @@ Route::middleware('auth:api')->group(function () {
     // Annoucement
     Route::put('/announcement', [AnnouncementController::class, 'markRead'])->name('announcement.update.read');
     Route::delete('/announcement', [AnnouncementController::class, 'delete'])->name('announcement.delete');
+    Route::post('/announcement/list', [AnnouncementController::class, 'listAnnouncement'])->name('announcement.list');
+
 });
 
 // auth
