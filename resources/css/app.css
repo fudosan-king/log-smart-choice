@@ -34,3 +34,11 @@ ul.estate-description-content {
     border: 0;
     margin-right: 0;
 }
+
+#main .box_template {
+    padding-top: 90px;
+}
+
+footer .footer_bottom .btn {
+    font-size: 0.775em
+}
