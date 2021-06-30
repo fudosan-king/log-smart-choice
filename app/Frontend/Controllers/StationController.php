@@ -10,8 +10,18 @@ use App\Models\Station;
 class StationController extends Controller
 {
 
-    public function getAll() {
+    /**
+     * getAll
+     *
+     * @return void
+     */
+    public function getAll()
+    {
         $stations = Station::get();
-        return response()->json($stations);
+        if ($stations) {
+            return $this->response(200, 'Get list station success', $stations, true);
+        }
+
+        return $this->response(422, 'Get list station fail', []);
     }
 }
