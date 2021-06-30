@@ -8,8 +8,15 @@ use Illuminate\Http\Request;
 
 class DistrictController extends Controller
 {
-
-    public function list(Request $request) {
+    
+    /**
+     * list
+     *
+     * @param  mixed $request
+     * @return void
+     */
+    public function list(Request $request)
+    {
 
         $district = District::select('id', 'name')->where('status', District::STATUS_ACTIVATE)->get();
 

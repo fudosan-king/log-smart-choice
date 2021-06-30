@@ -10,9 +10,10 @@
             >
                 <div class="property_img">
                     <a v-bind:href="'/detail/' + estate._id"
-                        ><img
+                        >
+                        <img
                             v-lazy="
-                                estate.estate_information
+                                estate.estate_information.estate_main_photo[0]
                                     ? estate.estate_information.estate_main_photo[0].url_path
                                     : '/images/no-image.png'
                             "
@@ -30,7 +31,6 @@
                 <div class="property_head">
                     <div class="row">
                         <div class="col-10 col-lg-10">
-                            {{estate._id}}
                             <p class="property_name">{{ estate.estate_name }}</p>
                             <p class="property_address" v-if="estate.address">
                                 {{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}
@@ -74,7 +74,7 @@ export default {
             heigthOfList: 0,
             isHidden: false,
             accessToken: false,
-            lastEstate:[],
+            lastEstate: []
         };
     },
     components: {
@@ -97,10 +97,18 @@ export default {
         // Gui yeu cau den server sau moi lan cuon xuong
         getListEstates(pageLoad) {
             let accessToken = this.$getCookie('accessToken');
+            let district = this.$getCookie('district');
+            let station = this.$getCookie('station');
             let data = {
                 limit: 4,
                 page: pageLoad
             };
+            if (district.length != 0) {
+                data.address = district;
+            }
+            if (station.length != 0) {
+                data.station = station;
+            }
             if (accessToken.length > 0) {
                 data.email = this.$getCookie('userSocialId');
                 data.isSocial = true;
@@ -109,6 +117,7 @@ export default {
                     data.email = this.$getCookie('userEmail');
                     data.isSocial = false;
                 }
+                console.log(data);
                 this.$store.dispatch('getEstateList', data).then(res => {
                     this.estates = this.estates.concat(res[0]['data']);
                     this.lastEstate = res[0]['lastedEstate'];
@@ -149,7 +158,7 @@ export default {
         },
 
         // Add states to wishlist
-        
+
         addToWishList(estateId, isWish) {
             let accessToken = this.$getCookie('accessToken');
             if (accessToken != '') {

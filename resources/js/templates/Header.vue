@@ -5,14 +5,14 @@
                 <img
                     src="/assets/images/svg/logo_orderrenove_white.svg"
                     alt=""
-                    class="img-fluid white-logo"
+                    class="img-fluid white-logo i_white"
                     width="224"
                 />
                 <img
                     src="/assets/images/svg/logo_orderrenove_black.svg"
                     alt=""
-                    class="img-fluid black-logo"
-                    width="224"
+                    class="img-fluid black-logo i_black"
+                    width="134"
                 />
             </a>
             <div class="ml-auto box_user">
@@ -90,31 +90,15 @@
                                     aria-labelledby="headingOne"
                                     data-parent="#accordionExample"
                                 >
-                                    <div class="card-body">
+                                    <div class="card-body districts">
                                         <ul>
-                                            <li><a href="#">足立区</a></li>
-                                            <li><a href="">荒川区</a></li>
-                                            <li><a href="">板橋区</a></li>
-                                            <li><a href="">江戸川区</a></li>
-                                            <li><a href="">大田区</a></li>
-                                            <li><a href="">葛飾区</a></li>
-                                            <li><a href="">北区</a></li>
-                                            <li><a href="">江東区</a></li>
-                                            <li><a href="">品川区</a></li>
-                                            <li><a href="">渋谷区</a></li>
-                                            <li><a href="">新宿区</a></li>
-                                            <li><a href="">杉並区</a></li>
-                                            <li><a href="">墨田区</a></li>
-                                            <li><a href="">世田谷区</a></li>
-                                            <li><a href="">台東区</a></li>
-                                            <li><a href="">千代田区</a></li>
-                                            <li><a href="">中央区</a></li>
-                                            <li><a href="">豊島区</a></li>
-                                            <li><a href="">中野区</a></li>
-                                            <li><a href="">練馬区</a></li>
-                                            <li><a href="">文京区</a></li>
-                                            <li><a href="">港区</a></li>
-                                            <li><a href="">目黒区</a></li>
+                                            <li v-for="district in districtList">
+                                                <a
+                                                    href="javascript:void(0)"
+                                                    v-on:click="searchDistrict(district.name)"
+                                                    >{{ district.name }}</a
+                                                >
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -146,36 +130,18 @@
                                     aria-labelledby="headingTwo"
                                     data-parent="#accordionExample"
                                 >
-                                    <div class="card-body">
+                                    <div class="card-body stations">
                                         <ul>
-                                            <li><a href="#">足立区</a></li>
-                                            <li><a href="">荒川区</a></li>
-                                            <li><a href="">板橋区</a></li>
-                                            <li><a href="">江戸川区</a></li>
-                                            <li><a href="">大田区</a></li>
-                                            <li><a href="">葛飾区</a></li>
-                                            <li><a href="">北区</a></li>
-                                            <li><a href="">江東区</a></li>
-                                            <li><a href="">品川区</a></li>
-                                            <li><a href="">渋谷区</a></li>
-                                            <li><a href="">新宿区</a></li>
-                                            <li><a href="">杉並区</a></li>
-                                            <li><a href="">墨田区</a></li>
-                                            <li><a href="">世田谷区</a></li>
-                                            <li><a href="">台東区</a></li>
-                                            <li><a href="">千代田区</a></li>
-                                            <li><a href="">中央区</a></li>
-                                            <li><a href="">豊島区</a></li>
-                                            <li><a href="">中野区</a></li>
-                                            <li><a href="">練馬区</a></li>
-                                            <li><a href="">文京区</a></li>
-                                            <li><a href="">港区</a></li>
-                                            <li><a href="">目黒区</a></li>
+                                            <li v-for="station in stationList">
+                                                <a href="javascript:void(0)" v-on:click="searchStation(station)">{{
+                                                    station
+                                                }}</a>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
-                            <div class="card">
+                            <!-- <div class="card">
                                 <div class="card-header" id="headingThree">
                                     <h2 class="mb-0">
                                         <button
@@ -230,25 +196,11 @@
                                         </ul>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
-                <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button> -->
             </div>
-
-            <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#"><img src="images/svg/i_user.svg" alt="" class="img-fluid" width="15"> ログイン</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><img src="images/svg/i_search.svg" alt="" class="img-fluid" width="16"></a>
-                </li>
-            </ul>
-        </div> -->
         </nav>
     </header>
 </template>
@@ -264,7 +216,9 @@ export default {
         return {
             page: page,
             logoBlack: logoBlack,
-            userName: userName
+            userName: userName,
+            districtList: {},
+            stationList: {}
         };
     },
     mounted() {
@@ -289,6 +243,9 @@ export default {
             $('.icon-user-black').addClass('d-lg-none');
             $('.icon-search-black').addClass('d-lg-none');
         }
+
+        this.getStation();
+        this.getDistrict();
     },
     methods: {
         logout() {
@@ -300,6 +257,8 @@ export default {
                     this.$setCookie('userName', '', 1);
                     this.$setCookie('userEmail', '', 1);
                     this.$setCookie('userSocialId', '', 1);
+                    this.$setCookie('district', '', 1);
+                    this.$setCookie('station', '', 1);
                     delete axios.defaults.headers.common['Authorization'];
                     this.$router.go(0);
                 })
@@ -330,11 +289,12 @@ export default {
                     $('header').addClass('compressed');
                 } else {
                     $('header').removeClass('compressed');
-                    // $('.white-logo').addClass('d-none d-lg-inline-block');
-                    // $('.black-logo').addClass('d-inline-block d-lg-none');
                 }
             }
-            if (this.$route.name == 'announcementCondition') {
+
+            let useDiffrenceHeader = ['announcementCondition'];
+
+            if (useDiffrenceHeader.includes(this.$route.name)) {
                 if (window.pageYOffset > 0) {
                     $('.white-logo').removeClass('d-none');
                     $('.icon-user-white').removeClass('d-none');
@@ -357,11 +317,50 @@ export default {
                     $('.drop-user').css('color', '#000');
                 }
             }
-        }
-    },
-    computed: {
-        customerInfo() {
-            return this.$getCookie('userName');
+        },
+
+        getDistrict() {
+            this.$store.dispatch('getDistrict').then(response => {
+                this.districtList = response.data;
+            });
+        },
+
+        getStation() {
+            this.$store.dispatch('getStation').then(response => {
+                this.stationList = response;
+            });
+        },
+
+        searchDistrict(district) {
+            let cookieStation = this.$getCookie('station');
+            if (cookieStation.length > 0) {
+                this.$setCookie('station', '', 1);
+            }
+            this.$setCookie('district', district, 1);
+            this.$router
+                .push({ name: 'list' })
+                .then(() => {
+                    this.$router.go('0');
+                })
+                .catch(() => {
+                    this.$router.go('0');
+                });
+        },
+
+        searchStation(station) {
+            let cookieDistrict = this.$getCookie('district');
+            if (cookieDistrict.length > 0) {
+                this.$setCookie('district', '', 1);
+            }
+            this.$setCookie('station', station, 1);
+            this.$router
+                .push({ name: 'list' })
+                .then(() => {
+                    this.$router.go('0');
+                })
+                .catch(() => {
+                    this.$router.go('0');
+                });
         }
     }
 };
