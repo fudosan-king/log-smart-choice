@@ -117,7 +117,6 @@ export default {
                     data.email = this.$getCookie('userEmail');
                     data.isSocial = false;
                 }
-                console.log(data);
                 this.$store.dispatch('getEstateList', data).then(res => {
                     this.estates = this.estates.concat(res[0]['data']);
                     this.lastEstate = res[0]['lastedEstate'];

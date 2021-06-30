@@ -70,15 +70,13 @@
                                     <p class="head">広さ：</p>
                                 </div>
                                 <div class="col-8 col-lg-8">
-                                    <p v-if="customerInfo.announcement_condition">{{ customerInfo.announcement_condition.price.min }} ~ {{ customerInfo.announcement_condition.price.max }}</p>
-                                    <p v-else>-/-</p>
+                                    <p>{{ priceTotal }}</p>
                                 </div>
                                 <div class="col-4 col-lg-4">
                                     <p class="head">価格：</p>
                                 </div>
                                 <div class="col-8 col-lg-8">
-                                    <p v-if="customerInfo.announcement_condition">{{ customerInfo.announcement_condition.square.min }} ~ {{ customerInfo.announcement_condition.square.max }}</p>
-                                    <p v-else>-/-</p>
+                                    <p>{{ square }}</p>
                                 </div>
                             </div>
                             <h4>パスワード</h4>
@@ -105,7 +103,9 @@ export default {
         return {
             customerInfo: '',
             moment,
-            districtList: '',
+            districtList: '-/-',
+            priceTotal: '-/-',
+            square: '-/-'
         };
     },
     mounted() {
@@ -115,16 +115,38 @@ export default {
         getCustomerInformation() {
             this.$store.dispatch('customerInfo').then(resp => {
                 this.customerInfo = resp;
-                let count = resp.announcement_condition.city.length;
-                let i = 1;
-                resp.announcement_condition.city.forEach(element => {
-                    if (i != count) {
-                        this.districtList += element + ', ';
+                if (resp.announcement_condition) {
+                    let district = resp.announcement_condition.city;
+                    let price = resp.announcement_condition.price;
+                    let square = resp.announcement_condition.square;
+                    if (district === null) {
+                        this.districtList = '-/-';
                     } else {
-                        this.districtList += element;
+                        let i = 1;
+                        let count = district.length;
+                        this.districtList = '';
+                        district.forEach(element => {
+                            if (i != count) {
+                                this.districtList += element + ', ';
+                            } else {
+                                this.districtList += element;
+                            }
+                            i++;
+                        });
                     }
-                    i++;
-                });
+
+                    if (price === null) {
+                        this.priceTotal = '-/-';
+                    } else {
+                        this.priceTotal = price.min + '~' + price.max;
+                    }
+
+                    if (square === null) {
+                        this.square = '-/-';
+                    } else {
+                        this.square = square.min + '~' + square.max;
+                    }
+                }
             });
         },
         convertPhone(number) {
