@@ -9,4 +9,6 @@ return [
     'activate_account_fail' => 'Kích hoạt tài khoản thất bại',
     'customer_fail' => 'Customer không hợp lệ',
     'customer_success' => 'Customer hợp lệ',
+    'price_invalid' => '無効な価格',
+    'square_invalid' => '無効な面積',
 ];

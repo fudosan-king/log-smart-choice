@@ -104,7 +104,7 @@
                                                                     class="form-control monthly-loan-payment"
                                                                     placeholder="155,089"
                                                                 />
-                                                                <span class="ml-2">円</span>
+                                                                <span class="ml-2 sub">円</span>
                                                             </div>
                                                         </div>
                                                         <div class="form-group">
@@ -120,11 +120,11 @@
                                                         </div>
                                                         <div class="form-group mb-0">
                                                             <label class="mb-0" for="">管理費</label>
-                                                            <h5>{{ estate.management_fee }}<span>万／月</span></h5>
+                                                            <h5>{{ estate.management_fee }}<span>円／月</span></h5>
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="mb-0" for="">修繕積立金</label>
-                                                            <h5>26,000<span>万／月</span></h5>
+                                                            <h5>26,000<span>円／月</span></h5>
                                                         </div>
                                                     </div>
                                                     <div class="col-6 col-lg-6">
@@ -165,17 +165,17 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group mb-4">
+                                                <div class="form-group mb-5">
                                                     <input
                                                         type="text"
                                                         class="js-range-slider"
                                                         name="my_range"
                                                         value=""
-                                                        :data-max="estate.total_price"
                                                     />
 
                                                     <!-- <range-slide-component></range-slide-component> -->
                                                 </div>
+                                                <hr />
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-6 col-lg-6">
