@@ -94,6 +94,11 @@ const routes = [
             requiresAuth: true,
         },
     },
+    {
+        path: '/welcome',
+        name: 'wecome',
+        component: () => import('../pages/Welcome.vue'),
+    },
 ]
 
 const router = new VueRouter({
