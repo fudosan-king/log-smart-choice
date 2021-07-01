@@ -84,7 +84,23 @@ const routes = [
         component: () => import('../pages/UpdateInformation.vue'),
         meta: {
             requiresAuth: true,
-        },
+        }
+    },
+    {
+        path: '/wishlist',
+        name: 'wishlist',
+        component: () => import('../pages/Wishlist.vue'),
+        meta: {
+            requiresAuth: true,
+        }
+    },
+    {
+        path: '/notice',
+        name: 'notice',
+        component: () => import('../pages/Notice.vue'),
+        meta: {
+            requiresAuth: true,
+        }
     },
     {
         path: '/customer/announcement-condition',
