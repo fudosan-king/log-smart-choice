@@ -194,7 +194,7 @@ export default {
                 };
                 var content = 'メルマガ配信希望条件が正常に変更されました！';
                 this.$store
-                    .dispatch('updateInformation', data)
+                    .dispatch('updateAnnouncement', data)
                     .then(resp => {
                         this.disabled = true;
                         this.$swal('メルマガ配信希望条件', content, 'success').then(result => {

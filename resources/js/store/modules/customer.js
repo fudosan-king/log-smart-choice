@@ -56,6 +56,26 @@ const actions = {
             let accessToken = this._vm.$getCookie('accessToken');
             const auth = this.auth;
             axios({
+                url: '/customer',
+                method: 'PUT',
+                data,
+                headers: {
+                    'content-type': 'application/json',
+                    'AuthorizationBearer': `Bearer ${accessToken}`,
+                }, auth: auth,
+            }).then(resp => {
+                resolve(resp.data);
+            }).catch(err => {
+                reject(err);
+            });
+        });
+    },
+
+    updateAnnouncement({}, data) {
+        return new Promise((resolve, reject) => {
+            let accessToken = this._vm.$getCookie('accessToken');
+            const auth = this.auth;
+            axios({
                 url: '/customer/announcement-condition',
                 method: 'PUT',
                 data,
