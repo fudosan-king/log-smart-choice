@@ -153,8 +153,8 @@ export default {
             let first, second, third;
             if (number) {
                 first = number.slice(0, 3);
-                second = number.slice(4, 8);
-                third = number.slice(8, 12);
+                second = number.slice(3, 7);
+                third = number.slice(7, 12);
                 return first + '-' + second + '-' + third;
             } else {
                 return '-';
