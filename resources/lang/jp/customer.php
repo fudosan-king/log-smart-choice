@@ -11,4 +11,6 @@ return [
     'customer_success' => 'Customer hợp lệ',
     'price_invalid' => '無効な価格',
     'square_invalid' => '無効な面積',
+    'phonenumber_invalid' => '電話番号が無効です',
+    'landline_invalid' => '電話番号が無効です',
 ];

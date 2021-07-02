@@ -9,4 +9,8 @@ return [
     'activate_account_fail' => 'Kích hoạt tài khoản thất bại',
     'customer_fail' => 'Customer invalid',
     'customer_success' => 'Customer get success',
+    'price_invalid' => 'Invalid price',
+    'square_invalid' => 'Invalide square',
+    'phonenumber_invalid' => 'Invalid phone number',
+    'landline_invalid' => 'Invalid landline',
 ];
