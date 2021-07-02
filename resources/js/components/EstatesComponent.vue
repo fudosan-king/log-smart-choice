@@ -41,7 +41,7 @@
                         <div class="col-2 col-lg-2">
                             <template v-if="accessToken">
                                 <a @click="addToWishList(estate._id, estate.is_wish)">
-                                    <WishlistComponent :data-wished="estate.is_wish"></WishlistComponent>
+                                    <WishlistComponent :estate-id="estate._id" :data-wished="estate.is_wish"></WishlistComponent>
                                 </a>
                             </template>
                         </div>
@@ -49,6 +49,10 @@
                 </div>
             </li>
         </ul>
+        <div class="loading" v-if="hasMore" style="text-align: center;">
+            <img v-lazy="`/images/loading.gif`" />
+        </div>
+
     </div>
 </template>
 
@@ -70,7 +74,7 @@ export default {
             page: 2,
             offsetTop: 0,
             heigthOfList: 0,
-            isHidden: false,
+            hasMore: true,
             accessToken: false,
             lastEstate: [],
             titleSearch: '全物件',
@@ -108,6 +112,7 @@ export default {
             if (station.length != 0) {
                 data.station = station;
             }
+            
             if (accessToken.length > 0) {
                 data.email = this.$getCookie('userSocialId');
                 data.isSocial = true;
@@ -116,14 +121,25 @@ export default {
                     data.email = this.$getCookie('userEmail');
                     data.isSocial = false;
                 }
+
                 this.$store.dispatch('getEstateList', data).then(res => {
                     this.estates = this.estates.concat(res[0]['data']);
                     this.lastEstate = res[0]['lastedEstate'];
+                    if (this.estates.length < res[0].total) {
+                        this.hasMore = true;
+                    } else {
+                        this.hasMore = false;
+                    }
                 });
             } else {
                 this.$store.dispatch('getEstateList', data).then(res => {
                     this.estates = this.estates.concat(res[0]['data']);
                     this.lastEstate = res[0]['lastedEstate'];
+                    if (this.estates.length < res[0].total) {
+                        this.hasMore = true;
+                    } else {
+                        this.hasMore = false;
+                    }
                 });
             }
             if (this.$getCookie('district')) {
@@ -133,6 +149,7 @@ export default {
             if (this.$getCookie('station')) {
                 this.titleSearch = this.$getCookie('station');
             }
+
         },
         // Khi them danh sach phia duoi thi tinh toan lai do cao
         setOffsetTop() {
@@ -154,8 +171,7 @@ export default {
             }
             let space = 423 * (this.page - 2);
             // console.log('Sroll at %d - Offset Top at %d - Space: %d', document.documentElement.scrollTop, this.offsetTop, space);
-            if (document.documentElement.scrollTop - space > this.offsetTop) {
-                this.isHidden = false;
+            if (document.documentElement.scrollTop - space > this.offsetTop && this.hasMore) {
                 this.getListEstates(this.page);
                 this.setOffsetTop();
                 this.page++;

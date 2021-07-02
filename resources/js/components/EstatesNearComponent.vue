@@ -16,25 +16,25 @@
                 <p class="total_price">
                     {{ estate.total_price }}<span>万円</span><span class="sub">（物件＋リノベーション）</span>
                 </p>
-
-                <p class="label_custom" v-if="estate.renovation_type == 'カスタム可能物件'">カスタム<br />可能物件</p>
-                <p class="label_custom renovated" v-else>リノベ済<br />物件</p>
-            </div>
-            <div class="property_head">
-                <div class="row">
-                    <div class="col-10 col-lg-10">
-                        <p class="property_name">{{ estate.estate_name }}</p>
-                        <p class="property_address">
-                            {{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}
-                        </p>
-                        <p class="property_square">{{ estate.tatemono_menseki }}m²</p>
-                    </div>
-                    <div class="col-2 col-lg-2">
-                        <template v-if="accessToken">
-                            <a @click="addToWishList(estate._id, estate.is_wish)">
-                                <WishlistComponent :data-wished="estate.is_wish"></WishlistComponent>
-                            </a>
-                        </template>
+                    <p class="label_custom" v-if="estate.renovation_type == 'カスタム可能物件'">カスタム<br />可能物件</p>
+                    <p class="label_custom renovated" v-else>リノベ済<br />物件</p>
+                </div>
+                <div class="property_head">
+                    <div class="row">
+                        <div class="col-10 col-lg-10">
+                            <p class="property_name">{{ estate.estate_name }}</p>
+                            <p class="property_address">
+                                {{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}
+                            </p>
+                            <p class="property_square">{{ estate.tatemono_menseki }}m²</p>
+                        </div>
+                        <div class="col-2 col-lg-2">
+                            <template v-if="accessToken">
+                                <a @click="addToWishList(estate._id, estate.is_wish)">
+                                    <WishlistComponent :data-wished="estate.is_wish"></WishlistComponent>
+                                </a>
+                            </template>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -61,7 +61,7 @@ export default {
         return {
             estates: [],
             accessToken: false,
-            existedEstate: false
+            existedEstate: false,
         };
     },
     components: {
@@ -83,14 +83,11 @@ export default {
                     data.email = this.$getCookie('userEmail');
                     data.isSocial = false;
                 }
-                this.$store.dispatch('getEstatesNear', data).then(res => {
-                    this.estates = res;
-                });
-            } else {
-                this.$store.dispatch('getEstatesNear', data).then(res => {
-                    this.estates = res;
-                });
             }
+            this.$store.dispatch('getEstatesNear', data).then(res => {
+                this.estates = res;
+                this.isHidden = true;
+            });
         },
 
         // Add states to wishlist

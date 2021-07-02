@@ -16,13 +16,13 @@
                                 <div class="box_toplogin">
                                     <ul>
                                         <li>
-                                            <a class="btn" href="#">
+                                            <a class="btn" @click="facebookLogin">
                                                 <img src="images/svg/i_fb.svg" alt class="img-fluid" width="24" />
                                                 Facebookでログイン
                                             </a>
                                         </li>
                                         <li>
-                                            <a class="btn" href="#">
+                                            <a class="btn" @click="googleLogin">
                                                 <img src="images/svg/i_google.svg" alt class="img-fluid" width="24" />
                                                 Googleでログイン
                                             </a>
@@ -169,6 +169,26 @@ export default {
                         this.errors = error.response.data.errors;
                     });
             }
+        },
+        googleLogin() {
+            this.$store.dispatch('googleLogin').then(response => {
+                window.location.href = '/';
+            });
+        },
+
+        facebookLogin() {
+            const store = this.$store;
+            FB.login(
+                function(response) {
+                    if (response.authResponse) {
+                        store.dispatch('facebookLogin').then(response => {
+                            window.location.href = '/';
+                        });
+                    }
+                },
+                { scope: 'public_profile, email' }
+            );
+            return false;
         }
     }
 };
