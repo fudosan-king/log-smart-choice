@@ -1,17 +1,19 @@
 <template>
     <ul class="list_property" v-if="estates.length">
-        <li v-for="(estate, index) in estates">
+        <li v-for="(estate, index) in estates" :key="index._id">
             <div class="property_img">
                 <a v-bind:href="'/detail/' + estate._id"
-                    ><img
+                    >
+                    <img
                         v-lazy="
-                            estate.estate_information
+                            estate.estate_information.estate_main_photo.length != 0
                                 ? estate.estate_information.estate_main_photo[0].url_path
                                 : '/images/no-image.png'
                         "
                         alt=""
                         class="img-fluid"
-                /></a>
+                />
+                </a>
                 <p class="total_price">
                     {{ estate.total_price }}<span>万円</span><span class="sub">（物件＋リノベーション）</span>
                 </p>
@@ -44,7 +46,6 @@
 </template>
 
 <script>
-import estateModule from '../store/modules/estate.js';
 import Lazyload from 'vue-lazyload';
 import Vue from 'vue';
 
@@ -84,11 +85,20 @@ export default {
                     data.isSocial = false;
                 }
                 this.$store.dispatch('getEstateList', data).then(res => {
-                    this.estates = res['data'];
+                    if (res['data'].length > 1) {
+                        this.estates = res['data'];
+                    } else {
+                        this.estates = res['data'][0];
+                    }
                 });
             } else {
                 this.$store.dispatch('getEstateList', data).then(res => {
-                    this.estates = res['data'];
+                    
+                    if (res['data'].length > 1) {
+                        this.estates = res['data'];
+                    } else {
+                        this.estates = res['data'][0];
+                    }
                 });
             }
         },

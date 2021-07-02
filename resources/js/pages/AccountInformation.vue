@@ -82,7 +82,7 @@
                             <h4>パスワード</h4>
                             <div class="row no-gutters">
                                 <div class="col-4 col-lg-4 align-self-center">
-                                    <p class="head">{{ !customerInfo.social_id ? '**************' : '未設定' }}</p>
+                                    <p class="head">{{ customerInfo.has_password ? '**************' : '未設定' }}</p>
                                 </div>
                                 <div class="col-8 col-lg-8 align-self-center">
                                     <a href="/customer/change-password" class="btn btnedit">設定</a>

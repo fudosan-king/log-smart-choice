@@ -35,6 +35,6 @@ class ResetPassword extends Mailable
     public function build()
     {
         return $this->view('emails.reset-password', ['data' => $this->data])
-            ->subject(Lang::get('auth.reset_password'));
+            ->subject(__('auth.reset_password'));
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <div class="col-12 col-lg-12">
-        <h2 class="title" v-if="lastEstate.address">{{ lastEstate.address.city }}</h2>
+        <h2 class="title">{{ titleSearch }}</h2>
         <h2 class="title">リノベーション・中古マンション物件一覧</h2>
         <ul v-if="estates.length" class="list_property" v-on:scroll="handleScroll">
             <li
@@ -13,13 +13,14 @@
                         >
                         <img
                             v-lazy="
-                                estate.estate_information.estate_main_photo[0]
+                                estate.estate_information.estate_main_photo.length > 0
                                     ? estate.estate_information.estate_main_photo[0].url_path
                                     : '/images/no-image.png'
                             "
                             alt=""
                             class="img-fluid"
-                    /></a>
+                    />
+                    </a>
                     <p class="total_price">
                         {{ estate.total_price }}<span>万円</span><span class="sub">（物件＋リノベーション）</span>
                     </p>
@@ -48,9 +49,6 @@
                 </div>
             </li>
         </ul>
-        <div class="loading" v-if="!isHidden" style="text-align: center;">
-            <img v-lazy="`/images/loading.gif`" />
-        </div>
     </div>
 </template>
 
@@ -74,7 +72,8 @@ export default {
             heigthOfList: 0,
             isHidden: false,
             accessToken: false,
-            lastEstate: []
+            lastEstate: [],
+            titleSearch: '全物件',
         };
     },
     components: {
@@ -117,7 +116,6 @@ export default {
                     data.email = this.$getCookie('userEmail');
                     data.isSocial = false;
                 }
-                console.log(data);
                 this.$store.dispatch('getEstateList', data).then(res => {
                     this.estates = this.estates.concat(res[0]['data']);
                     this.lastEstate = res[0]['lastedEstate'];
@@ -127,6 +125,13 @@ export default {
                     this.estates = this.estates.concat(res[0]['data']);
                     this.lastEstate = res[0]['lastedEstate'];
                 });
+            }
+            if (this.$getCookie('district')) {
+                this.titleSearch = this.$getCookie('district');
+            }
+
+            if (this.$getCookie('station')) {
+                this.titleSearch = this.$getCookie('station');
             }
         },
         // Khi them danh sach phia duoi thi tinh toan lai do cao

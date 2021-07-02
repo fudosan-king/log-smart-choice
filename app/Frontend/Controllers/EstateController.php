@@ -69,7 +69,7 @@ class EstateController extends Controller
 
         // address
         if ($address) {
-            $estates->where('address.city', $address);
+            $estates->where('address.city', "like", "%" . $address . "%");
         }
 
         // total price
@@ -90,7 +90,7 @@ class EstateController extends Controller
 
         // station name
         if ($station) {
-            $estates->where('transports.transport_company', $station);
+            $estates->where('transports.transport_company',  "like", "%" . $station . "%");
         }
 
         // room kind & room count
