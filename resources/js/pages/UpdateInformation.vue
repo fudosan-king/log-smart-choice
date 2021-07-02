@@ -116,7 +116,7 @@
                                                 }"
                                             />
                                             <div
-                                                v-if="errorsApi.land_line && errorsApi.land_line.length"
+                                                v-if="errorsApi.birthday && errorsApi.birthday.length"
                                                 class="invalid-feedback"
                                             >
                                                 <span>
@@ -246,6 +246,7 @@ export default {
                     .catch(err => {
                         this.disabled = false;
                         this.submitted = false;
+                        // console.log(err.response.data.errors.messages[0]);
                         this.errorsApi = err.response.data.errors.messages[0];
                     });
             }

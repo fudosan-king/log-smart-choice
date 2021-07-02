@@ -19,7 +19,7 @@
                                     <p class="head">名前：</p>
                                 </div>
                                 <div class="col-4 col-lg-6 align-self-center">
-                                    <p>{{ customerInfo.name }}</p>
+                                    <p>{{ customerInfo.name }} {{ customerInfo.last_name }}</p>
                                 </div>
                                 <div class="col-4 col-lg-2 align-self-center">
                                     <a href="/customer/update" class="btn btnedit">変更</a>

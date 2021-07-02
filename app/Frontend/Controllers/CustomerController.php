@@ -77,21 +77,21 @@ class CustomerController extends Controller
 
         if ($phoneNumber) {
             if (strlen($phoneNumber) != 11) {
-                return $this->response(422, ['phone_number' => ['Invalid phone number format']], []);
+                return $this->response(422, ['phone_number' => [__('customer.phonenumber_invalid')]], []);
             }
 
             if (!preg_match($patternPhoneNumber, $phoneNumber)) {
-                return $this->response(422, ['phone_number' => ['Invalid phone number format']], []);
+                return $this->response(422, ['phone_number' => [__('customer.phonenumber_invalid')]], []);
             }
         }
 
         if ($landLine) {
             if (strlen($landLine) != 11) {
-                return $this->response(422, ['land_line' => ['Invalid landline format']], []);
+                return $this->response(422, ['land_line' => [__('customer.landline_invalid')]], []);
             }
 
             if (!preg_match($patternPhoneNumber, $landLine)) {
-                return $this->response(422, ['land_line' => ['Invalid landline format']], []);
+                return $this->response(422, ['land_line' => [__('customer.landline_invalid')]], []);
             }
         }
 
