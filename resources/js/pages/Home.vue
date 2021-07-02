@@ -43,7 +43,7 @@
                         <div class="col-12 col-lg-12">
                             <h2 class="title">表参道エリアの物件</h2>
                             <estates-near-component></estates-near-component>
-                            <p class="text-center mt-3"><a v-bind:href="'/list'" class="btn btnSeemore">もっと見る</a></p>
+                            <p class="text-center mt-3"><a v-on:click="clearConditionSearch" class="btn btnSeemore">もっと見る</a></p>
                         </div>
                     </div>
                 </div>
@@ -65,5 +65,12 @@ export default {
         EstatesTopComponent: () => import('../components/EstatesTopComponent'),
         EstatesNearComponent: () => import('../components/EstatesNearComponent'),
     },
+    methods: {
+        clearConditionSearch() {
+            this.$setCookie('district', '', 1);
+            this.$setCookie('station', '', 1);
+            this.$router.push('list');
+        }
+    }
 };
 </script>

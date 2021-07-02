@@ -54,6 +54,7 @@ class VerificationController extends Controller
     public function verifyEmail(Request $request)
     {
         $token = $request->get('token');
+
         if ($token == null) {
             return $this->response(422, __('auth.token_null'));
         }

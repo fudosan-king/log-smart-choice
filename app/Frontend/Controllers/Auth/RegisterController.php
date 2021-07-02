@@ -78,6 +78,7 @@ class RegisterController extends Controller
         $customer->remember_token = Str::random(10);
         $customer->role3d = Customer::ROLE_3D_CUSTOMER;
         $customer->email_verification_token = Str::random(32);
+        $customer->has_password = true;
         $customer->save();
 
         return $customer;

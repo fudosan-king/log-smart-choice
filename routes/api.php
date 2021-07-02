@@ -12,6 +12,7 @@ use App\Frontend\Controllers\WishListController;
 use App\Frontend\Controllers\CustomerController;
 use App\Frontend\Controllers\DistrictController;
 use App\Frontend\Controllers\StationController;
+use App\Models\Estates;
 
 /*
 |--------------------------------------------------------------------------
@@ -89,6 +90,28 @@ Route::get('test_import_estates', function () {
             $estate = json_decode($estate_data, true);
             array_push($estates, $estate);
         } catch (Exception $e) {
+        }
+    }
+    foreach ($estates as $estate) {
+        $estateData = MongoDB\BSON\toPHP(MongoDB\BSON\fromJson(json_encode($estate)));
+        // if (in_array($estateData->_id, $this->importedEstateIds)
+        //     || in_array($estateData->_id, $this->failedImportedEstatesId)) {
+        //     continue;
+        // }
+        try {
+            $estate = new Estates();
+            // add room type in after import into order-renove
+            $estateData->room_type = $estateData->room_floor . $estateData->room_kind;
+            $importedEstate = $estate->upsertFromFDKData($estateData);
+// dd($importedEstate);
+            // if ($importedEstate !== null) {
+            //     array_push($this->importedEstateIds, $importedEstate->_id);
+            // } else {
+            //     array_push($this->failedImportedEstatesId, $estateData->_id);
+            // }
+        } catch (Exception $e) {
+            \Log::error($e);
+            // array_push($this->failedImportedEstatesId, $estateData->_id);
         }
     }
     return response()->json(array('estates' => $estates));

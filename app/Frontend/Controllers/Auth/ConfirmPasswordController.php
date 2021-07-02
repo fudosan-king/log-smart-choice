@@ -70,6 +70,7 @@ class ConfirmPasswordController extends Controller
         try {
             $customer = Customer::find($customerId);
             $customer->password = bcrypt($request->password);
+            $customer->has_password = true;
             $customer->save();
         } catch (\Exception $e) {
             Log::error($e->getMessage());

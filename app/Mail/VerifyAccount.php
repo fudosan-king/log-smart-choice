@@ -37,7 +37,7 @@ class VerifyAccount extends Mailable
     {
         try {
             return $this->view('emails.verify-email', ['data' => $this->data])
-                ->subject(Lang::get('auth.verify_email'));
+                ->subject(__('auth.verify_email'));
         } catch (\Exception $e) {
             Log::error($e->getMessage());
         }

@@ -21,7 +21,7 @@ class CustomerController extends Controller
         $customer = Customer::select(
             'name', 'last_name', 'email', 'phone_number',
             'role3d', 'social_id', 'birthday', 'land_line',
-            'announcement_condition'
+            'announcement_condition', 'has_password',
             )
             ->where('id', $customerId)
             ->where('status', Customer::ACTIVE)
@@ -76,7 +76,7 @@ class CustomerController extends Controller
         }
 
         if ($phoneNumber) {
-            if (strlen($phoneNumber) != 10) {
+            if (strlen($phoneNumber) != 11) {
                 return $this->response(422, ['phone_number' => ['Invalid phone number format']], []);
             }
 
@@ -86,7 +86,7 @@ class CustomerController extends Controller
         }
 
         if ($landLine) {
-            if (strlen($landLine) != 10) {
+            if (strlen($landLine) != 11) {
                 return $this->response(422, ['land_line' => ['Invalid landline format']], []);
             }
 

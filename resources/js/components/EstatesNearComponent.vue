@@ -1,11 +1,11 @@
 <template>
     <ul class="list_property" v-if="estates.length">
-        <li v-for="(estate, index) in estates">
+        <li v-for="(estate, index) in estates" :key="index._id">
             <div class="property_img">
                 <a v-bind:href="'/detail/' + estate._id">
                     <img
                         v-lazy="
-                            estate.estate_information
+                            estate.estate_information.estate_main_photo.length != 0
                                 ? estate.estate_information.estate_main_photo[0].url_path
                                 : '/images/no-image.png'
                         "
@@ -40,9 +40,7 @@
             </div>
         </li>
     </ul>
-    <ul class="list_property" v-else>
-        <img v-lazy="`images/loading.gif`" alt="" class="img-fluid img-fluid-loading" />
-    </ul>
+
 </template>
 
 <script>
@@ -63,8 +61,7 @@ export default {
         return {
             estates: [],
             accessToken: false,
-            existedEstate: false,
-
+            existedEstate: false
         };
     },
     components: {
