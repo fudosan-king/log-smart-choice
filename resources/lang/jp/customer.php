@@ -13,4 +13,5 @@ return [
     'square_invalid' => '無効な面積',
     'phonenumber_invalid' => '電話番号が無効です',
     'landline_invalid' => '電話番号が無効です',
+    'birthday_invalid' => '無効な生年月日',
 ];

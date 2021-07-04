@@ -115,15 +115,22 @@
                                                     'is-invalid': errorsApi.birthday && errorsApi.birthday.length
                                                 }"
                                             />
-                                            <div
-                                                v-if="errorsApi.birthday && errorsApi.birthday.length"
-                                                class="invalid-feedback"
-                                            >
-                                                <span>
-                                                    {{ errorsApi.birthday[0] }}
-                                                </span>
-                                            </div>
+
                                             <span>年</span>
+                                        </div>
+                                        <input
+                                            type="hidden"
+                                            :class="{
+                                                'is-invalid': errorsApi.birthday && errorsApi.birthday.length
+                                            }"
+                                        />
+                                        <div
+                                            v-if="errorsApi.birthday && errorsApi.birthday.length"
+                                            class="invalid-feedback"
+                                        >
+                                            <span>
+                                                {{ errorsApi.birthday[0] }}
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="col-4 col-lg-4">
@@ -195,7 +202,6 @@ export default {
     },
     mounted: function() {
         this.getCustomer();
-        var a = this.test();
     },
     validations: {
         customerInfo: {
@@ -234,6 +240,7 @@ export default {
                         day: this.birthDay
                     }
                 };
+                this.$setCookie('userName', data.name, 1);
                 this.$store
                     .dispatch('updateInformation', data)
                     .then(resp => {
@@ -246,13 +253,9 @@ export default {
                     .catch(err => {
                         this.disabled = false;
                         this.submitted = false;
-                        // console.log(err.response.data.errors.messages[0]);
                         this.errorsApi = err.response.data.errors.messages[0];
                     });
             }
-        },
-        test() {
-            console.log('here');
         }
     },
     updated() {

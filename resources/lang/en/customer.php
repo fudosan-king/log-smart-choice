@@ -13,4 +13,5 @@ return [
     'square_invalid' => 'Invalide square',
     'phonenumber_invalid' => 'Invalid phone number',
     'landline_invalid' => 'Invalid landline',
+    'birthday_invalid' => 'Birthday invalid',
 ];
