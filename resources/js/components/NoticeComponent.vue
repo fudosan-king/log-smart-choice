@@ -1,6 +1,7 @@
 <template>
     <div class="col-12 col-lg-12">
-         <div class="box_notice_item" 
+        <div
+            class="box_notice_item"
             v-for="(announcement, index) in announcementList"
             :key="index._id"
             v-bind:class="{ 'estate-last': index === announcementList.length - 1 }"
@@ -8,35 +9,51 @@
             <div class="row no-gutters">
                 <div class="col-5 col-lg-6">
                     <div class="box_notice_img">
-                        <a href="#">
-                            <img 
-                            v-lazy="
-                                typeof announcement.estate_information[0] !== 'undefined' && typeof announcement.estate_information[0].url_path !== 'undefined'
-                                    ? announcement.estate_information.estate_main_photo[0].url_path
-                                    : '/images/no-image.png'
-                            "
-                            alt="" class="img-fluid">
+                        <a
+                            href="javascript:void(0)"
+                            v-on:click="readAnnouncement(announcement.announcement_id, announcement._id)"
+                        >
+                            <img
+                                v-lazy="
+                                    announcement.estate_information.estate_main_photo.length
+                                        ? announcement.estate_information.estate_main_photo[0].url_path
+                                        : '/images/no-image.png'
+                                "
+                                alt=""
+                                class="img-fluid"
+                            />
                         </a>
-                        <span>新着物件</span>
+                        <span v-if="!announcement.is_read">新着物件</span>
                     </div>
                 </div>
                 <div class="col-7 col-lg-6">
                     <div class="box_notice_content">
-                        <p>1日前</p>
-                        <p><a href="#">{{ announcement.estate_name }}</a></p>
-                        <p>{{announcement.tatemono_menseki}}m²</p>
+                        <p>{{ announcement.announcement_created_at }}</p>
+                        <p>
+                            <a
+                                href="javascript:void(0)"
+                                v-on:click="readAnnouncement(announcement.announcement_id, announcement._id)"
+                                >{{ announcement.estate_name }}</a
+                            >
+                        </p>
+                        <p>{{ announcement.tatemono_menseki }}m²</p>
                         <p>{{ announcement.total_price }}万円（物件＋リノベーション）</p>
                     </div>
                 </div>
             </div>
-            <a class="btn_del" @click="deleteAnnouncement(announcement.announcementID)">
-                <img src="images/svg/i_delete.svg" alt="" class="img-fluid d-none d-lg-block" width="20">
-                <img src="images/svg/i_delete_white.svg" alt="" class="img-fluid d-block d-lg-none" width="20">
+            <a class="btn_del" @click="deleteAnnouncement(announcement.announcement_id, announcement)">
+                <img
+                    src="images/svg/i_delete.svg"
+                    alt=""
+                    class="img-fluid d-none d-lg-block curser-pointer"
+                    width="20"
+                />
+                <img src="images/svg/i_delete_white.svg" alt="" class="img-fluid d-block d-lg-none" width="20" />
             </a>
         </div>
-        <div class="loading" v-if="hasMore" style="text-align: center;">
+        <!-- <div class="loading" v-if="hasMore" style="text-align: center;">
             <img v-lazy="`/images/loading.gif`" style="width: 100%;" />
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -60,11 +77,11 @@ export default {
             offsetTop: 0,
             heigthOfList: 0,
             accessToken: false,
-            lastEstate:[],
-            hasMore: true,
+            lastEstate: [],
+            hasMore: true
         };
     },
-    beforeMount() {
+    mounted() {
         this.getAnnouncementList(1, this.limit);
     },
     created() {
@@ -80,7 +97,6 @@ export default {
     methods: {
         // Gui yeu cau den server sau moi lan cuon xuong
         getAnnouncementList(pageLoad) {
-
             let accessToken = this.$getCookie('accessToken');
             let data = {
                 limit: this.limit,
@@ -88,11 +104,10 @@ export default {
             };
             if (accessToken.length > 0) {
                 this.$store.dispatch('getAnnouncementList', data).then(res => {
-                    this.announcementList = this.announcementList.concat(res[0]['data']['data']);
-                    if (this.announcementList.length < res[0]['data'].total) {
-                        this.hasMore = true;
+                    if (typeof res[0] === 'undefined') {
+                        this.announcementList = this.announcementList.concat(res.data.data);
                     } else {
-                        this.hasMore = false;
+                        this.announcementList = this.announcementList.concat(res[0]['data']['data']);
                     }
                 });
             }
@@ -127,21 +142,29 @@ export default {
             }
         },
 
-        // Add states to wishlist
-        
-        deleteAnnouncement(announcementID) {
-            let accessToken = this.$getCookie('accessToken');
-            if (accessToken != '') {
-                let data = {
-                    id: [announcementID]
+        deleteAnnouncement(announcementID, announcement) {
+            let data = {
+                id: [announcementID]
+            };
+            this.$store.dispatch('deleteAnnoutcement', data).then(res => {
+                this.announcementList.splice(this.announcementList.indexOf(announcement), 1);
+            });
+        },
+
+        readAnnouncement(announcementID, estetaId) {
+            let data = {
+                id: announcementID
+            };
+            this.$store.dispatch('readAnnouncement', data).then(res => {
+                if (typeof res[0] === 'undefined') {
+                    let annoucementCount = res.data.data;
+                    this.$setCookie('announcement_count', annoucementCount.announcement_count, 1);
+                } else {
+                    let annoucementCount = res[0]['data']['data'];
+                    this.$setCookie('announcement_count', annoucementCount.announcement_count, 1);
                 }
-                this.$store.dispatch('deleteAnnoutcement', data, accessToken)
-                .then(res => {
-                    if (res[0].status === 200) {
-                        this.announcementList = this.announcementList.filter(announcement => announcement.announcementID !== announcementID);
-                    }
-                });
-            }
+                this.$router.push({ path: 'detail/' + estetaId });
+            });
         }
     }
 };

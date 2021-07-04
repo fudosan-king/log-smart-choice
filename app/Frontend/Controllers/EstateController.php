@@ -220,7 +220,7 @@ class EstateController extends Controller
      * @param array $announcements
      * @return mixed
      */
-    public function getEstateInformation($estates, $wishList = [], $announcements = [])
+    public function getEstateInformation($estates, $wishList = [])
     {
         foreach ($estates as $key => $estate) {
             // force type decor field
@@ -245,12 +245,6 @@ class EstateController extends Controller
                     $estates[$key]['is_wish'] = 1;
                 }
             }
-
-            if (!empty($announcements)) {
-                if (isset($announcements[$estate['_id']])) {
-                    $estates[$key]['announcementID'] = $announcements[$estate['_id']];
-                }
-            } 
 
             $estates[$key]['photo_first'] = $photo_first;
             $estates[$key]['photos'] = $this->_getPhotosAll($estate);

@@ -62,6 +62,7 @@ new Vue({
                     this.$setCookie('clientId', '', 1);
                     this.$setCookie('clientSecret', '', 1);
                     this.$setCookie('userName', '', 1);
+                    this.$setCookie('announcement_count', '', 1);
                     delete axios.defaults.headers.common['Authorization'];
                     this.$router.go(0);
                 });

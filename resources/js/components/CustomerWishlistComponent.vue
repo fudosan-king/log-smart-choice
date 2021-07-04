@@ -12,7 +12,7 @@
                     <a v-bind:href="'/detail/' + wishtlistItem._id"
                         ><img
                             v-lazy="
-                                typeof wishtlistItem.estate_information[0] !== 'undefined' && typeof wishtlistItem.estate_information[0].url_path !== 'undefined'
+                                wishtlistItem.estate_information.estate_main_photo.length
                                     ? wishtlistItem.estate_information.estate_main_photo[0].url_path
                                     : '/images/no-image.png'
                             "
@@ -20,7 +20,8 @@
                             class="img-fluid"
                     /></a>
                     <p class="total_price">
-                        {{ wishtlistItem.total_price }}<span>万円</span><span class="sub">（物件＋リノベーション）</span>
+                        {{ wishtlistItem.total_price }}<span>万円</span
+                        ><span class="sub">（物件＋リノベーション）</span>
                     </p>
                     <p class="label_custom" v-if="wishtlistItem.renovation_type == 'カスタム可能物件'">
                         カスタム<br />可能物件
@@ -30,17 +31,21 @@
                 <div class="property_head">
                     <div class="row">
                         <div class="col-10 col-lg-10">
-                            {{wishtlistItem._id}}
+                            {{ wishtlistItem._id }}
                             <p class="property_name">{{ wishtlistItem.estate_name }}</p>
                             <p class="property_address" v-if="wishtlistItem.address">
-                                {{ wishtlistItem.address.city }}{{ wishtlistItem.address.ooaza }}{{ wishtlistItem.address.tyoume }}
+                                {{ wishtlistItem.address.city }}{{ wishtlistItem.address.ooaza
+                                }}{{ wishtlistItem.address.tyoume }}
                             </p>
                             <p class="property_square">{{ wishtlistItem.tatemono_menseki }}m²</p>
                         </div>
                         <div class="col-2 col-lg-2">
                             <template v-if="accessToken">
-                                <a @click="addToWishList(wishtlistItem._id, 1)">
-                                    <WishlistComponent :data-wished="1"></WishlistComponent>
+                                <a v-if="wishtlistItem._id" v-on:click="addToWishList">
+                                    <WishlistComponent
+                                        :estate-id="wishtlistItem._id"
+                                        :data-wished="wishtlistItem.is_wish"
+                                    ></WishlistComponent>
                                 </a>
                             </template>
                         </div>
@@ -74,8 +79,8 @@ export default {
             heigthOfList: 0,
             isHidden: false,
             accessToken: false,
-            lastEstate:[],
-            hasMore: true,
+            lastEstate: [],
+            hasMore: true
         };
     },
     components: {
@@ -97,7 +102,6 @@ export default {
     methods: {
         // Gui yeu cau den server sau moi lan cuon xuong
         getWishlist(pageLoad) {
-
             let accessToken = this.$getCookie('accessToken');
             let data = {
                 limit: 8,
@@ -152,20 +156,9 @@ export default {
         },
 
         // Add states to wishlist
-        
-        addToWishList(estateId, isWish) {
-            let accessToken = this.$getCookie('accessToken');
-            if (accessToken != '') {
-                let data = {
-                    estateId: estateId,
-                    is_wish: 1,
-                    accessToken: accessToken
-                };
-                if (isWish === 1) {
-                    data.is_wish = 0;
-                }
-                this.$store.dispatch('addWishList', data, accessToken);
-            }
+
+        addToWishList() {
+            this.$router.go(0);
         }
     }
 };

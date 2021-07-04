@@ -25,6 +25,7 @@ const actions = {
             })
                 .then(resp => {
                     this._vm.$setCookie('userName', resp.data.data.name, 1);
+                    this._vm.$setCookie('announcement_count', resp.data.data.announcement_count, 1);
                     resolve(resp.data.data);
                 })
                 .catch(err => {

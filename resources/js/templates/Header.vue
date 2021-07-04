@@ -37,9 +37,9 @@
                             </li>
                             <li><a href="/customer/announcement-condition">メルマガ配信希望条件</a></li>
                             <li>
-                                <a href="javascript:void(0)">お知らせ <span>10</span></a>
+                                <a href="/notice">お知らせ <span v-if="announcementCount != 0">{{ announcementCount }}</span></a>
                             </li>
-                            <li><a href="javascript:void(0)">お気に入り</a></li>
+                            <li><a href="/wishlist">お気に入り</a></li>
                             <li><a href="javascript:void(0)" v-on:click="logout">ログアウト</a></li>
                         </ul>
                     </div>
@@ -217,7 +217,8 @@ export default {
             logoBlack: logoBlack,
             userName: '',
             districtList: {},
-            stationList: {}
+            stationList: {},
+            announcementCount: 0,
         };
     },
     mounted() {
@@ -258,6 +259,7 @@ export default {
                     this.$setCookie('userSocialId', '', 1);
                     this.$setCookie('district', '', 1);
                     this.$setCookie('station', '', 1);
+                    this.$setCookie('announcement_count', '', 1)
                     delete axios.defaults.headers.common['Authorization'];
                     this.$router.go(0);
                 })
@@ -267,6 +269,7 @@ export default {
         dropUser(event) {
             let accessToken = this.$getCookie('accessToken');
             this.userName = this.$getCookie('userName');
+            this.announcementCount = this.$getCookie('announcement_count');
             if (accessToken != '') {
                 event.preventDefault();
                 $('.dropdown_user_content').slideToggle('fast');
