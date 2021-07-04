@@ -3,6 +3,7 @@
 namespace App\Frontend\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Announcement;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,10 +27,12 @@ class CustomerController extends Controller
             ->where('id', $customerId)
             ->where('status', Customer::ACTIVE)
             ->first();
+        $announcement = Announcement::where('customer_id', $customerId)->where('is_read', 0)->whereNull('deleted_at')->count();
         if ($customer) {
             $customer->is_logged = Auth::check();
             $customer->role3d = Customer::ROLE3D[$customer->role3d];
             $customer->announcement_condition = json_decode($customer->announcement_condition, true);
+            $customer->announcement_count = $announcement;
             return $this->response(200, __('customer.customer_success'), $customer, true);
         }
         return $this->response(422, __('customer.customer_fail'));

@@ -19,7 +19,11 @@ const actions = {
                         AuthorizationBearer: 'Bearer '+ data.accessToken,
                     },
                     auth: auth
-                })
+                }).then(resp => {
+                    relove(resp)
+                }).catch(error => {
+                    reject(error);
+                });
         });
     },
 

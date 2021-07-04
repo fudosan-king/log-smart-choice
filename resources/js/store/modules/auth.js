@@ -65,6 +65,7 @@ const actions = {
                     this._vm.$setCookie('userName', '', 1);
                     this._vm.$setCookie('userEmail', '', 1);
                     this._vm.$setCookie('userSocialId', '', 1);
+                    this._vm.$setCookie('announcement_count', '', 1)
                     delete axios.defaults.headers.common['Authorization'];
                     let auth2 = window.gapi.auth2.getAuthInstance();
                     if (auth2) {
@@ -79,6 +80,7 @@ const actions = {
                     this._vm.$setCookie('userName', '', 1);
                     this._vm.$setCookie('userEmail', '', 1);
                     this._vm.$setCookie('userSocialId', '', 1);
+                    this._vm.$setCookie('announcement_count', '', 1)
                     reject(err);
                 });
             resolve();

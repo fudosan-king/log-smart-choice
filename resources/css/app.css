@@ -42,3 +42,7 @@ ul.estate-description-content {
 footer .footer_bottom .btn {
     font-size: 0.775em
 }
+
+.curser-pointer {
+    cursor: pointer;
+}

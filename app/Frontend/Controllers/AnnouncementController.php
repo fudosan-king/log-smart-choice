@@ -5,8 +5,8 @@ namespace App\Frontend\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Announcement;
 use App\Models\Estates;
-use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -51,6 +51,7 @@ class AnnouncementController extends Controller
     public function markRead(Request $request)
     {
         $id = $request->get('id');
+        $customerId = Auth::user()->id;
         try {
             $announcement = Announcement::findOrFail($id);
             $announcement->is_read = true;
@@ -59,8 +60,11 @@ class AnnouncementController extends Controller
             Log::error($e->getMessage());
             return $this->response(422, 'Update read announcement fail', []);
         }
-
-        return $this->response(200, 'Update read announcement success', ['estateId' => $announcement->estate_id], true);
+        $announcementCount = Announcement::where('customer_id', $customerId)->where('is_read', 0)->whereNull('deleted_at')->count();
+        return $this->response(200, 'Update read announcement success', [
+            'estateId' => $announcement->estate_id,
+            'announcement_count' => $announcementCount,
+        ], true);
     }
     
     /**
@@ -84,16 +88,21 @@ class AnnouncementController extends Controller
             return $this->response(422, $validator->errors(), []);
         }
 
-        $announcements = Announcement::select('estate_id', 'id')
+        $announcements = Announcement::select('estate_id', 'id', 'is_read', 'created_at')
             ->where('customer_id', $customerId)
             ->paginate($limit, $page)->toArray();
-
         $announcementList = [];
         $announcementListIds = [];
         if ($announcements) {
+            Carbon::setLocale('ja-JP');
             foreach ($announcements['data'] as $announcement) {
                 $announcementList[] = $announcement['estate_id'];
-                $announcementListIds[$announcement['estate_id']] = $announcement['id'];
+                $announcementListIds[$announcement['estate_id']] = 
+                [
+                    'announcement_id' => $announcement['id'],
+                    'is_read' => $announcement['is_read'],
+                    'announcement_created_at' => Carbon::createFromTimeStamp(strtotime($announcement['created_at']))->diffForHumans(),
+                ];
             }
             $estates = Estates::select(
                 'estate_name', 'price', 'address', 'tatemono_menseki',
@@ -102,7 +111,16 @@ class AnnouncementController extends Controller
                 ->whereIn('_id', $announcementList)
                 ->orderBy('date_created', 'desc')
                 ->get()->toArray();
-            $announcements['data'] = $this->estateController->getEstateInformation($estates, [], $announcementListIds);
+            $announcements['data'] = $this->estateController->getEstateInformation($estates, []);
+            // push announcement into estate
+            foreach ($announcements['data'] as $key => $announcement) {
+                if (array_key_exists($announcement['_id'], $announcementListIds)) {
+                    $announcement['announcement_id'] = $announcementListIds[$announcement['_id']]['announcement_id'];
+                    $announcement['is_read'] = $announcementListIds[$announcement['_id']]['is_read'];
+                    $announcement['announcement_created_at'] = $announcementListIds[$announcement['_id']]['announcement_created_at'];
+                }
+                $announcements['data'][$key] = $announcement;
+            }
         }
         return $this->response(200, 'Get list success', $announcements, true);
     }

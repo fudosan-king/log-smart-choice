@@ -72,8 +72,9 @@ class WishListController extends Controller
             ->whereIn('_id', $estateIds)
             ->where('status', Estates::STATUS_SALE)->paginate($limit, $page);
 
+        $wishList = [];
         $estateController = new EstateController();
-        $estateInfo = $estateController->getEstateInformation($estates);
+        $estateInfo = $estateController->getEstateInformation($estates, $estateIds);
 
         return $this->response(200, 'Success', $estateInfo, true);
     }

@@ -31,8 +31,8 @@
                     </div>
                     <div class="col-2 col-lg-2">
                         <template v-if="accessToken">
-                            <a @click="addToWishList(estate._id, estate.is_wish)">
-                                <WishlistComponent :data-wished="estate.is_wish"></WishlistComponent>
+                            <a v-if="estate._id">
+                                <WishlistComponent :estate-id="estate._id" :data-wished="estate.is_wish"></WishlistComponent>
                             </a>
                         </template>
                     </div>
@@ -103,21 +103,7 @@ export default {
             }
         },
 
-        // Add states to wishlist
-        addToWishList(estateId, isWish) {
-            let accessToken = this.$getCookie('accessToken');
-            if (accessToken != '') {
-                let data = {
-                    estateId: estateId,
-                    is_wish: 1,
-                    accessToken: accessToken
-                };
-                if (isWish === 1) {
-                    data.is_wish = 0;
-                }
-                this.$store.dispatch('addWishList', data, accessToken);
-            }
-        }
+        
     }
 };
 </script>
