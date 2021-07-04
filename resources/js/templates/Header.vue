@@ -30,12 +30,12 @@
                     <div class="dropdown_user_content" style="display: none;">
                         <ul>
                             <li>
-                                <a href="javascript:void(0)" v-if="userName">{{ userName }}さま</a>
+                                <a href="javascript:void(0)" v-if="userName">{{ userName }}様</a>
                             </li>
                             <li>
                                 <a href="/customer/information">会員登録情報</a>
                             </li>
-                            <li><a href="javascript:void(0)">メルマガ配信希望条件</a></li>
+                            <li><a href="/customer/announcement-condition">メルマガ配信希望条件</a></li>
                             <li>
                                 <a href="javascript:void(0)">お知らせ <span>10</span></a>
                             </li>
@@ -212,11 +212,10 @@ export default {
         if (this.$route.name) {
             page = this.$route.name;
         }
-        let userName = this.$getCookie('userName');
         return {
             page: page,
             logoBlack: logoBlack,
-            userName: userName,
+            userName: '',
             districtList: {},
             stationList: {}
         };
@@ -267,6 +266,7 @@ export default {
 
         dropUser(event) {
             let accessToken = this.$getCookie('accessToken');
+            this.userName = this.$getCookie('userName');
             if (accessToken != '') {
                 event.preventDefault();
                 $('.dropdown_user_content').slideToggle('fast');

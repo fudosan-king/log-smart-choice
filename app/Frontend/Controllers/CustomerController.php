@@ -97,7 +97,7 @@ class CustomerController extends Controller
 
         if ($birthday) {
             if (!checkdate((int)$birthday['month'], (int)$birthday['day'], (int)$birthday['year'])) {
-                return $this->response(422, ['birthday' => ['Your birthday is invalid']], []);
+                return $this->response(422, ['birthday' => [__('customer.birthday_invalid')]], []);
             }
             $birthday = (int)$birthday['year'] . '-' . $birthday['month'] . '-' . $birthday['day'];
         }
