@@ -84,14 +84,16 @@ class AnnouncementController extends Controller
             return $this->response(422, $validator->errors(), []);
         }
 
-        $announcements = Announcement::select('estate_id')
+        $announcements = Announcement::select('estate_id', 'id')
             ->where('customer_id', $customerId)
             ->paginate($limit, $page)->toArray();
 
         $announcementList = [];
+        $announcementListIds = [];
         if ($announcements) {
             foreach ($announcements['data'] as $announcement) {
                 $announcementList[] = $announcement['estate_id'];
+                $announcementListIds[$announcement['estate_id']] = $announcement['id'];
             }
             $estates = Estates::select(
                 'estate_name', 'price', 'address', 'tatemono_menseki',
@@ -100,7 +102,7 @@ class AnnouncementController extends Controller
                 ->whereIn('_id', $announcementList)
                 ->orderBy('date_created', 'desc')
                 ->get()->toArray();
-            $announcements['data'] = $this->estateController->getEstateInformation($estates);
+            $announcements['data'] = $this->estateController->getEstateInformation($estates, [], $announcementListIds);
         }
         return $this->response(200, 'Get list success', $announcements, true);
     }
