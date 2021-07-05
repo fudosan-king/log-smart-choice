@@ -57,6 +57,12 @@ footer .footer_bottom .btn {
     cursor: pointer;
 }
 
+@media (max-width: 823px) {
+    .w_box_simulation_result.show {
+        display: block;
+    }
+}
+
 @media (max-width: 768px) {
     #main .list_estate {
         padding-top: 70px;
