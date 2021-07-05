@@ -27,7 +27,7 @@
                     >
                 </li>
                 <li>
-                    <a v-on:click="handleHeaderContentClick('area', $event)">
+                    <a v-on:click="handleHeaderContentClick('station', $event)">
                         <img
                             src="/assets/images/svg/i_stations.svg"
                             alt=""
