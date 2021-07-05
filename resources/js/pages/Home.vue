@@ -10,7 +10,7 @@
             </div>
             <ul>
                 <li>
-                    <a v-on:click="handleHeaderContentClick('area', $event)">
+                    <a class="search-district" v-on:click="handleHeaderContentClick('area', $event)">
                         <img
                             src="/assets/images/svg/i_map.svg"
                             alt=""
@@ -27,7 +27,7 @@
                     >
                 </li>
                 <li>
-                    <a v-on:click="handleHeaderContentClick('station', $event)">
+                    <a class="search-station" v-on:click="handleHeaderContentClick('station', $event)">
                         <img
                             src="/assets/images/svg/i_stations.svg"
                             alt=""
@@ -43,7 +43,7 @@
                         沿線から探す</a
                     >
                 </li>
-                <li>
+                <!-- <li>
                     <a v-on:click="handleHeaderContentClick('station', $event)">
                         <img
                             src="/assets/images/svg/i_locations.svg"
@@ -59,7 +59,7 @@
                         />
                         MAPから探す</a
                     >
-                </li>
+                </li> -->
             </ul>
         </section>
 
