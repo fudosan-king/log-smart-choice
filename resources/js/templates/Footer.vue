@@ -56,8 +56,8 @@
                         <hr />
 
                         <p class="text-center">
-                            <a target="_blank" href="https://www.logrenove.jp"
-                                ><img src="/assets/images/svg/logrenove_logo.svg" alt="" class="img-fluid" width="108"
+                            <a target="_blank" href="https://www.logrenove.jp/"
+                                ><img src="/assets/images/svg/logrenove_logo_copy.svg" alt="" class="img-fluid" width="108"
                             /></a>
                         </p>
                         <ul>
