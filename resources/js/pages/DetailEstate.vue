@@ -84,10 +84,12 @@
                                             </div>
 
                                             <p class="text-center box_showmore mt-5">
-                                                <a class="btn btnshowhide d-block d-lg-none" href="#"></a>
+                                                <a  @click="mobileHandleShow" 
+                                                    class="btn btnshowhide d-block d-lg-none"
+                                                    :class="{ 'show': mobileShow }"></a>
                                             </p>
 
-                                            <div class="w_box_simulation_result">
+                                            <div class="w_box_simulation_result" :class="{'show': mobileShow}">
                                                 <div class="row no-gutters">
                                                     <div class="col-6 col-lg-6">
                                                         <div class="form-group">
@@ -130,7 +132,7 @@
                                         </div>
 
                                         <div class="col-12 col-lg-6">
-                                            <div class="w_box_simulation_result">
+                                            <div class="w_box_simulation_result" :class="{'show': mobileShow}">
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-6 col-lg-6">
@@ -419,6 +421,7 @@ export default {
             otherFee: [],
             payTerm: '',
             srcMap: '',
+            mobileShow: false
         };
     },
     mounted() {
@@ -475,6 +478,9 @@ export default {
             });
         },
         change() {
+        },
+        mobileHandleShow() {
+            this.mobileShow = !this.mobileShow;
         }
     },
     updated() {
