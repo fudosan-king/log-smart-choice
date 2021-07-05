@@ -79,18 +79,12 @@
                                                     </div>
                                                 </div>
                                                 <p class="text-center mt-3">
-                                                    管理費：20,000円／修繕積立金：20,000円 含む
+                                                    管理費：{{ estate.management_fee }}円／修繕積立金：{{ estate.repair_reserve_fee }}円 含む
                                                 </p>
                                             </div>
 
-                                            <p class="text-center">
-                                                <a class="btn btnshowhide d-block d-lg-none" href="#"
-                                                    ><img
-                                                        src="/images/svg/showhide.svg"
-                                                        alt=""
-                                                        class="img-fluid"
-                                                        width="9"
-                                                /></a>
+                                            <p class="text-center box_showmore mt-5">
+                                                <a class="btn btnshowhide d-block d-lg-none" href="#"></a>
                                             </p>
 
                                             <div class="w_box_simulation_result">
@@ -124,7 +118,7 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="mb-0" for="">修繕積立金</label>
-                                                            <h5>26,000<span>円／月</span></h5>
+                                                            <h5>{{estate.repair_reserve_fee}}<span>円／月</span></h5>
                                                         </div>
                                                     </div>
                                                     <div class="col-6 col-lg-6">
@@ -146,7 +140,7 @@
                                                                     type="text"
                                                                     class="form-control"
                                                                     maxlength="4"
-                                                                    placeholder="1,000"
+                                                                    placeholder="0"
                                                                 />
                                                                 <span class="ml-2 sub">万円</span>
                                                             </div>
@@ -158,7 +152,7 @@
                                                                     type="text"
                                                                     class="form-control"
                                                                     maxlength="4"
-                                                                    placeholder="5,000"
+                                                                    :placeholder="[[estate.total_price ? estate.total_price : estate.price ]]"
                                                                 />
                                                                 <span class="ml-2 sub">万円</span>
                                                             </div>

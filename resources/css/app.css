@@ -39,10 +39,27 @@ ul.estate-description-content {
     padding-top: 90px;
 }
 
+.dropdown_search_content .stations .station-item {
+    white-space: nowrap; 
+    text-overflow: ellipsis;
+}
+
+.dropdown_search_content .stations .station-item:hover {
+    white-space: normal; 
+    text-overflow: unset;
+}
+
 footer .footer_bottom .btn {
     font-size: 0.775em
 }
 
 .curser-pointer {
     cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    #main .list_estate {
+        padding-top: 70px;
+    }
+
 }

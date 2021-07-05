@@ -72,6 +72,7 @@
                                             data-target="#collapseOne"
                                             aria-expanded="true"
                                             aria-controls="collapseOne"
+                                            ref="showArea"
                                         >
                                             <img
                                                 src="/images/svg/i_map_black.svg"
@@ -113,6 +114,7 @@
                                             data-target="#collapseTwo"
                                             aria-expanded="false"
                                             aria-controls="collapseTwo"
+                                            ref="showStation"
                                         >
                                             <img
                                                 src="/assets/images/svg/i_stations_black.svg"
@@ -133,7 +135,7 @@
                                     <div class="card-body stations">
                                         <ul>
                                             <li v-for="station in stationList">
-                                                <a href="javascript:void(0)" v-on:click="searchStation(station)">{{
+                                                <a class="station-item" href="javascript:void(0)" v-on:click="searchStation(station)">{{
                                                     station
                                                 }}</a>
                                             </li>
@@ -246,6 +248,11 @@ export default {
 
         this.getStation();
         this.getDistrict();
+
+        LSMEvent.$on("handleSeachClick", (type) => {
+            this.dropSearchByType(type);
+        });
+
     },
     methods: {
         logout() {
@@ -283,6 +290,20 @@ export default {
             event.preventDefault();
             $('.dropdown_search_content').slideToggle('fast');
             $('.dropdown_user_content').hide();
+        },
+
+        dropSearchByType(type = 'area') {
+            $('.dropdown_search_content').slideToggle('fast');
+            $('.dropdown_user_content').hide();
+            switch(type) {
+                case 'station': 
+                    this.$refs.showStation.click();
+                    break;
+                case 'area': 
+                default:
+                    this.$refs.showArea.click();
+                    break;
+            }
         },
 
         scrollListener() {

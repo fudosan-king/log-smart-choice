@@ -135,7 +135,7 @@ class EstateController extends Controller
             return response()->json($lists, 200);
         }
 
-        return response()->json([], 422);
+        return response()->json($lists, 200);
     }
 
     /**
@@ -387,6 +387,6 @@ class EstateController extends Controller
             }
         }
 
-        return $this->response(422, 'Get near estate fail', []);
+        return $this->response(200, 'data not found', []);
     }
 }

@@ -34,7 +34,8 @@ const actions = {
                 if (resp.data['data']) {
                     let data = {
                         'data':resp.data['data'],
-                        'lastedEstate': resp.data['lasted_estate']
+                        'lastedEstate': resp.data['lasted_estate'],
+                        'total': resp.data.total
                     }
                     relove(data);
                 }

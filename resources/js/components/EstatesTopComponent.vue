@@ -2,8 +2,7 @@
     <ul class="list_property" v-if="estates.length">
         <li v-for="(estate, index) in estates" :key="index._id">
             <div class="property_img">
-                <a v-bind:href="'/detail/' + estate._id"
-                    >
+                <a v-bind:href="'/detail/' + estate._id">
                     <img
                         v-lazy="
                             estate.estate_information.estate_main_photo.length != 0
@@ -12,7 +11,7 @@
                         "
                         alt=""
                         class="img-fluid"
-                />
+                    />
                 </a>
                 <p class="total_price">
                     {{ estate.total_price }}<span>万円</span><span class="sub">（物件＋リノベーション）</span>
@@ -32,7 +31,10 @@
                     <div class="col-2 col-lg-2">
                         <template v-if="accessToken">
                             <a v-if="estate._id">
-                                <WishlistComponent :estate-id="estate._id" :data-wished="estate.is_wish"></WishlistComponent>
+                                <WishlistComponent
+                                    :estate-id="estate._id"
+                                    :data-wished="estate.is_wish"
+                                ></WishlistComponent>
                             </a>
                         </template>
                     </div>
@@ -40,7 +42,7 @@
             </div>
         </li>
     </ul>
-    <ul class="list_property" v-else>
+    <ul class="list_property" v-else-if="!isHidden">
         <img v-lazy="`images/loading.gif`" alt="" class="img-fluid img-fluid-loading" />
     </ul>
 </template>
@@ -60,7 +62,8 @@ export default {
         return {
             estates: [],
             accessToken: false,
-            existedEstate: false
+            existedEstate: false,
+            isHidden: false
         };
     },
     components: {
@@ -93,7 +96,6 @@ export default {
                 });
             } else {
                 this.$store.dispatch('getEstateList', data).then(res => {
-                    
                     if (res['data'].length > 1) {
                         this.estates = res['data'];
                     } else {
@@ -101,9 +103,7 @@ export default {
                     }
                 });
             }
-        },
-
-        
+        }
     }
 };
 </script>
