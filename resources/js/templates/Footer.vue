@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-12 col-lg-12">
                         <p class="text-center mb-4">
-                            <a class="logo_footer" href="index.php"
+                            <a class="logo_footer" href="https://order-renove.jp/"
                                 ><img src="/assets/images/svg/logo_orderrenove_white.svg" alt="" class="img-fluid" width="224"
                             /></a>
                         </p>

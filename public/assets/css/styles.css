@@ -170,7 +170,7 @@ section {
 
 .title {
     text-align: center;
-    margin-bottom: 60px;
+    margin-bottom: 30px;
 }
 
 .subtitle {
@@ -1699,6 +1699,16 @@ footer .footer_bottom .btn img {
     }
 }
 
+@media (max-width: 1200px) {
+    ul.list_property li {
+        width: 48%;
+    }
+
+    .section_near_property ul.list_property li {
+        width: 23%;
+    }
+}
+
 @media (max-width: 1024px) {
     ul.list_property li {
         width: 48.5%;
@@ -1833,10 +1843,6 @@ footer .footer_bottom .btn img {
     }
 
     header .box_user span {
-        display: none;
-    }
-
-    .white-logo {
         display: none;
     }
 
