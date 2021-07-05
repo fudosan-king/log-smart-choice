@@ -70,13 +70,13 @@
                                     <p class="head">広さ：</p>
                                 </div>
                                 <div class="col-8 col-lg-8">
-                                    <p>{{ priceTotal }}</p>
+                                    <p>{{ square }}</p>
                                 </div>
                                 <div class="col-4 col-lg-4">
                                     <p class="head">価格：</p>
                                 </div>
                                 <div class="col-8 col-lg-8">
-                                    <p>{{ square }}</p>
+                                    <p>{{ priceTotal }}</p>
                                 </div>
                             </div>
                             <h4>パスワード</h4>

@@ -87,7 +87,7 @@
                 </div>
             </div>
         </div>
-        <div class="footer_bottom fixed-bottom">
+        <div class="footer_bottom fixed-bottom" v-if="contactPart == 'detail'">
             <a class="btn" target="_blank" href="https://www.logrenove.jp/contact"
                 ><img src="/assets/images/svg/i_mail.svg" alt="" class="img-fluid" width="18" />お問い合せ</a
             >
@@ -111,8 +111,17 @@ export default {
         return {
             logoSliver: logoSliver,
             iLocationBlack: iLocationBlack,
-            searchBy: searchBy
+            searchBy: searchBy,
+            contactPart: '',
         };
-    }
+    },
+    mounted() {
+        this.showContactPart();
+    },
+    methods: {
+        showContactPart() {
+            this.contactPart = this.$route.name
+        }
+    },
 };
 </script>
