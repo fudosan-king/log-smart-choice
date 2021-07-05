@@ -1,60 +1,76 @@
 <template>
     <div>
         <main id="main">
-            <section class="section_login">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12 col-lg-6 m-auto">
-                            <h2>確認メールの再送信</h2>
-                            <p>
-                                下記に登録したメールアドレスを入力してください。登録確認のご案内をメールでお送りします。
+
+            <div class="box_template">
+                <section class="p-0">
+                    <div class="box_top mb-0">
+                        <div class="container">
+                            <h2 class="title mb-3">確認メールの再送信</h2>
+                            <p class="subtitle mb-2">
+                                <small>下記に登録したメールアドレスを入力してください。登録確認のご案内をメールでお送りします。</small>
                             </p>
-                            <p>メールアドレス</p>
-                            <form autocomplete="off" class="frm_login" @submit.prevent="submit">
-                                <div class="form-group">
-                                    <input
-                                        type="email"
-                                        placeholder="例：xxxxxxx@hchinokanri.co.jp"
-                                        v-model="email"
-                                        class="form-control"
-                                        :class="{
-                                            'is-invalid': (submitted && $v.email.$error) || (error && error.length)
-                                        }"
-                                    />
-
-                                    <div v-if="submitted && $v.email.$error" class="invalid-feedback">
-                                        <span v-if="!$v.email.required">メールが必要です</span>
-                                        <span v-if="!$v.email.email">メールが無効です</span>
-                                    </div>
-                                    <div class="invalid-feedback" v-for="item in error" :key="item">
-                                        {{ item }}
-                                    </div>
-
-                                    <div class="valid-feedback d-block" v-for="item in message" :key="item">
-                                        {{ item }}
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-12 col-lg-8 offset-lg-2">
-                                            <div class="form-group text-center">
-                                                <button
-                                                    type="button"
-                                                    class="btn btnlogin "
-                                                    @click="reconfirmEmail()"
-                                                    :disabled="disabled"
-                                                >
-                                                    メールを送信する
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
                         </div>
                     </div>
-                </div>
-            </section>
+                </section>
+
+                <section class="section_pass">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 col-lg-12">
+                                <div class="box_toplogin mb-4">
+                                    <ul>
+                                        <li>
+                                            <a class="btn" href="#"><img src="images/svg/i_fb.svg" alt="" class="img-fluid" width="24">Facebookでログイン</a>
+                                        </li>
+                                        <li><a class="btn" href="#"><img src="images/svg/i_google.svg" alt="" class="img-fluid" width="24"> Googleでログイン</a></li>
+                                    </ul>
+                                </div>
+                                
+                                <form action="" class="frm_settingpass">
+                                    <div class="form-group">
+                                        <label for="">メールアドレス <span class="red">必須</span></label>
+                                        <input
+                                            type="email"
+                                            placeholder="orderrenove@propolife.co.jp"
+                                            v-model="email"
+                                            class="form-control"
+                                            :class="{
+                                                'is-invalid': (submitted && $v.email.$error) || (error && error.length)
+                                            }"
+                                        />
+
+                                        <div v-if="submitted && $v.email.$error" class="invalid-feedback">
+                                            <span v-if="!$v.email.required">メールが必要です</span>
+                                            <span v-if="!$v.email.email">メールが無効です</span>
+                                        </div>
+                                        <div class="invalid-feedback" v-for="item in error" :key="item">
+                                            {{ item }}
+                                        </div>
+
+                                        <div class="valid-feedback d-block" v-for="item in message" :key="item">
+                                            {{ item }}
+                                        </div>
+                                    </div>
+                                    <button
+                                        type="submit"
+                                        class="btn btnsave mb-3"
+                                        @click="reconfirmEmail()"
+                                        :disabled="disabled"
+                                    >
+                                        メールを送信する
+                                    </button>
+                                    <p class="text-center red">
+                                        <router-link class="text-decoration-none" :to="{ name: 'login' }">
+                                            ログインに戻る
+                                        </router-link>
+                                    </p>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
         </main>
     </div>
 </template>
