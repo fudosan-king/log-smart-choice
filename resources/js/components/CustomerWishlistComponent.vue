@@ -1,7 +1,6 @@
 <template>
     <div class="col-12 col-lg-12">
         <h2 class="title" v-if="lastEstate.address">{{ lastEstate.address.city }}</h2>
-        <h2 class="title">リノベーション・中古マンション物件一覧</h2>
         <ul v-if="wishtlist.length" class="list_property" v-on:scroll="handleScroll">
             <li
                 v-for="(wishtlistItem, index) in wishtlist"
