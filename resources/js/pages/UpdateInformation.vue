@@ -21,7 +21,7 @@
                                             v-model="customerInfo.name"
                                             type="text"
                                             class="form-control"
-                                            placeholder="ゴチャンユイ"
+                                            placeholder="例：木村"
                                             :class="{
                                                 'is-invalid': errorsApi.name && errorsApi.name.length
                                             }"
@@ -38,7 +38,7 @@
                                             v-model="customerInfo.last_name"
                                             type="text"
                                             class="form-control"
-                                            placeholder="アイン"
+                                            placeholder="例：衛"
                                             :class="{
                                                 'is-invalid': errorsApi.last_name && errorsApi.last_name.length
                                             }"
@@ -57,7 +57,7 @@
                                 <input
                                     type="text"
                                     class="form-control"
-                                    placeholder="anh-n@propolife.co.jp"
+                                    placeholder="例：xxxxxxxx@orderrenove.jp"
                                     v-model="customerInfo.email"
                                     :class="{
                                         'is-invalid':
@@ -74,7 +74,7 @@
                                     type="text"
                                     v-model="customerInfo.phone_number"
                                     class="form-control"
-                                    placeholder="08031792609"
+                                    placeholder="例：03122255546"
                                     :class="{
                                         'is-invalid': errorsApi.phone_number && errorsApi.phone_number.length
                                     }"
@@ -92,7 +92,7 @@
                                     type="text"
                                     v-model="customerInfo.land_line"
                                     class="form-control"
-                                    placeholder="08031792609"
+                                    placeholder="例：03122255546"
                                     :class="{
                                         'is-invalid': errorsApi.land_line && errorsApi.land_line.length
                                     }"
@@ -109,7 +109,7 @@
                                             <input
                                                 type="text"
                                                 class="form-control datepicker_year"
-                                                placeholder="2000"
+                                                placeholder=""
                                                 v-model="birthYear"
                                                 :class="{
                                                     'is-invalid': errorsApi.birthday && errorsApi.birthday.length
@@ -138,7 +138,7 @@
                                             <input
                                                 type="text"
                                                 class="form-control datepicker_month"
-                                                placeholder="11"
+                                                placeholder=""
                                                 v-model="birthMonth"
                                                 :class="{
                                                     'is-invalid': errorsApi.birthday && errorsApi.birthday.length
@@ -152,7 +152,7 @@
                                             <input
                                                 type="text"
                                                 class="form-control datepicker_day"
-                                                placeholder="01"
+                                                placeholder=""
                                                 v-model="birthDay"
                                                 :class="{
                                                     'is-invalid': errorsApi.birthday && errorsApi.birthday.length
@@ -162,7 +162,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <h4>パスワード</h4>
+                                <!-- <h4>パスワード</h4>
                                 <div class="row no-gutters">
                                     <div class="col-4 col-lg-4 align-self-center">
                                         <p class="head">未設定</p>
@@ -170,7 +170,7 @@
                                     <div class="col-8 col-lg-8 align-self-center">
                                         <a href="/customer/change-password" class="btn btnedit">設定</a>
                                     </div>
-                                </div>
+                                </div> -->
                                 <button type="button" class="btn btnsave my-5" @click="submit()">保存</button>
                             </form>
                         </div>
@@ -215,9 +215,11 @@ export default {
         getCustomer() {
             this.$store.dispatch('customerInfo').then(resp => {
                 this.customerInfo = resp;
-                this.birthYear = resp.birthday.slice(0, 4);
-                this.birthMonth = resp.birthday.slice(5, 7);
-                this.birthDay = resp.birthday.slice(8, 11);
+                if (resp.birthday) {
+                    this.birthYear = resp.birthday.slice(0, 4);
+                    this.birthMonth = resp.birthday.slice(5, 7);
+                    this.birthDay = resp.birthday.slice(8, 11);
+                }
             });
         },
         submit() {

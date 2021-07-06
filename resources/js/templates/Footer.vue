@@ -63,17 +63,17 @@
                         <ul>
                             <li>
                                 <a target="_blank" href="https://www.logsuite.co.jp"
-                                    ><img src="/assets/images/LogSuite.png" alt="" class="img-fluid" width="88"
+                                    ><img src="/assets/images/svg/logSuite2_white.svg" alt="" class="img-fluid" width="88"
                                 /></a>
                             </li>
                             <li>
                                 <a target="_blank" href="https://www.logarchitects.co.jp"
-                                    ><img src="/assets/images/LogArchitects.png" alt="" class="img-fluid" width="120"
+                                    ><img src="/assets/images/svg/logArch2_white.svg" alt="" class="img-fluid" width="120"
                                 /></a>
                             </li>
                             <li>
                                 <a target="_blank" href="https://www.logknot.co.jp"
-                                    ><img src="/assets/images/LogKnot.png" alt="" class="img-fluid" width="84"
+                                    ><img src="/assets/images/svg/logKnot2_white.svg" alt="" class="img-fluid" width="84"
                                 /></a>
                             </li>
                         </ul>

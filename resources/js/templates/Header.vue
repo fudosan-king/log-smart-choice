@@ -25,7 +25,8 @@
                             class="img-fluid icon-user-black"
                             width="15"
                         />
-                        <span>ログイン</span>
+                        <span v-if="userName">{{userName}}様</span>
+                        <span v-else>ログイン</span>
                     </a>
                     <div class="dropdown_user_content" style="display: none;">
                         <ul>
@@ -87,6 +88,7 @@
 
                                 <div
                                     id="collapseOne"
+                                    ref="collapseArea"
                                     class="collapse show"
                                     aria-labelledby="headingOne"
                                     data-parent="#accordionExample"
@@ -128,6 +130,7 @@
                                 </div>
                                 <div
                                     id="collapseTwo"
+                                    ref="collapseStation"
                                     class="collapse"
                                     aria-labelledby="headingTwo"
                                     data-parent="#accordionExample"
@@ -253,6 +256,8 @@ export default {
             this.dropSearchByType(type);
         });
 
+        this.userName = this.$getCookie('userName');
+
     },
     methods: {
         logout() {
@@ -275,7 +280,7 @@ export default {
 
         dropUser(event) {
             let accessToken = this.$getCookie('accessToken');
-            this.userName = this.$getCookie('userName');
+            // this.userName = this.$getCookie('userName');
             this.announcementCount = this.$getCookie('announcement_count');
             if (accessToken != '') {
                 event.preventDefault();
@@ -297,11 +302,15 @@ export default {
             $('.dropdown_user_content').hide();
             switch(type) {
                 case 'station': 
-                    this.$refs.showStation.click();
+                    if (!this.$refs.collapseStation.classList.contains('show')) {
+                        this.$refs.showStation.click();
+                    }
                     break;
                 case 'area': 
                 default:
-                    this.$refs.showArea.click();
+                    if (!this.$refs.collapseArea.classList.contains('show')) {
+                        this.$refs.showArea.click();
+                    }
                     break;
             }
         },

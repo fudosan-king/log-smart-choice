@@ -131,7 +131,7 @@
                                     </div>
                                 </div>
                                 <p>ご入力いただいた情報は、当社のプライバシーポリシーに従って厳重に管理いたします。<br>
-                                    下記の <a href="#">プライバシーポリシー</a>  を必ずご一読頂き、同意のうえお問い合わせください。</p>
+                                    下記の <a href="https://www.propolife.co.jp/privacypolicy" target="blank">プライバシーポリシー</a>  を必ずご一読頂き、同意のうえお問い合わせください。</p>
                                 <div class="custom-control custom-checkbox text-center mb-3">
                                     <input type="checkbox" class="custom-control-input" id="customCheck1">
                                     <label class="custom-control-label" for="customCheck1">同意する</label>
@@ -139,6 +139,11 @@
                                 <div class="form-group btn_login_submit text-center">
                                     <button type="submit" class="btn btnsave" :disabled="disabled">申し込む</button>
                                 </div>
+                                <p class="text-center red">
+                                    <router-link class="d-block" :to="{ name: 'login' }">
+                                        ログインに戻る
+                                    </router-link>
+                                </p>
                             </form>
                         </div>
                     </div>
