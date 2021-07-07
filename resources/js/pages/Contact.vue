@@ -284,17 +284,17 @@
                                                         name="email"
                                                         class="form-control"
                                                         placeholder="例：xxxxxxx@logrenove.jp"
-                                                        :value="customer.email"
-                                                        v-on:input="customer.email = $event.target.value"
+                                                        :value="email"
+                                                        v-on:input="email = $event.target.value"
                                                         :class="{
-                                                            'is-invalid': submitted && $v.customer.email.$error
+                                                            'is-invalid': submitted && $v.email.$error
                                                         }"
                                                     />
                                                     <div
-                                                        v-if="submitted && $v.customer.email.$error"
+                                                        v-if="submitted && $v.email.$error"
                                                         class="invalid-feedback"
                                                     >
-                                                        <span v-if="!$v.customer.email.required"
+                                                        <span v-if="!$v.email.required"
                                                             >メールアドレスを入力してください。</span
                                                         >
                                                         <span v-if="!$v.customer.email.email">メールが無効です</span>
@@ -326,7 +326,10 @@
                                                         <span v-if="!$v.phone_number.required"
                                                             >電話番号を入力してください。</span
                                                         >
-                                                        <span v-if="!$v.phone_number.minLength || !$v.phone_number.maxLength"
+                                                        <span
+                                                            v-if="
+                                                                !$v.phone_number.minLength || !$v.phone_number.maxLength
+                                                            "
                                                             >電話番号が無効です</span
                                                         >
                                                     </div>
@@ -481,11 +484,9 @@ export default {
         };
     },
     validations: {
-        customer: {
-            email: {
-                required,
-                email
-            }
+        email: {
+            required,
+            email
         },
         full_name: {
             required
@@ -525,12 +526,13 @@ export default {
                 .then(resp => {
                     this.customer = resp;
                     this.full_name = resp.name + ' ' + resp.last_name;
+                    this.email = resp.email;
                     this.phone_number = resp.phone_number;
                     if (this.$getCookie('contactData').length > 0) {
                         this.contactData = JSON.parse(this.$getCookie('contactData'));
                         this.phone_number = this.contactData.phoneNumber;
                         this.full_name = this.contactData.fullName;
-                        this.customer.email = this.contactData.email;
+                        this.email = this.contactData.email;
                         this.inquiryContent = this.contactData.inquiryContent;
                         this.hopeDayFirst = hopeDayFirst;
                         this.hopeDaySecond = hopeDaySecond;
