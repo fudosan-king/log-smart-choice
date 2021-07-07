@@ -297,7 +297,7 @@
                                                         <span v-if="!$v.email.required"
                                                             >メールアドレスを入力してください。</span
                                                         >
-                                                        <span v-if="!$v.customer.email.email">メールが無効です</span>
+                                                        <span v-if="!$v.email.email">メールが無効です</span>
                                                     </div>
                                                 </div>
                                             </div>
