@@ -7,15 +7,20 @@
                         <section class="p-0">
                             <div class="box_top mb-0">
                                 <div class="container">
-                                    <h2 class="title mb-3">物件お問合せ完了</h2>
+                                    <h1 class="title mb-3">物件お問合せ完了</h1>
 
-                                    <p class="title mb-3">お問い合わせいただき</p>
-                                    <p class="title mb-3">ありがとうございました。</p>
+                                    <p class="title mb-3"><b>zお問い合わせいただき</b></p>
+                                    <p class="title mb-3"><b>ありがとうございました。</b></p>
                                     <p class="title mb-3">
                                         ご入力いただいたメールアドレスに、お問合せ完了メールをお送りしました。
                                     </p>
                                     <p class="title mb-3">のちほど担当者よりご連絡申し上げます。</p>
-                                    <p class="title mb-3">オーダーリノベトップに戻る</p>
+                                    <div class="form-group text-center mb-0 row">
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-6"><button type="button" @click="backHome" class="btn btnsave">オーダーリノベトップに戻る</button></div>
+                                        <div class="col-md-3"></div>
+                                        
+                                    </div>
                                 </div>
                             </div>
                         </section>
@@ -26,5 +31,11 @@
     </div>
 </template>
 <script>
-export default {};
+export default {
+    methods: {
+        backHome() {
+            this.$router.push("/");
+        }
+    },
+};
 </script>

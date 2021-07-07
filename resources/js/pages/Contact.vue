@@ -295,7 +295,7 @@
                                                         class="invalid-feedback"
                                                     >
                                                         <span v-if="!$v.customer.email.required"
-                                                            >名前を入力してください。</span
+                                                            >メールアドレスを入力してください。</span
                                                         >
                                                         <span v-if="!$v.customer.email.email">メールが無効です</span>
                                                     </div>
