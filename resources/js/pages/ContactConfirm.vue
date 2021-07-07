@@ -102,7 +102,10 @@
                                                                     >
                                                                 </div>
                                                                 <div class="col-12 col-lg-6">
-                                                                    <a class="btn btn_send" @click="successContact" data-toggle="modal"
+                                                                    <a
+                                                                        class="btn btn_send"
+                                                                        @click="successContact"
+                                                                        data-toggle="modal"
                                                                         >送信する
                                                                         <img
                                                                             src="/assets/images/svg/i_right_white.svg"
@@ -173,6 +176,10 @@
                                                 />
                                             </div>
 
+                                            <div>
+                                                <label>EstateUrl</label>
+                                                <input name="estate_url" type="text" :value="contactData.estateUrl" />
+                                            </div>
                                             <button
                                                 type="submit"
                                                 data-formrun-error-text="未入力の項目があります"
@@ -226,9 +233,11 @@ export default {
             $('input[name="お名前"]').val(this.contactData.fullName);
             $('input[name="メールアドレス"]').val(this.contactData.email);
             $('input[name="電話番号"]').val(this.contactData.phoneNumber);
+            $('input[name="estate_url"]').val(this.contactData.estateUrl);
             $('textarea[name="第1希望日時"]').val(this.contactData.inquiryContent);
+            this.$setCookie('contactData', '', 1);
             $('#postToFormrun').submit();
         }
-    }
+    },
 };
 </script>
