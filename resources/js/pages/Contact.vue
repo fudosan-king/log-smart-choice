@@ -527,7 +527,6 @@ export default {
                     this.full_name = resp.name + ' ' + resp.last_name;
                     this.phone_number = resp.phone_number;
                     if (this.$getCookie('contactData').length > 0) {
-                        console.log('here');
                         this.contactData = JSON.parse(this.$getCookie('contactData'));
                         this.phone_number = this.contactData.phoneNumber;
                         this.full_name = this.contactData.fullName;
