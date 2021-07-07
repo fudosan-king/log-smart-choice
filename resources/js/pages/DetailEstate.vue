@@ -430,26 +430,14 @@ export default {
     methods: {
         getListEstates() {
             const id = this.$route.path.substring(8);
-            axios({ url: '/detail', method: 'POST', data: { id: id } }).then(resp => {
-                if (resp.data['data'] && resp.data['data']['estate'].length) {
-                    this.estate = resp.data['data']['estate'][0];
+            let data = {};
+            if (this.$getCookie('estate_id').length) {
+                data.id = id;
+                this.$store.dispatch('getEstate', data).then(resp => {
+                    this.estate = resp.data.data.estate[0];
                     if (this.estate['estate_information']) {
                         if (this.estate['estate_information']['estate_main_photo']) {
                             this.mainPhoto = this.estate['estate_information']['estate_main_photo'];
-                        }
-
-                        if (this.estate['estate_information']['renovation_media']) {
-                            for (let i = 0; i < this.estate['estate_information']['renovation_media'].length; i++) {
-                                this.slider.push(this.estate['estate_information']['renovation_media'][i]['url_path']);
-                            }
-                        }
-
-                        if (this.estate['estate_information']['estate_befor_photo']) {
-                            this.imageBefore = this.estate['estate_information']['estate_befor_photo'];
-                        }
-
-                        if (this.estate['estate_information']['estate_after_photo']) {
-                            this.imageAfter = this.estate['estate_information']['estate_after_photo'];
                         }
 
                         if (this.estate['other_fee']) {
@@ -474,8 +462,8 @@ export default {
                             this.estate.longitude +
                             '&output=embed';
                     }
-                }
-            });
+                }).catch(error => {});
+            }
         },
         change() {
         },

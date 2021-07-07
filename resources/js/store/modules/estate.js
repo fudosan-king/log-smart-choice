@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { reject } from 'lodash';
 import Vue from 'vue';
 import globalVaiable from '../../../js/globalHelper';
 
@@ -57,6 +58,16 @@ const actions = {
             });
         })
     },
+
+    getEstate({}, data) {
+        return new Promise((relsove, reject) => {
+            axios({ url: '/detail', method: 'POST', data: data }).then(resp => {
+                relsove(resp);
+            }).catch(error => {
+                reject(error);
+            });
+        })
+    }
 
 };
 

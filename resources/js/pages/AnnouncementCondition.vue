@@ -207,7 +207,6 @@ export default {
                         this.disabled = false;
                         this.submitted = false;
                         this.errorsApi = error.response.data.errors.messages[0];
-                        console.log(this.errorsApi);
                     });
             }
         },
