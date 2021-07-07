@@ -37,6 +37,16 @@ const routes = [
         component: () => import('../pages/Contact.vue'),
     },
     {
+        path: '/contact/confirm',
+        name: 'contactConfirm',
+        component: () => import('../pages/ContactConfirm.vue'),
+    },
+    {
+        path: '/contact/thanks',
+        name: 'contactSuccess',
+        component: () => import('../pages/ContactSuccess.vue'),
+    },
+    {
         path: '/register',
         name: 'register',
         component: () => import('../pages/Register.vue'),

@@ -14,7 +14,8 @@ ul.estate-description-content {
     padding-left: 12%;
 }
 
-.dropdown_user .dropdown_user_content:after, .dropdown_search .dropdown_search_content:after {
+.dropdown_user .dropdown_user_content:after,
+.dropdown_search .dropdown_search_content:after {
     content: '';
     position: fixed;
     z-index: -1;
@@ -40,17 +41,17 @@ ul.estate-description-content {
 }
 
 .dropdown_search_content .stations .station-item {
-    white-space: nowrap; 
+    white-space: nowrap;
     text-overflow: ellipsis;
 }
 
 .dropdown_search_content .stations .station-item:hover {
-    white-space: normal; 
+    white-space: normal;
     text-overflow: unset;
 }
 
 footer .footer_bottom .btn {
-    font-size: 0.775em
+    font-size: 0.775em;
 }
 
 .curser-pointer {
@@ -67,5 +68,13 @@ footer .footer_bottom .btn {
     #main .list_estate {
         padding-top: 70px;
     }
+}
 
+footer .modal_register ul li {
+    width: 100%;
+    margin-right: 0px;
+}
+
+footer .modal-footer {
+    display: block;
 }
