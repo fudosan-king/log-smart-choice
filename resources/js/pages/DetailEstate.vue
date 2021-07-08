@@ -467,9 +467,9 @@ export default {
     },
     methods: {
         getListEstates() {
-            const id = this.$route.path.substring(8);
+            const id = this.$route.params.estateId;
             let data = {};
-            if (this.$getCookie('estate_id').length) {
+            if (id.length) {
                 data.id = id;
                 this.$store.dispatch('getEstate', data).then(resp => {
                     this.estate = resp.data.data.estate[0];
