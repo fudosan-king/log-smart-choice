@@ -24,6 +24,15 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td width="50%">
+                                                                    <label>物件名 </label>
+                                                                </td>
+                                                                <td class="confirm-text">
+                                                                    <span id="date">{{ contactData.estateName }}</span>
+                                                                </td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td width="50%">
                                                                     <label>第1希望日時</label>
                                                                 </td>
                                                                 <td class="confirm-text">
@@ -128,6 +137,16 @@
                                             id="postToFormrun"
                                         >
                                             <!-- ↓You can add/change fields. -->
+
+                                            <div>
+                                                <label>物件名</label>
+                                                <input
+                                                    name="物件名"
+                                                    type="text"
+                                                    :value="contactData.estateName"
+                                                />
+                                            </div>
+
                                             <div>
                                                 <label>第1希望日時</label>
                                                 <input
@@ -228,6 +247,7 @@ export default {
         },
 
         successContact() {
+            $('input[name="物件名"]').val(this.contactData.estateName);
             $('input[name="第1希望日時"]').val(this.contactData.hopeDayFirst + ' ' + this.contactData.startTimeFirst);
             $('input[name="第2希望日時"]').val(this.contactData.hopeDaySecond + ' ' + this.contactData.startTimeSecond);
             $('input[name="お名前"]').val(this.contactData.fullName);
@@ -238,6 +258,6 @@ export default {
             this.$setCookie('contactData', '', 1);
             $('#postToFormrun').submit();
         }
-    },
+    }
 };
 </script>
