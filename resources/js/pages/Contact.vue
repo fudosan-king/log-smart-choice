@@ -480,7 +480,11 @@ export default {
             phone_number: '',
             errorMessage: {},
             contactData: {},
-            inquiryContent: ''
+            inquiryContent: '',
+            hopeDayFirst:'',
+            hopeDaySecond:'',
+            startTimeFirst:'',
+            startTimeSecond:'',
         };
     },
     validations: {
@@ -528,19 +532,34 @@ export default {
                     this.full_name = resp.name + ' ' + resp.last_name;
                     this.email = resp.email;
                     this.phone_number = resp.phone_number;
+                    console.log('here')
                     if (this.$getCookie('contactData').length > 0) {
+                        console.log('here1')
                         this.contactData = JSON.parse(this.$getCookie('contactData'));
                         this.phone_number = this.contactData.phoneNumber;
                         this.full_name = this.contactData.fullName;
                         this.email = this.contactData.email;
                         this.inquiryContent = this.contactData.inquiryContent;
-                        this.hopeDayFirst = hopeDayFirst;
-                        this.hopeDaySecond = hopeDaySecond;
-                        this.startTimeFirst = startTimeFirst;
-                        this.startTimeSecond = startTimeSecond;
+                        this.hopeDayFirst = this.contactData.hopeDayFirst;
+                        this.hopeDaySecond = this.contactData.hopeDaySecond;
+                        this.startTimeFirst = this.contactData.startTimeFirst;
+                        this.startTimeSecond = this.contactData.startTimeSecond;
                     }
                 })
-                .catch(() => {});
+                .catch(() => {
+                    if (this.$getCookie('contactData').length > 0) {
+                        console.log('here1')
+                        this.contactData = JSON.parse(this.$getCookie('contactData'));
+                        this.phone_number = this.contactData.phoneNumber;
+                        this.full_name = this.contactData.fullName;
+                        this.email = this.contactData.email;
+                        this.inquiryContent = this.contactData.inquiryContent;
+                        this.hopeDayFirst = this.contactData.hopeDayFirst;
+                        this.hopeDaySecond = this.contactData.hopeDaySecond;
+                        this.startTimeFirst = this.contactData.startTimeFirst;
+                        this.startTimeSecond = this.contactData.startTimeSecond;
+                    }
+                });
         },
 
         submitData() {
@@ -565,7 +584,7 @@ export default {
 
             let data = {};
             if (!this.$v.$invalid && this.submitted) {
-                data.email = this.customer.email;
+                data.email = this.email;
                 data.fullName = this.full_name;
                 data.phoneNumber = this.phone_number;
                 data.inquiryContent = inquiryContent;
