@@ -1,19 +1,21 @@
 <template>
-	<main id="main">
-	    <section class="section_propertyinformation list_estate">
-	        <div class="container">
-	            <div class="row">
-                	<EstatesComponent></EstatesComponent>
-	            </div>
-	        </div>
-	    </section>
+    <main>
+        <div class="box_template">
+            <section class="section_near_property pt-0">
+                <div class="box_top">
+                    <div class="container">
+                        <EstatesComponent></EstatesComponent>
+                    </div>
+                </div>
+            </section>
+        </div>
     </main>
 </template>
 
 <script>
-    export default {
-    	components: {
-            EstatesComponent: () => import('../components/EstatesComponent'),
-        },
-    };
+export default {
+    components: {
+        EstatesComponent: () => import('../components/EstatesComponent')
+    }
+};
 </script>

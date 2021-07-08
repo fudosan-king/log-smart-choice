@@ -382,7 +382,7 @@
                             </template>
 
                             <p class="text-center mt-3">
-                                <a v-bind:href="'/list'" class="btn btnSeemore">もっと見る</a>
+                                <a class="btn btnSeemore" @click="searchEstateDistrict(estate.address.city)">もっと見る</a>
                             </p>
                         </div>
                     </div>
@@ -469,6 +469,22 @@ export default {
         },
         mobileHandleShow() {
             this.mobileShow = !this.mobileShow;
+        },
+
+        searchEstateDistrict(district) {
+            let cookieStation = this.$getCookie('station');
+            if (cookieStation.length > 0) {
+                this.$setCookie('station', '', 1);
+            }
+            this.$setCookie('district', district, 1);
+            this.$router
+                .push({ name: 'list' })
+                .then(() => {
+                    this.$router.go('0');
+                })
+                .catch(() => {
+                    this.$router.go('0');
+                });
         }
     },
     updated() {
