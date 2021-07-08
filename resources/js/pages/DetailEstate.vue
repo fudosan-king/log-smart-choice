@@ -609,7 +609,7 @@ export default {
             }
             this.paymentMonthly = Math.ceil(this.monthlyLoan + this.estate.management_fee + this.estate.repair_reserve_fee);
             this.paymentMonthlyBonus = Math.ceil(this.paymentMonthly + (this.bonus / 6));
-            this.chartData = [this.estate.management_fee, this.estate.repair_reserve_fee, this.paymentMonthly];
+            this.chartData = [this.estate.management_fee, this.estate.repair_reserve_fee, this.monthlyLoan];
         },
     },
     updated() {
