@@ -25,7 +25,7 @@
                             class="img-fluid icon-user-black"
                             width="15"
                         />
-                        <span v-if="userName">{{userName}}様</span>
+                        <span v-if="userName">{{ userName }}様</span>
                         <span v-else>ログイン</span>
                     </a>
                     <div class="dropdown_user_content" style="display: none;">
@@ -38,7 +38,9 @@
                             </li>
                             <li><a href="/customer/announcement-condition">メルマガ配信希望条件</a></li>
                             <li>
-                                <a href="/notice">お知らせ <span v-if="announcementCount != 0">{{ announcementCount }}</span></a>
+                                <a href="/notice"
+                                    >お知らせ <span v-if="announcementCount != 0">{{ announcementCount }}</span></a
+                                >
                             </li>
                             <li><a href="/wishlist">お気に入り</a></li>
                             <li><a href="javascript:void(0)" v-on:click="logout">ログアウト</a></li>
@@ -138,9 +140,12 @@
                                     <div class="card-body stations">
                                         <ul>
                                             <li v-for="station in stationList">
-                                                <a class="station-item" href="javascript:void(0)" v-on:click="searchStation(station)">{{
-                                                    station
-                                                }}</a>
+                                                <a
+                                                    class="station-item"
+                                                    href="javascript:void(0)"
+                                                    v-on:click="searchStation(station)"
+                                                    >{{ station }}</a
+                                                >
                                             </li>
                                         </ul>
                                     </div>
@@ -223,7 +228,7 @@ export default {
             userName: '',
             districtList: {},
             stationList: {},
-            announcementCount: 0,
+            announcementCount: 0
         };
     },
     mounted() {
@@ -252,12 +257,11 @@ export default {
         this.getStation();
         this.getDistrict();
 
-        LSMEvent.$on("handleSeachClick", (type) => {
+        LSMEvent.$on('handleSeachClick', type => {
             this.dropSearchByType(type);
         });
 
         this.userName = this.$getCookie('userName');
-
     },
     methods: {
         logout() {
@@ -271,7 +275,7 @@ export default {
                     this.$setCookie('userSocialId', '', 1);
                     this.$setCookie('district', '', 1);
                     this.$setCookie('station', '', 1);
-                    this.$setCookie('announcement_count', '', 1)
+                    this.$setCookie('announcement_count', '', 1);
                     delete axios.defaults.headers.common['Authorization'];
                     this.$router.go(0);
                 })
@@ -300,13 +304,13 @@ export default {
         dropSearchByType(type = 'area') {
             $('.dropdown_search_content').slideToggle('fast');
             $('.dropdown_user_content').hide();
-            switch(type) {
-                case 'station': 
+            switch (type) {
+                case 'station':
                     if (!this.$refs.collapseStation.classList.contains('show')) {
                         this.$refs.showStation.click();
                     }
                     break;
-                case 'area': 
+                case 'area':
                 default:
                     if (!this.$refs.collapseArea.classList.contains('show')) {
                         this.$refs.showArea.click();

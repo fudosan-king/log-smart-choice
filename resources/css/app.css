@@ -75,6 +75,23 @@ footer .modal_register ul li {
     margin-right: 0px;
 }
 
+
+@media (max-width: 1000px) {
+    .i_white {
+        display: none !important;
+    }
+    .icon-user-white {
+        display: none !important;
+    }
+    .icon-search-white {
+        display: none !important;
+    }
+
+    header .box_user a {
+        color: #212529 !important;
+    }
+}
+
 footer .modal-footer {
     display: block;
 }
