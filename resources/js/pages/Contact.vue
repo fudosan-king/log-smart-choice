@@ -290,10 +290,7 @@
                                                             'is-invalid': submitted && $v.email.$error
                                                         }"
                                                     />
-                                                    <div
-                                                        v-if="submitted && $v.email.$error"
-                                                        class="invalid-feedback"
-                                                    >
+                                                    <div v-if="submitted && $v.email.$error" class="invalid-feedback">
                                                         <span v-if="!$v.email.required"
                                                             >メールアドレスを入力してください。</span
                                                         >
@@ -424,42 +421,6 @@
                         </div>
                     </div>
                 </section>
-
-                <!-- Do not change class, action, method. -->
-                <!-- <form class="formrun" action="https://form.run/api/v1/r/g7jfr70fub07t38hbh1mfo9h" method="post"> -->
-                <!-- ↓You can add/change fields. -->
-                <!-- <div>
-                        <label>お名前</label>
-                        <input name="test001" type="text" />
-                    </div>
-
-                    <div>
-                        <label>メールアドレス [必須]</label>
-                        <input name="test002" type="text" data-formrun-type="email" data-formrun-required />
-                        <div data-formrun-show-if-error="メールアドレス">メールアドレスを正しく入力してください</div>
-                    </div>
-
-                    <div>
-                        <label>お問い合わせ [必須]</label>
-                        <textarea name="test003" data-formrun-required></textarea>
-                        <div data-formrun-show-if-error="お問い合わせ">お問い合わせ入力してください</div>
-                    </div>
-
-                    <div>
-                        <label>個人情報利用同意 [必須]</label>
-                        <input type="checkbox" name="test004" data-formrun-required />
-                        <div data-formrun-show-if-error="個人情報利用同意">同意してください</div>
-                    </div>
-
-                    <div class="g-recaptcha" data-sitekey="6LczNncbAAAAAISz46BAWp4l5aFvln66UheX72it"></div>
-                    <button
-                        type="submit"
-                        data-formrun-error-text="未入力の項目があります"
-                        data-formrun-submitting-text="送信中..."
-                    >
-                        送信
-                    </button>
-                </form> -->
             </div>
         </main>
     </div>
@@ -481,10 +442,10 @@ export default {
             errorMessage: {},
             contactData: {},
             inquiryContent: '',
-            hopeDayFirst:'',
-            hopeDaySecond:'',
-            startTimeFirst:'',
-            startTimeSecond:'',
+            hopeDayFirst: '',
+            hopeDaySecond: '',
+            startTimeFirst: '',
+            startTimeSecond: ''
         };
     },
     validations: {
@@ -532,9 +493,8 @@ export default {
                     this.full_name = resp.name + ' ' + resp.last_name;
                     this.email = resp.email;
                     this.phone_number = resp.phone_number;
-                    console.log('here')
+                    console.log('here');
                     if (this.$getCookie('contactData').length > 0) {
-                        console.log('here1')
                         this.contactData = JSON.parse(this.$getCookie('contactData'));
                         this.phone_number = this.contactData.phoneNumber;
                         this.full_name = this.contactData.fullName;
@@ -548,7 +508,6 @@ export default {
                 })
                 .catch(() => {
                     if (this.$getCookie('contactData').length > 0) {
-                        console.log('here1')
                         this.contactData = JSON.parse(this.$getCookie('contactData'));
                         this.phone_number = this.contactData.phoneNumber;
                         this.full_name = this.contactData.fullName;
@@ -593,6 +552,7 @@ export default {
                 data.hopeDaySecond = hopeDaySecond;
                 data.startTimeFirst = startTimeFirst;
                 data.startTimeSecond = startTimeSecond;
+                data.estateName = this.estate.estate_name;
                 this.$setCookie('contactData', JSON.stringify(data), 1);
                 this.$router.push('contact/confirm');
             }
