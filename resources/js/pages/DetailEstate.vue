@@ -58,7 +58,7 @@
                             <div class="box_calcu">
                                 <h1>
                                     リノベ＋物件価格
-                                    <span>{{ estate.total_price ? estate.total_price : estate.price }}</span
+                                    <span>{{ $lscFormatCurrency(estate.total_price ? estate.total_price : estate.price) }}</span
                                     >万円
                                 </h1>
                                 <form action="" class="frm_calcu">
@@ -74,12 +74,12 @@
                                                         <h4>毎月のお支払例</h4>
                                                     </div>
                                                     <div class="col-6 col-lg-6 align-self-center">
-                                                        <h2>201,089<span>円</span></h2>
-                                                        <p class="text-right">ボーナス月　＋<span>０</span>円</p>
+                                                        <h2>{{$lscFormatCurrency(paymentMonthly)}}<span>円</span></h2>
+                                                        <p class="text-right">ボーナス月　＋<span>{{$lscFormatCurrency(paymentMonthlyBonus)}}</span>円</p>
                                                     </div>
                                                 </div>
                                                 <p class="text-center mt-3">
-                                                    管理費：{{ estate.management_fee }}円／修繕積立金：{{ estate.repair_reserve_fee }}円 含む
+                                                    管理費：{{ $lscFormatCurrency(estate.management_fee) }}円／修繕積立金：{{ $lscFormatCurrency(estate.repair_reserve_fee) }}円 含む
                                                 </p>
                                             </div>
 
@@ -98,7 +98,7 @@
                                                                 <input
                                                                     type="text"
                                                                     class="form-control monthly-loan-payment"
-                                                                    placeholder="155,089"
+                                                                    :value="[[$lscFormatCurrency(monthlyLoan)]]"
                                                                 />
                                                                 <span class="ml-2 sub">円</span>
                                                             </div>
@@ -109,23 +109,26 @@
                                                                 <input
                                                                     type="text"
                                                                     class="form-control"
-                                                                    placeholder="0"
+                                                                    ref="lscBonus"
+                                                                    v-on:change="changeMoney('lscBonus', $event)"
+                                                                    :value="[[$lscFormatCurrency(bonus)]]"
                                                                 />
                                                                 <span class="ml-2 sub">円/回</span>
                                                             </div>
                                                         </div>
                                                         <div class="form-group mb-0">
                                                             <label class="mb-0" for="">管理費</label>
-                                                            <h5>{{ estate.management_fee }}<span>円／月</span></h5>
+                                                            <h5>{{ $lscFormatCurrency(estate.management_fee) }}<span>円／月</span></h5>
                                                         </div>
                                                         <div class="form-group">
                                                             <label class="mb-0" for="">修繕積立金</label>
-                                                            <h5>{{estate.repair_reserve_fee}}<span>円／月</span></h5>
+                                                            <h5>{{$lscFormatCurrency(estate.repair_reserve_fee)}}<span>円／月</span></h5>
                                                         </div>
                                                     </div>
                                                     <div class="col-6 col-lg-6">
                                                         <!-- <canvas id="myChart" width="213" height="213"></canvas> -->
-                                                        <pie-chart-component></pie-chart-component>
+                                                        <pie-chart-component 
+                                                            :parent-data="chartData"></pie-chart-component>
                                                     </div>
                                                 </div>
                                             </div>
@@ -142,7 +145,9 @@
                                                                     type="text"
                                                                     class="form-control"
                                                                     maxlength="4"
-                                                                    placeholder="0"
+                                                                    ref="lscOwnMoney"
+                                                                    v-on:change="changeMoney('lscOwnMoney', $event)"
+                                                                    :value="[[$lscFormatCurrency(ownMoney)]]"
                                                                 />
                                                                 <span class="ml-2 sub">万円</span>
                                                             </div>
@@ -154,7 +159,9 @@
                                                                     type="text"
                                                                     class="form-control"
                                                                     maxlength="4"
-                                                                    :placeholder="[[estate.total_price ? estate.total_price : estate.price ]]"
+                                                                    ref="lscBorrowedMoney"
+                                                                    v-on:change="changeMoney('lscBorrowedMoney', $event)"
+                                                                    :value="[[$lscFormatCurrency(borrowedMoney)]]"
                                                                 />
                                                                 <span class="ml-2 sub">万円</span>
                                                             </div>
@@ -165,6 +172,7 @@
                                                     <input
                                                         type="text"
                                                         class="js-range-slider"
+                                                        ref="lscMoneyRange"
                                                         name="my_range"
                                                         value=""
                                                     />
@@ -178,9 +186,12 @@
                                                             <label for="">返済期間</label>
                                                             <div class="d-flex align-items-center">
                                                                 <input
-                                                                    type="text"
+                                                                    type="number"
                                                                     class="form-control pay-term"
-                                                                    placeholder="0"
+                                                                    ref="lscPaymentTerm"
+                                                                    min="0" max="35"
+                                                                    v-on:blur="changeMoney('lscPaymentTerm', $event)"
+                                                                    :value="[[paymentTerm]]"
                                                                 />
                                                                 <span class="ml-2 sub">年</span>
                                                             </div>
@@ -202,9 +213,12 @@
                                                             <label for="">金利（元利均等）</label>
                                                             <div class="d-flex align-items-center">
                                                                 <input
-                                                                    type="text"
+                                                                    type="number"
                                                                     class="form-control interest"
-                                                                    placeholder="0"
+                                                                    ref="lscPaymentInterest"
+                                                                    min="0" max="3"
+                                                                    v-on:blur="changeMoney('lscPaymentInterest', $event)"
+                                                                    :value="[[paymentInterest]]"
                                                                 />
                                                                 <span class="ml-2 sub">%</span>
                                                             </div>
@@ -245,8 +259,8 @@
                                         <tr>
                                             <th>管理費・修繕積立金</th>
                                             <td>
-                                                管理費：{{ estate.management_fee }}円<br />
-                                                修繕積立金：{{ estate.repair_reserve_fee }}円
+                                                管理費：{{ $lscFormatCurrency(estate.management_fee) }}円<br />
+                                                修繕積立金：{{ $lscFormatCurrency(estate.repair_reserve_fee) }}円
                                             </td>
                                         </tr>
                                         <tr>
@@ -421,11 +435,35 @@ export default {
             otherFee: [],
             payTerm: '',
             srcMap: '',
-            mobileShow: false
+            mobileShow: false,
+            ownMoney: 0,
+            borrowedMoney: 0,
+            paymentTerm: 0,
+            paymentInterest: 0,
+            monthlyLoan: 0,
+            paymentMonthly: 0,
+            paymentMonthlyBonus: 0,
+            bonus: 0,
+            chartData: [10, 10, 80],
+            totalPrice: 0,
         };
     },
     mounted() {
         this.getListEstates();
+    },
+    watch: {
+        totalPrice: function(newValue, oldValue) {
+            $('.js-range-slider').ionRangeSlider({
+                min: 0,
+                max: parseInt(newValue),
+                step: 100,
+                onChange: (data) => {
+                    this.ownMoney = data.from;
+                    this.borrowedMoney = this.totalPrice - this.ownMoney;
+                    this.calculateMonthlyLoanPayment();
+                }
+            });
+        }
     },
     methods: {
         getListEstates() {
@@ -453,6 +491,9 @@ export default {
                             });
                         }
                         this.estateInfo = this.estate['estate_information'];
+                        this.borrowedMoney = this.estate.total_price;
+                        this.totalPrice = this.estate.total_price;
+                        this.calculateMonthlyLoanPayment();
                     }
                     if (this.estate.latitude && this.estate.longitude) {
                         this.srcMap =
@@ -485,7 +526,91 @@ export default {
                 .catch(() => {
                     this.$router.go('0');
                 });
-        }
+        },
+        changeRangeSlider(type, from) {
+            let elementClass = '';
+            switch(type) {
+                case 'ownMoney':
+                    elementClass = '.js-range-slider';
+                    break;
+                case 'paymentTerm':
+                    elementClass = '.js-range-slider1'
+                    break;  
+                case 'paymentInterest':
+                    elementClass = '.js-range-slider2';
+                    break;  
+            }
+            if (elementClass.length > 0) {
+                $(elementClass).data('ionRangeSlider').update({
+                    from: from,
+                });
+            }
+        },
+        changeMoney(type, event) {
+            event.preventDefault();
+            let currentValue = parseInt(event.target.value);
+            switch(type) {
+                case 'lscOwnMoney': 
+                    this.ownMoney = currentValue;
+                    this.borrowedMoney = this.estate.total_price - this.ownMoney;
+                    this.changeRangeSlider('ownMoney', this.ownMoney);
+                    break;
+                case 'lscBorrowedMoney': 
+                    this.borrowedMoney = currentValue;
+                    this.ownMoney = this.estate.total_price - this.borrowedMoney;
+                    this.changeRangeSlider('ownMoney', this.ownMoney);
+                    break;
+                case 'lscPaymentTerm': 
+                    let currentPaymentTerm = currentValue;
+                    if (currentPaymentTerm < 0) {
+                        this.paymentTerm = 0;
+                    }
+                    else if (currentPaymentTerm > 35) {
+                        this.paymentTerm = 35;
+                    } else {
+                        this.paymentTerm = currentPaymentTerm;
+                    }
+                    this.changeRangeSlider('paymentTerm', this.paymentTerm);
+                    break;
+                case 'lscPaymentInterest': 
+                    let currentPaymentInterest = currentValue;
+                    if (currentPaymentInterest < 0) {
+                        this.paymentInterest = 0;
+                    } else if (currentPaymentInterest > 3) {
+                        this.paymentInterest = 3;
+                    } else {
+                        this.paymentInterest = currentPaymentInterest;
+                    }
+                    this.changeRangeSlider('paymentInterest', this.paymentInterest);
+                    break;
+                case 'lscBonus': 
+                    this.bonus = currentValue;
+                    break;
+                default : 
+                    break;
+            }
+            this.calculateMonthlyLoanPayment();
+        },
+        calculateMonthlyLoanPayment() {
+            let interestPercen = this.paymentInterest / 100;
+            let paymentTerm12 = this.paymentTerm * 12;
+            let interest12 = 1 + (interestPercen / 12);
+            let interestWithMonth = Math.pow(interest12, paymentTerm12);
+            let calBorrowedMoney = this.borrowedMoney * 10000;
+
+            if (this.paymentTerm <= 0) {
+                this.monthlyLoan = calBorrowedMoney;
+            } else if (this.paymentInterest <= 0) {
+                this.monthlyLoan = Math.ceil(calBorrowedMoney / paymentTerm12);
+            } else {
+                let sharePart = calBorrowedMoney * (interestPercen / 12) * interestWithMonth;
+                let dividedPart = interestWithMonth - 1;
+                this.monthlyLoan = Math.ceil((sharePart / dividedPart));
+            }
+            this.paymentMonthly = Math.ceil(this.monthlyLoan + this.estate.management_fee + this.estate.repair_reserve_fee);
+            this.paymentMonthlyBonus = Math.ceil(this.paymentMonthly + (this.bonus / 6));
+            this.chartData = [this.estate.management_fee, this.estate.repair_reserve_fee, this.paymentMonthly];
+        },
     },
     updated() {
         let estate = this.estate;
@@ -506,17 +631,6 @@ export default {
             prevNextButtons: false
         });
 
-        $('.js-range-slider').ionRangeSlider({
-            min: 0,
-            max: 35,
-            from: 10,
-            onChange: function(data) {
-                console.log(data);
-            }
-        });
-
-        // var monthlyLoanPayment = $('.monthly-loan-payment');
-
         var payTerm = $('.js-range-slider1');
         var payTermInput , interestInput;
         payTerm.ionRangeSlider({
@@ -525,11 +639,9 @@ export default {
             postfix: '年'
         });
 
-        payTerm.on('change', function() {
-            let input = $(this);
-            $('.pay-term').val(input.data('from'));
-            payTermInput = input.data('from');
-
+        payTerm.on('change', (data) => {
+            this.paymentTerm = data.currentTarget.value;
+            this.calculateMonthlyLoanPayment();
         });
 
         var interest = $('.js-range-slider2');
@@ -540,16 +652,10 @@ export default {
             postfix: '%'
         });
 
-        interest.on('change', function() {
-            let input = $(this);
-            $('.interest').val(input.data('from'));
-            interestInput = input.data('from');
+        interest.on('change', (data) => {
+            this.paymentInterest = data.currentTarget.value;
+            this.calculateMonthlyLoanPayment();
         });
-        // console.log(interestInput);
-        // console.log(payTermInput);
-        // var monthlyPayment = payTermInput * (interestInput / 12) * (1 + (interestInput/12));
-        // console.log(monthlyPayment);
-        // monthlyLoanPayment.val(monthlyPayment);
     }
 };
 </script>

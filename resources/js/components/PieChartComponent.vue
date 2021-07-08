@@ -5,8 +5,9 @@ import Chart from 'chart.js';
 
 export default {
     extends: Pie,
+    props: ['parentData'],
     data: () => ({
-        chartdata: {
+        chartData: {
             labels: ['管理費', '修繕積立金', 'ローン返済額'],
             datasets: [
                 {
@@ -32,6 +33,14 @@ export default {
             }
         }
     }),
+
+    watch: {
+        parentData: function(newValue, oldValue) {
+            this.chartData.datasets[0].data = this.parentData;
+            // Chart.plugins.register(ChartDataLabels);
+            this.renderChart(this.chartData, this.options)
+        }
+    },
 
     mounted() {
         Chart.plugins.register(ChartDataLabels);
