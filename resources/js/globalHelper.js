@@ -30,5 +30,15 @@ export default {
             }
             return "";
         };
+
+        Vue.prototype.$lscFormatCurrency = (value, currency = '') => {
+            if (typeof value === 'undefined') {
+                return '';
+            }
+            if (value && value.toString().length > 3) {
+                value = value.toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+            }
+            return currency + value;
+        }
     }
 };
