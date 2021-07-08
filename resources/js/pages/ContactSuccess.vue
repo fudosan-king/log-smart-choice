@@ -9,7 +9,7 @@
                                 <div class="container">
                                     <h1 class="title mb-3">物件お問合せ完了</h1>
 
-                                    <p class="title mb-3"><b>zお問い合わせいただき</b></p>
+                                    <p class="title mb-3"><b>お問い合わせいただき</b></p>
                                     <p class="title mb-3"><b>ありがとうございました。</b></p>
                                     <p class="title mb-3">
                                         ご入力いただいたメールアドレスに、お問合せ完了メールをお送りしました。
