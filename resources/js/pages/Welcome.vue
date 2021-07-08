@@ -5,10 +5,10 @@
                 <section class="p-0">
                     <div class="box_top mb-0">
                         <div class="container">
-                            <h2 class="title mb-3">ようこそ</h2>
+                            <h2 class="title mb-3">ようこそOrder Renoveへ！</h2>
                             <p class="subtitle mb-2">
-                                <small>ご登録完成いたしまた。<br>
-                                下のボタンを押してログインしましょう。</small>
+                                <small>会員登録が完了しました。<br>
+                                下のボタンからログインしてください。</small>
                             </p>
                         </div>
                     </div>
