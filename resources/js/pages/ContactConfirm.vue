@@ -199,6 +199,16 @@
                                                 <label>EstateUrl</label>
                                                 <input name="estate_url" type="text" :value="contactData.estateUrl" />
                                             </div>
+
+                                            <div>
+                                                <label>EstateUrl</label>
+                                                <input name="estate_url" :value="contactData.estateUrl" />
+                                            </div>
+
+                                            <div>
+                                                <label>Checked Privacy</label>
+                                                <input type="checkbox" name="プライバシーポリシー" checked/>
+                                            </div>
                                             <button
                                                 type="submit"
                                                 data-formrun-error-text="未入力の項目があります"
