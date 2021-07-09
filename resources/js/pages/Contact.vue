@@ -41,64 +41,30 @@
                                                         <div class="col-12 col-lg-6">
                                                             <select name="hope_day_first" class="custom-select">
                                                                 <option
-                                                                    value="7月1日 (木)"
+                                                                    v-for="hopeDay in listHopeDay"
+                                                                    :value="hopeDay"
                                                                     :selected="
-                                                                        contactData.hopeDayFirst == '7月1日 (木)'
+                                                                        contactData.hopeDayFirst == hopeDay
                                                                             ? 'selected'
                                                                             : ''
                                                                     "
-                                                                    >7月1日 (木)</option
-                                                                >
-                                                                <option
-                                                                    value="7月2日 (金)"
-                                                                    :selected="
-                                                                        contactData.hopeDayFirst == '7月2日 (金)'
-                                                                            ? 'selected'
-                                                                            : ''
-                                                                    "
-                                                                    >7月2日 (金)</option
-                                                                >
-                                                                <option
-                                                                    value="7月3日 (土)"
-                                                                    :selected="
-                                                                        contactData.hopeDayFirst == '7月3日 (土)'
-                                                                            ? 'selected'
-                                                                            : ''
-                                                                    "
-                                                                    >7月3日 (土)</option
-                                                                >
-                                                                <option
-                                                                    value="7月4日 (日)"
-                                                                    :selected="
-                                                                        contactData.hopeDayFirst == '7月4日 (日)'
-                                                                            ? 'selected'
-                                                                            : ''
-                                                                    "
-                                                                    >7月4日 (日)</option
-                                                                >
-                                                                <option
-                                                                    value="7月5日 (月)"
-                                                                    :selected="
-                                                                        contactData.hopeDayFirst == '7月5日 (月)'
-                                                                            ? 'selected'
-                                                                            : ''
-                                                                    "
-                                                                    >7月5日 (月)</option
-                                                                >
-                                                                <option
-                                                                    value="7月8日 (木)"
-                                                                    :selected="
-                                                                        contactData.hopeDayFirst == '7月8日 (木)'
-                                                                            ? 'selected'
-                                                                            : ''
-                                                                    "
-                                                                    >7月8日 (木)</option
+                                                                    >{{ hopeDay }}</option
                                                                 >
                                                             </select>
                                                         </div>
                                                         <div class="col-12 col-lg-6">
                                                             <select name="start_time_first" class="custom-select">
                                                                 <option
+                                                                    v-for="startTime in listStartTime"
+                                                                    :value="startTime"
+                                                                    :selected="
+                                                                        contactData.startTimeFirst == startTime
+                                                                            ? 'selected'
+                                                                            : ''
+                                                                    "
+                                                                    >{{ startTime }}</option
+                                                                >
+                                                                <!-- <option
                                                                     value="10:00"
                                                                     :selected="
                                                                         contactData.startTimeFirst == '10:00'
@@ -133,7 +99,7 @@
                                                                             : ''
                                                                     "
                                                                     >16:00</option
-                                                                >
+                                                                > -->
                                                             </select>
                                                         </div>
                                                     </div>
@@ -150,7 +116,17 @@
                                                     <div class="row">
                                                         <div class="col-12 col-lg-6">
                                                             <select name="hope_day_second" class="custom-select">
-                                                                <option value="7月1日 (木)" selected
+                                                                <option
+                                                                    v-for="hopeDay in listHopeDay"
+                                                                    :value="hopeDay"
+                                                                    :selected="
+                                                                        contactData.hopeDaySecond == hopeDay
+                                                                            ? 'selected'
+                                                                            : ''
+                                                                    "
+                                                                    >{{ hopeDay }}</option
+                                                                >
+                                                                <!-- <option value="7月1日 (木)" selected
                                                                     >7月1日 (木)</option
                                                                 >
                                                                 <option
@@ -197,12 +173,22 @@
                                                                             : ''
                                                                     "
                                                                     >7月8日 (木)</option
-                                                                >
+                                                                > -->
                                                             </select>
                                                         </div>
                                                         <div class="col-12 col-lg-6">
                                                             <select name="start_time_second" class="custom-select">
                                                                 <option
+                                                                    v-for="startTime in listStartTime"
+                                                                    :value="startTime"
+                                                                    :selected="
+                                                                        contactData.startTimeSecond == startTime
+                                                                            ? 'selected'
+                                                                            : ''
+                                                                    "
+                                                                    >{{ startTime }}</option
+                                                                >
+                                                                <!-- <option
                                                                     value="10:00"
                                                                     :selected="
                                                                         contactData.startTimeSecond == '10:00'
@@ -237,7 +223,7 @@
                                                                             : ''
                                                                     "
                                                                     >16:00</option
-                                                                >
+                                                                > -->
                                                             </select>
                                                         </div>
                                                     </div>
@@ -445,7 +431,9 @@ export default {
             hopeDayFirst: '',
             hopeDaySecond: '',
             startTimeFirst: '',
-            startTimeSecond: ''
+            startTimeSecond: '',
+            listHopeDay: [],
+            listStartTime: []
         };
     },
     validations: {
@@ -466,6 +454,8 @@ export default {
         this.getEstate();
         this.getCustomerInformation();
         this.getContactData();
+        this.getListHopeDay();
+        this.getListStartTime();
     },
     methods: {
         getContactData() {
@@ -553,10 +543,59 @@ export default {
                 data.startTimeFirst = startTimeFirst;
                 data.startTimeSecond = startTimeSecond;
                 data.estateName = this.estate.estate_name;
-                data.checkedPrivacy = 'on'
+                data.checkedPrivacy = 'on';
                 this.$setCookie('contactData', JSON.stringify(data), 1);
                 this.$router.push('contact/confirm');
             }
+        },
+
+        getListStartTime() {
+            let listStartTime = ['10:00', '12:00', '14:00', '16:00'];
+            this.listStartTime = listStartTime;
+        },
+
+        getListHopeDay() {
+            let days = [];
+            var today = new Date();
+            for (let index = 0; index <= 6; index++) {
+                days.push(this.formatDay(today));
+            }
+            this.listHopeDay = days;
+        },
+
+        formatDay(today) {
+            let currentDate = today.setDate(today.getDate() + 1);
+            let newDate = new Date(currentDate);
+            let dd = String(newDate.getDate()).padStart(1, '0');
+            let mm = String(newDate.getMonth() + 1).padStart(1, '0'); //January is 0!
+            let dayOfWeek = newDate.getDay(); // Sunday is 0, Monday is 1, and so on.
+            let dayKind = '';
+            switch (dayOfWeek) {
+                case 0:
+                    dayKind = '日';
+                    break;
+                case 1:
+                    dayKind = '月';
+                    break;
+                case 2:
+                    dayKind = '火';
+                    break;
+                case 3:
+                    dayKind = '水';
+                    break;
+                case 4:
+                    dayKind = '木';
+                    break;
+                case 5:
+                    dayKind = '金';
+                    break;
+                case 6:
+                    dayKind = '土';
+                    break;
+                default:
+                    break;
+            }
+            return mm + '月' + dd + '日 ' + '(' + dayKind + ')';
         }
     }
 };
