@@ -30,7 +30,6 @@
                 <div class="property_head">
                     <div class="row">
                         <div class="col-10 col-lg-10">
-                            {{ wishtlistItem._id }}
                             <p class="property_name">{{ wishtlistItem.estate_name }}</p>
                             <p class="property_address" v-if="wishtlistItem.address">
                                 {{ wishtlistItem.address.city }}{{ wishtlistItem.address.ooaza
