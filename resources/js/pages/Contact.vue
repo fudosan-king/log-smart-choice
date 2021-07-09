@@ -64,42 +64,6 @@
                                                                     "
                                                                     >{{ startTime }}</option
                                                                 >
-                                                                <!-- <option
-                                                                    value="10:00"
-                                                                    :selected="
-                                                                        contactData.startTimeFirst == '10:00'
-                                                                            ? 'selected'
-                                                                            : ''
-                                                                    "
-                                                                    >10:00</option
-                                                                >
-                                                                <option
-                                                                    value="12:00"
-                                                                    :selected="
-                                                                        contactData.startTimeFirst == '12:00'
-                                                                            ? 'selected'
-                                                                            : ''
-                                                                    "
-                                                                    >12:00</option
-                                                                >
-                                                                <option
-                                                                    value="14:00"
-                                                                    :selected="
-                                                                        contactData.startTimeFirst == '14:00'
-                                                                            ? 'selected'
-                                                                            : ''
-                                                                    "
-                                                                    >14:00</option
-                                                                >
-                                                                <option
-                                                                    value="16:00"
-                                                                    :selected="
-                                                                        contactData.startTimeFirst == '16:00'
-                                                                            ? 'selected'
-                                                                            : ''
-                                                                    "
-                                                                    >16:00</option
-                                                                > -->
                                                             </select>
                                                         </div>
                                                     </div>
@@ -126,54 +90,6 @@
                                                                     "
                                                                     >{{ hopeDay }}</option
                                                                 >
-                                                                <!-- <option value="7月1日 (木)" selected
-                                                                    >7月1日 (木)</option
-                                                                >
-                                                                <option
-                                                                    value="7月2日 (金)"
-                                                                    :selected="
-                                                                        contactData.hopeDaySecond == '7月2日 (金)'
-                                                                            ? 'selected'
-                                                                            : ''
-                                                                    "
-                                                                    >7月2日 (金)</option
-                                                                >
-                                                                <option
-                                                                    value="7月3日 (土)"
-                                                                    :selected="
-                                                                        contactData.hopeDaySecond == '7月3日 (土)'
-                                                                            ? 'selected'
-                                                                            : ''
-                                                                    "
-                                                                    >7月3日 (土)</option
-                                                                >
-                                                                <option
-                                                                    value="7月4日 (日)"
-                                                                    :selected="
-                                                                        contactData.hopeDaySecond == '7月4日 (日)'
-                                                                            ? 'selected'
-                                                                            : ''
-                                                                    "
-                                                                    >7月4日 (日)</option
-                                                                >
-                                                                <option
-                                                                    value="7月5日 (月)"
-                                                                    :selected="
-                                                                        contactData.hopeDaySecond == '7月5日 (月)'
-                                                                            ? 'selected'
-                                                                            : ''
-                                                                    "
-                                                                    >7月5日 (月)</option
-                                                                >
-                                                                <option
-                                                                    value="7月8日 (木)"
-                                                                    :selected="
-                                                                        contactData.hopeDaySecond == '7月8日 (木)'
-                                                                            ? 'selected'
-                                                                            : ''
-                                                                    "
-                                                                    >7月8日 (木)</option
-                                                                > -->
                                                             </select>
                                                         </div>
                                                         <div class="col-12 col-lg-6">
@@ -188,42 +104,6 @@
                                                                     "
                                                                     >{{ startTime }}</option
                                                                 >
-                                                                <!-- <option
-                                                                    value="10:00"
-                                                                    :selected="
-                                                                        contactData.startTimeSecond == '10:00'
-                                                                            ? 'selected'
-                                                                            : ''
-                                                                    "
-                                                                    >10:00</option
-                                                                >
-                                                                <option
-                                                                    value="12:00"
-                                                                    :selected="
-                                                                        contactData.startTimeSecond == '12:00'
-                                                                            ? 'selected'
-                                                                            : ''
-                                                                    "
-                                                                    >12:00</option
-                                                                >
-                                                                <option
-                                                                    value="14:00"
-                                                                    :selected="
-                                                                        contactData.startTimeSecond == '14:00'
-                                                                            ? 'selected'
-                                                                            : ''
-                                                                    "
-                                                                    >14:00</option
-                                                                >
-                                                                <option
-                                                                    value="16:00"
-                                                                    :selected="
-                                                                        contactData.startTimeSecond == '16:00'
-                                                                            ? 'selected'
-                                                                            : ''
-                                                                    "
-                                                                    >16:00</option
-                                                                > -->
                                                             </select>
                                                         </div>
                                                     </div>
@@ -355,7 +235,7 @@
                                                         type="checkbox"
                                                         class="custom-control-input"
                                                         id="ck_agree"
-                                                        checked=""
+                                                        :checked="checkedPrivacy == 'on' ? true : false"
                                                         :class="{
                                                             'is-invalid':
                                                                 submitted && Object.keys(errorMessage).length > 0
@@ -433,7 +313,8 @@ export default {
             startTimeFirst: '',
             startTimeSecond: '',
             listHopeDay: [],
-            listStartTime: []
+            listStartTime: [],
+            checkedPrivacy: '',
         };
     },
     validations: {
@@ -483,7 +364,6 @@ export default {
                     this.full_name = resp.name + ' ' + resp.last_name;
                     this.email = resp.email;
                     this.phone_number = resp.phone_number;
-                    console.log('here');
                     if (this.$getCookie('contactData').length > 0) {
                         this.contactData = JSON.parse(this.$getCookie('contactData'));
                         this.phone_number = this.contactData.phoneNumber;
@@ -494,6 +374,7 @@ export default {
                         this.hopeDaySecond = this.contactData.hopeDaySecond;
                         this.startTimeFirst = this.contactData.startTimeFirst;
                         this.startTimeSecond = this.contactData.startTimeSecond;
+                        this.checkedPrivacy = this.contactData.checkedPrivacy;
                     }
                 })
                 .catch(() => {
@@ -507,6 +388,7 @@ export default {
                         this.hopeDaySecond = this.contactData.hopeDaySecond;
                         this.startTimeFirst = this.contactData.startTimeFirst;
                         this.startTimeSecond = this.contactData.startTimeSecond;
+                        this.checkedPrivacy = this.contactData.checkedPrivacy;
                     }
                 });
         },
