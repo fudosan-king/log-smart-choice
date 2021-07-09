@@ -39,7 +39,7 @@
                         </div>
                         <div class="col-2 col-lg-2">
                             <template v-if="accessToken">
-                                <a v-if="wishtlistItem._id" v-on:click="addToWishList">
+                                <a v-if="wishtlistItem._id" v-on:click="removeWishList">
                                     <WishlistComponent
                                         :estate-id="wishtlistItem._id"
                                         :data-wished="wishtlistItem.is_wish"
@@ -153,9 +153,8 @@ export default {
             }
         },
 
-        // Add states to wishlist
-
-        addToWishList() {
+        //Remove wishlist
+        removeWishList() {
             this.$router.go(0);
         }
     }
