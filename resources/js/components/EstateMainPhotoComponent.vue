@@ -33,7 +33,7 @@ export default {
     data() {
         let images = [];
         let mainPhotos = this.data;
-        mainPhotos = photos.replace(/(\r\n|\n|\r)/gm, ' ');
+        mainPhotos = mainPhotos.replace(/(\r\n|\n|\r)/gm, ' ');
         let data = JSON.parse(mainPhotos);
         if (Object.keys(data)) {
             if (typeof data.estate_main_photo != 'undefined') {

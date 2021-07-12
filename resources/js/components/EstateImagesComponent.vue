@@ -31,7 +31,6 @@
             let images = [];
             let photos = this.data;
             photos = photos.replace(/(\r\n|\n|\r)/gm, ' ');
-            console.log(photos)
             let data = JSON.parse(photos);
             if (Object.keys(data)) {
                 if (typeof data.renovation_media != 'undefined') {
