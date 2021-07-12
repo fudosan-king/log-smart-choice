@@ -458,7 +458,7 @@ export default {
         });
 
         payTerm.on('change', (data) => {
-            this.paymentTerm = data.currentTarget.value;
+            this.paymentTerm = parseFloat(data.currentTarget.value);
             this.calculateMonthlyLoanPayment();
         });
 
@@ -472,7 +472,7 @@ export default {
         });
 
         interest.on('change', (data) => {
-            this.paymentInterest = data.currentTarget.value;
+            this.paymentInterest = parseFloat(data.currentTarget.value);
             this.calculateMonthlyLoanPayment();
         });
         this.getListEstates();
@@ -578,7 +578,7 @@ export default {
         },
         changeMoney(type, event) {
             event.preventDefault();
-            let currentValue = parseInt(event.target.value);
+            let currentValue = parseFloat(event.target.value);
             switch(type) {
                 case 'lscOwnMoney': 
                     if (this.ownMoney == currentValue) {

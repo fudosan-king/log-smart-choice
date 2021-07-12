@@ -137,7 +137,7 @@
                                     <label class="custom-control-label" for="customCheck1">同意する</label>
                                 </div>
                                 <div class="form-group btn_login_submit text-center">
-                                    <button type="submit" class="btn btnsave" :disabled="disabled">申し込む</button>
+                                    <button type="submit" class="btn btnsave" :disabled="disabled">会員登録</button>
                                 </div>
                                 <p class="text-center red">
                                     <router-link class="d-block" :to="{ name: 'login' }">
