@@ -44,7 +44,7 @@ export default {
 
     mounted() {
         Chart.plugins.register(ChartDataLabels);
-        this.renderChart(this.chartdata, this.options);
+        this.renderChart(this.chartData, this.options);
     }
 };
 </script>
