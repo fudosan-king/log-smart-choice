@@ -443,12 +443,13 @@ export default {
             paymentMonthly: 0,
             paymentMonthlyBonus: 0,
             bonus: 0,
-            chartData: [10, 10, 80],
+            chartData: [],
             totalPrice: 0,
         };
     },
     mounted() {
-        let payTerm = $('.js-range-slider1');
+        const payTerm = $('.js-range-slider1');
+        console.log('PaymentTerm: ', payTerm);
         payTerm.ionRangeSlider({
             min: 0,
             max: 35,
@@ -461,7 +462,8 @@ export default {
             this.calculateMonthlyLoanPayment();
         });
 
-        let interest = $('.js-range-slider2');
+        const interest = $('.js-range-slider2');
+        console.log('PaymentInterest: ', interest);
         interest.ionRangeSlider({
             min: 0,
             max: 3,
@@ -474,6 +476,7 @@ export default {
             this.paymentInterest = data.currentTarget.value;
             this.calculateMonthlyLoanPayment();
         });
+        this.chartData = [10,10,80];
         this.getListEstates();
     },
     watch: {
