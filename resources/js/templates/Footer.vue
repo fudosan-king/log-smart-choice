@@ -126,7 +126,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">
-                            いつもカウOrder-Renove覧いただき<br />
+                            いつもOrder-Renove覧いただき<br />
                             ありがとうございます。<br />
                             お申し込みには「会員登録」が必要です。
                         </h5>
