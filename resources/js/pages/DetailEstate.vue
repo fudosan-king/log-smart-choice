@@ -126,7 +126,6 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-6 col-lg-6">
-                                                        <!-- <canvas id="myChart" width="213" height="213"></canvas> -->
                                                         <pie-chart-component 
                                                             :parent-data="chartData"></pie-chart-component>
                                                     </div>
@@ -438,8 +437,8 @@ export default {
             mobileShow: false,
             ownMoney: 0,
             borrowedMoney: 0,
-            paymentTerm: 0,
-            paymentInterest: 0,
+            paymentTerm: 25,
+            paymentInterest: 2,
             monthlyLoan: 0,
             paymentMonthly: 0,
             paymentMonthlyBonus: 0,
@@ -636,6 +635,7 @@ export default {
         payTerm.ionRangeSlider({
             min: 0,
             max: 35,
+            from: 25,
             postfix: '年'
         });
 
@@ -648,6 +648,7 @@ export default {
         interest.ionRangeSlider({
             min: 0,
             max: 3,
+            from: 2,
             step: 0.1,
             postfix: '%'
         });
