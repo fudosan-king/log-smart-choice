@@ -231,6 +231,8 @@
                                 </form>
                             </div>
 
+                            <!-- Start Photos -->
+
                             <div class="box_renovation_specifications">
                                 <h2 class="title">リノベーション仕様</h2>
                                 <template v-if="estate.estate_information">
@@ -238,13 +240,13 @@
                                         class="specifications_pic"
                                         v-for="photo in estate.estate_information.renovation_media"
                                     >
-                                        <img
+                                        <img v-if="photo.url_path != '/images/no-image.png'"
                                             v-lazy="photo.url_path ? photo.url_path : '/images/no-image.png'"
                                             alt=""
                                             class="img-fluid"
                                         />
-                                        <p class="describe">
-                                            {{ photo.description }}
+                                        <p class="describe" v-html="photo.description">
+                                            <!-- {{ photo.description }} -->
                                         </p>
                                     </div>
                                 </template>
@@ -378,6 +380,9 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- End Photos -->
+                            
                         </div>
                     </div>
                 </div>
