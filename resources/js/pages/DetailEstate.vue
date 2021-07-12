@@ -448,6 +448,32 @@ export default {
         };
     },
     mounted() {
+        let payTerm = $('.js-range-slider1');
+        payTerm.ionRangeSlider({
+            min: 0,
+            max: 35,
+            from: 25,
+            postfix: '年'
+        });
+
+        payTerm.on('change', (data) => {
+            this.paymentTerm = data.currentTarget.value;
+            this.calculateMonthlyLoanPayment();
+        });
+
+        let interest = $('.js-range-slider2');
+        interest.ionRangeSlider({
+            min: 0,
+            max: 3,
+            from: 2,
+            step: 0.1,
+            postfix: '%'
+        });
+
+        interest.on('change', (data) => {
+            this.paymentInterest = data.currentTarget.value;
+            this.calculateMonthlyLoanPayment();
+        });
         this.getListEstates();
     },
     watch: {
@@ -628,34 +654,6 @@ export default {
             contain: true,
             pageDots: false,
             prevNextButtons: false
-        });
-
-        var payTerm = $('.js-range-slider1');
-        var payTermInput , interestInput;
-        payTerm.ionRangeSlider({
-            min: 0,
-            max: 35,
-            from: 25,
-            postfix: '年'
-        });
-
-        payTerm.on('change', (data) => {
-            this.paymentTerm = data.currentTarget.value;
-            this.calculateMonthlyLoanPayment();
-        });
-
-        var interest = $('.js-range-slider2');
-        interest.ionRangeSlider({
-            min: 0,
-            max: 3,
-            from: 2,
-            step: 0.1,
-            postfix: '%'
-        });
-
-        interest.on('change', (data) => {
-            this.paymentInterest = data.currentTarget.value;
-            this.calculateMonthlyLoanPayment();
         });
     }
 };
