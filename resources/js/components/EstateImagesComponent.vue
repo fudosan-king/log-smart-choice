@@ -11,7 +11,7 @@
             <input class="estate_image_file" name="estate_image[]" type="file" @change="onFileChange" v-bind:data-index-image=idx />
             <input name="estate_image_hidden[]" type="hidden" v-bind:value=image[0] />
             <div class="photo_info">
-                <textarea class="form-control" name="description[]">{{ image[1] }}</textarea>
+                <textarea class="form-control" rows="4" cols="25" name="description[]" >{{ image[1] }}</textarea>
             </div>
         </li>
         </draggable>
@@ -29,7 +29,10 @@
         props: ['data'],
         data(){
             let images = [];
-            let data = JSON.parse(this.data);
+            let photos = this.data;
+            photos = photos.replace(/(\r\n|\n|\r)/gm, ' ');
+            console.log(photos)
+            let data = JSON.parse(photos);
             if (Object.keys(data)) {
                 if (typeof data.renovation_media != 'undefined') {
                     const renovation_media = data.renovation_media;
