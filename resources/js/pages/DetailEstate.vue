@@ -443,13 +443,13 @@ export default {
             paymentMonthly: 0,
             paymentMonthlyBonus: 0,
             bonus: 0,
-            chartData: [],
+            chartData: [10,10,80],
             totalPrice: 0,
+            mobileFirstTime: true,
         };
     },
     mounted() {
         const payTerm = $('.js-range-slider1');
-        console.log('PaymentTerm: ', payTerm);
         payTerm.ionRangeSlider({
             min: 0,
             max: 35,
@@ -463,7 +463,6 @@ export default {
         });
 
         const interest = $('.js-range-slider2');
-        console.log('PaymentInterest: ', interest);
         interest.ionRangeSlider({
             min: 0,
             max: 3,
@@ -476,7 +475,6 @@ export default {
             this.paymentInterest = data.currentTarget.value;
             this.calculateMonthlyLoanPayment();
         });
-        this.chartData = [10,10,80];
         this.getListEstates();
     },
     watch: {
@@ -538,6 +536,10 @@ export default {
         },
         mobileHandleShow() {
             this.mobileShow = !this.mobileShow;
+            if (this.mobileFirstTime) {
+                this.chartData = [this.estate.management_fee, this.estate.repair_reserve_fee, this.monthlyLoan];
+                this.mobileFirstTime = false;
+            }
         },
 
         searchEstateDistrict(district) {
@@ -579,16 +581,25 @@ export default {
             let currentValue = parseInt(event.target.value);
             switch(type) {
                 case 'lscOwnMoney': 
+                    if (this.ownMoney == currentValue) {
+                        return;
+                    }
                     this.ownMoney = currentValue;
                     this.borrowedMoney = this.estate.total_price - this.ownMoney;
                     this.changeRangeSlider('ownMoney', this.ownMoney);
                     break;
                 case 'lscBorrowedMoney': 
+                    if (this.borrowedMoney == currentValue) {
+                        return;
+                    }
                     this.borrowedMoney = currentValue;
                     this.ownMoney = this.estate.total_price - this.borrowedMoney;
                     this.changeRangeSlider('ownMoney', this.ownMoney);
                     break;
                 case 'lscPaymentTerm': 
+                    if (this.paymentTerm == currentValue) {
+                        return;
+                    }
                     let currentPaymentTerm = currentValue;
                     if (currentPaymentTerm < 0) {
                         this.paymentTerm = 0;
@@ -601,6 +612,9 @@ export default {
                     this.changeRangeSlider('paymentTerm', this.paymentTerm);
                     break;
                 case 'lscPaymentInterest': 
+                    if (this.paymentInterest == currentValue) {
+                        return;
+                    }
                     let currentPaymentInterest = currentValue;
                     if (currentPaymentInterest < 0) {
                         this.paymentInterest = 0;
@@ -612,6 +626,9 @@ export default {
                     this.changeRangeSlider('paymentInterest', this.paymentInterest);
                     break;
                 case 'lscBonus': 
+                    if (this.bonus == currentValue) {
+                        return;
+                    }
                     this.bonus = currentValue;
                     break;
                 default : 
