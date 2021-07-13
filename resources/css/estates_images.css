@@ -7,8 +7,8 @@
     display: block;
     padding: 13px 11px 9px;
     float: left;
-    width: 25%;
-    height: 450px;
+    width: 60%;
+    height: auto;
 }
 
 li {
@@ -85,7 +85,7 @@ li {
 
 .estate_image_url,
 .estate_image_file {
-    width: 100%;
+    width: 50%;
 }
 
 .befor-photo,
