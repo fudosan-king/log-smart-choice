@@ -171,7 +171,8 @@
 
                         <h1>Photos</h1>
                         <hr>
-                        <estateimage-component :data="'{{ $estateInfo }}'"></estateimage-component>
+
+                        <estateimage-component :data="{{ $estateInfo }}"></estateimage-component>
 
                         <!-- <h1>Slide Equipment</h1>
                         <hr>

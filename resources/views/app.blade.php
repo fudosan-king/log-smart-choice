@@ -43,7 +43,6 @@
     <index>
     </index>
   </div>
-
   <script src="/assets/js/jquery.min.js"></script>
   <script src="/assets/js/ion.rangeSlider.min.js"></script>
   <script src="{{ asset('/js/frontend.js') }}"></script>
@@ -55,6 +54,7 @@
   <script src="/assets/js/bootstrap-datepicker.js"></script>
   <script src="/assets/js/bootstrap-datepicker.ja.min.js"></script>
   <script src='https://www.google.com/recaptcha/api.js'></script>
+  <!-- <script src="//cdn.ckeditor.com/4.6.2/full/ckeditor.js"></script> -->
   <!-- <script src="/assets/js/chart_custom.js"></script> -->
 </body>
 

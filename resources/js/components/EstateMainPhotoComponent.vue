@@ -32,16 +32,12 @@ export default {
     props: ['data'],
     data() {
         let images = [];
-        let mainPhotos = this.data;
-        mainPhotos = mainPhotos.replace(/(\r\n|\n|\r)/gm, ' ');
-        let data = JSON.parse(mainPhotos);
-        if (Object.keys(data)) {
-            if (typeof data.estate_main_photo != 'undefined') {
-                const mainPhoto = data.estate_main_photo;
-                for (let i = 0; i < mainPhoto.length; i++) {
-                    const url = mainPhoto[i]['url_path'];
-                    images.push([url, mainPhoto[i]['description']]);
-                }
+        let data = this.data;
+        if (typeof data.estate_main_photo != 'undefined') {
+            const mainPhoto = data.estate_main_photo;
+            for (let i = 0; i < mainPhoto.length; i++) {
+                const url = mainPhoto[i]['url_path'];
+                images.push([url, mainPhoto[i]['description']]);
             }
         }
 
