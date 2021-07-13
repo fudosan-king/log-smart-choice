@@ -11,7 +11,7 @@
             <input class="estate_image_file" name="estate_image[]" type="file" @change="onFileChange" v-bind:data-index-image=idx />
             <input name="estate_image_hidden[]" type="hidden" v-bind:value=image[0] />
             <div class="photo_info">
-                <textarea class="form-control" rows="4" cols="25" name="description[]" >{{ image[1] }}</textarea>
+                <textarea class="form-control" rows="10" cols="40" name="description[]" >{{ image[1] }}</textarea>
             </div>
         </li>
         </draggable>
