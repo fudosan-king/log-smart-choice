@@ -67,8 +67,20 @@ const actions = {
                 reject(error);
             });
         })
-    }
+    },
 
+    getEstatesRecommend({}, data) {
+        return new Promise((relove, reject) => {
+            const auth = this.auth;
+            axios({ url: '/estate/recommend', method: 'POST', data: data, auth: auth }).then(resp => {
+                if (resp.data['data']) {
+                    relove(resp.data['data']);
+                }
+            }).catch(error => {
+                reject(error);
+            });
+        })
+    }
 };
 
 const mutations = {};

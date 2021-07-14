@@ -3,13 +3,12 @@
 
 namespace App\Frontend\Controllers;
 
-
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Estates;
 use App\Models\EstateInformation;
+use App\Models\EstateGroup;
 use App\Models\WishLists;
-use DateTime;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -388,5 +387,60 @@ class EstateController extends Controller
         }
 
         return $this->response(200, 'data not found', []);
+    }
+
+    public function getEstatesRecomment(Request $request)
+    {
+        $email = $request->get('email') ?? '';
+        $isSocial = $request->get('isSocial') ?? '';
+
+        $customer = Customer::where('email', $email)->first();
+        if ($isSocial) {
+            $customer = Customer::where('social_id', $email)->first();
+        }
+
+        $estates = [];
+        $estatesSort = [];
+        $estatesGroup = EstateGroup::select('estate_list')->where('group_code', 'recommended_estate')->get();
+
+        foreach ($estatesGroup as $estateList) {
+            foreach ($estateList['estate_list'] as $estate) {
+                $estates[$estate['sort_order']] = $estate['estate_id'];
+                $estatesSort[(string)$estate['estate_id']] = $estate['sort_order'];
+            }
+        }
+
+        // list estate same city/station with last estates
+        $estateRecommendList = Estates::select($this->selectField)
+            ->where('status', Estates::STATUS_SALE)
+            ->whereIn('_id', $estates)
+            ->take(Estates::LIMIT_ESTATE_RECOMMEND)
+            ->get()->toArray();
+
+        $wishList = [];
+        if ($customer) {
+            $wishListForCustomer = WishLists::select('estate_id')
+            ->where('user_id', $customer->id)
+                ->where('is_wishlist', WishLists::ADDED_WISH_LIST)
+                ->get()->toArray();
+            if (!empty($wishListForCustomer)) {
+                foreach ($wishListForCustomer as $value) {
+                    $wishList[] = $value['estate_id'];
+                }
+            }
+        }
+
+        if ($estateRecommendList) {
+            $estateRecommendList = $this->getEstateInformation($estateRecommendList, $wishList);
+            foreach ($estateRecommendList as $key => $estateRecommend) {
+                $estateRecommendList[$key]['order_sort'] = $estatesSort[$estateRecommend['_id']];
+            }
+            usort($estateRecommendList, function($a, $b) {
+                return $a['order_sort'] <=> $b['order_sort'];
+            });
+            return $this->response(200, "Get estate recommend success", $estateRecommendList, true);
+        }
+
+        return $this->response(422, "Get estate recommend fail", []);
     }
 }
