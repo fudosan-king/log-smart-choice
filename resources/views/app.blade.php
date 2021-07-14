@@ -31,7 +31,6 @@
   <link rel="stylesheet" href="/assets/css/bootstrap-datepicker.standalone.min.css" type="text/css">
   <link rel="stylesheet" href="/assets/css/animate.min.css" type="text/css">
   <link rel="stylesheet" type="text/css" href="/assets/css/flickity.min.css">
-  <link rel="stylesheet" type="text/css" href="/assets/css/bsnav.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"/>
   <link rel="stylesheet" href="/assets/css/styles.css" type="text/css">
   <!-- <link rel="stylesheet" href="/assets/css/mobile.css" type="text/css"> -->
@@ -54,8 +53,6 @@
   <script src="/assets/js/bootstrap-datepicker.js"></script>
   <script src="/assets/js/bootstrap-datepicker.ja.min.js"></script>
   <script src='https://www.google.com/recaptcha/api.js'></script>
-  <!-- <script src="//cdn.ckeditor.com/4.6.2/full/ckeditor.js"></script> -->
-  <!-- <script src="/assets/js/chart_custom.js"></script> -->
 </body>
 
 </html>

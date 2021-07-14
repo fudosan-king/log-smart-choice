@@ -82,6 +82,8 @@ Route::group(['prefix' => 'detail'], function () {
 
 Route::post('/estate/near', [EstateController::class, 'getEstateNear'])->name('estate.near');
 
+Route::post('/estate/recommend', [EstateController::class, 'getEstatesRecomment'])->name('estate.recommend');
+
 Route::get('test_import_estates', function () {
     $estates = array();
     foreach (range(1, 11) as $number) {

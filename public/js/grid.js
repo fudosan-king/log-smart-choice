@@ -10,6 +10,11 @@ class GridData {
         this.init();
     }
     init() {
+        const regex = 'group';
+        var currentUrl = window.location.href;
+        if (currentUrl.includes(regex)) {
+            $(this.jsClass).prop('disabled', true);
+        }
         $(this.checkboxClass).bind('change', this, this.onRowChange);
         $(this.jsClass).bind('change', this, this.onFieldChange);
         $(this.searchSelected).bind('change', this, this.onSelectedChange);

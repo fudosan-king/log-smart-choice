@@ -79,7 +79,8 @@
                 <div class="row">
                     <div class="col-12 col-lg-12">
                         <h2 class="title">表参道エリアの物件</h2>
-                        <estates-near-component></estates-near-component>
+                        <!-- <estates-near-component></estates-near-component> -->
+                        <estate-recommend-component></estate-recommend-component>
                         <p class="text-center mt-3">
                             <a v-on:click="clearConditionSearch" class="btn btnSeemore">もっと見る</a>
                         </p>
@@ -92,6 +93,7 @@
 <script>
 import Lazyload from 'vue-lazyload';
 import Vue from 'vue';
+// import EstateRecommendComponent from '../components/EstateRecommendComponent.vue';
 
 Vue.use(Lazyload, {
     preLoad: 1.3,
@@ -102,7 +104,9 @@ Vue.use(Lazyload, {
 export default {
     components: {
         EstatesTopComponent: () => import('../components/EstatesTopComponent'),
-        EstatesNearComponent: () => import('../components/EstatesNearComponent'),
+        // EstatesNearComponent: () => import('../components/EstatesNearComponent'),
+        EstateRecommendComponent: () => import('../components/EstateRecommendComponent')
+        // EstateRecommendComponent),
     },
     methods: {
         clearConditionSearch() {

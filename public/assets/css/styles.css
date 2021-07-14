@@ -1016,7 +1016,7 @@ footer .footer_bottom .btn img {
     font-size: 2.25em;
     margin-bottom: 0;
     color: #EB5757;
-    text-align: right;
+    text-align: center;
     line-height: .5em;
 }
 
@@ -1562,7 +1562,7 @@ footer .footer_bottom .btn img {
 }
 
 .frm_contact .primary_policy {
-    font-size: 0.75em;
+    font-size: 0.875em;
 }
 
 .frm_contact .primary_policy a {
@@ -1579,10 +1579,6 @@ footer .footer_bottom .btn img {
     bottom: 0;
     right: 15px;
     margin: auto;
-}
-
-.frm_contact table th span, .frm_contact table td span {
-    font-size: 0.75em;
 }
 
 .modal_register {
@@ -2206,6 +2202,14 @@ footer .footer_bottom .btn img {
 }
 
 @media (max-width: 320px) {
+    .dropdown_user .dropdown_user_content {
+        min-width: 327px;
+    }
+
+    .dropdown_search .dropdown_search_content {
+        min-width: 327px;
+    }
+
     ul.list_property li .property_img p.total_price {
         font-size: 0.7em;
     }

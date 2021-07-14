@@ -21,6 +21,7 @@ class Estates extends Model
     const STATUS_CONTRACT = '請負中';
     const STATUS_END = '終了';
     const LIMIT_ESTATE_NEAR_AREA = 8;
+    const LIMIT_ESTATE_RECOMMEND = 16;
 
     /**
      * Get date created
