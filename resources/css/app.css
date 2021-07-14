@@ -36,10 +36,6 @@ ul.estate-description-content {
     margin-right: 0;
 }
 
-#main .box_template {
-    padding-top: 90px;
-}
-
 .dropdown_search_content .stations .station-item {
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -76,7 +72,7 @@ footer .modal_register ul li {
 }
 
 
-@media (max-width: 1000px) {
+/* @media (max-width: 1000px) {
     .i_white {
         display: none !important;
     }
@@ -90,7 +86,7 @@ footer .modal_register ul li {
     header .box_user a {
         color: #212529 !important;
     }
-}
+} */
 
 footer .modal-footer {
     display: block;

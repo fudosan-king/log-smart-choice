@@ -1,28 +1,43 @@
 <template>
-    <header class="fixed-top">
+    <header class="fixed-top" :class="{subheader: !homePage, compressed: isScroll}">
         <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
             <a class="navbar-brand" href="/">
-                <img
+                <img 
                     src="/assets/images/svg/logo_orderrenove_white.svg"
                     alt=""
-                    class="img-fluid white-logo i_white"
+                    class="img-fluid"
+                    v-bind:class="[homeWhiteClass]"
                     width="224"
                 />
-                <img
+                <img v-if="homePage"
                     src="/assets/images/svg/logo_orderrenove_black.svg"
                     alt=""
-                    class="img-fluid black-logo i_black"
+                    class="img-fluid"
+                    v-bind:class="[homeBlackClass]"
                     width="134"
+                />
+                <img v-else
+                    src="/assets/images/svg/logo_orderrenove_black.svg"
+                    alt=""
+                    class="img-fluid"
+                    v-bind:class="[homeBlackClass]"
+                    width="224"
                 />
             </a>
             <div class="ml-auto box_user">
                 <div class="dropdown dropdown_user mr-3">
                     <a class="dropdown_user drop-user" href="javascript:void(0)" v-on:click="dropUser">
-                        <img src="/assets/images/svg/i_user.svg" alt="" class="img-fluid icon-user-white" width="15" />
                         <img
+                            src="/assets/images/svg/i_user.svg" 
+                            alt="" 
+                            class="img-fluid"
+                            v-bind:class="[homeWhiteClass]" 
+                            width="15" />
+                        <img 
                             src="/assets/images/svg/i_user_black.svg"
                             alt=""
-                            class="img-fluid icon-user-black"
+                            class="img-fluid"
+                            v-bind:class="[homeBlackClass]"
                             width="15"
                         />
                         <span v-if="userName">{{ userName }}様</span>
@@ -53,13 +68,15 @@
                         <img
                             src="/assets/images/svg/i_search.svg"
                             alt=""
-                            class="img-fluid icon-search-white"
+                            class="img-fluid"
+                            v-bind:class="[homeWhiteClass]"
                             width="16"
                         />
                         <img
                             src="/assets/images/svg/i_search_black.svg"
                             alt=""
-                            class="img-fluid icon-search-black"
+                            class="img-fluid"
+                            v-bind:class="[homeBlackClass]"
                             width="16"
                         />
                     </a>
@@ -97,7 +114,7 @@
                                 >
                                     <div class="card-body districts">
                                         <ul>
-                                            <li v-for="district in districtList">
+                                            <li v-for="district in districtList" :key="district.id">
                                                 <a
                                                     href="javascript:void(0)"
                                                     v-on:click="searchDistrict(district.name)"
@@ -139,7 +156,7 @@
                                 >
                                     <div class="card-body stations">
                                         <ul>
-                                            <li v-for="station in stationList">
+                                            <li v-for="station in stationList" :key="station.id">
                                                 <a
                                                     class="station-item"
                                                     href="javascript:void(0)"
@@ -228,31 +245,27 @@ export default {
             userName: '',
             districtList: {},
             stationList: {},
-            announcementCount: 0
+            announcementCount: 0,
+            homePage: true, 
+            homeWhiteClass: '',
+            homeBlackClass: '',
+            isScroll: false,
         };
+    },
+    created() {
+        if (this.$route.name == 'home') {
+            this.homePage = true;
+            this.homeWhiteClass = 'd-none d-lg-inline-block';
+            this.homeBlackClass = 'd-inline-block d-lg-none';
+            
+        } else {
+            this.homePage = false;
+            this.homeWhiteClass = 'i_white';
+            this.homeBlackClass = 'i_black';
+        }
     },
     mounted() {
         window.addEventListener('scroll', this.scrollListener);
-        let compressHeaders = ['home', 'announcementCondition'];
-        let subHeader = ['announcementCondition'];
-        if (!compressHeaders.includes(this.$route.name)) {
-            $('header').addClass('compressed');
-        }
-        if (subHeader.includes(this.$route.name)) {
-            $('header').addClass('subheader');
-            $('.white-logo').addClass('d-none');
-            $('.icon-user-white').addClass('d-none');
-            $('.icon-search-white').addClass('d-none');
-            $('.drop-user').css('border-color', '#000');
-            $('.drop-user').css('border', '1px solid');
-            $('.drop-user').css('color', '#000');
-        }
-
-        if (this.$route.name == 'home') {
-            $('.black-logo').addClass('d-lg-none');
-            $('.icon-user-black').addClass('d-lg-none');
-            $('.icon-search-black').addClass('d-lg-none');
-        }
 
         this.getStation();
         this.getDistrict();
@@ -320,39 +333,10 @@ export default {
         },
 
         scrollListener() {
-            let compressHeaders = ['home', 'announcementCondition'];
-            if (compressHeaders.includes(this.$route.name)) {
-                if (window.pageYOffset > 0) {
-                    $('header').addClass('compressed');
-                } else {
-                    $('header').removeClass('compressed');
-                }
-            }
-
-            let useDiffrenceHeader = ['announcementCondition'];
-
-            if (useDiffrenceHeader.includes(this.$route.name)) {
-                if (window.pageYOffset > 0) {
-                    $('.white-logo').removeClass('d-none');
-                    $('.icon-user-white').removeClass('d-none');
-                    $('.icon-search-white').removeClass('d-none');
-                    $('.black-logo').addClass('d-none');
-                    $('.icon-user-black').addClass('d-lg-none');
-                    $('.icon-search-black').addClass('d-lg-none');
-                    $('.drop-user').css('border-color', 'white');
-                    $('.drop-user').css('border', '1px solid');
-                    $('.drop-user').css('color', 'white');
-                } else {
-                    $('.black-logo').removeClass('d-none');
-                    $('.icon-user-black').removeClass('d-lg-none');
-                    $('.icon-search-black').removeClass('d-lg-none');
-                    $('.white-logo').addClass('d-none');
-                    $('.icon-user-white').addClass('d-none');
-                    $('.icon-search-white').addClass('d-none');
-                    $('.drop-user').css('border-color', '#000');
-                    $('.drop-user').css('border', '1px solid');
-                    $('.drop-user').css('color', '#000');
-                }
+            if (window.pageYOffset > 0) {
+                this.isScroll = true;
+            } else {
+                this.isScroll = false;
             }
         },
 
