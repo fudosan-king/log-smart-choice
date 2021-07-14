@@ -25,8 +25,8 @@
                 />
             </a>
             <div class="ml-auto box_user">
-                <div class="dropdown dropdown_user mr-3">
-                    <a class="dropdown_user drop-user" href="javascript:void(0)" v-on:click="dropUser">
+                <div class="dropdown dropdown_user">
+                    <a class="dropdown_user" v-bind:id="[!homePage ? 'dropdown_user': '']" href="javascript:void(0)" v-on:click="dropUser">
                         <img
                             src="/assets/images/svg/i_user.svg" 
                             alt="" 
