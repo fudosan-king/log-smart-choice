@@ -18,7 +18,7 @@ class DistrictController extends Controller
     public function list(Request $request)
     {
 
-        $district = District::select('id', 'name')->where('status', District::STATUS_ACTIVATE)->get();
+        $district = District::select('id', 'code', 'name')->where('status', District::STATUS_ACTIVATE)->get();
 
         if ($district) {
             return $this->response(200, 'Get list district success', $district, true);
