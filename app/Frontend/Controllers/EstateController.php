@@ -156,7 +156,6 @@ class EstateController extends Controller
             'management_company', 'management_scope', 'land_rights', 'latitude', 'longitude'
         )
             ->where('_id', $id)
-            ->where('status', '=', Estates::STATUS_SALE)
             ->get()->toArray();
         $estateAddress = $estate[0]['address'];
         $estateNearAddress = Estates::select('renovation_type', 'total_price', 'address', 'tatemono_menseki')
