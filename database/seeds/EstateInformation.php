@@ -250,6 +250,12 @@ class EstateInformation extends Seeder {
         $pageSeoDataType = DataType::where('model_name', 'App\Models\Estates')->where('name', 'estates')->first();
         $pageSeoDataType->icon = 'voyager-shop';
         $pageSeoDataType->save();
+
+        // change date_created to date_imported in db table data_rows
+        DataRow::where('data_type_id', $dataType->id)
+        ->where('field', 'date_created')
+        ->update(['field'=> 'date_imported', 'display_name' => 'Date Imported']);
+        
     }
 
     /**
