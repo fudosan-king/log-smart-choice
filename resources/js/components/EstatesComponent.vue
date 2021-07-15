@@ -102,9 +102,13 @@ export default {
             let accessToken = this.$getCookie('accessToken');
             let district = this.$getCookie('district');
             let station = this.$getCookie('station');
+            let districtCode = this.$route.params.districtCode;
+            console.log('district code', districtCode);
+
             let data = {
                 limit: 4,
-                page: pageLoad
+                page: pageLoad,
+                districtCode: typeof districtCode !== 'undefined' ? districtCode : ''
             };
             if (district.length != 0) {
                 data.address = district;

@@ -5,6 +5,7 @@ namespace App\Frontend\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\District;
 use App\Models\Estates;
 use App\Models\EstateInformation;
 use App\Models\EstateGroup;
@@ -47,6 +48,7 @@ class EstateController extends Controller
         $station = $request->get('station') ?? '';
         $email = $request->get('email') ?? '';
         $isSocial = $request->get('isSocial') ?? '';
+        $districtCode = $request->get('districtCode') ?? '';
 
         $limit = $request->has('limit') ? intval($request->get('limit')) : 4;
         $page = $request->has('page') ? intval($request->get('page')) : 1;
@@ -65,6 +67,16 @@ class EstateController extends Controller
         $estates = Estates::select($this->selectField);
 
         $estates->where('status', Estates::STATUS_SALE);
+
+
+        if ($districtCode) {
+            $districtModel = District::select('name')
+                ->where('code', '=', $districtCode)
+                ->get()->first();
+            if ($districtModel) {
+                $address = $districtModel->name;
+            }
+         }
 
         // address
         if ($address) {

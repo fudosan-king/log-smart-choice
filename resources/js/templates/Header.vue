@@ -117,7 +117,7 @@
                                             <li v-for="district in districtList" :key="district.id">
                                                 <a
                                                     href="javascript:void(0)"
-                                                    v-on:click="searchDistrict(district.name)"
+                                                    v-on:click="searchDistrict(district.name, district.code)"
                                                     >{{ district.name }}</a
                                                 >
                                             </li>
@@ -352,14 +352,15 @@ export default {
             });
         },
 
-        searchDistrict(district) {
+        searchDistrict(district, code) {
             let cookieStation = this.$getCookie('station');
             if (cookieStation.length > 0) {
                 this.$setCookie('station', '', 1);
             }
             this.$setCookie('district', district, 1);
             this.$router
-                .push({ name: 'list' })
+                // .push({ name: 'list'})
+                .push({ name: 'listByDistrict', params: {districtCode: code} })
                 .then(() => {
                     this.$router.go('0');
                 })

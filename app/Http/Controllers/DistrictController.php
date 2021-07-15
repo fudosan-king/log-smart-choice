@@ -22,9 +22,11 @@ class DistrictController extends VoyagerBaseController
 
     use CustomAdminVoyager;
 
-    protected $colCityName = 0;
+    protected $colDistrictCode = 0;
 
-    protected $colDistrictName = 1;
+    protected $colCityName = 1;
+
+    protected $colDistrictName = 2;
 
     public function index(Request $request)
     {
@@ -138,33 +140,39 @@ class DistrictController extends VoyagerBaseController
             if (($handle = fopen(storage_path('app/public/district/' . $fileNameToStore), "r")) !== FALSE) {
                 while (($data = fgetcsv($handle, 5000, ",")) !== FALSE) {
                     $num = count($data);
+                    $isRowError = false;
                     for ($i = 0; $i < $num; $i++) {
                         if ($i == $this->colCityName || $i == $this->colDistrictName) {
                             // validate empty value
                             if (empty($data[$i])) {
                                 $errors[][$i] = 'Row:' . $row . ', data: ' . $data[$i] . ' is not empty ';
+                                $isRowError = true;
                                 continue;
                             }
 
                             // validate japanese
                             if (!preg_match('/[\x{4E00}-\x{9FBF}\x{3040}-\x{309F}\x{30A0}-\x{30FF}]/u', $data[$i])) {
                                 $errors[][$i] = 'Row: ' . $row . ', data: ' . $data[$i] . ' in not japanese ';
+                                $isRowError = true;
                                 continue;
                             }
 
                             // special character
                             if (preg_match("/[!@#$%^&*(),.?\":{}|<>]/i", $data[$i])) {
                                 $errors[][$i] = 'Row: ' . $row . ', data: ' . $data[$i] . ' in not special character ';
+                                $isRowError = true;
                                 continue;
                             }
-                            $this->_importData($data[$i], $i, $request);
+                            // $this->_importData($data[$i], $i, $request);
                         }
+                    }
+                    if (!$isRowError) {
+                        $this->_importDataWithCode($data, $request);
                     }
                     $row++;
                 }
                 fclose($handle);
             }
-
             if (!empty($errors)) {
                 DB::rollBack();
                 return redirect()->back()->with([
@@ -211,6 +219,31 @@ class DistrictController extends VoyagerBaseController
                 $cityId = $request->session()->get('cityId', 0);
                 Log::error("cityID: " . $cityId);
                 District::upsert([['name' => $data, 'city_id' => $cityId],], ['name']);
+            }
+            $request->session()->forget('cityId');
+        }
+    }
+    /**
+     * @param $data
+     */
+    private function _importDataWithCode($data, $request)
+    {
+        if (!empty($data[$this->colCityName])) {
+            $cityName = $data[$this->colCityName];
+            City::upsert([['name' => $cityName],], ['name']);
+            $city = City::where('name', $cityName)->first();
+            $request->session()->put('cityId', $city->id);
+            Log::error("city: " . $city->id);
+        }
+
+        if (!empty($data[$this->colDistrictName]) && !empty($data[$this->colDistrictCode])) {
+            
+            if ($request->session()->has('cityId')) {
+                $code = $data[$this->colDistrictCode];
+                $name = $data[$this->colDistrictName];
+                $cityId = $request->session()->get('cityId', 0);
+                Log::error("cityID: " . $cityId);
+                $result = District::upsert([['code' => $code, 'name' => $name, 'city_id' => $cityId]], ['name', 'city_id'], ['code']);
             }
             $request->session()->forget('cityId');
         }

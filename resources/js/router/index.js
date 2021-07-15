@@ -14,6 +14,11 @@ const routes = [
         component: () => import('../../js/pages/ListEstates.vue'),
     },
     {
+        path: '/list/:districtCode',
+        name: 'listByDistrict',
+        component: () => import('../../js/pages/ListEstatesByDistrict.vue'),
+    },
+    {
         path: '/detail/:estateId',
         name: 'detail',
         component: () => import('../../js/pages/DetailEstate.vue'),
