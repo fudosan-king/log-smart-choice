@@ -93,7 +93,6 @@
 <script>
 import Lazyload from 'vue-lazyload';
 import Vue from 'vue';
-// import EstateRecommendComponent from '../components/EstateRecommendComponent.vue';
 
 Vue.use(Lazyload, {
     preLoad: 1.3,
@@ -104,9 +103,7 @@ Vue.use(Lazyload, {
 export default {
     components: {
         EstatesTopComponent: () => import('../components/EstatesTopComponent'),
-        // EstatesNearComponent: () => import('../components/EstatesNearComponent'),
         EstateRecommendComponent: () => import('../components/EstateRecommendComponent')
-        // EstateRecommendComponent),
     },
     methods: {
         clearConditionSearch() {

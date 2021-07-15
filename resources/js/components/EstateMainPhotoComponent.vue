@@ -1,7 +1,7 @@
 <template>
     <div class="form-group hp_photo_wrap" id="hp_photo_wrap">
         <ul id="sortable">
-            <draggable @start="drag = true" @end="drag = false">
+            <!-- <draggable @start="drag = true" @end="drag = false"> -->
                 <li id="imageInfo" v-for="(image, idx) in images" :key="idx">
                     <h3>Image</h3>
                     <div class="img-wrap" style="text-align: right;">
@@ -17,7 +17,7 @@
                     />
                     <input name="estate_main_photo_hidden[]" type="hidden" v-bind:value="image[0]" />
                 </li>
-            </draggable>
+            <!-- </draggable> -->
         </ul>
         <button type="button" class="btn btn-primary append-image" @click="addImage">Append Images</button>
     </div>

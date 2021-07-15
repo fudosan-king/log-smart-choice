@@ -63,6 +63,7 @@ class Estates extends Model
 
         if (!$estate->exists) {
             $estate->status = self::STATUS_STOP;
+            $estate->date_imported = date('Y-m-d H:i:s');
             $estate['_id'] = $estateData->_id;
         }
 
