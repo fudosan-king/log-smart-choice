@@ -136,7 +136,7 @@ class EstateController extends Controller
                 }
             }
         }
-        $estates->orderBy('date_created', 'desc');
+        $estates->orderBy('date_imported', 'desc');
 
         $lists = $estates->paginate($limit, $page)->toArray();
 

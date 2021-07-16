@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\MongoController as Controller;
 use App\Block\EstateGroups as EstateGrid;
+use App\Models\Estates;
 use App\Models\Groups;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -33,9 +34,16 @@ class GroupEstateController  extends Controller
                         'estate_id' =>  new ObjectId($row->_id),
                         'sort_order' => (int)  $row->sort_order
                     ));
+                    $estate = Estates::find($row->_id);
+                    if ($estate) {
+                        $estate->sort_order_recommend = (int)$row->sort_order;
+                        $estate->save();
+                    }
+                    
                 }
             }
         }
+
         try {
             $group->setAttribute('estate_list', $model)->save();
         } catch (\Exception $ex) {
