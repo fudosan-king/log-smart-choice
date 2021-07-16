@@ -35,6 +35,11 @@ abstract class Grid
         'No'       => 'no'
     );
 
+    protected $_condition = [];
+
+    protected $_sortBy;
+
+    protected $_orderBy;
 
     /**
      * Init Columns
@@ -53,7 +58,7 @@ abstract class Grid
         $this->_request = $request;
         $this->_model = $model;
         $this->_isSerializeGrid = true;
-        $this->prepareCollection()->addFilter()->addSort();
+        $this->prepareCollection()->addFilter()->condition()->addSort();
     }
 
     /**
@@ -91,6 +96,21 @@ abstract class Grid
         $this->_collection = $query;
         return $this;
     }
+    
+    /**
+     * condition
+     *
+     * @return this
+     */
+    protected function condition()
+    {
+        $model = app($this->_model);
+        foreach ($this->_condition as $value) {
+            $query = $model::where($value ['field'], $value['operation'], $value['value']);
+        }
+        $this->_collection = $query;
+        return $this;
+    }
 
     /**
      * Add Filter
@@ -114,9 +134,10 @@ abstract class Grid
      */
     public function addSort()
     {
-        $orderBy = $this->getRequest()->get('order_by');
+        $orderBy = $this->getRequest()->get('order_by') ? $this->getRequest()->get('order_by') : $this->_orderBy;
+        
         if ($orderBy) {
-            $querySortOrder = (!empty($sortOrder)) ? $sortOrder : 'desc';
+            $querySortOrder = (!empty($this->_sortBy)) ? $this->_sortBy : 'desc';
             $this->_collection->orderBy($orderBy, $querySortOrder);
         }
         return $this;
@@ -224,4 +245,18 @@ abstract class Grid
         }
         return $data;
     }
+
+    public function addCondition($condition) {
+        return $this->_condition = $condition;
+    }
+
+    public function addOrderBy($orderBy) {
+        return $this->_orderBy = $orderBy;
+    }
+
+    public function addSortBy($sortBy) {
+        return $this->_sortBy = $sortBy;
+    }
+
+    
 }

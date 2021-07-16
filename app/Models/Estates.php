@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use DateTime;
+use DateTimeZone;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model as Model;
 use MongoDB\BSON;
@@ -22,6 +24,8 @@ class Estates extends Model
     const STATUS_END = '終了';
     const LIMIT_ESTATE_NEAR_AREA = 8;
     const LIMIT_ESTATE_RECOMMEND = 16;
+
+    const NUMBER_RECOMMEND_ORDER_BY = 100;
 
     /**
      * Get date created
@@ -57,6 +61,20 @@ class Estates extends Model
         }
     }
 
+    /**
+     * Get date created
+     *
+     * @return false|string
+     */
+    public function getDateImportedAttribute()
+    {
+        if (isset($this->attributes['date_imported'])) {
+            $dateImported = $this->attributes['date_imported'];
+            $date = new DateTime($dateImported, new DateTimeZone('Asia/Tokyo'));
+            return date('Y-m-d H:i:s', $date->format('U'));
+        }
+    }
+
     public function upsertFromFDKData($estateData)
     {
         $estate = self::firstOrNew(['_id' => $estateData->_id]);
@@ -64,6 +82,7 @@ class Estates extends Model
         if (!$estate->exists) {
             $estate->status = self::STATUS_STOP;
             $estate->date_imported = date('Y-m-d H:i:s');
+            $estate->sort_order_recommend = self::NUMBER_RECOMMEND_ORDER_BY;
             $estate['_id'] = $estateData->_id;
         }
 

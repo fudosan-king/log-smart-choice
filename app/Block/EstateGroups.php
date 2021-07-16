@@ -3,6 +3,7 @@
 namespace App\Block;
 
 use App\Block\Grid;
+use App\Models\Estates;
 
 class EstateGroups extends Grid
 {
@@ -11,6 +12,12 @@ class EstateGroups extends Grid
     protected $_searchFields = array('estate_name' => 'Estate Name', 'price' => 'price');
 
     protected $_columnsKey = array('_id', 'estate_name', 'price', 'sort_order', 'trade_status');
+
+    protected $_condition = [['field' => 'status', 'operation' => '=', 'value' => Estates::STATUS_SALE]];
+
+    protected $_orderBy = 'sort_order_recommend';
+
+    protected $_sortOrder = 'ASC';
 
     protected function initColumns()
     {
@@ -44,10 +51,17 @@ class EstateGroups extends Grid
             'key' => 'sort_order',
             'index' => 'sort_order',
             'display_name' => 'Sort Order',
-            'type' => 'input',
+            'type' => 'select',
             'is_serialzie' => true,
             'class' => 'form-control'
         ));
+
+        $this->addCondition($this->_condition);
+
+        $this->addOrderBy($this->_orderBy);
+
+        $this->addSortBy($this->_sortOrder);
+
         return $this;
     }
 

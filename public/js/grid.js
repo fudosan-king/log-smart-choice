@@ -27,10 +27,13 @@ class GridData {
             data = data.split('&');
             for (var index = 0; index < data.length; index++) {
                 var row = JSON.parse(data[index]),
-                    inputName = 'input_' + row._id;
+                    inputName = 'input_' + row._id,
+                    selectName = 'select_'+ row._id;
                 for (const [key, value] of Object.entries(row)) {
                     $('input[name="' + inputName + '_' + key + '"]').val(value);
+                    $('select[name="' + selectName + '_' + key + '"] option:eq('+value+') ').prop('selected', true)
                 }
+                
                 $('#row_' + row._id).find('input[name="row_id"]').prop('checked', true);
                 this.setData(row);
             }
@@ -69,6 +72,7 @@ class GridData {
             serialize_string.push('{' + string.join(',') + '}');
         }
         $('input[name="serialize_data"]').val(btoa(serialize_string.join('&')));
+        $('select[name="serialize_data"] select').val(btoa(serialize_string.join('&')));
     }
     checkAll(event) {
         var checked = false,

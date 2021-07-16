@@ -106,11 +106,11 @@ class EstateInformation extends Seeder {
             ])->save();
         }
 
-        $dataRow = $this->dataRow($estateDataType, 'date_created');
+        $dataRow = $this->dataRow($estateDataType, 'date_imported');
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'timestamp',
-                'display_name' => __('Date Created'),
+                'display_name' => __('Date Imported'),
                 'required'     => 0,
                 'browse'       => 1,
                 'read'         => 1,
@@ -251,11 +251,7 @@ class EstateInformation extends Seeder {
         $pageSeoDataType->icon = 'voyager-shop';
         $pageSeoDataType->save();
 
-        // change date_created to date_imported in db table data_rows
-        DataRow::where('data_type_id', $dataType->id)
-        ->where('field', 'date_created')
-        ->update(['field'=> 'date_imported', 'display_name' => 'Date Imported']);
-        
+        }
     }
 
     /**
