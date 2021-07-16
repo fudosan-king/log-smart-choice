@@ -88,15 +88,16 @@ export default {
                     data.isSocial = false;
                 }
                 this.$store.dispatch('getEstateList', data).then(res => {
-                    if (res['data'].length > 1) {
+                    if (res['data'].length >= 1) {
                         this.estates = res['data'];
                     } else {
                         this.estates = res['data'][0];
                     }
                 });
+                console.log(this.estates);
             } else {
                 this.$store.dispatch('getEstateList', data).then(res => {
-                    if (res['data'].length > 1) {
+                    if (res['data'].length >= 1) {
                         this.estates = res['data'];
                     } else {
                         this.estates = res['data'][0];
