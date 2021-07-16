@@ -251,7 +251,6 @@ class EstateInformation extends Seeder {
         $pageSeoDataType->icon = 'voyager-shop';
         $pageSeoDataType->save();
 
-        }
     }
 
     /**
