@@ -17,7 +17,7 @@ class EstateGroups extends Grid
 
     protected $_orderBy = 'sort_order_recommend';
 
-    protected $_sortOrder = 'ASC';
+    protected $_sortOrder = 'asc';
 
     protected function initColumns()
     {

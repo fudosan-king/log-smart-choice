@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
+use DateInterval;
 use DateTime;
-use DateTimeZone;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model as Model;
-use MongoDB\BSON;
 
 class Estates extends Model
 {
@@ -70,8 +69,10 @@ class Estates extends Model
     {
         if (isset($this->attributes['date_imported'])) {
             $dateImported = $this->attributes['date_imported'];
-            $date = new DateTime($dateImported, new DateTimeZone('Asia/Tokyo'));
-            return date('Y-m-d H:i:s', $date->format('U'));
+            $hours = 9;
+            $date = new DateTime($dateImported);
+            $date->add(new DateInterval("PT{$hours}H"));
+            return $date->format('Y-m-d H:i:s');
         }
     }
 

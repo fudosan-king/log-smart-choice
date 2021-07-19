@@ -416,7 +416,7 @@ class EstateController extends Controller
 
         foreach ($estatesGroup as $estateList) {
             foreach ($estateList['estate_list'] as $estate) {
-                $estates[$estate['sort_order']] = $estate['estate_id'];
+                $estates[] = (string)$estate['estate_id'];
                 $estatesSort[(string)$estate['estate_id']] = $estate['sort_order'];
             }
         }
