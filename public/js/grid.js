@@ -22,18 +22,17 @@ class GridData {
         this.initData();
     }
     initData() {
-        var data = atob($('input[name="serialize_data"]').val());
+        var data = window.atob($('input[name="serialize_data"]').val());
         if (data) {
             data = data.split('&');
             for (var index = 0; index < data.length; index++) {
                 var row = JSON.parse(data[index]),
-                    inputName = 'input_' + row._id,
+                    // inputName = 'input_' + row._id,
                     selectName = 'select_'+ row._id;
                 for (const [key, value] of Object.entries(row)) {
-                    $('input[name="' + inputName + '_' + key + '"]').val(value);
-                    $('select[name="' + selectName + '_' + key + '"] option:eq('+value+') ').prop('selected', true)
+                    // $('input[name="' + inputName + '_' + key + '"]').val(value);
+                    $('select[name="' + selectName + '_' + key + '"] option[value="'+value +'"]').attr('selected','selected');
                 }
-                
                 $('#row_' + row._id).find('input[name="row_id"]').prop('checked', true);
                 this.setData(row);
             }
@@ -67,12 +66,11 @@ class GridData {
         for (var index = 0; index < this.data.length; index++) {
             var string = [];
             for (const [key, value] of Object.entries(this.data[index])) {
-                string.push('"' + key + '": "' + value + '"');
+                string.push('"' + key + '": "' + value +'"');
             }
             serialize_string.push('{' + string.join(',') + '}');
         }
-        $('input[name="serialize_data"]').val(btoa(serialize_string.join('&')));
-        $('select[name="serialize_data"] select').val(btoa(serialize_string.join('&')));
+        $('input[name="serialize_data"]').val(window.btoa(serialize_string.join('&')));
     }
     checkAll(event) {
         var checked = false,

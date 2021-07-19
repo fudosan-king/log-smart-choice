@@ -1,10 +1,21 @@
-<input type="text" name="input_{{$row['_id']}}_{{ $item->getData('index')}}" class="{{ $item->getData('class') }} {{ $item->getData('is_serialzie') ? 'js_serialize_fields' : ''}}" 
-data-name={{$item->getData('index')}} "/>
+<!-- <input type="text" name="input_{{$row['_id']}}_{{ $item->getData('index')}}" class="{{ $item->getData('class') }} {{ $item->getData('is_serialzie') ? 'js_serialize_fields' : ''}}" 
+data-name={{$item->getData('index')}} "/> -->
 
-<!-- <select name="select_{{$row['_id']}}_{{ $item->getData('index')}}" class="{{ $item->getData('class') }} {{ $item->getData('is_serialzie') ? 'js_serialize_fields' : ''}}">
+<select name="select_{{$row['_id']}}_{{ $item->getData('index')}}" class="{{ $item->getData('class') }} {{ $item->getData('is_serialzie') ? 'js_serialize_fields' : ''}}" data-name="sort_order">
     <option value="1">1</option>
     <option value="2">2</option>
     <option value="3">3</option>
     <option value="4">4</option>
-    <option value="4">5</option>
-</select> -->
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
+    <option value="13">13</option>
+    <option value="14">14</option>
+    <option value="15">15</option>
+    <option value="16">16</option>
+</select>
