@@ -30,7 +30,24 @@ class ImportManagementSystemController extends VoyagerBaseController
      */
     public function importStation(Request $request)
     {
+        
+        $colRegionCode = 0;
+        $colTranCompanyCode = 1;
+        $colStationCode = 2;
+        $colTranCompanyFullName = 3;
+        $colTranCompanyShortName = 4;
+        $colStationOldName = 5;
         $colStationName = 6;
+        $colNumberChange = 7;
+        $colValueChange = 8;
+
+        $validateGroup = array(
+            $colTranCompanyFullName = 3,
+            $colTranCompanyShortName = 4,
+            // $colStationOldName = 5,
+            $colStationName = 6,
+        );
+
         DB::beginTransaction();
         try {
             $fileExt = $request->file('import_file')->getClientOriginalExtension();
@@ -47,33 +64,45 @@ class ImportManagementSystemController extends VoyagerBaseController
 
             // read file
             if (($handle = fopen(storage_path('app/public/station/' . $fileNameToStore), "r")) !== FALSE) {
+                $dataImport = array();
                 while (($data = fgetcsv($handle, 5000, ",")) !== FALSE) {
-                    $num = count($data);
-                    for ($i = 0; $i < $num; $i++) {
-                        if ($i != 0) {
-                            if ($i % $colStationName == 0) {
+                    $isRowError = false;
+                    foreach($validateGroup as $validateItem) {
+                        if (empty($data[$validateItem])) {
+                            $errors[][$validateItem] = 'Row:' . $row . ', data: ' . $data[$validateItem] . ' is not empty ';
+                            $isRowError = 'Row:' . $row . ', data: ' . $data[$validateItem] . ' is not empty ';
+                            break;
+                        }
 
-                                // validate empty value
-                                if (empty($data[$i])) {
-                                    $errors[][$i] = 'Row:' . $row . ', data: ' . $data[$i] . ' is not empty ';
-                                    continue;
-                                }
+                        // validate japanese
+                        if (!preg_match('/[\x{4E00}-\x{9FBF}\x{3040}-\x{309F}\x{30A0}-\x{30FF}]/u', $data[$validateItem])) {
+                            $errors[][$validateItem] = 'Row: ' . $row . ', data: ' . $data[$validateItem] . ' is not japanese ';
+                            $isRowError = 'Row: ' . $row . ', data: ' . $data[$validateItem] . ' is not japanese ';
+                            break;
+                        }
 
-                                // validate japanese
-                                if (!preg_match('/[\x{4E00}-\x{9FBF}\x{3040}-\x{309F}\x{30A0}-\x{30FF}]/u', $data[$i])) {
-                                    $errors[][$i] = 'Row: ' . $row . ', data: ' . $data[$i] . 'in not japanese ';
-                                    continue;
-                                }
-
-                                // special character
-                                if (preg_match("/[!@#$%^&*(),.?\":{}|<>]/i", $data[$i])) {
-                                    $errors[][$i] = 'Row: ' . $row . ', data: ' . $data[$i] . 'in not special character ';
-                                    continue;
-                                }
-                                $this->_importStationData($data[$i]);
-                            }
+                        // special character
+                        if (preg_match("/[!@#$%^&*(),.?\":{}|<>]/i", $data[$validateItem])) {
+                            $errors[][$validateItem] = 'Row: ' . $row . ', data: ' . $data[$validateItem] . 'in not special character ';
+                            $isRowError = 'Row: ' . $row . ', data: ' . $data[$validateItem] . 'in not special character ';
+                            break;
                         }
                     }
+                    if (!$isRowError) {
+                        $dataImport = array(
+                            'region_code' => intval($data[$colRegionCode]),
+                            'tran_company_code' => intval($data[$colTranCompanyCode]),
+                            'station_code' => intval($data[$colStationCode]),
+                            'tran_company_full_name' => trim($data[$colTranCompanyFullName]),
+                            'tran_company_short_name' => trim($data[$colTranCompanyShortName]),
+                            'old_name' => trim($data[$colStationOldName]),
+                            'name' => trim($data[$colStationName]),
+                            'number_change' => intval($data[$colNumberChange]),
+                            'value_change' => intval($data[$colValueChange])
+                        );
+                    }
+                    
+                    $this->_importStationData($dataImport);
                     $row++;
                 }
                 fclose($handle);
@@ -108,6 +137,16 @@ class ImportManagementSystemController extends VoyagerBaseController
      */
     private function _importStationData($data)
     {
-        Station::upsert([['name' => $data],], ['name']);
+        $colUpdate = array(
+            'region_code',
+            'tran_company_code',
+            'station_code',
+            'tran_company_full_name',
+            'tran_company_short_name',
+            'old_name',
+            'number_change',
+            'value_change'
+        );
+        Station::upsert([$data], ['name'], $colUpdate);
     }
 }

@@ -59,6 +59,27 @@ const actions = {
             ];
             resolve(station);
         });
+    },
+
+    getTransportCompany() {
+        return new Promise((resolve, reject) => {
+            const auth = this.auth;
+            axios({
+                url: '/stations/get-companies',
+                method: 'GET',
+                data: {},
+                headers: {
+                    'content-type': 'application/json',
+                },
+                auth: auth,
+            })
+            .then(resp => {
+                resolve(resp.data.data);
+            })
+            .catch(err => {
+                reject(err);
+            });
+        })
     }
 };
 

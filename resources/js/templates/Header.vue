@@ -156,12 +156,12 @@
                                 >
                                     <div class="card-body stations">
                                         <ul>
-                                            <li v-for="station in stationList" :key="station.id">
+                                            <li v-for="company in transportCompanyList" :key="company.tran_company_code">
                                                 <a
                                                     class="station-item"
                                                     href="javascript:void(0)"
-                                                    v-on:click="searchStation(station)"
-                                                    >{{ station }}</a
+                                                    v-on:click="searchStation(company.tran_company_code)"
+                                                    >{{ company.tran_company_short_name }}</a
                                                 >
                                             </li>
                                         </ul>
@@ -245,6 +245,7 @@ export default {
             userName: '',
             districtList: {},
             stationList: {},
+            transportCompanyList: {},
             announcementCount: 0,
             homePage: true, 
             homeWhiteClass: '',
@@ -268,6 +269,7 @@ export default {
         window.addEventListener('scroll', this.scrollListener);
 
         this.getStation();
+        this.getTransportCompany();
         this.getDistrict();
 
         LSMEvent.$on('handleSeachClick', type => {
@@ -351,6 +353,11 @@ export default {
                 this.stationList = response;
             });
         },
+        getTransportCompany() {
+            this.$store.dispatch('getTransportCompany').then(response => {
+                this.transportCompanyList = response;
+            });
+        },
 
         searchDistrict(district, code) {
             let cookieStation = this.$getCookie('station');
@@ -370,6 +377,7 @@ export default {
         },
 
         searchStation(station) {
+            return false;
             let cookieDistrict = this.$getCookie('district');
             if (cookieDistrict.length > 0) {
                 this.$setCookie('district', '', 1);
