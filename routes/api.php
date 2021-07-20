@@ -120,3 +120,6 @@ Route::get('test_import_estates', function () {
     }
     return response()->json(array('estates' => $estates));
 });
+
+Route::post('/test', [AnnouncementController::class, 'store']);
+Route::get('/test-sendnotice', [AnnouncementController::class, 'sendEmailAnnouncement']);

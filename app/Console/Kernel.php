@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Jobs\SendAnnoucement;
+use App\Jobs\SendEmailAnnoucement;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -24,7 +26,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('estates:import_from_fdk')->everyTwoMinutes();
+        // $schedule->command('estates:import_from_fdk')->everyTwoMinutes();
+        // $schedule->job(new SendAnnoucement)->everyTwoMinutes();
+        $schedule->job(new SendAnnoucement)->dailyAt('2:00');
+        $schedule->job(new SendAnnoucement)->dailyAt('8:00');
+        // $schedule->job(new SendEmailAnnoucement)->dailyAt('9:00');
     }
 
     /**

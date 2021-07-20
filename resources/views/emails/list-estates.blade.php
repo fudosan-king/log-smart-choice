@@ -1,228 +1,335 @@
-<!DOCTYPE html>
-<html lang="en">
+<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"> -->
+<!doctype html>
+<html lang="ja">
 
 <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>【株式会社プロスタイルからのお知らせ】</title>
 
-    <meta charset="UTF-8">
-    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=0'>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta http-equiv="X-UA-Compatible" content="IE=9" />
-    <title> Email template </title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Abril+Fatface" />
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
-    <style>
+    <style type="text/css">
         body {
-            font-family: Abril Fatface !important;
-            font-style: normal;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            margin: 0 !important;
+            width: 100% !important;
+            -webkit-text-size-adjust: 100% !important;
+            -ms-text-size-adjust: 100% !important;
+            -webkit-font-smoothing: antialiased !important;
+            font-family: "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", メイリオ, Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif !important;
+            font-size: 13px;
+            font-weight: 400;
+            color: #382f2e;
+        }
+
+        .tableContent img {
+            border: 0 !important;
+            display: block !important;
+            outline: none !important;
+        }
+
+        a {
+            color: #382f2e;
+            text-decoration: none;
+        }
+
+        p,
+        h2 {
+            color: #382f2e;
+            margin: 0;
+        }
+
+        div,
+        p,
+        ul,
+        h2 {
+            margin: 0;
+        }
+
+        h2 {
+            font-size: 21px;
             font-weight: normal;
-            align-items: center;
-            text-align: center;
+            color: #000;
         }
 
-        .datetime {
-            width: 120px;
-            height: 26px;
-            left: 148px;
-            top: 60px;
-            font-size: 16px;
-            line-height: 22px;
-            display: flex;
-            color: #000000;
-            margin: auto;
+        h3 {
+            color: #000;
+            font-weight: bold;
         }
 
-        .logo_orderrenove_black {
-            margin: 16px auto!important;
-            width: 246px;
-            height: 33px;
-            left: 84px;
-            top: 16px;
+        p {}
+
+        .box_pro {
+            padding: 15px;
         }
 
-        .text-content {
-            padding-top: 22px;
-            font-size: 18px;
-            line-height: 133.7%;
-        }
-
-        .arrival,
-        .condition {
-            font-size: 22px;
-            line-height: 30px;
-            color: #0095B6;
-            padding: 16px 0;
-        }
-
-        .line {
-            border: 1px solid #0095B6;
-            width: 5rem;
-            margin: 15px 10px;
-        }
-
-        .condition .line {
-            border: 1px solid #0095B6;
-            width: 3rem;
-            margin: 15px 10px;
-        }
-
-        .image-estate img {
-            width: 30rem;
-            height: 20rem;
-            left: 47px;
-            top: 586px;
-        }
-
-        button {
-            flex-direction: row;
-            padding: 10px 0px;
-            width: 78px;
-            left: calc(50% - 78px/2 + 47px);
-            color: #fff;
-            background: #1F91B3;
-            border: 1px solid #1F91B3;
-            box-sizing: border-box;
-            border-radius: 4px;
+        .btn {
             font-size: 14px;
-            margin: 0 11px;
+            color: #fff;
+            padding: 10px 15px;
+            background: #EB5757;
+            display: block;
+            text-align: center;
+            margin: 15px auto 0;
         }
 
-        .social i {
-            width: 32px;
-            height: 32px;
-            margin: 0 7px;
+        .price {
+            font-size: 24px;
+            font-weight: bold;
+            text-align: right;
         }
 
-        .information {
+        .price span {
             font-size: 12px;
+            font-weight: normal;
+        }
+
+        @media (max-width: 768px) {
+            table {
+                width: 100% !important;
+            }
+        }
+
+        @media only screen and (max-width:480px) {
+            table {
+                width: 100%;
+            }
+        }
+
+        @media only screen and (max-width:540px) {
+            table {
+                width: 100%;
+            }
         }
     </style>
 
-<body class="main-body app sidebar-mini">
+</head>
+
+<body paddingwidth="0" paddingheight="0" bgcolor="#F2F2F2" style="padding-top: 0; padding-bottom: 0; padding-top: 0; padding-bottom: 0; background-repeat: repeat; width: 100% !important; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; -webkit-font-smoothing: antialiased;" offset="0" toppadding="0" leftpadding="0">
 
 
-<!-- main-content -->
-<div class="main-content app-content">
-    <!-- container -->
-    <div class="container-fluid">
-        <!-- Row -->
-        <div class="sortable">
-            <div class="row row-sm">
-                <div class="col-xl-12 col-sm-12 col-md-12 col-lg-12">
-                    <div class="logo_orderrenove_black">
-                        <img src="https://order-renove.jp/assets/images/SVG/logo_orderrenove_black.svg" alt="">
-                    </div>
-                    <div class="sub-title">
-                        <p class=" datetime">2021年05月14日</p>
-                    </div>
-                    <div class="sub-title">
-                        <p class="text-content align-center">
-                            ※※**様の希望にマッチした物件が 新規公開されました。
-                        </p>
-                    </div>
-                    <div class="arrival">
-                        <div class="row justify-content-center">
-                            <hr class="line">
-                            <p class="">新規到着物件</p>
-                            <hr class="line">
-                        </div>
-                    </div>
-                    <div class="estates pt-4">
-                        <div class="image-estate">
-                            <img src="https://order-renove.jp/estates/5ed879f90c9fd60e6a7d96de/main_photo/20210201_084623_main_photo.jpg" alt="">
-                        </div>
-                        <div class="content-estate p-4">
-                            <p class="m-0">麻布狸穴ナショナルコート</p>
-                            <p class="m-0">東京メトロ千代田線「表参道」歩3分</p>
-                            <p class="m-0">48.24 ㎡ 1LDK+DEN 5,400万円</p>
-                        </div>
-                        <div class="button">
-                            <button>詳細を見る</button>
-                            <button>3Dを見る</button>
-                        </div>
-                    </div>
-                    <div class="estates pt-4">
-                        <div class="image-estate">
-                            <img src="https://order-renove.jp/estates/5ed879f90c9fd60e6a7d96de/main_photo/20210201_084623_main_photo.jpg" alt="">
-                        </div>
-                        <div class="content-estate p-4">
-                            <p class="m-0">麻布狸穴ナショナルコート</p>
-                            <p class="m-0">東京メトロ千代田線「表参道」歩3分</p>
-                            <p class="m-0">48.24 ㎡ 1LDK+DEN 5,400万円</p>
-                        </div>
-                        <div class="button">
-                            <button>詳細を見る</button>
-                            <button>3Dを見る</button>
-                        </div>
-                    </div>
-                    <div class="estates pt-4">
-                        <div class="image-estate">
-                            <img src="https://order-renove.jp/estates/5ed879f90c9fd60e6a7d96de/main_photo/20210201_084623_main_photo.jpg" alt="">
-                        </div>
-                        <div class="content-estate p-4">
-                            <p class="m-0">麻布狸穴ナショナルコート</p>
-                            <p class="m-0">東京メトロ千代田線「表参道」歩3分</p>
-                            <p class="m-0">48.24 ㎡ 1LDK+DEN 5,400万円</p>
-                        </div>
-                        <div class="button">
-                            <button>詳細を見る</button>
-                            <button>3Dを見る</button>
-                        </div>
-                    </div>
-                    <div class="estates pt-4">
-                        <div class="image-estate">
-                            <img src="https://order-renove.jp/estates/5ed879f90c9fd60e6a7d96de/main_photo/20210201_084623_main_photo.jpg" alt="">
-                        </div>
-                        <div class="content-estate p-4">
-                            <p class="m-0">麻布狸穴ナショナルコート</p>
-                            <p class="m-0">東京メトロ千代田線「表参道」歩3分</p>
-                            <p class="m-0">48.24 ㎡ 1LDK+DEN 5,400万円</p>
-                        </div>
-                        <div class="button">
-                            <button>詳細を見る</button>
-                            <button>3Dを見る</button>
-                        </div>
-                    </div>
-                    <div class="condition pt-4">
-                        <div class="row justify-content-center">
-                            <hr class="line">
-                            <p class="">※※**様の希望条件
-                            </p>
-                            <hr class="line">
-                        </div>
-                    </div>
-                    <div class="description">
-                        <p class="address">**区、**区、**区</p>
-                        <p class="square">****平米以上</p>
-                        <p class="total-price">****万円</p>
-                    </div>
-                    <div class="contact m-auto">
-                        <p>希望条件の変更について: 「
-                            <a href="#" class="mypage"> マイページ</a>」にログイン後、「<a href="#" class="setting-mail">メルマガ配信希望条件</a>」からご希望条件のお選びください。</p>
-                    </div>
-                    <div class="social">
-                        <a href=""><img src="facebook.png" alt=""></a>
-                        <a href=""><img src="line.png" alt=""></i>
-                        </a>
-                        <a href=""><img src="twitter.png" alt=""></i>
-                        </a>
-                        <a href=""><img src="instagram.png" alt=""></a>
-                    </div>
-                    <div class="information font-12 mb-5 mt-3">
-                        <p class="m-0">Website: https//www.order-Renove.jp</p>
-                        <p>Copyright © LogSuite Inc. All Rights Reserved.</p>
-                    </div>
-                </div>
+    <table align="center" bgcolor="#F2F2F2" border="0" cellpadding="0" cellspacing="0" class="tableContent" style="font-family:Georgia, times, sans-serif;" width="100%">
+        <tbody>
+            <tr>
+                <td>
+                    <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 800px; margin: auto; padding: 20px 15px; text-align: center;">
+                        <tr>
+                            <td>
+                                <a target="_blank" href="https://order-renove.jp/"><img src="https://propolife.s3.ap-northeast-1.amazonaws.com/logo.png" alt="" width="150"></a>
+                            </td>
+                            <td>
+                                <p>2021年05月14日</p>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 800px; margin: auto; padding: 15px;">
+                        <tr>
+                            <td style="text-align: center;">
+                                <p>※※**様の希望にマッチした物件が<br>
+                                    新規公開されました。</p>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 800px; margin: auto;">
+                        <tr>
+                            <td colspan="2" style="text-align: center;">
+                                <h2 style="padding: 15px;">新着物件</h2>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <div class="box_pro">
+                                    <a href="#"><img src="https://propolife.s3.ap-northeast-1.amazonaws.com/img01.jpg" alt="" style="width: 100%;"></a>
+                                    <h3 style="text-align: center; font-size: 18px; color: #4F4F4F;">麻布狸穴ナショナルコート</h3>
+                                    <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+                                        <tr>
+                                            <td>
+                                                <p>港区西麻布2丁目</p>
+                                                <p>50.4m²（1LDK+DEN）</p>
+                                            </td>
+                                            <td>
+                                                <p class="price">5400<span>万円</span></p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%">
+                                                <a class="btn" href="#" style="margin-right: 15px; color: #fff;">物件詳細を見る</a>
+                                            </td>
+                                            <td>
+                                                <a class="btn" style="color: #fff;" href="#">3Dを見る</a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <div class="box_pro">
+                                    <a href="#"><img src="https://propolife.s3.ap-northeast-1.amazonaws.com/img01.jpg" alt="" style="width: 100%;"></a>
+                                    <h3 style="text-align: center; font-size: 18px; color: #4F4F4F;">麻布狸穴ナショナルコート</h3>
+                                    <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+                                        <tr>
+                                            <td>
+                                                <p>港区西麻布2丁目</p>
+                                                <p>50.4m²（1LDK+DEN）</p>
+                                            </td>
+                                            <td>
+                                                <p class="price">5400<span>万円</span></p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%">
+                                                <a class="btn" href="#" style="margin-right: 15px; color: #fff;">物件詳細を見る</a>
+                                            </td>
+                                            <td>
+                                                <a class="btn" style="color: #fff;" href="#">3Dを見る</a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
 
 
-            </div>
-        </div>
-        <!-- /row -->
-    </div>
-    <!-- Container closed -->
-</div>
-<!-- main-content closed -->
+                        <tr>
+                            <td>
+                                <div class="box_pro">
+                                    <a href="#"><img src="https://propolife.s3.ap-northeast-1.amazonaws.com/img01.jpg" alt="" style="width: 100%;"></a>
+                                    <h3 style="text-align: center; font-size: 18px; color: #4F4F4F;">麻布狸穴ナショナルコート</h3>
+                                    <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+                                        <tr>
+                                            <td>
+                                                <p>港区西麻布2丁目</p>
+                                                <p>50.4m²（1LDK+DEN）</p>
+                                            </td>
+                                            <td>
+                                                <p class="price">5400<span>万円</span></p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%">
+                                                <a class="btn" href="#" style="margin-right: 15px; color: #fff;">物件詳細を見る</a>
+                                            </td>
+                                            <td>
+                                                <a class="btn" style="color: #fff;" href="#">3Dを見る</a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <div class="box_pro">
+                                    <a href="#"><img src="https://propolife.s3.ap-northeast-1.amazonaws.com/img01.jpg" alt="" style="width: 100%;"></a>
+                                    <h3 style="text-align: center; font-size: 18px; color: #4F4F4F;">麻布狸穴ナショナルコート</h3>
+                                    <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+                                        <tr>
+                                            <td>
+                                                <p>港区西麻布2丁目</p>
+                                                <p>50.4m²（1LDK+DEN）</p>
+                                            </td>
+                                            <td>
+                                                <p class="price">5400<span>万円</span></p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td width="50%">
+                                                <a class="btn" href="#" style="margin-right: 15px; color: #fff;">物件詳細を見る</a>
+                                            </td>
+                                            <td>
+                                                <a class="btn" href="#" style="color: #fff;">3Dを見る</a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </table>
+
+                    <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 800px; margin: 20px auto;">
+                        <tr>
+                            <td style="text-align: center;">
+                                <h2 style="padding: 10px; font-size: 14px;">**様の希望の希望条件</h2>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 800px; margin: auto; text-align: left; padding: 0 15px;">
+                        <tr>
+                            <th width="20%">希望エリア</th>
+                            <td>設定なし</td>
+                        </tr>
+                        <tr>
+                            <th>価格</th>
+                            <td>設定なし</td>
+                        </tr>
+                        <tr>
+                            <th>広さ</th>
+                            <td>設定なし</td>
+                        </tr>
+                        <tr>
+                            <th>こだわり</th>
+                            <td>設定なし</td>
+                        </tr>
+                    </table>
+
+                    <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 800px; margin: 20px auto;">
+                        <tr>
+                            <td style="text-align: center;">
+                                <p style="padding: 10px; font-size: 14px;">希望条件の変更について: <a style="color: #EB5757;" href="#">「マイページ」</a>にログイン後、<br>
+                                    <a style="color: #EB5757;" href="#">「 メルマガ配信希望条件」</a>からご希望条件のお選びください。
+                                </p>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 800px; margin: auto; text-align: left;">
+                        <tr>
+                            <td style="text-align: center; text-decoration: underline; padding: 10px 0 30px;">
+                                <p><a style="color: #EB5757;" href="#">メールの配信停止をご希望のかたはこちら</a></p>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <div class="footer" style="background: #000; padding: 30px 0; text-align: center; ">
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 800px; margin: auto; text-align: left;">
+                            <tr>
+                                <td style="text-align: center;">
+                                    <p style="padding-bottom: 30px; border-bottom: 1px solid #828282; text-align: center;"><a target="_blank" href="https://order-renove.jp/"><img src="https://propolife.s3.ap-northeast-1.amazonaws.com/logo_white.png" alt="" width="150" style="margin: auto;"></a></p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: center; padding: 30px 0;">
+                                    <a style="display: inline-block; margin-right: 25px;" href="#" title=""><img src="https://propolife.s3.ap-northeast-1.amazonaws.com/i_ins.png" alt="" width="18"></a>
+                                    <a style="display: inline-block; margin-right: 25px;" href="#" title=""><img src="https://propolife.s3.ap-northeast-1.amazonaws.com/i_twitter.png" alt="" width="18"></a>
+                                    <a style="display: inline-block;" href="#" title=""><img src="https://propolife.s3.ap-northeast-1.amazonaws.com/i_fb.png" alt="" width="18"></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p style="text-align: center; color: #828282;">Copyright © <a style="color: #828282;" target="_blank" href="https://www.logsuite.co.jp/logmansion/contact">LogSuite.</a> All Rights Reserved.</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
 </body>
-
 
 </html>

@@ -69,9 +69,7 @@ class Estates extends Model
     {
         if (isset($this->attributes['date_imported'])) {
             $dateImported = $this->attributes['date_imported'];
-            $hours = 9;
-            $date = new DateTime($dateImported);
-            $date->add(new DateInterval("PT{$hours}H"));
+            $date = new DateTime(date('Y-m-d H:i:s', $dateImported->toDateTime()->format('U')));
             return $date->format('Y-m-d H:i:s');
         }
     }
@@ -82,7 +80,7 @@ class Estates extends Model
 
         if (!$estate->exists) {
             $estate->status = self::STATUS_STOP;
-            $estate->date_imported = date('Y-m-d H:i:s');
+            $estate->date_imported = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d H:i:s')) * 1000);
             $estate->sort_order_recommend = self::NUMBER_RECOMMEND_ORDER_BY;
             $estate['_id'] = $estateData->_id;
         }

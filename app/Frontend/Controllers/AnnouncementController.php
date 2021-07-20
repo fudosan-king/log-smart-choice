@@ -3,11 +3,15 @@
 namespace App\Frontend\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendEmailDailyEstate;
 use App\Models\Announcement;
 use App\Models\Estates;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Customer;
+use DateTime;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
@@ -111,6 +115,7 @@ class AnnouncementController extends Controller
                 ->whereIn('_id', $announcementList)
                 ->orderBy('date_created', 'desc')
                 ->get()->toArray();
+
             $announcements['data'] = $this->estateController->getEstateInformation($estates, []);
             // push announcement into estate
             foreach ($announcements['data'] as $key => $announcement) {
@@ -123,5 +128,115 @@ class AnnouncementController extends Controller
             }
         }
         return $this->response(200, 'Get list success', $announcements, true);
+    }
+
+
+    /**
+     * store
+     *
+     * @param  bool $isSendMail
+     * @return void
+     */
+    public function store()
+    {
+        $start = new DateTime(date('Y-m-d 07:59:59', strtotime('-1 day')));
+        $end = new DateTime(date('Y-m-d 08:00:00'));
+        // $start = new \MongoDB\BSON\UTCDateTime($dateTimeStart->getTimestamp() * 1000);
+        // $end = new \MongoDB\BSON\UTCDateTime($dateTimeEnd->getTimestamp() * 1000);
+
+        $customers = Customer::select('id', 'announcement_condition', 'email')->where('role3d', Customer::ROLE_3D_CUSTOMER)
+            ->where('status', Customer::ACTIVE)
+            ->where('email', '!=', '')
+            ->whereNotNull('email')
+            ->where('announcement_condition', '!=', '')
+            ->whereNotNull('announcement_condition')
+            ->get();
+        DB::beginTransaction();
+        try {
+            foreach ($customers as $customer) {
+                $condition = json_decode($customer->announcement_condition, true);
+                $estates = Estates::select('_id', 'room_count', 'room_kind', 'tatemono_menseki', 'address', 'date_created');
+                if ($condition['city']) {
+                    $estates->whereIn('address.city', $condition['city']);
+                }
+
+                if ($condition['price']) {
+                    $estates->whereBetween('total_price', [$condition['price']['min'], $condition['price']['max']]);
+                }
+
+                if ($condition['square']) {
+                    $estates->whereBetween('tatemono_menseki', [$condition['square']['min'], $condition['square']['max']]);
+                }
+
+                $estates->whereBetween('date_imported', [$start, $end]);
+                $estates->orderBy('date_imported', 'desc');
+                $listEstate = $estates->get();
+                if ($listEstate) {
+                    foreach ($listEstate as $estate) {
+                        $announcements = Announcement::where('estate_id', $estate->_id)
+                            ->where('customer_id', $customer->id)->first();
+                        if (!$announcements) {
+                            $announcement = new Announcement();
+                            $announcement->estate_id = $estate->_id;
+                            $announcement->customer_id = $customer->id;
+                            $announcement->is_read = false;
+                            $announcement->save();
+                        }
+                    }
+                }
+            }
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error($e->getMessage());
+        }
+    }
+
+    /**
+     * sendEmailAnnouncement function
+     *
+     * @return void
+     */
+    public function sendEmailAnnouncement()
+    {
+        $start = new DateTime(date('Y-m-d 17:59:59', strtotime('-1 day')));
+        $end = new DateTime(date('Y-m-d 18:00:00'));
+        $customers = Customer::select('id', 'announcement_condition', 'email')->where('role3d', Customer::ROLE_3D_CUSTOMER)
+            ->where('status', Customer::ACTIVE)
+            ->where('email', '!=', '')
+            ->whereNotNull('email')
+            ->where('announcement_condition', '!=', '')
+            ->whereNotNull('announcement_condition')
+            ->get();
+        try {
+            foreach ($customers as $customer) {
+                $condition = json_decode($customer->announcement_condition, true);
+                $estates = Estates::select('_id', 'room_count', 'room_kind', 'tatemono_menseki', 'address', 'date_created');
+                if ($condition['city']) {
+                    $estates->whereIn('address.city', $condition['city']);
+                }
+
+                if ($condition['price']) {
+                    $estates->whereBetween('total_price', [$condition['price']['min'], $condition['price']['max']]);
+                }
+
+                if ($condition['square']) {
+                    $estates->whereBetween('tatemono_menseki', [$condition['square']['min'], $condition['square']['max']]);
+                }
+
+                $estates->whereBetween('date_imported', [$start, $end]);
+                $estates->orderBy('date_imported', 'desc');
+                $listEstate = $estates->get();
+
+                if ($listEstate) {
+                    $estateController = new EstateController();
+                    $data = $estateController->getEstateInformation($listEstate);
+                    $emailDailyEstate = new SendEmailDailyEstate($customer->email, $data);
+                    dispatch($emailDailyEstate);
+                }
+            }
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
     }
 }

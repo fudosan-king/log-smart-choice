@@ -33,7 +33,7 @@ export default {
     data() {
         let images = [];
         let data = this.data;
-        if (data.estate_main_photo.length != 0 || typeof data.estate_main_photo != 'undefined') {
+        if (typeof data.estate_main_photo != 'undefined') {
             const mainPhoto = data.estate_main_photo;
             for (let i = 0; i < mainPhoto.length; i++) {
                 const url = mainPhoto[i]['url_path'];
