@@ -169,6 +169,7 @@ class AnnouncementController extends Controller
                 }
 
                 $estates->whereBetween('date_imported', [$start, $end]);
+                $estates->where('status', Estates::STATUS_SALE);
                 $estates->orderBy('date_imported', 'desc');
                 $listEstate = $estates->get();
                 if ($listEstate) {
@@ -225,6 +226,7 @@ class AnnouncementController extends Controller
                 }
 
                 $estates->whereBetween('date_imported', [$start, $end]);
+                $estates->where('status', Estates::STATUS_SALE);
                 $estates->orderBy('date_imported', 'desc');
                 $listEstate = $estates->get();
 
