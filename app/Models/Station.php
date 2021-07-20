@@ -9,7 +9,15 @@ class Station extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name'
+        'name',
+        'region_code',
+        'tran_company_code',
+        'station_code',
+        'tran_company_full_name',
+        'tran_company_short_name',
+        'old_name',
+        'number_change',
+        'value_change'
     ];
 
 //    protected $tableName = 'stations';

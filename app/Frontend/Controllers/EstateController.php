@@ -9,6 +9,7 @@ use App\Models\District;
 use App\Models\Estates;
 use App\Models\EstateInformation;
 use App\Models\EstateGroup;
+use App\Models\Station;
 use App\Models\WishLists;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -49,6 +50,8 @@ class EstateController extends Controller
         $email = $request->get('email') ?? '';
         $isSocial = $request->get('isSocial') ?? '';
         $districtCode = $request->get('districtCode') ?? '';
+        $companyCode = $request->get('companyCode') ?? '';
+        $stationCode = $request->get('stationCode') ?? '';
 
         $limit = $request->has('limit') ? intval($request->get('limit')) : 4;
         $page = $request->has('page') ? intval($request->get('page')) : 1;
@@ -100,8 +103,19 @@ class EstateController extends Controller
         }
 
         // station name
+        if ($companyCode && $stationCode) {
+            $stationModel = Station::select(['name', 'tran_company_short_name'])
+                ->where('tran_company_code', '=', $companyCode)
+                ->where('station_code', '=', $stationCode)
+                ->get()->first();
+            if ($stationModel) {
+                $station = $stationModel->name;
+                $estates->where('transports.transport_company', $stationModel->tran_company_short_name);
+            }
+        }
+        
         if ($station) {
-            $estates->where('transports.transport_company',  "like", "%" . $station . "%");
+            $estates->whereIn('transports.station_name',  [$station]);
         }
 
         // room kind & room count

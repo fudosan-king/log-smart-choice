@@ -67,6 +67,8 @@ Route::post('/facebook-login', [LoginController::class, 'socialLogin']);
 
 // station
 Route::post('/stations/list', [StationController::class, 'getAll'])->name('station.list');
+Route::get('/stations/get-companies', [StationController::class, 'getTransportCompany'])->name('station.companies');
+Route::get('/stations/getByCompany', [StationController::class, 'getByTransportCompany'])->name('station.bycompany');
 
 // District
 Route::post('/district/list', [DistrictController::class, 'list'])->name('district.list');
