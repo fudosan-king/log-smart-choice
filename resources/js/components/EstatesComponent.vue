@@ -100,8 +100,10 @@ export default {
         // Gui yeu cau den server sau moi lan cuon xuong
         getListEstates(pageLoad) {
             let accessToken = this.$getCookie('accessToken');
-            let district = this.$getCookie('district');
-            let station = this.$getCookie('station');
+            // let district = this.$getCookie('district');
+            let district = '';
+            // let station = this.$getCookie('station');
+            let station = '';
             let districtCode = this.$route.params.districtCode;
             let companyCode = this.$route.params.companyCode;
             let stationCode = this.$route.params.stationCode;

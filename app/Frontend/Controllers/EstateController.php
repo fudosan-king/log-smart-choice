@@ -103,10 +103,11 @@ class EstateController extends Controller
         }
 
         // station name
-        if ($companyCode && $stationCode) {
+        
+        if ($companyCode) {
             $stationModel = Station::select(['name', 'tran_company_short_name'])
                 ->where('tran_company_code', '=', $companyCode)
-                ->where('station_code', '=', $stationCode)
+                // ->where('station_code', '=', $stationCode)
                 ->get()->first();
             if ($stationModel) {
                 $station = $stationModel->name;
