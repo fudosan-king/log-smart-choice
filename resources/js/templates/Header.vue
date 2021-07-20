@@ -160,7 +160,7 @@
                                                 <a
                                                     class="station-item"
                                                     href="javascript:void(0)"
-                                                    v-on:click="searchStation(company.tran_company_code)"
+                                                    v-on:click="searchStation(company.tran_company_short_name, company.tran_company_code)"
                                                     >{{ company.tran_company_short_name }}</a
                                                 >
                                             </li>
@@ -376,15 +376,14 @@ export default {
                 });
         },
 
-        searchStation(station) {
-            return false;
+        searchStation(companyName, companyCode) {
             let cookieDistrict = this.$getCookie('district');
             if (cookieDistrict.length > 0) {
                 this.$setCookie('district', '', 1);
             }
-            this.$setCookie('station', station, 1);
+            this.$setCookie('station', companyName, 1);
             this.$router
-                .push({ name: 'list' })
+                .push({ name: 'listByStation', params: {companyCode: companyCode, stationCode: 'all'} })
                 .then(() => {
                     this.$router.go('0');
                 })
