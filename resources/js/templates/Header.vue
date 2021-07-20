@@ -272,9 +272,9 @@ export default {
         this.getTransportCompany();
         this.getDistrict();
 
-        LSMEvent.$on('handleSeachClick', type => {
-            this.dropSearchByType(type);
-        });
+        // LSMEvent.$on('handleSeachClick', type => {
+        //     this.dropSearchByType(type);
+        // });
 
         this.userName = this.$getCookie('userName');
     },
@@ -316,23 +316,23 @@ export default {
             $('.dropdown_user_content').hide();
         },
 
-        dropSearchByType(type = 'area') {
-            $('.dropdown_search_content').slideToggle('fast');
-            $('.dropdown_user_content').hide();
-            switch (type) {
-                case 'station':
-                    if (!this.$refs.collapseStation.classList.contains('show')) {
-                        this.$refs.showStation.click();
-                    }
-                    break;
-                case 'area':
-                default:
-                    if (!this.$refs.collapseArea.classList.contains('show')) {
-                        this.$refs.showArea.click();
-                    }
-                    break;
-            }
-        },
+        // dropSearchByType(type = 'area') {
+        //     $('.dropdown_search_content').slideToggle('fast');
+        //     $('.dropdown_user_content').hide();
+        //     switch (type) {
+        //         case 'station':
+        //             if (!this.$refs.collapseStation.classList.contains('show')) {
+        //                 this.$refs.showStation.click();
+        //             }
+        //             break;
+        //         case 'area':
+        //         default:
+        //             if (!this.$refs.collapseArea.classList.contains('show')) {
+        //                 this.$refs.showArea.click();
+        //             }
+        //             break;
+        //     }
+        // },
 
         scrollListener() {
             if (window.pageYOffset > 0) {

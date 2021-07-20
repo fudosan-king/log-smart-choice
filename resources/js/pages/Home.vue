@@ -10,7 +10,7 @@
             </div>
             <ul>
                 <li>
-                    <a class="search-district" v-on:click="handleHeaderContentClick('area', $event)">
+                    <a class="search-district" v-on:click="handleHeaderContentClick('district', $event)">
                         <img
                             src="/assets/images/svg/i_map.svg"
                             alt=""
@@ -62,7 +62,12 @@
                 </li> -->
             </ul>
         </section>
+        <search-component 
+            :search-type="searchType"
+            v-if="searchType"
+            @handleCloseClick="handleCloseSearch()">
 
+        </search-component>
         <section class="section_new_property">
             <div class="container">
                 <div class="row">
@@ -93,6 +98,7 @@
 <script>
 import Lazyload from 'vue-lazyload';
 import Vue from 'vue';
+import SearchComponent from '../components/SearchComponent.vue';
 
 Vue.use(Lazyload, {
     preLoad: 1.3,
@@ -101,9 +107,16 @@ Vue.use(Lazyload, {
     attempt: 1
 });
 export default {
+    data() {
+        return {
+            searchType: ''
+        };
+    },
     components: {
         EstatesTopComponent: () => import('../components/EstatesTopComponent'),
-        EstateRecommendComponent: () => import('../components/EstateRecommendComponent')
+        EstateRecommendComponent: () => import('../components/EstateRecommendComponent'),
+        EstatesNearComponent: () => import('../components/EstatesNearComponent'),
+        SearchComponent: () => import('../components/SearchComponent'),
     },
     methods: {
         clearConditionSearch() {
@@ -111,9 +124,17 @@ export default {
             this.$setCookie('station', '', 1);
             this.$router.push('list');
         },
-        handleHeaderContentClick (type = 'area', event) {
+        handleHeaderContentClick (type = 'district', event) {
             event.preventDefault();
-            LSMEvent.$emit("handleSeachClick", type);
+            if (this.searchType != type) {
+                this.searchType = type;
+            }
+            // LSMEvent.$emit("handleSeachClick", type);
+
+        },
+
+        handleCloseSearch() {
+            this.searchType = '';
         }
     }
 };

@@ -46,6 +46,21 @@ ul.estate-description-content {
     text-overflow: unset;
 }
 
+.section_searh.search-show {
+    display: block;
+}
+
+.section_searh.search-show .box_searchby {
+    display: block;
+}
+
+.section_searh.search-show .lsc-spinner {
+    width: 100%;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
 footer .footer_bottom .btn {
     font-size: 0.775em;
 }
