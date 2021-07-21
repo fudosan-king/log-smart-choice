@@ -207,8 +207,8 @@
                     <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 800px; margin: 20px auto;">
                         <tr>
                             <td style="text-align: center;">
-                                <p style="padding: 10px; font-size: 14px;">希望条件の変更について: <a style="color: #EB5757;" href="#">「マイページ」</a>にログイン後、<br>
-                                    <a style="color: #EB5757;" href="#">「 メルマガ配信希望条件」</a>からご希望条件のお選びください。
+                                <p style="padding: 10px; font-size: 14px;">希望条件の変更について: <a style="color: #EB5757;" href="https://order-renove.jp/customer/information ">「マイページ」</a>にログイン後、<br>
+                                    <a style="color: #EB5757;" href="https://order-renove.jp/customer/announcement-condition">「 メルマガ配信希望条件」</a>からご希望条件のお選びください。
                                 </p>
                             </td>
                         </tr>
@@ -217,7 +217,7 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 800px; margin: auto; text-align: left;">
                         <tr>
                             <td style="text-align: center; text-decoration: underline; padding: 10px 0 30px;">
-                                <p><a style="color: #EB5757;" href="#">メールの配信停止をご希望のかたはこちら</a></p>
+                                <p><a style="color: #EB5757;" href="https://order-renove.jp/customer/information">メールの配信停止をご希望のかたはこちら</a></p>
                             </td>
                         </tr>
                     </table>
