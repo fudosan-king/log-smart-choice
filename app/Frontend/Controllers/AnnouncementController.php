@@ -274,7 +274,7 @@ class AnnouncementController extends Controller
                 $estates->orderBy('date_imported', 'desc');
                 $listEstate = $estates->get();
 
-                if ($listEstate) {
+                if ($listEstate->isNotEmpty()) {
                     $estateController = new EstateController();
                     $data = $estateController->getEstateInformation($listEstate);
                     $condition['city'] = implode(', ', $condition['city']);
