@@ -121,8 +121,7 @@
                                 <a target="_blank" href="https://order-renove.jp/"><img src="https://propolife.s3.ap-northeast-1.amazonaws.com/logo.png" alt="" width="150"></a>
                             </td>
                             <td>
-                                <!-- <p>2021年05月14日</p> -->
-                                <p>{{ date('Y年-m月-d日') }}</p>
+                                <p>{{ date('Y年m月d日') }}</p>
                             </td>
                         </tr>
                     </table>
