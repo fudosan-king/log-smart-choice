@@ -18,17 +18,19 @@ class SendEmailDailyEstate implements ShouldQueue
     protected $receiver;
     protected $data;
     protected $condition;
+    protected $customer;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($email, $data, $condition)
+    public function __construct($customer, $data, $condition)
     {
-        $this->receiver = $email;
+        $this->receiver = $customer->email;
         $this->data = $data;
         $this->condition = $condition;
+        $this->customer = $customer;
     }
 
     /**
@@ -39,7 +41,7 @@ class SendEmailDailyEstate implements ShouldQueue
     public function handle()
     {
         try {
-            $email = new EmailDailyEstate($this->receiver, $this->data, $this->condition);
+            $email = new EmailDailyEstate($this->receiver, $this->data, $this->condition, $this->customer);
             Mail::to($this->receiver)->send($email);
         } catch (\Exception $e) {
             Log::error($e->getMessage());

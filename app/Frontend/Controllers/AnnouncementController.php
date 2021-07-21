@@ -278,7 +278,7 @@ class AnnouncementController extends Controller
                     $estateController = new EstateController();
                     $data = $estateController->getEstateInformation($listEstate);
                     $condition['city'] = implode(', ', $condition['city']);
-                    $emailDailyEstate = new SendEmailDailyEstate($customer->email, $data->toArray(), $condition);
+                    $emailDailyEstate = new SendEmailDailyEstate($customer, $data->toArray(), $condition);
                     dispatch($emailDailyEstate);
                 }
             }
