@@ -163,10 +163,10 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td width="50%" style="padding-left: 10%;">
+                                            <td width="50%" style="padding-left: 5%;">
                                                 <a class="btn" href="{{Request::root()}}/detail/{{$estate['_id']}}" style="margin-right: 15px; color: #fff;">物件詳細を見る</a>
                                             </td>
-                                            <td style="padding-right: 10%;">
+                                            <td style="padding-right: 5%;">
                                                 <a class="btn" style="color: #fff;" href="{{Request::root()}}/detail/{{$estate['_id']}}">3Dを見る</a>
                                             </td>
                                         </tr>
