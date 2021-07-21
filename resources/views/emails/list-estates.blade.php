@@ -185,7 +185,7 @@
                         </tr>
                     </table>
 
-                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 800px; margin: auto; text-align: left; padding: 0 15px;">
+                    <table border="0" bgcolor="#fff" cellpadding="0" cellspacing="0" width="100%" style="width: 800px; margin: auto; text-align: left; padding: 15px 15px;">
                         <tr>
                             <th width="20%">希望エリア</th>
                             <td>{{ $condition['city'] }}</td>
