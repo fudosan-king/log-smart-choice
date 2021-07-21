@@ -147,7 +147,7 @@
                             <td>
                                 <div class="box_pro">
                                     <a href="{{Request::root()}}/detail/{{$estate['_id']}}">
-                                    <img src="{{ Request::root().$estate['estate_information']['estate_main_photo'][0]['url_path'] }}" alt="" style="width: 100%;">
+                                    <img src="{{ 'https://order-renove.jp'.$estate['estate_information']['estate_main_photo'][0]['url_path'] }}" alt="" style="width: 100%;">
                                 </a>
                                     <h3 style="text-align: center; font-size: 18px; color: #4F4F4F;">{{$estate['estate_name']}}</h3>
                                     <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
@@ -175,91 +175,6 @@
                             </td>
                         </tr>
                         @endforeach
-                        <!-- <tr>
-                            <td>
-                                <div class="box_pro">
-                                    <a href="#"><img src="https://propolife.s3.ap-northeast-1.amazonaws.com/img01.jpg" alt="" style="width: 100%;"></a>
-                                    <h3 style="text-align: center; font-size: 18px; color: #4F4F4F;">麻布狸穴ナショナルコート</h3>
-                                    <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
-                                        <tr>
-                                            <td>
-                                                <p>港区西麻布2丁目</p>
-                                                <p>50.4m²（1LDK+DEN）</p>
-                                            </td>
-                                            <td>
-                                                <p class="price">5400<span>万円</span></p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%">
-                                                <a class="btn" href="#" style="margin-right: 15px; color: #fff;">物件詳細を見る</a>
-                                            </td>
-                                            <td>
-                                                <a class="btn" style="color: #fff;" href="#">3Dを見る</a>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </td>
-                        </tr>
-
-
-                        <tr>
-                            <td>
-                                <div class="box_pro">
-                                    <a href="#"><img src="https://propolife.s3.ap-northeast-1.amazonaws.com/img01.jpg" alt="" style="width: 100%;"></a>
-                                    <h3 style="text-align: center; font-size: 18px; color: #4F4F4F;">麻布狸穴ナショナルコート</h3>
-                                    <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
-                                        <tr>
-                                            <td>
-                                                <p>港区西麻布2丁目</p>
-                                                <p>50.4m²（1LDK+DEN）</p>
-                                            </td>
-                                            <td>
-                                                <p class="price">5400<span>万円</span></p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%">
-                                                <a class="btn" href="#" style="margin-right: 15px; color: #fff;">物件詳細を見る</a>
-                                            </td>
-                                            <td>
-                                                <a class="btn" style="color: #fff;" href="#">3Dを見る</a>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr>
-                            <td>
-                                <div class="box_pro">
-                                    <a href="#"><img src="https://propolife.s3.ap-northeast-1.amazonaws.com/img01.jpg" alt="" style="width: 100%;"></a>
-                                    <h3 style="text-align: center; font-size: 18px; color: #4F4F4F;">麻布狸穴ナショナルコート</h3>
-                                    <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
-                                        <tr>
-                                            <td>
-                                                <p>港区西麻布2丁目</p>
-                                                <p>50.4m²（1LDK+DEN）</p>
-                                            </td>
-                                            <td>
-                                                <p class="price">5400<span>万円</span></p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td width="50%">
-                                                <a class="btn" href="#" style="margin-right: 15px; color: #fff;">物件詳細を見る</a>
-                                            </td>
-                                            <td>
-                                                <a class="btn" href="#" style="color: #fff;">3Dを見る</a>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </td>
-                        </tr> -->
-
                     </table>
 
                     <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 800px; margin: 20px auto;">
