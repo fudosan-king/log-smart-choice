@@ -130,7 +130,7 @@
                     <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 800px; margin: auto; padding: 15px;">
                         <tr>
                             <td style="text-align: center;">
-                                <p>※※**様の希望にマッチした物件が<br>
+                                <p>※※{{ $customer['name'] }}様の希望にマッチした物件が<br>
                                     新規公開されました。</p>
                             </td>
                         </tr>
@@ -152,22 +152,22 @@
                                     <h3 style="text-align: center; font-size: 18px; color: #4F4F4F;">{{$estate['estate_name']}}</h3>
                                     <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
                                         <tr>
-                                            <td>
-                                                <p{{ $estate['address']['city'] }}{{ $estate['address']['ooaza'] }}{{ $estate['address']['tyoume'] }}</p>
+                                            <td style="padding-left: 45px;">
+                                                <p>{{ $estate['address']['city'] }}{{ $estate['address']['ooaza'] }}{{ $estate['address']['tyoume'] }}</p>
                                                 <p>{{ $estate['tatemono_menseki'] }}m²（{{ $estate['room_count'] }}{{ $estate['room_kind'] }}+DEN）</p>
                                             </td>
-                                            <td>
+                                            <td style="padding-right: 45px;">
                                                 @if($estate['total_price'])
                                                 <p class="price">{{ $estate['total_price'] }}<span>万円</span></p>
                                                 @endif
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td width="50%">
-                                                <a class="btn" href="#" style="margin-right: 15px; color: #fff;">物件詳細を見る</a>
+                                            <td width="50%" style="padding-left: 10%;">
+                                                <a class="btn" href="{{Request::root()}}/detail/{{$estate['_id']}}" style="margin-right: 15px; color: #fff;">物件詳細を見る</a>
                                             </td>
-                                            <td>
-                                                <a class="btn" style="color: #fff;" href="#">3Dを見る</a>
+                                            <td style="padding-right: 10%;">
+                                                <a class="btn" style="color: #fff;" href="{{Request::root()}}/detail/{{$estate['_id']}}">3Dを見る</a>
                                             </td>
                                         </tr>
                                     </table>
@@ -180,7 +180,7 @@
                     <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 800px; margin: 20px auto;">
                         <tr>
                             <td style="text-align: center;">
-                                <h2 style="padding: 10px; font-size: 14px;">**様の希望の希望条件</h2>
+                                <h2 style="padding: 10px; font-size: 14px;">{{ $customer['name'] }}様の希望の希望条件</h2>
                             </td>
                         </tr>
                     </table>

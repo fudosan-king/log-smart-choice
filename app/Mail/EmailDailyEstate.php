@@ -15,17 +15,19 @@ class EmailDailyEstate extends Mailable
     protected $email;
     protected $data;
     protected $condition;
+    protected $customer;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($email, $data, $condition)
+    public function __construct($email, $data, $condition, $customer)
     {
         $this->email = $email;
         $this->data = $data;
         $this->condition = $condition;
+        $this->customer = $customer;
     }
 
     /**
@@ -36,7 +38,7 @@ class EmailDailyEstate extends Mailable
     public function build()
     {
         try {
-            return $this->view('emails.list-estates', ['data' => $this->data, 'condition' => $this->condition])
+            return $this->view('emails.list-estates', ['data' => $this->data, 'condition' => $this->condition, 'customer' => $this->customer])
                 ->subject(__('auth.verify_email'));
         } catch (\Exception $e) {
             Log::error($e->getMessage());
