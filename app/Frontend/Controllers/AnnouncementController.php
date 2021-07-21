@@ -233,7 +233,52 @@ class AnnouncementController extends Controller
                 if ($listEstate) {
                     $estateController = new EstateController();
                     $data = $estateController->getEstateInformation($listEstate);
-                    $emailDailyEstate = new SendEmailDailyEstate($customer->email, $data);
+                    $emailDailyEstate = new SendEmailDailyEstate($customer->email, $data, $condition);
+                    dispatch($emailDailyEstate);
+                }
+            }
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
+    }
+
+    public function template()
+    {
+        $start = new DateTime(date('Y-m-d 17:59:59', strtotime('-1 day')));
+        $end = new DateTime(date('Y-m-d 18:00:00'));
+        $customers = Customer::select('id', 'announcement_condition', 'email')->where('role3d', Customer::ROLE_3D_CUSTOMER)
+            ->where('status', Customer::ACTIVE)
+            ->where('email', '!=', '')
+            ->whereNotNull('email')
+            ->where('announcement_condition', '!=', '')
+            ->whereNotNull('announcement_condition')
+            ->get();
+        try {
+            foreach ($customers as $customer) {
+                $condition = json_decode($customer->announcement_condition, true);
+                $estates = Estates::select('_id', 'room_count', 'room_kind', 'tatemono_menseki', 'address', 'date_created', 'total_price', 'estate_name');
+                if ($condition['city']) {
+                    $estates->whereIn('address.city', $condition['city']);
+                }
+
+                if ($condition['price']) {
+                    $estates->whereBetween('total_price', [$condition['price']['min'], $condition['price']['max']]);
+                }
+
+                if ($condition['square']) {
+                    $estates->whereBetween('tatemono_menseki', [$condition['square']['min'], $condition['square']['max']]);
+                }
+
+                $estates->whereBetween('date_imported', [$start, $end]);
+                $estates->where('status', Estates::STATUS_SALE);
+                $estates->orderBy('date_imported', 'desc');
+                $listEstate = $estates->get();
+
+                if ($listEstate) {
+                    $estateController = new EstateController();
+                    $data = $estateController->getEstateInformation($listEstate);
+                    $condition['city'] = implode(', ', $condition['city']);
+                    $emailDailyEstate = new SendEmailDailyEstate($customer->email, $data->toArray(), $condition);
                     dispatch($emailDailyEstate);
                 }
             }
