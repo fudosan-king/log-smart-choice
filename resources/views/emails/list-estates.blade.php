@@ -121,7 +121,8 @@
                                 <a target="_blank" href="https://order-renove.jp/"><img src="https://propolife.s3.ap-northeast-1.amazonaws.com/logo.png" alt="" width="150"></a>
                             </td>
                             <td>
-                                <p>2021年05月14日</p>
+                                <!-- <p>2021年05月14日</p> -->
+                                <p>{{ date('Y年-m月-d日') }}</p>
                             </td>
                         </tr>
                     </table>
@@ -141,20 +142,24 @@
                                 <h2 style="padding: 15px;">新着物件</h2>
                             </td>
                         </tr>
-
+                        @foreach ($data as $estate)
                         <tr>
                             <td>
                                 <div class="box_pro">
-                                    <a href="#"><img src="https://propolife.s3.ap-northeast-1.amazonaws.com/img01.jpg" alt="" style="width: 100%;"></a>
-                                    <h3 style="text-align: center; font-size: 18px; color: #4F4F4F;">麻布狸穴ナショナルコート</h3>
+                                    <a href="{{Request::root()}}/detail/{{$estate['_id']}}">
+                                    <img src="{{ Request::root().$estate['estate_information']['estate_main_photo'][0]['url_path'] }}" alt="" style="width: 100%;">
+                                </a>
+                                    <h3 style="text-align: center; font-size: 18px; color: #4F4F4F;">{{$estate['estate_name']}}</h3>
                                     <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
                                         <tr>
                                             <td>
-                                                <p>港区西麻布2丁目</p>
-                                                <p>50.4m²（1LDK+DEN）</p>
+                                                <p{{ $estate['address']['city'] }}{{ $estate['address']['ooaza'] }}{{ $estate['address']['tyoume'] }}</p>
+                                                <p>{{ $estate['tatemono_menseki'] }}m²（{{ $estate['room_count'] }}{{ $estate['room_kind'] }}+DEN）</p>
                                             </td>
                                             <td>
-                                                <p class="price">5400<span>万円</span></p>
+                                                @if($estate['total_price'])
+                                                <p class="price">{{ $estate['total_price'] }}<span>万円</span></p>
+                                                @endif
                                             </td>
                                         </tr>
                                         <tr>
@@ -169,8 +174,8 @@
                                 </div>
                             </td>
                         </tr>
-
-                        <tr>
+                        @endforeach
+                        <!-- <tr>
                             <td>
                                 <div class="box_pro">
                                     <a href="#"><img src="https://propolife.s3.ap-northeast-1.amazonaws.com/img01.jpg" alt="" style="width: 100%;"></a>
@@ -253,7 +258,7 @@
                                     </table>
                                 </div>
                             </td>
-                        </tr>
+                        </tr> -->
 
                     </table>
 
@@ -268,15 +273,15 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 800px; margin: auto; text-align: left; padding: 0 15px;">
                         <tr>
                             <th width="20%">希望エリア</th>
-                            <td>設定なし</td>
+                            <td>{{ $condition['city'] }}</td>
                         </tr>
                         <tr>
                             <th>価格</th>
-                            <td>設定なし</td>
+                            <td>{{ $condition['square']['min'] }} ~ {{ $condition['square']['max'] }}</td>
                         </tr>
                         <tr>
                             <th>広さ</th>
-                            <td>設定なし</td>
+                            <td>{{ $condition['price']['min'] }} ~ {{ $condition['price']['max'] }}</td>
                         </tr>
                         <tr>
                             <th>こだわり</th>
