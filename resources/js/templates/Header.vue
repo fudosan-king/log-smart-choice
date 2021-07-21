@@ -367,7 +367,7 @@ export default {
             this.$setCookie('district', district, 1);
             this.$router
                 // .push({ name: 'list'})
-                .push({ name: 'listByDistrict', params: {districtCode: code} })
+                .push({ name: 'listByCode', params: {searchCode: code} })
                 .then(() => {
                     this.$router.go('0');
                 })
@@ -383,7 +383,7 @@ export default {
             }
             this.$setCookie('station', companyName, 1);
             this.$router
-                .push({ name: 'listByStation', params: {companyCode: companyCode, stationCode: 'all'} })
+                .push({ name: 'listByCode', params: {searchCode: companyCode} })
                 .then(() => {
                     this.$router.go('0');
                 })

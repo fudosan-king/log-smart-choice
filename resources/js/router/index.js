@@ -14,15 +14,20 @@ const routes = [
         component: () => import('../../js/pages/ListEstates.vue'),
     },
     {
-        path: '/list/:districtCode',
-        name: 'listByDistrict',
-        component: () => import('../../js/pages/ListEstatesByDistrict.vue'),
-    },
-    {
-        path: '/list/:companyCode/:stationCode',
-        name: 'listByStation',
+        path: '/list/:searchCode',
+        name: 'listByCode',
         component: () => import('../../js/pages/ListEstates.vue'),
     },
+    // {
+    //     path: '/list/:districtCode',
+    //     name: 'listByDistrict',
+    //     component: () => import('../../js/pages/ListEstatesByDistrict.vue'),
+    // },
+    // {
+    //     path: '/list/:companyCode/:stationCode',
+    //     name: 'listByStation',
+    //     component: () => import('../../js/pages/ListEstates.vue'),
+    // },
     {
         path: '/detail/:estateId',
         name: 'detail',

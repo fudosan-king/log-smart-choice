@@ -1,7 +1,7 @@
 <template>
     <main>
         <div class="box_template">
-            <section class="section_new_property">
+            <section class="section_new_property pt-0">
                 <div class="box_top">
                     <div class="container">
                         <EstatesComponent></EstatesComponent>
