@@ -39,7 +39,7 @@ class EmailDailyEstate extends Mailable
     {
         try {
             return $this->view('emails.list-estates', ['data' => $this->data, 'condition' => $this->condition, 'customer' => $this->customer])
-                ->subject(__('auth.verify_email'));
+                ->subject('【'.$this->customer->name.'様】'.__('customer.title_template_daily_email'));
         } catch (\Exception $e) {
             Log::error($e->getMessage());
         }
