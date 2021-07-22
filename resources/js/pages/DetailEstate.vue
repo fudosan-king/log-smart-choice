@@ -30,7 +30,7 @@
                     >
                         <div class="carousel-cell" v-for="photo in mainPhoto">
                             <img
-                                v-lazy="photo.url_path ? photo.url_path : '/images/no-image.png'"
+                                src="photo.url_path ? photo.url_path : '/images/no-image.png'"
                                 alt=""
                                 class="img-fluid"
                             />
@@ -42,7 +42,7 @@
                     >
                         <div class="carousel-cell" v-for="photo in mainPhoto">
                             <img
-                                v-lazy="photo.url_path ? photo.url_path : '/images/no-image.png'"
+                                src="photo.url_path ? photo.url_path : '/images/no-image.png'"
                                 alt=""
                                 class="img-fluid"
                             />

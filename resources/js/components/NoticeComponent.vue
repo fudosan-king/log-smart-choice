@@ -1,59 +1,108 @@
 <template>
     <div class="col-12 col-lg-12">
-        <div
-            class="box_notice_item"
-            v-for="(announcement, index) in announcementList"
-            :key="index._id"
-            v-bind:class="{ 'estate-last': index === announcementList.length - 1 }"
-        >
-            <div class="row no-gutters">
-                <div class="col-5 col-lg-6">
-                    <div class="box_notice_img">
-                        <a
-                            href="javascript:void(0)"
-                            v-on:click="readAnnouncement(announcement.announcement_id, announcement._id)"
-                        >
-                            <img
-                                v-lazy="
-                                    announcement.estate_information.estate_main_photo.length
-                                        ? announcement.estate_information.estate_main_photo[0].url_path
-                                        : '/images/no-image.png'
-                                "
-                                alt=""
-                                class="img-fluid"
-                            />
-                        </a>
-                        <span v-if="!announcement.is_read">新着物件</span>
-                    </div>
-                </div>
-                <div class="col-7 col-lg-6">
-                    <div class="box_notice_content">
-                        <p>{{ announcement.announcement_created_at }}</p>
-                        <p>
+        <template v-for="(announcement, index) in announcementList">
+            <div v-if="!announcement.is_read && announcement.status == '販売中'"
+                class="box_notice_item new"
+                :key="index._id"
+                v-bind:class="{ 'estate-last': index === announcementList.length - 1 }"
+            >
+                <div class="row no-gutters">
+                    <div class="col-5 col-lg-6">
+                        <div class="box_notice_img">
                             <a
                                 href="javascript:void(0)"
                                 v-on:click="readAnnouncement(announcement.announcement_id, announcement._id)"
-                                >{{ announcement.estate_name }}</a
                             >
-                        </p>
-                        <p>{{ announcement.tatemono_menseki }}m²</p>
-                        <p>{{ announcement.total_price }}万円（物件＋リノベーション）</p>
+                                <img
+                                    v-lazy="
+                                        announcement.estate_information.estate_main_photo.length
+                                            ? announcement.estate_information.estate_main_photo[0].url_path
+                                            : '/images/no-image.png'
+                                    "
+                                    alt=""
+                                    class="img-fluid"
+                                />
+                            </a>
+                            <span>新着物件</span>
+                        </div>
+                    </div>
+                    <div class="col-7 col-lg-6">
+                        <div class="box_notice_content">
+                            <p>{{ announcement.announcement_created_at }}</p>
+                            <p>
+                                <a
+                                    href="javascript:void(0)"
+                                    v-on:click="readAnnouncement(announcement.announcement_id, announcement._id)"
+                                    >{{ announcement.estate_name }}</a
+                                >
+                            </p>
+                            <p>{{ announcement.tatemono_menseki }}m²</p>
+                            <p>{{ announcement.total_price }}万円（物件＋リノベーション）</p>
+                        </div>
                     </div>
                 </div>
+                <a class="btn_del" @click="deleteAnnouncement(announcement.announcement_id, announcement)">
+                    <img
+                        src="images/svg/i_delete.svg"
+                        alt=""
+                        class="img-fluid d-none d-lg-block curser-pointer"
+                        width="20"
+                    />
+                    <img src="images/svg/i_delete_white.svg" alt="" class="img-fluid d-block d-lg-none" width="20" />
+                </a>
             </div>
-            <a class="btn_del" @click="deleteAnnouncement(announcement.announcement_id, announcement)">
-                <img
-                    src="images/svg/i_delete.svg"
-                    alt=""
-                    class="img-fluid d-none d-lg-block curser-pointer"
-                    width="20"
-                />
-                <img src="images/svg/i_delete_white.svg" alt="" class="img-fluid d-block d-lg-none" width="20" />
-            </a>
-        </div>
-        <!-- <div class="loading" v-if="hasMore" style="text-align: center;">
-            <img v-lazy="`/images/loading.gif`" style="width: 100%;" />
-        </div> -->
+            <div v-else-if="announcement.is_read" 
+                class="box_notice_item"
+                :key="index._id"
+                v-bind:class="{ 'estate-last': index === announcementList.length - 1 }"
+            >
+                <div class="row no-gutters">
+                    <div class="col-5 col-lg-6">
+                        <div class="box_notice_img">
+                            <a
+                                href="javascript:void(0)"
+                                v-on:click="readAnnouncement(announcement.announcement_id, announcement._id)"
+                            >
+                                <img
+                                    v-lazy="
+                                        announcement.estate_information.estate_main_photo.length
+                                            ? announcement.estate_information.estate_main_photo[0].url_path
+                                            : '/images/no-image.png'
+                                    "
+                                    alt=""
+                                    class="img-fluid"
+                                />
+                            </a>
+                            <span v-if="announcement.status != '販売中'"> 成約済</span>
+                            <span v-else> 新規物件</span>
+                        </div>
+                    </div>
+                    <div class="col-7 col-lg-6">
+                        <div class="box_notice_content">
+                            <p>{{ announcement.announcement_created_at }}</p>
+                            <p>
+                                <a
+                                    href="javascript:void(0)"
+                                    v-on:click="readAnnouncement(announcement.announcement_id, announcement._id)"
+                                    >{{ announcement.estate_name }}</a
+                                >
+                            </p>
+                            <p>{{ announcement.tatemono_menseki }}m²</p>
+                            <p>{{ announcement.total_price }}万円（物件＋リノベーション）</p>
+                        </div>
+                    </div>
+                </div>
+                <a class="btn_del" @click="deleteAnnouncement(announcement.announcement_id, announcement)">
+                    <img
+                        src="images/svg/i_delete.svg"
+                        alt=""
+                        class="img-fluid d-none d-lg-block curser-pointer"
+                        width="20"
+                    />
+                    <img src="images/svg/i_delete_white.svg" alt="" class="img-fluid d-block d-lg-none" width="20" />
+                </a>
+            </div>
+        </template>
     </div>
 </template>
 
