@@ -298,16 +298,22 @@ export default {
         },
 
         dropUser(event) {
-            let accessToken = this.$getCookie('accessToken');
-            // this.userName = this.$getCookie('userName');
-            this.announcementCount = this.$getCookie('announcement_count');
-            if (accessToken != '') {
-                event.preventDefault();
-                $('.dropdown_user_content').slideToggle('fast');
-                $('.dropdown_search_content').hide();
-            } else {
-                this.$router.push({ name: 'login' }).catch(() => {});
-            }
+            this.$store.dispatch('customerInfo').then(resp => {
+                    event.preventDefault();
+                    $('.dropdown_user_content').slideToggle('fast');
+                    $('.dropdown_search_content').hide();
+                    this.announcementCount = this.$getCookie('announcement_count');
+                }).catch(() => {
+                    this.$setCookie('accessToken', '', 1);
+                    this.$setCookie('accessToken3d', '', 1);
+                    this.$setCookie('refreshToken', '', 1);
+                    this.$setCookie('clientId', '', 1);
+                    this.$setCookie('clientSecret', '', 1);
+                    this.$setCookie('userName', '', 1);
+                    this.$setCookie('announcement_count', '', 1);
+                    delete axios.defaults.headers.common['Authorization'];
+                    this.$router.push({ name: 'login' }).catch(() => {});
+                });
         },
 
         dropSearch(event) {
