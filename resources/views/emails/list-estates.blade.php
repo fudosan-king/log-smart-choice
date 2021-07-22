@@ -146,8 +146,12 @@
                             <td>
                                 <div class="box_pro">
                                     <a href="{{Request::root()}}/detail/{{$estate['_id']}}">
-                                    <img src="{{ 'https://order-renove.jp'.$estate['estate_information']['estate_main_photo'][0]['url_path'] }}" alt="" style="width: 100%;">
-                                </a>
+                                        @if ($estate['estate_information']['estate_main_photo'])
+                                            <img src="{{ Request::root() }}{{$estate['estate_information']['estate_main_photo'][0]['url_path'] }}" alt="" style="width: 100%;">
+                                        @else
+                                            <img src="{{ Request::root() }}/images/no-image.png" alt="" style="width: 100%;">
+                                        @endif
+                                    </a>
                                     <h3 style="text-align: center; font-size: 18px; color: #4F4F4F;">{{$estate['estate_name']}}</h3>
                                     <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
                                         <tr>
