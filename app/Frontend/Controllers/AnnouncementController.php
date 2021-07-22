@@ -91,10 +91,13 @@ class AnnouncementController extends Controller
         if ($validator->fails()) {
             return $this->response(422, $validator->errors(), []);
         }
-
+        $startDate = date('Y-m-d H:i:s', strtotime('-14 days'));
+        $endDate = now()->format('Y-m-d H:i:s');
         $announcements = Announcement::select('estate_id', 'id', 'is_read', 'created_at')
             ->where('customer_id', $customerId)
+            ->whereBetween('created_at', [$startDate, $endDate])
             ->paginate($limit, $page)->toArray();
+
         $announcementList = [];
         $announcementListIds = [];
         if ($announcements) {
@@ -110,10 +113,9 @@ class AnnouncementController extends Controller
             }
             $estates = Estates::select(
                 'estate_name', 'price', 'address', 'tatemono_menseki',
-                'total_price', 'transports', 'renovation_type', 'date_created'
-            )->where('status', Estates::STATUS_SALE)
+                'total_price', 'transports', 'renovation_type', 'date_created', 'status'
+            )->where('status', '!=', Estates::STATUS_STOP)
                 ->whereIn('_id', $announcementList)
-                ->orderBy('date_created', 'desc')
                 ->get()->toArray();
 
             $announcements['data'] = $this->estateController->getEstateInformation($estates, []);
@@ -141,9 +143,6 @@ class AnnouncementController extends Controller
     {
         $start = new DateTime(date('Y-m-d 07:59:59', strtotime('-1 day')));
         $end = new DateTime(date('Y-m-d 08:00:00'));
-        // $start = new \MongoDB\BSON\UTCDateTime($dateTimeStart->getTimestamp() * 1000);
-        // $end = new \MongoDB\BSON\UTCDateTime($dateTimeEnd->getTimestamp() * 1000);
-
         $customers = Customer::select('id', 'announcement_condition', 'email')->where('role3d', Customer::ROLE_3D_CUSTOMER)
             ->where('status', Customer::ACTIVE)
             ->where('email', '!=', '')
@@ -169,7 +168,7 @@ class AnnouncementController extends Controller
                 }
 
                 $estates->whereBetween('date_imported', [$start, $end]);
-                $estates->where('status', Estates::STATUS_SALE);
+                $estates->where('status', '!=', Estates::STATUS_STOP);
                 $estates->orderBy('date_imported', 'desc');
                 $listEstate = $estates->get();
                 if ($listEstate) {
@@ -226,7 +225,7 @@ class AnnouncementController extends Controller
                 }
 
                 $estates->whereBetween('date_imported', [$start, $end]);
-                $estates->where('status', Estates::STATUS_SALE);
+                $estates->where('status', '!=', Estates::STATUS_STOP);
                 $estates->orderBy('date_imported', 'desc');
                 $listEstate = $estates->get();
 
@@ -248,7 +247,6 @@ class AnnouncementController extends Controller
     {
         $start = new DateTime(date('Y-m-d 07:59:59', strtotime('-1 day')));
         $end = new DateTime(date('Y-m-d 08:00:00'));
-
         $customers = Customer::select('id', 'announcement_condition', 'email')->where('role3d', Customer::ROLE_3D_CUSTOMER)
             ->where('status', Customer::ACTIVE)
             ->where('email', '!=', '')
