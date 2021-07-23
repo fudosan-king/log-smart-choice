@@ -133,8 +133,19 @@
                                 <p>ご入力いただいた情報は、当社のプライバシーポリシーに従って厳重に管理いたします。<br>
                                     下記の <a href="https://www.propolife.co.jp/privacypolicy" target="blank">プライバシーポリシー</a>  を必ずご一読頂き、同意のうえお問い合わせください。</p>
                                 <div class="custom-control custom-checkbox text-center mb-3">
-                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                    <input 
+                                        type="checkbox" 
+                                        class="custom-control-input" 
+                                        id="customCheck1" 
+                                        v-model="checkboxConfirm"
+                                        :class="{
+                                            'is-invalid':
+                                                (submitted && !$v.checkboxConfirm.checked)
+                                        }">
                                     <label class="custom-control-label" for="customCheck1">同意する</label>
+                                    <div v-if="submitted && !$v.checkboxConfirm.checked" class="invalid-feedback">
+                                        <span>プライバシーポリシーをチェックしてください</span>
+                                    </div>
                                 </div>
                                 <div class="form-group btn_login_submit text-center">
                                     <button type="submit" class="btn btnsave" :disabled="disabled">会員登録</button>
@@ -174,6 +185,7 @@ export default {
             errorsApi: {},
             submitted: false,
             disabled: false,
+            checkboxConfirm: false,
         };
     },
     validations: {
@@ -194,6 +206,11 @@ export default {
                 sameAs: sameAs(function() {
                     return this.customer.password;
                 })
+            }
+        },
+        checkboxConfirm : {
+            checked(val) {
+                return val;
             }
         }
     },

@@ -104,16 +104,21 @@ export default {
             let district = '';
             // let station = this.$getCookie('station');
             let station = '';
-            let districtCode = this.$route.params.districtCode;
-            let companyCode = this.$route.params.companyCode;
-            let stationCode = this.$route.params.stationCode;
+            let districtCode = '';
+            let companyCode = '';
+            if (typeof this.$route.params.searchCode !== 'undefined' && this.$route.params.searchCode.length > 0) {
+                if (this.$route.params.searchCode.length >= 11) {
+                    districtCode = this.$route.params.searchCode;
+                } else {
+                    companyCode = this.$route.params.searchCode;
+                }
+            }
 
             let data = {
                 limit: 4,
                 page: pageLoad,
-                districtCode: typeof districtCode !== 'undefined' ? districtCode : '',
-                companyCode: typeof companyCode !== 'undefined' ? companyCode : '',
-                stationCode: typeof stationCode !== 'undefined' ? stationCode : '',
+                districtCode: districtCode,
+                companyCode: companyCode,
             };
             if (district.length != 0) {
                 data.address = district;
@@ -151,11 +156,11 @@ export default {
                     }
                 });
             }
-            if (this.$getCookie('district')) {
+            if (this.$getCookie('district') && districtCode != '') {
                 this.titleSearch = this.$getCookie('district');
             }
 
-            if (this.$getCookie('station')) {
+            if (this.$getCookie('station') && companyCode != '') {
                 this.titleSearch = this.$getCookie('station');
             }
 
