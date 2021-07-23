@@ -44,7 +44,7 @@
                                         </div>
                                     </div>
                                     <button
-                                        type="submit"
+                                        type="button"
                                         class="btn btnsave mb-3"
                                         @click="reconfirmEmail()"
                                         :disabled="disabled"

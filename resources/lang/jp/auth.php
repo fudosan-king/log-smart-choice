@@ -48,4 +48,5 @@ return [
     'reset_password_success' => 'パスワードの再設定が完了しました。',
     'update_password_success' => 'Update password succcess',
     'update_password_fail' => 'Update password fail',
+    'email_has_active' => 'メ-ルが確認しました。',
 ];
