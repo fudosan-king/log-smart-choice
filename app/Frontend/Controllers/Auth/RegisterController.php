@@ -106,10 +106,14 @@ class RegisterController extends Controller
             return $this->response(422, $validator->errors()->first());
         }
 
-        $customer = Customer::where('email', $email)->where('status', Customer::DEACTIVE)->first();
+        $customer = Customer::where('email', $email)->first();
 
         if (!$customer) {
             return $this->response(422, __('auth.email_not_exist'));
+        }
+
+        if ($customer->status == Customer::ACTIVE) {
+            return $this->response(422, __('auth.email_has_active'));
         }
 
         $this->_sendActiveEmail($customer);

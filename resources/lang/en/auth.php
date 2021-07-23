@@ -51,4 +51,5 @@ return [
     'reset_password_success' => 'Reset password successfull',
     'update_password_success' => 'Update password succcess',
     'update_password_fail' => 'Update password fail',
+    'email_has_active' => 'Email has been actived',
 ];
