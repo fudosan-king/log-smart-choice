@@ -20,10 +20,12 @@
   <{{ $tag->type }} {{ $tag->name }}="{{ $tag->name_content }}" content="{{ $tag->tag_content }}" />
 @elseif ($tag->type == 'title')
   <title>{{ $tag->tag_content }}</title>
+  <meta property="article:modified_time" content="{{date(DATE_ATOM, strtotime($tag->updated_at))}}">
 @endif
 @endforeach
 @endif
 
+  <meta property="og:locale" content="ja_JP">
   <link rel="apple-touch-icon" sizes="152x152" href="/assets/favicon_package_v0.16/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon_package_v0.16/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon_package_v0.16/favicon-16x16.png">

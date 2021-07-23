@@ -11,6 +11,7 @@ use App\Frontend\Controllers\Auth\VerificationController;
 use App\Frontend\Controllers\WishListController;
 use App\Frontend\Controllers\CustomerController;
 use App\Frontend\Controllers\DistrictController;
+use App\Frontend\Controllers\MetaTagController;
 use App\Frontend\Controllers\StationController;
 use App\Models\Estates;
 
@@ -64,6 +65,7 @@ Route::post('/reset-password/{hash}', [ResetPasswordController::class, 'resetPas
 // register social network
 Route::post('/google-login', [LoginController::class, 'socialLogin']);
 Route::post('/facebook-login', [LoginController::class, 'socialLogin']);
+Route::get('/get-meta-tags', [MetaTagController::class, 'getMetaTags']);
 
 // station
 Route::post('/stations/list', [StationController::class, 'getAll'])->name('station.list');

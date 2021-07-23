@@ -504,6 +504,7 @@ export default {
                 data.id = id;
                 this.$store.dispatch('getEstate', data).then(resp => {
                     this.estate = resp.data.data.estate[0];
+                    window.localStorage.setItem('estateName', this.estate.estate_name);
                     if (this.estate['estate_information']) {
                         if (this.estate['estate_information']['estate_main_photo']) {
                             this.mainPhoto = this.estate['estate_information']['estate_main_photo'];
