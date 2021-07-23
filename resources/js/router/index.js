@@ -119,11 +119,6 @@ const routes = [
         }
     },
     {
-        path: '/customer/:verify/active-email',
-        name: 'activeEmail',
-        component: () => import('../pages/ActiveEmail.vue'),
-    },
-    {
         path: '/customer/information',
         name: 'information',
         component: () => import('../pages/AccountInformation.vue'),
@@ -178,8 +173,8 @@ const routes = [
         },
     },
     {
-        path: '/welcome',
-        name: 'wecome',
+        path: '/customer/:verify/active-email',
+        name: 'welcome',
         component: () => import('../pages/Welcome.vue'),
         meta: {
             title: '会員登録完了｜Order Renove'
