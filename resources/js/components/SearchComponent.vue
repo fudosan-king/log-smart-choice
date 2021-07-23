@@ -16,7 +16,7 @@
                             <li v-for="district in districtList" :key="district.code">
                                 <a
                                     href="javascript:void(0)"
-                                    v-on:click="searchDistrict(district.name, district.code)"
+                                    v-on:click="searchDistrict($event, district.name, district.code)"
                                 >
                                     {{ district.name }}
                                 </a>
@@ -40,7 +40,7 @@
                                 <a
                                     class="station-item"
                                     href="javascript:void(0)"
-                                    v-on:click="searchStation(company.tran_company_code, company.tran_company_short_name)"
+                                    v-on:click="searchStation($event, company.tran_company_code, company.tran_company_short_name)"
                                 >
                                     {{ company.tran_company_short_name }}
                                 </a>
@@ -140,7 +140,8 @@ export default {
                 this.companyLoading = false;
             });
         },
-        searchDistrict(districtName, districtCode) {
+        searchDistrict(event, districtName, districtCode) {
+            event.preventDefault();
             let cookieStation = this.$getCookie('station');
             if (cookieStation.length > 0) {
                 this.$setCookie('station', '', 1);
@@ -156,7 +157,8 @@ export default {
                 });
         },
 
-        searchStation(companyCode, companyName) {
+        searchStation(event, companyCode, companyName) {
+            event.preventDefault();
             let cookieDistrict = this.$getCookie('district');
             if (cookieDistrict.length > 0) {
                 this.$setCookie('district', '', 1);
