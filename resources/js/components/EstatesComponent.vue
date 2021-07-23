@@ -158,10 +158,12 @@ export default {
             }
             if (this.$getCookie('district') && districtCode != '') {
                 this.titleSearch = this.$getCookie('district');
+                window.localStorage.setItem('searchCode', this.titleSearch);
             }
 
             if (this.$getCookie('station') && companyCode != '') {
                 this.titleSearch = this.$getCookie('station');
+                window.localStorage.setItem('searchCode', this.titleSearch);
             }
 
         },
