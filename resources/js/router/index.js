@@ -185,6 +185,14 @@ const routes = [
             title: '会員登録完了｜Order Renove'
         }
     },
+    {
+        path: '/reset-password/:verify',
+        name: 'resetPassword',
+        component: () => import('../pages/ResetPassword.vue'),
+        meta: {
+            title: 'パスワードを再設定する｜Order Renove'
+        }
+    },
 ]
 
 const router = new VueRouter({

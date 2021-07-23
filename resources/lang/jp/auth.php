@@ -23,7 +23,7 @@ return [
     'regards' => "Trân trọng",
     'text_active_email' => "\":actionText\". Nếu bạn gặp sự cố khi nhấp vào nút Xác minh, hãy sao chép và dán URL bên dưới vào trình duyệt web của bạn: [:actionURL](:actionURL)",
     'password_not_match' => "Xác nhận mật khẩu không giống nhau",
-    'link_check_token_password_fail' => "Đường dẫn không hợp lệ",
+    'link_check_token_password_fail' => "トークンの有効期限が切れています",
     'email_not_exist' => 'メールアドレが存在していません',
     'email_already_exist' => 'こちらのメールはご存在しておりしませんました。 別のメールアドレスに記入ください。',
     'reset_password' => '【Order Renove】パスワードの再設定',

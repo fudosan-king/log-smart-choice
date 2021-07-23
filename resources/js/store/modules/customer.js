@@ -90,6 +90,24 @@ const actions = {
                 reject(err);
             });
         });
+    },
+
+    resetPassword({}, data) {
+        return new Promise((resolve, reject) => {
+            const auth = this.auth;
+            axios({
+                url: '/reset-password/'+data.hash,
+                method: 'POST',
+                data,
+                headers: {
+                    'content-type': 'application/json',
+                }, auth: auth,
+            }).then(resp => {
+                resolve(resp.data);
+            }).catch(err => {
+                reject(err);
+            });
+        });
     }
 };
 
