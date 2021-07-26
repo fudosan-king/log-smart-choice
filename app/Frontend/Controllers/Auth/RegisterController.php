@@ -116,6 +116,9 @@ class RegisterController extends Controller
             return $this->response(422, __('auth.email_has_active'));
         }
 
+        $customer->created_at = date('Y-m-d H:i:s');
+        $customer->save();
+
         $this->_sendActiveEmail($customer);
         return $this->response(200, __('auth.reconfirm_email_success'), [], true);
     }
