@@ -83,7 +83,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12 col-lg-12">
-                        <h2 class="title">表参道エリアの物件</h2>
+                        <h2 class="title">おすすめ物件</h2>
                         <!-- <estates-near-component></estates-near-component> -->
                         <estate-recommend-component></estate-recommend-component>
                         <p class="text-center mt-3">
@@ -98,7 +98,6 @@
 <script>
 import Lazyload from 'vue-lazyload';
 import Vue from 'vue';
-import SearchComponent from '../components/SearchComponent.vue';
 
 Vue.use(Lazyload, {
     preLoad: 1.3,
