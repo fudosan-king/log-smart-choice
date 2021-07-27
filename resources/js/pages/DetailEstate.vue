@@ -4,7 +4,6 @@
             <section class="p-0">
                 <div class="box_top mb-0">
                     <div class="container">
-                        <h2 class="title mb-3">{{ estate.estate_name }}</h2>
                         <p class="subtitle mb-2">
                             <small 
                                 v-if="estate.estate_information" 
@@ -91,7 +90,7 @@
 
                                             <div class="w_box_simulation_result" :class="{'show': mobileShow}">
                                                 <div class="row no-gutters">
-                                                    <div class="col-7 col-lg-6">
+                                                    <div class="col-6 col-sm-6">
                                                         <div class="form-group">
                                                             <label for=""><b>毎月のローン返済額</b></label>
                                                             <!-- <div class="d-flex align-items-center"> -->
@@ -126,10 +125,7 @@
                                                             <h5>{{$lscFormatCurrency(estate.repair_reserve_fee)}}<span>円／月</span></h5>
                                                         </div>
                                                     </div>
-                                                    <!-- <div > -->
-                                                        <pie-chart-component class="col-5 col-lg-6"
-                                                            :parent-data="chartData"></pie-chart-component>
-                                                    <!-- </div> -->
+                                                    <pie-chart-component class="col-6 col-sm-6" :parent-data="chartData"></pie-chart-component>
                                                 </div>
                                             </div>
                                         </div>
@@ -235,7 +231,6 @@
                             <!-- Start Photos -->
 
                             <div class="box_renovation_specifications">
-                                <h2 class="title">リノベーション仕様</h2>
                                 <template v-if="estate.estate_information">
                                     <div
                                         class="specifications_pic"

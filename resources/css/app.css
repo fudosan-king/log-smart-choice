@@ -122,3 +122,11 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+.container .title {
+    text-align: center;
+}
+
+.container .subtitle-announcement-condition {
+    text-align: center;
+}
