@@ -6,7 +6,11 @@
                     <div class="container">
                         <h2 class="title mb-3">{{ estate.estate_name }}</h2>
                         <p class="subtitle mb-2">
-                            <small v-if="estate.address"
+                            <small 
+                                v-if="estate.estate_information" 
+                                v-html="estate.estate_information.renovation_media[0].description">
+                            </small>
+                            <!-- <small v-if="estate.address"
                                 >{{ estate.address.pref ? estate.address.pref : ''
                                 }}{{ estate.address.city ? estate.address.city : ''
                                 }}{{ estate.address.ooaza ? estate.address.ooaza : ''
@@ -16,7 +20,8 @@
                                     (estate.tatemono_menseki / 3.306).toFixed(2)
                                 }}坪）（壁芯）<br />
                                 1階/RC7階建</small
-                            >
+                            > -->
+
                         </p>
                     </div>
                 </div>
@@ -65,21 +70,16 @@
                                     <div class="row">
                                         <div class="col-12 col-lg-6">
                                             <p class="text-center d-none d-lg-block">
-                                                <span class="title_simulation_result">シミュレーション結果</span>
+                                                <span class="title_simulation_result">毎月のお支払例</span>
                                             </p>
 
                                             <div class="box_simulation_result">
-                                                <div class="row no-gutters">
-                                                    <div class="col-6 col-lg-6 align-self-center">
-                                                        <h4>毎月のお支払例</h4>
-                                                    </div>
-                                                    <div class="col-6 col-lg-6 align-self-center">
-                                                        <h2>{{$lscFormatCurrency(paymentMonthly)}}<span>円</span></h2>
-                                                        <p class="text-right">ボーナス月　＋<span>{{$lscFormatCurrency(paymentMonthlyBonus)}}</span>円</p>
-                                                    </div>
+                                                <div class="text-center d-block btn_simulation_result mb-3">
+                                                    <h2>{{$lscFormatCurrency(paymentMonthly)}}<span>円</span></h2>
+                                                    <!-- <p class="text-right">ボーナス月　＋<span>{{$lscFormatCurrency(paymentMonthlyBonus)}}</span>円</p> -->
                                                 </div>
                                                 <p class="text-center mt-3">
-                                                    管理費：{{ $lscFormatCurrency(estate.management_fee) }}円／修繕積立金：{{ $lscFormatCurrency(estate.repair_reserve_fee) }}円 含む
+                                                    <b>管理費：{{ $lscFormatCurrency(estate.management_fee) }}円／修繕積立金：{{ $lscFormatCurrency(estate.repair_reserve_fee) }}円 含む</b>
                                                 </p>
                                             </div>
 
@@ -91,20 +91,21 @@
 
                                             <div class="w_box_simulation_result" :class="{'show': mobileShow}">
                                                 <div class="row no-gutters">
-                                                    <div class="col-6 col-lg-6">
+                                                    <div class="col-7 col-lg-6">
                                                         <div class="form-group">
-                                                            <label for="">毎月のローン返済額</label>
-                                                            <div class="d-flex align-items-center">
-                                                                <input
-                                                                    type="text"
-                                                                    class="form-control monthly-loan-payment"
-                                                                    :value="[[$lscFormatCurrency(monthlyLoan)]]"
-                                                                />
-                                                                <span class="ml-2 sub">円</span>
-                                                            </div>
+                                                            <label for=""><b>毎月のローン返済額</b></label>
+                                                            <!-- <div class="d-flex align-items-center"> -->
+                                                                <p class="label_repayment_amount">{{ $lscFormatCurrency(monthlyLoan) }}<span><b>円</b></span></p>
+                                                                    <input
+                                                                        type="hidden"
+                                                                        class="form-control monthly-loan-payment"
+                                                                        :value="[[$lscFormatCurrency(monthlyLoan)]]"
+                                                                    />
+                                                                
+                                                            <!-- </div> -->
                                                         </div>
                                                         <div class="form-group">
-                                                            <label for="">ボーナス分返済金額（年2回）</label>
+                                                            <label for=""><b>ボーナス分返済金額（年2回）</b></label>
                                                             <div class="d-flex align-items-center">
                                                                 <input
                                                                     type="text"
@@ -125,10 +126,10 @@
                                                             <h5>{{$lscFormatCurrency(estate.repair_reserve_fee)}}<span>円／月</span></h5>
                                                         </div>
                                                     </div>
-                                                    <div class="col-6 col-lg-6">
-                                                        <pie-chart-component 
+                                                    <!-- <div > -->
+                                                        <pie-chart-component class="col-5 col-lg-6"
                                                             :parent-data="chartData"></pie-chart-component>
-                                                    </div>
+                                                    <!-- </div> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -537,8 +538,6 @@ export default {
                     }
                 }).catch(error => {});
             }
-        },
-        change() {
         },
         mobileHandleShow() {
             this.mobileShow = !this.mobileShow;

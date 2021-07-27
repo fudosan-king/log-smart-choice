@@ -72,7 +72,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12 col-lg-12">
-                        <h2 class="title">新着物件</h2>
+                        <h2 class="title"><b>新着物件</b></h2>
                         <estates-top-component></estates-top-component>
                     </div>
                 </div>
@@ -83,11 +83,11 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12 col-lg-12">
-                        <h2 class="title">おすすめ物件</h2>
+                        <h2 class="title"><b>おすすめ物件</b></h2>
                         <!-- <estates-near-component></estates-near-component> -->
                         <estate-recommend-component></estate-recommend-component>
                         <p class="text-center mt-3">
-                            <a v-on:click="clearConditionSearch" class="btn btnSeemore">もっと見る</a>
+                            <a v-on:click="clearConditionSearch" class="btn btnSeemore"><b>もっと見る</b></a>
                         </p>
                     </div>
                 </div>
