@@ -251,7 +251,7 @@
                                     </div>
                                 </template>
 
-                                <div class="renovation_specifications_table">
+                                <div class="renovation_specifications_table table-information-estate">
                                     <table class="table">
                                         <tr>
                                             <th>マンション名</th>
@@ -378,6 +378,20 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="required-login">
+                                        <div class="row">
+                                            <div class="col-4 redirect-login-header">
+                                                会員登録すると取材記事とギャラリーをご覧いただけます
+                                            </div>
+                                            <div class="col-4 text-center">
+                                                <a href="/login" class="btn btnsave btn-redirect-login">会員登録して続きを見る</a>
+                                            </div>
+                                            <div class="col-4 text-center">
+                                                <a href="/register">すでに会員の方はログイン</a>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
                                 </div>
                             </div>
 
@@ -454,6 +468,17 @@ export default {
         };
     },
     mounted() {
+
+        if (window.history && window.history.pushState) {
+
+            // window.history.pushState('forward', null, './#forward');
+
+            $(window).on('popstate', function() {
+                alert('Back button was pressed.');
+            });
+
+        }
+
         const payTerm = $('.js-range-slider1');
         payTerm.ionRangeSlider({
             min: 0,
@@ -481,6 +506,21 @@ export default {
             this.calculateMonthlyLoanPayment();
         });
         this.getListEstates();
+
+        // required login after seen estate detail
+        let isLogin = this.$store.getters['isLoggedIn'];
+        let seendEstateDeital = this.$getCookie('seenEstateDetail');
+        if (!seendEstateDeital) {
+            this.$setCookie('seenEstateDetail', 1, 1);
+        } else {
+            if (!isLogin.length) {
+                this.$setCookie('seenEstateDetail', parseInt(seendEstateDeital) + 1, 1);
+            }
+        }
+        $('.required-login').css('display', 'none');
+        if ((this.$getCookie('seenEstateDetail') && this.$getCookie('seenEstateDetail') > 1 ) && !isLogin.length) {
+            this.hiddenContent();
+        }
     },
     watch: {
         totalPrice: function(newValue, oldValue) {
@@ -537,8 +577,6 @@ export default {
                     }
                 }).catch(error => {});
             }
-        },
-        change() {
         },
         mobileHandleShow() {
             this.mobileShow = !this.mobileShow;
@@ -661,6 +699,10 @@ export default {
             this.paymentMonthly = Math.ceil(this.monthlyLoan + this.estate.management_fee + this.estate.repair_reserve_fee);
             this.paymentMonthlyBonus = Math.ceil(this.paymentMonthly + (this.bonus / 6));
             this.chartData = [this.estate.management_fee, this.estate.repair_reserve_fee, this.monthlyLoan];
+        },
+        hiddenContent() {
+            $('.map').css('display', 'none');
+            $('.required-login').css('display', 'block');
         },
     },
     updated() {

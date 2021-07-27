@@ -90,23 +90,6 @@ footer .modal_register ul li {
     margin-right: 0px;
 }
 
-
-/* @media (max-width: 1000px) {
-    .i_white {
-        display: none !important;
-    }
-    .icon-user-white {
-        display: none !important;
-    }
-    .icon-search-white {
-        display: none !important;
-    }
-
-    header .box_user a {
-        color: #212529 !important;
-    }
-} */
-
 footer .modal-footer {
     display: block;
 }
@@ -121,4 +104,17 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+.redirect-login-header {
+    padding-left: 2.5%;
+}
+
+div .btn-redirect-login {
+    margin: 0;
+    padding: 10.5px 30px;
+}
+
+.table-information-estate {
+    padding: 10px;
 }
