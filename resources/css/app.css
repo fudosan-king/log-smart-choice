@@ -14,7 +14,7 @@ ul.estate-description-content {
     padding-left: 12%;
 }
 
-.dropdown_user .dropdown_user_content:after,
+/* .dropdown_user .dropdown_user_content:after,
 .dropdown_search .dropdown_search_content:after {
     content: '';
     position: fixed;
@@ -25,7 +25,7 @@ ul.estate-description-content {
     left: 0;
     right: 0;
     top: 90px;
-}
+} */
 
 #main .list_estate {
     padding-top: 9%;
@@ -41,12 +41,12 @@ ul.estate-description-content {
 } */
 
 .dropdown_search_content .stations .station-item {
-    white-space: nowrap;
+    /* white-space: nowrap; */
     text-overflow: ellipsis;
 }
 
 .dropdown_search_content .stations .station-item:hover {
-    white-space: normal;
+    /* white-space: normal; */
     text-overflow: unset;
 }
 

@@ -21,7 +21,7 @@ export default {
             responsive: true,
             maintainAspectRatio: false,
             legend: {
-                display: true
+                display: false
             },
             plugins: {
                 datalabels: {
