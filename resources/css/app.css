@@ -127,6 +127,6 @@ input[type=number] {
     text-align: center;
 }
 
-.container .subtitle-announcement-condition {
+.container .subtitle-announcement-condition, .container .subtitle-register {
     text-align: center;
 }
