@@ -5,7 +5,7 @@
                 <div class="box_top mb-0">
                     <div class="container">
                         <h2 class="title mb-3">新規会員登録</h2>
-                        <p class="subtitle mb-2">
+                        <p class="subtitle subtitle-register mb-2">
                             <small>ようこそOrder-Renoveへ！<br>
                             あなただけの新しいすまいづくりはここから</small>
                         </p>
