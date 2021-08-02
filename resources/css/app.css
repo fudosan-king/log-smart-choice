@@ -130,3 +130,7 @@ input[type=number] {
 .container .subtitle-announcement-condition, .container .subtitle-register {
     text-align: center;
 }
+
+.estate_name_title {
+    padding-top: 2%;
+}
