@@ -5,22 +5,12 @@
                 <div class="box_top mb-0">
                     <div class="container">
                         <p class="subtitle mb-2">
-                            <small 
-                                v-if="estate.estate_information" 
-                                v-html="estate.estate_information.renovation_media[0].description">
-                            </small>
-                            <!-- <small v-if="estate.address"
-                                >{{ estate.address.pref ? estate.address.pref : ''
-                                }}{{ estate.address.city ? estate.address.city : ''
-                                }}{{ estate.address.ooaza ? estate.address.ooaza : ''
-                                }}{{ estate.address.tyoume ? estate.address.tyoume : ''
-                                }}{{ estate.address.hidden ? estate.address.hidden : '' }}<br />
-                                {{ estate.tatemono_menseki }}m²（{{
-                                    (estate.tatemono_menseki / 3.306).toFixed(2)
-                                }}坪）（壁芯）<br />
-                                1階/RC7階建</small
-                            > -->
-
+                            <template v-if="estate.estate_information">
+                                <small v-if="estate.estate_information.renovation_media[0]"
+                                    v-html="estate.estate_information.renovation_media[0].description">
+                                </small>
+                            </template>
+                            
                         </p>
                     </div>
                 </div>
@@ -234,16 +224,31 @@
                                 <template v-if="estate.estate_information">
                                     <div
                                         class="specifications_pic"
-                                        v-for="photo in estate.estate_information.renovation_media"
+                                        v-for="(photo, indexPhoto) in estate.estate_information.renovation_media"
                                     >
                                         <img v-if="photo.url_path != '/images/no-image.png'"
                                             v-lazy="photo.url_path ? photo.url_path : '/images/no-image.png'"
                                             alt=""
                                             class="img-fluid"
                                         />
-                                        <p class="describe" v-html="photo.description">
-                                            <!-- {{ photo.description }} -->
-                                        </p>
+                                        <template v-if="indexPhoto == 0">
+                                            <h3 class="estate_name_title">{{ estate.estate_name }}</h3>
+                                            <p v-if="estate.address"
+                                                >{{ estate.address.pref ? estate.address.pref : ''
+                                                }}{{ estate.address.city ? estate.address.city : ''
+                                                }}{{ estate.address.ooaza ? estate.address.ooaza : ''
+                                                }}{{ estate.address.tyoume ? estate.address.tyoume : ''
+                                                }}{{ estate.address.hidden ? estate.address.hidden : '' }}<br />
+                                                {{ estate.tatemono_menseki }}m²（{{
+                                                    (estate.tatemono_menseki / 3.306).toFixed(2)
+                                                }}坪）（壁芯）<br />
+                                                1階/RC7階建
+                                            </p>
+                                        </template>
+                                        <template v-else>
+                                            <p class="describe" v-html="photo.description"></p>
+                                        </template>
+                                        
                                     </div>
                                 </template>
 
