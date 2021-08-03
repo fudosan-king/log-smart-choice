@@ -98,10 +98,10 @@
                             <input name="direction" value="{{ $estateInfo->direction ?? '' }}" class="form-control">
                         </div>
 
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="name">設計会社</label>
                             <input name="company_design" value="{{ $estateInfo->company_design ?? '' }}" class="form-control">
-                        </div>
+                        </div> -->
 
                         <div class="form-group">
                             <label for="name">小学校区域・中学校区域</label>
