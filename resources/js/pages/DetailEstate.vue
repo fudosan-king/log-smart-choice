@@ -266,17 +266,57 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>諸費用・その他制限事項</th>
-                                            <template v-if="otherFee.length > 0">
-                                                <td>
-                                                    <div v-for="fees in otherFee">
-                                                        {{ fees.name }} : {{ fees.price }}
+                                            <th>その他費用</th>
+                                            <td>
+                                                <template v-if="estate.bicycles_park_price">
+                                                    <div>駐車場：{{ estate.bicycles_park_price }}円</div>
+                                                </template>
+                                                <template v-if="(estate.usen_fee) || 
+                                                (estate.internet_fee) || 
+                                                (estate.catv_fee)">
+                                                    <template v-if="(estate.usen_fee.initial_cost && estate.usen_fee.repeat_cost.price) ||
+                                                        (estate.internet_fee.initial_cost && estate.internet_fee.repeat_cost.price) ||
+                                                        (estate.catv_fee.initial_cost && estate.catv_fee.repeat_cost.price)
+                                                    ">
+                                                        <div>設備費用：
+                                                            <ul v-if="estate.usen_fee.initial_cost && estate.usen_fee.repeat_cost.price">
+                                                                <li>有線放送：
+                                                                    <ul>
+                                                                        <li>初期費用: {{ estate.usen_fee.initial_cost}}円</li>
+                                                                        <li>定額費用: {{ estate.usen_fee.repeat_cost.price}}円</li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                            <ul v-if="estate.internet_fee.initial_cost && estate.internet_fee.repeat_cost.price">
+                                                                <li>インターネット：
+                                                                    <ul>
+                                                                        <li>初期費用: {{ estate.internet_fee.initial_cost}}円</li>
+                                                                        <li>定額費用: {{ estate.internet_fee.repeat_cost.price}}円</li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                            <ul v-if="estate.catv_fee.initial_cost && estate.catv_fee.repeat_cost.price">
+                                                                <li>CATV：
+                                                                    <ul>
+                                                                        <li>初期費用: {{ estate.catv_fee.initial_cost}}円</li>
+                                                                        <li>定額費用: {{ estate.catv_fee.repeat_cost.price}}円</li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </template>
+                                                </template>
+                                                <template v-if="estate.community_fee_type && estate.community_fee.price">
+                                                    <div>
+                                                        町会費：{{ estate.community_fee_type }} {{ estate.community_fee.price }}円
                                                     </div>
-                                                </td>
-                                            </template>
-                                            <template v-else>
-                                                <td>-/-</td>
-                                            </template>
+                                                </template>
+                                                <template v-if="otherFee.length > 0">
+                                                    <div v-for="fees in otherFee">
+                                                        {{ fees.name }} : {{ fees.price }}円
+                                                    </div>
+                                                </template>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>入居時期</th>
@@ -304,18 +344,18 @@
                                                 }}
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <!-- <tr>
                                             <th>竣工時売主</th>
                                             <td>{{ estate.motoduke ? estate.motoduke.company : '-' }}</td>
-                                        </tr>
+                                        </tr> -->
                                         <tr>
                                             <th>施工会社</th>
-                                            <td>{{ estate.constructor_label }}</td>
+                                            <td>{{ estate.constructor }}</td>
                                         </tr>
-                                        <tr>
+                                        <!-- <tr>
                                             <th>設計会社</th>
                                             <td>{{ estateInfo.company_design ? estateInfo.company_design : '−' }}</td>
-                                        </tr>
+                                        </tr> -->
                                         <tr>
                                             <th>管理会社・管理形態</th>
                                             <td>

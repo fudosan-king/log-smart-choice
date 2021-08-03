@@ -179,8 +179,9 @@ class EstateController extends Controller
         $estate = Estates::select('estate_name', 'address', 'price', 'custom_field', 'tatemono_menseki',
             'structure', 'management_fee', 'room_floor', 'total_houses', 'built_date', 'delivery',
             'renovation_done_date', 'house_status', 'delivery_date_type', 'decor', 'total_price',
-            'repair_reserve_fee', 'other_fee', 'total_houses', 'built_date', 'motoduke.company', 'constructor_label',
-            'management_company', 'management_scope', 'land_rights', 'latitude', 'longitude'
+            'repair_reserve_fee', 'other_fee', 'total_houses', 'built_date', 'motoduke.company', 'constructor',
+            'management_company', 'management_scope', 'land_rights', 'latitude', 'longitude',
+            'bicycles_park_price', 'usen_fee', 'internet_fee', 'catv_fee', 'community_fee_type', 'community_fee'
         )
             ->where('_id', $id)
             ->get()->toArray();
