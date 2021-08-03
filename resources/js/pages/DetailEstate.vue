@@ -299,7 +299,7 @@
                                             <td>
                                                 {{
                                                     estate.built_date
-                                                        ? moment(estate.built_date).format('YYYY年MM月')
+                                                        ? moment(parseInt(estate.built_date.$date.$numberLong)).format('YYYY年MM月')
                                                         : ''
                                                 }}
                                             </td>
