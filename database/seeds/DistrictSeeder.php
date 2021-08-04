@@ -105,6 +105,24 @@ class DistrictSeeder extends Seeder
             ])->save();
         }
 
+        $dataRow = $this->dataRow($groupsDataType, 'count_estates');
+
+        $allCity = $this->getCities();
+
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => __('Contain Estates'),
+                'required'     => 0,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 0,
+                'add'          => 0,
+                'delete'       => 0,
+                'order'        => 6,
+            ])->save();
+        }
+
         Menu::firstOrCreate([
             'name' => 'admin',
         ]);

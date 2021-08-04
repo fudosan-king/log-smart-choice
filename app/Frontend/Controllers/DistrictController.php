@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class DistrictController extends Controller
 {
-    
+
     /**
      * list
      *
@@ -18,7 +18,10 @@ class DistrictController extends Controller
     public function list(Request $request)
     {
 
-        $district = District::select('id', 'code', 'name')->where('status', District::STATUS_ACTIVATE)->get();
+        $district = District::select('id', 'code', 'name')
+            ->where('status', District::STATUS_ACTIVATE)
+            ->where('count_estates', '>', District::INIT_CONTAIN_ESTATE)
+            ->get();
 
         if ($district) {
             return $this->response(200, 'Get list district success', $district, true);
