@@ -83,7 +83,7 @@ class EstateController extends Controller
 
         // address
         if ($address) {
-            $estates->where('address.city', "like", "%" . $address . "%");
+            $estates->where('address.pref', "like", "%" . $address . "%");
         }
 
         // total price
