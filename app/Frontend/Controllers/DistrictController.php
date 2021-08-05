@@ -29,4 +29,16 @@ class DistrictController extends Controller
 
         return $this->response(422, 'Get list district fail', []);
     }
+
+    public function customerList() {
+        $district = District::select('id', 'code', 'name')
+            ->where('status', District::STATUS_ACTIVATE)
+            ->get();
+
+        if ($district) {
+            return $this->response(200, 'Get list district success', $district, true);
+        }
+
+        return $this->response(422, 'Get list district fail', []);
+    }
 }

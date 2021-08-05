@@ -152,7 +152,7 @@ export default {
     },
     methods: {
         listDistrict() {
-            this.$store.dispatch('getDistrict').then(resp => {
+            this.$store.dispatch('getCustomerDistrict').then(resp => {
                 this.districts = resp.data;
             });
         },
@@ -213,20 +213,26 @@ export default {
 
         getCustomerInformation() {
             this.$store.dispatch('customerInfo').then(resp => {
-                this.getDistrictList = resp.announcement_condition.city;
-                if (resp.announcement_condition.price) {
-                    this.minTotalPrices = resp.announcement_condition.price.min;
-                    this.maxTotalPrices = resp.announcement_condition.price.max;
-                }
-                if (resp.announcement_condition.square) {
-                    this.minSquare = resp.announcement_condition.square.min;
-                    this.maxSquare = resp.announcement_condition.square.max;
-                }
-                this.districts.forEach(element => {
-                    if (this.getDistrictList.includes(element.name)) {
-                        this.checkedDistrictInput.push(element.name);
+                if (resp.announcement_condition) {
+                    if (resp.announcement_condition.city) {
+                        this.getDistrictList = resp.announcement_condition.city;
                     }
-                });
+
+                    if (resp.announcement_condition.price) {
+                        this.minTotalPrices = resp.announcement_condition.price.min;
+                        this.maxTotalPrices = resp.announcement_condition.price.max;
+                    }
+                    if (resp.announcement_condition.square) {
+                        this.minSquare = resp.announcement_condition.square.min;
+                        this.maxSquare = resp.announcement_condition.square.max;
+                    }
+                    this.districts.forEach(element => {
+                        if (this.getDistrictList.includes(element.name)) {
+                            this.checkedDistrictInput.push(element.name);
+                        }
+                    });
+                }
+                
             });
         }
     }

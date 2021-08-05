@@ -50,6 +50,8 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/announcement', [AnnouncementController::class, 'delete'])->name('announcement.delete');
     Route::post('/announcement/list', [AnnouncementController::class, 'listAnnouncement'])->name('announcement.list');
 
+    // District
+    Route::post('/district/customer/list', [DistrictController::class, 'customerList'])->name('district.customer.list');
 });
 
 // auth
