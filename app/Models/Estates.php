@@ -100,7 +100,6 @@ class Estates extends Model
 
         try {
             $estate->save();
-            $this->countEstateInDistrict($estate->address->pref);
         } catch (Exception $e) {
             \Log::error($e);
         }
@@ -108,11 +107,5 @@ class Estates extends Model
         return $estate;
     }
 
-    protected function countEstateInDistrict($districtEstate) {
-        $district = District::where('name', $districtEstate)->first();
-        if ($district) {
-            $district->count_estates++;
-            $district->save();
-        }
-    }
+    
 }

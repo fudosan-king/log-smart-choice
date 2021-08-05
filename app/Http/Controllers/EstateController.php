@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Log;
 use TCG\Voyager\Facades\Voyager;
 use TCG\Voyager\Events\BreadDataAdded;
 use App\Actions\ResizeImage;
-
+use App\Models\District;
+use App\Models\Estates;
 
 class EstateController extends Controller
 {
@@ -435,8 +436,8 @@ class EstateController extends Controller
         $this->authorize('edit', $data);
 
         // $customerField = $this->_setCustomField($request);
-        $descriptionUrlImageLeft = '';
-        $descriptionUrlImageRight = '';
+        // $descriptionUrlImageLeft = '';
+        // $descriptionUrlImageRight = '';
 
         // Check decor is_numberic
         if ($request->has('decor')) {
@@ -452,7 +453,14 @@ class EstateController extends Controller
             $price = $data->price;
         }
         $request['total_price'] = (float)$request->get('decor') + $price;
+        $estate = Estates ::find($id);
 
+        if ($request->status == Estates::STATUS_SALE) {
+            
+            $this->increaseDecreaseEstateInDistrict($estate->address['pref'], true, $id);
+        } else {
+            $this->increaseDecreaseEstateInDistrict($estate->address['pref'], false, $id);
+        }
         // Check estate description photo or hidden photo exist
         // if ($request->hasFile('estate_description_left_photo')) {
         //     $estateDescriptionLeftPhoto = $request->file('estate_description_left_photo');
@@ -673,5 +681,30 @@ class EstateController extends Controller
             'dataTypeContent', 'isModelTranslatable', 'isSoftDeleted',
             'mapLabel', 'estateInfo'
         ));
+    }
+
+    protected function increaseDecreaseEstateInDistrict($districtEstate, $flag, $estateId)
+    {
+        $district = District::where('name', $districtEstate)->first();
+        if ($district) {
+            $estateIds = [];
+            if ($district->estate_ids) {
+                $estateIds = explode(',', $district->estate_ids);
+            }
+
+            if ($flag && !in_array($estateId, $estateIds)) {
+                $district->count_estates = $district->count_estates + 1;
+                array_push($estateIds, $estateId);
+                $district->estate_ids = implode(',', $estateIds);
+            } else {
+                if ( $district->count_estates != 0 && in_array($estateId, $estateIds)) {
+                    $district->count_estates = $district->count_estates - 1;
+                    $key = array_search($estateId, $estateIds);
+                    unset($estateIds[$key]);
+                    $district->estate_ids = implode(',', $estateIds);
+                }
+            }
+            $district->save();
+        }
     }
 }
