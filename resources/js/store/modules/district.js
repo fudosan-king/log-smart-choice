@@ -28,6 +28,29 @@ const actions = {
                     reject(err);
                 });
         });
+    },
+
+    getCustomerDistrict() {
+        return new Promise((resolve, reject) => {
+            let accessToken = this._vm.$getCookie('accessToken');
+            const auth = this.auth;
+            axios({
+                url: '/district/customer/list',
+                method: 'POST',
+                data: {},
+                headers: {
+                    'content-type': 'application/json',
+                    'AuthorizationBearer': `Bearer ${accessToken}`,
+                },
+                auth: auth,
+            })
+                .then(resp => {
+                    resolve(resp.data);
+                })
+                .catch(err => {
+                    reject(err);
+                });
+        });
     }
 };
 
