@@ -455,11 +455,10 @@ class EstateController extends Controller
         $request['total_price'] = (float)$request->get('decor') + $price;
         $estate = Estates ::find($id);
 
+        $this->increaseDecreaseEstateInDistrict($estate->address['city'], false, $id);
         if ($request->status == Estates::STATUS_SALE) {
             
-            $this->increaseDecreaseEstateInDistrict($estate->address['pref'], true, $id);
-        } else {
-            $this->increaseDecreaseEstateInDistrict($estate->address['pref'], false, $id);
+            $this->increaseDecreaseEstateInDistrict($estate->address['city'], true, $id);
         }
         // Check estate description photo or hidden photo exist
         // if ($request->hasFile('estate_description_left_photo')) {
