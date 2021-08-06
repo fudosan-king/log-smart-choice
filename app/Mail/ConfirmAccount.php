@@ -5,6 +5,7 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class ConfirmAccount extends Mailable
 {
@@ -15,9 +16,8 @@ class ConfirmAccount extends Mailable
      *
      * @return void
      */
-    public function __construct($email, $data)
+    public function __construct($data)
     {
-        $this->email = $email;
         $this->data = $data;
     }
 
@@ -28,7 +28,12 @@ class ConfirmAccount extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.register-success', ['data' => $this->data])
-            ->subject(__('auth.confirmation'));
+
+        try {
+            return $this->view('emails.register-success', ['data' => $this->data])
+                ->subject(__('auth.confirmation'));
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
     }
 }

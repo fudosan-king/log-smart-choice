@@ -166,12 +166,12 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td width="50%" style="padding-left: 5%;">
+                                            <td width="50%" colspan="2" style="padding-right: 25%; padding-left: 25%">
                                                 <a class="btn" href="{{Request::root()}}/detail/{{$estate['_id']}}" style="margin-right: 15px; color: #fff;">物件詳細を見る</a>
                                             </td>
-                                            <td style="padding-right: 5%;">
+                                            <!-- <td style="padding-right: 5%;">
                                                 <a class="btn" style="color: #fff;" href="{{Request::root()}}/detail/{{$estate['_id']}}">3Dを見る</a>
-                                            </td>
+                                            </td> -->
                                         </tr>
                                     </table>
                                 </div>
@@ -195,15 +195,11 @@
                         </tr>
                         <tr>
                             <th>価格</th>
-                            <td>{{ $condition['square']['min'] }} ~ {{ $condition['square']['max'] }}</td>
+                            <td>{{ $condition['price']['min'] }}万円 ~ {{ $condition['price']['max'] }}万円</td>
                         </tr>
                         <tr>
                             <th>広さ</th>
-                            <td>{{ $condition['price']['min'] }} ~ {{ $condition['price']['max'] }}</td>
-                        </tr>
-                        <tr>
-                            <th>こだわり</th>
-                            <td>設定なし</td>
+                            <td>{{ $condition['square']['min'] }}㎡ ~ {{ $condition['square']['max'] }}㎡</td>
                         </tr>
                     </table>
 
@@ -220,12 +216,12 @@
                     <table border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 800px; margin: auto; text-align: left;">
                         <tr>
                             <td style="text-align: center; text-decoration: underline; padding: 10px 0 30px;">
-                                <p><a style="color: #EB5757;" href="https://order-renove.jp/customer/information">メールの配信停止をご希望のかたはこちら</a></p>
+                                <p><a style="color: #EB5757;" href="https://order-renove.jp/customer/information">メールの配信停止をご希望の方はこちら</a></p>
                             </td>
                         </tr>
                     </table>
 
-                    <div class="footer" style="background: #000; padding: 30px 0; text-align: center; ">
+                    <!-- <div class="footer" style="background: #000; padding: 30px 0; text-align: center; ">
                         <table border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 800px; margin: auto; text-align: left;">
                             <tr>
                                 <td style="text-align: center;">
@@ -245,7 +241,7 @@
                                 </td>
                             </tr>
                         </table>
-                    </div>
+                    </div> -->
                 </td>
             </tr>
         </tbody>

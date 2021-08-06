@@ -181,7 +181,10 @@ class EstateController extends Controller
             'renovation_done_date', 'house_status', 'delivery_date_type', 'decor', 'total_price',
             'repair_reserve_fee', 'other_fee', 'total_houses', 'built_date', 'motoduke.company', 'constructor',
             'management_company', 'management_scope', 'land_rights', 'latitude', 'longitude',
-            'bicycles_park_price', 'usen_fee', 'internet_fee', 'catv_fee', 'community_fee_type', 'community_fee'
+            'bicycles_park_price', 'usen_fee', 'internet_fee', 'catv_fee', 'community_fee_type', 'community_fee',
+            'area_purpose', 'carpark_fee_min', 'carpark_manage_fee', 'homes', 'carpark_type', 'carpark_fee_min',
+            'carpark_manage_fee', 'bike_park', 'bike_park_price', 'bike_park_price_per', 'bicycles_park',
+            'bicycles_park_price', 'bicycles_park_price_per'
         )
             ->where('_id', $id)
             ->get()->toArray();
