@@ -31,7 +31,7 @@ class SendMailConfirmAccount implements ShouldQueue
      */
     public function handle()
     {
-        $email = new ConfirmAccount($this->receiver, $this->data);
+        $email = new ConfirmAccount($this->data);
         Mail::to($this->receiver)->send($email);
     }
 }

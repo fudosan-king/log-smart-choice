@@ -268,8 +268,19 @@
                                         <tr>
                                             <th>その他費用</th>
                                             <td>
-                                                <template v-if="estate.bicycles_park_price">
-                                                    <div>駐車場：{{ estate.bicycles_park_price }}円</div>
+                                                <template v-if="estate.carpark_type && estate.carpark_fee_min">
+                                                    <div>駐車場：{{ estate.carpark_type }} {{ estate.carpark_fee_min }}円/{{ estate.carpark_manage_fee.per == 'm' ? '月' : '年' }}</div>
+                                                </template>
+                                                <template v-if="estate.homes">
+                                                    <template v-if="estate.homes.carpark_note">
+                                                        <div>駐車場備考：{{ estate.homes.carpark_note }}</div>
+                                                    </template>
+                                                </template>
+                                                <template v-if="estate.bike_park && estate.bike_park_price">
+                                                    <div>バイク：{{ estate.bike_park }} {{ estate.bike_park_price }}円/{{ estate.bike_park_price_per == 'm' ? '月' : '年' }}</div>
+                                                </template>
+                                                <template v-if="estate.bicycles_park && estate.bicycles_park_price">
+                                                    <div>駐輪場：{{ estate.bicycles_park }} {{ estate.bicycles_park_price }}円/{{ estate.bicycles_park_price_per == 'm' ? '月' : '年' }}</div>
                                                 </template>
                                                 <template v-if="(estate.usen_fee) || 
                                                 (estate.internet_fee) || 
@@ -283,7 +294,7 @@
                                                                 <li>有線放送：
                                                                     <ul>
                                                                         <li>初期費用: {{ estate.usen_fee.initial_cost}}円</li>
-                                                                        <li>定額費用: {{ estate.usen_fee.repeat_cost.price}}円</li>
+                                                                        <li>定額費用: {{ estate.usen_fee.repeat_cost.price}}円/{{estate.usen_fee.repeat_cost.per == 'm' ? '月' : '年' }}</li>
                                                                     </ul>
                                                                 </li>
                                                             </ul>
@@ -291,7 +302,7 @@
                                                                 <li>インターネット：
                                                                     <ul>
                                                                         <li>初期費用: {{ estate.internet_fee.initial_cost}}円</li>
-                                                                        <li>定額費用: {{ estate.internet_fee.repeat_cost.price}}円</li>
+                                                                        <li>定額費用: {{ estate.internet_fee.repeat_cost.price}}円/{{estate.internet_fee.repeat_cost.per == 'm' ? '月' : '年' }}</li>
                                                                     </ul>
                                                                 </li>
                                                             </ul>
@@ -299,7 +310,7 @@
                                                                 <li>CATV：
                                                                     <ul>
                                                                         <li>初期費用: {{ estate.catv_fee.initial_cost}}円</li>
-                                                                        <li>定額費用: {{ estate.catv_fee.repeat_cost.price}}円</li>
+                                                                        <li>定額費用: {{ estate.catv_fee.repeat_cost.price}}円/{{estate.catv_fee.repeat_cost.per == 'm' ? '月' : '年' }}</li>
                                                                     </ul>
                                                                 </li>
                                                             </ul>
@@ -308,12 +319,12 @@
                                                 </template>
                                                 <template v-if="estate.community_fee_type && estate.community_fee.price">
                                                     <div>
-                                                        町会費：{{ estate.community_fee_type }} {{ estate.community_fee.price }}円
+                                                        町会費：{{ estate.community_fee_type }} {{ estate.community_fee.price }}円/{{estate.community_fee.per == 'm' ? '月' : '年' }}
                                                     </div>
                                                 </template>
                                                 <template v-if="otherFee.length > 0">
                                                     <div v-for="fees in otherFee">
-                                                        {{ fees.name }} : {{ fees.price }}円
+                                                        {{ fees.name }} : {{ fees.price }}円/{{fees.per == 'm' ? '月' : '年' }}
                                                     </div>
                                                 </template>
                                             </td>
@@ -369,7 +380,7 @@
                                         </tr>
                                         <tr>
                                             <th>用途地域</th>
-                                            <td>{{ estate.area_purpose }}</td>
+                                            <td>{{ estate.area_purpose.main }}{{ estate.area_purpose.sub }}</td>
                                         </tr>
                                         <tr>
                                             <th>小学校区域・中学校区域</th>

@@ -41,7 +41,7 @@ return [
     'password_or_email_wrong' => 'メールアドレスまたはパスワードが正しくありません',
     'email_not_activated' => 'まだ本登録が完了していません',
     'email_invalid' => '無効なメール形式',
-    'confirmation' => '【Order Renove】アカウント登録完了のお知らせ',
+    'confirmation' => '【Order Renove】会員登録完了しました',
     'reconfirm_email_fail' => '確認メールに失敗致しました。もう一度確認してお願いいたします。',
     'reconfirm_email_success' => '確認メールを再送信いたしました。',
     'login_success' => 'ログイン成功',
