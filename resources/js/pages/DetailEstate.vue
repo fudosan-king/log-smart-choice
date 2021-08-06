@@ -383,8 +383,8 @@
                                         </tr>
                                     </table>
 
-                                    <div class="map">
-                                        <iframe
+                                    <div class="map" v-html="srcMap">
+                                        <!-- <iframe
                                             v-if="estate.latitude && estate.longitude"
                                             :src="srcMap"
                                             width="100%"
@@ -401,7 +401,7 @@
                                             style="border:0;"
                                             allowfullscreen=""
                                             loading="lazy"
-                                        ></iframe>
+                                        ></iframe> -->
                                         <div class="row">
                                             <div class="col-8 col-lg-8">
                                                 <p v-if="estate.address">
@@ -568,14 +568,15 @@ export default {
                         this.totalPrice = this.estate.total_price;
                         this.calculateMonthlyLoanPayment();
                     }
-                    if (this.estate.latitude && this.estate.longitude) {
-                        this.srcMap =
-                            'https://www.google.com/maps?q=' +
-                            this.estate.latitude +
-                            ',' +
-                            this.estate.longitude +
-                            '&output=embed';
-                    }
+                    this.srcMap = this.estate['estate_information']['url_map'];
+                    // if (this.estate.latitude && this.estate.longitude) {
+                    //     this.srcMap =
+                    //         'https://www.google.com/maps?q=' +
+                    //         this.estate.latitude +
+                    //         ',' +
+                    //         this.estate.longitude +
+                    //         '&output=embed';
+                    // }
                 }).catch(error => {});
             }
         },
