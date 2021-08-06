@@ -108,6 +108,11 @@
                             <input name="near_primary_high_school" value="{{ $estateInfo->near_primary_high_school ?? '' }}" class="form-control">
                         </div>
 
+                        <div class="form-group">
+                            <label for="name">URL Google Map</label>
+                            <input name="url_map" value="{{ $estateInfo->url_map ?? '' }}" class="form-control">
+                        </div>
+
                         <!-- <h2 class="padding_tab_search"> Category</h2>
                         <hr class="hr_tab_search">
                         <div class="category_tab_search">
