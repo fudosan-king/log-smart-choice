@@ -34,7 +34,7 @@
                         class="carousel carousel-nav"
                         data-flickity='{"asNavFor": ".carousel-main", "contain": true, "prevNextButtons": false, "pageDots": false }'
                     >
-                        <div class="carousel-cell" v-for="photo in mainPhoto">
+                        <div class="carousel-cell" v-for="photo in mainPhoto" :key="photo">
                             <img
                                 :src="photo.url_path ? photo.url_path : '/images/no-image.png'"
                                 alt=""
@@ -63,10 +63,8 @@
                                             </p>
 
                                             <div class="box_simulation_result">
-                                                <div class="text-center d-block btn_simulation_result mb-3">
-                                                    <h2>{{$lscFormatCurrency(paymentMonthly)}}<span>円</span></h2>
-                                                    <!-- <p class="text-right">ボーナス月　＋<span>{{$lscFormatCurrency(paymentMonthlyBonus)}}</span>円</p> -->
-                                                </div>
+                                                <p class="text-center d-block d-lg-none btn_simulation_result mb-3">毎月のお支払例</p>
+                                                <h2>{{$lscFormatCurrency(paymentMonthly)}}<span>円</span></h2>
                                                 <p class="text-center mt-3">
                                                     <b>管理費：{{ $lscFormatCurrency(estate.management_fee) }}円／修繕積立金：{{ $lscFormatCurrency(estate.repair_reserve_fee) }}円 含む</b>
                                                 </p>
@@ -224,7 +222,7 @@
                                 <template v-if="estate.estate_information">
                                     <div
                                         class="specifications_pic"
-                                        v-for="(photo, indexPhoto) in estate.estate_information.renovation_media"
+                                        v-for="(photo, indexPhoto) in estate.estate_information.renovation_media " :key="indexPhoto"
                                     >
                                         <img v-if="photo.url_path != '/images/no-image.png'"
                                             v-lazy="photo.url_path ? photo.url_path : '/images/no-image.png'"
@@ -272,8 +270,8 @@
                                                     <div>駐車場：{{ estate.carpark_type }} {{ estate.carpark_fee_min }}円/{{ estate.carpark_manage_fee.per == 'm' ? '月' : '年' }}</div>
                                                 </template>
                                                 <template v-if="estate.homes">
-                                                    <template v-if="estate.homes.carpark_note">
-                                                        <div>駐車場備考：{{ estate.homes.carpark_note }}</div>
+                                                    <template v-if="carParkNote">
+                                                        <div v-html="carParkNote"></div>
                                                     </template>
                                                 </template>
                                                 <template v-if="estate.bike_park && estate.bike_park_price">
@@ -323,7 +321,7 @@
                                                     </div>
                                                 </template>
                                                 <template v-if="otherFee.length > 0">
-                                                    <div v-for="fees in otherFee">
+                                                    <div v-for="fees in otherFee" :key="fees">
                                                         {{ fees.name }} : {{ fees.price }}円/{{fees.per == 'm' ? '月' : '年' }}
                                                     </div>
                                                 </template>
@@ -380,7 +378,10 @@
                                         </tr>
                                         <tr>
                                             <th>用途地域</th>
-                                            <td>{{ estate.area_purpose.main }}{{ estate.area_purpose.sub }}</td>
+                                            <template v-if="estate.area_purpose">
+                                                <td>{{ estate.area_purpose.main }}{{ estate.area_purpose.sub }}</td>
+                                            </template>
+                                            
                                         </tr>
                                         <tr>
                                             <th>小学校区域・中学校区域</th>
@@ -503,6 +504,7 @@ export default {
             chartData: [10,10,80],
             totalPrice: 0,
             mobileFirstTime: true,
+            carParkNote: '',
         };
     },
     mounted() {
@@ -588,6 +590,8 @@ export default {
                     //         this.estate.longitude +
                     //         '&output=embed';
                     // }
+                    let carParkNote = this.estate['homes']['carpark_note'];
+                    this.carParkNote = carParkNote.replace(/\n/g, '<br>');
                 }).catch(error => {});
             }
         },
