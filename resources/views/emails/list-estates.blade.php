@@ -221,27 +221,27 @@
                         </tr>
                     </table>
 
-                    <!-- <div class="footer" style="background: #000; padding: 30px 0; text-align: center; ">
+                    <div class="footer" style="background: #000; padding: 30px 0; text-align: center; ">
                         <table border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 800px; margin: auto; text-align: left;">
                             <tr>
                                 <td style="text-align: center;">
-                                    <p style="padding-bottom: 30px; border-bottom: 1px solid #828282; text-align: center;"><a target="_blank" href="https://order-renove.jp/"><img src="https://propolife.s3.ap-northeast-1.amazonaws.com/logo_white.png" alt="" width="150" style="margin: auto;"></a></p>
+                                    <p style="padding-bottom: 30px; text-align: center;"><a target="_blank" href="https://order-renove.jp/"><img src="https://propolife.s3.ap-northeast-1.amazonaws.com/logo_white.png" alt="" width="150" style="margin: auto;"></a></p>
                                 </td>
                             </tr>
-                            <tr>
+                            <!-- <tr>
                                 <td style="text-align: center; padding: 30px 0;">
                                     <a style="display: inline-block; margin-right: 25px;" href="#" title=""><img src="https://propolife.s3.ap-northeast-1.amazonaws.com/i_ins.png" alt="" width="18"></a>
                                     <a style="display: inline-block; margin-right: 25px;" href="#" title=""><img src="https://propolife.s3.ap-northeast-1.amazonaws.com/i_twitter.png" alt="" width="18"></a>
                                     <a style="display: inline-block;" href="#" title=""><img src="https://propolife.s3.ap-northeast-1.amazonaws.com/i_fb.png" alt="" width="18"></a>
                                 </td>
-                            </tr>
+                            </tr> -->
                             <tr>
                                 <td>
                                     <p style="text-align: center; color: #828282;">Copyright © <a style="color: #828282;" target="_blank" href="https://www.logsuite.co.jp/logmansion/contact">LogSuite.</a> All Rights Reserved.</p>
                                 </td>
                             </tr>
                         </table>
-                    </div> -->
+                    </div>
                 </td>
             </tr>
         </tbody>

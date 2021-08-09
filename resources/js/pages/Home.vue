@@ -4,8 +4,9 @@
             <div class="caption d-none d-lg-block">
                 <img src="/assets/images/svg/label.svg" alt="" class="img-fluid" width="430" />
                 <p>
-                    『自分に合った住まい』を考え、新しい暮らしの夢を膨らませませんか？<br />
-                    自宅にいながら最適なリノベーションを全力でサポートいたします。
+                    住みたいエリア、広さ、予算、ライフスタイル…<br>
+                    あなたの価値観にあった「中古＋リノベーション」を提案する<br>
+                    SDGsな住まいソリューション<br>
                 </p>
             </div>
             <ul>
