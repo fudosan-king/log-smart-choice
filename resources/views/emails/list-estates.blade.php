@@ -129,7 +129,7 @@
                     <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 800px; margin: auto; padding: 15px;">
                         <tr>
                             <td style="text-align: center;">
-                                <p>{{ $customer['name'] }}様の希望にマッチした物件が<br>
+                                <p>{{ $customer['name'] }}様にマッチした物件が<br>
                                     新規公開されました。</p>
                             </td>
                         </tr>
