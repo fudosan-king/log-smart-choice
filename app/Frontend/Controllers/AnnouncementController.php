@@ -116,9 +116,10 @@ class AnnouncementController extends Controller
                 'total_price', 'transports', 'renovation_type', 'date_created', 'status'
             )->where('status', '!=', Estates::STATUS_STOP)
                 ->whereIn('_id', $announcementList)
+                ->with('estateInformation')
                 ->get()->toArray();
 
-            $announcements['data'] = $this->estateController->getEstateInformation($estates, []);
+            $announcements['data'] = $estates;
             // push announcement into estate
             foreach ($announcements['data'] as $key => $announcement) {
                 if (array_key_exists($announcement['_id'], $announcementListIds)) {

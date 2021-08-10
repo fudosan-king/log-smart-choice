@@ -75,6 +75,7 @@ class WishListController extends Controller
         $wishList = [];
         $estateController = new EstateController();
         $estateInfo = $estateController->getEstateInformation($estates, $estateIds);
+        // $estateInfo = $estates;
 
         return $this->response(200, 'Success', $estateInfo, true);
     }

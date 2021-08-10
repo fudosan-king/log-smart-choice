@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use DateInterval;
 use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Jenssegers\Mongodb\Eloquent\Model as Model;
@@ -25,6 +24,11 @@ class Estates extends Model
     const LIMIT_ESTATE_RECOMMEND = 16;
 
     const NUMBER_RECOMMEND_ORDER_BY = 100;
+
+
+    public function estateInformation() {
+        return $this->hasOne(EstateInformation::class, 'estate_id', '_id');
+    }
 
     /**
      * Get date created
