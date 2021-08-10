@@ -34,7 +34,7 @@
                         class="carousel carousel-nav"
                         data-flickity='{"asNavFor": ".carousel-main", "contain": true, "prevNextButtons": false, "pageDots": false }'
                     >
-                        <div class="carousel-cell" v-for="photo in mainPhoto" :key="photo">
+                        <div class="carousel-cell" v-for="photo in mainPhoto">
                             <img
                                 :src="photo.url_path ? photo.url_path : '/images/no-image.png'"
                                 alt=""
@@ -563,7 +563,7 @@ export default {
                         if (this.estate['estate_information']['estate_main_photo']) {
                             this.mainPhoto = this.estate['estate_information']['estate_main_photo'];
                         }
-
+console.log(this.mainPhoto)
                         if (this.estate['other_fee']) {
                             let data = {};
                             this.estate['other_fee'].forEach((element, key) => {

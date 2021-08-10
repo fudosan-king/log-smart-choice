@@ -186,17 +186,18 @@ class EstateController extends Controller
             'carpark_manage_fee', 'bike_park', 'bike_park_price', 'bike_park_price_per', 'bicycles_park',
             'bicycles_park_price', 'bicycles_park_price_per'
         )
+            ->with('estateInformation')
             ->where('_id', $id)
-            ->get()->toArray();
+            ->get();
         $estateAddress = $estate[0]['address'];
         $estateNearAddress = Estates::select('renovation_type', 'total_price', 'address', 'tatemono_menseki')
             ->where('_id', '!=', $id)
             ->where('address.city', $estateAddress['city'])->take(Estates::LIMIT_ESTATE_NEAR_AREA)->orderBy('date_created', 'desc')
             ->get();
 
-        if ($estate) {
-            $estate = $this->getEstateInformation($estate);
-        }
+        // if ($estate) {
+        //     $estate = $this->getEstateInformation($estate);
+        // }
 
         if ($estate) {
             return $this->response(200, 'Get estate detail success', ['estate' => $estate, 'estateNearAddress' => $estateNearAddress], true);
