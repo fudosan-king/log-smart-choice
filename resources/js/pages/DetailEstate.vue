@@ -235,7 +235,7 @@
                                                 >{{ estate.address.pref }}{{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}{{ estate.address.gaikutiban }}<br />
                                                 専有面積{{ estate.tatemono_menseki }}m²
                                                 <template v-if="estate.has_balcony != '無'">
-                                                    ／バルコニー面積: {{ estate.roof_balcony.space}}
+                                                    ／バルコニー面積: {{ estate.balcony_space}}m²
                                                 </template>
                                                 <br />
                                                 {{ estate.ground_floors }}／{{ estate.structure }}
@@ -334,17 +334,16 @@
                                             <td>
                                                 {{ estate.structure ? estate.structure + '／' : '' }}
                                                 {{ estate.ground_floors ? estate.ground_floors + '／' : ''}}
-                                                {{ estate.room_floor ? estate.room_floor + '／' : ''}}
-                                                <template v-if="estate.window_direction == 'n'">北</template>
-                                                <template v-else-if="estate.window_direction == 'ne'">北東</template>
-                                                <template v-else-if="estate.window_direction == 'e'">東</template>
-                                                <template v-else-if="estate.window_direction == 'se'">南東</template>
-                                                <template v-else-if="estate.window_direction == 's'">南</template>
-                                                <template v-else-if="estate.window_direction == 'sw'">南西</template>
-                                                <template v-else-if="estate.window_direction == 'w'">西</template>
-                                                <template v-else-if="estate.window_direction == 'nw'">北西</template>
-                                                <template v-else>方角</template>
-                                                
+                                                {{ estate.room_floor ? estate.room_floor : ''}}
+                                                <template v-if="estate.window_direction == 'n'">／北</template>
+                                                <template v-else-if="estate.window_direction == 'ne'">／北東</template>
+                                                <template v-else-if="estate.window_direction == 'e'">／東</template>
+                                                <template v-else-if="estate.window_direction == 'se'">／南東</template>
+                                                <template v-else-if="estate.window_direction == 's'">／南</template>
+                                                <template v-else-if="estate.window_direction == 'sw'">／南西</template>
+                                                <template v-else-if="estate.window_direction == 'w'">／西</template>
+                                                <template v-else-if="estate.window_direction == 'nw'">／北西</template>
+                                                <template v-else>／方角</template>
                                             </td>
                                         </tr>
                                         <tr>
