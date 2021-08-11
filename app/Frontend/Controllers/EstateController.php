@@ -184,7 +184,9 @@ class EstateController extends Controller
             'bicycles_park_price', 'usen_fee', 'internet_fee', 'catv_fee', 'community_fee_type', 'community_fee',
             'area_purpose', 'carpark_fee_min', 'carpark_manage_fee', 'homes', 'carpark_type', 'carpark_fee_min',
             'carpark_manage_fee', 'bike_park', 'bike_park_price', 'bike_park_price_per', 'bicycles_park',
-            'bicycles_park_price', 'bicycles_park_price_per'
+            'bicycles_park_price', 'bicycles_park_price_per', 'ground_floors', 'structure', 'window_direction',
+            'has_balcony', 'roof_balcony', 'land_rights', 'land_rights_detail', 'land_leashold_type', 'land_leashold_years',
+            'land_leashold_months', 'land_leashold_limit', 'leasehold_ratio', 'land_fee_type', 'land_fee', 'land_fee_per'
         )
             ->with('estateInformation')
             ->where('_id', $id)

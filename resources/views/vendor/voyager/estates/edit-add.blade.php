@@ -93,10 +93,10 @@
                             <input name="time_to_join" value="{{ $estateInfo->time_to_join ?? '' }}" class="form-control">
                         </div>
 
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="name">方角</label>
                             <input name="direction" value="{{ $estateInfo->direction ?? '' }}" class="form-control">
-                        </div>
+                        </div> -->
 
                         <!-- <div class="form-group">
                             <label for="name">設計会社</label>
