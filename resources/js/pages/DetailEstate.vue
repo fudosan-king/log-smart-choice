@@ -222,7 +222,7 @@
                                 <template v-if="estate.estate_information">
                                     <div
                                         class="specifications_pic"
-                                        v-for="(photo, indexPhoto) in estate.estate_information.renovation_media " :key="indexPhoto"
+                                        v-for="(photo, indexPhoto) in estate.estate_information.renovation_media "
                                     >
                                         <img v-if="photo.url_path != '/images/no-image.png'"
                                             v-lazy="photo.url_path ? photo.url_path : '/images/no-image.png'"
@@ -232,15 +232,13 @@
                                         <template v-if="indexPhoto == 0">
                                             <h3 class="estate_name_title">{{ estate.estate_name }}</h3>
                                             <p v-if="estate.address"
-                                                >{{ estate.address.pref ? estate.address.pref : ''
-                                                }}{{ estate.address.city ? estate.address.city : ''
-                                                }}{{ estate.address.ooaza ? estate.address.ooaza : ''
-                                                }}{{ estate.address.tyoume ? estate.address.tyoume : ''
-                                                }}{{ estate.address.hidden ? estate.address.hidden : '' }}<br />
-                                                {{ estate.tatemono_menseki }}m²（{{
-                                                    (estate.tatemono_menseki / 3.306).toFixed(2)
-                                                }}坪）（壁芯）<br />
-                                                1階/RC7階建
+                                                >{{ estate.address.pref }}{{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}{{ estate.address.gaikutiban }}<br />
+                                                専有面積{{ estate.tatemono_menseki }}m²
+                                                <template v-if="estate.has_balcony != '無'">
+                                                    ／バルコニー面積: {{ estate.roof_balcony.space}}
+                                                </template>
+                                                <br />
+                                                {{ estate.ground_floors }}／{{ estate.structure }}
                                             </p>
                                         </template>
                                         <template v-else>
@@ -321,7 +319,7 @@
                                                     </div>
                                                 </template>
                                                 <template v-if="otherFee.length > 0">
-                                                    <div v-for="fees in otherFee" :key="fees">
+                                                    <div v-for="fees in otherFee">
                                                         {{ fees.name }} : {{ fees.price }}円/{{fees.per == 'm' ? '月' : '年' }}
                                                     </div>
                                                 </template>
@@ -332,11 +330,21 @@
                                             <td>{{ estateInfo.time_to_join ? estateInfo.time_to_join : '相談' }}</td>
                                         </tr>
                                         <tr>
-                                            <th>構造・階段・所在階・方角</th>
+                                            <th>構造・階建・所在階・方角</th>
                                             <td>
-                                                {{ estate.structure ? estate.structure : '' }}階建{{
-                                                    estate.room_floor ? '／' + estate.room_floor + '階' : ''
-                                                }}{{ estateInfo.direction ? '／' + estateInfo.direction : '' }}
+                                                {{ estate.structure ? estate.structure + '／' : '' }}
+                                                {{ estate.ground_floors ? estate.ground_floors + '／' : ''}}
+                                                {{ estate.room_floor ? estate.room_floor + '／' : ''}}
+                                                <template v-if="estate.window_direction == 'n'">北</template>
+                                                <template v-else-if="estate.window_direction == 'ne'">北東</template>
+                                                <template v-else-if="estate.window_direction == 'e'">東</template>
+                                                <template v-else-if="estate.window_direction == 'se'">南東</template>
+                                                <template v-else-if="estate.window_direction == 's'">南</template>
+                                                <template v-else-if="estate.window_direction == 'sw'">南西</template>
+                                                <template v-else-if="estate.window_direction == 'w'">西</template>
+                                                <template v-else-if="estate.window_direction == 'nw'">北西</template>
+                                                <template v-else>方角</template>
+                                                
                                             </td>
                                         </tr>
                                         <tr>
@@ -353,18 +361,10 @@
                                                 }}
                                             </td>
                                         </tr>
-                                        <!-- <tr>
-                                            <th>竣工時売主</th>
-                                            <td>{{ estate.motoduke ? estate.motoduke.company : '-' }}</td>
-                                        </tr> -->
                                         <tr>
                                             <th>施工会社</th>
                                             <td>{{ estate.constructor }}</td>
                                         </tr>
-                                        <!-- <tr>
-                                            <th>設計会社</th>
-                                            <td>{{ estateInfo.company_design ? estateInfo.company_design : '−' }}</td>
-                                        </tr> -->
                                         <tr>
                                             <th>管理会社・管理形態</th>
                                             <td>
@@ -374,7 +374,53 @@
                                         </tr>
                                         <tr>
                                             <th>土地権利</th>
-                                            <td>{{ estate.land_rights }}</td>
+                                            <td>
+                                                <template v-if="estate.land_rights == '所有権のみ'">
+                                                    <div>{{ estate.land_rights }}</div>
+                                                </template>
+                                                <template v-else-if="estate.land_rights == '借地権のみ'">
+                                                    {{ estate.land_rights_detail }}
+                                                    <template v-if="estate.land_leashold_type == '新規'">
+                                                        ({{ estate.land_leashold_years }}年 {{ estate.land_leashold_months }}月)
+                                                    </template>
+                                                    <template v-if="estate.land_leashold_type == '残存'">
+                                                        （～{{ estate.land_leashold_type }} {{ moment(parseInt(estate.land_leashold_limit.$date.$numberLong)).format('YYYY年MM月DD日迄') }})
+                                                    </template>
+                                                    <template v-if="estate.land_fee_type != '無'">
+                                                        <div>
+                                                            借地料: {{ estate.land_fee }}円/
+                                                            <template v-if="estate.land_fee_per == 'm'">月</template>
+                                                            <template v-else-if="estate.land_fee_per == 'y'">年</template>
+                                                            <template v-else>一括</template>
+                                                        </div>
+                                                    </template>
+                                                </template>
+                                                <template v-else-if="estate.land_rights == '所有権・借地権混在'">
+                                                    <div>
+                                                        {{ estate.land_rights }}
+                                                    </div>
+                                                    <div v-if="estate.land_rights_detail">
+                                                        借地権種類：{{ estate.land_rights_detail }}
+                                                        <template v-if="estate.land_leashold_type == '新規'">
+                                                            ({{ estate.land_leashold_years }}年 {{ estate.land_leashold_months }}月)
+                                                        </template>
+                                                        <template v-if="estate.land_leashold_type == '残存'">
+                                                            （～{{ moment(parseInt(estate.land_leashold_limit.$date.$numberLong)).format('YYYY年MM月DD日迄') }})
+                                                        </template>
+                                                    </div>
+                                                    <div v-if="estate.leasehold_ratio">
+                                                        借地権割合：{{ estate.leasehold_ratio }}%
+                                                    </div>
+                                                    <template v-if="estate.land_fee_type != '無'">
+                                                        <div>
+                                                            地代: {{ estate.land_fee }}円
+                                                            <template v-if="estate.land_fee_per == 'm'">/月</template>
+                                                            <template v-else-if="estate.land_fee_per == 'y'">/年</template>
+                                                            <template v-else>/一括</template>
+                                                        </div>
+                                                    </template>
+                                                </template>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>用途地域</th>
