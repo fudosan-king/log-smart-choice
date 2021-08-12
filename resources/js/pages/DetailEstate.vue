@@ -490,7 +490,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-12 col-lg-12">
-                            <h2 class="title">表参道エリアの物件</h2>
+                            <h2 class="title">{{ estate.address.city }}エリアの物件</h2>
                             <template v-if="estate._id">
                                 <div>
                                     <estates-near-component :estate-id="estate._id"></estates-near-component>

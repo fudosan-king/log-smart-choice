@@ -90,7 +90,6 @@ footer .modal_register ul li {
     margin-right: 0px;
 }
 
-
 /* @media (max-width: 1000px) {
     .i_white {
         display: none !important;
@@ -114,23 +113,82 @@ footer .modal-footer {
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+    -webkit-appearance: none;
+    margin: 0;
 }
 
 /* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
+input[type='number'] {
+    -moz-appearance: textfield;
 }
 
 .container .title {
     text-align: center;
 }
 
-.container .subtitle-announcement-condition, .container .subtitle-register {
+.container .subtitle-announcement-condition,
+.container .subtitle-register {
     text-align: center;
 }
 
 .estate_name_title {
     padding-top: 2%;
+}
+
+/* #### Mobile Phones Portrait #### */
+@media screen and (max-device-width: 480px) and (orientation: portrait) {
+    .section_accinfo .container {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+}
+
+/* #### Mobile Phones Landscape #### */
+@media screen and (max-device-width: 640px) and (orientation: landscape) {
+    .section_accinfo .container {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+}
+
+/* #### Mobile Phones Portrait or Landscape #### */
+@media screen and (max-device-width: 640px) {
+    .section_accinfo .container {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+}
+
+/* #### iPhone 4+ Portrait or Landscape #### */
+@media screen and (min-device-width: 320px) and (-webkit-min-device-pixel-ratio: 2) {
+    .section_accinfo .container {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+}
+
+/* #### iPhone 5 Portrait or Landscape #### */
+@media (device-height: 568px) and (device-width: 320px) and (-webkit-min-device-pixel-ratio: 2) {
+    .section_accinfo .container {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+}
+
+/* #### iPhone 6 and 6 plus Portrait or Landscape #### */
+@media (min-device-height: 667px) and (min-device-width: 375px) and (-webkit-min-device-pixel-ratio: 3) {
+    .section_accinfo .container {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .section_banner {
+        height: 250px;
+    }
+}
+
+.section_banner {
+    height: 500px;
 }

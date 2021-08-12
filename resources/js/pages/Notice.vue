@@ -4,10 +4,10 @@
                 <section class="p-0">
                     <div class="box_top mb-0">
                         <div class="container">
-                            <h2 class="title mb-3">{{ customerName }}様のお知らせ</h2>
-                            <p class="subtitle mb-2">
+                            <h2 class="title mb-3">{{ customerName }}へのお知らせ</h2>
+                            <!-- <p class="subtitle mb-2">
                                 <small>直近2週間のお知らせを新着順に掲載</small>
-                            </p>
+                            </p> -->
                         </div>
                     </div>
                 </section>
