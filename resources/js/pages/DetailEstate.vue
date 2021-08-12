@@ -238,7 +238,7 @@
                                                     ／バルコニー面積: {{ estate.balcony_space}}m²
                                                 </template>
                                                 <br />
-                                                {{ estate.ground_floors }}／{{ estate.structure }}
+                                                {{ estate.ground_floors ? estate.ground_floors + '階建' : '' }}／{{ estate.structure }}
                                             </p>
                                         </template>
                                         <template v-else>
@@ -333,8 +333,8 @@
                                             <th>構造・階建・所在階・方角</th>
                                             <td>
                                                 {{ estate.structure ? estate.structure + '／' : '' }}
-                                                {{ estate.ground_floors ? estate.ground_floors + '／' : ''}}
-                                                {{ estate.room_floor ? estate.room_floor : ''}}
+                                                {{ estate.ground_floors ? estate.ground_floors + '階建／' : ''}}
+                                                {{ estate.room_floor ? estate.room_floor + '階部分/' : ''}}
                                                 <template v-if="estate.window_direction == 'n'">／北</template>
                                                 <template v-else-if="estate.window_direction == 'ne'">／北東</template>
                                                 <template v-else-if="estate.window_direction == 'e'">／東</template>
