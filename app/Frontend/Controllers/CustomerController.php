@@ -78,15 +78,15 @@ class CustomerController extends Controller
             }
         }
 
-        if ($phoneNumber) {
-            if (strlen($phoneNumber) != 11) {
-                return $this->response(422, ['phone_number' => [__('customer.phonenumber_invalid')]], []);
-            }
+        // if ($phoneNumber) {
+        //     if (strlen($phoneNumber) != 11) {
+        //         return $this->response(422, ['phone_number' => [__('customer.phonenumber_invalid')]], []);
+        //     }
 
-            if (!preg_match($patternPhoneNumber, $phoneNumber)) {
-                return $this->response(422, ['phone_number' => [__('customer.phonenumber_invalid')]], []);
-            }
-        }
+        //     if (!preg_match($patternPhoneNumber, $phoneNumber)) {
+        //         return $this->response(422, ['phone_number' => [__('customer.phonenumber_invalid')]], []);
+        //     }
+        // }
 
         if ($landLine) {
             if (strlen($landLine) != 11) {
@@ -98,12 +98,12 @@ class CustomerController extends Controller
             }
         }
 
-        if ($birthday) {
-            if (!checkdate((int)$birthday['month'], (int)$birthday['day'], (int)$birthday['year'])) {
-                return $this->response(422, ['birthday' => [__('customer.birthday_invalid')]], []);
-            }
-            $birthday = (int)$birthday['year'] . '-' . $birthday['month'] . '-' . $birthday['day'];
-        }
+        // if ($birthday) {
+        //     if (!checkdate((int)$birthday['month'], (int)$birthday['day'], (int)$birthday['year'])) {
+        //         return $this->response(422, ['birthday' => [__('customer.birthday_invalid')]], []);
+        //     }
+        //     $birthday = (int)$birthday['year'] . '-' . $birthday['month'] . '-' . $birthday['day'];
+        // }
 
         try {
             $customer = Customer::find($customerId);

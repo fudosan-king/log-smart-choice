@@ -69,7 +69,7 @@
                                     <span v-if="!$v.customerInfo.email.required">メールが必要です</span>
                                     <span v-if="!$v.customerInfo.email.email">メールが無効です</span>
                                 </div>
-                                <h4>電話番号</h4>
+                                <!-- <h4>電話番号</h4>
                                 <input
                                     type="text"
                                     v-model="customerInfo.phone_number"
@@ -86,7 +86,7 @@
                                     <span>
                                         {{ errorsApi.phone_number[0] }}
                                     </span>
-                                </div>
+                                </div> -->
                                 <h4>携帯番号</h4>
                                 <input
                                     type="text"
@@ -102,7 +102,7 @@
                                         {{ errorsApi.land_line[0] }}
                                     </span>
                                 </div>
-                                <h4>生年月日</h4>
+                                <!-- <h4>生年月日</h4>
                                 <div class="row">
                                     <div class="col-4 col-lg-4">
                                         <div class="box_date">
@@ -160,15 +160,6 @@
                                             />
                                             <span>日</span>
                                         </div>
-                                    </div>
-                                </div>
-                                <!-- <h4>パスワード</h4>
-                                <div class="row no-gutters">
-                                    <div class="col-4 col-lg-4 align-self-center">
-                                        <p class="head">未設定</p>
-                                    </div>
-                                    <div class="col-8 col-lg-8 align-self-center">
-                                        <a href="/customer/change-password" class="btn btnedit">設定</a>
                                     </div>
                                 </div> -->
                                 <button type="button" class="btn btnsave my-5" @click="submit()">保存</button>

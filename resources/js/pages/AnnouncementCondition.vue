@@ -7,8 +7,7 @@
                         <h2 class="title mb-3">メルマガ配信希望条件</h2>
                         <p class="subtitle subtitle-announcement-condition mb-2">
                             <small
-                                >ご希望の条件にチェックを付けてください。<br />
-                                希望条件にあった物件をメールでお送りします。</small
+                                >あなたのご希望条件にマッチした物件をメールでいち早くお知らせします。</small
                             >
                         </p>
                     </div>

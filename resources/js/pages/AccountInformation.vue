@@ -30,19 +30,19 @@
                                 <div class="col-8 col-lg-8 align-self-center">
                                     <p>{{ customerInfo.email ? customerInfo.email : '-/-' }}</p>
                                 </div>
-                                <div class="col-4 col-lg-4 align-self-center">
+                                <!-- <div class="col-4 col-lg-4 align-self-center">
                                     <p class="head">電話番号：</p>
                                 </div>
                                 <div class="col-8 col-lg-8 align-self-center">
                                     <p>{{ convertPhone(customerInfo.phone_number) }}</p>
-                                </div>
+                                </div> -->
                                 <div class="col-4 col-lg-4 align-self-center">
                                     <p class="head">携帯番号：</p>
                                 </div>
                                 <div class="col-8 col-lg-8 align-self-center">
                                     <p>{{ convertPhone(customerInfo.land_line) }}</p>
                                 </div>
-                                <div class="col-4 col-lg-4 align-self-center">
+                                <!-- <div class="col-4 col-lg-4 align-self-center">
                                     <p class="head">生年月日：</p>
                                 </div>
                                 <div class="col-8 col-lg-8 align-self-center">
@@ -53,7 +53,7 @@
                                                 : '-'
                                         }}
                                     </p>
-                                </div>
+                                </div> -->
                             </div>
                             <h4>メルマガ配信希望条件</h4>
                             <div class="row no-gutters">

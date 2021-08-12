@@ -40,14 +40,14 @@
                             v-bind:class="[homeBlackClass]"
                             width="15"
                         />
-                        <span v-if="userName">{{ userName }}様</span>
+                        <span v-if="userName">ログイン中</span>
                         <span v-else>ログイン</span>
                     </a>
                     <div class="dropdown_user_content" style="display: none;">
                         <ul>
-                            <li>
+                            <!-- <li>
                                 <a href="javascript:void(0)" v-if="userName">{{ userName }}様</a>
-                            </li>
+                            </li> -->
                             <li>
                                 <a href="/customer/information">会員登録情報</a>
                             </li>
@@ -166,6 +166,24 @@
                                             </li>
                                         </ul>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="" id="headingOne">
+                                    <h2 class="mb-0">
+                                        <button
+                                            class="btn btn-block text-center"
+                                            type="button"
+                                            data-toggle="collapse"
+                                            data-target="#collapseOne"
+                                            aria-expanded="true"
+                                            aria-controls="collapseOne"
+                                            ref="showArea"
+                                            v-on:click="closeSearch()"
+                                        >
+                                            閉じる
+                                        </button>
+                                    </h2>
                                 </div>
                             </div>
                             <!-- <div class="card">
@@ -320,6 +338,11 @@ export default {
             event.preventDefault();
             $('.dropdown_search_content').slideToggle('fast');
             $('.dropdown_user_content').hide();
+        },
+
+        closeSearch() {
+            $('.dropdown_user_content').hide();
+            $('.dropdown_search_content').hide();
         },
 
         // dropSearchByType(type = 'area') {

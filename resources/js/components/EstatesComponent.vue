@@ -1,7 +1,7 @@
 <template>
     <div class="col-12 col-lg-12">
         <h2 class="title">{{ titleSearch }}</h2>
-        <p class="subtitle mb-4">リノベーション・中古マンション物件一覧</p>
+        <!-- <p class="subtitle mb-4">リノベーション・中古マンション物件一覧</p> -->
         <ul v-if="estates.length" class="list_property" v-on:scroll="handleScroll">
             <li
                 v-for="(estate, index) in estates"
@@ -77,7 +77,7 @@ export default {
             hasMore: true,
             accessToken: false,
             lastEstate: [],
-            titleSearch: '全物件',
+            titleSearch: '全ての物件一覧',
         };
     },
     components: {
