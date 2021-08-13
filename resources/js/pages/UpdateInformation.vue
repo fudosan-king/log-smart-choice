@@ -87,7 +87,7 @@
                                         {{ errorsApi.phone_number[0] }}
                                     </span>
                                 </div> -->
-                                <h4>携帯番号</h4>
+                                <h4>電話番号</h4>
                                 <input
                                     type="text"
                                     v-model="customerInfo.land_line"

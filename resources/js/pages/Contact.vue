@@ -215,6 +215,19 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div
+                                            class="g-recaptcha"
+                                            data-sitekey="6LczNncbAAAAAISz46BAWp4l5aFvln66UheX72it"
+                                            align="center"
+                                        ></div>
+                                        <div
+                                            v-if="submitted && Object.keys(errorMessage).length > 0"
+                                            class="invalid-feedback d-block"
+                                        >
+                                            <span v-if="typeof errorMessage.recaptcha != 'undefined'">{{
+                                                errorMessage.recaptcha
+                                            }}</span>
+                                        </div>
                                         <div class="box_content_footer">
                                             <p class="primary_policy">
                                                 ご入力いただいた情報は、当社のプライバシーポリシーに従って厳重に管理いたします。
@@ -257,19 +270,7 @@
                                                         >
                                                     </div>
                                                 </div>
-                                                <div
-                                                    class="g-recaptcha"
-                                                    data-sitekey="6LczNncbAAAAAISz46BAWp4l5aFvln66UheX72it"
-                                                    align="center"
-                                                ></div>
-                                                <div
-                                                    v-if="submitted && Object.keys(errorMessage).length > 0"
-                                                    class="invalid-feedback d-block"
-                                                >
-                                                    <span v-if="typeof errorMessage.recaptcha != 'undefined'">{{
-                                                        errorMessage.recaptcha
-                                                    }}</span>
-                                                </div>
+                                                
                                                 <button type="button" class="btn btnsave" @click="submitData">
                                                     上記に同意して確認画面へ
                                                     <img
