@@ -174,24 +174,24 @@
                                                     <input
                                                         type="number"
                                                         class="form-control"
-                                                        name="phone_number"
+                                                        name="land_line"
                                                         placeholder="例：0312341234"
-                                                        :value="phone_number"
-                                                        v-on:input="phone_number = $event.target.value"
+                                                        :value="land_line"
+                                                        v-on:input="land_line = $event.target.value"
                                                         :class="{
-                                                            'is-invalid': submitted && $v.phone_number.$error
+                                                            'is-invalid': submitted && $v.land_line.$error
                                                         }"
                                                     />
                                                     <div
-                                                        v-if="submitted && $v.phone_number.$error"
+                                                        v-if="submitted && $v.land_line.$error"
                                                         class="invalid-feedback"
                                                     >
-                                                        <span v-if="!$v.phone_number.required"
+                                                        <span v-if="!$v.land_line.required"
                                                             >電話番号を入力してください。</span
                                                         >
                                                         <span
                                                             v-if="
-                                                                !$v.phone_number.minLength || !$v.phone_number.maxLength
+                                                                !$v.land_line.minLength || !$v.land_line.maxLength
                                                             "
                                                             >電話番号が無効です</span
                                                         >
@@ -305,7 +305,7 @@ export default {
             disabled: false,
             email: '',
             full_name: '',
-            phone_number: '',
+            land_line: '',
             errorMessage: {},
             contactData: {},
             inquiryContent: '',
@@ -326,24 +326,19 @@ export default {
         full_name: {
             required
         },
-        phone_number: {
+        land_line: {
             required,
-            minLength: minLength(11),
+            minLength: minLength(10),
             maxLength: maxLength(11)
         }
     },
     mounted() {
         this.getEstate();
         this.getCustomerInformation();
-        this.getContactData();
         this.getListHopeDay();
         this.getListStartTime();
     },
     methods: {
-        getContactData() {
-            if (this.$getCookie('contactData').length > 0) {
-            }
-        },
         getEstate() {
             let data = {};
             if (this.$getCookie('estate_id').length) {
@@ -364,10 +359,11 @@ export default {
                     this.customer = resp;
                     this.full_name = resp.name + ' ' + resp.last_name;
                     this.email = resp.email;
-                    this.phone_number = resp.phone_number;
+                    this.land_line = resp.land_line;
+                    console.log(this.land_line);
                     if (this.$getCookie('contactData').length > 0) {
                         this.contactData = JSON.parse(this.$getCookie('contactData'));
-                        this.phone_number = this.contactData.phoneNumber;
+                        this.land_line = this.contactData.landLine;
                         this.full_name = this.contactData.fullName;
                         this.email = this.contactData.email;
                         this.inquiryContent = this.contactData.inquiryContent;
@@ -381,7 +377,7 @@ export default {
                 .catch(() => {
                     if (this.$getCookie('contactData').length > 0) {
                         this.contactData = JSON.parse(this.$getCookie('contactData'));
-                        this.phone_number = this.contactData.phoneNumber;
+                        this.land_line = this.contactData.landLine;
                         this.full_name = this.contactData.fullName;
                         this.email = this.contactData.email;
                         this.inquiryContent = this.contactData.inquiryContent;
@@ -418,7 +414,7 @@ export default {
             if (!this.$v.$invalid && this.submitted) {
                 data.email = this.email;
                 data.fullName = this.full_name;
-                data.phoneNumber = this.phone_number;
+                data.landLine = this.land_line;
                 data.inquiryContent = inquiryContent;
                 data.estateUrl = window.location.origin + '/detail/' + this.$getCookie('estate_id');
                 data.hopeDayFirst = hopeDayFirst;

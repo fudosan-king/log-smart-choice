@@ -10,7 +10,16 @@
                                     v-html="estate.estate_information.renovation_media[0].description">
                                 </small>
                             </template>
-                            
+                            <h3 class="estate_name_title">{{ estate.estate_name }}</h3>
+                            <p v-if="estate.address"
+                                >{{ estate.address.pref }}{{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}{{ estate.address.gaikutiban }}<br />
+                                専有面積{{ estate.tatemono_menseki }}m²
+                                <template v-if="estate.has_balcony != '無'">
+                                    ／バルコニー面積: {{ estate.balcony_space}}m²
+                                </template>
+                                <br />
+                                {{ estate.ground_floors ? estate.ground_floors + '階建' : '' }}／{{ estate.structure }}
+                            </p>
                         </p>
                     </div>
                 </div>
@@ -49,173 +58,6 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-12 col-lg-12">
-                            <div class="box_calcu">
-                                <h1>
-                                    リノベ＋物件価格
-                                    <span>{{ $lscFormatCurrency(estate.total_price ? estate.total_price : estate.price) }}</span
-                                    >万円
-                                </h1>
-                                <form action="" class="frm_calcu">
-                                    <div class="row">
-                                        <div class="col-12 col-lg-6">
-                                            <p class="text-center d-none d-lg-block">
-                                                <span class="title_simulation_result">毎月のお支払例</span>
-                                            </p>
-
-                                            <div class="box_simulation_result">
-                                                <p class="text-center d-block d-lg-none btn_simulation_result mb-3">毎月のお支払例</p>
-                                                <h2>{{$lscFormatCurrency(paymentMonthly)}}<span>円</span></h2>
-                                                <p class="text-center mt-3">
-                                                    <b>管理費：{{ $lscFormatCurrency(estate.management_fee) }}円／修繕積立金：{{ $lscFormatCurrency(estate.repair_reserve_fee) }}円 含む</b>
-                                                </p>
-                                            </div>
-
-                                            <p class="text-center box_showmore mt-5">
-                                                <a  @click="mobileHandleShow" 
-                                                    class="btn btnshowhide d-block d-lg-none"
-                                                    :class="{ 'show': mobileShow }"></a>
-                                            </p>
-
-                                            <div class="w_box_simulation_result" :class="{'show': mobileShow}">
-                                                <div class="row no-gutters">
-                                                    <div class="col-6 col-sm-6">
-                                                        <div class="form-group">
-                                                            <label for=""><b>毎月のローン返済額</b></label>
-                                                            <!-- <div class="d-flex align-items-center"> -->
-                                                                <p class="label_repayment_amount">{{ $lscFormatCurrency(monthlyLoan) }}<span><b>円</b></span></p>
-                                                                    <input
-                                                                        type="hidden"
-                                                                        class="form-control monthly-loan-payment"
-                                                                        :value="[[$lscFormatCurrency(monthlyLoan)]]"
-                                                                    />
-                                                                
-                                                            <!-- </div> -->
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for=""><b>ボーナス分返済金額（年2回）</b></label>
-                                                            <div class="d-flex align-items-center">
-                                                                <input
-                                                                    type="text"
-                                                                    class="form-control"
-                                                                    ref="lscBonus"
-                                                                    v-on:change="changeMoney('lscBonus', $event)"
-                                                                    :value="[[$lscFormatCurrency(bonus)]]"
-                                                                />
-                                                                <span class="ml-2 sub">円/回</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group mb-0">
-                                                            <label class="mb-0" for="">管理費</label>
-                                                            <h5>{{ $lscFormatCurrency(estate.management_fee) }}<span>円／月</span></h5>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label class="mb-0" for="">修繕積立金</label>
-                                                            <h5>{{$lscFormatCurrency(estate.repair_reserve_fee)}}<span>円／月</span></h5>
-                                                        </div>
-                                                    </div>
-                                                    <pie-chart-component class="col-6 col-sm-6" :parent-data="chartData"></pie-chart-component>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12 col-lg-6">
-                                            <div class="w_box_simulation_result" :class="{'show': mobileShow}">
-                                                <div class="form-group">
-                                                    <div class="row">
-                                                        <div class="col-6 col-lg-6">
-                                                            <label for="">自己資金（頭金）</label>
-                                                            <div class="d-flex align-items-center">
-                                                                <input
-                                                                    type="text"
-                                                                    class="form-control"
-                                                                    maxlength="4"
-                                                                    ref="lscOwnMoney"
-                                                                    v-on:change="changeMoney('lscOwnMoney', $event)"
-                                                                    :value="[[$lscFormatCurrency(ownMoney)]]"
-                                                                />
-                                                                <span class="ml-2 sub">万円</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-6 col-lg-6">
-                                                            <label for="">借入れ額（ローン）</label>
-                                                            <div class="d-flex align-items-center">
-                                                                <input
-                                                                    type="text"
-                                                                    class="form-control"
-                                                                    maxlength="4"
-                                                                    ref="lscBorrowedMoney"
-                                                                    v-on:change="changeMoney('lscBorrowedMoney', $event)"
-                                                                    :value="[[$lscFormatCurrency(borrowedMoney)]]"
-                                                                />
-                                                                <span class="ml-2 sub">万円</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group mb-5">
-                                                    <input
-                                                        type="text"
-                                                        class="js-range-slider"
-                                                        ref="lscMoneyRange"
-                                                        name="my_range"
-                                                        value=""
-                                                    />
-
-                                                    <!-- <range-slide-component></range-slide-component> -->
-                                                </div>
-                                                <hr />
-                                                <div class="form-group">
-                                                    <div class="row">
-                                                        <div class="col-6 col-lg-6">
-                                                            <label for="">返済期間</label>
-                                                            <div class="d-flex align-items-center">
-                                                                <input
-                                                                    type="number"
-                                                                    class="form-control pay-term"
-                                                                    ref="lscPaymentTerm"
-                                                                    min="0" max="35"
-                                                                    v-on:blur="changeMoney('lscPaymentTerm', $event)"
-                                                                    :value="[[paymentTerm]]"
-                                                                />
-                                                                <span class="ml-2 sub">年</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group mb-5">
-                                                    <input
-                                                        type="text"
-                                                        class="js-range-slider1"
-                                                        name="my_range"
-                                                        value=""
-                                                    />
-                                                </div>
-                                                <hr />
-                                                <div class="form-group">
-                                                    <div class="row">
-                                                        <div class="col-6 col-lg-6">
-                                                            <label for="">金利（元利均等）</label>
-                                                            <div class="d-flex align-items-center">
-                                                                <input
-                                                                    type="number"
-                                                                    class="form-control interest"
-                                                                    ref="lscPaymentInterest"
-                                                                    min="0" max="3"
-                                                                    v-on:blur="changeMoney('lscPaymentInterest', $event)"
-                                                                    :value="[[paymentInterest]]"
-                                                                />
-                                                                <span class="ml-2 sub">%</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <input type="text" class="js-range-slider2" name="my_range" value="" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-
                             <!-- Start Photos -->
 
                             <div class="box_renovation_specifications">
@@ -230,7 +72,7 @@
                                             class="img-fluid"
                                         />
                                         <template v-if="indexPhoto == 0">
-                                            <h3 class="estate_name_title">{{ estate.estate_name }}</h3>
+                                            <!-- <h3 class="estate_name_title">{{ estate.estate_name }}</h3>
                                             <p v-if="estate.address"
                                                 >{{ estate.address.pref }}{{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}{{ estate.address.gaikutiban }}<br />
                                                 専有面積{{ estate.tatemono_menseki }}m²
@@ -239,7 +81,7 @@
                                                 </template>
                                                 <br />
                                                 {{ estate.ground_floors ? estate.ground_floors + '階建' : '' }}／{{ estate.structure }}
-                                            </p>
+                                            </p> -->
                                         </template>
                                         <template v-else>
                                             <p class="describe" v-html="photo.description"></p>
@@ -247,7 +89,172 @@
                                         
                                     </div>
                                 </template>
+                                <div class="box_calcu">
+                                    <h1>
+                                        リノベ＋物件価格
+                                        <span>{{ $lscFormatCurrency(estate.total_price ? estate.total_price : estate.price) }}</span
+                                        >万円
+                                    </h1>
+                                    <form action="" class="frm_calcu">
+                                        <div class="row">
+                                            <div class="col-12 col-lg-6">
+                                                <p class="text-center d-none d-lg-block">
+                                                    <span class="title_simulation_result">毎月のお支払例</span>
+                                                </p>
 
+                                                <div class="box_simulation_result">
+                                                    <p class="text-center d-block d-lg-none btn_simulation_result mb-3">毎月のお支払例</p>
+                                                    <h2>{{$lscFormatCurrency(paymentMonthly)}}<span>円</span></h2>
+                                                    <p class="text-center mt-3">
+                                                        <b>管理費：{{ $lscFormatCurrency(estate.management_fee) }}円／修繕積立金：{{ $lscFormatCurrency(estate.repair_reserve_fee) }}円 含む</b>
+                                                    </p>
+                                                </div>
+
+                                                <p class="text-center box_showmore mt-5">
+                                                    <a  @click="mobileHandleShow" 
+                                                        class="btn btnshowhide d-block d-lg-none"
+                                                        :class="{ 'show': mobileShow }"></a>
+                                                </p>
+
+                                                <div class="w_box_simulation_result" :class="{'show': mobileShow}">
+                                                    <div class="row no-gutters">
+                                                        <div class="col-6 col-sm-6">
+                                                            <div class="form-group">
+                                                                <label for=""><b>毎月のローン返済額</b></label>
+                                                                <!-- <div class="d-flex align-items-center"> -->
+                                                                    <p class="label_repayment_amount">{{ $lscFormatCurrency(monthlyLoan) }}<span><b>円</b></span></p>
+                                                                        <input
+                                                                            type="hidden"
+                                                                            class="form-control monthly-loan-payment"
+                                                                            :value="[[$lscFormatCurrency(monthlyLoan)]]"
+                                                                        />
+                                                                    
+                                                                <!-- </div> -->
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for=""><b>ボーナス分返済金額（年2回）</b></label>
+                                                                <div class="d-flex align-items-center">
+                                                                    <input
+                                                                        type="text"
+                                                                        class="form-control"
+                                                                        ref="lscBonus"
+                                                                        v-on:change="changeMoney('lscBonus', $event)"
+                                                                        :value="[[$lscFormatCurrency(bonus)]]"
+                                                                    />
+                                                                    <span class="ml-2 sub">円/回</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group mb-0">
+                                                                <label class="mb-0" for="">管理費</label>
+                                                                <h5>{{ $lscFormatCurrency(estate.management_fee) }}<span>円／月</span></h5>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="mb-0" for="">修繕積立金</label>
+                                                                <h5>{{$lscFormatCurrency(estate.repair_reserve_fee)}}<span>円／月</span></h5>
+                                                            </div>
+                                                        </div>
+                                                        <pie-chart-component class="col-6 col-sm-6" :parent-data="chartData"></pie-chart-component>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-lg-6">
+                                                <div class="w_box_simulation_result" :class="{'show': mobileShow}">
+                                                    <div class="form-group">
+                                                        <div class="row">
+                                                            <div class="col-6 col-lg-6">
+                                                                <label for="">自己資金（頭金）</label>
+                                                                <div class="d-flex align-items-center">
+                                                                    <input
+                                                                        type="text"
+                                                                        class="form-control"
+                                                                        maxlength="4"
+                                                                        ref="lscOwnMoney"
+                                                                        v-on:change="changeMoney('lscOwnMoney', $event)"
+                                                                        :value="[[$lscFormatCurrency(ownMoney)]]"
+                                                                    />
+                                                                    <span class="ml-2 sub">万円</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6 col-lg-6">
+                                                                <label for="">借入れ額（ローン）</label>
+                                                                <div class="d-flex align-items-center">
+                                                                    <input
+                                                                        type="text"
+                                                                        class="form-control"
+                                                                        maxlength="4"
+                                                                        ref="lscBorrowedMoney"
+                                                                        v-on:change="changeMoney('lscBorrowedMoney', $event)"
+                                                                        :value="[[$lscFormatCurrency(borrowedMoney)]]"
+                                                                    />
+                                                                    <span class="ml-2 sub">万円</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group mb-5">
+                                                        <input
+                                                            type="text"
+                                                            class="js-range-slider"
+                                                            ref="lscMoneyRange"
+                                                            name="my_range"
+                                                            value=""
+                                                        />
+
+                                                        <!-- <range-slide-component></range-slide-component> -->
+                                                    </div>
+                                                    <hr />
+                                                    <div class="form-group">
+                                                        <div class="row">
+                                                            <div class="col-6 col-lg-6">
+                                                                <label for="">返済期間</label>
+                                                                <div class="d-flex align-items-center">
+                                                                    <input
+                                                                        type="number"
+                                                                        class="form-control pay-term"
+                                                                        ref="lscPaymentTerm"
+                                                                        min="0" max="35"
+                                                                        v-on:blur="changeMoney('lscPaymentTerm', $event)"
+                                                                        :value="[[paymentTerm]]"
+                                                                    />
+                                                                    <span class="ml-2 sub">年</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group mb-5">
+                                                        <input
+                                                            type="text"
+                                                            class="js-range-slider1"
+                                                            name="my_range"
+                                                            value=""
+                                                        />
+                                                    </div>
+                                                    <hr />
+                                                    <div class="form-group">
+                                                        <div class="row">
+                                                            <div class="col-6 col-lg-6">
+                                                                <label for="">金利（元利均等）</label>
+                                                                <div class="d-flex align-items-center">
+                                                                    <input
+                                                                        type="number"
+                                                                        class="form-control interest"
+                                                                        ref="lscPaymentInterest"
+                                                                        min="0" max="3"
+                                                                        v-on:blur="changeMoney('lscPaymentInterest', $event)"
+                                                                        :value="[[paymentInterest]]"
+                                                                    />
+                                                                    <span class="ml-2 sub">%</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <input type="text" class="js-range-slider2" name="my_range" value="" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
                                 <div class="renovation_specifications_table">
                                     <table class="table">
                                         <tr>
@@ -490,7 +497,10 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-12 col-lg-12">
-                            <h2 class="title">{{ estate.address.city }}エリアの物件</h2>
+                            <template v-if="estate.address">
+                                <h2 class="title">{{ estate.address.city }}エリアの物件</h2>
+                            </template>
+                            
                             <template v-if="estate._id">
                                 <div>
                                     <estates-near-component :estate-id="estate._id"></estates-near-component>

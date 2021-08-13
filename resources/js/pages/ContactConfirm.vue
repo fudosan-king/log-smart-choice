@@ -81,7 +81,7 @@
                                                                 </td>
                                                                 <td id="phone-number" class="confirm-text">
                                                                     <span>{{
-                                                                        convertPhone(contactData.phoneNumber)
+                                                                        convertPhone(contactData.landLine)
                                                                     }}</span>
                                                                 </td>
                                                             </tr>
@@ -182,7 +182,7 @@
                                                 <input
                                                     name="電話番号"
                                                     type="text"
-                                                    :value="convertPhone(contactData.phoneNumber)"
+                                                    :value="convertPhone(contactData.landLine)"
                                                 />
                                             </div>
 
@@ -262,7 +262,7 @@ export default {
             $('input[name="第2希望日時"]').val(this.contactData.hopeDaySecond + ' ' + this.contactData.startTimeSecond);
             $('input[name="お名前"]').val(this.contactData.fullName);
             $('input[name="メールアドレス"]').val(this.contactData.email);
-            $('input[name="電話番号"]').val(this.contactData.phoneNumber);
+            $('input[name="電話番号"]').val(this.contactData.landLine);
             $('input[name="estate_url"]').val(this.contactData.estateUrl);
             $('textarea[name="第1希望日時"]').val(this.contactData.inquiryContent);
             this.$setCookie('contactData', '', 1);
