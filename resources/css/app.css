@@ -188,6 +188,11 @@ input[type='number'] {
         height: 250px;
     }
 }
+@media (max-width: 375px) {
+    .dropdown_user .dropdown_user_content {
+        right: -67px;
+    }
+}
 
 .section_banner {
     height: 500px;
