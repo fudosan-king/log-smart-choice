@@ -37,7 +37,7 @@
                                     <p>{{ convertPhone(customerInfo.phone_number) }}</p>
                                 </div> -->
                                 <div class="col-4 col-lg-4 align-self-center">
-                                    <p class="head">携帯番号：</p>
+                                    <p class="head">電話番号：</p>
                                 </div>
                                 <div class="col-8 col-lg-8 align-self-center">
                                     <p>{{ convertPhone(customerInfo.land_line) }}</p>

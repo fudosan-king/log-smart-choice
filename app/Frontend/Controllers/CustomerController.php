@@ -89,7 +89,7 @@ class CustomerController extends Controller
         // }
 
         if ($landLine) {
-            if (strlen($landLine) != 11) {
+            if (strlen($landLine) != 11 && strlen($landLine) != 10) {
                 return $this->response(422, ['land_line' => [__('customer.landline_invalid')]], []);
             }
 
