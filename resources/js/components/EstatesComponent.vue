@@ -1,6 +1,6 @@
 <template>
     <div class="col-12 col-lg-12">
-        <h2 class="title">{{ titleSearch }}</h2>
+        <h1 class="title">{{ titleSearch }}</h1>
         <!-- <p class="subtitle mb-4">リノベーション・中古マンション物件一覧</p> -->
         <ul v-if="estates.length" class="list_property" v-on:scroll="handleScroll">
             <li
@@ -157,12 +157,12 @@ export default {
                 });
             }
             if (this.$getCookie('district') && districtCode != '') {
-                this.titleSearch = this.$getCookie('district');
+                this.titleSearch = this.$getCookie('district') + 'の物件';
                 window.localStorage.setItem('searchCode', this.titleSearch);
             }
 
             if (this.$getCookie('station') && companyCode != '') {
-                this.titleSearch = this.$getCookie('station');
+                this.titleSearch = this.$getCookie('station') + 'の物件';
                 window.localStorage.setItem('searchCode', this.titleSearch);
             }
 

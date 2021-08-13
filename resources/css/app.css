@@ -183,17 +183,22 @@ input[type='number'] {
     }
 }
 
+
+.section_banner {
+    height: 500px;
+}
+
 @media (max-width: 768px) {
     .section_banner {
         height: 250px;
     }
-}
-@media (max-width: 375px) {
     .dropdown_user .dropdown_user_content {
         right: -67px;
     }
 }
 
-.section_banner {
-    height: 500px;
+@media (max-width: 375px) {
+    .dropdown_user .dropdown_user_content {
+        right: -67px;
+    }
 }

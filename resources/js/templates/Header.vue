@@ -82,7 +82,7 @@
                     </a>
                     <div class="dropdown_search_content" style="display: none;">
                         <div class="accordion" id="accordionExample">
-                        <!-- <div class="card">
+                        <div class="card">
                                 <div class="card-header" id="headingOne">
                                     <h2 class="mb-0">
                                         <button
@@ -124,32 +124,6 @@
                                         </ul>
                                     </div>
                                 </div>
-                            </div> -->
-                        <div class="card">
-                        <div class="card-header" id="headingOne">
-                          <h2 class="mb-0">
-                            <button class="btn btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                              <img src="images/svg/i_map_black.svg" alt="" class="img-fluid" width="18"> エリアから探す
-                            </button>
-                          </h2>
-                        </div>
-
-                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample" style="">
-                            <div class="card-body">
-                                <ul>
-                                    <li><a href="#">足立区</a></li>
-                                    <li><a href="">荒川区</a></li>
-                                    <li><a href="">板橋区</a></li>
-                                    <li><a href="">江戸川区</a></li>
-                                    <li><a href="">大田区</a></li>
-                                    <li><a href="">葛飾区</a></li>
-                                    <li><a href="">北区</a></li>
-                                    <li><a href="">江東区</a></li>
-                                    <li><a href="">品川区</a></li>
-                                    <li><a href="">渋谷区</a></li>
-                                    <li><a href="">新宿区</a></li>
-                                </ul>
-                            </div>
                         </div>
                       </div>
                             <div class="card">

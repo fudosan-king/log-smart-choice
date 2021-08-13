@@ -115,6 +115,11 @@
                 ><img src="/assets/images/svg/i_call.svg" alt="" class="img-fluid" width="18" />03-6897-8564</a
             >
         </div>
+        <div class="footer_bottom fixed-bottom align-center" v-if="routeName == 'home' || routeName == 'list'">
+            <a class="btn" href="javascript:void(0)" v-on:click="floatButtonEvent"
+                >あなたの希望条件を入力</a
+            >
+        </div>
         <div
             class="modal fade modal_register"
             id="modal_register"
@@ -189,11 +194,12 @@ export default {
         return {
             logoSliver: logoSliver,
             iLocationBlack: iLocationBlack,
-            contactPart: ''
+            contactPart: '',
         };
     },
     mounted() {
         this.showContactPart();
+        // this.currentRouteName();
     },
     methods: {
         showContactPart() {
@@ -237,6 +243,20 @@ export default {
             let routeContact = this.$router.resolve({ name: 'contact' }).href;
             this.$setCookie('estate_id', currentUrl[2], 1);
             window.open(window.location.origin + routeContact, '_blank');
+        },
+
+        floatButtonEvent() {
+            let accessToken = this.$getCookie('accessToken');
+            if (accessToken.length > 0) {
+                this.$router.push({ name: 'announcementCondition' });
+            } else {
+                this.$router.push({ name: 'login' });
+            }
+        }
+    },
+    computed: {
+        routeName () {
+            return this.$route.name;
         }
     }
 };

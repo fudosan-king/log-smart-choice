@@ -485,7 +485,7 @@ header.subheader.compressed .i_white {
     flex-wrap: wrap;
     justify-content: flex-start;
     align-items: stretch;
-    align-content: stretch;
+    align-content: flex-start;
     height: 250px;
     overflow: auto;
 }
