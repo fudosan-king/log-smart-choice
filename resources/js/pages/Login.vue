@@ -111,9 +111,6 @@
                                             新規会員登録
                                         </router-link>
                                     </p>
-
-
-                                    
                                 </form>
                             </div>
                         </div>
@@ -149,6 +146,14 @@ export default {
                 maxLength: maxLength(255)
             }
         }
+    },
+    mounted: function() {
+        this.intervalId = setInterval(() => {
+            if (window.pageYOffset === 0) {
+                clearInterval(this.intervalId);
+            }
+            window.scroll(0, window.pageYOffset - 50);
+        }, 20);
     },
     methods: {
         login() {
@@ -189,7 +194,8 @@ export default {
                 { scope: 'public_profile, email' }
             );
             return false;
-        }
+        },
+
     }
 };
 </script>

@@ -52,4 +52,6 @@ return [
     'update_password_success' => 'Update password succcess',
     'update_password_fail' => 'Update password fail',
     'email_has_active' => 'Email has been actived',
+    'name_required' => 'Name is not empty',
+    'name_validate' => 'Name is wrong format'
 ];

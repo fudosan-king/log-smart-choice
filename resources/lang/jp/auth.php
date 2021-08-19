@@ -49,4 +49,6 @@ return [
     'update_password_success' => 'Update password succcess',
     'update_password_fail' => 'Update password fail',
     'email_has_active' => 'メ-ルが確認しました。',
+    'name_required' => 'この項目は必須です',
+    'name_validate' => '無効な形式です'
 ];
