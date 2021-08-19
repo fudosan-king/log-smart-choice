@@ -1,10 +1,5 @@
 <template>
-    <!-- <template v-if="checkItem == 1"> -->
     <a href="javascript:void(0);" class="btn_wishlist" @click="onClick" :class="{ on: isActive }"></a>
-    <!-- </template>
-    <template  v-else> -->
-    <!-- <a href="javascript:void(0);" class="btn_wishlist" @click="onClick" :class="{on: isActive}"></a> -->
-    <!-- </template> -->
 </template>
 
 <script>

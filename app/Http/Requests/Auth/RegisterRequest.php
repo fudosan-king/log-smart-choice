@@ -24,6 +24,8 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
+            'name'                  => ['required','regex:/^[a-zA-Z]+$/'],
+            'last_name'             => ['required','regex:/^[a-zA-Z]+$/'],
             'email'                 => 'required| string| email| max:100| unique:customers',
             'password'              => ['required', 'string', ' min:8', 'confirmed', 'regex:/^(?=.*[A-Z]|[a-z])(?=.*\d).+$/'],
             'password_confirmation' => 'required|string|min:8',
@@ -40,6 +42,10 @@ class RegisterRequest extends FormRequest
             'email.max'          => __('auth.email_max_length'),
             'email.email'        => __('auth.email_invalid'),
             'email.unique'       => __('auth.email_already_exist'),
+            'name.required'      => __('auth.name_required'),
+            'name.regex'         => __('auth.name_validate'),
+            'last_name.required' => __('auth.name_required'),
+            'last_name.regex'    => __('auth.name_validate'),
             'password.required'  => __('auth.password_required'),
             'password.min'       => __('auth.pass_word_min_length_include_alphabet'),
             'password.regex'     => __('auth.pass_word_min_length_include_alphabet'),

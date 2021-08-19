@@ -57,12 +57,21 @@ class CustomerController extends Controller
         $patternPhoneNumber = '/^(?=\d).*$/';
 
         $rule = [
-            'name' => 'required',
-            'last_name' => 'required',
+            'name' => ['required','regex:/^[a-zA-Z]+$/'],
+            'last_name' => ['required','regex:/^[a-zA-Z]+$/'],
             'email' => 'required|email',
         ];
 
-        $validate = Validator::make($request->all(), $rule);
+        $messages = [
+            'email.required'     => __('auth.email_required'),
+            'email.email'        => __('auth.email_invalid'),
+            'name.required'      => __('auth.name_required'),
+            'name.regex'         => __('auth.name_validate'),
+            'last_name.required' => __('auth.name_required'),
+            'last_name.regex'    => __('auth.name_validate'),
+        ];
+
+        $validate = Validator::make($request->all(), $rule, $messages);
 
         if ($validate->fails()) {
             return $this->response(422, $validate->errors(), []);

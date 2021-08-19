@@ -34,6 +34,9 @@
                                     <WishlistComponent :data-wished="estate.is_wish"></WishlistComponent>
                                 </a>
                             </template>
+                            <template v-else>
+                                <a href="/login" class="btn_wishlist"></a>
+                            </template>
                         </div>
                     </div>
                 </div>

@@ -34,6 +34,57 @@
                             
                             <form autocomplete="off" @submit.prevent="submit" class="frm_settingpass">
                                 <div class="form-group">
+                                    <label for="">名前 <span class="red">必須</span></label>
+                                    <div class="row">
+                                        <div class="col-6 col-lg-6 align-self-center">
+                                            <input
+                                                v-model="customer.name"
+                                                type="text"
+                                                class="form-control"
+                                                placeholder="例：木村"
+                                                :class="{
+                                                    'is-invalid':
+                                                    (submitted && $v.customer.name.$error) ||
+                                                    (errorsApi.name && errorsApi.name.length)
+                                                }"
+                                            />
+                                            <div v-if="errorsApi.name && errorsApi.name.length" class="invalid-feedback">
+                                                <span>
+                                                    {{ errorsApi.name[0] }}
+                                                </span>
+                                            </div>
+                                            <div v-if="submitted && $v.customer.name.$error" class="invalid-feedback">
+                                                <span v-if="!$v.customer.name.required">この項目は必須です</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6 col-lg-6 align-self-center">
+                                            <input
+                                                v-model="customer.last_name"
+                                                type="text"
+                                                class="form-control"
+                                                placeholder="例：衛"
+                                                :class="{
+                                                    'is-invalid':
+                                                    (submitted && $v.customer.last_name.$error) ||
+                                                    errorsApi.last_name && errorsApi.last_name.length
+                                                }"
+                                            />
+                                            <div
+                                                v-if="errorsApi.last_name && errorsApi.last_name.length"
+                                                class="invalid-feedback"
+                                            >
+                                                <span>
+                                                    {{ errorsApi.last_name[0] }}
+                                                </span>
+                                            </div>
+                                            <div v-if="submitted && $v.customer.last_name.$error" class="invalid-feedback">
+                                                <span v-if="!$v.customer.last_name.required">この項目は必須です</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
                                     <label for="">メールアドレス <span class="red">必須</span></label>
                                     <input
                                         type="text"
@@ -179,7 +230,9 @@ export default {
             customer: {
                 email: null,
                 password: null,
-                password_confirmation: ''
+                password_confirmation: '',
+                name: null,
+                last_name: null,
             },
             errors: [],
             errorsApi: {},
@@ -190,6 +243,12 @@ export default {
     },
     validations: {
         customer: {
+            name: {
+                required,
+            },
+            last_name: {
+                required,
+            },
             email: {
                 required,
                 email

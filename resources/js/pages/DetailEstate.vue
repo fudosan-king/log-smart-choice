@@ -259,10 +259,36 @@
                                     <table class="table">
                                         <tr>
                                             <th>マンション名</th>
-                                            <td>{{ estate.estate_name }}</td>
+                                            <td>{{ estate.estate_name }}{{ estate.area_bldg_name }}</td>
                                         </tr>
                                         <tr>
-                                            <th>管理費・修繕積立金</th>
+                                            <th>住所</th>
+                                            <td>
+                                                <template v-if="estate.address">
+                                                    {{ estate.address.pref }}{{ estate.address.city }}{{ estate.address.city }}
+                                                </template>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>アクセス</th>
+                                            <td>
+                                                <template v-if="estate.transports">
+                                                    <div v-for="transport in estate.transports">
+                                                        {{ transport.transport_company }} {{ transport.station_name }} {{ transport.station_to }} {{ transport.walk_mins }}
+                                                    </div>
+                                                </template>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th>物件価格</th>
+                                            <td>{{ estate.price }}円</td>
+                                        </tr>
+                                        <tr v-if="estate.management_fee">
+                                            <th>管理費</th>
+                                            <td>{{ $lscFormatCurrency(estate.management_fee) }}円</td>
+                                        </tr>
+                                        <tr v-if="estate.management_fee && estate.repair_reserve_fee">
+                                            <th>修繕積立金</th>
                                             <td>
                                                 管理費：{{ $lscFormatCurrency(estate.management_fee) }}円<br />
                                                 修繕積立金：{{ $lscFormatCurrency(estate.repair_reserve_fee) }}円
@@ -332,30 +358,51 @@
                                                 </template>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <th>入居時期</th>
-                                            <td>{{ estateInfo.time_to_join ? estateInfo.time_to_join : '相談' }}</td>
+                                        <tr v-if="estate.tatemono_menseki">
+                                            <th>専有面積</th>
+                                            <td>{{ estate.tatemono_menseki }}m²</td>
+                                        </tr>
+                                        <tr v-if="estate.balcony_space">
+                                            <th>バルコニー面積</th>
+                                            <td>{{ estate.balcony_space }}m²</td>
                                         </tr>
                                         <tr>
-                                            <th>構造・階建・所在階・方角</th>
+                                            <th>間取り</th>a
+                                            <td>{{ estate.room_count }} {{ estate.room_kind }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>引渡時期</th>
                                             <td>
-                                                {{ estate.structure ? estate.structure + '／' : '' }}
+                                                <template v-if="estate.delivery">
+                                                    <div>{{ estate.delivery.delivery_date_type }}</div>
+                                                    <div>{{ estate.delivery.delivery_date }}</div>
+                                                    <div>{{ estate.delivery.delivery_date_about }}</div>
+                                                    <div>{{ estate.delivery.resident_span }}</div>
+                                                </template>
+                                            </td>
+                                        </tr>
+                                        <!-- <tr>
+                                            <th>入居時期</th>
+                                            <td>{{ estateInfo.time_to_join ? estateInfo.time_to_join : '相談' }}</td>
+                                        </tr> -->
+                                        <tr>
+                                            <th>構造</th>
+                                            <td>{{ estate.structure ? estate.structure : '' }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>階建・所在階</th>
+                                            <td>
                                                 {{ estate.ground_floors ? estate.ground_floors + '階建／' : ''}}
-                                                {{ estate.room_floor ? estate.room_floor + '階部分/' : ''}}
-                                                <template v-if="estate.window_direction == 'n'">／北</template>
-                                                <template v-else-if="estate.window_direction == 'ne'">／北東</template>
-                                                <template v-else-if="estate.window_direction == 'e'">／東</template>
-                                                <template v-else-if="estate.window_direction == 'se'">／南東</template>
-                                                <template v-else-if="estate.window_direction == 's'">／南</template>
-                                                <template v-else-if="estate.window_direction == 'sw'">／南西</template>
-                                                <template v-else-if="estate.window_direction == 'w'">／西</template>
-                                                <template v-else-if="estate.window_direction == 'nw'">／北西</template>
-                                                <template v-else>／方角</template>
+                                                {{ estate.room_floor ? estate.room_floor + '階部分' : ''}}
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>総戸数</th>
                                             <td>{{ estate.total_houses }}戸</td>
+                                        </tr>
+                                        <tr>
+                                            <th>方角</th>
+                                            <td>{{ estate.window_direction }}</td>
                                         </tr>
                                         <tr>
                                             <th>築年月</th>
@@ -367,20 +414,23 @@
                                                 }}
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <!-- <tr>
                                             <th>施工会社</th>
                                             <td>{{ estate.constructor }}</td>
-                                        </tr>
+                                        </tr> -->
                                         <tr>
-                                            <th>管理会社・管理形態</th>
+                                            <th>管理会社</th>
                                             <td>
-                                                {{ estate.management_company ? estate.management_company + '／' : ''
-                                                }}{{ estate.management_scope }}
+                                                {{ estate.management_company }}
                                             </td>
                                         </tr>
                                         <tr>
+                                            <th>管理形態・管理方式</th>
+                                            <td>{{ estate.management_scope }}</td>
+                                        </tr>
+                                        <tr>
                                             <th>土地権利</th>
-                                            <td>
+                                            <!-- <td>
                                                 <template v-if="estate.land_rights == '所有権のみ'">
                                                     <div>{{ estate.land_rights }}</div>
                                                 </template>
@@ -426,24 +476,34 @@
                                                         </div>
                                                     </template>
                                                 </template>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th>用途地域</th>
+                                            </td> -->
                                             <template v-if="estate.area_purpose">
                                                 <td>{{ estate.area_purpose.main }}{{ estate.area_purpose.sub }}</td>
                                             </template>
-                                            
                                         </tr>
                                         <tr>
-                                            <th>小学校区域・中学校区域</th>
+                                            <th>現況</th>
+                                            <td> {{ estate.house_status }} </td>
+                                        </tr>
+                                        <tr>
+                                            <th>国土法</th>
+                                            <td>{{ estate.land_law_report }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>取引態様</th>
+                                            <td>{{ estate.trade_type }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>情報更新日</th>
                                             <td>
                                                 {{
-                                                    estateInfo.near_primary_high_school
-                                                        ? estateInfo.near_primary_high_school
-                                                        : '-'
+                                                     moment(estate.date_last_modified).format('YYYY年MM月')
                                                 }}
                                             </td>
+                                        </tr>
+                                        <tr>
+                                            <th>更新予定日</th>
+                                            <td>{{ moment().weekday(8).format('YYYY/MM/DD H:MM') }}</td>
                                         </tr>
                                     </table>
 
@@ -560,6 +620,7 @@ export default {
             totalPrice: 0,
             mobileFirstTime: true,
             carParkNote: '',
+            everyMonday: '',
         };
     },
     mounted() {
