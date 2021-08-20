@@ -284,14 +284,14 @@
                                             <td>
                                                 <template v-if="estate.transports">
                                                     <div v-for="transport in estate.transports">
-                                                        {{ transport.transport_company }} {{ transport.station_name }} {{ transport.station_to }} {{ transport.walk_mins }}
+                                                        {{ transport.transport_company }} {{ transport.station_name }} {{ transport.station_to == 'walk' ? '徒歩' : ''}} {{ transport.walk_mins ? transport.walk_mins + '分' : '' }}
                                                     </div>
                                                 </template>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>物件価格</th>
-                                            <td>{{ estate.price }}円</td>
+                                            <td>{{ estate.price }}万円</td>
                                         </tr>
                                         <tr v-if="estate.management_fee">
                                             <th>管理費</th>
@@ -412,7 +412,16 @@
                                         </tr>
                                         <tr>
                                             <th>方角</th>
-                                            <td>{{ estate.window_direction }}</td>
+                                            <td>
+                                                <template v-if="estate.window_direction == 'n'">北</template>
+                                                <template v-if="estate.window_direction == 'ne'">北東</template>
+                                                <template v-if="estate.window_direction == 'e'">東</template>
+                                                <template v-if="estate.window_direction == 'se'">南東</template>
+                                                <template v-if="estate.window_direction == 's'">南</template>
+                                                <template v-if="estate.window_direction == 'sw'">南西</template>
+                                                <template v-if="estate.window_direction == 'w'">西</template>
+                                                <template v-if="estate.window_direction == 'nw'">北西</template>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>築年月</th>
@@ -440,7 +449,7 @@
                                         </tr>
                                         <tr>
                                             <th>土地権利</th>
-                                            <!-- <td>
+                                            <td>
                                                 <template v-if="estate.land_rights == '所有権のみ'">
                                                     <div>{{ estate.land_rights }}</div>
                                                 </template>
@@ -486,7 +495,7 @@
                                                         </div>
                                                     </template>
                                                 </template>
-                                            </td> -->
+                                            </td>
                                             <template v-if="estate.area_purpose">
                                                 <td>{{ estate.area_purpose.main }}{{ estate.area_purpose.sub }}</td>
                                             </template>
@@ -507,13 +516,13 @@
                                             <th>情報更新日</th>
                                             <td>
                                                 {{
-                                                     moment(estate.date_last_modified).format('YYYY年MM月')
+                                                     moment(estate.date_last_modified).format('YYYY年MM月DD日')
                                                 }}
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>更新予定日</th>
-                                            <td>{{ moment().weekday(8).format('YYYY/MM/DD H:MM') }}</td>
+                                            <td>{{ moment().weekday(8).format('YYYY年MM月DD日') }}</td>
                                         </tr>
                                     </table>
 
