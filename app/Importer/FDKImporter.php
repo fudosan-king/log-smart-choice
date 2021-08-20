@@ -3,6 +3,8 @@ namespace App\Importer;
 use App\Models\Estates;
 use GuzzleHttp\Client;
 use Exception;
+use Illuminate\Log\Logger;
+use Illuminate\Support\Facades\Log;
 use MongoDB;
 
 class FDKImporter {
@@ -44,7 +46,7 @@ class FDKImporter {
     	$client  = $this->getClient();
         try {
             $response = $client->request('GET', $this->apiPath, [
-            'query' => array('token' => $token),
+            'query' => array('token' => $token, 'limit' => env('LIMIT_ESTATE_FROM_FDK', 100)),
             'auth' => [
                 'fdk',
                 'test'

@@ -23,10 +23,12 @@
                 <div class="row">
                     <div class="col-10 col-lg-10">
                         <p class="property_name">{{ estate.estate_name }}</p>
-                        <p class="property_address">
-                            {{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}
+                        <p class="mb-0">
+                            <span class="property_address">
+                                {{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}
+                            </span>
+                            <span class="property_square">{{ estate.tatemono_menseki }}m²</span>
                         </p>
-                        <p class="property_square">{{ estate.tatemono_menseki }}m²</p>
                     </div>
                     <div class="col-2 col-lg-2">
                         <template v-if="accessToken">

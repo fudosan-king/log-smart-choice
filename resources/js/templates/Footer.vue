@@ -115,7 +115,7 @@
                 ><img src="/assets/images/svg/i_call.svg" alt="" class="img-fluid" width="18" />03-6897-8564</a
             >
         </div>
-        <div class="footer_bottom fixed-bottom align-center" v-if="routeName == 'home' || routeName == 'list'">
+        <div class="footer_bottom fixed-bottom align-center" v-if="routeName == 'home' || routeName == 'list' || routeName == 'listByCode'">
             <a class="btn" href="javascript:void(0)" v-on:click="floatButtonEvent"
                 >あなたの希望条件を入力</a
             >
@@ -199,7 +199,6 @@ export default {
     },
     mounted() {
         this.showContactPart();
-        // this.currentRouteName();
     },
     methods: {
         showContactPart() {

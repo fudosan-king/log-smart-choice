@@ -1,7 +1,7 @@
 <template>
     <main id="main">
-        <section class="section_banner" style="background-image: url('images/KV.jpg');">
-            <div class="caption d-none d-lg-block">
+        <section class="section_banner" style="background-image: url('/assets/images/takayamatei-800x534.jpg');">
+            <div class="caption">
                 <img src="/assets/images/svg/label.svg" alt="" class="img-fluid" width="430" />
                 <p>
                     住みたいエリア、広さ、予算、ライフスタイル…<br>
@@ -11,7 +11,7 @@
             </div>
             <ul>
                 <li>
-                    <a class="search-district" v-on:click="handleHeaderContentClick('district', $event)">
+                    <a class="btn_map search-district" v-on:click="handleHeaderContentClick('district', $event)">
                         <img
                             src="/assets/images/svg/i_map.svg"
                             alt=""
@@ -28,7 +28,7 @@
                     >
                 </li>
                 <li>
-                    <a class="search-station" v-on:click="handleHeaderContentClick('station', $event)">
+                    <a class="btn_stations search-station" v-on:click="handleHeaderContentClick('station', $event)">
                         <img
                             src="/assets/images/svg/i_stations.svg"
                             alt=""
