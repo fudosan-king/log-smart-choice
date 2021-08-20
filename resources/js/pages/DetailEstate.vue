@@ -18,11 +18,11 @@
                 <div class="box_top mb-0">
                     <div class="container">
                         <p class="subtitle mb-2">
-                            <!-- <template v-if="estate.estate_information">
+                            <template v-if="estate.estate_information">
                                 <small v-if="estate.estate_information.renovation_media[0]"
                                     v-html="estate.estate_information.renovation_media[0].description">
                                 </small>
-                            </template> -->
+                            </template>
                             <h3 class="estate_name_title">{{ estate.estate_name }}</h3>
                             <p v-if="estate.address"
                                 >{{ estate.address.pref }}{{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}{{ estate.address.gaikutiban }}<br />

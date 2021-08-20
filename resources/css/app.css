@@ -198,6 +198,9 @@ input[type='number'] {
     .section_near_property ul.list_property li .property_head .btn_wishlist {
         display: block;
     }
+    .section_banner .caption img {
+        max-width: 50%;
+    }
 }
 
 @media (max-width: 375px) {
@@ -208,4 +211,9 @@ input[type='number'] {
 
 .row .box_renovation_specifications .renovation_specifications_table table td {
     font-weight: 800;
+}
+
+.section_near_property ul.list_property li .property_img,
+.section_near_property ul.list_property li .property_img img {
+    height: 185px
 }
