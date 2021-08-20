@@ -1,15 +1,28 @@
 <template>
     <main>
         <div class="box_template">
+            <section class="section_subbanner p-0">
+                <template v-if="estate.estate_information">
+                    <template v-if="estate.estate_information.estate_main_photo[0]">
+                        <!-- {{ estate.estate_information.estate_main_photo[0] }} -->
+                        <img
+                        v-lazy="estate.estate_information.estate_main_photo[0] ?
+                        estate.estate_information.estate_main_photo[0].url_path : '/images/no-image.png'"
+                        alt=""
+                        class="img-fluid w-100"
+                        />
+                    </template>
+                </template>
+            </section>
             <section class="p-0">
                 <div class="box_top mb-0">
                     <div class="container">
                         <p class="subtitle mb-2">
-                            <template v-if="estate.estate_information">
+                            <!-- <template v-if="estate.estate_information">
                                 <small v-if="estate.estate_information.renovation_media[0]"
                                     v-html="estate.estate_information.renovation_media[0].description">
                                 </small>
-                            </template>
+                            </template> -->
                             <h3 class="estate_name_title">{{ estate.estate_name }}</h3>
                             <p v-if="estate.address"
                                 >{{ estate.address.pref }}{{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}{{ estate.address.gaikutiban }}<br />
@@ -27,10 +40,7 @@
 
             <section class="p-0 section_carousel">
                 <div class="carousel_property">
-                    <div
-                        class="carousel carousel-main"
-                        data-flickity='{"contain": true, "prevNextButtons": false, "pageDots": false }'
-                    >
+                    <div class="carousel carousel-main">
                         <div class="carousel-cell" v-for="photo in mainPhoto">
                             <img
                                 :src="photo.url_path ? photo.url_path : '/images/no-image.png'"
@@ -89,7 +99,7 @@
                                         
                                     </div>
                                 </template>
-                                <div class="box_calcu">
+                                <div class="box_calcu mt-5">
                                     <h1>
                                         リノベ＋物件価格
                                         <span>{{ $lscFormatCurrency(estate.total_price ? estate.total_price : estate.price) }}</span
@@ -110,7 +120,7 @@
                                                     </p>
                                                 </div>
 
-                                                <p class="text-center box_showmore mt-5">
+                                                <p class="text-center box_showmore">
                                                     <a  @click="mobileHandleShow" 
                                                         class="btn btnshowhide d-block d-lg-none"
                                                         :class="{ 'show': mobileShow }"></a>
@@ -258,7 +268,7 @@
                                 <div class="renovation_specifications_table">
                                     <table class="table">
                                         <tr>
-                                            <th>マンション名</th>
+                                            <th width="45%">マンション名</th>
                                             <td>{{ estate.estate_name }}{{ estate.area_bldg_name }}</td>
                                         </tr>
                                         <tr>
@@ -367,7 +377,7 @@
                                             <td>{{ estate.balcony_space }}m²</td>
                                         </tr>
                                         <tr>
-                                            <th>間取り</th>a
+                                            <th>間取り</th>
                                             <td>{{ estate.room_count }} {{ estate.room_kind }}</td>
                                         </tr>
                                         <tr>
@@ -842,9 +852,9 @@ export default {
             autoPlay: true
         });
         $('.carousel-main').flickity({
-            pageDots: false,
             contain: true,
-            prevNextButtons: false
+            pageDots: false,
+            initialIndex: 1,
         });
         $('.carousel-nav').flickity({
             asNavFor: '.carousel-main',

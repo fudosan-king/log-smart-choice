@@ -57,9 +57,9 @@ class CustomerController extends Controller
         $patternPhoneNumber = '/^(?=\d).*$/';
 
         $rule = [
-            'name' => ['required','regex:/^[a-zA-Z]+$/'],
-            'last_name' => ['required','regex:/^[a-zA-Z]+$/'],
-            'email' => 'required|email',
+            'name'          => ['required','regex:/^(?!.*[!@#$%^&*(),.?":{}|<>])(?!.*\d).+$/'],
+            'last_name'     => ['required','regex:/^(?!.*[!@#$%^&*(),.?":{}|<>])(?!.*\d).+$/'],
+            'email'         => 'required|email',
         ];
 
         $messages = [

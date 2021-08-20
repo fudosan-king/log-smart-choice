@@ -314,8 +314,9 @@ class EstateController extends Controller
         }
 
         // Define list of columns that can be sorted server side
-        $sortableColumns = $this->getSortableColumns($dataType->browseRows);
+        //$sortableColumns = $this->getSortableColumns($dataType->browseRows);
 
+        $sortableColumns = "";
         $view = 'voyager::bread.browse';
 
         if (view()->exists("voyager::$slug.browse")) {

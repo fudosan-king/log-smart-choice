@@ -195,10 +195,17 @@ input[type='number'] {
     .dropdown_user .dropdown_user_content {
         right: -67px;
     }
+    .section_near_property ul.list_property li .property_head .btn_wishlist {
+        display: block;
+    }
 }
 
 @media (max-width: 375px) {
     .dropdown_user .dropdown_user_content {
         right: -67px;
     }
+}
+
+.row .box_renovation_specifications .renovation_specifications_table table td {
+    font-weight: 800;
 }
