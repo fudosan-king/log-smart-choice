@@ -275,7 +275,7 @@
                                             <th>住所</th>
                                             <td>
                                                 <template v-if="estate.address">
-                                                    {{ estate.address.pref }}{{ estate.address.city }}{{ estate.address.city }}
+                                                    {{ estate.address.pref }}{{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}{{ estate.address.gaikutiban }}
                                                 </template>
                                             </td>
                                         </tr>
@@ -284,42 +284,44 @@
                                             <td>
                                                 <template v-if="estate.transports">
                                                     <div v-for="transport in estate.transports">
-                                                        {{ transport.transport_company }} {{ transport.station_name }} {{ transport.station_to == 'walk' ? '徒歩' : ''}} {{ transport.walk_mins ? transport.walk_mins + '分' : '' }}
+                                                        {{ transport.transport_company }} {{ transport.station_name ? transport.station_name + '駅' : '' }} {{ transport.station_to == 'walk' ? '徒歩' : ''}}{{ transport.walk_mins ? transport.walk_mins + '分' : '' }}
                                                     </div>
                                                 </template>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>物件価格</th>
-                                            <td>{{ estate.price }}万円</td>
+                                            <td>{{ $lscFormatCurrency(estate.price) }}万円</td>
                                         </tr>
                                         <tr v-if="estate.management_fee">
                                             <th>管理費</th>
-                                            <td>{{ $lscFormatCurrency(estate.management_fee) }}円</td>
+                                            <td>{{ $lscFormatCurrency(estate.management_fee) }}円/月</td>
                                         </tr>
                                         <tr v-if="estate.management_fee && estate.repair_reserve_fee">
                                             <th>修繕積立金</th>
                                             <td>
-                                                管理費：{{ $lscFormatCurrency(estate.management_fee) }}円<br />
-                                                修繕積立金：{{ $lscFormatCurrency(estate.repair_reserve_fee) }}円
+                                                {{ $lscFormatCurrency(estate.repair_reserve_fee) }}円/月
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>その他費用</th>
                                             <td>
-                                                <template v-if="estate.carpark_type && estate.carpark_fee_min">
-                                                    <div>駐車場：{{ estate.carpark_type }} {{ estate.carpark_fee_min }}円/{{ estate.carpark_manage_fee.per == 'm' ? '月' : '年' }}</div>
+                                                <template v-if="estate.repair_reserve_initial_fee">
+                                                    <div>修繕積立基金：{{ estate.repair_reserve_initial_fee }}円</div>
+                                                </template>
+                                                <template v-if="estate.carpark_fee_min">
+                                                    <div>駐車場：{{ $lscFormatCurrency(estate.carpark_fee_min) }}円/{{ estate.carpark_manage_fee.per == 'm' ? '月' : '年' }}</div>
+                                                </template>
+                                                <template v-if="estate.bike_park_price">
+                                                    <div>バイク：{{ $lscFormatCurrency(estate.bike_park_price) }}円/{{ estate.bike_park_price_per == 'm' ? '月' : '年' }}</div>
+                                                </template>
+                                                <template v-if="estate.bicycles_park_price">
+                                                    <div>駐輪場：{{ $lscFormatCurrency(estate.bicycles_park_price) }}円/{{ estate.bicycles_park_price_per == 'm' ? '月' : '年' }}</div>
                                                 </template>
                                                 <template v-if="estate.homes">
                                                     <template v-if="carParkNote">
                                                         <div v-html="carParkNote"></div>
                                                     </template>
-                                                </template>
-                                                <template v-if="estate.bike_park && estate.bike_park_price">
-                                                    <div>バイク：{{ estate.bike_park }} {{ estate.bike_park_price }}円/{{ estate.bike_park_price_per == 'm' ? '月' : '年' }}</div>
-                                                </template>
-                                                <template v-if="estate.bicycles_park && estate.bicycles_park_price">
-                                                    <div>駐輪場：{{ estate.bicycles_park }} {{ estate.bicycles_park_price }}円/{{ estate.bicycles_park_price_per == 'm' ? '月' : '年' }}</div>
                                                 </template>
                                                 <template v-if="(estate.usen_fee) || 
                                                 (estate.internet_fee) || 
@@ -332,24 +334,24 @@
                                                             <ul v-if="estate.usen_fee.initial_cost && estate.usen_fee.repeat_cost.price">
                                                                 <li>有線放送：
                                                                     <ul>
-                                                                        <li>初期費用: {{ estate.usen_fee.initial_cost}}円</li>
-                                                                        <li>定額費用: {{ estate.usen_fee.repeat_cost.price}}円/{{estate.usen_fee.repeat_cost.per == 'm' ? '月' : '年' }}</li>
+                                                                        <li>初期費用: {{ $lscFormatCurrency(estate.usen_fee.initial_cost) }}円</li>
+                                                                        <li>定額費用: {{ $lscFormatCurrency(estate.usen_fee.repeat_cost.price) }}円/{{estate.usen_fee.repeat_cost.per == 'm' ? '月' : '年' }}</li>
                                                                     </ul>
                                                                 </li>
                                                             </ul>
                                                             <ul v-if="estate.internet_fee.initial_cost && estate.internet_fee.repeat_cost.price">
                                                                 <li>インターネット：
                                                                     <ul>
-                                                                        <li>初期費用: {{ estate.internet_fee.initial_cost}}円</li>
-                                                                        <li>定額費用: {{ estate.internet_fee.repeat_cost.price}}円/{{estate.internet_fee.repeat_cost.per == 'm' ? '月' : '年' }}</li>
+                                                                        <li>初期費用: {{ $lscFormatCurrency(estate.internet_fee.initial_cost) }}円</li>
+                                                                        <li>定額費用: {{ $lscFormatCurrency(estate.internet_fee.repeat_cost.price) }}円/{{estate.internet_fee.repeat_cost.per == 'm' ? '月' : '年' }}</li>
                                                                     </ul>
                                                                 </li>
                                                             </ul>
                                                             <ul v-if="estate.catv_fee.initial_cost && estate.catv_fee.repeat_cost.price">
                                                                 <li>CATV：
                                                                     <ul>
-                                                                        <li>初期費用: {{ estate.catv_fee.initial_cost}}円</li>
-                                                                        <li>定額費用: {{ estate.catv_fee.repeat_cost.price}}円/{{estate.catv_fee.repeat_cost.per == 'm' ? '月' : '年' }}</li>
+                                                                        <li>初期費用: {{ $lscFormatCurrency(estate.catv_fee.initial_cost) }}円</li>
+                                                                        <li>定額費用: {{ $lscFormatCurrency(estate.catv_fee.repeat_cost.price) }}円/{{estate.catv_fee.repeat_cost.per == 'm' ? '月' : '年' }}</li>
                                                                     </ul>
                                                                 </li>
                                                             </ul>
@@ -358,12 +360,37 @@
                                                 </template>
                                                 <template v-if="estate.community_fee_type && estate.community_fee.price">
                                                     <div>
-                                                        町会費：{{ estate.community_fee_type }} {{ estate.community_fee.price }}円/{{estate.community_fee.per == 'm' ? '月' : '年' }}
+                                                        {{ estate.community_fee_type }}：{{ $lscFormatCurrency(estate.community_fee.price) }}円/<template v-if="estate.community_fee.per == 'm'">月</template><template v-else-if="estate.community_fee.per == 'y'">年</template><template v-else>一括</template>
+                                                    </div>
+                                                </template>
+                                                <template v-if="estate.spa_fee && estate.spa_fee.price">
+                                                    <div>
+                                                        温泉使用料：{{ $lscFormatCurrency(estate.spa_fee.price) }}円/<template v-if="estate.spa_fee.per == 'm'">月</template><template v-else-if="estate.spa_fee.per == 'y'">年</template><template v-else>一括</template>
                                                     </div>
                                                 </template>
                                                 <template v-if="otherFee.length > 0">
                                                     <div v-for="fees in otherFee">
-                                                        {{ fees.name }} : {{ fees.price }}円/{{fees.per == 'm' ? '月' : '年' }}
+                                                        {{ fees.name }} : {{ $lscFormatCurrency(fees.price) }}円/<template v-if="fees.per == 'm'">月</template><template v-else-if="fees.per == 'y'">年</template><template v-else>一括</template>
+                                                    </div>
+                                                </template>
+                                                <template v-if="estate.rights_fee && estate.rights_fee.fee">
+                                                    <div>
+                                                        権利金：{{ $lscFormatCurrency(estate.rights_fee.fee) }}円
+                                                    </div>
+                                                </template>
+                                                <template v-if="estate.deposit_fee && estate.deposit_fee.fee">
+                                                    <div>
+                                                        保証金：{{ $lscFormatCurrency(estate.deposit_fee.fee) }}円
+                                                    </div>
+                                                </template>
+                                                <template v-if="estate.guarantee_fee_depreciation">
+                                                    <div>
+                                                        保証金償却：{{ estate.guarantee_fee_depreciation }}{{ estate.deposit_fee.fee ? estate.deposit_fee.fee : '' }}
+                                                    </div>
+                                                </template>
+                                                <template v-if="estate.guarantee_fee && estate.guarantee_fee.fee">
+                                                    <div>
+                                                        敷金：{{ $lscFormatCurrency(estate.guarantee_fee.fee) }}円
                                                     </div>
                                                 </template>
                                             </td>
@@ -495,10 +522,10 @@
                                                         </div>
                                                     </template>
                                                 </template>
+                                                <template v-if="estate.area_purpose">
+                                                    <div>{{ estate.area_purpose.main }}{{ estate.area_purpose.sub }}</div>
+                                                </template>
                                             </td>
-                                            <template v-if="estate.area_purpose">
-                                                <td>{{ estate.area_purpose.main }}{{ estate.area_purpose.sub }}</td>
-                                            </template>
                                         </tr>
                                         <tr>
                                             <th>現況</th>

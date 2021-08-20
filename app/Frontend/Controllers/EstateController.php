@@ -181,13 +181,14 @@ class EstateController extends Controller
             'renovation_done_date', 'house_status', 'delivery', 'land_law_report', 'trade_type', 
              'decor', 'total_price', 'repair_reserve_fee', 'other_fee', 'total_houses', 'built_date', 'motoduke.company', 'constructor',
             'management_company', 'management_scope', 'land_rights', 'latitude', 'longitude',
-            'bicycles_park_price', 'usen_fee', 'internet_fee', 'catv_fee', 'community_fee_type', 'community_fee',
-            'area_purpose', 'carpark_fee_min', 'carpark_manage_fee', 'homes', 'carpark_type', 'carpark_fee_min',
+            'bicycles_park_price', 'usen_fee', 'internet_fee', 'catv_fee', 'community_fee', 'community_fee_type',
+            'area_purpose', 'carpark_fee_min', 'carpark_manage_fee', 'homes', 'carpark_fee_min',
             'carpark_manage_fee', 'bike_park', 'bike_park_price', 'bike_park_price_per', 'bicycles_park',
             'bicycles_park_price', 'bicycles_park_price_per', 'ground_floors', 'structure', 'window_direction',
             'has_balcony', 'balcony_space', 'land_rights', 'land_rights_detail', 'land_leashold_type', 'land_leashold_years',
             'land_leashold_months', 'land_leashold_limit', 'leasehold_ratio', 'land_fee_type', 'land_fee', 'land_fee_per',
-            'transports', 'room_count', 'room_kind'
+            'transports', 'room_count', 'room_kind', 'spa_fee', 'rights_fee', 'deposit_fee', 'guarantee_fee_depreciation', 'guarantee_fee',
+            'repair_reserve_initial_fee'
         )
             ->with('estateInformation')
             ->where('_id', $id)
