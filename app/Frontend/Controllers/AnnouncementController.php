@@ -113,7 +113,7 @@ class AnnouncementController extends Controller
             }
             $estates = Estates::select(
                 'estate_name', 'price', 'address', 'tatemono_menseki',
-                'total_price', 'transports', 'renovation_type', 'date_created', 'status'
+                'transports', 'renovation_type', 'date_created', 'status'
             )->where('status', '!=', Estates::STATUS_STOP)
                 ->whereIn('_id', $announcementList)
                 ->with('estateInformation')
@@ -161,7 +161,7 @@ class AnnouncementController extends Controller
                 }
 
                 if ($condition['price']) {
-                    $estates->whereBetween('total_price', [$condition['price']['min'], $condition['price']['max']]);
+                    $estates->whereBetween('price', [$condition['price']['min'], $condition['price']['max']]);
                 }
 
                 if ($condition['square']) {
@@ -218,7 +218,7 @@ class AnnouncementController extends Controller
                 }
 
                 if ($condition['price']) {
-                    $estates->whereBetween('total_price', [$condition['price']['min'], $condition['price']['max']]);
+                    $estates->whereBetween('price', [$condition['price']['min'], $condition['price']['max']]);
                 }
 
                 if ($condition['square']) {
@@ -265,7 +265,7 @@ class AnnouncementController extends Controller
                 }
 
                 if ($condition['price']) {
-                    $estates->whereBetween('total_price', [$condition['price']['min'], $condition['price']['max']]);
+                    $estates->whereBetween('price', [$condition['price']['min'], $condition['price']['max']]);
                 }
 
                 if ($condition['square']) {
@@ -315,13 +315,13 @@ class AnnouncementController extends Controller
         try {
             foreach ($customers as $customer) {
                 $condition = json_decode($customer->announcement_condition, true);
-                $estates = Estates::select('_id', 'room_count', 'room_kind', 'tatemono_menseki', 'address', 'date_created', 'total_price', 'estate_name');
+                $estates = Estates::select('_id', 'room_count', 'room_kind', 'tatemono_menseki', 'address', 'date_created', 'price', 'estate_name');
                 if ($condition['city']) {
                     $estates->whereIn('address.city', $condition['city']);
                 }
 
                 if ($condition['price']) {
-                    $estates->whereBetween('total_price', [$condition['price']['min'], $condition['price']['max']]);
+                    $estates->whereBetween('price', [$condition['price']['min'], $condition['price']['max']]);
                 }
 
                 if ($condition['square']) {

@@ -42,7 +42,7 @@
                                     <div class="col-6 col-lg-6">
                                         <div class="box_select">
                                             <select class="custom-select" v-model="minTotalPrices" :class="{
-                                                    'is-invalid': errorsApi.total_price && errorsApi.total_price.length
+                                                    'is-invalid': errorsApi.price && errorsApi.price.length
                                                 }">
                                                 <option
                                                     v-for="price in totalPrices"
@@ -52,11 +52,11 @@
                                                 >
                                             </select>
                                             <div
-                                                v-if="errorsApi.total_price && errorsApi.total_price.length"
+                                                v-if="errorsApi.price && errorsApi.price.length"
                                                 class="invalid-feedback"
                                             >
                                                 <span>
-                                                    {{ errorsApi.total_price[0] }}
+                                                    {{ errorsApi.price[0] }}
                                                 </span>
                                             </div>
                                         </div>

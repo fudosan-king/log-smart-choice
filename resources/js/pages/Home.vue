@@ -69,7 +69,7 @@
             @handleCloseClick="handleCloseSearch()">
 
         </search-component>
-        <section class="section_new_property">
+        <section class="section_near_property">
             <div class="container">
                 <div class="row">
                     <div class="col-12 col-lg-12">

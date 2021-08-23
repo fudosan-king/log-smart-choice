@@ -160,8 +160,8 @@
                                                 <p>{{ $estate['tatemono_menseki'] }}m²（{{ $estate['room_count'] }}{{ $estate['room_kind'] }}+DEN）</p>
                                             </td>
                                             <td style="padding-right: 45px;">
-                                                @if($estate['total_price'])
-                                                <p class="price">{{ $estate['total_price'] }}<span>万円</span></p>
+                                                @if($estate['price'])
+                                                <p class="price">{{ $estate['price'] }}<span>万円</span></p>
                                                 @endif
                                             </td>
                                         </tr>

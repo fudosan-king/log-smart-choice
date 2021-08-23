@@ -19,7 +19,7 @@
                             class="img-fluid"
                     /></a>
                     <p class="total_price">
-                        {{ wishtlistItem.total_price }}<span>万円</span
+                        {{ wishtlistItem.price }}<span>万円</span
                         ><span class="sub">（物件＋リノベーション）</span>
                     </p>
                     <p class="label_custom" v-if="wishtlistItem.renovation_type == 'カスタム可能物件'">
