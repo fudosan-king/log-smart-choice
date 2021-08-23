@@ -17,7 +17,7 @@
                 <div class="box_top mb-0">
                     <div class="container">
                         <p class="subtitle mb-2">
-                            <p class="estate_name_title">{{ estate.estate_information.article_title }}</p>
+                            <p class="estate_name_title" v-if="estate.estate_information">{{ estate.estate_information.article_title }}</p>
                             <p v-if="estate.address"
                                 >{{ estate.address.pref }}{{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}{{ estate.address.gaikutiban }}<br />
                                 専有面積{{ estate.tatemono_menseki }}m²
