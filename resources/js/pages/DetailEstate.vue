@@ -23,7 +23,7 @@
                                     v-html="estate.estate_information.renovation_media[0].description">
                                 </small>
                             </template>
-                            <h3 class="estate_name_title">{{ estate.estate_name }}</h3>
+                            <p class="estate_name_title">{{ estate.estate_information.article_title }}</p>
                             <p v-if="estate.address"
                                 >{{ estate.address.pref }}{{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}{{ estate.address.gaikutiban }}<br />
                                 専有面積{{ estate.tatemono_menseki }}m²

@@ -52,10 +52,7 @@
                         @foreach($dataType->addRows as $row)
                         @php if ($row->field == 'custom_field' ||
                                 $row->field == 'estate_equipment' ||
-                                $row->field == 'estate_flooring' ||
-                                $row->field == 'decor' ||
-                                $row->field == 'estate_name' ||
-                                $row->field == 'price') {
+                                $row->field == 'estate_flooring') {
                                 continue;
                                 }
                         @endphp
