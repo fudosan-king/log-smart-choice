@@ -59,11 +59,11 @@ class ImportFromFDKTest extends TestCase
         $importer->import();
         $this->assertTrue(count($importer->importedEstateIds) >= 1);
         $status = array(
-            '販売中',
-            '販売中',
-            '販売中',
-            '販売中',
-            '掲載止め'
+            '公開中',
+            '公開中',
+            '公開中',
+            '公開中',
+            '非公開'
         );
         $this->checkEstatesAfterImport($updatingEstates['estates'], $status);
         $notSaleUpdatedEstate = Estates::where('status', Estates::STATUS_END)->get();
@@ -77,11 +77,11 @@ class ImportFromFDKTest extends TestCase
         $importer->import();
         $this->assertTrue(count($importer->importedEstateIds) >= 1);
         $status = array(
-            '掲載止め',
-            '掲載止め',
-            '掲載止め',
-            '掲載止め',
-            '掲載止め'
+            '非公開',
+            '非公開',
+            '非公開',
+            '非公開',
+            '非公開'
         );
         $this->checkEstatesAfterImport($insertingestates['estates'], $status);
 

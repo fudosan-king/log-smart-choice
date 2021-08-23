@@ -1,7 +1,7 @@
 <template>
     <div class="col-12 col-lg-12">
         <template v-for="(announcement, index) in announcementList">
-            <div v-if="!announcement.is_read && announcement.status == '販売中'"
+            <div v-if="!announcement.is_read && announcement.status == '公開中'"
                 class="box_notice_item new"
                 :key="index._id"
                 v-bind:class="{ 'estate-last': index === announcementList.length - 1 }"
@@ -73,8 +73,8 @@
                                     class="img-fluid"
                                 />
                             </a>
-                            <span v-if="announcement.status != '販売中'"> 成約済</span>
-                            <span v-else> 新規物件</span>
+                            <span v-if="announcement.status != '公開中'"> 成約済</span>
+                            <span v-else>新規物件</span>
                         </div>
                     </div>
                     <div class="col-7 col-lg-6">

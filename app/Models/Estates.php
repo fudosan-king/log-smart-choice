@@ -16,10 +16,9 @@ class Estates extends Model
 
     protected $guarded = [];
 
-    const STATUS_SALE = '販売中';
-    const STATUS_STOP = '掲載止め';
-    const STATUS_CONTRACT = '請負中';
-    const STATUS_END = '終了';
+    const STATUS_SALE = '公開中';
+    const STATUS_STOP = '非公開';
+    const STATUS_END = '成約済';
     const LIMIT_ESTATE_NEAR_AREA = 8;
     const LIMIT_ESTATE_RECOMMEND = 16;
 
