@@ -86,7 +86,7 @@ class EstateInformation extends Seeder {
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'select_dropdown',
-                'display_name' => __('Status'),
+                'display_name' => __('ステータス'),
                 'required'     => 1,
                 'browse'       => 1,
                 'read'         => 1,
@@ -94,12 +94,11 @@ class EstateInformation extends Seeder {
                 'add'          => 1,
                 'delete'       => 1,
                 'details'      => [
-                    'default' => '掲載止め',
+                    'default' => '非公開',
                     'options' => [
-                        '掲載止め' => '掲載止め',
-                        '販売中' => '販売中',
-                        '請負中' => '請負中',
-                        '終了' => '終了'
+                        '非公開' => '非公開',
+                        '公開中' => '公開中',
+                        '成約済' => '成約済'
                     ]
                 ],
                 'order'        => 4,

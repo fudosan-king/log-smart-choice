@@ -45,15 +45,21 @@
                             </ul>
                         </div>
                         @endif
-
+                        <div class="form-group">
+                            <label for="name">タイトル</label>
+                            <input name="article_title" value="{{ $estateInfo->article_title ?? '' }}" class="form-control">
+                        </div>
                         @foreach($dataType->addRows as $row)
                         @php if ($row->field == 'custom_field' ||
                                 $row->field == 'estate_equipment' ||
                                 $row->field == 'estate_flooring' ||
-                                $row->field == 'decor') {
+                                $row->field == 'decor' ||
+                                $row->field == 'estate_name' ||
+                                $row->field == 'price') {
                                 continue;
                                 }
                         @endphp
+                        
                         <div class="form-group">
                             <label for="name">{{ $row->getTranslatedAttribute('display_name') }}</label>
 
@@ -62,10 +68,10 @@
                         </div>
                         @endforeach
 
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="name">Decor</label>
                             <input type="text" class="form-control" placeholder="0" value="{{ $dataTypeContent->decor ?? 0 }}" name="decor">
-                        </div>
+                        </div> -->
 <!-- 
                         @php
                         $custom_field = $dataTypeContent->custom_field;
@@ -88,10 +94,10 @@
                         @php
                         }
                         @endphp -->
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="name">入居時間</label>
                             <input name="time_to_join" value="{{ $estateInfo->time_to_join ?? '' }}" class="form-control">
-                        </div>
+                        </div> -->
 
                         <!-- <div class="form-group">
                             <label for="name">方角</label>
@@ -103,13 +109,10 @@
                             <input name="company_design" value="{{ $estateInfo->company_design ?? '' }}" class="form-control">
                         </div> -->
 
-                        <div class="form-group">
-                            <label for="name">小学校区域・中学校区域</label>
-                            <input name="near_primary_high_school" value="{{ $estateInfo->near_primary_high_school ?? '' }}" class="form-control">
-                        </div>
+                        
 
                         <div class="form-group">
-                            <label for="name">URL Google Map</label>
+                            <label for="name">MAP URL</label>
                             <input name="url_map" value="{{ $estateInfo->url_map ?? '' }}" class="form-control">
                         </div>
 
