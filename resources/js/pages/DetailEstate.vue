@@ -43,6 +43,18 @@
                             />
                         </div>
                     </div>
+                    <div
+                        class="carousel carousel-nav"
+                        data-flickity='{"asNavFor": ".carousel-main", "contain": true, "prevNextButtons": false, "pageDots": false }'
+                    >
+                        <div class="carousel-cell" v-for="photo in mainPhoto">
+                            <img
+                                :src="photo.url_path ? photo.url_path : '/images/no-image.png'"
+                                alt=""
+                                class="img-fluid"
+                            />
+                        </div>
+                    </div>
                     <section class="p-0">
                         <div class="box_top mb-0 title_estate_renovation">
                             <div class="container">
@@ -58,18 +70,6 @@
                             </div>
                         </div>
                     </section>
-                    <div
-                        class="carousel carousel-nav"
-                        data-flickity='{"asNavFor": ".carousel-main", "contain": true, "prevNextButtons": false, "pageDots": false }'
-                    >
-                        <div class="carousel-cell" v-for="photo in mainPhoto">
-                            <img
-                                :src="photo.url_path ? photo.url_path : '/images/no-image.png'"
-                                alt=""
-                                class="img-fluid"
-                            />
-                        </div>
-                    </div>
                 </div>
             </section>
 
