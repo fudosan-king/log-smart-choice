@@ -275,6 +275,7 @@
                                             <th>住所</th>
                                             <td>
                                                 <template v-if="estate.address">
+                                                    <div v-if="estate.address.zipcode">〒 {{ estate.address.zipcode }}</div>
                                                     {{ estate.address.pref }}{{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}{{ estate.address.gaikutiban }}
                                                 </template>
                                             </td>
@@ -405,16 +406,20 @@
                                         </tr>
                                         <tr>
                                             <th>間取り</th>
-                                            <td>{{ estate.room_count }} {{ estate.room_kind }}</td>
+                                            <td>{{ estate.room_count }}{{ estate.room_kind }}<template v-if="estate.service_rooms == 0"></template>
+                                            <template v-else-if="estate.service_rooms == 1">+S</template>
+                                            <template v-else-if="estate.service_rooms == 2">+SS</template>
+                                            <template v-if="estate.service_rooms == 3">+SSS</template>
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <th>引渡時期</th>
+                                            <th>引渡時間</th>
                                             <td>
                                                 <template v-if="estate.delivery">
-                                                    <div>{{ estate.delivery.delivery_date_type }}</div>
-                                                    <div>{{ estate.delivery.delivery_date }}</div>
-                                                    <div>{{ estate.delivery.delivery_date_about }}</div>
-                                                    <div>{{ estate.delivery.resident_span }}</div>
+                                                    <template v-if="estate.delivery.delivery_date_type == '即'">{{ estate.delivery.delivery_date_type }}</template>
+                                                    <template v-else-if="estate.delivery.delivery_date_type == '相談'">{{ estate.delivery.delivery_date_type }}</template>
+                                                    <template v-else-if="estate.delivery.delivery_date_type == '指定有り'">{{ estate.delivery.delivery_date_type }} {{ moment(estate.delivery.delivery_date).format('YYYY年MM月') }}{{ estate.delivery.delivery_date_about }}</template>
+                                                    <template v-else>契約後 {{ estate.delivery.resident_span }} ヶ月</template>
                                                 </template>
                                             </td>
                                         </tr>
@@ -429,13 +434,16 @@
                                         <tr>
                                             <th>階建・所在階</th>
                                             <td>
-                                                {{ estate.ground_floors ? estate.ground_floors + '階建／' : ''}}
-                                                {{ estate.room_floor ? estate.room_floor + '階部分' : ''}}
+                                                <template v-if="estate.total_houses != 0">
+                                                    {{ estate.ground_floors }}階建／{{ estate.room_floor }}階部分
+                                                </template>
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>総戸数</th>
-                                            <td>{{ estate.total_houses }}戸</td>
+                                            <td>
+                                                {{ estate.total_houses }}戸
+                                            </td>
                                         </tr>
                                         <tr>
                                             <th>方角</th>
@@ -472,7 +480,7 @@
                                         </tr>
                                         <tr>
                                             <th>管理形態・管理方式</th>
-                                            <td>{{ estate.management_scope }}</td>
+                                            <td>{{ estate.management_scope }}{{ estate.superintendent ? '／' + estate.superintendent : ''}}</td>
                                         </tr>
                                         <tr>
                                             <th>土地権利</th>
@@ -662,11 +670,11 @@ export default {
             paymentMonthly: 0,
             paymentMonthlyBonus: 0,
             bonus: 0,
-            chartData: [10,10,80],
+            chartData: [10, 10, 80],
             totalPrice: 0,
             mobileFirstTime: true,
             carParkNote: '',
-            everyMonday: '',
+            everyMonday: ''
         };
     },
     mounted() {
@@ -699,7 +707,7 @@ export default {
         this.getListEstates();
     },
     watch: {
-        totalPrice: function(newValue, oldValue) {
+        totalPrice: function (newValue, oldValue) {
             $('.js-range-slider').ionRangeSlider({
                 min: 0,
                 max: parseInt(newValue),
@@ -718,43 +726,46 @@ export default {
             let data = {};
             if (id.length) {
                 data.id = id;
-                this.$store.dispatch('getEstate', data).then(resp => {
-                    this.estate = resp.data.data.estate[0];
-                    window.localStorage.setItem('estateName', this.estate.estate_name);
-                    if (this.estate['estate_information']) {
-                        if (this.estate['estate_information']['estate_main_photo']) {
-                            this.mainPhoto = this.estate['estate_information']['estate_main_photo'];
-                        }
+                this.$store
+                    .dispatch('getEstate', data)
+                    .then((resp) => {
+                        this.estate = resp.data.data.estate[0];
+                        window.localStorage.setItem('estateName', this.estate.estate_name);
+                        if (this.estate['estate_information']) {
+                            if (this.estate['estate_information']['estate_main_photo']) {
+                                this.mainPhoto = this.estate['estate_information']['estate_main_photo'];
+                            }
 
-                        if (this.estate['other_fee']) {
-                            let data = {};
-                            this.estate['other_fee'].forEach((element, key) => {
-                                if (element.name && element.fee.price) {
-                                    data = {
-                                        name: element.name,
-                                        price: element.fee.price
-                                    };
-                                    this.otherFee.push(data);
-                                }
-                            });
+                            if (this.estate['other_fee']) {
+                                let data = {};
+                                this.estate['other_fee'].forEach((element, key) => {
+                                    if (element.name && element.fee.price) {
+                                        data = {
+                                            name: element.name,
+                                            price: element.fee.price
+                                        };
+                                        this.otherFee.push(data);
+                                    }
+                                });
+                            }
+                            this.estateInfo = this.estate['estate_information'];
+                            this.borrowedMoney = this.estate.total_price;
+                            this.totalPrice = this.estate.total_price;
+                            this.calculateMonthlyLoanPayment();
                         }
-                        this.estateInfo = this.estate['estate_information'];
-                        this.borrowedMoney = this.estate.total_price;
-                        this.totalPrice = this.estate.total_price;
-                        this.calculateMonthlyLoanPayment();
-                    }
-                    this.srcMap = this.estate['estate_information']['url_map'];
-                    // if (this.estate.latitude && this.estate.longitude) {
-                    //     this.srcMap =
-                    //         'https://www.google.com/maps?q=' +
-                    //         this.estate.latitude +
-                    //         ',' +
-                    //         this.estate.longitude +
-                    //         '&output=embed';
-                    // }
-                    let carParkNote = this.estate['homes']['carpark_note'];
-                    this.carParkNote = carParkNote.replace(/\n/g, '<br>');
-                }).catch(error => {});
+                        this.srcMap = this.estate['estate_information']['url_map'];
+                        // if (this.estate.latitude && this.estate.longitude) {
+                        //     this.srcMap =
+                        //         'https://www.google.com/maps?q=' +
+                        //         this.estate.latitude +
+                        //         ',' +
+                        //         this.estate.longitude +
+                        //         '&output=embed';
+                        // }
+                        let carParkNote = this.estate['homes']['carpark_note'];
+                        this.carParkNote = carParkNote.replace(/\n/g, '<br>');
+                    })
+                    .catch((error) => {});
             }
         },
         mobileHandleShow() {
@@ -782,28 +793,28 @@ export default {
         },
         changeRangeSlider(type, from) {
             let elementClass = '';
-            switch(type) {
+            switch (type) {
                 case 'ownMoney':
                     elementClass = '.js-range-slider';
                     break;
                 case 'paymentTerm':
-                    elementClass = '.js-range-slider1'
-                    break;  
+                    elementClass = '.js-range-slider1';
+                    break;
                 case 'paymentInterest':
                     elementClass = '.js-range-slider2';
-                    break;  
+                    break;
             }
             if (elementClass.length > 0) {
                 $(elementClass).data('ionRangeSlider').update({
-                    from: from,
+                    from: from
                 });
             }
         },
         changeMoney(type, event) {
             event.preventDefault();
             let currentValue = parseFloat(event.target.value);
-            switch(type) {
-                case 'lscOwnMoney': 
+            switch (type) {
+                case 'lscOwnMoney':
                     if (this.ownMoney == currentValue) {
                         return;
                     }
@@ -811,7 +822,7 @@ export default {
                     this.borrowedMoney = this.estate.total_price - this.ownMoney;
                     this.changeRangeSlider('ownMoney', this.ownMoney);
                     break;
-                case 'lscBorrowedMoney': 
+                case 'lscBorrowedMoney':
                     if (this.borrowedMoney == currentValue) {
                         return;
                     }
@@ -819,22 +830,21 @@ export default {
                     this.ownMoney = this.estate.total_price - this.borrowedMoney;
                     this.changeRangeSlider('ownMoney', this.ownMoney);
                     break;
-                case 'lscPaymentTerm': 
+                case 'lscPaymentTerm':
                     if (this.paymentTerm == currentValue) {
                         return;
                     }
                     let currentPaymentTerm = currentValue;
                     if (currentPaymentTerm < 0) {
                         this.paymentTerm = 0;
-                    }
-                    else if (currentPaymentTerm > 35) {
+                    } else if (currentPaymentTerm > 35) {
                         this.paymentTerm = 35;
                     } else {
                         this.paymentTerm = currentPaymentTerm;
                     }
                     this.changeRangeSlider('paymentTerm', this.paymentTerm);
                     break;
-                case 'lscPaymentInterest': 
+                case 'lscPaymentInterest':
                     if (this.paymentInterest == currentValue) {
                         return;
                     }
@@ -848,13 +858,13 @@ export default {
                     }
                     this.changeRangeSlider('paymentInterest', this.paymentInterest);
                     break;
-                case 'lscBonus': 
+                case 'lscBonus':
                     if (this.bonus == currentValue) {
                         return;
                     }
                     this.bonus = currentValue;
                     break;
-                default : 
+                default:
                     break;
             }
             this.calculateMonthlyLoanPayment();
@@ -862,7 +872,7 @@ export default {
         calculateMonthlyLoanPayment() {
             let interestPercen = this.paymentInterest / 100;
             let paymentTerm12 = this.paymentTerm * 12;
-            let interest12 = 1 + (interestPercen / 12);
+            let interest12 = 1 + interestPercen / 12;
             let interestWithMonth = Math.pow(interest12, paymentTerm12);
             let calBorrowedMoney = this.borrowedMoney * 10000;
 
@@ -873,12 +883,14 @@ export default {
             } else {
                 let sharePart = calBorrowedMoney * (interestPercen / 12) * interestWithMonth;
                 let dividedPart = interestWithMonth - 1;
-                this.monthlyLoan = Math.ceil((sharePart / dividedPart));
+                this.monthlyLoan = Math.ceil(sharePart / dividedPart);
             }
-            this.paymentMonthly = Math.ceil(this.monthlyLoan + this.estate.management_fee + this.estate.repair_reserve_fee);
-            this.paymentMonthlyBonus = Math.ceil(this.paymentMonthly + (this.bonus / 6));
+            this.paymentMonthly = Math.ceil(
+                this.monthlyLoan + this.estate.management_fee + this.estate.repair_reserve_fee
+            );
+            this.paymentMonthlyBonus = Math.ceil(this.paymentMonthly + this.bonus / 6);
             this.chartData = [this.estate.management_fee, this.estate.repair_reserve_fee, this.monthlyLoan];
-        },
+        }
     },
     updated() {
         let estate = this.estate;
@@ -890,7 +902,7 @@ export default {
         $('.carousel-main').flickity({
             contain: true,
             pageDots: false,
-            initialIndex: 1,
+            initialIndex: 1
         });
         $('.carousel-nav').flickity({
             asNavFor: '.carousel-main',
