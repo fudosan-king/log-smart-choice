@@ -66,7 +66,7 @@ class WishListController extends Controller
             $estateIds[] = $wishList->estate_id;
         }
 
-        $estates = Estates::select('estate_name', 'total_price', 'balcony_space',
+        $estates = Estates::select('estate_name', 'price', 'balcony_space',
             'address', 'tatemono_menseki', 'motoduke', 'room_count', 'room_kind',
             'room_floor')
             ->whereIn('_id', $estateIds)

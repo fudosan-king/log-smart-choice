@@ -17,7 +17,7 @@
                 <p class="label_custom renovated" v-else>リノベ済<br />物件</p>
                 <div class="w_property_head">
                     <p class="total_price">
-                        {{ estate.total_price }}<span>万円</span><span class="sub">（物件＋リノベーション）</span>
+                        {{ estate.price }}<span>万円</span><span class="sub">（物件＋リノベーション）</span>
                     </p>
                     <div class="property_head">
                         <div class="row">
@@ -31,7 +31,10 @@
                             <div class="col-2 col-lg-2">
                                 <template v-if="accessToken">
                                     <a @click="addToWishList(estate._id, estate.is_wish)">
-                                        <WishlistComponent :estate-id="estate._id" :data-wished="estate.is_wish"></WishlistComponent>
+                                        <WishlistComponent
+                                            :estate-id="estate._id"
+                                            :data-wished="estate.is_wish"
+                                        ></WishlistComponent>
                                     </a>
                                 </template>
                                 <template v-else>
@@ -44,7 +47,6 @@
             </div>
         </li>
     </ul>
-
 </template>
 
 <script>
@@ -65,7 +67,7 @@ export default {
         return {
             estates: [],
             accessToken: false,
-            existedEstate: false,
+            existedEstate: false
         };
     },
     components: {

@@ -4,7 +4,6 @@
             <section class="section_subbanner p-0">
                 <template v-if="estate.estate_information">
                     <template v-if="estate.estate_information.estate_main_photo[0]">
-                        <!-- {{ estate.estate_information.estate_main_photo[0] }} -->
                         <img
                         v-lazy="estate.estate_information.estate_main_photo[0] ?
                         estate.estate_information.estate_main_photo[0].url_path : '/images/no-image.png'"
@@ -18,11 +17,6 @@
                 <div class="box_top mb-0">
                     <div class="container">
                         <p class="subtitle mb-2">
-                            <template v-if="estate.estate_information">
-                                <small v-if="estate.estate_information.renovation_media[0]"
-                                    v-html="estate.estate_information.renovation_media[0].description">
-                                </small>
-                            </template>
                             <p class="estate_name_title">{{ estate.estate_information.article_title }}</p>
                             <p v-if="estate.address"
                                 >{{ estate.address.pref }}{{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}{{ estate.address.gaikutiban }}<br />
@@ -49,6 +43,21 @@
                             />
                         </div>
                     </div>
+                    <section class="p-0">
+                        <div class="box_top mb-0 title_estate_renovation">
+                            <div class="container">
+                                <div class="container">
+                                    <p class="subtitle mb-2">
+                                        <template v-if="estate.estate_information">
+                                            <small v-if="estate.estate_information.renovation_media[0]"
+                                                v-html="estate.estate_information.renovation_media[0].description">
+                                            </small>
+                                        </template>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                     <div
                         class="carousel carousel-nav"
                         data-flickity='{"asNavFor": ".carousel-main", "contain": true, "prevNextButtons": false, "pageDots": false }'
@@ -102,7 +111,7 @@
                                 <div class="box_calcu mt-5">
                                     <h1>
                                         リノベ＋物件価格
-                                        <span>{{ $lscFormatCurrency(estate.total_price ? estate.total_price : estate.price) }}</span
+                                        <span>{{ $lscFormatCurrency(estate.price ? estate.price : estate.price) }}</span
                                         >万円
                                     </h1>
                                     <form action="" class="frm_calcu">
@@ -749,8 +758,8 @@ export default {
                                 });
                             }
                             this.estateInfo = this.estate['estate_information'];
-                            this.borrowedMoney = this.estate.total_price;
-                            this.totalPrice = this.estate.total_price;
+                            this.borrowedMoney = this.estate.price;
+                            this.totalPrice = this.estate.price;
                             this.calculateMonthlyLoanPayment();
                         }
                         this.srcMap = this.estate['estate_information']['url_map'];
@@ -819,7 +828,7 @@ export default {
                         return;
                     }
                     this.ownMoney = currentValue;
-                    this.borrowedMoney = this.estate.total_price - this.ownMoney;
+                    this.borrowedMoney = this.estate.price - this.ownMoney;
                     this.changeRangeSlider('ownMoney', this.ownMoney);
                     break;
                 case 'lscBorrowedMoney':
@@ -827,7 +836,7 @@ export default {
                         return;
                     }
                     this.borrowedMoney = currentValue;
-                    this.ownMoney = this.estate.total_price - this.borrowedMoney;
+                    this.ownMoney = this.estate.price - this.borrowedMoney;
                     this.changeRangeSlider('ownMoney', this.ownMoney);
                     break;
                 case 'lscPaymentTerm':

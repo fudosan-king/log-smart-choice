@@ -37,7 +37,7 @@
                                 >
                             </p>
                             <p>{{ announcement.tatemono_menseki }}m²</p>
-                            <p>{{ announcement.total_price }}万円（物件＋リノベーション）</p>
+                            <p>{{ announcement.price }}万円（物件＋リノベーション）</p>
                         </div>
                     </div>
                 </div>
@@ -88,7 +88,7 @@
                                 >
                             </p>
                             <p>{{ announcement.tatemono_menseki }}m²</p>
-                            <p>{{ announcement.total_price }}万円（物件＋リノベーション）</p>
+                            <p>{{ announcement.price }}万円（物件＋リノベーション）</p>
                         </div>
                     </div>
                 </div>

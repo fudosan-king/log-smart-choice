@@ -180,22 +180,7 @@ class EstateInformation extends Seeder {
         ])->save();
       }
 
-        $dataRow = $this->dataRow($estateDataType, 'total_price');
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
-                'display_name' => __('Total price'),
-                'required'     => 0,
-                'browse'       => 0,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 0,
-                'delete'       => 0,
-                'order'        => 10,
-            ])->save();
-        }
-
-        $dataRow = $this->dataRow($estateDataType, 'renovation_type');
+      $dataRow = $this->dataRow($estateDataType, 'renovation_type');
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'select_dropdown',

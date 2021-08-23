@@ -314,9 +314,9 @@ class EstateController extends Controller
         }
 
         // Define list of columns that can be sorted server side
-        //$sortableColumns = $this->getSortableColumns($dataType->browseRows);
+        $sortableColumns = $this->getSortableColumns($dataType->browseRows);
 
-        $sortableColumns = "";
+
         $view = 'voyager::bread.browse';
 
         if (view()->exists("voyager::$slug.browse")) {
@@ -449,11 +449,6 @@ class EstateController extends Controller
                 ]);
             }
         }
-        $price = 0;
-        if (isset($data->price)) {
-            $price = $data->price;
-        }
-        $request['total_price'] = (float)$request->get('decor') + $price;
         $estate = Estates ::find($id);
 
         $this->increaseDecreaseEstateInDistrict($estate->address['city'], false, $id);
@@ -707,5 +702,26 @@ class EstateController extends Controller
             }
             $district->save();
         }
+    }
+
+    protected function getSortableColumns($rows)
+    {
+        return $rows->filter(function ($item) {
+            if ($item->type != 'relationship') {
+                return true;
+            }
+            if ($item->details->type != 'belongsTo') {
+                return false;
+            }
+
+            return !$this->relationIsUsingAccessorAsLabel($item->details);
+        })
+        ->pluck('field')
+        ->toArray();
+    }
+
+    protected function relationIsUsingAccessorAsLabel($details)
+    {
+        return in_array($details->label, app($details->model)->additional_attributes ?? []);
     }
 }

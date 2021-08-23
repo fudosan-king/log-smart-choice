@@ -146,7 +146,7 @@ class CustomerController extends Controller
         $square = $request->get('square');
 
         if ($price && $price['min'] > $price['max']) {
-            return $this->response(422, ['total_price' => [__('customer.price_invalid')]], []);
+            return $this->response(422, ['price' => [__('customer.price_invalid')]], []);
         }
 
         if ($square && $square['min'] > $square['max']) {

@@ -30,7 +30,7 @@
                                     <p class="label_custom renovated" v-else>リノベ済<br />物件</p>
                                     <div class="w_property_head">
                                         <p class="total_price">
-                                            {{ estate.total_price }}<span>万円</span><span class="sub">（物件＋リノベーション）</span>
+                                            {{ estate.price }}<span>万円</span><span class="sub">（物件＋リノベーション）</span>
                                         </p>
                                         <div class="property_head">
                                         <div class="row">

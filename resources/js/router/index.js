@@ -218,7 +218,7 @@ router.beforeEach((to, from, next) => {
     let estateID = to.params.estateId;
     if (to.name === 'detail') {
         axios.get(`${process.env.MIX_APP_URL}/api/get-meta-tags`,  {params: {estateID: estateID}}).then(response => {
-            let totalPrice = response.data.dataInfo.total_price;
+            let totalPrice = response.data.dataInfo.price;
             let address =  response.data.dataInfo.address.pref + response.data.dataInfo.address.city + response.data.dataInfo.address.ooaza + response.data.dataInfo.address.tyoume;
             title = `${response.data.dataInfo.estate_name}｜${address}｜${totalPrice}/${response.data.dataInfo.tatemono_menseki}/${response.data.dataInfo.room_floor}/${response.data.dataInfo.structure}｜Order Renove`
             document.title = title;

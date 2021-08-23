@@ -158,4 +158,25 @@ class MongoController extends VoyagerBaseController
             'showCheckboxColumn'
         ));
     }
+
+    protected function getSortableColumns($rows)
+    {
+        return $rows->filter(function ($item) {
+            if ($item->type != 'relationship') {
+                return true;
+            }
+            if ($item->details->type != 'belongsTo') {
+                return false;
+            }
+
+            return !$this->relationIsUsingAccessorAsLabel($item->details);
+        })
+        ->pluck('field')
+        ->toArray();
+    }
+
+    protected function relationIsUsingAccessorAsLabel($details)
+    {
+        return in_array($details->label, app($details->model)->additional_attributes ?? []);
+    }
 }

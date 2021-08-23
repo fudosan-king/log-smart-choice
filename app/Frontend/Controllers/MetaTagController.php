@@ -27,7 +27,7 @@ class MetaTagController extends Controller
             // return $this->response(422, 'Get list Transport company failed', []);
         $estateID = $request->get('estateID') ?? '';
         $estate = Estates::select('estate_name', 'address', 'tatemono_menseki',
-            'structure','room_floor', 'total_price'
+            'structure','room_floor', 'price'
         )
             ->where('_id', $estateID)
             ->get()->first()->toArray();

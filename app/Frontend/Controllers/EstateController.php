@@ -27,7 +27,7 @@ class EstateController extends Controller
     {
         $this->selectField = [
             'estate_name', 'price', 'address', 
-            'tatemono_menseki', 'total_price', 'transports',
+            'tatemono_menseki', 'price', 'transports',
             'renovation_type', 'date_created'
         ];
     }
@@ -88,11 +88,11 @@ class EstateController extends Controller
 
         // total price
         if ($priceFrom) {
-            $estates->where('total_price', '>=', $priceFrom);
+            $estates->where('price', '>=', $priceFrom);
         }
 
         if ($priceTo) {
-            $estates->where('total_price', '<=', $priceTo);
+            $estates->where('price', '<=', $priceTo);
         }
 
         // area
@@ -179,7 +179,7 @@ class EstateController extends Controller
         $estate = Estates::select('estate_name', 'area_bldg_name', 'address', 'price', 'custom_field', 'tatemono_menseki',
             'structure', 'management_fee', 'room_floor', 'total_houses', 'built_date', 'delivery', 'date_last_modified',
             'renovation_done_date', 'house_status', 'delivery', 'land_law_report', 'trade_type', 
-             'decor', 'total_price', 'repair_reserve_fee', 'other_fee', 'total_houses', 'built_date', 'motoduke.company', 'constructor',
+             'decor', 'repair_reserve_fee', 'other_fee', 'total_houses', 'built_date', 'motoduke.company', 'constructor',
             'management_company', 'management_scope', 'land_rights', 'latitude', 'longitude',
             'bicycles_park_price', 'usen_fee', 'internet_fee', 'catv_fee', 'community_fee', 'community_fee_type',
             'area_purpose', 'carpark_fee_min', 'carpark_manage_fee', 'homes', 'carpark_fee_min',
@@ -194,7 +194,7 @@ class EstateController extends Controller
             ->where('_id', $id)
             ->get();
         $estateAddress = $estate[0]['address'];
-        $estateNearAddress = Estates::select('renovation_type', 'total_price', 'address', 'tatemono_menseki')
+        $estateNearAddress = Estates::select('renovation_type', 'price', 'address', 'tatemono_menseki')
             ->where('_id', '!=', $id)
             ->where('address.city', $estateAddress['city'])->take(Estates::LIMIT_ESTATE_NEAR_AREA)->orderBy('date_created', 'desc')
             ->get();
