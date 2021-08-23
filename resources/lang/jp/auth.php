@@ -25,7 +25,7 @@ return [
     'password_not_match' => "Xác nhận mật khẩu không giống nhau",
     'link_check_token_password_fail' => "トークンの有効期限が切れています",
     'email_not_exist' => 'メールアドレが存在していません',
-    'email_already_exist' => 'こちらのメールはご存在しておりしませんました。 別のメールアドレスに記入ください。',
+    'email_already_exist' => 'こちらのメールアドレスは既に登録されております。',
     'reset_password' => '【Order Renove】パスワードの再設定',
     'token_null' => 'ログインができません。メールとパスワードをご確認ください。',
     'token_expired' => '確認メールの有効期限が切れました。 もう一度確認メールの再送信をご送信ください！',

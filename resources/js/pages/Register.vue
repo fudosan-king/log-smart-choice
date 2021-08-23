@@ -7,7 +7,7 @@
                         <h2 class="title mb-3">新規会員登録</h2>
                         <p class="subtitle subtitle-register mb-2">
                             <small>ようこそOrder-Renoveへ！<br>
-                            あなただけの新しいすまいづくりはここから</small>
+                            あなただけの新しい住まい探しはここから</small>
                         </p>
                     </div>
                 </div>
@@ -19,9 +19,9 @@
                             <div class="box_toplogin">
                                 <ul>
                                     <li>
-                                        <a class="btn" @click="facebookLogin" href="#"><img src="images/svg/i_fb.svg" alt="" class="img-fluid" width="24">Facebookでログイン</a>
+                                        <a class="btn" @click="facebookLogin" href="#"><img src="images/svg/i_fb.svg" alt="" class="img-fluid" width="24">Facebookで登録</a>
                                     </li>
-                                    <li><a class="btn" @click="googleLogin" href="#"><img src="images/svg/i_google.svg" alt="" class="img-fluid" width="24"> Googleでログイン</a></li>
+                                    <li><a class="btn" @click="googleLogin" href="#"><img src="images/svg/i_google.svg" alt="" class="img-fluid" width="24">Googleで登録</a></li>
                                 </ul>
 
                                 <div
