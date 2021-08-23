@@ -21,7 +21,7 @@
                                             v-model="customerInfo.name"
                                             type="text"
                                             class="form-control"
-                                            placeholder="例：木村"
+                                            placeholder="例：山田"
                                             :class="{
                                                 'is-invalid': errorsApi.name && errorsApi.name.length
                                             }"
@@ -38,7 +38,7 @@
                                             v-model="customerInfo.last_name"
                                             type="text"
                                             class="form-control"
-                                            placeholder="例：衛"
+                                            placeholder="例：太郎"
                                             :class="{
                                                 'is-invalid': errorsApi.last_name && errorsApi.last_name.length
                                             }"
