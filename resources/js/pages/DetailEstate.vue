@@ -539,9 +539,9 @@
                                                         </div>
                                                     </template>
                                                 </template>
-                                                <template v-if="estate.area_purpose">
+                                                <!-- <template v-if="estate.area_purpose">
                                                     <div>{{ estate.area_purpose.main }}{{ estate.area_purpose.sub }}</div>
-                                                </template>
+                                                </template> -->
                                             </td>
                                         </tr>
                                         <tr>
