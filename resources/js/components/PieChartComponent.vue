@@ -24,7 +24,8 @@ export default {
             plugins: {
                 datalabels: {
                     color: ['#EB5757', '#F2994A', '#F2C94C'],
-                }
+                    display: false
+                },
             }
         }
     }),
