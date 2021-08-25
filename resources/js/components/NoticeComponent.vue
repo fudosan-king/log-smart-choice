@@ -37,7 +37,7 @@
                                 >
                             </p>
                             <p>{{ announcement.tatemono_menseki }}m²</p>
-                            <p>{{ announcement.price }}万円（物件＋リノベーション）</p>
+                            <p>{{ announcement.price }}万円<template v-if="estate.renovation_type != 'リノベ済物件'">（物件＋リノベーション）</template></p>
                         </div>
                     </div>
                 </div>
@@ -88,7 +88,7 @@
                                 >
                             </p>
                             <p>{{ announcement.tatemono_menseki }}m²</p>
-                            <p>{{ announcement.price }}万円（物件＋リノベーション）</p>
+                            <p>{{ announcement.price }}万円<template v-if="estate.renovation_type != 'リノベ済物件'">（物件＋リノベーション）</template></p>
                         </div>
                     </div>
                 </div>

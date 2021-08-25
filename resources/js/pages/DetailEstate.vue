@@ -110,7 +110,7 @@
                                 </template>
                                 <div class="box_calcu mt-5">
                                     <h1>
-                                        リノベ＋物件価格
+                                        <template v-if="estate.renovation_type != 'リノベ済物件'">リノベ＋</template>物件価格
                                         <span>{{ $lscFormatCurrency(estate.price ? estate.price : estate.price) }}</span
                                         >万円
                                     </h1>
@@ -751,7 +751,8 @@ export default {
                                     if (element.name && element.fee.price) {
                                         data = {
                                             name: element.name,
-                                            price: element.fee.price
+                                            price: element.fee.price,
+                                            per: element.fee.per
                                         };
                                         this.otherFee.push(data);
                                     }

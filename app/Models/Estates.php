@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use DateTime;
+use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Log;
 use Jenssegers\Mongodb\Eloquent\Model as Model;
 
 class Estates extends Model
@@ -98,6 +100,7 @@ class Estates extends Model
                 if ($estateData && $estateData->trade_status == self::STATUS_STOP) {
                     $estate->status = self::STATUS_STOP;
                 }
+                $estate->save();
             } elseif ($estate->date_last_modified != $estateData->date_last_modified) {
                 $estate->status = self::STATUS_STOP;
                 $estate->date_imported = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d H:i:s')) * 1000);
@@ -118,7 +121,7 @@ class Estates extends Model
                 $estate->save();
             }
         } catch (Exception $e) {
-            \Log::error($e);
+            Log::error($e);
         }
 
         return $estate;

@@ -3,7 +3,6 @@ namespace App\Importer;
 use App\Models\Estates;
 use GuzzleHttp\Client;
 use Exception;
-use Illuminate\Log\Logger;
 use Illuminate\Support\Facades\Log;
 use MongoDB;
 
@@ -52,11 +51,11 @@ class FDKImporter {
                 'test'
             ]]);
         } catch (Exception $e){
-            \Log::error(sprintf('Please try again. Maybe FDK have bussy!'));
+            Log::error(sprintf('Please try again. Maybe FDK have bussy!'));
             $response = null;
         }
     	if ($response && $response->getStatusCode() != '200') {
-            \Log::error(sprintf('Please check system!'));
+            Log::error(sprintf('Please check system!'));
             return array('status' => false);
         }
         if ($response && $response->getStatusCode() == '200') {
@@ -95,7 +94,7 @@ class FDKImporter {
                     array_push($this->failedImportedEstatesId, $estateData->_id);
                 }
             } catch (Exception $e) {
-            	\Log::error($e);
+            	Log::error($e);
             	array_push($this->failedImportedEstatesId, $estateData->_id);
             }
     	}

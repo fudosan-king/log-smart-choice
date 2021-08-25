@@ -132,7 +132,6 @@ class MongoController extends VoyagerBaseController
 
         // Define list of columns that can be sorted server side
         $sortableColumns = $this->getSortableColumns($dataType->browseRows);
-        $sortableColumns = "";
 
         $view = 'voyager::bread.browse';
 

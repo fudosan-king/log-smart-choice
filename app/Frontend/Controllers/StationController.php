@@ -29,6 +29,7 @@ class StationController extends Controller
     public function getTransportCompany() {
         $transportCompanies = Station::select(['tran_company_code', 'tran_company_full_name', 'tran_company_short_name'])
                 ->distinct('tran_company_code')
+                ->where('count_estates', '>', 0)
                 ->groupBy('tran_company_code')
                 ->get('tran_company_code', 'tran_company_full_name', 'tran_company_short_name');
         if($transportCompanies) {
