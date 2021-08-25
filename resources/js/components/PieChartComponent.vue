@@ -15,21 +15,16 @@ export default {
                     data: [10, 10, 80],
                     backgroundColor: ['#EB5757', '#F2994A', '#F2C94C']
                 }
-            ]
+            ],
+            showActualPercentages: false,
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            legend: {
-                display: false
-            },
             plugins: {
                 datalabels: {
-                    color: 'black',
-                    labels: {
-                        "管理費": "test"
-                    }
-                },
+                    color: ['#EB5757', '#F2994A', '#F2C94C'],
+                }
             }
         }
     }),
@@ -38,7 +33,7 @@ export default {
         parentData: function(newValue, oldValue) {
             this.chartData.datasets[0].data = this.parentData;
             // Chart.plugins.register(ChartDataLabels);
-            this.renderChart(this.chartData, this.options)
+            this.renderChart(this.chartData, this.options);
         }
     },
 

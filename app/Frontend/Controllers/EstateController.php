@@ -188,7 +188,7 @@ class EstateController extends Controller
             'has_balcony', 'balcony_space', 'land_rights', 'land_rights_detail', 'land_leashold_type', 'land_leashold_years',
             'land_leashold_months', 'land_leashold_limit', 'leasehold_ratio', 'land_fee_type', 'land_fee', 'land_fee_per',
             'transports', 'room_count', 'room_kind', 'spa_fee', 'rights_fee', 'deposit_fee', 'guarantee_fee_depreciation', 'guarantee_fee',
-            'repair_reserve_initial_fee', 'service_rooms', 'superintendent'
+            'repair_reserve_initial_fee', 'service_rooms', 'superintendent', 'renovation_type'
         )
             ->with('estateInformation')
             ->where('_id', $id)

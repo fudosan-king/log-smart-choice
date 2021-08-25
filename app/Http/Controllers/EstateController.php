@@ -16,6 +16,7 @@ use TCG\Voyager\Events\BreadDataAdded;
 use App\Actions\ResizeImage;
 use App\Models\District;
 use App\Models\Estates;
+use App\Models\Station;
 
 class EstateController extends Controller
 {
@@ -450,10 +451,17 @@ class EstateController extends Controller
             }
         }
         $estate = Estates ::find($id);
+        $stations = [];
+        foreach($estate->transports as $transport) {
+            if (!in_array($transport['transport_company'], $stations)) {
+                array_push($stations, $transport['transport_company']);
+            }
+        }
 
         $this->increaseDecreaseEstateInDistrict($estate->address['city'], false, $id);
+        $this->increaseDecreaseEstateInStation($stations, false, $id);
         if ($request->status == Estates::STATUS_SALE) {
-            
+            $this->increaseDecreaseEstateInStation($stations, true, $id);
             $this->increaseDecreaseEstateInDistrict($estate->address['city'], true, $id);
         }
         // Check estate description photo or hidden photo exist
@@ -701,6 +709,33 @@ class EstateController extends Controller
                 }
             }
             $district->save();
+        }
+    }
+    
+    protected function increaseDecreaseEstateInStation($stationsEstate, $flag, $estateId)
+    {
+        $stations = Station::whereIn('tran_company_short_name', $stationsEstate)->get();
+        if ($stations) {
+            foreach ($stations as $key => $station) {
+                $estateIds = [];
+                if ($station->estate_ids) {
+                    $estateIds = explode(',', $station->estate_ids);
+                }
+    
+                if ($flag && !in_array($estateId, $estateIds)) {
+                    $station->count_estates = $station->count_estates + 1;
+                    array_push($estateIds, $estateId);
+                    $station->estate_ids = implode(',', $estateIds);
+                } else {
+                    if ( $station->count_estates != 0 && in_array($estateId, $estateIds)) {
+                        $station->count_estates = $station->count_estates - 1;
+                        $key = array_search($estateId, $estateIds);
+                        unset($estateIds[$key]);
+                        $station->estate_ids = implode(',', $estateIds);
+                    }
+                }
+                $station->save();
+            }
         }
     }
 
