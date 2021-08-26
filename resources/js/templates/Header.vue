@@ -100,7 +100,7 @@
                                                 class="img-fluid"
                                                 width="18"
                                             />
-                                            エリアから探す
+                                            <span>エリアから探す</span>
                                         </button>
                                     </h2>
                                 </div>
@@ -144,7 +144,7 @@
                                                 class="img-fluid"
                                                 width="13"
                                             />
-                                            沿線から探す
+                                            <span>沿線から探す</span>
                                         </button>
                                     </h2>
                                 </div>
@@ -204,7 +204,7 @@
                                                 class="img-fluid"
                                                 width="14"
                                             />
-                                            MAPから探す
+                                            <span>MAPから探す</span>
                                         </button>
                                     </h2>
                                 </div>

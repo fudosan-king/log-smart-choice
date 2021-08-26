@@ -24,7 +24,7 @@
                             class="img-fluid d-inline-block d-lg-none"
                             width="18"
                         />
-                        エリアから探す</a
+                        <span>エリアから探す</span></a
                     >
                 </li>
                 <li>
@@ -41,7 +41,7 @@
                             class="img-fluid d-inline-block d-lg-none"
                             width="13"
                         />
-                        沿線から探す</a
+                        <span>沿線から探す</span></a
                     >
                 </li>
                 <!-- <li>
@@ -58,7 +58,7 @@
                             class="img-fluid d-inline-block d-lg-none"
                             width="14"
                         />
-                        MAPから探す</a
+                        <span>MAPから探す</span></a
                     >
                 </li> -->
             </ul>

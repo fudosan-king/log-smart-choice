@@ -6,7 +6,7 @@
                     <!-- <h4>会員登録情報 <a v-on:click="handleClose($event)">Close</a></h4> -->
                     <div class="box_searchby area" v-if="searchType === 'district'">
                         <h3>
-                            <a class="btn" v-on:click="handleClose($event)">エリアから探す</a></h3>
+                            <a class="btn" v-on:click="handleClose($event)"><span>エリアから探す</span></a></h3>
                         <div v-if="districtLoading" class="lsc-spinner">
                             <div  class="spinner-border text-danger" role="status">
                                 <span class="sr-only">Loading...</span>
@@ -28,7 +28,7 @@
                         <h3>
                             <a class="btn" 
                                 v-on:click="handleClose($event)"
-                            >沿線から探す</a>
+                            ><span>沿線から探す</span></a>
                         </h3>
                         <div v-if="companyLoading" class="lsc-spinner">
                             <div  class="spinner-border text-danger" role="status">
