@@ -130,12 +130,18 @@ input[type='number'] {
 .container .subtitle-register {
     text-align: center;
 }
-
+.subtitle small {
+    font-size: 100%;
+}
 .estate_name_title {
     padding-top: 2%;
-    font-size: 16px;
+    font-size: 24px;
     font-weight: bold;
     color: #000000;
+}
+
+.title_estate_renovation .container .container .subtitle small {
+    font-size: 24px;
 }
 
 .title_estate_renovation {
@@ -235,4 +241,13 @@ input[type='number'] {
 
 .map iframe {
     width: 100%;
+}
+
+
+#pie-chart {
+    height: 320px !important;
+}
+
+.box_renovation_specifications .map {
+    padding: 0;
 }

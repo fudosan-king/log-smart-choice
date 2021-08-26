@@ -14,7 +14,7 @@
                             /></a>
                         </p>
                         <ul class="d-none d-lg-flex">
-                            <li><a target="_blank" href="https://www.logrenove.jp/contact/">お問い合わせ</a></li>
+                            <li><a target="_blank" href="https://form.run/@order-renove">お問い合わせ</a></li>
                             <li>
                                 <a target="_blank" href="https://www.propolife.co.jp/privacypolicy"
                                     >プライバシーポリシー</a
@@ -35,7 +35,7 @@
                         </ul>
                         <div class="d-flex">
                             <ul class="d-block d-lg-none mr-5">
-                                <li><a target="_blank" href="https://www.logrenove.jp/contact/">お問い合わせ</a></li>
+                                <li><a target="_blank" href="https://form.run/@order-renove">お問い合わせ</a></li>
                                 <li>
                                     <a target="_blank" href="https://www.propolife.co.jp/privacypolicy"
                                         >プライバシーポリシー</a
