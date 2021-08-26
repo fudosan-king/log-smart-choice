@@ -3,11 +3,7 @@
         <section class="section_banner" style="background-image: url('/assets/images/takayamatei-800x534.jpg');">
             <div class="caption">
                 <img src="/assets/images/svg/label.svg" alt="" class="img-fluid" width="430" />
-                <p>
-                    住みたいエリア、広さ、予算、ライフスタイル…<br>
-                    あなたの価値観にあった「中古＋リノベーション」を提案する<br>
-                    SDGsな住まいソリューション<br>
-                </p>
+                <p></p>
             </div>
             <ul>
                 <li>

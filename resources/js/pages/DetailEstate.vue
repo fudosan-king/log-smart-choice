@@ -433,7 +433,7 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th>引渡時間</th>
+                                            <th>引渡時期</th>
                                             <td>
                                                 <template v-if="estate.delivery">
                                                     <template v-if="estate.delivery.delivery_date_type == '即'">{{ estate.delivery.delivery_date_type }}</template>
