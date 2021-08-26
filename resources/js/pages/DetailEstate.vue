@@ -1,75 +1,80 @@
 <template>
     <main>
         <div class="box_template">
-            <section class="section_subbanner p-0">
-                <template v-if="estate.estate_information">
-                    <template v-if="estate.estate_information.estate_main_photo[0]">
-                        <img
-                        v-lazy="estate.estate_information.estate_main_photo[0] ?
-                        estate.estate_information.estate_main_photo[0].url_path : '/images/no-image.png'"
-                        alt=""
-                        class="img-fluid w-100"
-                        />
+            <section class="section_subbanner pb-0">
+                <div class="container">
+                    <template v-if="estate.estate_information">
+                        <template v-if="estate.estate_information.estate_main_photo[0]">
+                            <img
+                            v-lazy="estate.estate_information.estate_main_photo[0] ?
+                            estate.estate_information.estate_main_photo[0].url_path : '/images/no-image.png'"
+                            alt=""
+                            class="img-fluid w-100"
+                            />
+                        </template>
                     </template>
-                </template>
+                </div>
             </section>
             <section class="p-0">
                 <div class="box_top mb-0">
                     <div class="container">
                         <p class="subtitle mb-2">
-                            <p class="estate_name_title" v-if="estate.estate_information">{{ estate.estate_information.article_title }}</p>
-                            <p v-if="estate.address"
-                                >{{ estate.address.pref }}{{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}{{ estate.address.gaikutiban }}<br />
-                                専有面積{{ estate.tatemono_menseki }}m²
-                                <template v-if="estate.has_balcony != '無'">
-                                    ／バルコニー面積: {{ estate.balcony_space}}m²
+                            <small v-if="estate.estate_information"><b class="estate_name_title">{{ estate.estate_information.article_title }}</b><br>
+                                <template v-if="estate.address"
+                                    >{{ estate.address.pref }}{{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}{{ estate.address.gaikutiban }}<br />
+                                    専有面積{{ estate.tatemono_menseki }}m²
+                                    <template v-if="estate.has_balcony != '無'">
+                                        ／バルコニー面積: {{ estate.balcony_space}}m²
+                                    </template>
+                                    <br />
+                                    {{ estate.ground_floors ? estate.ground_floors + '階建' : '' }}／{{ estate.structure }}
                                 </template>
-                                <br />
-                                {{ estate.ground_floors ? estate.ground_floors + '階建' : '' }}／{{ estate.structure }}
-                            </p>
+                            </small>
                         </p>
                     </div>
                 </div>
             </section>
 
             <section class="p-0 section_carousel">
-                <div class="carousel_property">
-                    <div class="carousel carousel-main">
-                        <div class="carousel-cell" v-for="photo in mainPhoto">
-                            <img
-                                :src="photo.url_path ? photo.url_path : '/images/no-image.png'"
-                                alt=""
-                                class="img-fluid"
-                            />
-                        </div>
-                    </div>
-                    <div
-                        class="carousel carousel-nav"
-                        data-flickity='{"asNavFor": ".carousel-main", "contain": true, "prevNextButtons": false, "pageDots": false }'
-                    >
-                        <div class="carousel-cell" v-for="photo in mainPhoto">
-                            <img
-                                :src="photo.url_path ? photo.url_path : '/images/no-image.png'"
-                                alt=""
-                                class="img-fluid"
-                            />
-                        </div>
-                    </div>
-                    <section class="p-0">
-                        <div class="box_top mb-0 title_estate_renovation">
-                            <div class="container">
-                                <div class="container">
-                                    <p class="subtitle mb-2">
-                                        <template v-if="estate.estate_information">
-                                            <small v-if="estate.estate_information.renovation_media[0]"
-                                                v-html="estate.estate_information.renovation_media[0].description">
-                                            </small>
-                                        </template>
-                                    </p>
-                                </div>
+                <div class="container">
+                    <div class="carousel_property">
+                        <div class="carousel carousel-main">
+                            <div class="carousel-cell" v-for="photo in mainPhoto">
+                                <img
+                                    :src="photo.url_path ? photo.url_path : '/images/no-image.png'"
+                                    alt=""
+                                    class="img-fluid"
+                                />
                             </div>
                         </div>
-                    </section>
+                        <div
+                            class="carousel carousel-nav"
+                            data-flickity='{"asNavFor": ".carousel-main", "contain": true, "prevNextButtons": false, "pageDots": false }'
+                        >
+                            <div class="carousel-cell" v-for="photo in mainPhoto">
+                                <img
+                                    :src="photo.url_path ? photo.url_path : '/images/no-image.png'"
+                                    alt=""
+                                    class="img-fluid"
+                                />
+                            </div>
+                        </div>
+                        <section class="p-0">
+                            <div class="box_top mb-0 title_estate_renovation">
+                                <div class="container">
+                                    <div class="container">
+                                        <p class="subtitle mb-2">
+                                            <template v-if="estate.estate_information">
+                                                <small v-if="estate.estate_information.renovation_media[0]"
+                                                    v-html="estate.estate_information.renovation_media[0].description">
+                                                </small>
+                                            </template>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
                 </div>
             </section>
 
@@ -136,43 +141,49 @@
                                                 </p>
 
                                                 <div class="w_box_simulation_result" :class="{'show': mobileShow}">
-                                                    <div class="row no-gutters">
-                                                        <div class="col-6 col-sm-6">
-                                                            <div class="form-group">
-                                                                <label for=""><b>毎月のローン返済額</b></label>
-                                                                <!-- <div class="d-flex align-items-center"> -->
-                                                                    <p class="label_repayment_amount">{{ $lscFormatCurrency(monthlyLoan) }}<span><b>円</b></span></p>
-                                                                        <input
-                                                                            type="hidden"
-                                                                            class="form-control monthly-loan-payment"
-                                                                            :value="[[$lscFormatCurrency(monthlyLoan)]]"
-                                                                        />
-                                                                    
-                                                                <!-- </div> -->
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label for=""><b>ボーナス分返済金額（年2回）</b></label>
-                                                                <div class="d-flex align-items-center">
-                                                                    <input
-                                                                        type="text"
-                                                                        class="form-control"
-                                                                        ref="lscBonus"
-                                                                        v-on:change="changeMoney('lscBonus', $event)"
-                                                                        :value="[[$lscFormatCurrency(bonus)]]"
-                                                                    />
-                                                                    <span class="ml-2 sub">円/回</span>
+                                                    <div class="row">
+                                                        <div class="col-12 col-lg-6">
+                                                            <div class="row">
+                                                                <div class="col-6 col-lg-12">
+                                                                    <div class="form-group mb-0 mb-lg-3">
+                                                                        <label for=""><b>毎月のローン返済額</b></label>
+                                                                            <p class="label_repayment_amount">{{ $lscFormatCurrency(monthlyLoan) }}<span><b>円</b></span></p>
+                                                                                <input
+                                                                                    type="hidden"
+                                                                                    class="form-control monthly-loan-payment"
+                                                                                    :value="[[$lscFormatCurrency(monthlyLoan)]]"
+                                                                                />
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label for=""><b>ボーナス分返済金額（年2回）</b></label>
+                                                                        <div class="d-flex align-items-center">
+                                                                            <input
+                                                                                type="text"
+                                                                                class="form-control"
+                                                                                ref="lscBonus"
+                                                                                v-on:change="changeMoney('lscBonus', $event)"
+                                                                                :value="[[$lscFormatCurrency(bonus)]]"
+                                                                            />
+                                                                            <span class="ml-2 sub">円/回</span>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="form-group mb-0">
-                                                                <label class="mb-0" for="">管理費</label>
-                                                                <h5>{{ $lscFormatCurrency(estate.management_fee) }}<span>円／月</span></h5>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label class="mb-0" for="">修繕積立金</label>
-                                                                <h5>{{$lscFormatCurrency(estate.repair_reserve_fee)}}<span>円／月</span></h5>
+                                                                <div class="col-6 col-lg-12 align-self-end">
+                                                                    <div class="form-group">
+                                                                        <label class="mb-0" for="">管理費</label>
+                                                                        <h5>{{ $lscFormatCurrency(estate.management_fee) }}<span>円／月</span></h5>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="mb-0" for="">修繕積立金</label>
+                                                                        <h5>{{$lscFormatCurrency(estate.repair_reserve_fee)}}<span>円／月</span></h5>
+                                                                    </div>
+                                                                </div>
+                                                                
                                                             </div>
                                                         </div>
-                                                        <pie-chart-component class="col-6 col-sm-6" :parent-data="chartData"></pie-chart-component>
+                                                        <div class="col-12 col-lg-6">
+                                                            <pie-chart-component :parent-data="chartData"></pie-chart-component>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

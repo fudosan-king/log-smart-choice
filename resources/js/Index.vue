@@ -1,11 +1,9 @@
 <template>
-    <div id="page">
+    <main>
         <headerBar></headerBar>
-        <div id="main">
-            <router-view></router-view>
-        </div>
+        <router-view></router-view>
         <footerBar></footerBar>
-    </div>
+    </main>
 </template>
 <script>
 export default {

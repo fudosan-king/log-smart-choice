@@ -139,7 +139,7 @@ input[type='number'] {
 }
 
 .title_estate_renovation {
-    background: #F2F2F2;
+    padding-top: 65px;
 }
 /* #### Mobile Phones Portrait #### */
 @media screen and (max-device-width: 480px) and (orientation: portrait) {
