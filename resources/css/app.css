@@ -141,11 +141,15 @@ input[type='number'] {
 }
 
 .title_estate_renovation .container .container .subtitle small {
-    font-size: 24px;
+    font-size: 20px;
 }
 
 .title_estate_renovation {
-    padding-top: 65px;
+    padding: 30px 0 30px 0;
+}
+
+main .section_property_main {
+    padding: 0;
 }
 /* #### Mobile Phones Portrait #### */
 @media screen and (max-device-width: 480px) and (orientation: portrait) {
