@@ -82,6 +82,13 @@ class Estates extends Model
     public function upsertFromFDKData($estateData)
     {
         $estate = self::firstOrNew(['_id' => $estateData->_id]);
+        $dateModifyFDK = $estateData->date_last_modified;
+        $stations = [];
+        foreach($estate->transports as $transport) {
+            if (!in_array($transport['transport_company'], $stations)) {
+                array_push($stations, $transport['transport_company']);
+            }
+        }
         try {
             if (!$estate->exists) {
                 $estate->status = self::STATUS_STOP;
@@ -101,7 +108,11 @@ class Estates extends Model
                     $estate->status = self::STATUS_STOP;
                 }
                 $estate->save();
-            } elseif ($estate->date_last_modified != $estateData->date_last_modified) {
+                $this->increaseDecreaseEstateInDistrict(json_decode(json_encode($estateData->address), true), false, $estateData->_id);
+                $this->increaseDecreaseEstateInStation($stations, false, $estateData->_id);
+            } elseif (strtotime($estate->date_last_modified) != $dateModifyFDK->toDateTime()->format('U')) {
+                $this->increaseDecreaseEstateInDistrict(json_decode(json_encode($estateData->address), true), false, $estateData->_id);
+                $this->increaseDecreaseEstateInStation($stations, false, $estateData->_id);
                 $estate->status = self::STATUS_STOP;
                 $estate->date_imported = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d H:i:s')) * 1000);
                 $estate->sort_order_recommend = self::NUMBER_RECOMMEND_ORDER_BY;
@@ -127,5 +138,55 @@ class Estates extends Model
         return $estate;
     }
 
+    public function increaseDecreaseEstateInDistrict($districtEstate, $flag, $estateId)
+    {
+        $district = District::where('name', $districtEstate)->first();
+        if ($district) {
+            $estateIds = [];
+            if ($district->estate_ids) {
+                $estateIds = explode(',', $district->estate_ids);
+            }
+
+            if ($flag && !in_array($estateId, $estateIds)) {
+                $district->count_estates = $district->count_estates + 1;
+                array_push($estateIds, $estateId);
+                $district->estate_ids = implode(',', $estateIds);
+            } else {
+                if ( $district->count_estates != 0 && in_array($estateId, $estateIds)) {
+                    $district->count_estates = $district->count_estates - 1;
+                    $key = array_search($estateId, $estateIds);
+                    unset($estateIds[$key]);
+                    $district->estate_ids = implode(',', $estateIds);
+                }
+            }
+            $district->save();
+        }
+    }
     
+    public function increaseDecreaseEstateInStation($stationsEstate, $flag, $estateId)
+    {
+        $stations = Station::whereIn('tran_company_short_name', $stationsEstate)->get();
+        if ($stations) {
+            foreach ($stations as $key => $station) {
+                $estateIds = [];
+                if ($station->estate_ids) {
+                    $estateIds = explode(',', $station->estate_ids);
+                }
+    
+                if ($flag && !in_array($estateId, $estateIds)) {
+                    $station->count_estates = $station->count_estates + 1;
+                    array_push($estateIds, $estateId);
+                    $station->estate_ids = implode(',', $estateIds);
+                } else {
+                    if ( $station->count_estates != 0 && in_array($estateId, $estateIds)) {
+                        $station->count_estates = $station->count_estates - 1;
+                        $key = array_search($estateId, $estateIds);
+                        unset($estateIds[$key]);
+                        $station->estate_ids = implode(',', $estateIds);
+                    }
+                }
+                $station->save();
+            }
+        }
+    }
 }

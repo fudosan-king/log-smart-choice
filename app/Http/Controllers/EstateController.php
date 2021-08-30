@@ -457,12 +457,11 @@ class EstateController extends Controller
                 array_push($stations, $transport['transport_company']);
             }
         }
-
-        $this->increaseDecreaseEstateInDistrict($estate->address['city'], false, $id);
-        $this->increaseDecreaseEstateInStation($stations, false, $id);
+        $model->increaseDecreaseEstateInDistrict($estate->address['city'], false, $id);
+        $model->increaseDecreaseEstateInStation($stations, false, $id);
         if ($request->status == Estates::STATUS_SALE) {
-            $this->increaseDecreaseEstateInStation($stations, true, $id);
-            $this->increaseDecreaseEstateInDistrict($estate->address['city'], true, $id);
+            $model->increaseDecreaseEstateInStation($stations, true, $id);
+            $model->increaseDecreaseEstateInDistrict($estate->address['city'], true, $id);
         }
         // Check estate description photo or hidden photo exist
         // if ($request->hasFile('estate_description_left_photo')) {
@@ -687,57 +686,7 @@ class EstateController extends Controller
         ));
     }
 
-    protected function increaseDecreaseEstateInDistrict($districtEstate, $flag, $estateId)
-    {
-        $district = District::where('name', $districtEstate)->first();
-        if ($district) {
-            $estateIds = [];
-            if ($district->estate_ids) {
-                $estateIds = explode(',', $district->estate_ids);
-            }
-
-            if ($flag && !in_array($estateId, $estateIds)) {
-                $district->count_estates = $district->count_estates + 1;
-                array_push($estateIds, $estateId);
-                $district->estate_ids = implode(',', $estateIds);
-            } else {
-                if ( $district->count_estates != 0 && in_array($estateId, $estateIds)) {
-                    $district->count_estates = $district->count_estates - 1;
-                    $key = array_search($estateId, $estateIds);
-                    unset($estateIds[$key]);
-                    $district->estate_ids = implode(',', $estateIds);
-                }
-            }
-            $district->save();
-        }
-    }
     
-    protected function increaseDecreaseEstateInStation($stationsEstate, $flag, $estateId)
-    {
-        $stations = Station::whereIn('tran_company_short_name', $stationsEstate)->get();
-        if ($stations) {
-            foreach ($stations as $key => $station) {
-                $estateIds = [];
-                if ($station->estate_ids) {
-                    $estateIds = explode(',', $station->estate_ids);
-                }
-    
-                if ($flag && !in_array($estateId, $estateIds)) {
-                    $station->count_estates = $station->count_estates + 1;
-                    array_push($estateIds, $estateId);
-                    $station->estate_ids = implode(',', $estateIds);
-                } else {
-                    if ( $station->count_estates != 0 && in_array($estateId, $estateIds)) {
-                        $station->count_estates = $station->count_estates - 1;
-                        $key = array_search($estateId, $estateIds);
-                        unset($estateIds[$key]);
-                        $station->estate_ids = implode(',', $estateIds);
-                    }
-                }
-                $station->save();
-            }
-        }
-    }
 
     protected function getSortableColumns($rows)
     {
