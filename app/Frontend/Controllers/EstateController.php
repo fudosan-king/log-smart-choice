@@ -46,12 +46,10 @@ class EstateController extends Controller
         $metreSquare = $request->get('metre_square') ?? '';
         $roomTypeFrom = $request->get('room_type_from') ?? '';
         $roomTypeTo = $request->get('room_type_to') ?? '';
-        $station = $request->get('station') ?? '';
         $email = $request->get('email') ?? '';
         $isSocial = $request->get('isSocial') ?? '';
         $districtCode = $request->get('districtCode') ?? '';
         $companyCode = $request->get('companyCode') ?? '';
-        $stationCode = $request->get('stationCode') ?? '';
 
         $limit = $request->has('limit') ? intval($request->get('limit')) : 4;
         $page = $request->has('page') ? intval($request->get('page')) : 1;
@@ -107,16 +105,10 @@ class EstateController extends Controller
         if ($companyCode) {
             $stationModel = Station::select(['name', 'tran_company_short_name'])
                 ->where('tran_company_code', '=', $companyCode)
-                // ->where('station_code', '=', $stationCode)
                 ->get()->first();
             if ($stationModel) {
-                $station = $stationModel->name;
                 $estates->where('transports.transport_company', $stationModel->tran_company_short_name);
             }
-        }
-        
-        if ($station) {
-            $estates->whereIn('transports.station_name',  [$station]);
         }
 
         // room kind & room count
