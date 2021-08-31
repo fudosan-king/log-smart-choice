@@ -21,7 +21,7 @@ class Estates extends Model
     const STATUS_SALE = '公開中';
     const STATUS_STOP = '非公開';
     const STATUS_END = '成約済';
-    const LIMIT_ESTATE_NEAR_AREA = 8;
+    const LIMIT_ESTATE_NEAR_AREA = 40;
     const LIMIT_ESTATE_RECOMMEND = 16;
 
     const NUMBER_RECOMMEND_ORDER_BY = 100;

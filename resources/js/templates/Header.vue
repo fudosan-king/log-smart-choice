@@ -25,7 +25,7 @@
                 />
             </a>
             <div class="ml-auto box_user">
-                <div class="dropdown dropdown_user mr-3">
+                <div class="dropdown dropdown_user">
                     <a class="dropdown_user" v-bind:id="[!homePage ? 'dropdown_user': '']" href="javascript:void(0)" v-on:click="dropUser">
                         <img
                             src="/assets/images/svg/i_user.svg" 
@@ -82,11 +82,11 @@
                     </a>
                     <div class="dropdown_search_content" style="display: none;">
                         <div class="accordion" id="accordionExample">
-                        <div class="card">
+                            <div class="card">
                                 <div class="card-header" id="headingOne">
                                     <h2 class="mb-0">
                                         <button
-                                            class="btn btn-block text-left"
+                                            class="btn btn-block text-left collapsed"
                                             type="button"
                                             data-toggle="collapse"
                                             data-target="#collapseOne"
@@ -100,7 +100,7 @@
                                                 class="img-fluid"
                                                 width="18"
                                             />
-                                            <span>エリアから探す</span>
+                                            エリアから探す
                                         </button>
                                     </h2>
                                 </div>
@@ -124,8 +124,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                        </div>
-                      </div>
+                            </div>
                             <div class="card">
                                 <div class="card-header" id="headingTwo">
                                     <h2 class="mb-0">

@@ -80,7 +80,7 @@ export default {
         getListEstates() {
             let accessToken = this.$getCookie('accessToken');
             let data = {
-                limit: 4,
+                limit: 20,
                 page: 1
             };
             if (accessToken.length > 0) {
