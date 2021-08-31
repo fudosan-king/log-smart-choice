@@ -117,7 +117,7 @@
         </div>
         <div class="footer_bottom fixed-bottom align-center" v-if="routeName == 'home' || routeName == 'list' || routeName == 'listByCode'">
             <a class="btn" href="javascript:void(0)" v-on:click="floatButtonEvent"
-                >あなたの希望条件を入力</a
+                >希望条件を入力</a
             >
         </div>
         <div
