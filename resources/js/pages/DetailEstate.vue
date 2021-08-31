@@ -110,10 +110,12 @@
                                         <template v-else>
                                             <p class="describe" v-html="photo.description"></p>
                                         </template>
-                                        
                                     </div>
                                 </template>
-                                <div class="box_calcu mt-5">
+                                <!-- Street View -->
+                                <div class="map" v-html="srcStreetView"></div>
+                                <!-- End Street View -->
+                                <div class="box_calcu">
                                     <h1>
                                         <template v-if="estate.renovation_type != 'リノベ済物件'">リノベ＋</template>物件価格
                                         <span>{{ $lscFormatCurrency(estate.price ? estate.price : estate.price) }}</span
@@ -187,6 +189,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
 
                                             <div class="col-12 col-lg-6">
                                                 <div class="w_box_simulation_result" :class="{'show': mobileShow}">
@@ -582,24 +585,6 @@
                                     </table>
 
                                     <div class="map" v-html="srcMap">
-                                        <!-- <iframe
-                                            v-if="estate.latitude && estate.longitude"
-                                            :src="srcMap"
-                                            width="100%"
-                                            height="450"
-                                            style="border:0;"
-                                            allowfullscreen=""
-                                            loading="lazy"
-                                        ></iframe>
-                                        <iframe
-                                            v-else
-                                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3241.674775952875!2d139.71907221539578!3d35.66038363872215!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188b6530fa5ef5%3A0x2c0355e32dbc3abf!2s2-ch%C5%8Dme-24-25%20Nishiazabu%2C%20Minato%20City%2C%20Tokyo%20106-0031%2C%20Nh%E1%BA%ADt%20B%E1%BA%A3n!5e0!3m2!1svi!2s!4v1623202644543!5m2!1svi!2s"
-                                            width="100%"
-                                            height="450"
-                                            style="border:0;"
-                                            allowfullscreen=""
-                                            loading="lazy"
-                                        ></iframe> -->
                                         <div class="row">
                                             <div class="col-8 col-lg-8">
                                                 <p v-if="estate.address">
@@ -681,6 +666,7 @@ export default {
             otherFee: [],
             payTerm: '',
             srcMap: '',
+            srcStreetView: '',
             mobileShow: false,
             ownMoney: 0,
             borrowedMoney: 0,
@@ -702,7 +688,7 @@ export default {
         payTerm.ionRangeSlider({
             min: 0,
             max: 35,
-            from: 25,
+            from: 35,
             postfix: '年'
         });
 
@@ -715,7 +701,7 @@ export default {
         interest.ionRangeSlider({
             min: 0,
             max: 3,
-            from: 2,
+            from: 0.8,
             step: 0.1,
             postfix: '%'
         });
@@ -775,14 +761,7 @@ export default {
                             this.calculateMonthlyLoanPayment();
                         }
                         this.srcMap = this.estate['estate_information']['url_map'];
-                        // if (this.estate.latitude && this.estate.longitude) {
-                        //     this.srcMap =
-                        //         'https://www.google.com/maps?q=' +
-                        //         this.estate.latitude +
-                        //         ',' +
-                        //         this.estate.longitude +
-                        //         '&output=embed';
-                        // }
+                        this.srcStreetView = this.estate['estate_information']['url_view_street'];
                         let carParkNote = this.estate['homes']['carpark_note'];
                         this.carParkNote = carParkNote.replace(/\n/g, '<br>');
                     })

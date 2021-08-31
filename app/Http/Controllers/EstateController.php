@@ -31,7 +31,8 @@ class EstateController extends Controller
     {
         $estate = EstateInformation::select('renovation_media', 'estate_befor_photo',
             'estate_after_photo', 'estate_main_photo', 'estate_equipment', 'estate_flooring', 'category_tab_search',
-            'tab_search', 'id_estate_3d', 'time_to_join', 'direction', 'company_design', 'article_title', 'url_map')
+            'tab_search', 'id_estate_3d', 'time_to_join', 'direction', 'company_design', 'article_title', 'url_map',
+            'url_view_street')
             ->where('estate_id', $estate_id)->get()->first();
         return $estate ? $estate : '{}';
     }
@@ -557,6 +558,7 @@ class EstateController extends Controller
         $this->_insertDatabase($id, 'company_design', $request->get('company_design'));
         $this->_insertDatabase($id, 'article_title', $request->get('article_title'));
         $this->_insertDatabase($id, 'url_map', $request->get('url_map'));
+        $this->_insertDatabase($id, 'url_view_street', $request->get('url_view_street'));
 
         $this->insertUpdateData($request, $slug, $dataType->editRows, $data);
 

@@ -113,6 +113,11 @@
                             <input name="url_map" value="{{ $estateInfo->url_map ?? '' }}" class="form-control">
                         </div>
 
+                        <div class="form-group">
+                            <label for="name">ストリートビュー</label>
+                            <input name="url_view_street" value="{{ $estateInfo->url_view_street ?? '' }}" class="form-control">
+                        </div>
+
                         <!-- <h2 class="padding_tab_search"> Category</h2>
                         <hr class="hr_tab_search">
                         <div class="category_tab_search">
