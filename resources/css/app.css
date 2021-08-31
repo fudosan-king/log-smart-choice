@@ -252,3 +252,7 @@ main .section_property_main {
 .box_renovation_specifications .map {
     padding: 0;
 }
+
+.box_template .section_subbanner {
+    padding-top: 10px;
+}
