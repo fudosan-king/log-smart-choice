@@ -418,6 +418,9 @@ class EstateController extends Controller
 
     public function update(Request $request, $id)
     {
+        $userId = Auth::user()->id;
+        $timestamp = strtotime(date('Y-m-d H:i:s')) * 1000;
+        $lastedModified = new \MongoDB\BSON\UTCDateTime($timestamp);
         $slug = $this->getSlug($request);
 
         $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
@@ -559,6 +562,8 @@ class EstateController extends Controller
         $this->_insertDatabase($id, 'article_title', $request->get('article_title'));
         $this->_insertDatabase($id, 'url_map', $request->get('url_map'));
         $this->_insertDatabase($id, 'url_view_street', $request->get('url_view_street'));
+        $this->_insertDatabase($id, 'date_lasted_modified_in_lsc', $lastedModified);
+        $this->_insertDatabase($id, 'user_lasted_modified_in_lsc', $userId);
 
         $this->insertUpdateData($request, $slug, $dataType->editRows, $data);
 

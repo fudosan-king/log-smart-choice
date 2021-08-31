@@ -81,6 +81,7 @@ class Estates extends Model
 
     public function upsertFromFDKData($estateData)
     {
+        $estateDataId = (string) new \MongoDB\BSON\ObjectId($estateData->_id);
         $estate = self::firstOrNew(['_id' => $estateData->_id]);
         $dateModifyFDK = $estateData->date_last_modified;
         $stations = [];
@@ -110,9 +111,16 @@ class Estates extends Model
                 $estate->save();
                 $this->increaseDecreaseEstateInDistrict(json_decode(json_encode($estateData->address), true), false, $estateData->_id);
                 $this->increaseDecreaseEstateInStation($stations, false, $estateData->_id);
+                $estateInfo = EstateInformation::where('estate_id', $estateDataId)->first();
+                if ($estateInfo) {
+                    $estateInfo->date_lasted_modified_in_lsc = '';
+                    $estateInfo->user_lasted_modified_in_lsc = 0;
+                    $estateInfo->save();
+                }
             } elseif (strtotime($estate->date_last_modified) != $dateModifyFDK->toDateTime()->format('U')) {
                 $this->increaseDecreaseEstateInDistrict(json_decode(json_encode($estateData->address), true), false, $estateData->_id);
                 $this->increaseDecreaseEstateInStation($stations, false, $estateData->_id);
+                
                 $estate->status = self::STATUS_STOP;
                 $estate->date_imported = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d H:i:s')) * 1000);
                 $estate->sort_order_recommend = self::NUMBER_RECOMMEND_ORDER_BY;
@@ -130,6 +138,13 @@ class Estates extends Model
                     $estate->status = self::STATUS_STOP;
                 }
                 $estate->save();
+
+                $estateInfo = EstateInformation::where('estate_id', $estateDataId)->first();
+                if ($estateInfo) {
+                    $estateInfo->date_lasted_modified_in_lsc = '';
+                    $estateInfo->user_lasted_modified_in_lsc = 0;
+                    $estateInfo->save();
+                }
             }
         } catch (Exception $e) {
             Log::error($e);
