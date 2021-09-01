@@ -146,7 +146,7 @@ input[type='number'] {
 } */
 
 .title_estate_renovation {
-    padding: 20px 0 20px 0;
+    padding: 20px 0 1px 0;
 }
 
 main .section_property_main {
@@ -256,4 +256,8 @@ main .section_property_main {
 
 .box_template .section_subbanner {
     padding-top: 10px;
+}
+
+.box_renovation_specifications .specifications_pic {
+    margin-bottom: 20px;
 }
