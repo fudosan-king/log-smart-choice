@@ -85,11 +85,14 @@ class Estates extends Model
         $estate = self::firstOrNew(['_id' => $estateData->_id]);
         $dateModifyFDK = $estateData->date_last_modified;
         $stations = [];
-        foreach($estate->transports as $transport) {
-            if (!in_array($transport['transport_company'], $stations)) {
-                array_push($stations, $transport['transport_company']);
+        if ($estate->transports) {
+            foreach($estate->transports as $transport) {
+                if (!in_array($transport['transport_company'], $stations)) {
+                    array_push($stations, $transport['transport_company']);
+                }
             }
         }
+
         try {
             if (!$estate->exists) {
                 $estate->status = self::STATUS_STOP;
