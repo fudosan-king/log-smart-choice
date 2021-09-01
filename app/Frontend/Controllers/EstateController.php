@@ -257,7 +257,7 @@ class EstateController extends Controller
                 'estate_id', 'id_estate_3d', 'estate_main_photo',
                 'renovation_media', 'estate_befor_photo', 'estate_after_photo',
                 'time_to_join', 'direction', 'company_design',
-                'url_map'
+                'url_map', 'article_title'
             )
                 ->where('estate_id', $estates[$key]['_id'])->get()->first();
             $estates[$key]['estate_information'] = $estateInformation;
