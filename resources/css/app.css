@@ -222,6 +222,10 @@ main .section_property_main {
         width: 34px;
         height: 34px;
     }
+
+    .box_top .title, .box_top .subtitle {
+        text-align: left;
+    }
 }
 
 @media (max-width: 375px) {
