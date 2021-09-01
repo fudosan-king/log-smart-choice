@@ -261,3 +261,7 @@ main .section_property_main {
 .box_renovation_specifications .specifications_pic {
     margin-bottom: 20px;
 }
+
+small h3 {
+    font-size: 16px;
+}
