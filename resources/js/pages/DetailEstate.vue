@@ -61,17 +61,13 @@
                         </div>
                         <section class="p-0">
                             <div class="box_top mb-0 title_estate_renovation">
-                                <div class="container">
-                                    <div class="container">
-                                        <p class="subtitle mb-2">
-                                            <template v-if="estate.estate_information">
-                                                <small v-if="estate.estate_information.renovation_media[0]"
-                                                    v-html="estate.estate_information.renovation_media[0].description">
-                                                </small>
-                                            </template>
-                                        </p>
-                                    </div>
-                                </div>
+                                <p class="subtitle mb-2">
+                                    <template v-if="estate.estate_information">
+                                        <small v-if="estate.estate_information.renovation_media[0]"
+                                            v-html="estate.estate_information.renovation_media[0].description">
+                                        </small>
+                                    </template>
+                                </p>
                             </div>
                         </section>
                     </div>
