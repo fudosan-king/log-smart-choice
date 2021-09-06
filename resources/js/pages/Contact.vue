@@ -25,7 +25,7 @@
                                                 </div>
                                                 <div class="col-12 col-lg-9 align-self-center">
                                                     <p class="mb-0">
-                                                        <span>{{ estate.estate_information.article_title }}</span>
+                                                        <span>{{ estate.estate_name }}</span>
                                                     </p>
                                                 </div>
                                             </div>
@@ -421,7 +421,7 @@ export default {
                 data.hopeDaySecond = hopeDaySecond;
                 data.startTimeFirst = startTimeFirst;
                 data.startTimeSecond = startTimeSecond;
-                data.estateArticle = this.estate.estate_information.article_title;
+                data.estateName = this.estate.estate_name;
                 data.checkedPrivacy = 'on';
                 this.$setCookie('contactData', JSON.stringify(data), 1);
                 this.$router.push('contact/confirm');
