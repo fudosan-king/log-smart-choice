@@ -110,6 +110,8 @@ const actions = {
                         },
                         auth: auth,
                     }).then(resp => {
+                        
+                        console.log(resp);
                         const tokenInfo = {
                             token: resp.data.data.access_token,
                             customerName: resp.data.data.customer_name,

@@ -33,7 +33,7 @@
                                 <a
                                     href="javascript:void(0)"
                                     v-on:click="readAnnouncement(announcement.announcement_id, announcement._id)"
-                                    >{{ announcement.estate_name }}</a
+                                    >{{ announcement.estate_information.article_title }}</a
                                 >
                             </p>
                             <p>{{ announcement.tatemono_menseki }}m²</p>
@@ -84,7 +84,7 @@
                                 <a
                                     href="javascript:void(0)"
                                     v-on:click="readAnnouncement(announcement.announcement_id, announcement._id)"
-                                    >{{ announcement.estate_name }}</a
+                                    >{{ announcement.estate_information.article_title }}</a
                                 >
                             </p>
                             <p>{{ announcement.tatemono_menseki }}m²</p>
