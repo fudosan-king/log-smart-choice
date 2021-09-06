@@ -199,16 +199,21 @@ export default {
             }
             let space = (this.page - 2);
             // console.log('Sroll at %d - Offset Top at %d - Space: %d', document.documentElement.scrollTop, this.offsetTop, space);
-            if (document.documentElement.scrollTop == ($(document).height() - $(window).height())) {
-                this.getListEstates(this.page);
-                this.setOffsetTop();
-                this.page++;
-            }
-            // if (document.documentElement.scrollTop - space > this.offsetTop && this.hasMore) {
+            // console.log('scroll: '+document.documentElement.scrollTop)
+            // console.log('document height: ' + $(document).height())
+            // console.log('window height: ' + $(window).height())
+            // console.log('document - window: ' + ($(document).height() - $(window).height() - 60))
+            // if (document.documentElement.scrollTop + $(window).height() > $(document).height() - 100) {
+                
             //     this.getListEstates(this.page);
             //     this.setOffsetTop();
             //     this.page++;
             // }
+            if (document.documentElement.scrollTop - space > this.offsetTop && this.hasMore) {
+                this.getListEstates(this.page);
+                this.setOffsetTop();
+                this.page++;
+            }
         },
 
         // Add states to wishlist
