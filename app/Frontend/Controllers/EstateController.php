@@ -51,8 +51,8 @@ class EstateController extends Controller
         $districtCode = $request->get('districtCode') ?? '';
         $companyCode = $request->get('companyCode') ?? '';
 
-        $limit = $request->has('limit') ? intval($request->get('limit')) : 4;
-        $page = $request->has('page') ? intval($request->get('page')) : 1;
+        $limit = $request->get('limit', 4);
+        $page = $request->get('page', 1);
         $validator = Validator::make($request->all(), [
             'keyword'      => 'max:100',
             'metre_square' => 'numeric',
@@ -60,7 +60,7 @@ class EstateController extends Controller
             'price_to'     => 'numeric',
             'totalPrice'   => 'numeric',
         ]);
-
+        
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
@@ -143,8 +143,7 @@ class EstateController extends Controller
                 }
             }
         }
-        $estates->orderBy('date_imported', 'desc');
-
+        $estates->orderBy('date_created', 'desc');
         $lists = $estates->paginate($limit, $page)->toArray();
 
         if ($lists['data']) {

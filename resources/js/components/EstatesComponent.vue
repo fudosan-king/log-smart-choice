@@ -197,13 +197,18 @@ export default {
             if (!this.heigthOfList) {
                 this.setInitHeigthOfList();
             }
-            let space = 423 * (this.page - 2);
+            let space = (this.page - 2);
             // console.log('Sroll at %d - Offset Top at %d - Space: %d', document.documentElement.scrollTop, this.offsetTop, space);
-            if (document.documentElement.scrollTop - space > this.offsetTop && this.hasMore) {
+            if (document.documentElement.scrollTop == ($(document).height() - $(window).height())) {
                 this.getListEstates(this.page);
                 this.setOffsetTop();
                 this.page++;
             }
+            // if (document.documentElement.scrollTop - space > this.offsetTop && this.hasMore) {
+            //     this.getListEstates(this.page);
+            //     this.setOffsetTop();
+            //     this.page++;
+            // }
         },
 
         // Add states to wishlist
