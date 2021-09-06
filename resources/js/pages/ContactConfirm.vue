@@ -27,7 +27,7 @@
                                                                     <label>物件名 </label>
                                                                 </td>
                                                                 <td class="confirm-text">
-                                                                    <span id="date">{{ contactData.estateArticle }}</span>
+                                                                    <span id="date">{{ contactData.estateName }}</span>
                                                                 </td>
                                                             </tr>
 
@@ -143,7 +143,7 @@
                                                 <input
                                                     name="物件名"
                                                     type="text"
-                                                    :value="contactData.estateArticle"
+                                                    :value="contactData.estateName"
                                                 />
                                             </div>
 
@@ -257,7 +257,7 @@ export default {
         },
 
         successContact() {
-            $('input[name="物件名"]').val(this.contactData.estateArticle);
+            $('input[name="物件名"]').val(this.contactData.estateName);
             $('input[name="第1希望日時"]').val(this.contactData.hopeDayFirst + ' ' + this.contactData.startTimeFirst);
             $('input[name="第2希望日時"]').val(this.contactData.hopeDaySecond + ' ' + this.contactData.startTimeSecond);
             $('input[name="お名前"]').val(this.contactData.fullName);
