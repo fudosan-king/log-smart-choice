@@ -94,13 +94,6 @@ class Estates extends Model
         }
         $startDate = date('Y-m-d 00:00:00');
         $endDate = date('Y-m-d 23:59:59');
-        // dump($estateData->_id);
-        // dump($startDate);
-        // dump($endDate);
-        // dump($dateModifyFDK->toDateTime());
-        // dump(strtotime($startDate) <= $dateModifyFDK->toDateTime()->format('U') &&
-        // $dateModifyFDK->toDateTime()->format('U') <= strtotime($endDate));
-        // die;
         try {
             if (strtotime($startDate) <= $dateModifyFDK->toDateTime()->format('U') &&
             $dateModifyFDK->toDateTime()->format('U') <= strtotime($endDate)) {
@@ -113,7 +106,7 @@ class Estates extends Model
                     if ($estate && in_array($estate->status, $estate_pass)) {
                         return null;
                     }
-    
+
                     foreach ($estateData as $key => $value) {
                         $estate->$key = $value;
                     }
@@ -134,7 +127,7 @@ class Estates extends Model
                     $this->increaseDecreaseEstateInDistrict(json_decode(json_encode($estateData->address), true), false, $estateData->_id);
                     $this->increaseDecreaseEstateInStation($stations, false, $estateData->_id);
                     
-                    $estate->status = self::STATUS_STOP;
+                    $estate->status = self::STATUS_SALE;
                     $estate->date_imported = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d H:i:s')) * 1000);
                     $estate->sort_order_recommend = self::NUMBER_RECOMMEND_ORDER_BY;
                     $estate['_id'] = $estateData->_id;
@@ -146,10 +139,10 @@ class Estates extends Model
                     foreach ($estateData as $key => $value) {
                         $estate->$key = $value;
                     }
-    
-                    if ($estateData && $estateData->trade_status == self::STATUS_STOP) {
-                        $estate->status = self::STATUS_STOP;
-                    }
+
+                    // if ($estateData && $estateData->trade_status == self::STATUS_STOP) {
+                    //     $estate->status = self::STATUS_STOP;
+                    // }
                     $estate->save();
     
                     $estateInfo = EstateInformation::where('estate_id', $estateDataId)->first();
