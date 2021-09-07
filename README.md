@@ -87,3 +87,9 @@ php artisan voyager:admin your@email.com --create
 
 php artisan passport:client --personal
 ```
+
+
+```
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'hgLJ8-8FW9#vD[jM';
+CREATE USER 'log_smart'@'localhost' IDENTIFIED BY 'sP9m%c7cDUy.ey}{';
+```
