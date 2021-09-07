@@ -72,7 +72,7 @@ class FDKImporter {
     	}
         $this->importEstates($status['estates']);
 
-        $this->proccessAfterImport();
+        // $this->proccessAfterImport();
     }
 
     public function importEstates($estates){

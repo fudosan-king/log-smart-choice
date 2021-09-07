@@ -209,7 +209,14 @@ export default {
             //     this.setOffsetTop();
             //     this.page++;
             // }
-            if (document.documentElement.scrollTop - space > this.offsetTop && this.hasMore) {
+            // console.log(document.documentElement.scrollTop);
+            // console.log(document.scrollingElement.scrollTop);
+            // if (document.documentElement.scrollTop - space > this.offsetTop && this.hasMore) {
+            //     this.getListEstates(this.page);
+            //     this.setOffsetTop();
+            //     this.page++;
+            // }
+            if (document.scrollingElement.scrollTop - space > this.offsetTop && this.hasMore) {
                 this.getListEstates(this.page);
                 this.setOffsetTop();
                 this.page++;

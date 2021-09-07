@@ -127,7 +127,7 @@ class Estates extends Model
                     $this->increaseDecreaseEstateInDistrict(json_decode(json_encode($estateData->address), true), false, $estateData->_id);
                     $this->increaseDecreaseEstateInStation($stations, false, $estateData->_id);
                     
-                    $estate->status = self::STATUS_SALE;
+                    $estate->status = self::STATUS_STOP;
                     $estate->date_imported = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d H:i:s')) * 1000);
                     $estate->sort_order_recommend = self::NUMBER_RECOMMEND_ORDER_BY;
                     $estate['_id'] = $estateData->_id;
