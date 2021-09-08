@@ -79,7 +79,7 @@ export default {
             let accessToken = this.$getCookie('accessToken');
             let data = {};
             data.estate_id = this.estateId;
-            if (accessToken && accessToken.length > 0) {
+            if (accessToken.length > 0) {
                 data.email = this.$getCookie('userSocialId');
                 data.isSocial = true;
                 this.accessToken = true;

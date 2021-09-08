@@ -62,22 +62,18 @@
       0 => 'Larapack\\DoctrineSupport\\DoctrineSupportServiceProvider',
     ),
   ),
+  'larapack/voyager-hooks' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Larapack\\VoyagerHooks\\VoyagerHooksServiceProvider',
+    ),
+  ),
   'laravel/passport' => 
   array (
     'providers' => 
     array (
       0 => 'Laravel\\Passport\\PassportServiceProvider',
-    ),
-  ),
-  'laravel/socialite' => 
-  array (
-    'providers' => 
-    array (
-      0 => 'Laravel\\Socialite\\SocialiteServiceProvider',
-    ),
-    'aliases' => 
-    array (
-      'Socialite' => 'Laravel\\Socialite\\Facades\\Socialite',
     ),
   ),
   'laravel/tinker' => 

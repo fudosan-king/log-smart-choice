@@ -30,8 +30,3 @@ Route::group(['prefix' => 'admin'], function () {
         Route::post('/import', [DistrictController::class, 'importDistrict'])->name('admin.district.import');
     });
 });
-
-
-Route::group(['prefix' => 'admin'], function () {
-    Voyager::routes();
-});
