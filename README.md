@@ -25,12 +25,14 @@
 ## Install MongoDB Driver for PHP<br>
 Install the PHP MongoDB Extension before installing the PHP Library for MongoDB. You can install the extension using PECL on the command line<br>
 
-`$ sudo pecl install mongodb`<br><br>
+`$ sudo pecl install mongodb` <br>
+`$ sudo yum install libsodium libsodium-devel` <br>
+`$ sudo pecl install libsodium` <br>
 
 Finally, add the following line to your php.ini file:<br>
 
 `extension=mongodb.so`<br>
-`extension=pdo.so`
+`extension=sodium.so`<br>
 
 ## Voyager - The Missing Laravel Admin<br>
 https://voyager-docs.devdojo.com/getting-started/installation

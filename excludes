@@ -23,6 +23,7 @@ storage/oauth-private.key
 storage/oauth-public.key
 report
 ./vendor/
+vendor/
 .env
 .env.development
 .env.docker
