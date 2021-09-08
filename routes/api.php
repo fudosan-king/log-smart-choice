@@ -36,7 +36,6 @@ Route::middleware('auth:api')->group(function () {
 
     // Customer
     Route::post('/customer', [CustomerController::class, 'getCustomer'])->name('customer.getInformation');
-    Route::get('/customer', [CustomerController::class, 'getCustomer'])->name('customer.getInformation');
     Route::put('/customer', [CustomerController::class, 'update'])->name('customer.update');
     Route::put('/customer/announcement-condition', [CustomerController::class, 'updateAnnouncementCondition'])->name('customer.update.announcementCondition');
 
@@ -90,7 +89,6 @@ Route::group(['prefix' => 'detail'], function () {
 Route::post('/estate/near', [EstateController::class, 'getEstateNear'])->name('estate.near');
 
 Route::post('/estate/recommend', [EstateController::class, 'getEstatesRecomment'])->name('estate.recommend');
-Route::get('/estate/recommend', [EstateController::class, 'getEstatesRecomment'])->name('estate.recommend');
 
 Route::get('test_import_estates', function () {
     $estates = array();
