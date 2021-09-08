@@ -31,8 +31,8 @@
     27 => 'Jenssegers\\Mongodb\\MongodbServiceProvider',
     28 => 'Jenssegers\\Mongodb\\MongodbQueueServiceProvider',
     29 => 'Larapack\\DoctrineSupport\\DoctrineSupportServiceProvider',
-    30 => 'Larapack\\VoyagerHooks\\VoyagerHooksServiceProvider',
-    31 => 'Laravel\\Passport\\PassportServiceProvider',
+    30 => 'Laravel\\Passport\\PassportServiceProvider',
+    31 => 'Laravel\\Socialite\\SocialiteServiceProvider',
     32 => 'Laravel\\Tinker\\TinkerServiceProvider',
     33 => 'Laravel\\Ui\\UiServiceProvider',
     34 => 'Carbon\\Laravel\\ServiceProvider',
@@ -68,21 +68,20 @@
     14 => 'Intervention\\Image\\ImageServiceProvider',
     15 => 'Jenssegers\\Mongodb\\MongodbServiceProvider',
     16 => 'Larapack\\DoctrineSupport\\DoctrineSupportServiceProvider',
-    17 => 'Larapack\\VoyagerHooks\\VoyagerHooksServiceProvider',
-    18 => 'Laravel\\Passport\\PassportServiceProvider',
-    19 => 'Laravel\\Ui\\UiServiceProvider',
-    20 => 'Carbon\\Laravel\\ServiceProvider',
-    21 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
-    22 => 'TCG\\Voyager\\VoyagerServiceProvider',
-    23 => 'TCG\\Voyager\\Providers\\VoyagerDummyServiceProvider',
-    24 => 'Jenssegers\\Mongodb\\MongodbServiceProvider',
-    25 => 'TCG\\Voyager\\VoyagerServiceProvider',
-    26 => 'App\\Providers\\EstateServiceProvider',
-    27 => 'Laravel\\Passport\\PassportServiceProvider',
-    28 => 'App\\Providers\\AppServiceProvider',
-    29 => 'App\\Providers\\AuthServiceProvider',
-    30 => 'App\\Providers\\EventServiceProvider',
-    31 => 'App\\Providers\\RouteServiceProvider',
+    17 => 'Laravel\\Passport\\PassportServiceProvider',
+    18 => 'Laravel\\Ui\\UiServiceProvider',
+    19 => 'Carbon\\Laravel\\ServiceProvider',
+    20 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
+    21 => 'TCG\\Voyager\\VoyagerServiceProvider',
+    22 => 'TCG\\Voyager\\Providers\\VoyagerDummyServiceProvider',
+    23 => 'Jenssegers\\Mongodb\\MongodbServiceProvider',
+    24 => 'TCG\\Voyager\\VoyagerServiceProvider',
+    25 => 'App\\Providers\\EstateServiceProvider',
+    26 => 'Laravel\\Passport\\PassportServiceProvider',
+    27 => 'App\\Providers\\AppServiceProvider',
+    28 => 'App\\Providers\\AuthServiceProvider',
+    29 => 'App\\Providers\\EventServiceProvider',
+    30 => 'App\\Providers\\RouteServiceProvider',
   ),
   'deferred' => 
   array (
@@ -105,6 +104,7 @@
     'command.config.cache' => 'Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider',
     'command.config.clear' => 'Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider',
     'Illuminate\\Database\\Console\\DbCommand' => 'Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider',
+    'command.db.prune' => 'Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider',
     'command.db.wipe' => 'Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider',
     'command.down' => 'Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider',
     'command.environment' => 'Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider',
@@ -120,7 +120,9 @@
     'command.queue.flush' => 'Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider',
     'command.queue.forget' => 'Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider',
     'command.queue.listen' => 'Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider',
+    'command.queue.monitor' => 'Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider',
     'command.queue.prune-batches' => 'Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider',
+    'command.queue.prune-failed-jobs' => 'Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider',
     'command.queue.restart' => 'Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider',
     'command.queue.retry' => 'Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider',
     'command.queue.retry-batch' => 'Illuminate\\Foundation\\Providers\\ConsoleSupportServiceProvider',
@@ -202,8 +204,8 @@
     'translation.loader' => 'Illuminate\\Translation\\TranslationServiceProvider',
     'validator' => 'Illuminate\\Validation\\ValidationServiceProvider',
     'validation.presence' => 'Illuminate\\Validation\\ValidationServiceProvider',
-    'command.tinker' => 'Laravel\\Tinker\\TinkerServiceProvider',
     'Laravel\\Socialite\\Contracts\\Factory' => 'Laravel\\Socialite\\SocialiteServiceProvider',
+    'command.tinker' => 'Laravel\\Tinker\\TinkerServiceProvider',
   ),
   'when' => 
   array (
@@ -246,10 +248,10 @@
     'Jenssegers\\Mongodb\\MongodbQueueServiceProvider' => 
     array (
     ),
-    'Laravel\\Tinker\\TinkerServiceProvider' => 
+    'Laravel\\Socialite\\SocialiteServiceProvider' => 
     array (
     ),
-    'Laravel\\Socialite\\SocialiteServiceProvider' => 
+    'Laravel\\Tinker\\TinkerServiceProvider' => 
     array (
     ),
   ),
