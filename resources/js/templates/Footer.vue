@@ -247,9 +247,9 @@ export default {
         floatButtonEvent() {
             let accessToken = this.$getCookie('accessToken');
             if (accessToken.length > 0) {
-                this.$router.push({ name: 'announcementCondition' });
+                this.$router.push({ name: 'announcementCondition' }).catch(() => {});
             } else {
-                this.$router.push({ name: 'login' });
+                this.$router.push({ name: 'login' }).catch(() => {});
             }
         }
     },

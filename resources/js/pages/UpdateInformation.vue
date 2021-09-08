@@ -239,7 +239,7 @@ export default {
                     .then(resp => {
                         this.$swal('会員情報更新', content, 'success').then(result => {
                             if (result.isConfirmed) {
-                                this.$router.push({ name: 'information' });
+                                this.$router.push({ name: 'information' }).catch(() => {});
                             }
                         });
                     })

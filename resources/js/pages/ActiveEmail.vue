@@ -56,12 +56,12 @@ export default {
                 .dispatch('verifyEmail', data)
                 .then(resp => {
                     this.disabled = true;
-                    this.$router.push({ name: 'login' });
+                    this.$router.push({ name: 'login' }).catch(() => {});
                 })
                 .catch(error => {
                     this.disabled = false;
                     this.error = error.response.data.errors.messages;
-                    this.$router.push({ name: 'login' });
+                    this.$router.push({ name: 'login' }).catch(() => {});
                 });
         }
     }

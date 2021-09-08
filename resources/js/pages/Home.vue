@@ -118,7 +118,7 @@ export default {
         clearConditionSearch() {
             this.$setCookie('district', '', 1);
             this.$setCookie('station', '', 1);
-            this.$router.push('list');
+            this.$router.push('list').catch(() => {});
         },
         handleHeaderContentClick (type = 'district', event) {
             event.preventDefault();

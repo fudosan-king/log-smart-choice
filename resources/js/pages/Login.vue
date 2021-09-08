@@ -13,7 +13,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-12 col-lg-12">
-                                <!-- <div class="box_toplogin">
+                                <div class="box_toplogin">
                                     <ul>
                                         <li>
                                             <a class="btn" @click="facebookLogin">
@@ -31,7 +31,7 @@
                                     <p class="or">
                                         <span>または</span>
                                     </p>
-                                </div> -->
+                                </div>
                                 <form autocomplete="off" @submit.prevent="login" class="frm_settingpass">
                                     <div class="form-group"> 
                                             <div class="">
@@ -167,8 +167,7 @@ export default {
                 this.$store
                     .dispatch('login', { email, password })
                     .then(response => {
-                        window.location.href = '/';
-                        // this.$router.push('/');
+                        this.$router.push('/').catch(() => {});
                         // this.$router.go(0);
                     })
                     .catch(error => {
@@ -176,26 +175,26 @@ export default {
                     });
             }
         },
-        // googleLogin() {
-        //     this.$store.dispatch('googleLogin').then(response => {
-        //         window.location.href = '/';
-        //     });
-        // },
+        googleLogin() {
+            this.$store.dispatch('googleLogin').then(response => {
+                window.location.href = '/';
+            });
+        },
 
-        // facebookLogin() {
-        //     const store = this.$store;
-        //     FB.login(
-        //         function(response) {
-        //             if (response.authResponse) {
-        //                 store.dispatch('facebookLogin').then(response => {
-        //                     window.location.href = '/';
-        //                 });
-        //             }
-        //         },
-        //         { scope: 'public_profile, email' }
-        //     );
-        //     return false;
-        // },
+        facebookLogin() {
+            const store = this.$store;
+            FB.login(
+                function(response) {
+                    if (response.authResponse) {
+                        store.dispatch('facebookLogin').then(response => {
+                            window.location.href = '/';
+                        });
+                    }
+                },
+                { scope: 'public_profile, email' }
+            );
+            return false;
+        },
 
     }
 };

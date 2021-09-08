@@ -11,8 +11,11 @@ const getters = {};
 const actions = {
     customerInfo() {
         return new Promise((resolve, reject) => {
-            let accessToken = this._vm.$getCookie('accessToken');
+            let accessToken = Vue.prototype.$getCookie('accessToken');
+            // let accessToken = this._vm.$getCookie('accessToken');
+            console.log(accessToken);
             const auth = this.auth;
+            let err = '';
             if (accessToken) {
                 axios({
                     url: '/customer',
@@ -25,8 +28,8 @@ const actions = {
                     auth: auth,
                 })
                     .then(resp => {
-                        this._vm.$setCookie('userName', resp.data.data.name, 1);
-                        this._vm.$setCookie('announcement_count', resp.data.data.announcement_count, 1);
+                        Vue.prototype.$setCookie('userName', resp.data.data.name, 1);
+                        Vue.prototype.$setCookie('announcement_count', resp.data.data.announcement_count, 1);
                         resolve(resp.data.data);
                     })
                     .catch(err => {

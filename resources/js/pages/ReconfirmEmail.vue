@@ -101,7 +101,7 @@ export default {
                         this.disabled = true;
                         this.message = resp.data.success.messages;
                         setTimeout(() => {
-                            this.$router.push({ name: 'login' });
+                            this.$router.push({ name: 'login' }).catch(() => {});
                         }, 2000);
                     })
                     .catch(error => {

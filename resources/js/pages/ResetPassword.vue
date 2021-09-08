@@ -141,7 +141,7 @@ export default {
                     .then(resp => {
                         this.$swal('パスワード変更', content, 'success').then(result => {
                             if (result.isConfirmed) {
-                                this.$router.push({ name: 'login' });
+                                this.$router.push({ name: 'login' }).catch(() => {});
                             }
                         });
                     })

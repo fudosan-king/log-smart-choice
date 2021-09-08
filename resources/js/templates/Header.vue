@@ -321,7 +321,7 @@ export default {
                     $('.dropdown_user_content').slideToggle('fast');
                     $('.dropdown_search_content').hide();
                     this.announcementCount = this.$getCookie('announcement_count');
-                }).catch(() => {
+                }).catch((err) => {
                     this.$setCookie('accessToken', '', 1);
                     this.$setCookie('accessToken3d', '', 1);
                     this.$setCookie('refreshToken', '', 1);

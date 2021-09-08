@@ -424,7 +424,7 @@ export default {
                 data.estateName = this.estate.estate_name;
                 data.checkedPrivacy = 'on';
                 this.$setCookie('contactData', JSON.stringify(data), 1);
-                this.$router.push('contact/confirm');
+                this.$router.push('contact/confirm').catch(() => {});
             }
         },
 

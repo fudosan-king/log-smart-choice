@@ -297,7 +297,7 @@ export default {
                         
                         this.$swal('会員登録申請完了', content, 'success').then(result => {
                             if (result.isConfirmed) {
-                                this.$router.push({ name: 'login' });
+                                this.$router.push({ name: 'login' }).catch(() => {});
                             }
                         });
                     })

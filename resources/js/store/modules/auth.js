@@ -28,11 +28,11 @@ const actions = {
                 auth: auth,
             })
                 .then(resp => {
-                    this._vm.$setCookie('userName', resp.data.data.customer_name, 1);
-                    this._vm.$setCookie('userEmail', resp.data.data.customer_email, 1);
-                    this._vm.$setCookie('userSocialId', resp.data.data.customer_social_id, 1);
-                    this._vm.$setCookie('accessToken', resp.data.data.access_token, 1);
-                    this._vm.$setCookie('accessToken3d', resp.data.data.access_token, 1);
+                    Vue.prototype.$setCookie('userName', resp.data.data.customer_name, 1);
+                    Vue.prototype.$setCookie('userEmail', resp.data.data.customer_email, 1);
+                    Vue.prototype.$setCookie('userSocialId', resp.data.data.customer_social_id, 1);
+                    Vue.prototype.$setCookie('accessToken', resp.data.data.access_token, 1);
+                    Vue.prototype.$setCookie('accessToken3d', resp.data.data.access_token, 1);
                     resolve(resp);
                 })
                 .catch(err => {

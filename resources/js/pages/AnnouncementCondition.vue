@@ -198,7 +198,7 @@ export default {
                         this.disabled = true;
                         this.$swal('メルマガ配信希望条件', content, 'success').then(result => {
                             if (result.isConfirmed) {
-                                this.$router.push({ name: 'information' });
+                                this.$router.push({ name: 'information' }).catch(() => {});
                             }
                         });
                     })
