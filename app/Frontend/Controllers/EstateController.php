@@ -429,11 +429,14 @@ class EstateController extends Controller
         $estates = [];
         $estatesSort = [];
         $estatesGroup = EstateGroup::select('estate_list')->where('group_code', 'recommended_estate')->get();
-
-        foreach ($estatesGroup as $estateList) {
-            foreach ($estateList['estate_list'] as $estate) {
-                $estates[] = (string)$estate['estate_id'];
-                $estatesSort[(string)$estate['estate_id']] = $estate['sort_order'];
+        if ($estatesGroup) {
+            foreach ($estatesGroup as $estateList) {
+                if ($estateList && $estateList->estate_list) {
+                    foreach ($estateList->estate_list as $estate) {
+                        $estates[] = (string)$estate['estate_id'];
+                        $estatesSort[(string)$estate['estate_id']] = $estate['sort_order'];
+                    }
+                }
             }
         }
 
