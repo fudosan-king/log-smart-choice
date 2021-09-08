@@ -468,6 +468,6 @@ class EstateController extends Controller
             return $this->response(200, "Get estate recommend success", $estateRecommendList, true);
         }
 
-        return $this->response(422, "Get estate recommend fail", []);
+        return $this->response(200, "Get estate recommend fail", []);
     }
 }

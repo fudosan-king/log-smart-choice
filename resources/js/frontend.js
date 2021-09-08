@@ -8,21 +8,21 @@ import router from './router/index';
 import globalHelper from './globalHelper';
 import Vuelidate from 'vuelidate';
 import customerModule from './store/modules/customer.js';
-import gAuth from './config/googleAuth';
-import FBAuth from './config/facebookAuth';
+// import gAuth from './config/googleAuth';
+// import FBAuth from './config/facebookAuth';
 
-const gAuthOption = {
-    clientId: process.env.MIX_GOOGLE_CLIENT_ID,
-    scope: "profile email",
-    jsSrc: "https://apis.google.com/js/api.js",
-};
+// const gAuthOption = {
+//     clientId: process.env.MIX_GOOGLE_CLIENT_ID,
+//     scope: "profile email",
+//     jsSrc: "https://apis.google.com/js/api.js",
+// };
 
-const fbAuthOption = {
-    appID: process.env.MIX_FACEBOOK_APP_ID,
-    jsID: "facebook-jssdk",
-    jsSrc: "https://connect.facebook.net/en_US/sdk.js",
-    version: "v10.0",
-};
+// const fbAuthOption = {
+//     appID: process.env.MIX_FACEBOOK_APP_ID,
+//     jsID: "facebook-jssdk",
+//     jsSrc: "https://connect.facebook.net/en_US/sdk.js",
+//     version: "v10.0",
+// };
 
 
 // Set Vue router
@@ -30,8 +30,8 @@ Vue.router = router;
 Vue.use(VueRouter);
 Vue.use(globalHelper);
 Vue.use(Vuelidate);
-Vue.use(gAuth, gAuthOption);
-Vue.use(FBAuth, fbAuthOption); 
+// Vue.use(gAuth, gAuthOption);
+// Vue.use(FBAuth, fbAuthOption); 
 window.LSMEvent = new Vue();
 
 axios.defaults.withCredentials = true;
@@ -72,6 +72,6 @@ new Vue({
     },
     mounted() {
         // mili seconds
-        setInterval(this.getRefreshTokenApi, 15000000);
+        // setInterval(this.getRefreshTokenApi, 15000000);
     }
 });

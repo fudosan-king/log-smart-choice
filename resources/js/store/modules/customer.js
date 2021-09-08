@@ -13,24 +13,28 @@ const actions = {
         return new Promise((resolve, reject) => {
             let accessToken = this._vm.$getCookie('accessToken');
             const auth = this.auth;
-            axios({
-                url: '/customer',
-                method: 'POST',
-                data: {},
-                headers: {
-                    'content-type': 'application/json',
-                    'AuthorizationBearer': `Bearer ${accessToken}`,
-                },
-                auth: auth,
-            })
-                .then(resp => {
-                    this._vm.$setCookie('userName', resp.data.data.name, 1);
-                    this._vm.$setCookie('announcement_count', resp.data.data.announcement_count, 1);
-                    resolve(resp.data.data);
+            if (accessToken) {
+                axios({
+                    url: '/customer',
+                    method: 'POST',
+                    data: {},
+                    headers: {
+                        'content-type': 'application/json',
+                        'AuthorizationBearer': `Bearer ${accessToken}`,
+                    },
+                    auth: auth,
                 })
-                .catch(err => {
-                    reject(err);
-                });
+                    .then(resp => {
+                        this._vm.$setCookie('userName', resp.data.data.name, 1);
+                        this._vm.$setCookie('announcement_count', resp.data.data.announcement_count, 1);
+                        resolve(resp.data.data);
+                    })
+                    .catch(err => {
+                        reject(err);
+                    });
+            } else {
+                reject(err);
+            }
         });
     },
     changePassword({ }, data) {

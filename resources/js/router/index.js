@@ -258,7 +258,7 @@ router.beforeEach((to, from, next) => {
         } else {
             next()
         }
-    
+
         if (store.getters.isLoggedIn && to.meta.guest) {
             return router.push('/')
         }
