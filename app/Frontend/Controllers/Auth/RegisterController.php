@@ -45,7 +45,9 @@ class RegisterController extends Controller
     public function registerCustomer(RegisterRequest $request)
     {
         $params = [
-            'name'                  => "User" . rand(0, 100000),
+            // 'name'                  => "User" . rand(0, 100000),
+            'name'                  => $request->name,
+            'last_name'             => $request->last_name,
             'email'                 => $request->email,
             'password'              => $request->password,
             'password_confirmation' => $request->password_confirmation

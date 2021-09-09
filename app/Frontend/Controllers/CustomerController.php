@@ -46,7 +46,6 @@ class CustomerController extends Controller
      */
     public function update(Request $request)
     {
-
         $customerId = Auth::user()->id;
         $name = $request->get('name');
         $lastName = $request->get('last_name');
