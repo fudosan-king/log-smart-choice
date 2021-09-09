@@ -23,9 +23,9 @@ class Authenticate extends Middleware
     public function handle($request, Closure $next, ...$guards)
     {
         $accessToken = $request->headers->get('AuthorizationBearer');
+        $request->headers->remove('AuthorizationBearer');
         if ($accessToken) {
             $request->headers->set('Authorization', $accessToken, true);
-            $request->headers->remove('AuthorizationBearer');
         }
 
         $this->authenticate($request, $guards);

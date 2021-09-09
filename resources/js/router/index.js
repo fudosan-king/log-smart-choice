@@ -240,7 +240,7 @@ router.beforeEach((to, from, next) => {
             }
         
             if (store.getters.isLoggedIn && to.meta.guest) {
-                return router.push('/').catch(() => {});
+                return router.push('/login').catch(() => {});
             }
     
         });
@@ -260,7 +260,7 @@ router.beforeEach((to, from, next) => {
         }
 
         if (store.getters.isLoggedIn && to.meta.guest) {
-            return router.push('/').catch(() => {});
+            return router.push('/login').catch(() => {});
         }
     }
     

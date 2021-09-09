@@ -360,7 +360,7 @@ export default {
                     this.full_name = resp.name + ' ' + resp.last_name;
                     this.email = resp.email;
                     this.land_line = resp.land_line;
-                    console.log(this.land_line);
+                    // console.log(this.land_line);
                     if (this.$getCookie('contactData').length > 0) {
                         this.contactData = JSON.parse(this.$getCookie('contactData'));
                         this.land_line = this.contactData.landLine;
