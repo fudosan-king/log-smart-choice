@@ -12,8 +12,6 @@ const actions = {
     customerInfo() {
         return new Promise((resolve, reject) => {
             let accessToken = Vue.prototype.$getCookie('accessToken');
-            // let accessToken = this._vm.$getCookie('accessToken');
-            console.log(accessToken);
             const auth = this.auth;
             let err = '';
             if (accessToken) {
@@ -23,7 +21,7 @@ const actions = {
                     data: {},
                     headers: {
                         'content-type': 'application/json',
-                        'AuthorizationBearer': `Bearer ${accessToken}`,
+                        'AuthorizationBearer': 'Bearer ' + accessToken,
                     },
                     auth: auth,
                 })

@@ -20,7 +20,7 @@
                     /></a>
                     <p class="total_price">
                         {{ wishtlistItem.price }}<span>万円</span
-                        ><span class="sub">（物件＋リノベーション）</span>
+                        ><span class="sub" v-if="estate.renovation_type != 'リノベ済物件'">（物件＋リノベーション）</span>
                     </p>
                     <p class="label_custom" v-if="wishtlistItem.renovation_type == 'カスタム可能物件'">
                         カスタム<br />可能物件
