@@ -68,7 +68,7 @@ class WishListController extends Controller
 
         $estates = Estates::select('estate_name', 'price', 'balcony_space',
             'address', 'tatemono_menseki', 'motoduke', 'room_count', 'room_kind',
-            'room_floor')
+            'room_floor', 'renovation_type')
             ->whereIn('_id', $estateIds)
             ->where('status', Estates::STATUS_SALE)->paginate($limit, $page);
 
