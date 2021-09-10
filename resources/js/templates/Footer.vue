@@ -209,7 +209,7 @@ export default {
             if (this.$getCookie('accessToken').length) {
                 let currentUrl = this.$route.path.split('/');
                 let routeContact = this.$router.resolve({ name: 'contact' }).href;
-                this.$setCookie('estate_id', currentUrl[2], 1);
+                window.localStorage.setItem('estate_id', currentUrl[2]);
                 window.open(window.location.origin + routeContact, '_blank');
             } else {
                 $('#modal_register').modal('toggle');

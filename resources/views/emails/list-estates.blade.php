@@ -183,7 +183,7 @@
                     <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 800px; margin: 20px auto;">
                         <tr>
                             <td style="text-align: center;">
-                                <h2 style="padding: 10px; font-size: 14px;">{{ $customer['name'] }}様の希望の希望条件</h2>
+                                <h2 style="padding: 10px; font-size: 14px;">{{ $customer['name'] }}様の希望条件</h2>
                             </td>
                         </tr>
                     </table>

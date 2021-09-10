@@ -269,3 +269,18 @@ main .section_property_main {
 small h3 {
     font-size: 16px;
 }
+
+.dropdown_search .dropdown_search_content .card .card-body ul li {
+	width: 31.33%;
+}
+.dropdown_search .dropdown_search_content .card .card-body ul li:after {
+	right: 4px;
+	padding: 0 10px;
+}
+
+@media (max-width: 768px) {
+	.dropdown_search .dropdown_search_content .card .card-body ul li {
+	    margin-right: 5px;
+	    margin-bottom: 5px;
+	}
+}

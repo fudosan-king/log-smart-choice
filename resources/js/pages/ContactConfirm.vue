@@ -239,8 +239,8 @@ export default {
     },
     methods: {
         getContactData() {
-            if (this.$getCookie('contactData').length > 0) {
-                this.contactData = JSON.parse(this.$getCookie('contactData'));
+            if (window.localStorage.getItem('contactData').length > 0) {
+                this.contactData = JSON.parse(window.localStorage.getItem('contactData'));
             }
         },
 
@@ -265,7 +265,8 @@ export default {
             $('input[name="電話番号"]').val(this.contactData.landLine);
             $('input[name="estate_url"]').val(this.contactData.estateUrl);
             $('textarea[name="第1希望日時"]').val(this.contactData.inquiryContent);
-            this.$setCookie('contactData', '', 1);
+            window.localStorage.removeItem('contactData');
+            window.localStorage.removeItem('estate_id');
             $('#postToFormrun').submit();
         }
     }
