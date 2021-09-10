@@ -31,7 +31,7 @@ Vue.use(VueRouter);
 Vue.use(globalHelper);
 Vue.use(Vuelidate);
 Vue.use(gAuth, gAuthOption);
-Vue.use(FBAuth, fbAuthOption); 
+Vue.use(FBAuth, fbAuthOption);
 window.LSMEvent = new Vue();
 
 axios.defaults.withCredentials = true;

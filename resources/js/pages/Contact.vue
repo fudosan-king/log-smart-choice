@@ -341,8 +341,8 @@ export default {
     methods: {
         getEstate() {
             let data = {};
-            if (this.$getCookie('estate_id').length) {
-                data.id = this.$getCookie('estate_id');
+            if (window.localStorage.getItem('estate_id').length) {
+                data.id = window.localStorage.getItem('estate_id');
                 this.$store
                     .dispatch('getEstate', data)
                     .then(resp => {
@@ -360,9 +360,8 @@ export default {
                     this.full_name = resp.name + ' ' + resp.last_name;
                     this.email = resp.email;
                     this.land_line = resp.land_line;
-                    // console.log(this.land_line);
-                    if (this.$getCookie('contactData').length > 0) {
-                        this.contactData = JSON.parse(this.$getCookie('contactData'));
+                    if (window.localStorage.getItem('contactData').length > 0) {
+                        this.contactData = JSON.parse(window.localStorage.getItem('contactData'));
                         this.land_line = this.contactData.landLine;
                         this.full_name = this.contactData.fullName;
                         this.email = this.contactData.email;
@@ -375,8 +374,8 @@ export default {
                     }
                 })
                 .catch(() => {
-                    if (this.$getCookie('contactData').length > 0) {
-                        this.contactData = JSON.parse(this.$getCookie('contactData'));
+                    if (window.localStorage.getItem('contactData').length > 0) {
+                        this.contactData = JSON.parse(window.localStorage.getItem('contactData'));
                         this.land_line = this.contactData.landLine;
                         this.full_name = this.contactData.fullName;
                         this.email = this.contactData.email;
@@ -416,14 +415,14 @@ export default {
                 data.fullName = this.full_name;
                 data.landLine = this.land_line;
                 data.inquiryContent = inquiryContent;
-                data.estateUrl = window.location.origin + '/detail/' + this.$getCookie('estate_id');
+                data.estateUrl = window.location.origin + '/detail/' + window.localStorage.getItem('estate_id');
                 data.hopeDayFirst = hopeDayFirst;
                 data.hopeDaySecond = hopeDaySecond;
                 data.startTimeFirst = startTimeFirst;
                 data.startTimeSecond = startTimeSecond;
                 data.estateName = this.estate.estate_name;
                 data.checkedPrivacy = 'on';
-                this.$setCookie('contactData', JSON.stringify(data), 1);
+                window.localStorage.setItem('contactData', JSON.stringify(data));
                 this.$router.push('contact/confirm').catch(() => {});
             }
         },

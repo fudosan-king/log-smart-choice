@@ -168,13 +168,16 @@ export default {
                     }
                 });
             }
-            if (this.$getCookie('district') && districtCode != '') {
-                this.titleSearch = this.$getCookie('district') + 'の物件';
+            if (window.localStorage.getItem('district') && districtCode != '') {
+                
+                // this.titleSearch = this.$getCookie('district') + 'の物件';
+                this.titleSearch = window.localStorage.getItem('district') + 'の物件';
                 window.localStorage.setItem('searchCode', this.titleSearch);
             }
 
-            if (this.$getCookie('station') && companyCode != '') {
-                this.titleSearch = this.$getCookie('station') + 'の物件';
+            if (window.localStorage.getItem('station') && companyCode != '') {
+                // this.titleSearch = this.$getCookie('station') + 'の物件';
+                this.titleSearch = window.localStorage.getItem('station') + 'の物件';
                 window.localStorage.setItem('searchCode', this.titleSearch);
             }
 

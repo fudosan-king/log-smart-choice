@@ -34,6 +34,7 @@ const actions = {
                         reject(err);
                     });
             } else {
+                err = "Missing token";
                 reject(err);
             }
         });
