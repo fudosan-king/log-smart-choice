@@ -103,17 +103,17 @@ export default {
     methods: {
         // Gui yeu cau den server sau moi lan cuon xuong
         getWishlist(pageLoad) {
-            let accessToken = this.$getCookie('accessToken');
+            let accessToken = this.$getLocalStorage('accessToken');
             let data = {
                 limit: 8,
                 page: pageLoad
             };
             if (accessToken.length > 0) {
-                data.email = this.$getCookie('userSocialId');
+                data.email = this.$getLocalStorage('userSocialId');
                 data.isSocial = true;
                 this.accessToken = true;
-                if (this.$getCookie('userSocialId') == 'null') {
-                    data.email = this.$getCookie('userEmail');
+                if (this.$getLocalStorage('userSocialId') == 'null') {
+                    data.email = this.$getLocalStorage('userEmail');
                     data.isSocial = false;
                 }
                 this.$store.dispatch('getWishlist', data).then(res => {

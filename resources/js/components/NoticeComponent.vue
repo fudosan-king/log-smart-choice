@@ -146,7 +146,7 @@ export default {
     methods: {
         // Gui yeu cau den server sau moi lan cuon xuong
         getAnnouncementList(pageLoad) {
-            let accessToken = this.$getCookie('accessToken');
+            let accessToken = this.$getLocalStorage('accessToken');
             let data = {
                 limit: this.limit,
                 page: pageLoad
@@ -207,10 +207,10 @@ export default {
             this.$store.dispatch('readAnnouncement', data).then(res => {
                 if (typeof res[0] === 'undefined') {
                     let annoucementCount = res.data.data;
-                    this.$setCookie('announcement_count', annoucementCount.announcement_count, 1);
+                    this.$setLocalStorage('announcement_count', annoucementCount.announcement_count);
                 } else {
                     let annoucementCount = res[0]['data']['data'];
-                    this.$setCookie('announcement_count', annoucementCount.announcement_count, 1);
+                    this.$setLocalStorage('announcement_count', annoucementCount.announcement_count);
                 }
                 this.$router.push({ path: 'detail/' + estetaId });
             });

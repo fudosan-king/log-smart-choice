@@ -111,10 +111,8 @@ export default {
     methods: {
         // Gui yeu cau den server sau moi lan cuon xuong
         getListEstates(pageLoad) {
-            let accessToken = this.$getCookie('accessToken');
-            // let district = this.$getCookie('district');
+            let accessToken = this.$getLocalStorage('accessToken');
             let district = '';
-            // let station = this.$getCookie('station');
             let station = '';
             let districtCode = '';
             let companyCode = '';
@@ -140,11 +138,11 @@ export default {
             }
             
             if (accessToken.length > 0) {
-                data.email = this.$getCookie('userSocialId');
+                data.email = this.$getLocalStorage('userSocialId');
                 data.isSocial = true;
                 this.accessToken = true;
-                if (this.$getCookie('userSocialId') == 'null') {
-                    data.email = this.$getCookie('userEmail');
+                if (this.$getLocalStorage('userSocialId') == 'null') {
+                    data.email = this.$getLocalStorage('userEmail');
                     data.isSocial = false;
                 }
 
@@ -170,14 +168,12 @@ export default {
             }
             if (window.localStorage.getItem('district') && districtCode != '') {
                 
-                // this.titleSearch = this.$getCookie('district') + 'の物件';
-                this.titleSearch = window.localStorage.getItem('district') + 'の物件';
+                this.titleSearch = this.$getLocalStorage('district') + 'の物件';
                 window.localStorage.setItem('searchCode', this.titleSearch);
             }
 
             if (window.localStorage.getItem('station') && companyCode != '') {
-                // this.titleSearch = this.$getCookie('station') + 'の物件';
-                this.titleSearch = window.localStorage.getItem('station') + 'の物件';
+                this.titleSearch = this.$getLocalStorage('station') + 'の物件';
                 window.localStorage.setItem('searchCode', this.titleSearch);
             }
 
@@ -229,7 +225,7 @@ export default {
         // Add states to wishlist
 
         addToWishList(estateId, isWish) {
-            let accessToken = this.$getCookie('accessToken');
+            let accessToken = this.$getLocalStorage('accessToken');
             if (accessToken != '') {
                 let data = {
                     estateId: estateId,

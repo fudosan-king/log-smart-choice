@@ -11,7 +11,7 @@ const getters = {};
 const actions = {
     customerInfo() {
         return new Promise((resolve, reject) => {
-            let accessToken = Vue.prototype.$getCookie('accessToken');
+            let accessToken = Vue.prototype.$getLocalStorage('accessToken');
             const auth = this.auth;
             let err = '';
             if (accessToken) {
@@ -26,8 +26,8 @@ const actions = {
                     auth: auth,
                 })
                     .then(resp => {
-                        Vue.prototype.$setCookie('userName', resp.data.data.name, 1);
-                        Vue.prototype.$setCookie('announcement_count', resp.data.data.announcement_count, 1);
+                        Vue.prototype.$setLocalStorage('userName', resp.data.data.name);
+                        Vue.prototype.$setLocalStorage('announcement_count', resp.data.data.announcement_count);
                         resolve(resp.data.data);
                     })
                     .catch(err => {
@@ -41,7 +41,7 @@ const actions = {
     },
     changePassword({ }, data) {
         return new Promise((resolve, reject) => {
-            let accessToken = this._vm.$getCookie('accessToken');
+            let accessToken = Vue.prototype.$getLocalStorage('accessToken');
             const auth = this.auth;
             axios({
                 url: '/confirm-password',
@@ -60,7 +60,7 @@ const actions = {
     },
     updateInformation({ }, data) {
         return new Promise((resolve, reject) => {
-            let accessToken = this._vm.$getCookie('accessToken');
+            let accessToken = Vue.prototype.$getLocalStorage('accessToken');
             const auth = this.auth;
             axios({
                 url: '/customer',
@@ -80,7 +80,7 @@ const actions = {
 
     updateAnnouncement({}, data) {
         return new Promise((resolve, reject) => {
-            let accessToken = this._vm.$getCookie('accessToken');
+            let accessToken = Vue.prototype.$getLocalStorage('accessToken');
             const auth = this.auth;
             axios({
                 url: '/customer/announcement-condition',

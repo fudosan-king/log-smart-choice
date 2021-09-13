@@ -13,7 +13,7 @@ const actions = {
     getWishlist({}, data) {
         return new Promise((relove, reject) => {
             const auth = this.auth;
-            let accessToken = `Bearer ${this._vm.$getCookie('accessToken')}`;
+            let accessToken = `Bearer ${Vue.prototype.$getLocalStorage('accessToken')}`;
             axios({ url: '/wishlist/list', method: 'POST', data: data, headers: {
                 'Content-type': 'application/json',
                 'AuthorizationBearer': accessToken

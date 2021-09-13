@@ -32,7 +32,7 @@ const actions = {
 
     getCustomerDistrict() {
         return new Promise((resolve, reject) => {
-            let accessToken = this._vm.$getCookie('accessToken');
+            let accessToken = Vue.prototype.$getLocalStorage('accessToken');
             const auth = this.auth;
             axios({
                 url: '/district/customer/list',

@@ -39,7 +39,7 @@
         },
         methods: {
             getCustomerName() {
-                this.customerName = this.$getCookie('userName');
+                this.customerName = this.$getLocalStorage('userName');
             }
         },
     };

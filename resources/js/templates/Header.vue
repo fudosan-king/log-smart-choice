@@ -294,24 +294,19 @@ export default {
         //     this.dropSearchByType(type);
         // });
 
-        this.userName = this.$getCookie('userName');
+        this.userName = this.$getLocalStorage('userName');
     },
     methods: {
         logout() {
             this.$store
                 .dispatch('logout')
                 .then(response => {
-                    this.$setCookie('accessToken', '', 1);
                     this.$setCookie('accessToken3d', '', 1);
-                    this.$setCookie('userName', '', 1);
-                    this.$setCookie('userEmail', '', 1);
-                    this.$setCookie('userSocialId', '', 1);
-                    this.$setCookie('district', '', 1);
-                    this.$setCookie('station', '', 1);
-                    this.$setCookie('announcement_count', '', 1);
+                    Vue.prototype.$removeAuthLocalStorage();
+                    this.$removeLocalStorage('announcement_count');
                     delete axios.defaults.headers.common['Authorization'];
-                    window.localStorage.removeItem('district');
-                    window.localStorage.removeItem('station');
+                    this.$removeLocalStorage('district');
+                    this.$removeLocalStorage('station');
                     this.$router.go(0);
                 })
                 .catch(error => {});
@@ -324,10 +319,9 @@ export default {
                     $('.dropdown_search_content').hide();
                     this.announcementCount = this.$getCookie('announcement_count');
                 }).catch((err) => {
-                    this.$setCookie('accessToken', '', 1);
                     this.$setCookie('accessToken3d', '', 1);
-                    this.$setCookie('userName', '', 1);
-                    this.$setCookie('announcement_count', '', 1);
+                    Vue.prototype.$removeAuthLocalStorage();
+                    this.$removeLocalStorage('announcement_count');
                     delete axios.defaults.headers.common['Authorization'];
                     this.$router.push({ name: 'login' }).catch(() => {});
                 });
@@ -388,12 +382,11 @@ export default {
         },
 
         searchDistrict(districtName, code) {
-            let cookieStation = window.localStorage.getItem('station');
+            let cookieStation = this.$getLocalStorage('station');
             if (cookieStation) {
-                window.localStorage.setItem('station', '');
+                this.$removeLocalStorage('station');
             }
-            window.localStorage.setItem('district', districtName);
-
+            this.$setLocalStorage('district', districtName);
             this.$router
                 // .push({ name: 'list'})
                 .push({ name: 'listByCode', params: {searchCode: code} })
@@ -406,11 +399,11 @@ export default {
         },
 
         searchStation(companyName, companyCode) {
-            let cookieDistrict = window.localStorage.getItem('district');
+            let cookieDistrict = this.$getLocalStorage('district');
             if (cookieDistrict.length > 0) {
-                window.localStorage.setItem('district', '');
+                this.$removeLocalStorage('district');
             }
-            window.localStorage.setItem('station', companyName);
+            this.$setLocalStorage('station', companyName);
             this.$router
                 .push({ name: 'listByCode', params: {searchCode: companyCode} })
                 .then(() => {
