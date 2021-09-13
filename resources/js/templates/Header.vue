@@ -387,18 +387,13 @@ export default {
             });
         },
 
-        searchDistrict(district, code) {
-            // let cookieStation = this.$getCookie('station');
+        searchDistrict(districtName, code) {
             let cookieStation = window.localStorage.getItem('station');
             if (cookieStation) {
-                // this.$setCookie('station', '', 1);
                 window.localStorage.setItem('station', '');
             }
-            console.log("District: "+district);
-            // this.$setCookie('district', district, 1);
-            window.localStorage.setItem('district', district);
-            console.log("Cookie After: "+window.localStorage.getItem('district'));
-            
+            window.localStorage.setItem('district', districtName);
+
             this.$router
                 // .push({ name: 'list'})
                 .push({ name: 'listByCode', params: {searchCode: code} })
@@ -411,13 +406,10 @@ export default {
         },
 
         searchStation(companyName, companyCode) {
-            // let cookieDistrict = this.$getCookie('district');
             let cookieDistrict = window.localStorage.getItem('district');
             if (cookieDistrict.length > 0) {
-                // this.$setCookie('district', '', 1);
                 window.localStorage.setItem('district', '');
             }
-            // this.$setCookie('station', companyName, 1);
             window.localStorage.setItem('station', companyName);
             this.$router
                 .push({ name: 'listByCode', params: {searchCode: companyCode} })
