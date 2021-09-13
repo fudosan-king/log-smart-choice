@@ -155,11 +155,11 @@
                                     <h3 style="text-align: center; font-size: 18px; color: #4F4F4F;">{{$estate['estate_name']}}</h3>
                                     <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
                                         <tr>
-                                            <td style="padding-left: 45px;">
+                                            <td style="padding-left: 3%;">
                                                 <p>{{ $estate['address']['city'] }}{{ $estate['address']['ooaza'] }}{{ $estate['address']['tyoume'] }}</p>
                                                 <p>{{ $estate['tatemono_menseki'] }}m²（{{ $estate['room_count'] }}{{ $estate['room_kind'] }}+DEN）</p>
                                             </td>
-                                            <td style="padding-right: 45px;">
+                                            <td style="padding-right: 3%;">
                                                 @if($estate['price'])
                                                 <p class="price">{{ $estate['price'] }}<span>万円</span></p>
                                                 @endif
