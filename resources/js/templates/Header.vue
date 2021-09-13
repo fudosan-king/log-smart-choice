@@ -302,7 +302,7 @@ export default {
                 .dispatch('logout')
                 .then(response => {
                     this.$setCookie('accessToken3d', '', 1);
-                    Vue.prototype.$removeAuthLocalStorage();
+                    this.$removeAuthLocalStorage();
                     this.$removeLocalStorage('announcement_count');
                     delete axios.defaults.headers.common['Authorization'];
                     this.$removeLocalStorage('district');
@@ -320,7 +320,7 @@ export default {
                     this.announcementCount = this.$getCookie('announcement_count');
                 }).catch((err) => {
                     this.$setCookie('accessToken3d', '', 1);
-                    Vue.prototype.$removeAuthLocalStorage();
+                    this.$removeAuthLocalStorage();
                     this.$removeLocalStorage('announcement_count');
                     delete axios.defaults.headers.common['Authorization'];
                     this.$router.push({ name: 'login' }).catch(() => {});

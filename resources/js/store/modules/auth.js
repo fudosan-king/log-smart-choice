@@ -39,7 +39,7 @@ const actions = {
                 .catch(err => {
                     commit('auth_error');
                     this._vm.$setCookie('accessToken3d', '', 1);
-                    Vue.prototype.$removeAuthLocalStorage();
+                    this._vm.$removeAuthLocalStorage();
                     reject(err);
                 });
         });
@@ -59,12 +59,12 @@ const actions = {
             })
                 .then(resp => {
                     this._vm.$setCookie('accessToken3d', '', 1);
-                    Vue.prototype.$removeLocalStorage('accessToken');
-                    Vue.prototype.$removeLocalStorage('accessToken3d');
-                    Vue.prototype.$removeLocalStorage('userName');
-                    Vue.prototype.$removeLocalStorage('userEmail');
-                    Vue.prototype.$removeLocalStorage('userSocialId');
-                    Vue.prototype.$removeLocalStorage('announcement_count');
+                    this._vm.$removeLocalStorage('accessToken');
+                    this._vm.$removeLocalStorage('accessToken3d');
+                    this._vm.$removeLocalStorage('userName');
+                    this._vm.$removeLocalStorage('userEmail');
+                    this._vm.$removeLocalStorage('userSocialId');
+                    this._vm.$removeLocalStorage('announcement_count');
                     delete axios.defaults.headers.common['Authorization'];
                     let auth2 = window.gapi.auth2.getAuthInstance();
                     if (auth2) {
@@ -75,8 +75,8 @@ const actions = {
                 .catch(err => {
                     commit('auth_error');
                     this._vm.$setCookie('accessToken3d', '', 1);
-                    Vue.prototype.$removeAuthLocalStorage();
-                    Vue.prototype.$removeLocalStorage('announcement_count');
+                    this._vm.$removeAuthLocalStorage();
+                    this._vm.$removeLocalStorage('announcement_count');
                     reject(err);
                 });
             resolve();
@@ -120,14 +120,14 @@ const actions = {
                     }).catch(err => {
                         commit('auth_error');
                         this._vm.$setCookie('accessToken3d', '', 1);
-                        Vue.prototype.$removeAuthLocalStorage();
+                        this._vm.$removeAuthLocalStorage();
                         reject(err);
                     });
                 }
             }).catch(err => {
                 commit('auth_error');
                 this._vm.$setCookie('accessToken3d', '', 1);
-                Vue.prototype.$removeAuthLocalStorage();
+                this._vm.$removeAuthLocalStorage();
                 reject(err);
             });
         })
