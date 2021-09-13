@@ -160,7 +160,7 @@ export default {
         searchStation(event, companyCode, companyName) {
             event.preventDefault();
             let cookieDistrict = this.$getLocalStorage('district');
-            if (cookieDistrict.length > 0) {
+            if (cookieDistrict) {
                 this.$setLocalStorage('district', '');
             }
             this.$setLocalStorage('station', companyName);

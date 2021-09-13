@@ -137,7 +137,7 @@ export default {
                 data.station = station;
             }
             
-            if (accessToken.length > 0) {
+            if (accessToken) {
                 data.email = this.$getLocalStorage('userSocialId');
                 data.isSocial = true;
                 this.accessToken = true;

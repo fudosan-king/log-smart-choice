@@ -81,7 +81,7 @@ export default {
             let accessToken = this.$getLocalStorage('accessToken');
             let data = {};
             data.estate_id = this.estateId;
-            if (accessToken.length > 0) {
+            if (accessToken) {
                 data.email = this.$getLocalStorage('userSocialId');
                 data.isSocial = true;
                 this.accessToken = true;

@@ -246,7 +246,7 @@ export default {
 
         floatButtonEvent() {
             let accessToken = this.$getLocalStorage('accessToken');
-            if (accessToken.length > 0) {
+            if (accessToken) {
                 this.$router.push({ name: 'announcementCondition' }).catch(() => {});
             } else {
                 this.$router.push({ name: 'login' }).catch(() => {});

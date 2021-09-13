@@ -83,7 +83,7 @@ export default {
                 limit: 20,
                 page: 1
             };
-            if (accessToken.length > 0) {
+            if (accessToken) {
                 data.email = this.$getLocalStorage('userSocialId');
                 data.isSocial = true;
                 this.accessToken = true;
