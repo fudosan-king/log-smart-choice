@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Jobs\SendEmailVerifyAccount;
 use App\Models\Customer;
+use App\Models\District;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
@@ -44,13 +45,35 @@ class RegisterController extends Controller
      */
     public function registerCustomer(RegisterRequest $request)
     {
+        $districts = District::select('name')
+            ->where('status', District::STATUS_ACTIVATE)
+            ->get()->toArray();
+        $districtNew = [];
+        foreach ($districts as $district) {
+            $districtNew[] = $district['name'];
+        }
+        $price = [
+            'min' => Customer::PRICE_MIN,
+            'max' => Customer::PRICE_MAX,
+        ];
+        $square = [
+            'min' => Customer::SQUARE_MIN,
+            'max' => Customer::SQUARE_MAX,
+        ];
+
+        $announcement_condition = [
+            'city' => $districtNew,
+            'price' => $price,
+            'square' => $square,
+        ];
         $params = [
             // 'name'                  => "User" . rand(0, 100000),
-            'name'                  => $request->name,
-            'last_name'             => $request->last_name,
-            'email'                 => $request->email,
-            'password'              => $request->password,
-            'password_confirmation' => $request->password_confirmation
+            'name'                   => $request->name,
+            'last_name'              => $request->last_name,
+            'email'                  => $request->email,
+            'password'               => $request->password,
+            'password_confirmation'  => $request->password_confirmation,
+            'announcement_condition' => $announcement_condition,
         ];
 
         try {
@@ -81,6 +104,7 @@ class RegisterController extends Controller
         $customer->role3d = Customer::ROLE_3D_CUSTOMER;
         $customer->email_verification_token = Str::random(32);
         $customer->has_password = true;
+        $customer->announcement_condition = json_encode($data['announcement_condition']);
         $customer->save();
 
         return $customer;

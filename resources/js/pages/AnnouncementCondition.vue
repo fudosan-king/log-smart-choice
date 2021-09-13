@@ -111,6 +111,22 @@
                                     </div>
                                 </div>
 
+                                <h4>メール通知設定</h4>
+                                <div class="row">
+                                    <div class="col-12 col-lg-12">
+                                        <div class="custom-control custom-checkbox">
+                                            <input
+                                                type="checkbox"
+                                                class="custom-control-input district-input"
+                                                id="send_announcement"
+                                                name="sendAnnouncement"
+                                                :checked="customerInformation.send_announcement ? 'checked' : ''"
+                                            />
+                                            <label class="custom-control-label" for="send_announcement">メールで通知を受け取る</label>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <button type="button" class="btn btnsave my-5" v-on:click="submit">保存</button>
                             </form>
                         </div>
@@ -139,7 +155,9 @@ export default {
             maxTotalPrices: 500,
             minSquare: 0,
             maxSquare: 10,
-            getDistrictList: []
+            getDistrictList: [],
+            customerInformation: {},
+            sendAnnouncment: 0,
         };
     },
     created() {
@@ -173,6 +191,10 @@ export default {
         },
 
         submit() {
+            if ($('#send_announcement').is(":checked"))
+            {
+                this.sendAnnouncment = 1;
+            }
             this.message = [];
             this.submitted = true;
             let newDistrictsList = [];
@@ -189,7 +211,8 @@ export default {
                     square: {
                         min: this.minSquare,
                         max: this.maxSquare
-                    }
+                    },
+                    send_announcement: this.sendAnnouncment,
                 };
                 var content = 'メルマガ配信希望条件が正常に変更されました！';
                 this.$store
@@ -212,6 +235,7 @@ export default {
 
         getCustomerInformation() {
             this.$store.dispatch('customerInfo').then(resp => {
+                this.customerInformation = resp;
                 if (resp.announcement_condition) {
                     if (resp.announcement_condition.city) {
                         this.getDistrictList = resp.announcement_condition.city;
@@ -225,13 +249,14 @@ export default {
                         this.minSquare = resp.announcement_condition.square.min;
                         this.maxSquare = resp.announcement_condition.square.max;
                     }
-                    this.districts.forEach(element => {
+                    if (this.districts) {
+                        this.districts.forEach(element => {
                         if (this.getDistrictList.includes(element.name)) {
                             this.checkedDistrictInput.push(element.name);
                         }
                     });
+                    }
                 }
-                
             });
         }
     }
