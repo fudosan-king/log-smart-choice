@@ -190,12 +190,13 @@ class EstateController extends Controller
             ->where('address.city', $estateAddress['city'])->take(Estates::LIMIT_ESTATE_NEAR_AREA)->orderBy('date_created', 'desc')
             ->get();
 
+        $district = District::where('name', 'like', '%'. $estateAddress['city'] . '%')->first();
         // if ($estate) {
         //     $estate = $this->getEstateInformation($estate);
         // }
 
         if ($estate) {
-            return $this->response(200, 'Get estate detail success', ['estate' => $estate, 'estateNearAddress' => $estateNearAddress], true);
+            return $this->response(200, 'Get estate detail success', ['estate' => $estate, 'estateNearAddress' => $estateNearAddress, 'district' => $district], true);
         }
 
         return $this->response(422, 'Get estate detail fail', []);

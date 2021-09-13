@@ -621,9 +621,8 @@
                                     <estates-near-component :estate-id="estate._id"></estates-near-component>
                                 </div>
                             </template>
-
                             <p class="text-center mt-3">
-                                <a class="btn btnSeemore" @click="searchEstateDistrict(estate.address.city)">もっと見る</a>
+                                <a class="btn btnSeemore" @click="searchEstateDistrict(estate.address.city, district.code)">もっと見る</a>
                             </p>
                         </div>
                     </div>
@@ -676,7 +675,8 @@ export default {
             totalPrice: 0,
             mobileFirstTime: true,
             carParkNote: '',
-            everyMonday: ''
+            everyMonday: '',
+            district: {},
         };
     },
     mounted() {
@@ -732,6 +732,7 @@ export default {
                     .dispatch('getEstate', data)
                     .then((resp) => {
                         this.estate = resp.data.data.estate[0];
+                        this.district = resp.data.data.district;
                         window.localStorage.setItem('estateName', this.estate.estate_name);
                         if (this.estate['estate_information']) {
                             if (this.estate['estate_information']['estate_main_photo']) {
@@ -772,14 +773,14 @@ export default {
             }
         },
 
-        searchEstateDistrict(district) {
+        searchEstateDistrict(district, districtCode) {
             let cookieStation = this.$getLocalStorage('station');
             if (cookieStation) {
                 this.$setLocalStorage('station', '');
             }
             this.$setLocalStorage('district', district);
             this.$router
-                .push({ name: 'list' })
+                .push({ name: 'listByCode', params: {searchCode: districtCode} })
                 .then(() => {
                     this.$router.go('0');
                 })
