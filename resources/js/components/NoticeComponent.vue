@@ -151,7 +151,7 @@ export default {
                 limit: this.limit,
                 page: pageLoad
             };
-            if (accessToken.length > 0) {
+            if (accessToken) {
                 this.$store.dispatch('getAnnouncementList', data).then(res => {
                     if (typeof res[0] === 'undefined') {
                         this.announcementList = this.announcementList.concat(res.data.data);

@@ -400,7 +400,7 @@ export default {
 
         searchStation(companyName, companyCode) {
             let cookieDistrict = this.$getLocalStorage('district');
-            if (cookieDistrict.length > 0) {
+            if (cookieDistrict) {
                 this.$removeLocalStorage('district');
             }
             this.$setLocalStorage('station', companyName);

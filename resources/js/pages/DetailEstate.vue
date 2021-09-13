@@ -774,7 +774,7 @@ export default {
 
         searchEstateDistrict(district) {
             let cookieStation = this.$getLocalStorage('station');
-            if (cookieStation.length > 0) {
+            if (cookieStation) {
                 this.$setLocalStorage('station', '');
             }
             this.$setLocalStorage('district', district);
