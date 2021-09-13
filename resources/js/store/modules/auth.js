@@ -5,7 +5,7 @@ import globalVaiable from '../../../js/globalHelper';
 Vue.use(globalVaiable);
 const state = {
     status: '',
-    token: Vue.prototype.$getCookie('accessToken') ? Vue.prototype.$getCookie('accessToken') : '',
+    token: Vue.prototype.$getLocalStorage('accessToken') ? Vue.prototype.$getLocalStorage('accessToken') : '',
     customer: {}
 };
 const getters = {
@@ -28,20 +28,18 @@ const actions = {
                 auth: auth,
             })
                 .then(resp => {
-                    Vue.prototype.$setCookie('userName', resp.data.data.customer_name, 1);
-                    Vue.prototype.$setCookie('userEmail', resp.data.data.customer_email, 1);
-                    Vue.prototype.$setCookie('userSocialId', resp.data.data.customer_social_id, 1);
-                    Vue.prototype.$setCookie('accessToken', resp.data.data.access_token, 1);
                     Vue.prototype.$setCookie('accessToken3d', resp.data.data.access_token, 1);
+                    Vue.prototype.$setLocalStorage('userName', resp.data.data.customer_name);
+                    Vue.prototype.$setLocalStorage('userEmail', resp.data.data.customer_email);
+                    Vue.prototype.$setLocalStorage('userSocialId', resp.data.data.customer_social_id);
+                    Vue.prototype.$setLocalStorage('accessToken', resp.data.data.access_token);
+                    Vue.prototype.$setLocalStorage('accessToken3d', resp.data.data.access_token);
                     resolve(resp);
                 })
                 .catch(err => {
                     commit('auth_error');
-                    this._vm.$setCookie('accessToken', '', 1);
                     this._vm.$setCookie('accessToken3d', '', 1);
-                    this._vm.$setCookie('userName', '', 1);
-                    this._vm.$setCookie('userEmail', '', 1);
-                    this._vm.$setCookie('userSocialId', '', 1);
+                    Vue.prototype.$removeAuthLocalStorage();
                     reject(err);
                 });
         });
@@ -50,7 +48,7 @@ const actions = {
     logout({ commit }) {
         return new Promise((resolve, reject) => {
             commit('logout');
-            let accessToken = this._vm.$getCookie('accessToken', '', 1);
+            let accessToken = Vue.prototype.$getLocalStorage('accessToken');
             const auth = this.auth;
             axios({
                 url: '/logout', method: 'DELETE', headers: {
@@ -60,12 +58,13 @@ const actions = {
                 auth: auth,
             })
                 .then(resp => {
-                    this._vm.$setCookie('accessToken', '', 1);
                     this._vm.$setCookie('accessToken3d', '', 1);
-                    this._vm.$setCookie('userName', '', 1);
-                    this._vm.$setCookie('userEmail', '', 1);
-                    this._vm.$setCookie('userSocialId', '', 1);
-                    this._vm.$setCookie('announcement_count', '', 1)
+                    Vue.prototype.$removeLocalStorage('accessToken');
+                    Vue.prototype.$removeLocalStorage('accessToken3d');
+                    Vue.prototype.$removeLocalStorage('userName');
+                    Vue.prototype.$removeLocalStorage('userEmail');
+                    Vue.prototype.$removeLocalStorage('userSocialId');
+                    Vue.prototype.$removeLocalStorage('announcement_count');
                     delete axios.defaults.headers.common['Authorization'];
                     let auth2 = window.gapi.auth2.getAuthInstance();
                     if (auth2) {
@@ -75,12 +74,9 @@ const actions = {
                 })
                 .catch(err => {
                     commit('auth_error');
-                    this._vm.$setCookie('accessToken', '', 1);
                     this._vm.$setCookie('accessToken3d', '', 1);
-                    this._vm.$setCookie('userName', '', 1);
-                    this._vm.$setCookie('userEmail', '', 1);
-                    this._vm.$setCookie('userSocialId', '', 1);
-                    this._vm.$setCookie('announcement_count', '', 1)
+                    Vue.prototype.$removeAuthLocalStorage();
+                    Vue.prototype.$removeLocalStorage('announcement_count');
                     reject(err);
                 });
             resolve();
@@ -110,36 +106,28 @@ const actions = {
                         },
                         auth: auth,
                     }).then(resp => {
-                        
-                        // console.log(resp);
                         const tokenInfo = {
                             token: resp.data.data.access_token,
                             customerName: resp.data.data.customer_name,
                         };
-                        this._vm.$setCookie('accessToken', tokenInfo.token, 1);
                         this._vm.$setCookie('accessToken3d', tokenInfo.token, 1);
-                        this._vm.$setCookie('userName', tokenInfo.customerName, 1);
-                        this._vm.$setCookie('userEmail', resp.data.data.customer_email, 1);
-                        this._vm.$setCookie('userSocialId', resp.data.data.customer_social_id, 1);
+                        Vue.prototype.$setLocalStorage('accessToken', tokenInfo.token);
+                        Vue.prototype.$setLocalStorage('userName', tokenInfo.customerName);
+                        Vue.prototype.$setLocalStorage('userEmail', resp.data.data.customer_email);
+                        Vue.prototype.$setLocalStorage('userSocialId', resp.data.data.customer_social_id);
                         commit('auth_success', tokenInfo);
                         resolve(tokenInfo);
                     }).catch(err => {
                         commit('auth_error');
-                        this._vm.$setCookie('accessToken', '', 1);
                         this._vm.$setCookie('accessToken3d', '', 1);
-                        this._vm.$setCookie('userName', '', 1);
-                        this._vm.$setCookie('userEmail', '', 1);
-                        this._vm.$setCookie('userSocialId', '', 1);
+                        Vue.prototype.$removeAuthLocalStorage();
                         reject(err);
                     });
                 }
             }).catch(err => {
                 commit('auth_error');
-                this._vm.$setCookie('accessToken', '', 1);
                 this._vm.$setCookie('accessToken3d', '', 1);
-                this._vm.$setCookie('userName', '', 1);
-                this._vm.$setCookie('userEmail', '', 1);
-                this._vm.$setCookie('userSocialId', '', 1);
+                Vue.prototype.$removeAuthLocalStorage();
                 reject(err);
             });
         })
@@ -171,20 +159,18 @@ const actions = {
                                 token: resp.data.data.access_token,
                                 customerName: resp.data.data.customer_name,
                             };
-                            vueVM.$setCookie('accessToken', tokenInfo.token, 1);
                             vueVM.$setCookie('accessToken3d', tokenInfo.token, 1);
-                            vueVM.$setCookie('userName', tokenInfo.customerName, 1);
-                            vueVM.$setCookie('userEmail', resp.data.data.customer_email, 1);
-                            vueVM.$setCookie('userSocialId', resp.data.data.customer_social_id, 1);
+                            Vue.prototype.$setLocalStorage('accessToken', tokenInfo.token);
+                            Vue.prototype.$setLocalStorage('userName', tokenInfo.customerName);
+                            Vue.prototype.$setLocalStorage('userEmail', resp.data.data.customer_email);
+                            Vue.prototype.$setLocalStorage('userSocialId', resp.data.data.customer_social_id);
                             commit('auth_success', tokenInfo);
                             resolve(tokenInfo);
                         })
                         .catch(err => {
                             commit('auth_error');
-                            vueVM.$setCookie('accessToken', '', 1);
                             vueVM.$setCookie('accessToken3d', '', 1);
-                            vueVM.$setCookie('userEmail', '', 1);
-                            vueVM.$setCookie('userSocialId', '', 1);
+                            Vue.prototype.$removeAuthLocalStorage();
                             reject(err);
                         });
                 }

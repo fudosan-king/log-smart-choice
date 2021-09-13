@@ -206,7 +206,7 @@ export default {
             this.contactPart = urlContact[1];
         },
         directToContact() {
-            if (this.$getCookie('accessToken').length) {
+            if (this.$getLocalStorage('accessToken').length) {
                 let currentUrl = this.$route.path.split('/');
                 let routeContact = this.$router.resolve({ name: 'contact' }).href;
                 window.localStorage.setItem('estate_id', currentUrl[2]);
@@ -245,7 +245,7 @@ export default {
         },
 
         floatButtonEvent() {
-            let accessToken = this.$getCookie('accessToken');
+            let accessToken = this.$getLocalStorage('accessToken');
             if (accessToken.length > 0) {
                 this.$router.push({ name: 'announcementCondition' }).catch(() => {});
             } else {

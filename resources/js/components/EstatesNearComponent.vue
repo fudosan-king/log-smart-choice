@@ -78,15 +78,15 @@ export default {
     },
     methods: {
         getNearEstates() {
-            let accessToken = this.$getCookie('accessToken');
+            let accessToken = this.$getLocalStorage('accessToken');
             let data = {};
             data.estate_id = this.estateId;
             if (accessToken.length > 0) {
-                data.email = this.$getCookie('userSocialId');
+                data.email = this.$getLocalStorage('userSocialId');
                 data.isSocial = true;
                 this.accessToken = true;
-                if (this.$getCookie('userSocialId') == 'null') {
-                    data.email = this.$getCookie('userEmail');
+                if (this.$getLocalStorage('userSocialId') == 'null') {
+                    data.email = this.$getLocalStorage('userEmail');
                     data.isSocial = false;
                 }
             }
@@ -98,7 +98,7 @@ export default {
 
         // Add states to wishlist
         addToWishList(estateId, isWish) {
-            let accessToken = this.$getCookie('accessToken');
+            let accessToken = this.$getLocalStorage('accessToken');
             if (accessToken != '') {
                 let data = {
                     estateId: estateId,

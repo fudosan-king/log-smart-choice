@@ -773,11 +773,11 @@ export default {
         },
 
         searchEstateDistrict(district) {
-            let cookieStation = this.$getCookie('station');
+            let cookieStation = this.$getLocalStorage('station');
             if (cookieStation.length > 0) {
-                this.$setCookie('station', '', 1);
+                this.$setLocalStorage('station', '');
             }
-            this.$setCookie('district', district, 1);
+            this.$setLocalStorage('district', district);
             this.$router
                 .push({ name: 'list' })
                 .then(() => {

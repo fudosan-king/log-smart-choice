@@ -57,13 +57,9 @@ new Vue({
             if (isLoggedIn) {
                 this.$store.dispatch('customerInfo').then(resp => {
                 }).catch(() => {
-                    this.$setCookie('accessToken', '', 1);
                     this.$setCookie('accessToken3d', '', 1);
-                    this.$setCookie('refreshToken', '', 1);
-                    this.$setCookie('clientId', '', 1);
-                    this.$setCookie('clientSecret', '', 1);
-                    this.$setCookie('userName', '', 1);
-                    this.$setCookie('announcement_count', '', 1);
+                    Vue.prototype.$removeAuthLocalStorage();
+                    this.$removeLocalStorage('announcement_count');
                     delete axios.defaults.headers.common['Authorization'];
                     this.$router.go(0);
                 });

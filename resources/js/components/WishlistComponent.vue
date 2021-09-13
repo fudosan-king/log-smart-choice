@@ -21,7 +21,7 @@ export default {
         onClick() {
             this.isActive = !this.isActive;
             // let isWish = this.isActive ? 1 : 0;
-            let accessToken = this.$getCookie('accessToken');
+            let accessToken = this.$getLocalStorage('accessToken');
             if (accessToken != '') {
                 let data = {
                     estateId: this.estateId,

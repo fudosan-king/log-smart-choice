@@ -13,7 +13,7 @@ const actions = {
     getAnnouncementList({ }, data) {
         return new Promise((relove, reject) => {
             const auth = this.auth;
-            let accessToken = `Bearer ${this._vm.$getCookie('accessToken')}`;
+            let accessToken = `Bearer ${Vue.prototype.$getLocalStorage('accessToken')}`;
             axios({
                 url: '/announcement/list', method: 'POST', data: data, headers: {
                     'Content-type': 'application/json',
@@ -36,7 +36,7 @@ const actions = {
     deleteAnnoutcement({ }, data) {
         return new Promise((resolve, reject) => {
             const auth = this.auth;
-            let accessToken = `Bearer ${this._vm.$getCookie('accessToken')}`;
+            let accessToken = `Bearer ${Vue.prototype.$getLocalStorage('accessToken')}`;
             axios({
                 url: '/announcement', method: 'DELETE', data: data, headers: {
                     'Content-type': 'application/json',
@@ -54,7 +54,7 @@ const actions = {
     readAnnouncement({ }, data) {
         return new Promise((resolve, reject) => {
             const auth = this.auth;
-            let accessToken = `Bearer ${this._vm.$getCookie('accessToken')}`;
+            let accessToken = `Bearer ${Vue.prototype.$getLocalStorage('accessToken')}`;
             axios({
                 url: '/announcement', method: 'PUT', data: data, headers: {
                     'Content-type': 'application/json',

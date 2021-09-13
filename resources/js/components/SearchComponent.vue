@@ -142,11 +142,11 @@ export default {
         },
         searchDistrict(event, districtName, districtCode) {
             event.preventDefault();
-            let cookieStation = window.localStorage.getItem('station');
+            let cookieStation = this.$getLocalStorage('station');
             if (cookieStation) {
-                window.localStorage.setItem('station', '');
+                this.$setLocalStorage('station', '');
             }
-            window.localStorage.setItem('district', districtName);
+            this.$setLocalStorage('district', districtName);
             this.$router
                 .push({ name: 'listByCode', params: {searchCode: districtCode} })
                 .then(() => {
@@ -159,11 +159,11 @@ export default {
 
         searchStation(event, companyCode, companyName) {
             event.preventDefault();
-            let cookieDistrict = window.localStorage.getItem('district');
+            let cookieDistrict = this.$getLocalStorage('district');
             if (cookieDistrict.length > 0) {
-                window.localStorage.setItem('district', '');
+                this.$setLocalStorage('district', '');
             }
-            window.localStorage.setItem('station', companyName);
+            this.$setLocalStorage('station', companyName);
             this.$router
                 .push({ name: 'listByCode', params: {searchCode: companyCode} })
                 .then(() => {

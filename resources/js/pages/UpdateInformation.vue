@@ -233,7 +233,7 @@ export default {
                         day: this.birthDay
                     }
                 };
-                this.$setCookie('userName', data.name, 1);
+                this.$setLocalStorage('userName', data.name, 1);
                 this.$store
                     .dispatch('updateInformation', data)
                     .then(resp => {
