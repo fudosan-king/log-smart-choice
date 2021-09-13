@@ -78,6 +78,13 @@
                                 <div class="col-8 col-lg-8">
                                     <p>{{ priceTotal }}</p>
                                 </div>
+                                <div class="col-4 col-lg-4">
+                                    <p class="head">メール通知設定：</p>
+                                </div>
+                                <div class="col-8 col-lg-8">
+                                    <p v-if="customerInfo.send_announcement">メールで通知を受け取る</p>
+                                    <p v-else>メールで通知を受け取らない</p>
+                                </div>
                             </div>
                             <h4>パスワード</h4>
                             <div class="row no-gutters">

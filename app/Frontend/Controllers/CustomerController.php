@@ -22,7 +22,7 @@ class CustomerController extends Controller
         $customer = Customer::select(
             'name', 'last_name', 'email', 'phone_number',
             'role3d', 'social_id', 'birthday', 'land_line',
-            'announcement_condition', 'has_password',
+            'announcement_condition', 'has_password', 'send_announcement'
             )
             ->where('id', $customerId)
             ->where('status', Customer::ACTIVE)
@@ -143,6 +143,7 @@ class CustomerController extends Controller
         $city = $request->get('city');
         $price = $request->get('price');
         $square = $request->get('square');
+        $sendAnnouncement = $request->get('send_announcement');
 
         if ($price && $price['min'] > $price['max']) {
             return $this->response(422, ['price' => [__('customer.price_invalid')]], []);
@@ -161,6 +162,7 @@ class CustomerController extends Controller
         try {
             $customer = Customer::find($customerId);
             $customer->announcement_condition = $data;
+            $customer->send_announcement = $sendAnnouncement;
             $customer->save();
         } catch (\Exception $e) {
             Log::error($e->getMessage());

@@ -146,6 +146,7 @@ class AnnouncementController extends Controller
         $end = new DateTime(date('Y-m-d 08:00:00'));
         $customers = Customer::select('id', 'announcement_condition', 'email')->where('role3d', Customer::ROLE_3D_CUSTOMER)
             ->where('status', Customer::ACTIVE)
+            ->where('send_announcement', Customer::SEND_ANNOUNCEMENT)
             ->where('email', '!=', '')
             ->whereNotNull('email')
             ->where('announcement_condition', '!=', '')
@@ -204,6 +205,7 @@ class AnnouncementController extends Controller
         $end = new DateTime(date('Y-m-d 18:00:00'));
         $customers = Customer::select('id', 'announcement_condition', 'email')->where('role3d', Customer::ROLE_3D_CUSTOMER)
             ->where('status', Customer::ACTIVE)
+            ->where('send_announcement', Customer::SEND_ANNOUNCEMENT)
             ->where('email', '!=', '')
             ->whereNotNull('email')
             ->where('announcement_condition', '!=', '')
@@ -307,6 +309,7 @@ class AnnouncementController extends Controller
         $end = new DateTime(date('Y-m-d 18:00:00'));
         $customers = Customer::select('id', 'announcement_condition', 'email')->where('role3d', Customer::ROLE_3D_CUSTOMER)
             ->where('status', Customer::ACTIVE)
+            ->where('send_announcement', Customer::SEND_ANNOUNCEMENT)
             ->where('email', '!=', '')
             ->whereNotNull('email')
             ->where('announcement_condition', '!=', '')
