@@ -146,7 +146,7 @@ export default {
             }
             let space = 423 * (this.page - 2);
             // console.log('Sroll at %d - Offset Top at %d - Space: %d', document.documentElement.scrollTop, this.offsetTop, space);
-            if (document.documentElement.scrollTop - space > this.offsetTop) {
+            if (document.scrollingElement.scrollTop - space > this.offsetTop) {
                 this.isHidden = false;
                 if (this.hasMore) {
                     this.getWishlist(this.page);

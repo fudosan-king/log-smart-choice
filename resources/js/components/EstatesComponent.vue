@@ -90,6 +90,7 @@ export default {
             accessToken: false,
             lastEstate: [],
             titleSearch: '全ての物件一覧',
+            hasMore: true
         };
     },
     components: {
@@ -176,7 +177,7 @@ export default {
                 this.titleSearch = this.$getLocalStorage('station') + 'の物件';
                 window.localStorage.setItem('searchCode', this.titleSearch);
             }
-
+            // this.loading = false;
         },
         // Khi them danh sach phia duoi thi tinh toan lai do cao
         setOffsetTop() {
@@ -198,12 +199,12 @@ export default {
             }
             let space = (this.page - 2);
             // console.log('Sroll at %d - Offset Top at %d - Space: %d', document.documentElement.scrollTop, this.offsetTop, space);
-            let bottomOfWindow = document.scrollingElement.scrollTop + $(window).height() === $(document).height();
-            if (bottomOfWindow) {
-                this.getListEstates(this.page);
-                this.setOffsetTop();
-                this.page++;
-            }
+            // let bottomOfWindow = document.scrollingElement.scrollTop + $(window).height() === $(document).height();
+            // if (bottomOfWindow) {
+            //     this.getListEstates(this.page);
+            //     this.setOffsetTop();
+            //     this.page++;
+            // }
             // console.log(document.documentElement.scrollTop);
             // console.log(document.scrollingElement.scrollTop);
             // if (document.documentElement.scrollTop - space > this.offsetTop && this.hasMore) {
@@ -211,11 +212,21 @@ export default {
             //     this.setOffsetTop();
             //     this.page++;
             // }
-            // if (document.scrollingElement.scrollTop - space > this.offsetTop && this.hasMore) {
+            // console.log(document.documentElement.scrollTop);
+            // console.log(document.scrollingElement.scrollTop);
+            // if (document.documentElement.scrollTop - space > this.offsetTop && this.hasMore) {
             //     this.getListEstates(this.page);
             //     this.setOffsetTop();
             //     this.page++;
             // }
+            // console.log(this.loading)
+            // if (this.loading == false) return
+
+            if (document.scrollingElement.scrollTop > this.offsetTop && this.hasMore) {
+                this.getListEstates(this.page);
+                this.setOffsetTop();
+                this.page++;
+            }
         },
 
         // Add states to wishlist
