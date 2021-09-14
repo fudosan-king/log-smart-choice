@@ -148,25 +148,26 @@
                                     <h3 style="text-align: center; font-size: 18px; color: #4F4F4F;">{{$estate['estate_name']}}</h3>
                                     <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
                                         <tr>
-                                            <td style="padding-left: 3%;">
+                                            <td width="60%">
                                                 <p>{{ $estate['address']['city'] }}{{ $estate['address']['ooaza'] }}{{ $estate['address']['tyoume'] }}</p>
                                                 <p>{{ $estate['tatemono_menseki'] }}m²（{{ $estate['room_count'] }}{{ $estate['room_kind'] }}+DEN）</p>
                                             </td>
-                                            <td style="padding-right: 3%;">
+                                            <td width="40%">
                                                 @if($estate['price'])
                                                 <p class="price">{{ $estate['price'] }}<span>万円</span></p>
                                                 @endif
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td width="50%" colspan="2" style="padding-right: 25%; padding-left: 25%">
-                                                <a class="btn" href="{{Request::root()}}/detail/{{$estate['_id']}}" style="margin-right: 15px; color: #fff;">物件詳細を見る</a>
+                                            <td width="100%" colspan="2" style="padding-right: 15%; padding-left: 15%">
+                                                
                                             </td>
                                             <!-- <td style="padding-right: 5%;">
                                                 <a class="btn" style="color: #fff;" href="{{Request::root()}}/detail/{{$estate['_id']}}">3Dを見る</a>
                                             </td> -->
                                         </tr>
                                     </table>
+                                    <a class="btn" href="{{Request::root()}}/detail/{{$estate['_id']}}" style="color: #fff; margin: 15px 30px 0;">物件詳細を見る</a>
                                 </div>
                             </td>
                         </tr>
