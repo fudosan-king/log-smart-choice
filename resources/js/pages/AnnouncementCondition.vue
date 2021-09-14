@@ -117,7 +117,7 @@
                                         <div class="custom-control custom-checkbox">
                                             <input
                                                 type="checkbox"
-                                                class="custom-control-input district-input"
+                                                class="custom-control-input"
                                                 id="send_announcement"
                                                 name="sendAnnouncement"
                                                 :checked="customerInformation.send_announcement ? 'checked' : ''"
@@ -198,7 +198,7 @@ export default {
             this.message = [];
             this.submitted = true;
             let newDistrictsList = [];
-            $('input:checkbox:checked').each(function(i) {
+            $('input[name="districtInput[]"]:checked').each(function(i) {
                 newDistrictsList[i] = $(this).val();
             });
             if (this.submitted) {
