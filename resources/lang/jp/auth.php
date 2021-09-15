@@ -30,7 +30,7 @@ return [
     'token_null' => 'ログインができません。メールとパスワードをご確認ください。',
     'token_expired' => '確認メールの有効期限が切れました。 もう一度確認メールの再送信をご送信ください！',
     'token_forgotpassword_expired' => 'パスワード再設定の有効期限が切れました。もう一度パスワード再設定をやり直しください！',
-    'customer_not_found' => 'アカウントはご存在しません。',
+    'customer_not_found' => 'アカウントが存在しません',
     'activate_account_success' => '新規登録が完成しました。ご入会ありがとうございました。こちらからログインができます。',
     'send_email_reset_link' => 'パスワードの再設定が完了しました。',
     'email_required' => 'メールアドレスを入力してください',
