@@ -4,6 +4,9 @@
     <title>【株式会社プロスタイルからのお知らせ】</title>
 
     <style type="text/css">
+        *{
+            font-family: Roboto,RobotoDraft,Helvetica,Arial, sans-serif;
+        }
         body {
             padding-top: 0 !important;
             padding-bottom: 0 !important;
