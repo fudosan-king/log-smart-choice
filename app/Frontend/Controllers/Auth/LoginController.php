@@ -5,6 +5,7 @@ namespace App\Frontend\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\Customer;
+use App\Models\District;
 use App\Providers\RouteServiceProvider;
 use Exception;
 use Illuminate\Support\Carbon;
@@ -57,6 +58,7 @@ class LoginController extends Controller
         $customer = Customer::where('email', $request->email)->where('status', Customer::EMAIL_VERIFY)->first();
 
         if ($customer) {
+            
             if ($customer->validateForPassportPasswordGrant($request->password)) {
                 $objectToken = $this->_getAccessToken($customer);
                 $data = [
@@ -95,6 +97,7 @@ class LoginController extends Controller
      */
     public function socialLogin(Request $request)
     {
+        
         try {
             $socialId = $request->get('socialId');
             $socialType = $request->get('socialType');
@@ -102,6 +105,27 @@ class LoginController extends Controller
             $token = $request->get('token');
             if ($user = $data->userFromToken($token)) {
                 $customer = Customer::where('social_id', $socialId)->where('status', Customer::ACTIVE)->first();
+                $districts = District::select('name')
+                    ->where('status', District::STATUS_ACTIVATE)
+                    ->get()->toArray();
+                $districtNew = [];
+                foreach ($districts as $district) {
+                    $districtNew[] = $district['name'];
+                }
+                $price = [
+                    'min' => Customer::PRICE_MIN,
+                    'max' => Customer::PRICE_MAX,
+                ];
+                $square = [
+                    'min' => Customer::SQUARE_MIN,
+                    'max' => Customer::SQUARE_MAX,
+                ];
+
+                $announcementCondition = [
+                    'city' => $districtNew,
+                    'price' => $price,
+                    'square' => $square,
+                ];
                 if ($user->email) {
                     $customer = Customer::where('email', $user->email)->first();
                     if ($customer) {
@@ -118,6 +142,8 @@ class LoginController extends Controller
                     $customer->social_id = $socialId;
                     $customer->role3d = Customer::ROLE_3D_CUSTOMER;
                     $customer->status = Customer::EMAIL_VERIFY;
+                    $customer->send_announcement = Customer::SEND_ANNOUNCEMENT;
+                    $customer->announcement_condition = json_encode($announcementCondition);
                     $customer->save();
                 }
 
