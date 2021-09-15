@@ -212,7 +212,7 @@
                             <td style="text-align: center; padding: 10px 0 30px;">
                                 <p style=" text-decoration: underline;"><a style="color: #EB5757;" href="https://order-renove.jp/customer/announcement-condition">メールの配信停止をご希望の方はこちら</a></p>
                                 <p style="font-size: 11px;">ログイン後、「メルマガ配信希望条件」から、</p>
-                                <p style="font-size: 11px;">「メールで通知を受け取らない」をチェックください。</p>
+                                <p style="font-size: 11px;">「メールで通知を受け取る」をチェックください。</p>
                             </td>
                         </tr>
                     </table>
