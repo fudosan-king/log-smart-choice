@@ -104,6 +104,7 @@ class RegisterController extends Controller
         $customer->role3d = Customer::ROLE_3D_CUSTOMER;
         $customer->email_verification_token = Str::random(32);
         $customer->has_password = true;
+        $customer->send_announcement = Customer::SEND_ANNOUNCEMENT;
         $customer->announcement_condition = json_encode($data['announcement_condition']);
         $customer->save();
 
