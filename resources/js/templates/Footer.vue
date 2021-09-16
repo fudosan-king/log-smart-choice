@@ -16,7 +16,7 @@
                         <ul class="d-none d-lg-flex">
                             <li><a target="_blank" href="https://form.run/@order-renove">お問い合わせ</a></li>
                             <li>
-                                <a target="_blank" href="https://www.propolife.co.jp/privacypolicy"
+                                <a target="_blank" href="https://www.logsuite.co.jp/policy/"
                                     >プライバシーポリシー</a
                                 >
                             </li>
@@ -37,21 +37,21 @@
                             <ul class="d-block d-lg-none mr-5">
                                 <li><a target="_blank" href="https://form.run/@order-renove">お問い合わせ</a></li>
                                 <li>
-                                    <a target="_blank" href="https://www.propolife.co.jp/privacypolicy"
+                                    <a target="_blank" href="https://www.logsuite.co.jp/policy/"
                                         >プライバシーポリシー</a
                                     >
                                 </li>
                                 <li>
-                                    <a target="_blank" href="https://www.propolife.co.jp/socialpolicy"
+                                    <a target="_blank" href="https://www.logsuite.co.jp/socialmedia-policy/"
                                         >ソーシャルメディアポリシー</a
                                     >
                                 </li>
                             </ul>
                             <ul class="d-block d-lg-none">
-                                <li><a target="_blank" href="https://www.propolife.co.jp/terms"> 利用規約</a></li>
+                                <li><a target="_blank" href="https://www.propolife.co.jp/terms/">利用規約</a></li>
                                 <li><a target="_blank" href="https://www.propolife.co.jp">運営会社（企業情報）</a></li>
                                 <li>
-                                    <a target="_blank" href="https://www.propolife.co.jp/antisocial"
+                                    <a target="_blank" href="https://www.propolife.co.jp/antisocial/"
                                         >反社会的勢力排除に関する基本方針</a
                                     >
                                 </li>
@@ -159,7 +159,7 @@
                             </li>
                         </ul>
                         <p class="termofuse mt-3">
-                            <a href="https://www.propolife.co.jp/terms">利用規約</a>・
+                            <a href="https://www.propolife.co.jp/terms/">利用規約</a>・
                             <a href="https://www.logsuite.co.jp/policy/">プライバシーポリシー</a>
                             に同意の上、<br />会員登録を行ってください。
                         </p>
