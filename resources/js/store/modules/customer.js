@@ -13,33 +13,27 @@ const actions = {
         return new Promise((resolve, reject) => {
             let accessToken = Vue.prototype.$getLocalStorage('accessToken');
             const auth = this.auth;
-            let err = '';
-            if (accessToken) {
-                axios({
-                    url: '/customer',
-                    method: 'POST',
-                    data: {},
-                    headers: {
-                        'content-type': 'application/json',
-                        'AuthorizationBearer': 'Bearer ' + accessToken,
-                    },
-                    auth: auth,
+            axios({
+                url: '/customer',
+                method: 'POST',
+                data: {},
+                headers: {
+                    'content-type': 'application/json',
+                    AuthorizationBearer: 'Bearer ' + accessToken
+                },
+                auth: auth
+            })
+                .then(resp => {
+                    Vue.prototype.$setLocalStorage('userName', resp.data.data.name);
+                    Vue.prototype.$setLocalStorage('announcement_count', resp.data.data.announcement_count);
+                    resolve(resp.data.data);
                 })
-                    .then(resp => {
-                        Vue.prototype.$setLocalStorage('userName', resp.data.data.name);
-                        Vue.prototype.$setLocalStorage('announcement_count', resp.data.data.announcement_count);
-                        resolve(resp.data.data);
-                    })
-                    .catch(err => {
-                        reject(err);
-                    });
-            } else {
-                err = "Missing token";
-                reject(err);
-            }
+                .catch(err => {
+                    reject(err);
+                });
         });
     },
-    changePassword({ }, data) {
+    changePassword({}, data) {
         return new Promise((resolve, reject) => {
             let accessToken = Vue.prototype.$getLocalStorage('accessToken');
             const auth = this.auth;
@@ -49,16 +43,19 @@ const actions = {
                 data,
                 headers: {
                     'content-type': 'application/json',
-                    'AuthorizationBearer': `Bearer ${accessToken}`,
-                }, auth: auth,
-            }).then(resp => {
-                resolve(resp.data);
-            }).catch(err => {
-                reject(err);
-            });
+                    AuthorizationBearer: `Bearer ${accessToken}`
+                },
+                auth: auth
+            })
+                .then(resp => {
+                    resolve(resp.data);
+                })
+                .catch(err => {
+                    reject(err);
+                });
         });
     },
-    updateInformation({ }, data) {
+    updateInformation({}, data) {
         return new Promise((resolve, reject) => {
             let accessToken = Vue.prototype.$getLocalStorage('accessToken');
             const auth = this.auth;
@@ -68,13 +65,16 @@ const actions = {
                 data,
                 headers: {
                     'content-type': 'application/json',
-                    'AuthorizationBearer': `Bearer ${accessToken}`,
-                }, auth: auth,
-            }).then(resp => {
-                resolve(resp.data);
-            }).catch(err => {
-                reject(err);
-            });
+                    AuthorizationBearer: `Bearer ${accessToken}`
+                },
+                auth: auth
+            })
+                .then(resp => {
+                    resolve(resp.data);
+                })
+                .catch(err => {
+                    reject(err);
+                });
         });
     },
 
@@ -88,13 +88,16 @@ const actions = {
                 data,
                 headers: {
                     'content-type': 'application/json',
-                    'AuthorizationBearer': `Bearer ${accessToken}`,
-                }, auth: auth,
-            }).then(resp => {
-                resolve(resp.data);
-            }).catch(err => {
-                reject(err);
-            });
+                    AuthorizationBearer: `Bearer ${accessToken}`
+                },
+                auth: auth
+            })
+                .then(resp => {
+                    resolve(resp.data);
+                })
+                .catch(err => {
+                    reject(err);
+                });
         });
     },
 
@@ -102,17 +105,20 @@ const actions = {
         return new Promise((resolve, reject) => {
             const auth = this.auth;
             axios({
-                url: '/reset-password/'+data.hash,
+                url: '/reset-password/' + data.hash,
                 method: 'POST',
                 data,
                 headers: {
-                    'content-type': 'application/json',
-                }, auth: auth,
-            }).then(resp => {
-                resolve(resp.data);
-            }).catch(err => {
-                reject(err);
-            });
+                    'content-type': 'application/json'
+                },
+                auth: auth
+            })
+                .then(resp => {
+                    resolve(resp.data);
+                })
+                .catch(err => {
+                    reject(err);
+                });
         });
     }
 };

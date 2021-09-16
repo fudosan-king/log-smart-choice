@@ -20,7 +20,9 @@
                     /></a>
                     <p class="total_price">
                         {{ wishtlistItem.price }}<span>万円</span
-                        ><span class="sub" v-if="wishtlistItem.renovation_type != 'リノベ済物件'">（物件＋リノベーション）</span>
+                        ><span class="sub" v-if="wishtlistItem.renovation_type != 'リノベ済物件'"
+                            >（物件＋リノベーション）</span
+                        >
                     </p>
                     <p class="label_custom" v-if="wishtlistItem.renovation_type == 'カスタム可能物件'">
                         カスタム<br />可能物件
@@ -61,105 +63,105 @@
 </template>
 
 <script>
-import wishlistModule from '../store/modules/wishlist.js';
-import Lazyload from 'vue-lazyload';
-import Vue from 'vue';
+    import wishlistModule from '../store/modules/wishlist.js';
+    import Lazyload from 'vue-lazyload';
+    import Vue from 'vue';
 
-Vue.use(Lazyload, {
-    preLoad: 1.3,
-    error: 'images/no-image.png',
-    loading: 'images/loading.gif',
-    attempt: 1
-});
-export default {
-    data() {
-        return {
-            wishtlist: [],
-            page: 2,
-            offsetTop: 0,
-            heigthOfList: 0,
-            isHidden: false,
-            accessToken: false,
-            lastEstate: [],
-            hasMore: true
-        };
-    },
-    components: {
-        WishlistComponent: () => import('../components/WishlistComponent')
-    },
-    beforeMount() {
-        this.getWishlist();
-    },
-    created() {
-        this.$store.registerModule('wishtlist', wishlistModule);
-        window.addEventListener('scroll', this.handleScroll);
-    },
-    beforeDestroy() {
-        this.$store.unregisterModule('wishlist');
-    },
-    destroyed() {
-        window.removeEventListener('scroll', this.handleScroll);
-    },
-    methods: {
-        // Gui yeu cau den server sau moi lan cuon xuong
-        getWishlist(pageLoad) {
-            let accessToken = this.$getLocalStorage('accessToken');
-            let data = {
-                limit: 8,
-                page: pageLoad
+    Vue.use(Lazyload, {
+        preLoad: 1.3,
+        error: 'images/no-image.png',
+        loading: 'images/loading.gif',
+        attempt: 1
+    });
+    export default {
+        data() {
+            return {
+                wishtlist: [],
+                page: 2,
+                offsetTop: 0,
+                heigthOfList: 0,
+                isHidden: false,
+                accessToken: false,
+                lastEstate: [],
+                hasMore: true
             };
-            if (accessToken) {
-                data.email = this.$getLocalStorage('userSocialId');
-                data.isSocial = true;
-                this.accessToken = true;
-                if (this.$getLocalStorage('userSocialId') == 'null') {
-                    data.email = this.$getLocalStorage('userEmail');
-                    data.isSocial = false;
-                }
-                this.$store.dispatch('getWishlist', data).then(res => {
-                    this.wishtlist = this.wishtlist.concat(res[0]['data']['data']);
-                    if (this.wishtlist.length < res[0]['data'].total) {
-                        this.hasMore = true;
-                    } else {
-                        this.hasMore = false;
+        },
+        components: {
+            WishlistComponent: () => import('../components/WishlistComponent')
+        },
+        beforeMount() {
+            this.getWishlist();
+        },
+        created() {
+            this.$store.registerModule('wishtlist', wishlistModule);
+            window.addEventListener('scroll', this.handleScroll);
+        },
+        beforeDestroy() {
+            this.$store.unregisterModule('wishlist');
+        },
+        destroyed() {
+            window.removeEventListener('scroll', this.handleScroll);
+        },
+        methods: {
+            // Gui yeu cau den server sau moi lan cuon xuong
+            getWishlist(pageLoad) {
+                let accessToken = this.$getLocalStorage('accessToken');
+                let data = {
+                    limit: 8,
+                    page: pageLoad
+                };
+                if (accessToken) {
+                    data.email = this.$getLocalStorage('userSocialId');
+                    data.isSocial = true;
+                    this.accessToken = true;
+                    if (this.$getLocalStorage('userSocialId') == 'null') {
+                        data.email = this.$getLocalStorage('userEmail');
+                        data.isSocial = false;
                     }
-                });
-            }
-        },
-        // Khi them danh sach phia duoi thi tinh toan lai do cao
-        setOffsetTop() {
-            this.offsetTop = this.offsetTop + this.heigthOfList;
-        },
-        // Tinh do cao cua danh sach sao cho cuon xuong duoi cung thi gui API
-        setInitHeigthOfList() {
-            let estate_last = this.$el.querySelector('.estate-last');
-            if (estate_last) {
-                this.heigthOfList = estate_last.offsetTop;
-                this.offsetTop = estate_last.offsetTop;
-            }
-        },
-        // Su kien cuon mouse.
-        // Do cao cua 1 dong la space (423)
-        handleScroll(event) {
-            if (!this.heigthOfList) {
-                this.setInitHeigthOfList();
-            }
-            let space = 423 * (this.page - 2);
-            // console.log('Sroll at %d - Offset Top at %d - Space: %d', document.documentElement.scrollTop, this.offsetTop, space);
-            if (document.scrollingElement.scrollTop - space > this.offsetTop) {
-                this.isHidden = false;
-                if (this.hasMore) {
-                    this.getWishlist(this.page);
-                    this.setOffsetTop();
-                    this.page++;
+                    this.$store.dispatch('getWishlist', data).then(res => {
+                        this.wishtlist = this.wishtlist.concat(res[0]['data']['data']);
+                        if (this.wishtlist.length < res[0]['data'].total) {
+                            this.hasMore = true;
+                        } else {
+                            this.hasMore = false;
+                        }
+                    });
                 }
-            }
-        },
+            },
+            // Khi them danh sach phia duoi thi tinh toan lai do cao
+            setOffsetTop() {
+                this.offsetTop = this.offsetTop + this.heigthOfList;
+            },
+            // Tinh do cao cua danh sach sao cho cuon xuong duoi cung thi gui API
+            setInitHeigthOfList() {
+                let estate_last = this.$el.querySelector('.estate-last');
+                if (estate_last) {
+                    this.heigthOfList = estate_last.offsetTop;
+                    this.offsetTop = estate_last.offsetTop;
+                }
+            },
+            // Su kien cuon mouse.
+            // Do cao cua 1 dong la space (423)
+            handleScroll(event) {
+                if (!this.heigthOfList) {
+                    this.setInitHeigthOfList();
+                }
+                let space = 423 * (this.page - 2);
+                // console.log('Sroll at %d - Offset Top at %d - Space: %d', document.documentElement.scrollTop, this.offsetTop, space);
+                if (document.scrollingElement.scrollTop - space > this.offsetTop) {
+                    this.isHidden = false;
+                    if (this.hasMore) {
+                        this.getWishlist(this.page);
+                        this.setOffsetTop();
+                        this.page++;
+                    }
+                }
+            },
 
-        //Remove wishlist
-        removeWishList() {
-            this.$router.go(0);
+            //Remove wishlist
+            removeWishList() {
+                this.$router.go(0);
+            }
         }
-    }
-};
+    };
 </script>
