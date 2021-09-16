@@ -26,7 +26,7 @@
                                 >
                             </li>
                             <li><a target="_blank" href="https://www.propolife.co.jp/terms/"> 利用規約</a></li>
-                            <li><a target="_blank" href="https://www.propolife.co.jp/">運営会社（企業情報）</a></li>
+                            <li><a target="_blank" href="https://www.logsuite.co.jp/">運営会社（企業情報）</a></li>
                             <li>
                                 <a target="_blank" href="https://www.propolife.co.jp/antisocial/"
                                     >反社会的勢力排除に関する基本方針</a
@@ -49,7 +49,7 @@
                             </ul>
                             <ul class="d-block d-lg-none">
                                 <li><a target="_blank" href="https://www.propolife.co.jp/terms/">利用規約</a></li>
-                                <li><a target="_blank" href="https://www.propolife.co.jp">運営会社（企業情報）</a></li>
+                                <li><a target="_blank" href="https://www.logsuite.co.jp/">運営会社（企業情報）</a></li>
                                 <li>
                                     <a target="_blank" href="https://www.propolife.co.jp/antisocial/"
                                         >反社会的勢力排除に関する基本方針</a
@@ -219,6 +219,11 @@ export default {
         googleLogin() {
             this.$store.dispatch('googleLogin').then(response => {
                 window.location.href = '/';
+            }).catch(err => {
+                this.$setCookie('accessToken3d', '', 1);
+                this.$removeAuthLocalStorage();
+                this.$removeLocalStorage('announcement_count');
+                this.$router.push({ name: 'login' }).catch(() => {});
             });
         },
 

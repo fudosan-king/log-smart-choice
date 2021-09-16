@@ -1,22 +1,24 @@
 <template>
-    <header class="fixed-top" :class="{subheader: !homePage, compressed: isScroll}">
+    <header class="fixed-top" :class="{ subheader: !homePage, compressed: isScroll }">
         <nav class="navbar navbar-expand-lg navbar-light bg-transparent">
             <a class="navbar-brand" href="/">
-                <img 
+                <img
                     src="/assets/images/svg/logo_orderrenove_white.svg"
                     alt=""
                     class="img-fluid"
                     v-bind:class="[homeWhiteClass]"
                     width="224"
                 />
-                <img v-if="homePage"
+                <img
+                    v-if="homePage"
                     src="/assets/images/svg/logo_orderrenove_black.svg"
                     alt=""
                     class="img-fluid"
                     v-bind:class="[homeBlackClass]"
                     width="134"
                 />
-                <img v-else
+                <img
+                    v-else
                     src="/assets/images/svg/logo_orderrenove_black.svg"
                     alt=""
                     class="img-fluid"
@@ -26,14 +28,20 @@
             </a>
             <div class="ml-auto box_user">
                 <div class="dropdown dropdown_user">
-                    <a class="dropdown_user" v-bind:id="[!homePage ? 'dropdown_user': '']" href="javascript:void(0)" v-on:click="dropUser">
+                    <a
+                        class="dropdown_user"
+                        v-bind:id="[!homePage ? 'dropdown_user' : '']"
+                        href="javascript:void(0)"
+                        v-on:click="dropUser"
+                    >
                         <img
-                            src="/assets/images/svg/i_user.svg" 
-                            alt="" 
+                            src="/assets/images/svg/i_user.svg"
+                            alt=""
                             class="img-fluid"
-                            v-bind:class="[homeWhiteClass]" 
-                            width="15" />
-                        <img 
+                            v-bind:class="[homeWhiteClass]"
+                            width="15"
+                        />
+                        <img
                             src="/assets/images/svg/i_user_black.svg"
                             alt=""
                             class="img-fluid"
@@ -156,11 +164,19 @@
                                 >
                                     <div class="card-body stations">
                                         <ul>
-                                            <li v-for="company in transportCompanyList" :key="company.tran_company_code">
+                                            <li
+                                                v-for="company in transportCompanyList"
+                                                :key="company.tran_company_code"
+                                            >
                                                 <a
                                                     class="station-item"
                                                     href="javascript:void(0)"
-                                                    v-on:click="searchStation(company.tran_company_short_name, company.tran_company_code)"
+                                                    v-on:click="
+                                                        searchStation(
+                                                            company.tran_company_short_name,
+                                                            company.tran_company_code
+                                                        )
+                                                    "
                                                     >{{ company.tran_company_short_name }}</a
                                                 >
                                             </li>
@@ -250,169 +266,176 @@
     </header>
 </template>
 <script>
-export default {
-    data() {
-        const logoBlack = '/assets/images/SVG/logo_orderrenove_black.svg';
-        let page = '';
-        if (this.$route.name) {
-            page = this.$route.name;
-        }
-        return {
-            page: page,
-            logoBlack: logoBlack,
-            userName: '',
-            districtList: {},
-            stationList: {},
-            transportCompanyList: {},
-            announcementCount: 0,
-            homePage: true, 
-            homeWhiteClass: '',
-            homeBlackClass: '',
-            isScroll: false,
-        };
-    },
-    created() {
-        if (this.$route.name == 'home') {
-            this.homePage = true;
-            this.homeWhiteClass = 'd-none d-lg-inline-block';
-            this.homeBlackClass = 'd-inline-block d-lg-none';
-            
-        } else {
-            this.homePage = false;
-            this.homeWhiteClass = 'i_white';
-            this.homeBlackClass = 'i_black';
-        }
-    },
-    mounted() {
-        window.addEventListener('scroll', this.scrollListener);
-
-        this.getStation();
-        this.getTransportCompany();
-        this.getDistrict();
-
-        // LSMEvent.$on('handleSeachClick', type => {
-        //     this.dropSearchByType(type);
-        // });
-
-        this.userName = this.$getLocalStorage('userName');
-    },
-    methods: {
-        logout() {
-            this.$store
-                .dispatch('logout')
-                .then(response => {
-                    this.$setCookie('accessToken3d', '', 1);
-                    this.$removeAuthLocalStorage();
-                    this.$removeLocalStorage('announcement_count');
-                    delete axios.defaults.headers.common['Authorization'];
-                    this.$removeLocalStorage('district');
-                    this.$removeLocalStorage('station');
-                    this.$router.go(0);
-                })
-                .catch(error => {});
+    export default {
+        data() {
+            const logoBlack = '/assets/images/SVG/logo_orderrenove_black.svg';
+            let page = '';
+            if (this.$route.name) {
+                page = this.$route.name;
+            }
+            return {
+                page: page,
+                logoBlack: logoBlack,
+                userName: '',
+                districtList: {},
+                stationList: {},
+                transportCompanyList: {},
+                announcementCount: 0,
+                homePage: true,
+                homeWhiteClass: '',
+                homeBlackClass: '',
+                isScroll: false
+            };
         },
-
-        dropUser(event) {
-            this.$store.dispatch('customerInfo').then(resp => {
-                    event.preventDefault();
-                    $('.dropdown_user_content').slideToggle('fast');
-                    $('.dropdown_search_content').hide();
-                    this.announcementCount = this.$getCookie('announcement_count');
-                }).catch((err) => {
-                    this.$setCookie('accessToken3d', '', 1);
-                    this.$removeAuthLocalStorage();
-                    this.$removeLocalStorage('announcement_count');
-                    delete axios.defaults.headers.common['Authorization'];
-                    this.$router.push({ name: 'login' }).catch(() => {});
-                });
-        },
-
-        dropSearch(event) {
-            event.preventDefault();
-            $('.dropdown_search_content').slideToggle('fast');
-            $('.dropdown_user_content').hide();
-        },
-
-        closeSearch() {
-            $('.dropdown_user_content').hide();
-            $('.dropdown_search_content').hide();
-        },
-
-        // dropSearchByType(type = 'area') {
-        //     $('.dropdown_search_content').slideToggle('fast');
-        //     $('.dropdown_user_content').hide();
-        //     switch (type) {
-        //         case 'station':
-        //             if (!this.$refs.collapseStation.classList.contains('show')) {
-        //                 this.$refs.showStation.click();
-        //             }
-        //             break;
-        //         case 'area':
-        //         default:
-        //             if (!this.$refs.collapseArea.classList.contains('show')) {
-        //                 this.$refs.showArea.click();
-        //             }
-        //             break;
-        //     }
-        // },
-
-        scrollListener() {
-            if (window.pageYOffset > 0) {
-                this.isScroll = true;
+        created() {
+            if (this.$route.name == 'home') {
+                this.homePage = true;
+                this.homeWhiteClass = 'd-none d-lg-inline-block';
+                this.homeBlackClass = 'd-inline-block d-lg-none';
             } else {
-                this.isScroll = false;
+                this.homePage = false;
+                this.homeWhiteClass = 'i_white';
+                this.homeBlackClass = 'i_black';
             }
         },
+        mounted() {
+            window.addEventListener('scroll', this.scrollListener);
 
-        getDistrict() {
-            this.$store.dispatch('getDistrict').then(response => {
-                this.districtList = response.data;
-            });
-        },
+            this.getStation();
+            this.getTransportCompany();
+            this.getDistrict();
 
-        getStation() {
-            this.$store.dispatch('getStation').then(response => {
-                this.stationList = response;
-            });
-        },
-        getTransportCompany() {
-            this.$store.dispatch('getTransportCompany').then(response => {
-                this.transportCompanyList = response;
-            });
-        },
+            // LSMEvent.$on('handleSeachClick', type => {
+            //     this.dropSearchByType(type);
+            // });
 
-        searchDistrict(districtName, code) {
-            let cookieStation = this.$getLocalStorage('station');
-            if (cookieStation) {
-                this.$removeLocalStorage('station');
-            }
-            this.$setLocalStorage('district', districtName);
-            this.$router
-                // .push({ name: 'list'})
-                .push({ name: 'listByCode', params: {searchCode: code} })
-                .then(() => {
-                    this.$router.go('0');
-                })
-                .catch(() => {
-                    this.$router.go('0');
+            this.userName = this.$getLocalStorage('userName');
+        },
+        methods: {
+            logout() {
+                this.$store
+                    .dispatch('logout')
+                    .then(response => {
+                        this.$setCookie('accessToken3d', '', 1);
+                        this.$removeAuthLocalStorage();
+                        this.$removeLocalStorage('announcement_count');
+                        delete axios.defaults.headers.common['Authorization'];
+                        this.$removeLocalStorage('district');
+                        this.$removeLocalStorage('station');
+                        this.$router.go(0);
+                    })
+                    .catch(error => {
+                        this.$setCookie('accessToken3d', '', 1);
+                        this.$removeAuthLocalStorage();
+                        this.$removeLocalStorage('announcement_count');
+                        this.$router.push({ name: 'login' }).catch(() => {});
+                    });
+            },
+
+            dropUser(event) {
+                this.$store
+                    .dispatch('customerInfo')
+                    .then(resp => {
+                        event.preventDefault();
+                        $('.dropdown_user_content').slideToggle('fast');
+                        $('.dropdown_search_content').hide();
+                        this.announcementCount = this.$getCookie('announcement_count');
+                    })
+                    .catch(err => {
+                        this.$setCookie('accessToken3d', '', 1);
+                        this.$removeAuthLocalStorage();
+                        this.$removeLocalStorage('announcement_count');
+                        delete axios.defaults.headers.common['Authorization'];
+                        this.$router.push({ name: 'login' }).catch(() => {});
+                    });
+            },
+
+            dropSearch(event) {
+                event.preventDefault();
+                $('.dropdown_search_content').slideToggle('fast');
+                $('.dropdown_user_content').hide();
+            },
+
+            closeSearch() {
+                $('.dropdown_user_content').hide();
+                $('.dropdown_search_content').hide();
+            },
+
+            // dropSearchByType(type = 'area') {
+            //     $('.dropdown_search_content').slideToggle('fast');
+            //     $('.dropdown_user_content').hide();
+            //     switch (type) {
+            //         case 'station':
+            //             if (!this.$refs.collapseStation.classList.contains('show')) {
+            //                 this.$refs.showStation.click();
+            //             }
+            //             break;
+            //         case 'area':
+            //         default:
+            //             if (!this.$refs.collapseArea.classList.contains('show')) {
+            //                 this.$refs.showArea.click();
+            //             }
+            //             break;
+            //     }
+            // },
+
+            scrollListener() {
+                if (window.pageYOffset > 0) {
+                    this.isScroll = true;
+                } else {
+                    this.isScroll = false;
+                }
+            },
+
+            getDistrict() {
+                this.$store.dispatch('getDistrict').then(response => {
+                    this.districtList = response.data;
                 });
-        },
+            },
 
-        searchStation(companyName, companyCode) {
-            let cookieDistrict = this.$getLocalStorage('district');
-            if (cookieDistrict) {
-                this.$removeLocalStorage('district');
-            }
-            this.$setLocalStorage('station', companyName);
-            this.$router
-                .push({ name: 'listByCode', params: {searchCode: companyCode} })
-                .then(() => {
-                    this.$router.go('0');
-                })
-                .catch(() => {
-                    this.$router.go('0');
+            getStation() {
+                this.$store.dispatch('getStation').then(response => {
+                    this.stationList = response;
                 });
+            },
+            getTransportCompany() {
+                this.$store.dispatch('getTransportCompany').then(response => {
+                    this.transportCompanyList = response;
+                });
+            },
+
+            searchDistrict(districtName, code) {
+                let cookieStation = this.$getLocalStorage('station');
+                if (cookieStation) {
+                    this.$removeLocalStorage('station');
+                }
+                this.$setLocalStorage('district', districtName);
+                this.$router
+                    // .push({ name: 'list'})
+                    .push({ name: 'listByCode', params: { searchCode: code } })
+                    .then(() => {
+                        this.$router.go('0');
+                    })
+                    .catch(() => {
+                        this.$router.go('0');
+                    });
+            },
+
+            searchStation(companyName, companyCode) {
+                let cookieDistrict = this.$getLocalStorage('district');
+                if (cookieDistrict) {
+                    this.$removeLocalStorage('district');
+                }
+                this.$setLocalStorage('station', companyName);
+                this.$router
+                    .push({ name: 'listByCode', params: { searchCode: companyCode } })
+                    .then(() => {
+                        this.$router.go('0');
+                    })
+                    .catch(() => {
+                        this.$router.go('0');
+                    });
+            }
         }
-    }
-};
+    };
 </script>

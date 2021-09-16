@@ -13,17 +13,16 @@ import FBAuth from './config/facebookAuth';
 
 const gAuthOption = {
     clientId: process.env.MIX_GOOGLE_CLIENT_ID,
-    scope: "profile email",
-    jsSrc: "https://apis.google.com/js/api.js",
+    scope: 'profile email',
+    jsSrc: 'https://apis.google.com/js/api.js'
 };
 
 const fbAuthOption = {
     appID: process.env.MIX_FACEBOOK_APP_ID,
-    jsID: "facebook-jssdk",
-    jsSrc: "https://connect.facebook.net/en_US/sdk.js",
-    version: "v10.0",
+    jsID: 'facebook-jssdk',
+    jsSrc: 'https://connect.facebook.net/en_US/sdk.js',
+    version: 'v10.0'
 };
-
 
 // Set Vue router
 Vue.router = router;
@@ -36,13 +35,23 @@ window.LSMEvent = new Vue();
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = `${process.env.MIX_APP_URL}/api`;
+axios.interceptors.response.use(undefined, function(error) {
+    if (error) {
+        const originalRequest = error.config;
+        if (error.response.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
+            store.dispatch('logout');
+            return router.push('/login');
+        }
+    }
+});
 
 new Vue({
     el: '#app',
     router,
     store,
     components: {
-        Index: () => import('./Index.vue'),
+        Index: () => import('./Index.vue')
     },
     created() {
         this.$store.registerModule('customer', customerModule);
@@ -52,19 +61,21 @@ new Vue({
         this.$store.unregisterModule('customer');
     },
     methods: {
-        getRefreshTokenApi: function () {
+        getRefreshTokenApi: function() {
             let isLoggedIn = this.$store.getters.isLoggedIn;
             if (isLoggedIn) {
-                this.$store.dispatch('customerInfo').then(resp => {
-                }).catch(() => {
-                    this.$setCookie('accessToken3d', '', 1);
-                    Vue.prototype.$removeAuthLocalStorage();
-                    this.$removeLocalStorage('announcement_count');
-                    delete axios.defaults.headers.common['Authorization'];
-                    this.$router.go(0);
-                });
+                this.$store
+                    .dispatch('customerInfo')
+                    .then(resp => {})
+                    .catch(() => {
+                        this.$setCookie('accessToken3d', '', 1);
+                        Vue.prototype.$removeAuthLocalStorage();
+                        this.$removeLocalStorage('announcement_count');
+                        delete axios.defaults.headers.common['Authorization'];
+                        this.$router.go(0);
+                    });
             }
-        },
+        }
     },
     mounted() {
         // mili seconds

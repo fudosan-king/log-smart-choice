@@ -17,7 +17,10 @@
                 <p class="label_custom renovated" v-else>リノベ済<br />物件</p>
                 <div class="w_property_head">
                     <p class="total_price">
-                        {{ estate.price }}<span>万円</span><span class="sub" v-if="estate.renovation_type != 'リノベ済物件'">（物件＋リノベーション）</span>
+                        {{ estate.price }}<span>万円</span
+                        ><span class="sub" v-if="estate.renovation_type != 'リノベ済物件'"
+                            >（物件＋リノベーション）</span
+                        >
                     </p>
                     <div class="property_head">
                         <div class="row">
@@ -50,67 +53,72 @@
 </template>
 
 <script>
-import Lazyload from 'vue-lazyload';
-import Vue from 'vue';
+    import Lazyload from 'vue-lazyload';
+    import Vue from 'vue';
 
-Vue.use(Lazyload, {
-    preLoad: 1.3,
-    error: 'images/no-image.png',
-    loading: 'images/loading.gif',
-    attempt: 1
-});
-export default {
-    props: {
-        estateId: String
-    },
-    data() {
-        return {
-            estates: [],
-            accessToken: false,
-            existedEstate: false
-        };
-    },
-    components: {
-        WishlistComponent: () => import('../components/WishlistComponent')
-    },
-    mounted() {
-        this.getNearEstates();
-    },
-    methods: {
-        getNearEstates() {
-            let accessToken = this.$getLocalStorage('accessToken');
-            let data = {};
-            data.estate_id = this.estateId;
-            if (accessToken) {
-                data.email = this.$getLocalStorage('userSocialId');
-                data.isSocial = true;
-                this.accessToken = true;
-                if (this.$getLocalStorage('userSocialId') == 'null') {
-                    data.email = this.$getLocalStorage('userEmail');
-                    data.isSocial = false;
-                }
-            }
-            this.$store.dispatch('getEstatesNear', data).then(res => {
-                this.estates = res;
-                this.isHidden = true;
-            });
+    Vue.use(Lazyload, {
+        preLoad: 1.3,
+        error: 'images/no-image.png',
+        loading: 'images/loading.gif',
+        attempt: 1
+    });
+    export default {
+        props: {
+            estateId: String
         },
-
-        // Add states to wishlist
-        addToWishList(estateId, isWish) {
-            let accessToken = this.$getLocalStorage('accessToken');
-            if (accessToken != '') {
-                let data = {
-                    estateId: estateId,
-                    is_wish: 1,
-                    accessToken: accessToken
-                };
-                if (isWish === 1) {
-                    data.is_wish = 0;
+        data() {
+            return {
+                estates: [],
+                accessToken: false,
+                existedEstate: false
+            };
+        },
+        components: {
+            WishlistComponent: () => import('../components/WishlistComponent')
+        },
+        mounted() {
+            this.getNearEstates();
+        },
+        methods: {
+            getNearEstates() {
+                let accessToken = this.$getLocalStorage('accessToken');
+                let data = {};
+                data.estate_id = this.estateId;
+                if (accessToken) {
+                    data.email = this.$getLocalStorage('userSocialId');
+                    data.isSocial = true;
+                    this.accessToken = true;
+                    if (this.$getLocalStorage('userSocialId') == 'null') {
+                        data.email = this.$getLocalStorage('userEmail');
+                        data.isSocial = false;
+                    }
                 }
-                this.$store.dispatch('addWishList', data, accessToken);
+                this.$store.dispatch('getEstatesNear', data).then(res => {
+                    this.estates = res;
+                    this.isHidden = true;
+                });
+            },
+
+            // Add states to wishlist
+            addToWishList(estateId, isWish) {
+                let accessToken = this.$getLocalStorage('accessToken');
+                if (accessToken != '') {
+                    let data = {
+                        estateId: estateId,
+                        is_wish: 1,
+                        accessToken: accessToken
+                    };
+                    if (isWish === 1) {
+                        data.is_wish = 0;
+                    }
+                    this.$store.dispatch('addWishList', data, accessToken).catch(err => {
+                        this.$setCookie('accessToken3d', '', 1);
+                        this.$removeAuthLocalStorage();
+                        this.$removeLocalStorage('announcement_count');
+                        this.$router.push({ name: 'login' }).catch(() => {});
+                    });
+                }
             }
         }
-    }
-};
+    };
 </script>

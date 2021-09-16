@@ -158,7 +158,17 @@ export default {
                     } else {
                         this.announcementList = this.announcementList.concat(res[0]['data']['data']);
                     }
+                }).catch(err => {
+                    this.$setCookie('accessToken3d', '', 1);
+                    this.$removeAuthLocalStorage();
+                    this.$removeLocalStorage('announcement_count');
+                    this.$router.push({ name: 'login' }).catch(() => {});
                 });
+            } else {
+                this.$setCookie('accessToken3d', '', 1);
+                this.$removeAuthLocalStorage();
+                this.$removeLocalStorage('announcement_count');
+                this.$router.push({ name: 'login' }).catch(() => {});
             }
         },
         // Khi them danh sach phia duoi thi tinh toan lai do cao
@@ -197,6 +207,8 @@ export default {
             };
             this.$store.dispatch('deleteAnnoutcement', data).then(res => {
                 this.announcementList.splice(this.announcementList.indexOf(announcement), 1);
+            }).catch(err => {
+                this.$router.push({ name: 'login' }).catch(() => {});
             });
         },
 
@@ -213,6 +225,8 @@ export default {
                     this.$setLocalStorage('announcement_count', annoucementCount.announcement_count);
                 }
                 this.$router.push({ path: 'detail/' + estetaId });
+            }).catch( err => {
+                this.$router.push({ name: 'login' }).catch(() => {});
             });
         }
     }

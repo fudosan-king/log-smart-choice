@@ -9,11 +9,11 @@ const state = {
     customer: {}
 };
 const getters = {
-    isLoggedIn: state => state.token ? state.token : '',
+    isLoggedIn: state => (state.token ? state.token : ''),
     authStatus: state => state.status,
     customerInfo: state => {
         return state.customer;
-    },
+    }
 };
 
 const actions = {
@@ -22,10 +22,13 @@ const actions = {
             const auth = this.auth;
             commit('auth_request');
             axios({
-                url: '/login', data: customer, method: 'POST', headers: {
-                    'content-type': 'application/json',
+                url: '/login',
+                data: customer,
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json'
                 },
-                auth: auth,
+                auth: auth
             })
                 .then(resp => {
                     Vue.prototype.$setCookie('accessToken3d', resp.data.data.access_token, 1);
@@ -50,99 +53,116 @@ const actions = {
             commit('logout');
             let accessToken = Vue.prototype.$getLocalStorage('accessToken');
             const auth = this.auth;
-            axios({
-                url: '/logout', method: 'DELETE', headers: {
-                    'content-type': 'application/json',
-                    'AuthorizationBearer': `Bearer ${accessToken}`,
-                },
-                auth: auth,
-            })
-                .then(resp => {
-                    this._vm.$setCookie('accessToken3d', '', 1);
-                    this._vm.$removeLocalStorage('accessToken');
-                    this._vm.$removeLocalStorage('accessToken3d');
-                    this._vm.$removeLocalStorage('userName');
-                    this._vm.$removeLocalStorage('userEmail');
-                    this._vm.$removeLocalStorage('userSocialId');
-                    this._vm.$removeLocalStorage('announcement_count');
-                    delete axios.defaults.headers.common['Authorization'];
-                    let auth2 = window.gapi.auth2.getAuthInstance();
-                    if (auth2) {
-                        auth2.signOut();
-                    }
-                    resolve(resp);
+            if (accessToken) {
+                axios({
+                    url: '/logout',
+                    method: 'DELETE',
+                    headers: {
+                        'content-type': 'application/json',
+                        AuthorizationBearer: `Bearer ${accessToken}`
+                    },
+                    auth: auth
                 })
-                .catch(err => {
-                    commit('auth_error');
-                    this._vm.$setCookie('accessToken3d', '', 1);
-                    this._vm.$removeAuthLocalStorage();
-                    this._vm.$removeLocalStorage('announcement_count');
-                    reject(err);
-                });
-            resolve();
+                    .then(resp => {
+                        this._vm.$setCookie('accessToken3d', '', 1);
+                        this._vm.$removeLocalStorage('accessToken');
+                        this._vm.$removeLocalStorage('accessToken3d');
+                        this._vm.$removeLocalStorage('userName');
+                        this._vm.$removeLocalStorage('userEmail');
+                        this._vm.$removeLocalStorage('userSocialId');
+                        this._vm.$removeLocalStorage('announcement_count');
+                        delete axios.defaults.headers.common['Authorization'];
+                        let auth2 = window.gapi.auth2.getAuthInstance();
+                        if (auth2) {
+                            auth2.signOut();
+                        }
+                        resolve(resp);
+                    })
+                    .catch(err => {
+                        commit('auth_error');
+                        this._vm.$setCookie('accessToken3d', '', 1);
+                        this._vm.$removeAuthLocalStorage();
+                        this._vm.$removeLocalStorage('announcement_count');
+                        reject(err);
+                    });
+            } else {
+                let err = "Missing token";
+                this._vm.$setCookie('accessToken3d', '', 1);
+                this._vm.$removeAuthLocalStorage();
+                this._vm.$removeLocalStorage('announcement_count');
+                reject(err);
+            }
         });
     },
 
     googleLogin({ commit }) {
         return new Promise((resolve, reject) => {
             let auth2 = window.gapi.auth2.getAuthInstance();
-            auth2.signIn().then(() => {
-                let userAuth = auth2.currentUser.get().getAuthResponse();
-                const auth = this.auth
-                if (auth2.isSignedIn.get()) {
-                    let profile = auth2.currentUser.get().getBasicProfile();
-                    let userInfo = {
-                        "googleId": profile.getId(),
-                        "fullName": profile.getName(),
-                        "email": profile.getEmail(),
-                        "imageUrl": profile.getImageUrl(),
-                        "socialType": "google",
-                        "socialId": profile.getId(),
-                        "token": userAuth.access_token,
-                    };
-                    axios({
-                        url: '/google-login', data: userInfo, method: 'POST', headers: {
-                            'content-type': 'application/json',
-                        },
-                        auth: auth,
-                    }).then(resp => {
-                        const tokenInfo = {
-                            token: resp.data.data.access_token,
-                            customerName: resp.data.data.customer_name,
+            auth2
+                .signIn()
+                .then(() => {
+                    let userAuth = auth2.currentUser.get().getAuthResponse();
+                    const auth = this.auth;
+                    if (auth2.isSignedIn.get()) {
+                        let profile = auth2.currentUser.get().getBasicProfile();
+                        let userInfo = {
+                            googleId: profile.getId(),
+                            fullName: profile.getName(),
+                            email: profile.getEmail(),
+                            imageUrl: profile.getImageUrl(),
+                            socialType: 'google',
+                            socialId: profile.getId(),
+                            token: userAuth.access_token
                         };
-                        this._vm.$setCookie('accessToken3d', tokenInfo.token, 1);
-                        Vue.prototype.$setLocalStorage('accessToken', tokenInfo.token);
-                        Vue.prototype.$setLocalStorage('userName', tokenInfo.customerName);
-                        Vue.prototype.$setLocalStorage('userEmail', resp.data.data.customer_email);
-                        Vue.prototype.$setLocalStorage('userSocialId', resp.data.data.customer_social_id);
-                        commit('auth_success', tokenInfo);
-                        resolve(tokenInfo);
-                    }).catch(err => {
-                        commit('auth_error');
-                        this._vm.$setCookie('accessToken3d', '', 1);
-                        this._vm.$removeAuthLocalStorage();
-                        reject(err);
-                    });
-                }
-            }).catch(err => {
-                commit('auth_error');
-                this._vm.$setCookie('accessToken3d', '', 1);
-                this._vm.$removeAuthLocalStorage();
-                reject(err);
-            });
-        })
+                        axios({
+                            url: '/google-login',
+                            data: userInfo,
+                            method: 'POST',
+                            headers: {
+                                'content-type': 'application/json'
+                            },
+                            auth: auth
+                        })
+                            .then(resp => {
+                                const tokenInfo = {
+                                    token: resp.data.data.access_token,
+                                    customerName: resp.data.data.customer_name
+                                };
+                                this._vm.$setCookie('accessToken3d', tokenInfo.token, 1);
+                                Vue.prototype.$setLocalStorage('accessToken', tokenInfo.token);
+                                Vue.prototype.$setLocalStorage('userName', tokenInfo.customerName);
+                                Vue.prototype.$setLocalStorage('userEmail', resp.data.data.customer_email);
+                                Vue.prototype.$setLocalStorage('userSocialId', resp.data.data.customer_social_id);
+                                commit('auth_success', tokenInfo);
+                                resolve(tokenInfo);
+                            })
+                            .catch(err => {
+                                commit('auth_error');
+                                this._vm.$setCookie('accessToken3d', '', 1);
+                                this._vm.$removeAuthLocalStorage();
+                                reject(err);
+                            });
+                    }
+                })
+                .catch(err => {
+                    commit('auth_error');
+                    this._vm.$setCookie('accessToken3d', '', 1);
+                    this._vm.$removeAuthLocalStorage();
+                    reject(err);
+                });
+        });
     },
 
     facebookLogin({ commit }) {
         return new Promise((resolve, reject) => {
             let vueVM = this._vm;
             const auth = this.auth;
-            FB.getLoginStatus(function (response) {
+            FB.getLoginStatus(function(response) {
                 if (response.status === 'connected') {
                     let userInfo = {
-                        "socialType": "facebook",
-                        "socialId": response.authResponse.userID,
-                        "token": response.authResponse.accessToken,
+                        socialType: 'facebook',
+                        socialId: response.authResponse.userID,
+                        token: response.authResponse.accessToken
                     };
 
                     axios({
@@ -157,7 +177,7 @@ const actions = {
                         .then(resp => {
                             const tokenInfo = {
                                 token: resp.data.data.access_token,
-                                customerName: resp.data.data.customer_name,
+                                customerName: resp.data.data.customer_name
                             };
                             vueVM.$setCookie('accessToken3d', tokenInfo.token, 1);
                             Vue.prototype.$setLocalStorage('accessToken', tokenInfo.token);
@@ -183,9 +203,13 @@ const actions = {
             const auth = this.auth;
             commit('auth_request');
             axios({
-                url: '/reconfirmation-email', method: 'POST', data: data, auth: auth, headers: {
+                url: '/reconfirmation-email',
+                method: 'POST',
+                data: data,
+                auth: auth,
+                headers: {
                     'content-type': 'application/json'
-                },
+                }
             })
                 .then(resp => {
                     resolve(resp);
@@ -201,9 +225,13 @@ const actions = {
             const auth = this.auth;
             commit('auth_request');
             axios({
-                url: '/forgot-password', method: 'POST', data: data, auth: auth, headers: {
+                url: '/forgot-password',
+                method: 'POST',
+                data: data,
+                auth: auth,
+                headers: {
                     'content-type': 'application/json'
-                },
+                }
             })
                 .then(resp => {
                     resolve(resp);
@@ -219,14 +247,20 @@ const actions = {
             const auth = this.auth;
             commit('auth_request');
             axios({
-                url: '/verify', method: 'POST', data: data, auth: auth, headers: {
+                url: '/verify',
+                method: 'POST',
+                data: data,
+                auth: auth,
+                headers: {
                     'content-type': 'application/json'
-                },
-            }).then(resp => {
-                resolve(resp);
-            }).catch(error => {
-                reject(error);
-            });
+                }
+            })
+                .then(resp => {
+                    resolve(resp);
+                })
+                .catch(error => {
+                    reject(error);
+                });
         });
     }
 };
@@ -254,7 +288,7 @@ const mutations = {
     refreshToken(state, tokenInfo) {
         state.status = 'success';
         state.token = tokenInfo.accessToken;
-    },
+    }
 };
 export default {
     state,
