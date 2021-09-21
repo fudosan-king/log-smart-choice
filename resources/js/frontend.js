@@ -37,11 +37,12 @@ axios.defaults.withCredentials = true;
 axios.defaults.baseURL = `${process.env.MIX_APP_URL}/api`;
 axios.interceptors.response.use(undefined, function(error) {
     if (error) {
-        const originalRequest = error.config;
-        if (error.response.status === 401 && !originalRequest._retry) {
-            originalRequest._retry = true;
-            store.dispatch('logout');
-            return router.push('/login');
+        if (error.response.status === 401) {
+            store.dispatch('logout').then(response => {
+                return router.push('/login');
+            }).catch();
+        } else {
+            return Promise.reject(error);
         }
     }
 });

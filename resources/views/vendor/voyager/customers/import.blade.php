@@ -16,7 +16,7 @@
         @include('voyager::alerts')
         <div class="panel panel-bordered">
             <!-- form start -->
-            <form action="{{route('admin.customers.import')}}" method="post" enctype="multipart/form-data">
+            <form action="{{route('admin.customer.import')}}" method="post" enctype="multipart/form-data">
                 {{ csrf_field() }}
                 <div class="panel-body">
                     @if (count($errors) > 0)

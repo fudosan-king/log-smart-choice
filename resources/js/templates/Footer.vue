@@ -212,7 +212,8 @@ export default {
                 window.localStorage.setItem('estate_id', currentUrl[2]);
                 window.open(window.location.origin + routeContact, '_blank');
             } else {
-                $('#modal_register').modal('toggle');
+                // $('#modal_register').modal('toggle');
+                this.contactWithOutLogin();
             }
         },
 
