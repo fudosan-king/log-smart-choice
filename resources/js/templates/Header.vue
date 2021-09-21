@@ -297,6 +297,9 @@
                 this.homeWhiteClass = 'i_white';
                 this.homeBlackClass = 'i_black';
             }
+            $("body").click(function(){
+                $('.dropdown_user_content').hide();
+            });
         },
         mounted() {
             window.addEventListener('scroll', this.scrollListener);
