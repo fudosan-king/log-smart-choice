@@ -8,14 +8,8 @@
             <i class="{{ $dataType->icon }}"></i> {{ $dataType->getTranslatedAttribute('display_name_plural') }}
         </h1>
         @can('add', app($dataType->model_name))
-            <!-- <a href="{{ route('voyager.'.$dataType->slug.'.create') }}" class="btn btn-success btn-add-new">
+            <a href="{{ route('voyager.'.$dataType->slug.'.create') }}" class="btn btn-success btn-add-new">
                 <i class="voyager-plus"></i> <span>{{ __('voyager::generic.add_new') }}</span>
-            </a> -->
-            <a href="{{ route('admin.announcement.store') }}" class="btn btn-primary save">
-                <i class="voyager-sound"></i> <span>Test Send Notice </span>
-            </a>
-            <a href="{{ route('admin.announcement.send.email') }}" class="btn btn-primary save">
-                <i class="voyager-sound"></i> <span>Test Send Email </span>
             </a>
         @endcan
         @can('delete', app($dataType->model_name))
@@ -27,6 +21,9 @@
                     <i class="voyager-list"></i> <span>{{ __('voyager::bread.order') }}</span>
                 </a>
             @endif
+            <a href="{{ route('admin.customer.import.view') }}" class="btn btn-primary save">
+                <i class="voyager-sound"></i> <span>Import Customers</span>
+            </a>
         @endcan
         @can('delete', app($dataType->model_name))
             @if($usesSoftDeletes)

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EstateController;
 use Illuminate\Support\Facades\Route;
 use TCG\Voyager\Facades\Voyager;
@@ -31,5 +32,6 @@ Route::group(['/'], function () {
     Route::get('/{pageId}/tags', [TagsController::class, 'indexTags'])->name('admin.page.tags.index');
     Route::get('/import', [ImportManagementSystemController::class, 'index'])->name('admin.station.index');
     Route::post('/station/import', [ImportManagementSystemController::class, 'importStation'])->name('admin.station.import');
-
+    Route::get('/customer/import/show', [CustomerController::class, 'showImportCustomer'])->name('admin.customer.import.view');
+    Route::post('/customer/import', [ImportManagementSystemController::class, 'importCustomer'])->name('admin.customers.import');
 });
