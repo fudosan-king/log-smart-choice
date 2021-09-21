@@ -177,4 +177,117 @@ class CustomerController extends VoyagerBaseController
             'showCheckboxColumn'
         ));
     }
+
+    public function showImportCustomer(Request $request)
+    {
+        $slug = 'customers';
+        // GET THE DataType based on the slug
+        $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
+        $title = 'Import Customers';
+        // Check permission
+        $this->authorize('edit', app($dataType->model_name));
+        $getter = $dataType->server_side ? 'paginate' : 'get';
+        $search = (object)['value' => $request->get('s'), 'key' => $request->get('key'), 'filter' => $request->get('filter')];
+        $orderBy = $request->get('order_by', $dataType->order_column);
+        $sortOrder = $request->get('sort_order', $dataType->order_direction);
+        // Next Get or Paginate the actual content from the MODEL that corresponds to the slug DataType
+        if (strlen($dataType->model_name) != 0) {
+            $model = app($dataType->model_name);
+
+            if ($dataType->scope && $dataType->scope != '' && method_exists($model, 'scope' . ucfirst($dataType->scope))) {
+                $query = $model->{$dataType->scope}();
+            } else {
+                $query = $model::select('*');
+            }
+
+            // Use withTrashed() if model uses SoftDeletes and if toggle is selected
+            if ($model && in_array(SoftDeletes::class, class_uses_recursive($model)) && Auth::user()->can('delete', app($dataType->model_name))) {
+                $usesSoftDeletes = true;
+
+                if ($request->get('showSoftDeleted')) {
+                    $showSoftDeleted = true;
+                    $query = $query->withTrashed();
+                }
+            }
+
+            // If a column has a relationship associated with it, we do not want to show that field
+            $this->removeRelationshipField($dataType, 'browse');
+
+            if ($search->value != '' && $search->key && $search->filter) {
+                $searchFilter = ($search->filter == 'equals') ? '=' : 'LIKE';
+                $searchValue = ($search->filter == 'equals') ? $search->value : '%' . $search->value . '%';
+                switch ($search->key) {
+                    case 'name':
+                        $query = $this->syntaxFullTextSearch($query, $search->value, (new $dataType->model_name())->searchable);
+                        break;
+                    case 'page_id':
+                        $query->join('pages_seo', 'tags.page_id', '=', 'pages_seo.id');
+                        $query->where('pages_seo.name', $searchFilter, $searchValue);
+                        break;
+                    default:
+                        $query->where($search->key, $searchFilter, $searchValue);
+                        break;
+                }
+            }
+
+            if ($orderBy && in_array($orderBy, $dataType->fields())) {
+                $querySortOrder = (!empty($sortOrder)) ? $sortOrder : 'desc';
+                $dataTypeContent = call_user_func([
+                    $query->orderBy($slug . '.' . $orderBy, $querySortOrder),
+                    $getter,
+                ]);
+            } elseif ($model->timestamps) {
+                $dataTypeContent = call_user_func([$query->latest($slug . '.' . $model::CREATED_AT), $getter]);
+            } else {
+                $dataTypeContent = call_user_func([$query->orderBy($slug . '.' . $model->getKeyName(), 'DESC'), $getter]);
+            }
+
+            // Replace relationships' keys for labels and create READ links if a slug is provided.
+            $dataTypeContent = $this->resolveRelations($dataTypeContent, $dataType);
+        } else {
+            // If Model doesn't exist, get data from table name
+            $dataTypeContent = call_user_func([DB::table($dataType->name), $getter]);
+            $model = false;
+        }
+
+        // Actions
+        $actions = [];
+        if (!empty($dataTypeContent->first())) {
+            foreach (Voyager::actions() as $action) {
+                $action = new $action($dataType, $dataTypeContent->first());
+                if ($action->shouldActionDisplayOnDataType()) {
+                    $actions[] = $action;
+                }
+            }
+        }
+
+
+        $view = "voyager::customers.import";
+        return Voyager::view($view, compact(
+            'actions',
+            'dataType',
+            'title',
+        ));
+    }
+
+    protected function getSortableColumns($rows)
+    {
+        return $rows->filter(function ($item) {
+            if ($item->type != 'relationship') {
+                return true;
+            }
+            if ($item->details->type != 'belongsTo') {
+                return false;
+            }
+
+            return !$this->relationIsUsingAccessorAsLabel($item->details);
+        })
+            ->pluck('field')
+            ->toArray();
+    }
+
+    protected function relationIsUsingAccessorAsLabel($details)
+    {
+        return in_array($details->label, app($details->model)->additional_attributes ?? []);
+    }
 }

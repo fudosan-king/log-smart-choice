@@ -150,7 +150,6 @@
     import 'sweetalert2/dist/sweetalert2.all.min.js';
 
     Vue.use(VueSweetalert2);
-
     export default {
         data() {
             return {
@@ -160,7 +159,7 @@
                 squares: [],
                 checkedDistrictInput: [],
                 minTotalPrices: 0,
-                maxTotalPrices: 500,
+                maxTotalPrices: 1000,
                 minSquare: 0,
                 maxSquare: 10,
                 getDistrictList: [],
@@ -183,10 +182,10 @@
             },
             listTotalPrice() {
                 let min = 0;
-                let max = 10000;
+                let max = 20000;
                 while (min <= max) {
                     this.totalPrices.push(min);
-                    min = min + 500;
+                    min = min + 1000;
                 }
             },
             listSquare() {
