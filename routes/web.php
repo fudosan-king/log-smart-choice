@@ -3,7 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use TCG\Voyager\Facades\Voyager;
 use App\Http\Controllers\AppController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DistrictController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,6 +32,9 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/import', [DistrictController::class, 'indexDistrictImport'])->name('admin.district.import.index');
         Route::post('/import', [DistrictController::class, 'importDistrict'])->name('admin.district.import');
     });
+
+    // Customer Import
+    Route::get('/customers/import', [CustomerController::class, 'showImportCustomer'])->name('admin.customer.import.view');
 });
 
 

@@ -32,6 +32,5 @@ Route::group(['/'], function () {
     Route::get('/{pageId}/tags', [TagsController::class, 'indexTags'])->name('admin.page.tags.index');
     Route::get('/import', [ImportManagementSystemController::class, 'index'])->name('admin.station.index');
     Route::post('/station/import', [ImportManagementSystemController::class, 'importStation'])->name('admin.station.import');
-    Route::get('/customer/import/show', [CustomerController::class, 'showImportCustomer'])->name('admin.customer.import.view');
-    Route::post('/customer/import', [ImportManagementSystemController::class, 'importCustomer'])->name('admin.customers.import');
+    Route::post('/customer/import', [ImportManagementSystemController::class, 'importCustomer'])->name('admin.customer.import');
 });
