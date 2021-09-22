@@ -25,7 +25,7 @@
                                                 </div>
                                                 <div class="col-12 col-lg-9 align-self-center">
                                                     <p class="mb-0">
-                                                        <span>{{ estate.estate_name }}</span>
+                                                        <span>{{ estate }}</span>
                                                     </p>
                                                 </div>
                                             </div>
@@ -333,25 +333,14 @@ export default {
         }
     },
     mounted() {
-        this.getEstate();
+        if (window.localStorage.getItem('estateName')) {
+            this.estate = window.localStorage.getItem('estateName');
+        }
         this.getCustomerInformation();
         this.getListHopeDay();
         this.getListStartTime();
     },
     methods: {
-        getEstate() {
-            let data = {};
-            if (window.localStorage.getItem('estate_id')) {
-                data.id = window.localStorage.getItem('estate_id');
-                this.$store
-                    .dispatch('getEstate', data)
-                    .then(resp => {
-                        this.estate = resp.data.data.estate[0];
-                    })
-                    .catch(error => {});
-            }
-        },
-
         getCustomerInformation() {
             this.$store
                 .dispatch('customerInfo')
@@ -374,6 +363,8 @@ export default {
                     }
                 })
                 .catch(() => {
+                    
+                    this.estate = window.localStorage.getItem('estateName');
                     if (window.localStorage.getItem('contactData')) {
                         this.contactData = JSON.parse(window.localStorage.getItem('contactData'));
                         this.land_line = this.contactData.landLine;
