@@ -341,7 +341,7 @@ export default {
     methods: {
         getEstate() {
             let data = {};
-            if (window.localStorage.getItem('estate_id').length) {
+            if (window.localStorage.getItem('estate_id')) {
                 data.id = window.localStorage.getItem('estate_id');
                 this.$store
                     .dispatch('getEstate', data)
@@ -360,7 +360,7 @@ export default {
                     this.full_name = resp.name + ' ' + resp.last_name;
                     this.email = resp.email;
                     this.land_line = resp.land_line;
-                    if (window.localStorage.getItem('contactData').length > 0) {
+                    if (window.localStorage.getItem('contactData')) {
                         this.contactData = JSON.parse(window.localStorage.getItem('contactData'));
                         this.land_line = this.contactData.landLine;
                         this.full_name = this.contactData.fullName;
@@ -374,7 +374,7 @@ export default {
                     }
                 })
                 .catch(() => {
-                    if (window.localStorage.getItem('contactData').length > 0) {
+                    if (window.localStorage.getItem('contactData')) {
                         this.contactData = JSON.parse(window.localStorage.getItem('contactData'));
                         this.land_line = this.contactData.landLine;
                         this.full_name = this.contactData.fullName;
