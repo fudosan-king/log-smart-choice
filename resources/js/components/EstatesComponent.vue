@@ -50,17 +50,17 @@
                                                     <p class="property_square">{{ estate.tatemono_menseki }}m²</p>
                                                 </div>
                                                 <div class="col-2 col-lg-2">
-                                                    <template v-if="accessToken">
-                                                        <a @click="addToWishList(estate._id, estate.is_wish)">
+                                                    <!-- <template v-if="accessToken">
+                                                        <a @click="addToWishList(estate._id, estate.is_wish)"> -->
                                                             <WishlistComponent
                                                                 :estate-id="estate._id"
                                                                 :data-wished="estate.is_wish"
                                                             ></WishlistComponent>
-                                                        </a>
+                                                        <!-- </a>
                                                     </template>
                                                     <template v-else>
                                                         <a href="/login" class="btn_wishlist"></a>
-                                                    </template>
+                                                    </template> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -255,7 +255,6 @@
             },
 
             // Add states to wishlist
-
             addToWishList(estateId, isWish) {
                 let accessToken = this.$getLocalStorage('accessToken');
                 if (accessToken != '') {

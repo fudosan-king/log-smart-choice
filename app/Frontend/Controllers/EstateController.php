@@ -164,6 +164,8 @@ class EstateController extends Controller
     public function detail(Request $request)
     {
         $id = $request->has('id') ? $request->get('id') : '';
+        $email = $request->get('email') ?? '';
+        $isSocial = $request->get('isSocial') ?? '';
         if (!$id) {
             return response()->json(['data' => []], 200);
         }
@@ -191,9 +193,23 @@ class EstateController extends Controller
             ->get();
 
         $district = District::where('name', 'like', '%'. $estateAddress['city'] . '%')->first();
-        // if ($estate) {
-        //     $estate = $this->getEstateInformation($estate);
-        // }
+
+        $customer = Customer::where('email', $email)->first();
+        if ($isSocial) {
+            $customer = Customer::where('social_id', $email)->first();
+        }
+
+        $wishList = 0;
+        if ($customer) {
+            $wishListForCustomer = WishLists::select('estate_id')
+                ->where('user_id', $customer->id)
+                ->where('is_wishlist', WishLists::ADDED_WISH_LIST)
+                ->where('estate_id', $id)
+                ->first();
+            if (!empty($wishListForCustomer)) {
+                $estate[0]['is_wish'] = 1;
+            }
+        }
 
         if ($estate) {
             return $this->response(200, 'Get estate detail success', ['estate' => $estate, 'estateNearAddress' => $estateNearAddress, 'district' => $district], true);

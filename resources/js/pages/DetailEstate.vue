@@ -18,19 +18,44 @@
             <section class="p-0">
                 <div class="box_top mb-0">
                     <div class="container">
-                        <p class="subtitle mb-2">
-                            <small v-if="estate.estate_information"><b class="estate_name_title">{{ estate.estate_information.article_title }}</b><br>
-                                <template v-if="estate.address"
-                                    >{{ estate.address.pref }}{{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}{{ estate.address.gaikutiban }}<br />
-                                    専有面積{{ estate.tatemono_menseki }}m²
-                                    <template v-if="estate.has_balcony != '無'">
-                                        ／バルコニー面積: {{ estate.balcony_space}}m²
-                                    </template>
-                                    <br />
-                                    {{ estate.ground_floors ? estate.ground_floors + '階建' : '' }}／{{ estate.structure }}
-                                </template>
-                            </small>
-                        </p>
+                        <div class="row">
+                            <div class="col-12 col-lg-10 align-self-center">
+                                <p class="subtitle mb-2">
+                                    <small v-if="estate.estate_information"><b class="estate_name_title">{{ estate.estate_information.article_title }}</b><br>
+                                        <template v-if="estate.address"
+                                            >{{ estate.address.pref }}{{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}{{ estate.address.gaikutiban }}<br />
+                                            専有面積{{ estate.tatemono_menseki }}m²
+                                            <template v-if="estate.has_balcony != '無'">
+                                                ／バルコニー面積: {{ estate.balcony_space}}m²
+                                            </template>
+                                            <br />
+                                            {{ estate.ground_floors ? estate.ground_floors + '階建' : '' }}／{{ estate.structure }}
+                                        </template>
+                                    </small>
+                                </p>
+                            </div>
+                            <!-- {{ estate._id }}
+                                        {{ estate.is_wish }} -->
+                            <div class="col-12 col-lg-2 align-self-center">
+                                <!-- <template v-if="accessToken"> -->
+                                    <!-- <a @click="addToWishList(estate._id, estate.is_wish)" class="btn btn_wishlist2"> -->
+                                        
+                                        <a href="javascript:void(0);" class="btn btn_wishlist2" @click="addToWishList(estate._id, estate.is_wish)" :class="{ on: estate.is_wish }"><i></i><span>保存する</span></a>
+                                        
+                                    <!-- </a> -->
+                                <!-- </template>
+                                <template v-else>
+                                        <WishlistComponent
+                                                :estate-id="estate._id"
+                                                :data-wished="estate.is_wish"
+                                        ></WishlistComponent>
+                                        
+                                    </a>
+                                    
+                                </template> -->
+                                <!-- <a href="#" class="btn btn_wishlist2 d-none d-lg-block"><i></i> </a> -->
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -649,6 +674,9 @@ export default {
         PieChartComponent: () => import('../components/PieChartComponent')
     },
     data() {
+        if (typeof this.dataWished != 'undefined') {
+            isActive = true;
+        }
         return {
             estate: [],
             mainPhoto: '/assets/images/bg_top.jpg',
@@ -677,6 +705,8 @@ export default {
             carParkNote: '',
             everyMonday: '',
             district: {},
+            accessToken: false,
+            isActive = true,
         };
     },
     mounted() {
@@ -725,7 +755,18 @@ export default {
     methods: {
         getListEstates() {
             const id = this.$route.params.estateId;
+            let accessToken = this.$getLocalStorage('accessToken');
             let data = {};
+            if (accessToken) {
+                data.email = this.$getLocalStorage('userSocialId');
+                data.isSocial = true;
+                this.accessToken = true;
+                if (this.$getLocalStorage('userSocialId') == 'null') {
+                    data.email = this.$getLocalStorage('userEmail');
+                    data.isSocial = false;
+                }
+            }
+
             if (id.length) {
                 data.id = id;
                 this.$store
@@ -887,7 +928,47 @@ export default {
             );
             this.paymentMonthlyBonus = Math.ceil(this.paymentMonthly + this.bonus / 6);
             this.chartData = [this.estate.management_fee, this.estate.repair_reserve_fee, this.monthlyLoan];
-        }
+        },
+
+        // Add states to wishlist
+        addToWishList(estateId, isWish) {
+            this.isActive = !this.isActive;
+            let accessToken = this.$getLocalStorage('accessToken');
+            if (accessToken) {
+                let data = {
+                    estateId: estateId,
+                    is_wish: 1,
+                    accessToken: accessToken
+                };
+                if (isWish === 1) {
+                    data.is_wish = 0;
+                }
+                this.$store
+                    .dispatch('addWishList', data, accessToken)
+                    .then()
+                    .catch(err => {
+                        this.$setCookie('accessToken3d', '', 1);
+                        this.$removeAuthLocalStorage();
+                        this.$removeLocalStorage('announcement_count');
+                        this.$router.push({ name: 'login' }).catch(() => {});
+                    });
+            }
+        },
+
+        onClick() {
+            this.isActive = !this.isActive;
+            let accessToken = this.$getLocalStorage('accessToken');
+            if (accessToken) {
+                let data = {
+                    estateId: this.estateId,
+                    is_wish: this.isActive,
+                    accessToken: accessToken
+                };
+                this.$store.dispatch('addWishList', data, accessToken);
+            } else {
+                this.$router.push({ name: 'login' }).catch(() => {});
+            }
+        },
     },
     updated() {
         let estate = this.estate;

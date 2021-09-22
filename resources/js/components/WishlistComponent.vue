@@ -20,15 +20,16 @@ export default {
     methods: {
         onClick() {
             this.isActive = !this.isActive;
-            // let isWish = this.isActive ? 1 : 0;
             let accessToken = this.$getLocalStorage('accessToken');
-            if (accessToken != '') {
+            if (accessToken) {
                 let data = {
                     estateId: this.estateId,
                     is_wish: this.isActive,
                     accessToken: accessToken
                 };
                 this.$store.dispatch('addWishList', data, accessToken);
+            } else {
+                this.$router.push({ name: 'login' }).catch(() => {});
             }
         },
     }
