@@ -60,9 +60,10 @@ class MetaTagController extends Controller
         if ($district) {
             return $this->response(200, 'Get Disctrict Success', $district, true);
         } else {
-            $station = Station::select('name')->where('tran_company_code', $searchCode)->first();
+            $station = Station::select('tran_company_short_name')->where('tran_company_code', $searchCode)->first();
+            $data = ['name' => $station->tran_company_short_name];
             if ($station) {
-                return $this->response(200, 'Get Station Success', $station, true);
+                return $this->response(200, 'Get Station Success', $data, true);
             }
         }
         return $this->response(422, 'Search Code Error', [], false);
