@@ -42,7 +42,7 @@ class TagsSeeder extends Seeder
 
         if (!$dataRow->exists) {
             $dataRow->fill([
-                'type'         => 'text',
+                'type'         => 'select_dropdown',
                 'display_name' => __('Tag Type'),
                 'required'     => 1,
                 'browse'       => 1,
@@ -51,6 +51,7 @@ class TagsSeeder extends Seeder
                 'add'          => 1,
                 'delete'       => 1,
                 'order'        => 1,
+                'details'      => ["default" => 'Title', "options" => ['title' => 'Title', 'meta' => 'Meta']],
             ])->save();
         }
 
@@ -88,6 +89,22 @@ class TagsSeeder extends Seeder
             ])->save();
         }
 
+        $dataRow = $this->dataRow($groupsDataType, 'name_content');
+
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => __('Name Content'),
+                'required'     => 1,
+                'browse'       => 0,
+                'read'         => 0,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 0,
+                'order'        => 4,
+            ])->save();
+        }
+
         $dataRow = $this->dataRow($groupsDataType, 'tag_content');
 
         if (!$dataRow->exists) {
@@ -100,9 +117,11 @@ class TagsSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'order'        => 4,
+                'order'        => 5,
             ])->save();
         }
+
+        
 
         $dataRow = $this->dataRow($groupsDataType, 'page_id');
 
@@ -118,7 +137,7 @@ class TagsSeeder extends Seeder
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
-                'order'        => 5,
+                'order'        => 6,
                 'details'      => ["default" => array_shift($allPage), "options" => $allPage],
             ])->save();
         }

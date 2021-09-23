@@ -10,7 +10,7 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
-    
+
     /**
      * response
      *
@@ -24,7 +24,7 @@ class Controller extends BaseController
     {
         $response = [
             "code" => $code,
-            'data'       => $data,
+            'data' => $data,
         ];
         if ($flag) {
             $response['success'] = ['messages' => [$messages]];

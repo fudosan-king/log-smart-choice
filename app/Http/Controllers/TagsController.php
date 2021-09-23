@@ -213,8 +213,8 @@ class TagsController extends VoyagerBaseController
         // Validate name content
         $tagType = $request->get('type');
         $tagName = $request->get('name');
-        $nameContent = $request->get('name_content');
-        if (!$this->_validTag($tagType, $tagName, $nameContent)) {
+        $tagContent = $request->get('tag_content');
+        if (!$this->_validTag($tagType, $tagName, $tagContent)) {
             if ($tagName == 'name') {
                 return redirect()->back()->with([
                     'message'    => 'Meta name only support keywords, description, twitter:card, twitter:site, robots',
@@ -293,8 +293,9 @@ class TagsController extends VoyagerBaseController
         // Validate name content
         $tagType = $request->get('type');
         $tagName = $request->get('name');
-        $nameContent = $request->get('name_content');
-        if (!$this->_validTag($tagType, $tagName, $nameContent)) {
+        $tagContent = $request->get('tag_content');
+
+        if (!$this->_validTag($tagType, $tagName, $tagContent)) {
             if ($tagName == 'name') {
                 return redirect()->back()->with([
                     'message'    => 'Meta name only support keywords, description, twitter:card, twitter:site, robots',
@@ -307,6 +308,8 @@ class TagsController extends VoyagerBaseController
                 ]);
             }
         }
+        dump($request->get('name_content'));
+        dd($model);
 
         $this->insertUpdateData($request, $slug, $dataType->editRows, $data);
 
