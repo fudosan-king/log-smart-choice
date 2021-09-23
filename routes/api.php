@@ -28,54 +28,55 @@ use App\Models\Estates;
 
 
 Route::middleware('auth:api')->group(function () {
-    Route::delete('/logout', [LoginController::class, 'logout'])->name('logout');
+    Route::delete('/logout', [LoginController::class, 'logout']);
 
     // WishList
-    Route::post('/wishlist', [WishListController::class, 'upsertWishList'])->name('wishlist.add');
-    Route::post('/wishlist/list', [WishListController::class, 'getWishLists'])->name('wishlist.list');
+    Route::post('/wishlist', [WishListController::class, 'upsertWishList']);
+    Route::post('/wishlist/list', [WishListController::class, 'getWishLists']);
 
     // Customer
-    Route::post('/customer', [CustomerController::class, 'getCustomer'])->name('customer.getInformation');
-    Route::put('/customer', [CustomerController::class, 'update'])->name('customer.update');
-    Route::put('/customer/announcement-condition', [CustomerController::class, 'updateAnnouncementCondition'])->name('customer.update.announcementCondition');
+    Route::post('/customer', [CustomerController::class, 'getCustomer']);
+    Route::put('/customer', [CustomerController::class, 'update']);
+    Route::put('/customer/announcement-condition', [CustomerController::class, 'updateAnnouncementCondition']);
 
     // Confirm password
-    Route::put('/confirm-password', [ConfirmPasswordController::class, 'updatePassword'])->name('customer.update.password');
+    Route::put('/confirm-password', [ConfirmPasswordController::class, 'updatePassword']);
 
     // Estate
-    Route::post('/estate/estate-3d', [EstateController::class, 'updateEstateId3D'])->name('estate.updateIdEstate3D');
+    Route::post('/estate/estate-3d', [EstateController::class, 'updateEstateId3D']);
 
     // Annoucement
-    Route::put('/announcement', [AnnouncementController::class, 'markRead'])->name('announcement.update.read');
-    Route::delete('/announcement', [AnnouncementController::class, 'delete'])->name('announcement.delete');
-    Route::post('/announcement/list', [AnnouncementController::class, 'listAnnouncement'])->name('announcement.list');
+    Route::put('/announcement', [AnnouncementController::class, 'markRead']);
+    Route::delete('/announcement', [AnnouncementController::class, 'delete']);
+    Route::post('/announcement/list', [AnnouncementController::class, 'listAnnouncement']);
 
     // District
-    Route::post('/district/customer/list', [DistrictController::class, 'customerList'])->name('district.customer.list');
+    Route::post('/district/customer/list', [DistrictController::class, 'customerList']);
 });
 
 // auth
-Route::post('/verify', [VerificationController::class, 'verifyEmail'])->name('verify.email');
-Route::post('/register', [RegisterController::class, 'registerCustomer'])->name('customer.register');
-Route::post('/reconfirmation-email', [RegisterController::class, 'reconfirmEmail'])->name('customer.forgotpassword');
+Route::post('/verify', [VerificationController::class, 'verifyEmail']);
+Route::post('/register', [RegisterController::class, 'registerCustomer']);
+Route::post('/reconfirmation-email', [RegisterController::class, 'reconfirmEmail']);
 Route::post('/login', [LoginController::class, 'login'])->name('login.check');
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/forgot-password', [ResetPasswordController::class, 'forgotPassword'])->name('customer.forgotpassword');
-Route::post('/reset-password/{hash}', [ResetPasswordController::class, 'resetPassword'])->name('customer.resetpassword');
+Route::post('/forgot-password', [ResetPasswordController::class, 'forgotPassword']);
+Route::post('/reset-password/{hash}', [ResetPasswordController::class, 'resetPassword']);
 
 
 // register social network
 Route::post('/google-login', [LoginController::class, 'socialLogin']);
 Route::post('/facebook-login', [LoginController::class, 'socialLogin']);
 Route::get('/get-meta-tags', [MetaTagController::class, 'getMetaTags']);
+Route::get('/get-meta-code-search', [MetaTagController::class, 'getMetaCodeSearch']);
 
 // station
-Route::post('/stations/list', [StationController::class, 'getAll'])->name('station.list');
-Route::get('/stations/get-companies', [StationController::class, 'getTransportCompany'])->name('station.companies');
-Route::get('/stations/getByCompany', [StationController::class, 'getByTransportCompany'])->name('station.bycompany');
+Route::post('/stations/list', [StationController::class, 'getAll']);
+Route::get('/stations/get-companies', [StationController::class, 'getTransportCompany']);
+Route::get('/stations/getByCompany', [StationController::class, 'getByTransportCompany']);
 
 // District
-Route::post('/district/list', [DistrictController::class, 'list'])->name('district.list');
+Route::post('/district/list', [DistrictController::class, 'list']);
 
 //estate
 Route::group(['prefix' => 'list'], function () {
@@ -86,9 +87,9 @@ Route::group(['prefix' => 'detail'], function () {
     Route::post('/', [EstateController::class, 'detail']);
 });
 
-Route::post('/estate/near', [EstateController::class, 'getEstateNear'])->name('estate.near');
+Route::post('/estate/near', [EstateController::class, 'getEstateNear']);
 
-Route::post('/estate/recommend', [EstateController::class, 'getEstatesRecomment'])->name('estate.recommend');
+Route::post('/estate/recommend', [EstateController::class, 'getEstatesRecomment']);
 
 Route::get('test_import_estates', function () {
     $estates = array();
@@ -111,7 +112,7 @@ Route::get('test_import_estates', function () {
             // add room type in after import into order-renove
             $estateData->room_type = $estateData->room_floor . $estateData->room_kind;
             $importedEstate = $estate->upsertFromFDKData($estateData);
-// dd($importedEstate);
+            // dd($importedEstate);
             // if ($importedEstate !== null) {
             //     array_push($this->importedEstateIds, $importedEstate->_id);
             // } else {

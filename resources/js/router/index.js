@@ -57,12 +57,12 @@ const routes = [
         meta: {
             guest: true,
             title: 'ログイン｜Order Renove'
-        },
+        }
     },
     {
         path: '/about',
         name: 'about',
-        component: () => import('../pages/About.vue'),
+        component: () => import('../pages/About.vue')
     },
     {
         path: '/contact',
@@ -104,11 +104,11 @@ const routes = [
             title: '忘れたパスワード｜Order Renove'
         }
     },
-    { path: "*", component: () => import('../pages/PageNotFound.vue') },
+    { path: '*', component: () => import('../pages/PageNotFound.vue') },
     {
         path: '/login-social',
         name: 'loginSocial',
-        component: () => import('../pages/LoginSocial.vue'),
+        component: () => import('../pages/LoginSocial.vue')
     },
     {
         path: '/reconfirmation-email',
@@ -125,7 +125,7 @@ const routes = [
         meta: {
             requiresAuth: true,
             title: '登録情報｜Order Renove'
-        },
+        }
     },
     {
         path: '/customer/change-password',
@@ -134,7 +134,7 @@ const routes = [
         meta: {
             requiresAuth: true,
             title: 'パスワード設定｜Order Renove'
-        },
+        }
     },
     {
         path: '/customer/update',
@@ -170,7 +170,7 @@ const routes = [
         meta: {
             requiresAuth: true,
             title: 'メルマガ配信希望条件｜Order Renove'
-        },
+        }
     },
     {
         path: '/customer/:verify/active-email',
@@ -187,12 +187,12 @@ const routes = [
         meta: {
             title: 'パスワードを再設定する｜Order Renove'
         }
-    },
-]
+    }
+];
 
 const router = new VueRouter({
     mode: 'history',
-    routes,
+    routes
 });
 
 router.beforeEach((to, from, next) => {
@@ -202,8 +202,8 @@ router.beforeEach((to, from, next) => {
             title = window.localStorage.getItem('searchCode') + 'の物件一覧|Order Renove';
         }
     } else if (['contact', 'contactConfirm', 'contactSuccess'].includes(to.name)) {
-        title = window.localStorage.getItem('estateName') + to.meta.title ;
-    }else {
+        title = window.localStorage.getItem('estateName') + to.meta.title;
+    } else {
         title = to.meta.title;
     }
 
@@ -216,55 +216,71 @@ router.beforeEach((to, from, next) => {
     let imageSrc = `${window.location.origin}/assets/images/svg/logo_orderrenove_white.svg`;
 
     let estateID = to.params.estateId;
+    let searchCode = to.params.searchCode;
     if (to.name === 'detail') {
-        axios.get(`${process.env.MIX_APP_URL}/api/get-meta-tags`,  {params: {estateID: estateID}}).then(response => {
+        axios.get(`${process.env.MIX_APP_URL}/api/get-meta-tags`, { params: { estateID: estateID } }).then(response => {
             let totalPrice = response.data.dataInfo.price;
-            let address =  response.data.dataInfo.address.pref + response.data.dataInfo.address.city + response.data.dataInfo.address.ooaza + response.data.dataInfo.address.tyoume;
-            title = `${response.data.dataInfo.estate_name}｜${address}｜${totalPrice}/${response.data.dataInfo.tatemono_menseki}/${response.data.dataInfo.room_floor}/${response.data.dataInfo.structure}｜Order Renove`
+            let address =
+                response.data.dataInfo.address.pref +
+                response.data.dataInfo.address.city +
+                response.data.dataInfo.address.ooaza +
+                response.data.dataInfo.address.tyoume;
+            let addressDescription =
+                response.data.dataInfo.address.pref +
+                response.data.dataInfo.address.city +
+                response.data.dataInfo.address.ooaza +
+                response.data.dataInfo.address.tyoume +
+                response.data.dataInfo.address.gaikutiban;
+            let title = `${response.data.dataInfo.estate_name}｜${address}｜${totalPrice}/${response.data.dataInfo.tatemono_menseki}/${response.data.dataInfo.room_floor}/${response.data.dataInfo.structure}｜Order Renove`;
+            let contentAddressDiscription = `${response.data.dataInfo.estate_name}｜${addressDescription}のリノベーション物件を探すならOrderRenove（オーダーリノベ）。大手ポータルサイトに載っていない掘り出しものの物件も掲載しています。会員登録すれば${response.data.dataInfo.estate_name}｜${addressDescription}のリノベーション済、リノベーション向きの物件もご希望に合った物件情報をお届けします。`;
             document.title = title;
             if (typeof response.data.dataInfo.estate_information !== 'undefined') {
                 imageSrc = response.data.dataInfo.estate_information.estate_main_photo;
             }
             metaHTML += `<meta property="og:image" content="${imageSrc}"></meta>`;
             metaHTML += `<meta property="og:title" content="${title}">`;
-
+            metaHTML += `<meta name="property" content="${contentAddressDiscription}">`;
             document.head.innerHTML += metaHTML;
             if (to.matched.some(record => record.meta.requiresAuth)) {
                 if (store.getters.isLoggedIn) {
-                    next()
-                    return
+                    next();
+                    return;
                 }
-                next('/login')
+                next('/login');
             } else {
-                next()
+                next();
             }
-        
+
             if (store.getters.isLoggedIn && to.meta.guest) {
                 return router.push('/login').catch(() => {});
             }
-    
         });
     } else {
+        if (to.name == 'listByCode') {
+            axios.get(`${process.env.MIX_APP_URL}/api/get-meta-code-search`, { params: { search_code: searchCode } }).then(response => {
+                let name = response.data.data.name;
+                metaHTML += `<meta name="property" content="${name}のリノベーション物件を探すならOrderRenove（オーダーリノベ）。大手ポータルサイトに載っていない掘り出しものの物件も掲載しています。会員登録すれば${name}のリノベーション済、リノベーション向きの物件もご希望に合った物件情報をお届けします。">`;
+                document.head.innerHTML += metaHTML;
+            });
+        }
         document.title = title;
         metaHTML += `<meta property="og:image" content="${imageSrc}">`;
         metaHTML += `<meta property="og:title" content="${to.meta.title}">`;
         document.head.innerHTML += metaHTML;
         if (to.matched.some(record => record.meta.requiresAuth)) {
             if (store.getters.isLoggedIn) {
-                next()
-                return
+                next();
+                return;
             }
-            next('/login')
+            next('/login');
         } else {
-            next()
+            next();
         }
 
         if (store.getters.isLoggedIn && to.meta.guest) {
             return router.push('/login').catch(() => {});
         }
     }
-    
-
 });
 
 const metaTagsWithGues = (to, title) => {
@@ -285,7 +301,21 @@ const metaTagsWithGues = (to, title) => {
             <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
         `;
     }
-    return metaHTML;
-}
+    if (to.name == 'home') {
+        metaHTML += `
+            <meta name="property" content="首都圏のリノベーション物件を探すならOrderRenove（オーダーリノベ）。大手ポータルサイトに載っていない掘り出しものの物件も掲載しています。会員登録すれば首都圏のリノベーション済、リノベーション向きの物件もご希望に合った物件情報をお届けします。">
+        `;
+    } else if (to.name == 'login') {
+        metaHTML += `
+            <meta name="property" content="首都圏のリノベーション物件を探すならOrderRenove（オーダーリノベ）。大手ポータルサイトに載っていない掘り出しものの物件も掲載しています。 会員登録すれば首都圏のリノベーション済、リノベーション向きの物件もご希望に合った物件情報をお届けします。">
+        `;
+    } else if (to.name == 'register') {
+        metaHTML += `
+            <meta name="property" content="リノベーション物件を探すならOrderRenove（オーダーリノベ）。無料会員登録でリノベーション済、リノベーション向きの物件もご希望に合った大手ポータルサイトに載っていない掘り出しものの物件もお届けします。">
+        `;
+    }
 
-export default router
+    return metaHTML;
+};
+
+export default router;
