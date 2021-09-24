@@ -241,19 +241,6 @@ router.beforeEach((to, from, next) => {
             metaHTML += `<meta property="og:title" content="${title}">`;
             metaHTML += `<meta name="property" content="${contentAddressDiscription}">`;
             document.head.innerHTML += metaHTML;
-            if (to.matched.some(record => record.meta.requiresAuth)) {
-                if (store.getters.isLoggedIn) {
-                    next();
-                    return;
-                }
-                next('/login');
-            } else {
-                next();
-            }
-
-            if (store.getters.isLoggedIn && to.meta.guest) {
-                return router.push('/login').catch(() => {});
-            }
         });
     } else {
         if (to.name == 'listByCode') {
@@ -267,19 +254,14 @@ router.beforeEach((to, from, next) => {
         metaHTML += `<meta property="og:image" content="${imageSrc}">`;
         metaHTML += `<meta property="og:title" content="${to.meta.title}">`;
         document.head.innerHTML += metaHTML;
-        if (to.matched.some(record => record.meta.requiresAuth)) {
-            if (store.getters.isLoggedIn) {
-                next();
-                return;
-            }
-            next('/login');
-        } else {
+    }
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (store.getters.isLoggedIn) {
             next();
         }
-
-        if (store.getters.isLoggedIn && to.meta.guest) {
-            return router.push('/login').catch(() => {});
-        }
+        next('/login');
+    } else {
+        next();
     }
 });
 

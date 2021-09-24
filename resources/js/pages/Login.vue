@@ -154,16 +154,6 @@ export default {
             }
             window.scroll(0, window.pageYOffset - 50);
         }, 20);
-        if (this.$getLocalStorage('reloaded')) {
-            // The page was just reloaded. Clear the value from local storage
-            // so that it will reload the next time this page is visited.
-            this.$removeLocalStorage('reloaded');
-        } else {
-            // Set a flag so that we know not to reload the page twice.
-            this.$setLocalStorage('reloaded', '1');
-            // window.location.reload();
-            this.$router.go(0);
-        }
     },
     methods: {
         login() {
