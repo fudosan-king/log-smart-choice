@@ -252,15 +252,11 @@ export default {
 
         floatButtonEvent() {
             let accessToken = this.$getLocalStorage('accessToken');
-            
             if (accessToken) {
-                console.log('here');
-            console.log(accessToken);
-                this.$router.push({ name: 'announcementCondition' }).catch((err) => { console.log(err)});
+                this.$router.push('/customer/announcement-condition').then(response => {console.log(response)}).catch((err) => { console.log(err)});
+            } else {
+                this.$router.push({ name: 'login' }).catch(() => {});
             }
-            //  else {
-            //     this.$router.push({ name: 'login' }).catch(() => {});
-            // }
         }
     },
     computed: {

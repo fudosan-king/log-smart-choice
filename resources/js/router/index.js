@@ -255,11 +255,13 @@ router.beforeEach((to, from, next) => {
         metaHTML += `<meta property="og:title" content="${to.meta.title}">`;
         document.head.innerHTML += metaHTML;
     }
+
     if (to.matched.some(record => record.meta.requiresAuth)) {
-        if (store.getters.isLoggedIn) {
+        if (localStorage.getItem('accessToken')) {
             next();
+        } else {
+            return router.push('/login').catch(() => {});
         }
-        next('/login');
     } else {
         next();
     }
