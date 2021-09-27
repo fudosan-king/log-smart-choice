@@ -411,7 +411,7 @@ export default {
                 data.hopeDaySecond = hopeDaySecond;
                 data.startTimeFirst = startTimeFirst;
                 data.startTimeSecond = startTimeSecond;
-                data.estateName = this.estate.estate_name;
+                data.estateName = this.estate;
                 data.checkedPrivacy = 'on';
                 window.localStorage.setItem('contactData', JSON.stringify(data));
                 this.$router.push('contact/confirm').catch(() => {});
