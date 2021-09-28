@@ -113,12 +113,12 @@ class LoginController extends Controller
                     $districtNew[] = $district['name'];
                 }
                 $price = [
-                    'min' => Customer::PRICE_MIN,
-                    'max' => Customer::PRICE_MAX,
+                    'min' => Customer::CONDITION_MIN,
+                    'max' => Customer::CONDITION_MAX,
                 ];
                 $square = [
-                    'min' => Customer::SQUARE_MIN,
-                    'max' => Customer::SQUARE_MAX,
+                    'min' => Customer::CONDITION_MIN,
+                    'max' => Customer::CONDITION_MAX,
                 ];
 
                 $announcementCondition = [

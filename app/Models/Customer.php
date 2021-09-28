@@ -31,11 +31,9 @@ class Customer extends Authenticatable
     const ROLE_3D_COORDINATOR = 1;
     const ROLE_3D_SALE = 2;
     const ROLE_3D_CUSTOMER = 3;
-    const PRICE_MIN = 0;
-    const PRICE_MAX = 10000;
-    const SQUARE_MIN = 0;
-    const SQUARE_MAX = 150;
     const SEND_ANNOUNCEMENT = 1;
+    const CONDITION_MIN = '下限なし';
+    const CONDITION_MAX = '上限なし';
 
     protected $fillable = [
         'name',
