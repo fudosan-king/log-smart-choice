@@ -115,7 +115,7 @@
                                     <h1>
                                         <template v-if="estate.renovation_type != 'リノベ済物件'">リノベ＋</template>物件価格
                                         <span>{{ $lscFormatCurrency(estate.price ? estate.price : estate.price) }}</span
-                                        >万円
+                                        ><i>万円</i>
                                     </h1>
                                     <form action="" class="frm_calcu">
                                         <div class="row">
