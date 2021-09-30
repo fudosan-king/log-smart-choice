@@ -162,11 +162,31 @@ class AnnouncementController extends Controller
                 }
 
                 if ($condition['price']) {
-                    $estates->whereBetween('price', [$condition['price']['min'], $condition['price']['max']]);
+                    if ($condition['price']['min'] == Customer::CONDITION_MIN && $condition['price']['max'] == Customer::CONDITION_MAX) {
+                        $condition['price']['min'] = 0;
+                        $estates->where('price', '>', $condition['price']['min']);
+                    } elseif ($condition['price']['min'] == Customer::CONDITION_MIN) {
+                        $condition['price']['min'] = 0;
+                        $estates->whereBetween('price', [$condition['price']['min'], $condition['price']['max']]);
+                    } elseif ($condition['price']['max'] == Customer::CONDITION_MAX) {
+                        $estates->where('price', '>=', $condition['price']['min']);
+                    } else {
+                        $estates->whereBetween('price', [$condition['price']['min'], $condition['price']['max']]);
+                    }
                 }
 
                 if ($condition['square']) {
-                    $estates->whereBetween('tatemono_menseki', [$condition['square']['min'], $condition['square']['max']]);
+                    if ($condition['square']['min'] == Customer::CONDITION_MIN && $condition['square']['max'] == Customer::CONDITION_MAX) {
+                        $condition['square']['min'] = 0;
+                        $estates->where('tatemono_menseki', '>', $condition['square']['min']);
+                    } elseif ($condition['square']['min'] == Customer::CONDITION_MIN) {
+                        $condition['square']['min'] = 0;
+                        $estates->whereBetween('tatemono_menseki', [$condition['square']['min'], $condition['square']['max']]);
+                    } elseif ($condition['square']['max'] == Customer::CONDITION_MAX) {
+                        $estates->where('tatemono_menseki', '>=', $condition['square']['min']);
+                    } else {
+                        $estates->whereBetween('tatemono_menseki', [$condition['square']['min'], $condition['square']['max']]);
+                    }
                 }
 
                 $estates->whereBetween('date_imported', [$start, $end]);
@@ -220,11 +240,31 @@ class AnnouncementController extends Controller
                 }
 
                 if ($condition['price']) {
-                    $estates->whereBetween('price', [$condition['price']['min'], $condition['price']['max']]);
+                    if ($condition['price']['min'] == Customer::CONDITION_MIN && $condition['price']['max'] == Customer::CONDITION_MAX) {
+                        $condition['price']['min'] = 0;
+                        $estates->where('price', '>', $condition['price']['min']);
+                    } elseif ($condition['price']['min'] == Customer::CONDITION_MIN) {
+                        $condition['price']['min'] = 0;
+                        $estates->whereBetween('price', [$condition['price']['min'], $condition['price']['max']]);
+                    } elseif ($condition['price']['max'] == Customer::CONDITION_MAX) {
+                        $estates->where('price', '>=', $condition['price']['min']);
+                    } else {
+                        $estates->whereBetween('price', [$condition['price']['min'], $condition['price']['max']]);
+                    }
                 }
 
                 if ($condition['square']) {
-                    $estates->whereBetween('tatemono_menseki', [$condition['square']['min'], $condition['square']['max']]);
+                    if ($condition['square']['min'] == Customer::CONDITION_MIN && $condition['square']['max'] == Customer::CONDITION_MAX) {
+                        $condition['square']['min'] = 0;
+                        $estates->where('tatemono_menseki', '>', $condition['square']['min']);
+                    } elseif ($condition['square']['min'] == Customer::CONDITION_MIN) {
+                        $condition['square']['min'] = 0;
+                        $estates->whereBetween('tatemono_menseki', [$condition['square']['min'], $condition['square']['max']]);
+                    } elseif ($condition['square']['max'] == Customer::CONDITION_MAX) {
+                        $estates->where('tatemono_menseki', '>=', $condition['square']['min']);
+                    } else {
+                        $estates->whereBetween('tatemono_menseki', [$condition['square']['min'], $condition['square']['max']]);
+                    }
                 }
 
                 $estates->whereBetween('date_imported', [$start, $end]);
@@ -267,11 +307,31 @@ class AnnouncementController extends Controller
                 }
 
                 if ($condition['price']) {
-                    $estates->whereBetween('price', [$condition['price']['min'], $condition['price']['max']]);
+                    if ($condition['price']['min'] == Customer::CONDITION_MIN && $condition['price']['max'] == Customer::CONDITION_MAX) {
+                        $condition['price']['min'] = 0;
+                        $estates->where('price', '>', $condition['price']['min']);
+                    } elseif ($condition['price']['min'] == Customer::CONDITION_MIN) {
+                        $condition['price']['min'] = 0;
+                        $estates->whereBetween('price', [$condition['price']['min'], $condition['price']['max']]);
+                    } elseif ($condition['price']['max'] == Customer::CONDITION_MAX) {
+                        $estates->where('price', '>=', $condition['price']['min']);
+                    } else {
+                        $estates->whereBetween('price', [$condition['price']['min'], $condition['price']['max']]);
+                    }
                 }
 
                 if ($condition['square']) {
-                    $estates->whereBetween('tatemono_menseki', [$condition['square']['min'], $condition['square']['max']]);
+                    if ($condition['square']['min'] == Customer::CONDITION_MIN && $condition['square']['max'] == Customer::CONDITION_MAX) {
+                        $condition['square']['min'] = 0;
+                        $estates->where('tatemono_menseki', '>', $condition['square']['min']);
+                    } elseif ($condition['square']['min'] == Customer::CONDITION_MIN) {
+                        $condition['square']['min'] = 0;
+                        $estates->whereBetween('tatemono_menseki', [$condition['square']['min'], $condition['square']['max']]);
+                    } elseif ($condition['square']['max'] == Customer::CONDITION_MAX) {
+                        $estates->where('tatemono_menseki', '>=', $condition['square']['min']);
+                    } else {
+                        $estates->whereBetween('tatemono_menseki', [$condition['square']['min'], $condition['square']['max']]);
+                    }
                 }
 
                 $estates->whereBetween('date_imported', [$start, $end]);
@@ -324,11 +384,31 @@ class AnnouncementController extends Controller
                 }
 
                 if ($condition['price']) {
-                    $estates->whereBetween('price', [$condition['price']['min'], $condition['price']['max']]);
+                    if ($condition['price']['min'] == Customer::CONDITION_MIN && $condition['price']['max'] == Customer::CONDITION_MAX) {
+                        $condition['price']['min'] = 0;
+                        $estates->where('price', '>', $condition['price']['min']);
+                    } elseif ($condition['price']['min'] == Customer::CONDITION_MIN) {
+                        $condition['price']['min'] = 0;
+                        $estates->whereBetween('price', [$condition['price']['min'], $condition['price']['max']]);
+                    } elseif ($condition['price']['max'] == Customer::CONDITION_MAX) {
+                        $estates->where('price', '>=', $condition['price']['min']);
+                    } else {
+                        $estates->whereBetween('price', [$condition['price']['min'], $condition['price']['max']]);
+                    }
                 }
 
                 if ($condition['square']) {
-                    $estates->whereBetween('tatemono_menseki', [$condition['square']['min'], $condition['square']['max']]);
+                    if ($condition['square']['min'] == Customer::CONDITION_MIN && $condition['square']['max'] == Customer::CONDITION_MAX) {
+                        $condition['square']['min'] = 0;
+                        $estates->where('tatemono_menseki', '>', $condition['square']['min']);
+                    } elseif ($condition['square']['min'] == Customer::CONDITION_MIN) {
+                        $condition['square']['min'] = 0;
+                        $estates->whereBetween('tatemono_menseki', [$condition['square']['min'], $condition['square']['max']]);
+                    } elseif ($condition['square']['max'] == Customer::CONDITION_MAX) {
+                        $estates->where('tatemono_menseki', '>=', $condition['square']['min']);
+                    } else {
+                        $estates->whereBetween('tatemono_menseki', [$condition['square']['min'], $condition['square']['max']]);
+                    }
                 }
 
                 $estates->whereBetween('date_imported', [$start, $end]);

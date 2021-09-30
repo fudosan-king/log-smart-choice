@@ -158,9 +158,9 @@
                 totalPrices: [],
                 squares: [],
                 checkedDistrictInput: [],
-                minTotalPrices: 0,
+                minTotalPrices: '下限なし',
                 maxTotalPrices: 1000,
-                minSquare: 0,
+                minSquare: '下限なし',
                 maxSquare: 10,
                 getDistrictList: [],
                 customerInformation: {},
@@ -183,17 +183,35 @@
             listTotalPrice() {
                 let min = 0;
                 let max = 20000;
+                let i = 0;
                 while (min <= max) {
-                    this.totalPrices.push(min);
+                    if (i == 0) {
+                        this.totalPrices.push('下限なし');
+                    } else if (min == max) {
+                        this.totalPrices.push(min);
+                        this.totalPrices.push('上限なし');
+                    } else {
+                        this.totalPrices.push(min);
+                    }
                     min = min + 1000;
+                    i++;
                 }
             },
             listSquare() {
                 let min = 0;
                 let max = 150;
+                let i = 0;
                 while (min <= max) {
-                    this.squares.push(min);
+                    if (i == 0) {
+                        this.squares.push('下限なし');
+                    } else if (min == max) {
+                        this.squares.push(min);
+                        this.squares.push('上限なし');
+                    } else {
+                        this.squares.push(min);
+                    }
                     min = min + 10;
+                    i++;
                 }
             },
 
@@ -235,10 +253,6 @@
                             this.disabled = false;
                             this.submitted = false;
                             this.errorsApi = error.response.data.errors.messages[0];
-                            this.$setCookie('accessToken3d', '', 1);
-                            this.$removeAuthLocalStorage();
-                            this.$removeLocalStorage('announcement_count');
-                            this.$router.push({ name: 'login' }).catch(() => {});
                         });
                 }
             },

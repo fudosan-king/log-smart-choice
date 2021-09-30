@@ -145,12 +145,50 @@ class CustomerController extends Controller
         $square = $request->get('square');
         $sendAnnouncement = $request->get('send_announcement');
 
-        if ($price && $price['min'] > $price['max']) {
+
+        $rule = [
+            'price'  => ['required'],
+            'square' => ['required'],
+        ];
+
+        $messages = [
+            'price.required' => __('customer.price_invalid'),
+            'square.email' => __('customer.square_invalid'),
+        ];
+
+        $validate = Validator::make($request->all(), $rule, $messages);
+
+        if ($validate->fails()) {
+            return $this->response(422, $validate->errors(), []);
+        }
+
+
+        if ($price['min'] == '上限なし' || $price['max'] == '下限なし') {
             return $this->response(422, ['price' => [__('customer.price_invalid')]], []);
         }
 
-        if ($square && $square['min'] > $square['max']) {
+        if ($square['min'] == '上限なし' || $square['max'] == '下限なし') {
             return $this->response(422, ['square' => [__('customer.square_invalid')]], []);
+        }
+
+        if (($price['min'] != '下限なし' && $price['min'] != '上限なし') &&
+        ($price['max'] != '下限なし' && $price['max'] != '上限なし')) {
+            if ($price['min'] > $price['max']) {
+                return $this->response(422, ['price' => [__('customer.price_invalid')]], []);
+            }
+        } elseif ($price['min'] == '下限なし' && $price['max'] == '下限なし' ||
+        $price['min'] == '上限なし' && $price['max'] == '上限なし') {
+            return $this->response(422, ['price' => [__('customer.price_invalid')]], []);
+        }
+
+        if (($square['min'] != '下限なし' && $square['min'] != '上限なし') &&
+        ($square['max'] != '下限なし' && $square['max'] != '上限なし')) {
+            if ($square['min'] > $square['max']) {
+                return $this->response(422, ['square' => [__('customer.square_invalid')]], []);
+            }
+        } elseif ($square['min'] == '下限なし' && $square['max'] == '下限なし' ||
+        $square['min'] == '上限なし' && $square['max'] == '上限なし') {
+            return $this->response(422, ['price' => [__('customer.square_invalid')]], []);
         }
 
         $data = [
