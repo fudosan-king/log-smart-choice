@@ -46,12 +46,10 @@
                                                     'is-invalid': errorsApi.price && errorsApi.price.length
                                                 }"
                                             >
-                                                <option
-                                                    v-for="price in totalPrices"
-                                                    :value="price"
-                                                    :selected="price == minTotalPrices ? 'selected' : ''"
-                                                    >{{ price }}</option
-                                                >
+                                            <template v-for="price in totalPrices">
+                                                <option v-if="price != '上限なし'" :value="price" :selected="price == price ? 'selected' : ''">{{ price }}</option>
+                                            </template>
+                                                
                                             </select>
                                             <div
                                                 v-if="errorsApi.price && errorsApi.price.length"
@@ -65,13 +63,10 @@
                                     </div>
                                     <div class="col-6 col-lg-6">
                                         <select class="custom-select" v-model="maxTotalPrices">
-                                            <option
-                                                v-for="price in totalPrices"
-                                                :value="price"
-                                                :selected="price == maxTotalPrices ? 'selected' : ''"
-                                                v-if="price != 0"
-                                                >{{ price }}</option
-                                            >
+                                            <template v-for="price in totalPrices">
+                                                <option v-if="price != '下限なし'" :value="price" :selected="price == maxTotalPrices ? 'selected' : ''">{{ price }}</option>
+                                            </template>
+                                            
                                         </select>
                                     </div>
                                 </div>
@@ -87,12 +82,9 @@
                                                     'is-invalid': errorsApi.square && errorsApi.square.length
                                                 }"
                                             >
-                                                <option
-                                                    v-for="square in squares"
-                                                    :value="square"
-                                                    :selected="square == minSquare ? 'selected' : ''"
-                                                    >{{ square }}</option
-                                                >
+                                                <template v-for="square in squares">
+                                                    <option v-if="square != '上限なし'" :value="square" :selected="square == minSquare ? 'selected' : ''">{{ square }}</option>
+                                                </template>
                                             </select>
                                             <div
                                                 v-if="errorsApi.square && errorsApi.square.length"
@@ -106,13 +98,9 @@
                                     </div>
                                     <div class="col-6 col-lg-6">
                                         <select class="custom-select" v-model="maxSquare">
-                                            <option
-                                                v-for="square in squares"
-                                                :value="square"
-                                                :selected="square == maxSquare ? 'selected' : ''"
-                                                v-if="square != 0"
-                                                >{{ square }}</option
-                                            >
+                                            <template v-for="square in squares">
+                                                <option v-if="square != '下限なし'" :value="square" :selected="square == maxSquare ? 'selected' : ''">{{ square }}</option>
+                                            </template>
                                         </select>
                                     </div>
                                 </div>

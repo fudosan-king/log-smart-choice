@@ -25,6 +25,9 @@ class Estates extends Model
     const LIMIT_ESTATE_RECOMMEND = 40;
 
     const NUMBER_RECOMMEND_ORDER_BY = 100;
+    const SEND_ANNOUNCEMENT = 1;
+    const NOT_SEND_ANNOUNCEMENT = 0;
+    const LIMIT_ESTATE_ANNOUNCEMENT = 15;
 
 
     public function estateInformation() {
@@ -102,6 +105,7 @@ class Estates extends Model
                     $estate->date_imported = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d H:i:s')) * 1000);
                     $estate->sort_order_recommend = self::NUMBER_RECOMMEND_ORDER_BY;
                     $estate['_id'] = $estateData->_id;
+                    $estate->is_send_announcement = self::NOT_SEND_ANNOUNCEMENT;
                     $estate_pass = array(self::STATUS_END);
                     if ($estate && in_array($estate->status, $estate_pass)) {
                         return null;
@@ -128,6 +132,7 @@ class Estates extends Model
                     $this->increaseDecreaseEstateInStation($stations, false, $estateData->_id);
                     
                     $estate->status = self::STATUS_STOP;
+                    $estate->is_send_announcement = self::NOT_SEND_ANNOUNCEMENT;
                     $estate->date_imported = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d H:i:s')) * 1000);
                     $estate->sort_order_recommend = self::NUMBER_RECOMMEND_ORDER_BY;
                     $estate['_id'] = $estateData->_id;
