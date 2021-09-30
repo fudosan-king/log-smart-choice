@@ -463,9 +463,13 @@ class EstateController extends Controller
         }
         $model->increaseDecreaseEstateInDistrict($estate->address['city'], false, $id);
         $model->increaseDecreaseEstateInStation($stations, false, $id);
+        $request['is_send_announcement'] = Estates::NOT_SEND_ANNOUNCEMENT;
+        $data->is_send_announcement = Estates::NOT_SEND_ANNOUNCEMENT;
         if ($request->status == Estates::STATUS_SALE) {
             $model->increaseDecreaseEstateInStation($stations, true, $id);
             $model->increaseDecreaseEstateInDistrict($estate->address['city'], true, $id);
+            $request['is_send_announcement'] = Estates::SEND_ANNOUNCEMENT;
+            $data->is_send_announcement = Estates::SEND_ANNOUNCEMENT;
         }
         // Check estate description photo or hidden photo exist
         // if ($request->hasFile('estate_description_left_photo')) {

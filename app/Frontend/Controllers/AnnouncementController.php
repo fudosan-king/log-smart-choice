@@ -142,8 +142,6 @@ class AnnouncementController extends Controller
      */
     public function store()
     {
-        $start = new DateTime(date('Y-m-d 07:59:59', strtotime('-1 day')));
-        $end = new DateTime(date('Y-m-d 08:00:00'));
         $customers = Customer::select('id', 'announcement_condition', 'email')->where('role3d', Customer::ROLE_3D_CUSTOMER)
             ->where('status', Customer::ACTIVE)
             ->where('send_announcement', Customer::SEND_ANNOUNCEMENT)
@@ -189,10 +187,11 @@ class AnnouncementController extends Controller
                     }
                 }
 
-                $estates->whereBetween('date_imported', [$start, $end]);
+                $estates->where('is_send_announcement', Estates::SEND_ANNOUNCEMENT);
                 $estates->where('status', '!=', Estates::STATUS_STOP);
                 $estates->orderBy('date_imported', 'desc');
-                $listEstate = $estates->get();
+                $listEstate = $estates->limit(Estates::LIMIT_ESTATE_ANNOUNCEMENT)->get();
+
                 if ($listEstate) {
                     foreach ($listEstate as $estate) {
                         $announcements = Announcement::where('estate_id', $estate->_id)
@@ -221,8 +220,6 @@ class AnnouncementController extends Controller
      */
     public function sendEmailAnnouncement()
     {
-        $start = new DateTime(date('Y-m-d 17:59:59', strtotime('-1 day')));
-        $end = new DateTime(date('Y-m-d 18:00:00'));
         $customers = Customer::select('id', 'announcement_condition', 'email')->where('role3d', Customer::ROLE_3D_CUSTOMER)
             ->where('status', Customer::ACTIVE)
             ->where('send_announcement', Customer::SEND_ANNOUNCEMENT)
@@ -267,10 +264,10 @@ class AnnouncementController extends Controller
                     }
                 }
 
-                $estates->whereBetween('date_imported', [$start, $end]);
+                $estates->where('is_send_announcement', Estates::SEND_ANNOUNCEMENT);
                 $estates->where('status', '!=', Estates::STATUS_STOP);
                 $estates->orderBy('date_imported', 'desc');
-                $listEstate = $estates->get();
+                $listEstate = $estates->limit(Estates::LIMIT_ESTATE_ANNOUNCEMENT)->get();
 
                 if ($listEstate) {
                     $estateController = new EstateController();
@@ -288,8 +285,6 @@ class AnnouncementController extends Controller
 
     public function testSendNotice()
     {
-        $start = new DateTime(date('Y-m-d 07:59:59', strtotime('-1 day')));
-        $end = new DateTime(date('Y-m-d 08:00:00'));
         $customers = Customer::select('id', 'announcement_condition', 'email')->where('role3d', Customer::ROLE_3D_CUSTOMER)
             ->where('status', Customer::ACTIVE)
             ->where('email', '!=', '')
@@ -334,10 +329,10 @@ class AnnouncementController extends Controller
                     }
                 }
 
-                $estates->whereBetween('date_imported', [$start, $end]);
+                $estates->where('is_send_announcement', Estates::SEND_ANNOUNCEMENT);
                 $estates->where('status', Estates::STATUS_SALE);
                 $estates->orderBy('date_imported', 'desc');
-                $listEstate = $estates->get();
+                $listEstate = $estates->limit(Estates::LIMIT_ESTATE_ANNOUNCEMENT)->get();
                 if ($listEstate) {
                     foreach ($listEstate as $estate) {
                         $announcements = Announcement::where('estate_id', $estate->_id)
@@ -365,8 +360,6 @@ class AnnouncementController extends Controller
 
     public function testSendEmail()
     {
-        $start = new DateTime(date('Y-m-d 17:59:59', strtotime('-1 day')));
-        $end = new DateTime(date('Y-m-d 18:00:00'));
         $customers = Customer::select('id', 'announcement_condition', 'email')->where('role3d', Customer::ROLE_3D_CUSTOMER)
             ->where('status', Customer::ACTIVE)
             ->where('send_announcement', Customer::SEND_ANNOUNCEMENT)
@@ -377,7 +370,7 @@ class AnnouncementController extends Controller
             ->get();
         try {
             foreach ($customers as $customer) {
-                $condition = json_decode($customer->announcement_condition, true);
+                $customerCondition = $condition = json_decode($customer->announcement_condition, true);
                 $estates = Estates::select('_id', 'room_count', 'room_kind', 'tatemono_menseki', 'address', 'date_created', 'price', 'estate_name');
                 if ($condition['city']) {
                     $estates->whereIn('address.city', $condition['city']);
@@ -411,17 +404,26 @@ class AnnouncementController extends Controller
                     }
                 }
 
-                $estates->whereBetween('date_imported', [$start, $end]);
+                $estates->where('is_send_announcement', Estates::SEND_ANNOUNCEMENT);
                 $estates->where('status', Estates::STATUS_SALE);
                 $estates->orderBy('date_imported', 'desc');
-                $listEstate = $estates->get();
+
+                $listEstate = $estates->limit(Estates::LIMIT_ESTATE_ANNOUNCEMENT)->get();
 
                 if ($listEstate->isNotEmpty()) {
                     $estateController = new EstateController();
                     $data = $estateController->getEstateInformation($listEstate);
-                    $condition['city'] = implode(', ', $condition['city']);
-                    $emailDailyEstate = new SendEmailDailyEstate($customer, $data->toArray(), $condition);
+                    $customerCondition['city'] = '';
+                    if (count($condition['city'])) {
+                        $customerCondition['city'] = implode(', ', $condition['city']);
+                    }
+                    $emailDailyEstate = new SendEmailDailyEstate($customer, $data->toArray(), $customerCondition);
                     dispatch($emailDailyEstate);
+                    foreach ($listEstate as $estate) {
+                        $estate = Estates::find($estate->_id);
+                        $estate->is_send_announcement = Estates::NOT_SEND_ANNOUNCEMENT;
+                        $estate->save();
+                    }
                 }
             }
 

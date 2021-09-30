@@ -192,11 +192,33 @@
                         </tr>
                         <tr>
                             <th>価格</th>
-                            <td>{{ $condition['price']['min'] }}万円 ~ {{ $condition['price']['max'] }}万円</td>
+                            <td>
+                                @if ($condition['price']['min'] == '下限なし')
+                                    {{ $condition['price']['min'] }} ~ 
+                                @else
+                                    {{ $condition['price']['min'] }}万円 ~ 
+                                @endif
+                                @if ($condition['price']['max'] == '上限なし')
+                                    {{ $condition['price']['max'] }}
+                                @else
+                                    {{ $condition['price']['max'] }}万円
+                                @endif
+                            </td>
                         </tr>
                         <tr>
                             <th>広さ</th>
-                            <td>{{ $condition['square']['min'] }}㎡ ~ {{ $condition['square']['max'] }}㎡</td>
+                            <td>
+                                @if ($condition['square']['min'] == '下限なし')
+                                    {{ $condition['square']['min'] }} ~ 
+                                @else
+                                    {{ $condition['square']['min'] }}㎡ ~ 
+                                @endif
+                                @if ($condition['square']['max'] == '上限なし')
+                                    {{ $condition['square']['max'] }}
+                                @else
+                                    {{ $condition['square']['max'] }}㎡
+                                @endif
+                            </td>
                         </tr>
                     </table>
 
