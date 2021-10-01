@@ -13,20 +13,20 @@ export default {
                 {
                     label: 'My First dataset',
                     data: [10, 10, 80],
-                    backgroundColor: ['#EB5757', '#F2994A', '#F2C94C']
+                    backgroundColor: ['#F39A7B', '#E5C47F', '#98B6B8']
                 }
             ],
-            showActualPercentages: false,
+            
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
                 datalabels: {
-                    color: ['#EB5757', '#F2994A', '#F2C94C'],
                     display: false
                 },
-            }
+            },
+            
         }
     }),
 
