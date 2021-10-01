@@ -14,5 +14,5 @@ return [
     'phonenumber_invalid' => '電話番号が無効です',
     'landline_invalid' => '電話番号が無効です',
     'birthday_invalid' => '無効な生年月日',
-    'title_template_daily_email' => 'ご希望条件にマッチしたあなただけのオススメ物件（Order Renove）',
+    'title_template_daily_email' => 'オススメ物件のお知らせ：OrderRenove',
 ];

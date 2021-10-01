@@ -220,7 +220,7 @@ class AnnouncementController extends Controller
      */
     public function sendEmailAnnouncement()
     {
-        $customers = Customer::select('id', 'announcement_condition', 'email')->where('role3d', Customer::ROLE_3D_CUSTOMER)
+        $customers = Customer::select('id', 'announcement_condition', 'email', 'first_announcement')->where('role3d', Customer::ROLE_3D_CUSTOMER)
             ->where('status', Customer::ACTIVE)
             ->where('send_announcement', Customer::SEND_ANNOUNCEMENT)
             ->where('email', '!=', '')
@@ -360,7 +360,7 @@ class AnnouncementController extends Controller
 
     public function testSendEmail()
     {
-        $customers = Customer::select('id', 'announcement_condition', 'email')->where('role3d', Customer::ROLE_3D_CUSTOMER)
+        $customers = Customer::select('id', 'announcement_condition', 'email', 'first_announcement')->where('role3d', Customer::ROLE_3D_CUSTOMER)
             ->where('status', Customer::ACTIVE)
             ->where('send_announcement', Customer::SEND_ANNOUNCEMENT)
             ->where('email', '!=', '')
