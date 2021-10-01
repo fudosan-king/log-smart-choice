@@ -34,6 +34,7 @@ class CustomerController extends Controller
             $customer->role3d = Customer::ROLE3D[$customer->role3d];
             $customer->announcement_condition = json_decode($customer->announcement_condition, true);
             $customer->announcement_count = $announcement;
+            $customer->orderrenove_customer_id = $this->randomOrderRenoveCustomerId(10);
             return $this->response(200, __('customer.customer_success'), $customer, true);
         }
         return $this->response(422, __('customer.customer_fail'));
@@ -209,5 +210,15 @@ class CustomerController extends Controller
             return $this->response(422, 'Customer update announcement condition fail', []);
         }
         return $this->response(200, 'Customer update announcement condition success', [], true);
+    }
+
+    private function randomOrderRenoveCustomerId($length = 10) {
+        $chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+        $charactersLength = strlen($chars);
+        $random = '';
+        for ( $i = 0; $i < $length; $i++ ) {
+            $random .= $chars[rand(0, $charactersLength - 1 )];
+        }
+        return $random;
     }
 }

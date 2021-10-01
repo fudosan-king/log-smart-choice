@@ -206,6 +206,11 @@
                                             </div>
 
                                             <div>
+                                                <label>OrderRenoveCustomerId</label>
+                                                <input name="orderrenove_customer_id" :value="contactData.estateUrl" />
+                                            </div>
+
+                                            <div>
                                                 <label>Checked Privacy</label>
                                                 <input type="checkbox" name="プライバシーポリシー" checked/>
                                             </div>
@@ -265,6 +270,8 @@ export default {
             $('input[name="電話番号"]').val(this.contactData.landLine);
             $('input[name="estate_url"]').val(this.contactData.estateUrl);
             $('textarea[name="第1希望日時"]').val(this.contactData.inquiryContent);
+            $('input[name="orderrenove_customer_id"]').val(this.contactData.orderRenoveCustomerID);
+            window.localStorage.setItem('orderrenoveCustomerId', this.contactData.orderRenoveCustomerID);
             window.localStorage.removeItem('contactData');
             window.localStorage.removeItem('estate_id');
             $('#postToFormrun').submit();
