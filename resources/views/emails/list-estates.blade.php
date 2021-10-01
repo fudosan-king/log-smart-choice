@@ -125,8 +125,11 @@
                     <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 800px; margin: auto; padding: 15px;">
                         <tr>
                             <td style="text-align: center;">
-                                <p>{{ $customer['name'] }}様にマッチした物件が<br>
-                                    新規公開されました。</p>
+                                <p>本日のオススメ物件<br>
+                                ご希望の条件を選択して頂くと、お客様にぴったりの物件情報<br>
+                                をメールでお届けします。<br>
+                                以下のUIイメージを確認ください。<br>
+                                </p>
                             </td>
                         </tr>
                     </table>
@@ -188,7 +191,11 @@
                     <table border="0" bgcolor="#fff" cellpadding="0" cellspacing="0" width="100%" style="width: 800px; margin: auto; text-align: left; padding: 15px 15px;">
                         <tr>
                             <th width="30%">希望エリア</th>
-                            <td>{{ $condition['city'] }}</td>
+                            @if ($customer['first_announcement'] != 1)
+                                <td>設定なし</td>
+                            @else
+                                <td>{{ $condition['city'] }}</td>
+                            @endif
                         </tr>
                         <tr>
                             <th>価格</th>

@@ -61,7 +61,14 @@
                                     <p class="head">エリア：</p>
                                 </div>
                                 <div class="col-4 col-lg-4 align-self-center">
-                                    <p>{{ districtList }}</p>
+                                    <template v-if="customerInfo.first_announcement != 0">
+                                        <p>{{ districtList }}</p>
+                                    </template>
+                                    <template v-else>
+                                        <p>設定なし</p>
+                                    </template>
+                                    
+
                                 </div>
                                 <div class="col-4 col-lg-4 align-self-center">
                                     <a href="/customer/announcement-condition" class="btn btnedit">設定</a>

@@ -22,7 +22,8 @@ class CustomerController extends Controller
         $customer = Customer::select(
             'name', 'last_name', 'email', 'phone_number',
             'role3d', 'social_id', 'birthday', 'land_line',
-            'announcement_condition', 'has_password', 'send_announcement'
+            'announcement_condition', 'has_password', 'send_announcement',
+            'first_announcement'
             )
             ->where('id', $customerId)
             ->where('status', Customer::ACTIVE)
@@ -201,6 +202,7 @@ class CustomerController extends Controller
             $customer = Customer::find($customerId);
             $customer->announcement_condition = $data;
             $customer->send_announcement = $sendAnnouncement;
+            $customer->first_announcement = Customer::FIRST_ANNOUNCEMENT;
             $customer->save();
         } catch (\Exception $e) {
             Log::error($e->getMessage());
