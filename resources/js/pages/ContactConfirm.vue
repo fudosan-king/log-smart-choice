@@ -31,7 +31,7 @@
                                                                 </td>
                                                             </tr>
 
-                                                            <tr>
+                                                            <!-- <tr>
                                                                 <td width="50%">
                                                                     <label>第1希望日時</label>
                                                                 </td>
@@ -43,9 +43,9 @@
                                                                         contactData.startTimeFirst
                                                                     }}</span>
                                                                 </td>
-                                                            </tr>
+                                                            </tr> -->
 
-                                                            <tr>
+                                                            <!-- <tr>
                                                                 <td>
                                                                     <label>第2希望日時</label>
                                                                 </td>
@@ -57,7 +57,7 @@
                                                                         contactData.startTimeSecond
                                                                     }}</span>
                                                                 </td>
-                                                            </tr>
+                                                            </tr> -->
 
                                                             <tr>
                                                                 <td>
@@ -147,16 +147,16 @@
                                                 />
                                             </div>
 
-                                            <div>
+                                            <!-- <div>
                                                 <label>第1希望日時</label>
                                                 <input
                                                     name="第1希望日時"
                                                     type="text"
                                                     :value="contactData.hopeDayFirst + ' ' + contactData.startTimeFirst"
                                                 />
-                                            </div>
+                                            </div> -->
 
-                                            <div>
+                                            <!-- <div>
                                                 <label>第2希望日時</label>
                                                 <input
                                                     name="第2希望日時"
@@ -165,7 +165,7 @@
                                                         contactData.hopeDaySecond + ' ' + contactData.startTimeSecond
                                                     "
                                                 />
-                                            </div>
+                                            </div> -->
 
                                             <div>
                                                 <label>お名前</label>
@@ -263,8 +263,8 @@ export default {
 
         successContact() {
             $('input[name="物件名"]').val(this.contactData.estateName);
-            $('input[name="第1希望日時"]').val(this.contactData.hopeDayFirst + ' ' + this.contactData.startTimeFirst);
-            $('input[name="第2希望日時"]').val(this.contactData.hopeDaySecond + ' ' + this.contactData.startTimeSecond);
+            // $('input[name="第1希望日時"]').val(this.contactData.hopeDayFirst + ' ' + this.contactData.startTimeFirst);
+            // $('input[name="第2希望日時"]').val(this.contactData.hopeDaySecond + ' ' + this.contactData.startTimeSecond);
             $('input[name="お名前"]').val(this.contactData.fullName);
             $('input[name="メールアドレス"]').val(this.contactData.email);
             $('input[name="電話番号"]').val(this.contactData.landLine);
