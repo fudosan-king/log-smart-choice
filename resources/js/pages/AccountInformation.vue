@@ -152,13 +152,17 @@ export default {
                     if (price === null) {
                         this.priceTotal = '-/-';
                     } else {
-                        this.priceTotal = price.min + '~' + price.max;
+                        let min = price.min != '下限なし' ? price.min + '万円' : price.min;
+                        let max = price.max != '上限なし' ? price.max + '万円' : price.max;
+                        this.priceTotal = min + '~' + max;
                     }
 
                     if (square === null) {
                         this.square = '-/-';
                     } else {
-                        this.square = square.min + '~' + square.max;
+                        let min = square.min != '下限なし' ? price.min + '㎡' : price.min;
+                        let max = square.min != '上限なし' ? price.max + '㎡' : price.max;
+                        this.square = min + '~' + max;
                     }
                 }
             });

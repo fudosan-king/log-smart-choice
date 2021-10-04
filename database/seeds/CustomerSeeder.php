@@ -108,7 +108,7 @@ class CustomerSeeder extends Seeder
                 'display_name' => __('Role3D'),
                 'required'     => 1,
                 'browse'       => 1,
-                'read'         => 1,
+                'read'         => 0,
                 'edit'         => 1,
                 'add'          => 1,
                 'delete'       => 1,
