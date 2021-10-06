@@ -3,8 +3,32 @@
 <html class="no-js">
 
 <head>
+  <script src="//statics.a8.net/a8sales/a8sales.js"></script>
+  <script src="https://r.moshimo.com/af/r/maftag.js"></script>
+  <script type="text/javascript" src="//aff.i-mobile.co.jp/script/lpcvlink.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  @if (preg_match('/(contact\/thanks)/', url()->current()))
+  @php
+    $customerId = isset($_COOKIE['orderrenoveCustomerId']) ? $_COOKIE['orderrenoveCustomerId'] : '';
+  @endphp
+  <script>
+  var a8_affiliate_id = '{{ $customerId }}';
+  var tamaru_id = '{{ $customerId }}';
+  var imaf_uid = '{{ $customerId }}';
+  var msmaf_m_v = '{{ $customerId }}';
+  window.dataLayer = window.dataLayer || []; dataLayer.push ({ 'a8_affiliate_id': '{{ $customerId }}'});
+  window.dataLayer = window.dataLayer || []; dataLayer.push ({ 'msmaf_m_v': '{{ $customerId }}'});
+  window.dataLayer = window.dataLayer || []; dataLayer.push ({ 'tamaru_id': '{{ $customerId }}'});
+  window.dataLayer = window.dataLayer || []; dataLayer.push ({ 'imaf_uid': '{{ $customerId }}'});
+  window.dataLayer = window.dataLayer || []; dataLayer.push ({ 'orderrenove_customer_id': '{{ $customerId }}'});
+  window.dataLayer = window.dataLayer || []; dataLayer.push ({ 'salesOrder': '{{ $customerId }}'});
+  </script>
+  @php
+    unset($_COOKIE['orderrenoveCustomerId']); 
+    setcookie('orderrenoveCustomerId', '', time()-3600); 
+  @endphp
+  @endif
   <meta charset="UTF-8">
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':

@@ -272,6 +272,7 @@ export default {
             $('textarea[name="第1希望日時"]').val(this.contactData.inquiryContent);
             $('input[name="orderrenove_customer_id"]').val(this.contactData.orderRenoveCustomerID);
             window.localStorage.setItem('orderrenoveCustomerId', this.contactData.orderRenoveCustomerID);
+            this.$setCookie('orderrenoveCustomerId', this.contactData.orderRenoveCustomerID, 1);
             window.localStorage.removeItem('contactData');
             window.localStorage.removeItem('estate_id');
             $('#postToFormrun').submit();
