@@ -14,7 +14,6 @@ class VerifyAccount extends Mailable
 
 
     protected $email;
-    
     protected $data;
 
     /**

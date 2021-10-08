@@ -187,7 +187,15 @@ const routes = [
         meta: {
             title: 'パスワードを再設定する｜Order Renove'
         }
-    }
+    },
+    {
+        path: '/fast-register',
+        name: 'fastRegister',
+        component: () => import('../pages/FastRegister.vue'),
+        meta: {
+            title: 'メルマガ配信希望条件｜Order Renove'
+        }
+    },
 ];
 
 const router = new VueRouter({
@@ -255,16 +263,16 @@ router.beforeEach((to, from, next) => {
         metaHTML += `<meta property="og:title" content="${to.meta.title}">`;
         document.head.innerHTML += metaHTML;
     }
-    let marketingString = '';
-    if (to.name == 'contactSuccess') {
-        let orderRenoveCustomerId = window.localStorage.getItem('orderrenoveCustomerId');
-        marketingString += `<script>var msmaf_m_v="${orderRenoveCustomerId}"; var a8_affiliate_id="${orderRenoveCustomerId}"; var tamaru_id="${orderRenoveCustomerId}"; var imaf_uid="${orderRenoveCustomerId}";</script>`;
-        marketingString += `<script>window.dataLayer = window.dataLayer || []; dataLayer.push ({ 'a8_affiliate_id': "${orderRenoveCustomerId}",}); </script>`;
-        marketingString += `<script>window.dataLayer = window.dataLayer || []; dataLayer.push ({ 'msmaf_m_v': "${orderRenoveCustomerId}",}); </script>`;
-        marketingString += `<script>window.dataLayer = window.dataLayer || []; dataLayer.push ({ 'tamaru_id': "${orderRenoveCustomerId}",}); </script>`;
-        marketingString += `<script>window.dataLayer = window.dataLayer || []; dataLayer.push ({ 'imaf_uid': "${orderRenoveCustomerId}",}); </script>`;
-        document.head.innerHTML += marketingString;
-    }
+    // let marketingString = '';
+    // if (to.name == 'contactSuccess') {
+    //     let orderRenoveCustomerId = window.localStorage.getItem('orderrenoveCustomerId');
+    //     marketingString += `<script>var msmaf_m_v="${orderRenoveCustomerId}"; var a8_affiliate_id="${orderRenoveCustomerId}"; var tamaru_id="${orderRenoveCustomerId}"; var imaf_uid="${orderRenoveCustomerId}";</script>`;
+    //     marketingString += `<script>window.dataLayer = window.dataLayer || []; dataLayer.push ({ 'a8_affiliate_id': "${orderRenoveCustomerId}",}); </script>`;
+    //     marketingString += `<script>window.dataLayer = window.dataLayer || []; dataLayer.push ({ 'msmaf_m_v': "${orderRenoveCustomerId}",}); </script>`;
+    //     marketingString += `<script>window.dataLayer = window.dataLayer || []; dataLayer.push ({ 'tamaru_id': "${orderRenoveCustomerId}",}); </script>`;
+    //     marketingString += `<script>window.dataLayer = window.dataLayer || []; dataLayer.push ({ 'imaf_uid': "${orderRenoveCustomerId}",}); </script>`;
+    //     document.head.innerHTML += marketingString;
+    // }
 
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (localStorage.getItem('accessToken')) {

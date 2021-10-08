@@ -166,7 +166,7 @@
 
                     <h3 class="panel-title">登録時間</h3>
                     <div class="panel-body" style="padding-top:0;">
-                        <p>{{ $dataTypeContent->created_at }}</p>
+                        <p>{{ $jpDate }}</p>
                     </div>
                 </div>
             </div>

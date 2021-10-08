@@ -226,8 +226,6 @@ class CustomerController extends VoyagerBaseController
             $view = "voyager::$slug.read";
         }
 
-        // $estateInfo = $this->_loadEstateInformation($id);
-        // $mapLabel = $this->mapLabel;
         $city = '';
         $price = '';
         $square = '';
@@ -241,9 +239,10 @@ class CustomerController extends VoyagerBaseController
             $maxSquare = $conditionAnnouncement['square']['max'] != '上限なし' ? $conditionAnnouncement['square']['max'] . '㎡' : $conditionAnnouncement['square']['max'];
             $square = $minSquare . ' ~ '. $maxSquare;
         }
-
+        $createdAt = date('Y-m-d H:i:s', strtotime($dataTypeContent->created_at));
+        $jpDate = date('Y-m-d H:i:s', strtotime('+9 hours', strtotime($createdAt)));
         return Voyager::view($view, compact('dataType',
-            'dataTypeContent', 'isModelTranslatable', 'isSoftDeleted', 'city', 'price', 'square'
+            'dataTypeContent', 'isModelTranslatable', 'isSoftDeleted', 'city', 'price', 'square', 'jpDate'
         ));
     }
 
