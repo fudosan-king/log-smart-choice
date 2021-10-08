@@ -50,8 +50,7 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/announcement', [AnnouncementController::class, 'delete']);
     Route::post('/announcement/list', [AnnouncementController::class, 'listAnnouncement']);
 
-    // District
-    Route::post('/district/customer/list', [DistrictController::class, 'customerList']);
+    
 });
 
 // auth
@@ -62,6 +61,7 @@ Route::post('/login', [LoginController::class, 'login'])->name('login.check');
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/forgot-password', [ResetPasswordController::class, 'forgotPassword']);
 Route::post('/reset-password/{hash}', [ResetPasswordController::class, 'resetPassword']);
+Route::post('/fast-register', [RegisterController::class, 'fastRegisterCustomer']);
 
 
 // register social network
@@ -77,6 +77,7 @@ Route::get('/stations/getByCompany', [StationController::class, 'getByTransportC
 
 // District
 Route::post('/district/list', [DistrictController::class, 'list']);
+Route::post('/district/customer/list', [DistrictController::class, 'customerList']);
 
 //estate
 Route::group(['prefix' => 'list'], function () {

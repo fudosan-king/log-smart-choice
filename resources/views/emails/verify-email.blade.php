@@ -5,11 +5,18 @@ Order Renove新規会員登録にお申し込みいただき、ありがとう�
 
 <p>{{ $data['link'] }}</p>
 
+@if($data['password_default'])
+<p>
+仮パスワード：{{ $data['password_default'] }}<br>
+※仮パスワードはログイン後に会員登録情報よりご変更ください。<br>
+</p>
+@endif
+
 ※上記URLの有効期限は発行から24時間です。期限内にご登録を完了してください<br>
 ※本メールはOrder Renoveに仮登録された方に自動送信しております。お心当たりのない<br>
 方は、このメールを破棄してください<br>
 ※本メールにご返信いただいても、お問い合わせにはお答えできません。ご不明点・ご質問<br>
-は<a href="mailto:info@order-renove.jp">info@order-renove.jp</a>までお問い合わせください<br>
+は<a href="mailto:info_logrenove@propolife.co.jp">info_logrenove@propolife.co.jp</a>までお問い合わせください<br>
 
 -------------------- <br>
 お問い合わせ先<br>

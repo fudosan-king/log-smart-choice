@@ -255,7 +255,7 @@ export default {
             if (accessToken) {
                 this.$router.push('/customer/announcement-condition').then(response => {console.log(response)}).catch((err) => { console.log(err)});
             } else {
-                this.$router.push({ name: 'login' }).catch(() => {});
+                this.$router.push({ name: 'fastRegister' }).catch(() => {});
             }
         }
     },

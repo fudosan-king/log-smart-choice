@@ -66,12 +66,11 @@
                                             <template v-for="price in totalPrices">
                                                 <option v-if="price != '下限なし'" :value="price" :selected="price == maxTotalPrices ? 'selected' : ''">{{ price }}</option>
                                             </template>
-                                            
                                         </select>
                                     </div>
                                 </div>
 
-                                <h4>広さ（m2）</h4>
+                                <h4>広さ<i>（m<sup>2</sup>)</i></h4>
                                 <div class="row">
                                     <div class="col-6 col-lg-6">
                                         <div class="box_select">
@@ -159,7 +158,6 @@
             this.listDistrict();
             this.listTotalPrice();
             this.listSquare();
-
             this.getCustomerInformation();
         },
         methods: {
@@ -252,7 +250,6 @@
                         if (resp.announcement_condition.city) {
                             this.getDistrictList = resp.announcement_condition.city;
                         }
-
                         if (resp.announcement_condition.price) {
                             this.minTotalPrices = resp.announcement_condition.price.min;
                             this.maxTotalPrices = resp.announcement_condition.price.max;
