@@ -206,10 +206,10 @@ export default {
             this.contactPart = urlContact[1];
         },
         directToContact() {
+            let currentUrl = this.$route.path.split('/');
+            let routeContact = this.$router.resolve({ name: 'contact' }).href;
+            window.localStorage.setItem('estate_id', currentUrl[2]);
             if (this.$getLocalStorage('accessToken')) {
-                let currentUrl = this.$route.path.split('/');
-                let routeContact = this.$router.resolve({ name: 'contact' }).href;
-                window.localStorage.setItem('estate_id', currentUrl[2]);
                 window.open(window.location.origin + routeContact, '_blank');
             } else {
                 // $('#modal_register').modal('toggle');
