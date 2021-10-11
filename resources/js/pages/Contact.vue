@@ -153,7 +153,7 @@
                                                         type="text"
                                                         name="email"
                                                         class="form-control"
-                                                        placeholder="例：xxxxxxx@logrenove.jp"
+                                                        placeholder="例：xxxxxxx@order-renove.jp"
                                                         :value="email"
                                                         v-on:input="email = $event.target.value"
                                                         :class="{

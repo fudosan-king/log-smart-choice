@@ -28,7 +28,8 @@ class EstateController extends Controller
         $this->selectField = [
             'estate_name', 'price', 'address', 
             'tatemono_menseki', 'price', 'transports',
-            'renovation_type', 'date_created'
+            'renovation_type', 'date_created', 'room_count',
+            'room_kind',
         ];
     }
 
