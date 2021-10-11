@@ -12,37 +12,37 @@
                         alt=""
                         class="img-fluid"
                     />
-                </a>
-                <p class="label_custom" v-if="estate.renovation_type == 'カスタム可能物件'">カスタム<br />可能物件</p>
-                <p class="label_custom renovated" v-else>リノベ済<br />物件</p>
-                <div class="w_property_head">
-                    <p class="total_price">
-                        {{ estate.price }}<span>万円</span><span class="sub" v-if="estate.renovation_type != 'リノベ済物件'">（物件＋リノベーション）</span>
-                    </p>
-                    <div class="property_head">
-                        <div class="row">
-                            <div class="col-10 col-lg-10">
-                                <p class="property_name">{{ estate.estate_information.article_title }}</p>
-                                <p class="property_address">{{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}</p>
-                                <p class="property_square">{{ estate.tatemono_menseki }}m²</p>
-                            </div>
-                            <div class="col-2 col-lg-2">
-                                <template v-if="accessToken">
-                                    <a v-if="estate._id">
-                                        <WishlistComponent
-                                            :estate-id="estate._id"
-                                            :data-wished="estate.is_wish"
-                                        ></WishlistComponent>
-                                    </a>
-                                </template>
-                                <template v-else>
-                                    <a href="/login" class="btn_wishlist"></a>
-                                </template>
+                
+                    <p class="label_custom" v-if="estate.renovation_type == 'カスタム可能物件'">カスタム<br />可能物件</p>
+                    <p class="label_custom renovated" v-else>リノベ済<br />物件</p>
+                    <div class="w_property_head">
+                        <p class="total_price">
+                            {{ estate.price }}<span>万円</span><span class="sub" v-if="estate.renovation_type != 'リノベ済物件'">（物件＋リノベーション）</span>
+                        </p>
+                        <div class="property_head">
+                            <div class="row">
+                                <div class="col-10 col-lg-10">
+                                    <p class="property_name">{{ estate.estate_information.article_title }}</p>
+                                    <p class="property_address">{{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}</p>
+                                    <p class="property_square">{{ estate.tatemono_menseki }}m²</p>
+                                </div>
+                                <div class="col-2 col-lg-2">
+                                    <template v-if="accessToken">
+                                        <a v-if="estate._id">
+                                            <WishlistComponent
+                                                :estate-id="estate._id"
+                                                :data-wished="estate.is_wish"
+                                            ></WishlistComponent>
+                                        </a>
+                                    </template>
+                                    <template v-else>
+                                        <a href="/login" class="btn_wishlist"></a>
+                                    </template>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                
+                </a>
             </div>
         </li>
     </ul>
