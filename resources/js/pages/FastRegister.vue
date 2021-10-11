@@ -71,6 +71,13 @@
                                             (errorsApi.email && errorsApi.email.length)
                                     }"
                                 />
+                                <div class="invalid-feedback" v-if="errorsApi.email && errorsApi.email.length">
+                                    <span>{{ errorsApi.email[0] }}</span>
+                                </div>
+                                <div v-if="submitted && $v.customer.email.$error" class="invalid-feedback">
+                                    <span v-if="!$v.customer.email.required">メールが必要です</span>
+                                    <span v-if="!$v.customer.email.email">メールが無効です</span>
+                                </div>
                                 <h4>電話番号 <span>必須</span></h4>
                                 <input
                                     v-model="customer.land_line"
@@ -289,9 +296,9 @@
                 squares: [],
                 checkedDistrictInput: [],
                 minTotalPrices: '下限なし',
-                maxTotalPrices: 1000,
+                maxTotalPrices: '上限なし',
                 minSquare: '下限なし',
-                maxSquare: 10,
+                maxSquare: '上限なし',
                 getDistrictList: [],
                 sendAnnouncment: 0
             };
