@@ -192,9 +192,14 @@ class EstateController extends Controller
             ->get();
 
         $district = District::where('name', 'like', '%'. $estateAddress['city'] . '%')->first();
-        // if ($estate) {
-        //     $estate = $this->getEstateInformation($estate);
-        // }
+
+        $roundSquare = explode('.', $estate[0]['tatemono_menseki']);
+        $estate[0]['renovation_cost'] = 0;
+        if ($estate[0]['tatemono_menseki'] >= Estates::RENOVATION_SQUARE_MAX) {
+            $estate[0]['renovation_cost'] = Estates::RENOVATION_COST[Estates::RENOVATION_SQUARE_MAX];
+        } elseif (array_key_exists($roundSquare[0], Estates::RENOVATION_COST)) {
+            $estate[0]['renovation_cost'] = Estates::RENOVATION_COST[$roundSquare[0]];
+        }
 
         if ($estate) {
             return $this->response(200, 'Get estate detail success', ['estate' => $estate, 'estateNearAddress' => $estateNearAddress, 'district' => $district], true);
