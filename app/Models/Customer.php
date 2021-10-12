@@ -35,6 +35,7 @@ class Customer extends Authenticatable
     const CONDITION_MIN = '下限なし';
     const CONDITION_MAX = '上限なし';
     const FIRST_ANNOUNCEMENT = 1;
+    const PASSWORD_DEFAULT = '12345678a';
 
     protected $fillable = [
         'name',

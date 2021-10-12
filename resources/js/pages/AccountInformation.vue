@@ -133,6 +133,7 @@ export default {
                     let district = resp.announcement_condition.city;
                     let price = resp.announcement_condition.price;
                     let square = resp.announcement_condition.square;
+                    console.log(district);
                     if (district === null) {
                         this.districtList = '-/-';
                     } else {
@@ -160,8 +161,8 @@ export default {
                     if (square === null) {
                         this.square = '-/-';
                     } else {
-                        let min = square.min != '下限なし' ? price.min + '㎡' : price.min;
-                        let max = square.min != '上限なし' ? price.max + '㎡' : price.max;
+                        let min = square.min != '下限なし' ? square.min + '㎡' : square.min;
+                        let max = square.min != '上限なし' ? square.max + '㎡' : square.max;
                         this.square = min + '~' + max;
                     }
                 }

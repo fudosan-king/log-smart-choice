@@ -120,7 +120,7 @@
                 >希望条件を入力</a
             >
         </div>
-        <div
+        <!-- <div
             class="modal fade modal_register"
             id="modal_register"
             tabindex="-1"
@@ -178,7 +178,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </footer>
 </template>
 <script>
@@ -217,31 +217,31 @@ export default {
             }
         },
 
-        googleLogin() {
-            this.$store.dispatch('googleLogin').then(response => {
-                window.location.href = '/';
-            }).catch(err => {
-                this.$setCookie('accessToken3d', '', 1);
-                this.$removeAuthLocalStorage();
-                this.$removeLocalStorage('announcement_count');
-                this.$router.push({ name: 'login' }).catch(() => {});
-            });
-        },
+        // googleLogin() {
+        //     this.$store.dispatch('googleLogin').then(response => {
+        //         window.location.href = '/';
+        //     }).catch(err => {
+        //         this.$setCookie('accessToken3d', '', 1);
+        //         this.$removeAuthLocalStorage();
+        //         this.$removeLocalStorage('announcement_count');
+        //         this.$router.push({ name: 'login' }).catch(() => {});
+        //     });
+        // },
 
-        facebookLogin() {
-            const store = this.$store;
-            FB.login(
-                function(response) {
-                    if (response.authResponse) {
-                        store.dispatch('facebookLogin').then(response => {
-                            window.location.href = '/';
-                        });
-                    }
-                },
-                { scope: 'public_profile, email' }
-            );
-            return false;
-        },
+        // facebookLogin() {
+        //     const store = this.$store;
+        //     FB.login(
+        //         function(response) {
+        //             if (response.authResponse) {
+        //                 store.dispatch('facebookLogin').then(response => {
+        //                     window.location.href = '/';
+        //                 });
+        //             }
+        //         },
+        //         { scope: 'public_profile, email' }
+        //     );
+        //     return false;
+        // },
 
         contactWithOutLogin() {
             let currentUrl = this.$route.path.split('/');
@@ -255,7 +255,7 @@ export default {
             if (accessToken) {
                 this.$router.push('/customer/announcement-condition').then(response => {console.log(response)}).catch((err) => { console.log(err)});
             } else {
-                this.$router.push({ name: 'login' }).catch(() => {});
+                this.$router.push({ name: 'fastRegister' }).catch(() => {});
             }
         }
     },

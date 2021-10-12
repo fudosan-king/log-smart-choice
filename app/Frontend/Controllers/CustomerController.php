@@ -52,9 +52,7 @@ class CustomerController extends Controller
         $name = $request->get('name');
         $lastName = $request->get('last_name');
         $email = $request->get('email');
-        $phoneNumber = $request->get('phone_number');
         $landLine = $request->get('land_line');
-        $birthday = $request->get('birthday');
         $patternPhoneNumber = '/^(?=\d).*$/';
 
         $rule = [
@@ -88,16 +86,6 @@ class CustomerController extends Controller
             }
         }
 
-        // if ($phoneNumber) {
-        //     if (strlen($phoneNumber) != 11) {
-        //         return $this->response(422, ['phone_number' => [__('customer.phonenumber_invalid')]], []);
-        //     }
-
-        //     if (!preg_match($patternPhoneNumber, $phoneNumber)) {
-        //         return $this->response(422, ['phone_number' => [__('customer.phonenumber_invalid')]], []);
-        //     }
-        // }
-
         if ($landLine) {
             if (strlen($landLine) != 11 && strlen($landLine) != 10) {
                 return $this->response(422, ['land_line' => [__('customer.landline_invalid')]], []);
@@ -108,21 +96,12 @@ class CustomerController extends Controller
             }
         }
 
-        // if ($birthday) {
-        //     if (!checkdate((int)$birthday['month'], (int)$birthday['day'], (int)$birthday['year'])) {
-        //         return $this->response(422, ['birthday' => [__('customer.birthday_invalid')]], []);
-        //     }
-        //     $birthday = (int)$birthday['year'] . '-' . $birthday['month'] . '-' . $birthday['day'];
-        // }
-
         try {
             $customer = Customer::find($customerId);
             $customer->name = $name ?? $customer->name;
             $customer->last_name = $lastName;
             $customer->email =  $email ?? $customer->email;
-            $customer->phone_number = $phoneNumber;
             $customer->land_line = $landLine;
-            $customer->birthday = $birthday ?: '';
             $customer->save();
         } catch (\Exception $e) {
             Log::error($e->getMessage());
@@ -165,31 +144,31 @@ class CustomerController extends Controller
         }
 
 
-        if ($price['min'] == '上限なし' || $price['max'] == '下限なし') {
+        if ($price['min'] == Customer::CONDITION_MAX || $price['max'] == Customer::CONDITION_MIN) {
             return $this->response(422, ['price' => [__('customer.price_invalid')]], []);
         }
 
-        if ($square['min'] == '上限なし' || $square['max'] == '下限なし') {
+        if ($square['min'] == Customer::CONDITION_MAX || $square['max'] == Customer::CONDITION_MIN) {
             return $this->response(422, ['square' => [__('customer.square_invalid')]], []);
         }
 
-        if (($price['min'] != '下限なし' && $price['min'] != '上限なし') &&
-        ($price['max'] != '下限なし' && $price['max'] != '上限なし')) {
+        if (($price['min'] != Customer::CONDITION_MIN && $price['min'] != Customer::CONDITION_MAX) &&
+        ($price['max'] != Customer::CONDITION_MIN && $price['max'] != Customer::CONDITION_MAX)) {
             if ($price['min'] > $price['max']) {
                 return $this->response(422, ['price' => [__('customer.price_invalid')]], []);
             }
-        } elseif ($price['min'] == '下限なし' && $price['max'] == '下限なし' ||
-        $price['min'] == '上限なし' && $price['max'] == '上限なし') {
+        } elseif ($price['min'] == Customer::CONDITION_MIN && $price['max'] == Customer::CONDITION_MIN ||
+        $price['min'] == Customer::CONDITION_MAX && $price['max'] == Customer::CONDITION_MAX) {
             return $this->response(422, ['price' => [__('customer.price_invalid')]], []);
         }
 
-        if (($square['min'] != '下限なし' && $square['min'] != '上限なし') &&
-        ($square['max'] != '下限なし' && $square['max'] != '上限なし')) {
+        if (($square['min'] != Customer::CONDITION_MIN && $square['min'] != Customer::CONDITION_MAX) &&
+        ($square['max'] != Customer::CONDITION_MIN && $square['max'] != Customer::CONDITION_MAX)) {
             if ($square['min'] > $square['max']) {
                 return $this->response(422, ['square' => [__('customer.square_invalid')]], []);
             }
-        } elseif ($square['min'] == '下限なし' && $square['max'] == '下限なし' ||
-        $square['min'] == '上限なし' && $square['max'] == '上限なし') {
+        } elseif ($square['min'] == Customer::CONDITION_MIN && $square['max'] == Customer::CONDITION_MIN ||
+        $square['min'] == Customer::CONDITION_MAX && $square['max'] == Customer::CONDITION_MAX) {
             return $this->response(422, ['price' => [__('customer.square_invalid')]], []);
         }
 

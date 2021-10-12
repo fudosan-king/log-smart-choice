@@ -32,15 +32,13 @@ const actions = {
 
     getCustomerDistrict() {
         return new Promise((resolve, reject) => {
-            let accessToken = Vue.prototype.$getLocalStorage('accessToken');
             const auth = this.auth;
             axios({
                 url: '/district/customer/list',
                 method: 'POST',
                 data: {},
                 headers: {
-                    'content-type': 'application/json',
-                    'AuthorizationBearer': `Bearer ${accessToken}`,
+                    'content-type': 'application/json'
                 },
                 auth: auth,
             })

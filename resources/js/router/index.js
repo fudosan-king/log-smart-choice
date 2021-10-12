@@ -187,7 +187,15 @@ const routes = [
         meta: {
             title: 'パスワードを再設定する｜Order Renove'
         }
-    }
+    },
+    {
+        path: '/fast-register',
+        name: 'fastRegister',
+        component: () => import('../pages/FastRegister.vue'),
+        meta: {
+            title: 'メルマガ配信希望条件｜Order Renove'
+        }
+    },
 ];
 
 const router = new VueRouter({
