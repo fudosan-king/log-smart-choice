@@ -19,7 +19,7 @@
                                             v-model="customer.name"
                                             type="text"
                                             class="form-control"
-                                            placeholder="ゴチャンユイ"
+                                            placeholder="列：山田"
                                             :class="{
                                                 'is-invalid':
                                                     (submitted && $v.customer.name.$error) ||
@@ -40,7 +40,7 @@
                                             v-model="customer.last_name"
                                             type="text"
                                             class="form-control"
-                                            placeholder="アイン"
+                                            placeholder="列：太郎"
                                             :class="{
                                                 'is-invalid':
                                                     (submitted && $v.customer.last_name.$error) ||
@@ -65,6 +65,7 @@
                                     v-model="customer.email"
                                     type="text"
                                     class="form-control"
+                                    placeholder="例：xxxxxxx@order-renove.jp"
                                     :class="{
                                         'is-invalid':
                                             (submitted && $v.customer.email.$error) ||
@@ -83,7 +84,7 @@
                                     v-model="customer.land_line"
                                     type="text"
                                     class="form-control"
-                                    placeholder="080-3179-2609"
+                                    placeholder="例：0312341234"
                                     :class="{
                                         'is-invalid':
                                             (errorsApi.land_line && errorsApi.land_line.length) ||
