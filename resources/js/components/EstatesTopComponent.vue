@@ -21,7 +21,7 @@
                         </p>
                         <div class="property_head">
                             <div class="row">
-                                <div class="col-10 col-lg-10">
+                                <div class="col-10 col-lg-10 align-self-center">
                                     <p class="property_name">{{ estate.estate_information.article_title }}</p>
                                     <p class="property_address">{{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}</p>
                                     <p class="property_square">{{ estate.tatemono_menseki }}m² / {{ estate.room_count }}{{ estate.room_kind }}</p>

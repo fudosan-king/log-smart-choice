@@ -316,6 +316,10 @@
                                             <th>物件価格</th>
                                             <td>{{ $lscFormatCurrency(estate.price) }}万円</td>
                                         </tr>
+                                        <tr>
+                                            <th>リノベーション費用</th>
+                                            <td>{{ $lscFormatCurrency(estate.renovation_cost) }}万円</td>
+                                        </tr>
                                         <tr v-if="estate.management_fee">
                                             <th>管理費</th>
                                             <td>{{ $lscFormatCurrency(estate.management_fee) }}円/月</td>

@@ -459,7 +459,7 @@ header.subheader.compressed .i_white {
     position: absolute;
     right: -30px;
     top: 63px;
-    min-width: 377px;
+    min-width: 497px;
 }
 
 .dropdown_search .dropdown_search_content:after {
@@ -590,7 +590,7 @@ header.subheader.compressed .i_white {
     background-size: cover;
     background-position: center center;
     padding: 0;
-    height: 640px;
+    height: 500px;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
@@ -860,9 +860,10 @@ ul.list_property li .property_head .btn_wishlist.on {
 .section_near_property ul.list_property li .property_head p.property_name {
     font-size: 0.875em;
     display: -webkit-box;
-    -webkit-line-clamp: 1;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    min-height: 36px;
 }
 
 .section_near_property ul.list_property li .property_head p.property_address {
@@ -1068,6 +1069,10 @@ footer .footer_bottom .btn img {
 .section_property_main .box_calcu h1 i {
     font-style: normal;
     color: #F08865;
+}
+
+.section_property_main .box_calcu h1 .fee {
+    font-size: 0.8125em;
 }
 
 .section_property_main .box_calcu .frm_calcu h5 {
