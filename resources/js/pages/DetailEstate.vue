@@ -114,7 +114,7 @@
                                 <div class="box_calcu">
                                     <h1>
                                         <template v-if="estate.renovation_type != 'リノベ済物件'">リノベ＋</template>物件価格
-                                        <span>{{ $lscFormatCurrency(estate.price ? estate.price : estate.price) }}</span
+                                        <span>{{ $lscFormatCurrency(estate.price + estate.renovation_cost) }}</span
                                         ><i>万円</i>
                                         <p class="mb-0 mt-2 fee">物件価格：{{ $lscFormatCurrency(estate.price ? estate.price : estate.price) }}万円／リノベ費用：{{ $lscFormatCurrency(estate.renovation_cost ? estate.renovation_cost : estate.renovation_cost) }}万円</p>
                                     </h1>
