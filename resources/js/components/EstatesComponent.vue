@@ -40,7 +40,7 @@
                                         <div class="property_head">
                                             <div class="row">
                                                 <div class="col-10 col-lg-10">
-                                                    <p class="property_name">
+                                                    <p class="col-10 col-lg-10 align-self-center">
                                                         {{ estate.estate_information.article_title }}
                                                     </p>
                                                     <p class="property_address">

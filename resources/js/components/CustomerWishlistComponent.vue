@@ -34,10 +34,13 @@
                         <div class="col-10 col-lg-10">
                             <p class="property_name">{{ wishtlistItem.estate_information.article_title }}</p>
                             <p class="property_address" v-if="wishtlistItem.address">
+                                <span>
                                 {{ wishtlistItem.address.city }}{{ wishtlistItem.address.ooaza
                                 }}{{ wishtlistItem.address.tyoume }}
+                                {{ wishtlistItem.tatemono_menseki }}m²/ {{ wishtlistItem.room_count }}{{ wishtlistItem.room_kind }}
+                                </span>
                             </p>
-                            <p class="property_square">{{ wishtlistItem.tatemono_menseki }}m²</p>
+                            <p class="property_square"></p>
                         </div>
                         <div class="col-2 col-lg-2">
                             <template v-if="accessToken">
