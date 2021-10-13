@@ -99,7 +99,7 @@ class RegisterController extends Controller
         $customer->name = $data['name'];
         $customer->last_name = $data['last_name'];
         $customer->email = $data['email'];
-        if ($data['land_line']) {
+        if (isset($data['land_line'])) {
             $customer->land_line =$data['land_line'];
         }
         $customer->password = Hash::make($data['password']);
