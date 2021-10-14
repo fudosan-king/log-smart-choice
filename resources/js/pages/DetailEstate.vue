@@ -113,10 +113,14 @@
                                 <!-- End Street View -->
                                 <div class="box_calcu">
                                     <h1>
-                                        <template v-if="estate.renovation_type != 'リノベ済物件'">リノベ＋</template>物件価格
+                                        物件価格<template v-if="estate.renovation_type != 'リノベ済物件'">＋リノベ費用</template>
                                         <span>{{ $lscFormatCurrency(estate.price + estate.renovation_cost) }}</span
                                         ><i>万円</i>
-                                        <p class="mb-0 mt-2 fee">物件価格：{{ $lscFormatCurrency(estate.price ? estate.price : estate.price) }}万円／リノベ費用：{{ $lscFormatCurrency(estate.renovation_cost ? estate.renovation_cost : estate.renovation_cost) }}万円</p>
+                                        <template v-if="estate.renovation_type != 'リノベ済物件'">
+                                            <p class="mb-0 mt-2 fee">物件価格：{{ $lscFormatCurrency(estate.price ? estate.price : estate.price) }}万円
+                                                ／リノベ費用：{{ $lscFormatCurrency(estate.renovation_cost ? estate.renovation_cost : estate.renovation_cost) }}万円
+                                            </p>
+                                        </template>
                                     </h1>
                                     <form action="" class="frm_calcu">
                                         <div class="row">
@@ -129,8 +133,10 @@
                                                     <p class="text-center d-block d-lg-none btn_simulation_result mb-3">毎月のお支払例</p>
                                                     <h2>{{$lscFormatCurrency(paymentMonthly)}}<span>円</span></h2>
                                                     <p class="text-center mt-3">
-                                                        <b>管理費：{{ $lscFormatCurrency(estate.management_fee) }}円／修繕積立金：{{ $lscFormatCurrency(estate.repair_reserve_fee) }}円 含む／リノ<br>
+                                                        <b>管理費：{{ $lscFormatCurrency(estate.management_fee) }}円／修繕積立金：{{ $lscFormatCurrency(estate.repair_reserve_fee) }}円 含む
+                                                        <template v-if="estate.renovation_type != 'リノベ済物件'">／リノ<br>
                                                         ベーション費用含む
+                                                        </template>
                                                         </b>
                                                     </p>
                                                 </div>
@@ -316,10 +322,12 @@
                                             <th>物件価格</th>
                                             <td>{{ $lscFormatCurrency(estate.price) }}万円</td>
                                         </tr>
-                                        <tr>
-                                            <th>リノベーション費用</th>
-                                            <td>{{ $lscFormatCurrency(estate.renovation_cost) }}万円</td>
-                                        </tr>
+                                        <template v-if="estate.renovation_type != 'リノベ済物件'">
+                                            <tr>
+                                                <th>リノベーション費用</th>
+                                                <td>{{ $lscFormatCurrency(estate.renovation_cost) }}万円</td>
+                                            </tr>
+                                        </template>
                                         <tr v-if="estate.management_fee">
                                             <th>管理費</th>
                                             <td>{{ $lscFormatCurrency(estate.management_fee) }}円/月</td>
