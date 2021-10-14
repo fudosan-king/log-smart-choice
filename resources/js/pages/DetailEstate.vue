@@ -760,8 +760,8 @@ export default {
                                 });
                             }
                             this.estateInfo = this.estate['estate_information'];
-                            this.borrowedMoney = this.estate.price;
-                            this.totalPrice = this.estate.price;
+                            this.borrowedMoney = this.estate.price + this.estate.renovation_cost;
+                            this.totalPrice = this.estate.price + this.estate.renovation_cost;
                             this.calculateMonthlyLoanPayment();
                         }
                         this.srcMap = this.estate['estate_information']['url_map'];
