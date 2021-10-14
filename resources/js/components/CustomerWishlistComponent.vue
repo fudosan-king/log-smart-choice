@@ -21,7 +21,7 @@
                     <p class="total_price">
                         {{ wishtlistItem.price }}<span>万円</span
                         ><span class="sub" v-if="wishtlistItem.renovation_type != 'リノベ済物件'"
-                            >（物件＋リノベーション）</span
+                            >（改装前価格）</span
                         >
                     </p>
                     <p class="label_custom" v-if="wishtlistItem.renovation_type == 'カスタム可能物件'">
