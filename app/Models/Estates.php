@@ -30,6 +30,8 @@ class Estates extends Model
     const LIMIT_ESTATE_ANNOUNCEMENT = 15;
     const RENOVATION_SQUARE_MIN = 80;
     const RENOVATION_SQUARE_MAX = 200;
+    const DECOR = 'リノベ済物件';
+    const NOT_DECOR = 'カスタム可能物件';
     const RENOVATION_COST = [
         '80' => 1336,
         '81' => 1368,
