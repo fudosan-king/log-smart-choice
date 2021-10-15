@@ -371,7 +371,7 @@ class AnnouncementController extends Controller
         try {
             foreach ($customers as $customer) {
                 $customerCondition = $condition = json_decode($customer->announcement_condition, true);
-                $estates = Estates::select('_id', 'room_count', 'room_kind', 'tatemono_menseki', 'address', 'date_created', 'price', 'estate_name');
+                $estates = Estates::select('_id', 'room_count', 'room_kind', 'tatemono_menseki', 'address', 'date_created', 'price', 'estate_name', 'transports', 'renovation_cost');
                 if ($condition['city']) {
                     $estates->whereIn('address.city', $condition['city']);
                 }
