@@ -270,7 +270,7 @@
 
                         <tr>
                             <td style="margin-bottom: 20px; text-align: center; padding: 30px 0 0;">
-                                <a style="font-size: 10px; color: #EB5757; text-decoration: underline;" href="#">メールの配信停止をご希望のかたはこちら</a>
+                                <a style="font-size: 10px; color: #EB5757; text-decoration: underline;" href="{{Request::root()}}/customer/information">メールの配信停止をご希望のかたはこちら</a>
                             </td>
                         </tr>
 
