@@ -232,49 +232,33 @@ class Estates extends Model
                     $estate->sort_order_recommend = self::NUMBER_RECOMMEND_ORDER_BY;
                     $estate['_id'] = $estateData->_id;
                     $estate->is_send_announcement = self::NOT_SEND_ANNOUNCEMENT;
-                    $estate_pass = array(self::STATUS_END);
-                    if ($estate && in_array($estate->status, $estate_pass)) {
-                        return null;
-                    }
 
                     foreach ($estateData as $key => $value) {
                         $estate->$key = $value;
                     }
-    
+
                     if ($estateData && $estateData->trade_status == self::STATUS_STOP) {
                         $estate->status = self::STATUS_STOP;
                     }
+
                     $estate->save();
                     $this->increaseDecreaseEstateInDistrict(json_decode(json_encode($estateData->address), true), false, $estateData->_id);
                     $this->increaseDecreaseEstateInStation($stations, false, $estateData->_id);
-                    $estateInfo = EstateInformation::where('estate_id', $estateDataId)->first();
-                    if ($estateInfo) {
-                        $estateInfo->date_lasted_modified_in_lsc = '';
-                        $estateInfo->user_lasted_modified_in_lsc = 0;
-                        $estateInfo->save();
-                    }
                 } elseif (strtotime($estate->date_last_modified) != $dateModifyFDK->toDateTime()->format('U')) {
-                    $this->increaseDecreaseEstateInDistrict(json_decode(json_encode($estateData->address), true), false, $estateData->_id);
-                    $this->increaseDecreaseEstateInStation($stations, false, $estateData->_id);
-
-                    $estate->status = self::STATUS_SALE;
+                    $estateInfo = EstateInformation::where('estate_id', $$estateData->_id)->first();
+                    $estate->status = $estateInfo->status;
                     $estate->is_send_announcement = self::NOT_SEND_ANNOUNCEMENT;
                     $estate->date_imported = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d H:i:s')) * 1000);
                     $estate->sort_order_recommend = self::NUMBER_RECOMMEND_ORDER_BY;
                     $estate['_id'] = $estateData->_id;
-   
+
                     foreach ($estateData as $key => $value) {
                         $estate->$key = $value;
                     }
 
                     $estate->save();
-    
-                    $estateInfo = EstateInformation::where('estate_id', $estateDataId)->first();
-                    if ($estateInfo) {
-                        $estateInfo->date_lasted_modified_in_lsc = '';
-                        $estateInfo->user_lasted_modified_in_lsc = 0;
-                        $estateInfo->save();
-                    }
+                    $this->increaseDecreaseEstateInDistrict(json_decode(json_encode($estateData->address), true), false, $estateData->_id);
+                    $this->increaseDecreaseEstateInStation($stations, false, $estateData->_id);
                 }
             }
         } catch (Exception $e) {
