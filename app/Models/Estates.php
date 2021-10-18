@@ -257,23 +257,16 @@ class Estates extends Model
                     $this->increaseDecreaseEstateInDistrict(json_decode(json_encode($estateData->address), true), false, $estateData->_id);
                     $this->increaseDecreaseEstateInStation($stations, false, $estateData->_id);
                     
-                    $estate->status = self::STATUS_STOP;
+                    $estate->status = self::STATUS_SALE;
                     $estate->is_send_announcement = self::NOT_SEND_ANNOUNCEMENT;
                     $estate->date_imported = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d H:i:s')) * 1000);
                     $estate->sort_order_recommend = self::NUMBER_RECOMMEND_ORDER_BY;
                     $estate['_id'] = $estateData->_id;
-                    $estate_pass = array(self::STATUS_END);
-                    if ($estate && in_array($estate->status, $estate_pass)) {
-                        return null;
-                    }
     
                     foreach ($estateData as $key => $value) {
                         $estate->$key = $value;
                     }
 
-                    // if ($estateData && $estateData->trade_status == self::STATUS_STOP) {
-                    //     $estate->status = self::STATUS_STOP;
-                    // }
                     $estate->save();
     
                     $estateInfo = EstateInformation::where('estate_id', $estateDataId)->first();
