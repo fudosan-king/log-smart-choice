@@ -577,6 +577,7 @@ class EstateController extends Controller
         $this->_insertDatabase($id, 'url_view_street', $request->get('url_view_street'));
         $this->_insertDatabase($id, 'date_lasted_modified_in_lsc', $lastedModified);
         $this->_insertDatabase($id, 'user_lasted_modified_in_lsc', $userId);
+        $this->_insertDatabase($id, 'status', $request->get('status'));
 
         $this->insertUpdateData($request, $slug, $dataType->editRows, $data);
 
