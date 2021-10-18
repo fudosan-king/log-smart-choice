@@ -463,14 +463,23 @@ class EstateController extends Controller
         }
         $model->increaseDecreaseEstateInDistrict($estate->address['city'], false, $id);
         $model->increaseDecreaseEstateInStation($stations, false, $id);
-        $request['is_send_announcement'] = Estates::NOT_SEND_ANNOUNCEMENT;
         $data->is_send_announcement = Estates::NOT_SEND_ANNOUNCEMENT;
         if ($request->status == Estates::STATUS_SALE) {
             $model->increaseDecreaseEstateInStation($stations, true, $id);
             $model->increaseDecreaseEstateInDistrict($estate->address['city'], true, $id);
-            $request['is_send_announcement'] = Estates::SEND_ANNOUNCEMENT;
             $data->is_send_announcement = Estates::SEND_ANNOUNCEMENT;
         }
+
+        $roundSquare = explode('.', $estate['tatemono_menseki']);
+        $data->renovation_cost = 0;
+        if ($estate['renovation_type'] != Estates::DECOR) {
+            if ($estate['tatemono_menseki'] >= Estates::RENOVATION_SQUARE_MAX) {
+                $data->renovation_cost = Estates::RENOVATION_COST[Estates::RENOVATION_SQUARE_MAX];
+            } elseif (array_key_exists($roundSquare[0], Estates::RENOVATION_COST)) {
+                $data->renovation_cost = Estates::RENOVATION_COST[$roundSquare[0]];
+            }
+        }
+
         // Check estate description photo or hidden photo exist
         // if ($request->hasFile('estate_description_left_photo')) {
         //     $estateDescriptionLeftPhoto = $request->file('estate_description_left_photo');
@@ -568,6 +577,7 @@ class EstateController extends Controller
         $this->_insertDatabase($id, 'url_view_street', $request->get('url_view_street'));
         $this->_insertDatabase($id, 'date_lasted_modified_in_lsc', $lastedModified);
         $this->_insertDatabase($id, 'user_lasted_modified_in_lsc', $userId);
+        $this->_insertDatabase($id, 'status', $request->get('status'));
 
         $this->insertUpdateData($request, $slug, $dataType->editRows, $data);
 
