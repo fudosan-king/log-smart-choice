@@ -360,6 +360,7 @@ class AnnouncementController extends Controller
 
     public function testSendEmail()
     {
+        $listEstateSent = [];
         $customers = Customer::select('id', 'announcement_condition', 'email', 'first_announcement')->where('role3d', Customer::ROLE_3D_CUSTOMER)
             ->where('status', Customer::ACTIVE)
             ->where('send_announcement', Customer::SEND_ANNOUNCEMENT)
@@ -371,7 +372,7 @@ class AnnouncementController extends Controller
         try {
             foreach ($customers as $customer) {
                 $customerCondition = $condition = json_decode($customer->announcement_condition, true);
-                $estates = Estates::select('_id', 'room_count', 'room_kind', 'tatemono_menseki', 'address', 'date_created', 'price', 'estate_name');
+                $estates = Estates::select('_id', 'room_count', 'room_kind', 'tatemono_menseki', 'address', 'date_created', 'price', 'estate_name', 'transports', 'renovation_cost');
                 if ($condition['city']) {
                     $estates->whereIn('address.city', $condition['city']);
                 }
@@ -411,6 +412,7 @@ class AnnouncementController extends Controller
                 $listEstate = $estates->limit(Estates::LIMIT_ESTATE_ANNOUNCEMENT)->get();
 
                 if ($listEstate->isNotEmpty()) {
+                    $listEstateSent = $listEstate;
                     $estateController = new EstateController();
                     $data = $estateController->getEstateInformation($listEstate);
                     $customerCondition['city'] = '';
@@ -419,12 +421,13 @@ class AnnouncementController extends Controller
                     }
                     $emailDailyEstate = new SendEmailDailyEstate($customer, $data->toArray(), $customerCondition);
                     dispatch($emailDailyEstate);
-                    foreach ($listEstate as $estate) {
-                        $estate = Estates::find($estate->_id);
-                        $estate->is_send_announcement = Estates::NOT_SEND_ANNOUNCEMENT;
-                        $estate->save();
-                    }
                 }
+            }
+
+            foreach ($listEstateSent as $estate) {
+                $estate = Estates::find($estate->_id);
+                $estate->is_send_announcement = Estates::NOT_SEND_ANNOUNCEMENT;
+                $estate->save();
             }
 
             return redirect()->back()->with([
