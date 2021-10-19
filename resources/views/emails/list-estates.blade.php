@@ -184,7 +184,7 @@
                                         </td>
                                     </tr>
                                 </table>
-                                <a href="{{Request::root()}}/customer/announcement-condition" style="border-radius: 100px; background: #E0AF6C; font-weight: 600; font-size: 18px; padding: 10px 15px; color: #fff; display: inline-block; min-width: 256px;">希望条件の登録・変更</a>
+                                <a href="{{Request::root()}}/customer/announcement-condition" style="border-radius: 100px; background: #E0AF6C; font-weight: 600; font-size: 16px; padding: 8px 45px; color: #fff; display: inline-block; min-width: 256px;">希望条件の登録・変更</a>
                                 <p style="font-size: 12px; margin-top: 15px;">「<a href="{{Request::root()}}/customer/information"><span style="color: #E0AF6C;">マイページ</span></a>」にログイン後、「<a href="{{Request::root()}}/customer/announcement-condition"><span style="color: #E0AF6C;">メルマガ配信希望条件</span></a>」から希望条件をお選びください。</p>
                             </td>
                         </tr>
@@ -202,7 +202,7 @@
                                     <img src="{{ Request::root() }}/images/no-image.png" alt="" style="width: 100%;">
                                     @endif
                                 </a>
-                                <h3 style="text-align: center; font-size: 24px; font-weight: 600; margin-bottom: 15px; margin-top: 20px; color: #333333;">{{$estate['estate_information']['article_title']}}</h3>
+                                <h3 style="text-align: center; font-size: 16px; font-weight: 600; margin-bottom: 15px; margin-top: 20px; color: #333333; padding: 0 10px">{{$estate['estate_information']['article_title']}}</h3>
                                 <p><a style="text-decoration: none; color: #333; cursor: inherit;" href="#">{{ $estate['address']['pref'] }}{{ $estate['address']['city'] }}{{ $estate['address']['ooaza'] }}{{ $estate['address']['tyoume'] }}{{ $estate['address']['gaikutiban'] }}</a>{{'／'. $estate['transports'][0]['station_name'] .'駅' }}</p>
                                 <p>{{ $estate['room_count'] }}{{ $estate['room_kind'] }}/{{ $estate['tatemono_menseki'] }}m²/{{ $estate['price'] + $estate['renovation_cost'] }}万円</p>
                                 <a href="{{Request::root()}}/detail/{{$estate['_id']}}" style="border-radius: 100px; background: #E0AF6C; font-weight: 600; font-size: 18px; padding: 10px 85px; color: #fff; display: inline-block; margin-top: 15px;">物件詳細を見る</a>
@@ -263,7 +263,7 @@
                                         </td>
                                     </tr>
                                 </table>
-                                <a href="{{Request::root()}}/customer/announcement-condition" style="border-radius: 100px; background: #E0AF6C; font-weight: 600; font-size: 18px; padding: 10px 85px; color: #fff; display: inline-block;">希望条件の登録・変更</a>
+                                <a href="{{Request::root()}}/customer/announcement-condition" style="border-radius: 100px; background: #E0AF6C; font-weight: 600; font-size: 16px; padding: 8px 45px; color: #fff; display: inline-block;">希望条件の登録・変更</a>
                                 <p style="font-size: 12px; margin-top: 15px;">「<a href="{{Request::root()}}/customer/information"><span style="color: #E0AF6C;">マイページ</span></a>」にログイン後、「<a href="{{Request::root()}}/customer/announcement-condition"><span style="color: #E0AF6C;">メルマガ配信希望条件</span></a>」から希望条件をお選びください。</p>
                             </td>
                         </tr>
