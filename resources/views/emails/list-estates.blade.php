@@ -146,7 +146,7 @@
                                 <h2 style="font-size: 18px; font-weight: 600; margin-bottom: 20px;">{{ $customer['name'] }}様の希望条件</h2>
                                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="text-align: left; margin-bottom: 15px;">
                                     <tr>
-                                        <th valign="top" width="20%">希望エリア</th>
+                                        <th valign="top" width="30%">希望エリア</th>
                                         @if ($customer['first_announcement'] != 1)
                                         <td>設定なし</td>
                                         @else
@@ -225,7 +225,7 @@
                                 <h2 style="font-size: 14px; font-weight: 600; border-bottom: 2px solid #BDBDBD; padding-bottom: 15px; margin-bottom: 20px;">{{ $customer['name'] }}様の希望条件</h2>
                                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="text-align: left; margin-bottom: 15px;">
                                     <tr>
-                                    <th valign="top" width="20%">希望エリア</th>
+                                    <th valign="top" width="30%">希望エリア</th>
                                         @if ($customer['first_announcement'] != 1)
                                         <td>設定なし</td>
                                         @else
