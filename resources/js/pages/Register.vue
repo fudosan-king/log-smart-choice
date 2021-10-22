@@ -217,12 +217,9 @@
 <script>
 import { required, email, minLength, sameAs, maxLength, requiredIf } from 'vuelidate/lib/validators';
 import Vue from 'vue';
-import VueSweetalert2 from 'vue-sweetalert2';
 import globalVaiable from '../globalHelper';
-import 'sweetalert2/dist/sweetalert2.all.min.js';
 
 Vue.use(globalVaiable);
-Vue.use(VueSweetalert2);
 
 export default {
     data() {
@@ -281,12 +278,6 @@ export default {
             if (!this.$v.$invalid && this.submitted) {
                 this.submitted = false;
                 this.disabled = true;
-                var content =
-                    '仮登録メール' +
-                    this.customer.email +
-                    'を送信しました。<br>' +
-                    '上記のメールアドレスに仮登録の案内メールを送信しましたので、ご確認ください。<br>' +
-                    '記載されているURLを24時間以内にクリックし、登録を完了させてください。';
                 axios
                     .post('/register', this.customer, {
                         headers: {
@@ -294,12 +285,8 @@ export default {
                         }
                     })
                     .then(res => {
-                        
-                        this.$swal('会員登録申請完了', content, 'success').then(result => {
-                            if (result.isConfirmed) {
-                                this.$router.push({ name: 'login' }).catch(() => {});
-                            }
-                        });
+                        this.$setLocalStorage('emailRegister', this.customer.email);
+                        this.$router.push({ name: 'RegisterThankYou' }).catch(() => {});
                     })
                     .catch(err => {
                         this.disabled = false;

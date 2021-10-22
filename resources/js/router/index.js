@@ -196,6 +196,14 @@ const routes = [
             title: 'メルマガ配信希望条件｜Order Renove'
         }
     },
+    {
+        path: '/register-thank-you',
+        name: 'RegisterThankYou',
+        component: () => import('../pages/RegisterThankYou.vue'),
+        meta: {
+            title: '会員登録申請完了｜Order Renove'
+        }
+    },
 ];
 
 const router = new VueRouter({
