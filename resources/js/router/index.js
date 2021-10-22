@@ -201,7 +201,7 @@ const routes = [
         name: 'RegisterThankYou',
         component: () => import('../pages/RegisterThankYou.vue'),
         meta: {
-            title: 'メルマガ配信希望条件｜Order Renove'
+            title: '会員登録申請完了｜Order Renove'
         }
     },
 ];
