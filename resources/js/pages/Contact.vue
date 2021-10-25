@@ -374,6 +374,8 @@
                     .dispatch('customerInfo')
                     .then(resp => {
                         this.customer = resp;
+                        this.name = resp.name;
+                        this.last_name = resp.last_name;
                         this.full_name = resp.name + ' ' + resp.last_name;
                         this.email = resp.email;
                         this.land_line = resp.land_line;
