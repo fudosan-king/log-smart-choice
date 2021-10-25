@@ -64,7 +64,7 @@
                                                                     <label>お名前</label>
                                                                 </td>
                                                                 <td id="full_name" class="confirm-text">
-                                                                    <span>{{ contactData.fullName }}</span>
+                                                                    <span>{{ contactData.name + ' ' + contactData.lastName}}</span>
                                                                 </td>
                                                             </tr>
                                                             <tr>
@@ -132,7 +132,7 @@
                                         <!-- Do not change class, action, method. -->
                                         <form
                                             class="formrun d-none"
-                                            action="https://form.run/api/v1/r/9ms3izrtap72ulo9ztochng5"
+                                            action="#"
                                             method="post"
                                             id="postToFormrun"
                                         >
@@ -169,7 +169,7 @@
 
                                             <div>
                                                 <label>お名前</label>
-                                                <input name="お名前" type="text" :value="contactData.fullName" />
+                                                <input name="お名前" type="text" :value="contactData.name + ' ' + contactData.lastName" />
                                             </div>
 
                                             <div>
@@ -265,7 +265,7 @@ export default {
             $('input[name="物件名"]').val(this.contactData.estateName);
             // $('input[name="第1希望日時"]').val(this.contactData.hopeDayFirst + ' ' + this.contactData.startTimeFirst);
             // $('input[name="第2希望日時"]').val(this.contactData.hopeDaySecond + ' ' + this.contactData.startTimeSecond);
-            $('input[name="お名前"]').val(this.contactData.fullName);
+            $('input[name="お名前"]').val(this.contactData.name + ' ' + this.contactData.lastName);
             $('input[name="メールアドレス"]').val(this.contactData.email);
             $('input[name="電話番号"]').val(this.contactData.landLine);
             $('input[name="estate_url"]').val(this.contactData.estateUrl);
@@ -273,8 +273,13 @@ export default {
             $('input[name="orderrenove_customer_id"]').val(this.contactData.orderRenoveCustomerID);
             window.localStorage.setItem('orderrenoveCustomerId', this.contactData.orderRenoveCustomerID);
             this.$setCookie('orderrenoveCustomerId', this.contactData.orderRenoveCustomerID, 1);
-            window.localStorage.removeItem('contactData');
             window.localStorage.removeItem('estate_id');
+            if (window.localStorage.getItem('accessToken')) {
+                window.localStorage.removeItem('contactData');
+                $('#postToFormrun').attr('action', 'https://form.run/api/v1/r/v45minhhrx1tvk4jre6atoqj');
+            } else {
+                $('#postToFormrun').attr('action', 'https://form.run/api/v1/r/vqau9rhc2as1hug47rbml3xi');
+            }
             $('#postToFormrun').submit();
         }
     }
