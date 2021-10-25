@@ -27,7 +27,9 @@
                                             ご入力いただいたメールアドレスに、お問い合わせ完了メールをお送りいたしました。<br />
                                             後ほど、（株）LogSuiteの担当者よりご連絡申し上げます。
                                         </p>
-                                        <a class="btn btngoto" href="#"
+                                        <a
+                                            class="btn btngoto"
+                                            v-on:click="backHome"
                                             >トップに戻る
                                             <img
                                                 src="assets/images/svg/i_right_white.svg"

@@ -273,12 +273,12 @@ export default {
             $('input[name="orderrenove_customer_id"]').val(this.contactData.orderRenoveCustomerID);
             window.localStorage.setItem('orderrenoveCustomerId', this.contactData.orderRenoveCustomerID);
             this.$setCookie('orderrenoveCustomerId', this.contactData.orderRenoveCustomerID, 1);
-            window.localStorage.removeItem('contactData');
             window.localStorage.removeItem('estate_id');
-            if (window.localStorage.getItem(accessToken)) {
-                
+            if (window.localStorage.getItem('accessToken')) {
+                window.localStorage.removeItem('contactData');
+                $('#postToFormrun').attr('action', 'https://form.run/api/v1/r/v45minhhrx1tvk4jre6atoqj');
             } else {
-                $('#postToFormrun').attr('action', 'https://form.run/api/v1/r/9ms3izrtap72ulo9ztochng5');
+                $('#postToFormrun').attr('action', 'https://form.run/api/v1/r/vqau9rhc2as1hug47rbml3xi');
             }
             $('#postToFormrun').submit();
         }
