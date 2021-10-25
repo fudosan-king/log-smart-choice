@@ -7,34 +7,34 @@
                         <section class="p-0">
                             <div class="box_top mb-0">
                                 <div class="container">
-                                    <h1 class="title mb-3">物件お問い合わせ</h1>
+                                    <h2 class="title mb-2">
+                                        物件問い合わせ完了
+                                    </h2>
+                                </div>
+                            </div>
+                        </section>
 
-                                    <p class="title mb-3">
-                                        <b>お問い合わせいただき</b>
-                                    </p>
-                                    <p class="title mb-3">
-                                        <b>ありがとうございました。</b>
-                                    </p>
-                                    <p class="title mb-3">
-                                        ご入力いただいたメールアドレスに、お問い合わせ完了メールをお送りしました。
-                                    </p>
-                                    <p class="title mb-3">
-                                        のちほど担当者よりご連絡申し上げます。
-                                    </p>
+                        <section class="section_thanks">
+                            <div class="container">
+                                <div class="row">
                                     <div
-                                        class="form-group text-center mb-0 row"
+                                        class="col-12 col-lg-7 offset-lg-2 m-auto text-center"
                                     >
-                                        <div class="col-md-3"></div>
-                                        <div class="col-md-6">
-                                            <button
-                                                type="button"
-                                                @click="backHome"
-                                                class="btn btnsave"
-                                            >
-                                                オーダーリノベトップに戻る
-                                            </button>
-                                        </div>
-                                        <div class="col-md-3"></div>
+                                        <h3>
+                                            お問い合わせいただき、ありがとうございます
+                                        </h3>
+                                        <p>
+                                            ご入力いただいたメールアドレスに、お問い合わせ完了メールをお送りいたしました。<br />
+                                            後ほど、（株）LogSuiteの担当者よりご連絡申し上げます。
+                                        </p>
+                                        <a class="btn btngoto" href="#"
+                                            >トップに戻る
+                                            <img
+                                                src="assets/images/svg/i_right_white.svg"
+                                                alt=""
+                                                class="img-fluid"
+                                                width="10"
+                                        /></a>
                                     </div>
                                 </div>
                             </div>
@@ -49,8 +49,8 @@
 export default {
     methods: {
         backHome() {
-            this.$router.push('/').catch(() => {})
+            this.$router.push("/").catch(() => {});
         },
     },
-}
+};
 </script>
