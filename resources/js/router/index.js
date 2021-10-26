@@ -205,7 +205,7 @@ const routes = [
         }
     },
     {
-        path: 'contact/thanks-fast-register/',
+        path: '/contact/thanks-fast-register/',
         name: 'ContactThanksGuest',
         component: () => import('../pages/ContactThanksGuest.vue'),
         meta: {
