@@ -276,9 +276,9 @@ export default {
             window.localStorage.removeItem('estate_id');
             if (window.localStorage.getItem('accessToken')) {
                 window.localStorage.removeItem('contactData');
-                $('#postToFormrun').attr('action', 'https://form.run/api/v1/r/v45minhhrx1tvk4jre6atoqj');
+                $('#postToFormrun').attr('action', 'https://form.run/api/v1/r/9ms3izrtap72ulo9ztochng5');
             } else {
-                $('#postToFormrun').attr('action', 'https://form.run/api/v1/r/vqau9rhc2as1hug47rbml3xi');
+                $('#postToFormrun').attr('action', 'https://form.run/api/v1/r/qthnyoi9k8q7h63zt1dqbi26');
             }
             $('#postToFormrun').submit();
         }
