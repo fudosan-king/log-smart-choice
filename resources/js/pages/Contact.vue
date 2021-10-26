@@ -120,23 +120,44 @@
                                                 <div class="col-12 col-lg-3 align-self-center">
                                                     <label for="">お名前<span class="red">（※）</span></label>
                                                 </div>
-                                                <div class="col-12 col-lg-9 align-self-center">
+                                                <div class="col-12 col-lg-4 align-self-center">
                                                     <input
                                                         type="text"
-                                                        name="full_name"
+                                                        name="name"
                                                         class="form-control"
-                                                        placeholder="例：山田 太郎"
+                                                        placeholder="例：山田"
                                                         :class="{
-                                                            'is-invalid': submitted && $v.full_name.$error
+                                                            'is-invalid': submitted && $v.name.$error
                                                         }"
-                                                        v-bind:value="full_name"
-                                                        v-on:input="full_name = $event.target.value"
+                                                        v-bind:value="name"
+                                                        v-on:input="name = $event.target.value"
                                                     />
                                                     <div
-                                                        v-if="submitted && $v.full_name.$error"
+                                                        v-if="submitted && $v.name.$error"
                                                         class="invalid-feedback"
                                                     >
-                                                        <span v-if="!$v.full_name.required"
+                                                        <span v-if="!$v.name.required"
+                                                            >名前を入力してください。</span
+                                                        >
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-lg-4 align-self-center">
+                                                    <input
+                                                        type="text"
+                                                        name="last_name"
+                                                        class="form-control"
+                                                        placeholder="例：太郎"
+                                                        :class="{
+                                                            'is-invalid': submitted && $v.last_name.$error
+                                                        }"
+                                                        v-bind:value="last_name"
+                                                        v-on:input="last_name = $event.target.value"
+                                                    />
+                                                    <div
+                                                        v-if="submitted && $v.last_name.$error"
+                                                        class="invalid-feedback"
+                                                    >
+                                                        <span v-if="!$v.last_name.required"
                                                             >名前を入力してください。</span
                                                         >
                                                     </div>
@@ -306,6 +327,8 @@
                 disabled: false,
                 email: '',
                 full_name: '',
+                name: '',
+                last_name: '',
                 land_line: '',
                 errorMessage: {},
                 contactData: {},
@@ -325,7 +348,10 @@
                 required,
                 email
             },
-            full_name: {
+            name: {
+                required
+            },
+            last_name: {
                 required
             },
             land_line: {
@@ -348,6 +374,8 @@
                     .dispatch('customerInfo')
                     .then(resp => {
                         this.customer = resp;
+                        this.name = resp.name;
+                        this.last_name = resp.last_name;
                         this.full_name = resp.name + ' ' + resp.last_name;
                         this.email = resp.email;
                         this.land_line = resp.land_line;
@@ -355,7 +383,8 @@
                         if (window.localStorage.getItem('contactData')) {
                             this.contactData = JSON.parse(window.localStorage.getItem('contactData'));
                             this.land_line = this.contactData.landLine;
-                            this.full_name = this.contactData.fullName;
+                            this.name = this.contactData.name;
+                            this.last_name = this.contactData.lastName;
                             this.email = this.contactData.email;
                             this.inquiryContent = this.contactData.inquiryContent;
                             // this.hopeDayFirst = this.contactData.hopeDayFirst;
@@ -371,7 +400,8 @@
                         if (window.localStorage.getItem('contactData')) {
                             this.contactData = JSON.parse(window.localStorage.getItem('contactData'));
                             this.land_line = this.contactData.landLine;
-                            this.full_name = this.contactData.fullName;
+                            this.name = this.contactData.name;
+                            this.last_name = this.contactData.lastName;
                             this.email = this.contactData.email;
                             this.inquiryContent = this.contactData.inquiryContent;
                             // this.hopeDayFirst = this.contactData.hopeDayFirst;
@@ -407,7 +437,8 @@
                 let data = {};
                 if (!this.$v.$invalid && this.submitted) {
                     data.email = this.email;
-                    data.fullName = this.full_name;
+                    data.name = this.name;
+                    data.lastName = this.last_name;
                     data.landLine = this.land_line;
                     data.inquiryContent = inquiryContent;
                     data.estateUrl = window.location.origin + '/detail/' + window.localStorage.getItem('estate_id');

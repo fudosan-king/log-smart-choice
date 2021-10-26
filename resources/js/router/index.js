@@ -204,6 +204,22 @@ const routes = [
             title: '会員登録申請完了｜Order Renove'
         }
     },
+    {
+        path: '/contact-thanks-guest',
+        name: 'ContactThanksGuest',
+        component: () => import('../pages/ContactThanksGuest.vue'),
+        meta: {
+            title: '物件問い合わせ完了｜Order Renove'
+        }
+    },
+    {
+        path: '/contact-thanks-customer',
+        name: 'ContactThanksCustomer',
+        component: () => import('../pages/ContactThanksCustomer.vue'),
+        meta: {
+            title: '物件問い合わせ完了｜Order Renove'
+        }
+    },
 ];
 
 const router = new VueRouter({
