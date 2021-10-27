@@ -81,14 +81,6 @@ const routes = [
         }
     },
     {
-        path: '/contact/thanks',
-        name: 'contactSuccess',
-        component: () => import('../pages/ContactSuccess.vue'),
-        meta: {
-            title: 'への 内見・お問い合わせ完了｜Order Renove'
-        }
-    },
-    {
         path: '/register',
         name: 'register',
         component: () => import('../pages/Register.vue'),
