@@ -224,8 +224,8 @@ class Estates extends Model
         $startDate = date('Y-m-d 00:00:00');
         $endDate = date('Y-m-d 23:59:59');
         try {
-            if (strtotime($startDate) <= $dateModifyFDK->toDateTime()->format('U') &&
-            $dateModifyFDK->toDateTime()->format('U') <= strtotime($endDate)) {
+            if (strtotime($startDate) <= (int)$dateModifyFDK->toDateTime()->format('U') &&
+            (int)$dateModifyFDK->toDateTime()->format('U') <= strtotime($endDate)) {
                 if (!$estate->exists) {
                     $estate->status = self::STATUS_STOP;
                     $estate->date_imported = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d H:i:s')) * 1000);
@@ -240,12 +240,17 @@ class Estates extends Model
                     if ($estateData && $estateData->trade_status == self::STATUS_STOP) {
                         $estate->status = self::STATUS_STOP;
                     }
-
                     $estate->save();
+
+                    $estateInfo = new EstateInformation();
+                    $estateInfo->estate_id = $estateDataId;
+                    $estateInfo->status = self::STATUS_STOP;
+                    $estateInfo->save();
+
                     $this->increaseDecreaseEstateInDistrict(json_decode(json_encode($estateData->address), true), false, $estateData->_id);
                     $this->increaseDecreaseEstateInStation($stations, false, $estateData->_id);
-                } elseif (strtotime($estate->date_last_modified) != $dateModifyFDK->toDateTime()->format('U')) {
-                    $estateInfo = EstateInformation::where('estate_id', $$estateData->_id)->first();
+                } elseif (strtotime($estate->date_last_modified) != (int)$dateModifyFDK->toDateTime()->format('U')) {
+                    $estateInfo = EstateInformation::where('estate_id', $estateDataId)->first();
                     $estate->status = $estateInfo->status;
                     $estate->is_send_announcement = self::NOT_SEND_ANNOUNCEMENT;
                     $estate->date_imported = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d H:i:s')) * 1000);
@@ -255,7 +260,6 @@ class Estates extends Model
                     foreach ($estateData as $key => $value) {
                         $estate->$key = $value;
                     }
-
                     $estate->save();
                     $this->increaseDecreaseEstateInDistrict(json_decode(json_encode($estateData->address), true), false, $estateData->_id);
                     $this->increaseDecreaseEstateInStation($stations, false, $estateData->_id);
