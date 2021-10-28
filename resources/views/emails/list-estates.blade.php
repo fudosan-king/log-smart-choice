@@ -5,7 +5,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>【株式会社プロスタイルからのお知らせ】</title>
-
     <style type="text/css">
         * {
             font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
@@ -68,6 +67,13 @@
             color: #333333;
         }
 
+        .logo {
+            text-align: center;
+            display: block;
+            width: 100%;
+        }
+
+
         .box_pro {
             padding: 15px;
         }
@@ -93,16 +99,77 @@
             font-weight: normal;
         }
 
-        @media (max-width: 768px) {
-            table {
-                width: 100% !important;
-            }
+        .btn_mainbrown {
+            border-radius: 100px;
+            background: #E0AF6C;
+            font-weight: 600;
+            font-size: 18px;
+            padding: 10px 15px;
+            min-width: 256px;
+            color: #fff !important;
+            display: inline-block;
+            margin-top: 15px;
         }
+
+        .btn_brown {
+            border-radius: 100px;
+            background: #E0AF6C;
+            font-weight: 600;
+            font-size: 18px;
+            padding: 8px 35px;
+            color: #fff !important;
+            display: inline-block;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 25px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            margin-top: 10px;
+            color: #333333 !important;
+            padding: 0 15px;
+        }
+
+        .btn_address {
+            text-decoration: none;
+            color: #333 !important;
+            cursor: inherit;
+        }
+
+        hr {
+            border: 1px solid #dbdbdb;
+            box-shadow: none;
+            margin: 0;
+            width: 100%;
+        }
+
+        .img_logo {
+            margin: auto;
+        }
+
+        sup {
+            font-size: 9px;
+        }
+
 
         @media only screen and (max-width:480px) {
             table {
                 width: 100%;
             }
+
+            .logo {
+                width: 100% !important;
+            }
+
+            .img_logo {
+                width: 200px;
+            }
+
+            .btn_brown {
+                min-width: 256px !important;
+            }
+
         }
 
         @media only screen and (max-width:540px) {
@@ -111,39 +178,42 @@
             }
         }
     </style>
-
 </head>
 
 <body paddingwidth="0" paddingheight="0" bgcolor="#fff" style="padding-top: 0; padding-bottom: 0; padding-top: 0; padding-bottom: 0; background-repeat: repeat; width: 100% !important; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; -webkit-font-smoothing: antialiased; font-family: Roboto,RobotoDraft,Helvetica,Arial, sans-serif;" offset="0" toppadding="0" leftpadding="0">
-    <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" class="tableContent" style="font-family:Georgia, times, sans-serif; font: 12px;" width="100%">
+    <table bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" class="tableContent" style="font-family:Georgia, times, sans-serif;" width="100%">
         <tbody>
             <tr>
                 <td>
-                    <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 660px; margin: auto; padding: 20px 15px; text-align: center;">
+                    <table bgcolor="#fff" cellpadding="0" cellspacing="0" width="100%" style="width: 660px; margin: auto; padding: 20px 0 0;">
                         <tr>
-                            <td>
-                                <a style="text-align: center; display: block; border-bottom: 1px solid #BDBDBD; padding-bottom: 15px;" target="_blank" href="{{Request::root()}}"><img style="margin: auto;" src="https://propolife.s3.ap-northeast-1.amazonaws.com/logo.png" alt="" width="350"></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <p style="text-align: right; color: rgb(130,130,130); margin: 15px 0px 0px;">{{ date('Y年m月d日') }}</p>
+                            <td style="text-align: center;">
+                                <h1 style="width: 100%; margin-bottom: 10px;">
+                                    <a target="_blank" href="{{Request::root()}}">
+                                        <img style="margin: auto;" src="https://propolife.s3.ap-northeast-1.amazonaws.com/logo.png" alt="" width="250">
+                                    </a>
+                                </h1>
                             </td>
                         </tr>
                     </table>
 
-                    <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 660px; margin: auto; margin-top: 20px;">
+                    <div style="width: 660px; margin: auto;">
+                        <p style="border-bottom: 1px solid #ccc;"></p>
+                        <p style="text-align: right !important; color: #828282; width: 100%; margin-top: 10px;">{{ date('Y年m月d日') }}</p>
+                    </div>
+
+                    <table bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 660px; margin: auto; margin-top: 20px;">
                         <tr>
                             <td style="text-align: center;">
-                                <h2 style="font-size: 18px; font-weight: 600; margin-bottom: 17px;">本日のオススメ物件</h2>
-                                <p style="color:rgb(51,51,51);margin:0px">ご希望の条件を選択して頂くと、お客様にぴったりの物件情報をメールでお届けします。</p>
+                                <h2 style="font-size: 18px; font-weight: 600; margin-bottom: 17px; ">本日のオススメ物件</h2>
+                                <p>ご希望の条件を選択して頂くと、お客様にぴったりの物件情報をメールでお届けします。</p>
                             </td>
                         </tr>
                     </table>
 
                     <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 660px; margin: 30px auto 20px;">
                         <tr>
-                            <td style="text-align: center; padding: 20px 20px; background: #F2F2F2;">
+                            <td style="text-align: center; padding: 20px; background: #F2F2F2;">
                                 <h2 style="font-size: 18px; font-weight: 600; margin-bottom: 20px;">{{ $customer['name'] }}様の希望条件</h2>
                                 <table border="0" cellpadding="0" cellspacing="0" width="100%" style="text-align: left; margin-bottom: 15px;">
                                     <tr>
@@ -185,12 +255,11 @@
                                         </td>
                                     </tr>
                                 </table>
-                                <a href="{{Request::root()}}/customer/announcement-condition" style="color:rgb(255,255,255);text-decoration-line:none;border-radius:100px;background:rgb(224,175,108);font-weight:600;font-size:18px;padding:10px 15px;min-width:256px;display:inline-block">希望条件の登録・変更</a>
+                                <a href="{{Request::root()}}/customer/announcement-condition" class="btn_mainbrown" style="color:#fff">希望条件の登録・変更</a>
                                 <p style="font-size: 12px; margin-top: 15px;">「<a href="{{Request::root()}}/customer/information"><span style="color: #E0AF6C;">マイページ</span></a>」にログイン後、「<a href="{{Request::root()}}/customer/announcement-condition"><span style="color: #E0AF6C;">メルマガ配信希望条件</span></a>」から希望条件をお選びください。</p>
                             </td>
                         </tr>
                     </table>
-
 
                     <table align="center" bgcolor="#fff" border="0" cellpadding="0" cellspacing="0" width="100%" style="width: 660px; margin: auto;">
                         @foreach ($data as $estate)
@@ -206,7 +275,7 @@
                                 <h3 style="font-size: 24px; margin-bottom: 15px; margin-top: 20px; color: #333333;">{{$estate['estate_information']['article_title']}}</h3>
                                 <p><a style="text-decoration: none; color: #333; cursor: inherit;" href="{{Request::root()}}/detail/{{$estate['_id']}}">{{ $estate['address']['pref'] }}{{ $estate['address']['city'] }}{{ $estate['address']['ooaza'] }}{{ $estate['address']['tyoume'] }}{{ $estate['address']['gaikutiban'] }}</a>{{'／'. $estate['transports'][0]['station_name'] .'駅' }}</p>
                                 <p>{{ $estate['room_count'] }}{{ $estate['room_kind'] }}/{{ $estate['tatemono_menseki'] }}m²/{{ $estate['price'] + $estate['renovation_cost'] }}万円</p>
-                                <a href="{{Request::root()}}/detail/{{$estate['_id']}}" style="border-radius: 100px; background: #E0AF6C; font-weight: 600; font-size: 18px; padding: 10px 15px; min-width: 256px; color: #fff; display: inline-block; margin-top: 15px;">物件詳細を見る</a>
+                                <a href="{{Request::root()}}/detail/{{$estate['_id']}}" class="btn_mainbrown" style="color:#fff">物件詳細を見る</a>
                             </td>
                         </tr>
 
@@ -264,7 +333,7 @@
                                         </td>
                                     </tr>
                                 </table>
-                                <a href="{{Request::root()}}/customer/announcement-condition" style="border-radius: 100px; background: #E0AF6C; font-weight: 600; font-size: 16px; padding: 8px 85px; color: #fff; display: inline-block;">希望条件の登録・変更</a>
+                                <a href="{{Request::root()}}/customer/announcement-condition" class="btn_brown">希望条件の登録・変更</a>
                                 <p style="font-size: 12px; margin-top: 15px;">「<a href="{{Request::root()}}/customer/information"><span style="color: #EB5757;">マイページ</span></a>」にログイン後、「<a href="{{Request::root()}}/customer/announcement-condition"><span style="color: #EB5757;">メルマガ配信希望条件</span></a>」から希望条件をお選びください。</p>
                             </td>
                         </tr>
@@ -277,7 +346,7 @@
 
                         <tr>
                             <td>
-                                <p style="text-align: center; margin-top: 10px; font-size: 10px;">メールの配信停止をご希望の方はこちら<br>
+                                <p style="text-align: center; margin-top: 10px; font-size: 10px;">
                                     ログイン後「メルマガ配信希望条件」から「メール通知設定」のチェックを外してください</p>
                             </td>
                         </tr>
