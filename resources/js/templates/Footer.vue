@@ -265,7 +265,6 @@ export default {
 
         resultSearch() {
             let newString = [];
-            let newDistrictList = [];
             let flagSearch = 'station';
 
             if ($('#pills-area-tab').hasClass('active')) {
@@ -278,27 +277,33 @@ export default {
                     newString[i] = $(this).val();
                 });
             }
+
+            let minTotalPrice = $('select[name="minTotalPrices"]').val();
+            let maxTotalPrice = $('select[name="maxTotalPrices"]').val();
+            let minSquare = $('select[name="minSquare"]').val();
+            let maxSquare = $('select[name="maxSquare"]').val();
+
             let data = {
-                city: newString,
+                keyWord: newString,
                 flagSearch: flagSearch,
                 price: {
-                    min: this.minTotalPrices,
-                    max: this.maxTotalPrices
+                    min: minTotalPrice,
+                    max: maxTotalPrice
                 },
                 square: {
-                    min: this.minSquare,
-                    max: this.maxSquare
+                    min: minSquare,
+                    max: maxSquare
                 }
             };
-            console.log(data);
-            // this.$router
-            //     .push({ name: 'list', params: { station: districtCode } })
-            //     .then(() => {
-            //         this.$router.go('0');
-            //     })
-            //     .catch(() => {
-            //         this.$router.go('0');
-            //     });
+            this.$setLocalStorage('flagSearch', flagSearch);
+            this.$router
+                .push({ name: 'list', query: {keyWord: data.keyWord, minPrice: data.price.min, maxPrice:data.price.max, minSquare:data.square.min, maxSquare:data.square.max } })
+                .then(() => {
+                    // this.$router.go('0');
+                })
+                .catch(() => {
+                    this.$router.go('0');
+                });
         }
     },
     computed: {

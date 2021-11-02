@@ -181,7 +181,7 @@
                                 <!--Price-->
                                 <h2 class="little_title">価格（万円）</h2>
                                 <div class="form-group box_form_group">
-                                    <select class="custom-select" v-model="minTotalPrices">
+                                    <select class="custom-select" v-model="minTotalPrices" name="minTotalPrices">
                                         <template v-for="price in totalPrices">
                                             <option
                                                 v-if="price != '上限なし'"
@@ -192,7 +192,7 @@
                                         </template>
                                     </select>
                                     <p class="mb-0">⁓</p>
-                                    <select class="custom-select" v-model="maxTotalPrices">
+                                    <select class="custom-select" v-model="maxTotalPrices" name="maxTotalPrices">
                                         <template v-for="price in totalPrices">
                                             <option
                                                 v-if="price != '下限なし'"
@@ -208,7 +208,7 @@
                                 <!--Square-->
                                 <h2 class="little_title">広さ（m<sup>2</sup>）</h2>
                                 <div class="form-group box_form_group">
-                                    <select class="custom-select" v-model="minSquare">
+                                    <select class="custom-select" v-model="minSquare" name="minSquare">
                                         <template v-for="square in squares">
                                             <option
                                                 v-if="square != '上限なし'"
@@ -219,7 +219,7 @@
                                         </template>
                                     </select>
                                     <p class="mb-0">⁓</p>
-                                    <select class="custom-select" v-model="maxSquare">
+                                    <select class="custom-select" v-model="maxSquare" name="maxSquare">
                                         <template v-for="square in squares">
                                             <option
                                                 v-if="square != '下限なし'"

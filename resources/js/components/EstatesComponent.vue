@@ -126,30 +126,42 @@
             // Gui yeu cau den server sau moi lan cuon xuong
             getListEstates(pageLoad) {
                 let accessToken = this.$getLocalStorage('accessToken');
-                let district = '';
-                let station = '';
-                let districtCode = '';
-                let companyCode = '';
-                if (typeof this.$route.params.searchCode !== 'undefined' && this.$route.params.searchCode.length > 0) {
-                    if (this.$route.params.searchCode.length >= 11) {
-                        districtCode = this.$route.params.searchCode;
-                    } else {
-                        companyCode = this.$route.params.searchCode;
-                    }
-                }
+                // let district = '';
+                // let station = '';
+                let flagSearch = this.$getLocalStorage('flagSearch') ? this.$getLocalStorage('flagSearch') : 'district';
+                // let districtCode = '';
+                // let companyCode = '';
+                let keyWord = this.$route.query.keyWord;
+                let minPrice = this.$route.query.minPrice;
+                let maxPrice = this.$route.query.maxPrice;
+                let minSquare = this.$route.query.minSquare;
+                let maxSquare = this.$route.query.maxSquare;
+                // if (typeof this.$route.params.searchCode !== 'undefined' && this.$route.params.searchCode.length > 0) {
+                //     if (this.$route.params.searchCode.length >= 11) {
+                //         districtCode = this.$route.params.searchCode;
+                //     } else {
+                //         companyCode = this.$route.params.searchCode;
+                //     }
+                // }
 
                 let data = {
                     limit: 4,
                     page: pageLoad,
-                    districtCode: districtCode,
-                    companyCode: companyCode
+                    // districtCode: districtCode,
+                    // companyCode: companyCode
+                    flag_search: flagSearch,
+                    key_word: keyWord,
+                    min_price: minPrice,
+                    max_price: maxPrice,
+                    min_square: minSquare,
+                    max_square: maxSquare
                 };
-                if (district.length != 0) {
-                    data.address = district;
-                }
-                if (station.length != 0) {
-                    data.station = station;
-                }
+                // if (district.length != 0) {
+                //     data.address = district;
+                // }
+                // if (station.length != 0) {
+                //     data.station = station;
+                // }
 
                 if (accessToken) {
                     data.email = this.$getLocalStorage('userSocialId');
