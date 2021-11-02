@@ -18,7 +18,7 @@ class DistrictController extends Controller
     public function list(Request $request)
     {
 
-        $district = District::select('id', 'code', 'name')
+        $district = District::select('id', 'code', 'name', 'count_estates')
             ->where('status', District::STATUS_ACTIVATE)
             ->where('count_estates', '>', District::INIT_CONTAIN_ESTATE)
             ->get();

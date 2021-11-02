@@ -175,7 +175,7 @@
                             this.$setCookie('accessToken3d', '', 1);
                             this.$removeAuthLocalStorage();
                             this.$removeLocalStorage('announcement_count');
-                            this.$router.push({ name: 'login' }).catch(() => {});
+                            // this.$router.push({ name: 'login' }).catch(() => {});
                         });
                 } else {
                     this.$store
@@ -193,7 +193,7 @@
                             this.$setCookie('accessToken3d', '', 1);
                             this.$removeAuthLocalStorage();
                             this.$removeLocalStorage('announcement_count');
-                            this.$router.push({ name: 'login' }).catch(() => {});
+                            // this.$router.push({ name: 'login' }).catch(() => {});
                         });
                 }
                 if (window.localStorage.getItem('district') && districtCode != '') {

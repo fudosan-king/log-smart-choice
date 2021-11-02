@@ -13,7 +13,9 @@ class AlterChildParentIntoTableStation extends Migration
      */
     public function up()
     {
-        
+        Schema::table('stations', function (Blueprint $table) {
+            $table->boolean('parent_flag')->default(true)->after('count_estates');
+        });
     }
 
     /**
@@ -23,6 +25,8 @@ class AlterChildParentIntoTableStation extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('stations', function (Blueprint $table) {
+            $table->dropColumn('parent_flag');
+        });
     }
 }

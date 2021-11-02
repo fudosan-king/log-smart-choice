@@ -48,6 +48,7 @@ class ImportManagementSystemController extends VoyagerBaseController
         $colStationName = 6;
         $colNumberChange = 7;
         $colValueChange = 8;
+        $colStatusParent = 11;
 
         $validateGroup = array(
             $colTranCompanyFullName = 3,
@@ -106,10 +107,11 @@ class ImportManagementSystemController extends VoyagerBaseController
                             'old_name' => trim($data[$colStationOldName]),
                             'name' => trim($data[$colStationName]),
                             'number_change' => intval($data[$colNumberChange]),
-                            'value_change' => intval($data[$colValueChange])
+                            'value_change' => intval($data[$colValueChange]),
+                            'parent_flag' => intval($data[$colStatusParent])
                         );
                     }
-                    
+
                     $this->_importStationData($dataImport);
                     $row++;
                 }
