@@ -267,6 +267,7 @@ class RegisterController extends Controller
             'link'     => $link,
             'customer' => $customer,
         ];
+        $data['password_default'] = '';
         if ($fastRegister) {
             $data['password_default'] = Customer::PASSWORD_DEFAULT;
         }
