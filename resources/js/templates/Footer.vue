@@ -115,8 +115,15 @@
         </div>
         <div
             class="footer_bottom fixed-bottom align-center"
-            v-if="routeName == 'home' || routeName == 'list' || routeName == 'listByCode'"
+            v-if="routeName == 'home' || routeName == 'listByCode'"
         >
+            <a class="btn" href="javascript:void(0)" v-on:click="floatButtonEvent">希望条件を入力</a>
+        </div>
+        <div
+            class="footer_bottom fixed-bottom align-center"
+            v-if="routeName == 'list'"
+        >
+            <a class="btn" href="javascript:void(0)"><img src="images/svg/i_mail.svg" alt="" class="img-fluid" width="18">メルマガ骨盟 </a>
             <a class="btn" href="javascript:void(0)" v-on:click="floatButtonEvent">希望条件を入力</a>
         </div>
         <div class="footer_bottom fixed-bottom" v-if="routeName == 'EstateSearch'">
@@ -299,7 +306,8 @@ export default {
             this.$router
                 .push({ name: 'list', query: {keyWord: data.keyWord, minPrice: data.price.min, maxPrice:data.price.max, minSquare:data.square.min, maxSquare:data.square.max } })
                 .then(() => {
-                    // this.$router.go('0');
+                    this.$removeLocalStorage('tabActive');
+                    this.$router.go('0');
                 })
                 .catch(() => {
                     this.$router.go('0');

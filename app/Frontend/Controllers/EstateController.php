@@ -16,7 +16,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use App\Helpers\Helper;
-use Illuminate\Support\Facades\DB;
 
 class EstateController extends Controller
 {
@@ -44,17 +43,17 @@ class EstateController extends Controller
     public function search(Request $request)
     {
         // $address = $request->get('address') ?? '';
-        $minPrice = $request->get('min_price') ?? '';
-        $maxPrice = $request->get('max_price') ?? '';
-        $minSquare = $request->get('min_square') ?? '';
-        $maxSquare = $request->get('max_square') ?? '';
+        $minPrice = $request->get('min_price') ?? Customer::CONDITION_MIN;
+        $maxPrice = $request->get('max_price') ?? Customer::CONDITION_MAX;
+        $minSquare = $request->get('min_square') ?? Customer::CONDITION_MIN;
+        $maxSquare = $request->get('max_square') ?? Customer::CONDITION_MAX;
         // $roomTypeFrom = $request->get('room_type_from') ?? '';
         // $roomTypeTo = $request->get('room_type_to') ?? '';
         $email = $request->get('email') ?? '';
         $isSocial = $request->get('isSocial') ?? '';
         // $districtCode = $request->get('districtCode') ?? '';
         // $companyCode = $request->get('companyCode') ?? '';
-        $flagSearch = $request->get('flagSearch') ?? '';
+        $flagSearch = $request->get('flag_search') ?? '';
         $keyWord = $request->get('key_word') ?? '';
 
         $limit = $request->get('limit', 4);
@@ -72,9 +71,25 @@ class EstateController extends Controller
         $estates->where('status', Estates::STATUS_SALE);
 
         if ($flagSearch == 'station') {
+            if (!$keyWord) {
+                $keyWord = [];
+                $stations = Station::select('name')->groupBy('name')->get()->toArray();
+                foreach ($stations as $value) {
+                    $keyWord[] = $value['name'];
+                }
+            }
             $estates->whereIn('transports.station_name', is_array($keyWord) ? $keyWord : [$keyWord]);
+            $flagSearch = 'station';
         } else {
+            if (!$keyWord) {
+                $keyWord = [];
+                $districts = District::select('name')->where('status', District::STATUS_ACTIVATE)->get()->toArray();
+                foreach ($districts as $value) {
+                    $keyWord[] = $value['name'];
+                }
+            }
             $estates->whereIn('address.city', is_array($keyWord) ? $keyWord : [$keyWord]);
+            $flagSearch = 'district';
         }
 
         // if ($districtCode) {
@@ -92,10 +107,14 @@ class EstateController extends Controller
         // }
 
         // price
-        $estates = Helper::instance()->conditionMinMaxVariable($estates, $minPrice, $maxPrice, Customer::CONDITION_MIN, Customer::CONDITION_MAX, 'price');
+        if ($minPrice || $maxPrice) {
+            $estates = Helper::instance()->conditionMinMaxVariable($estates, $minPrice, $maxPrice, Customer::CONDITION_MIN, Customer::CONDITION_MAX, 'price');
+        }
 
         // square
-        $estates = Helper::instance()->conditionMinMaxVariable($estates, $minSquare, $maxSquare, Customer::CONDITION_MIN, Customer::CONDITION_MAX, 'tatemono_menseki');
+        if ($minSquare || $maxSquare) {
+            $estates = Helper::instance()->conditionMinMaxVariable($estates, $minSquare, $maxSquare, Customer::CONDITION_MIN, Customer::CONDITION_MAX, 'tatemono_menseki');
+        }
 
         // station name
         // if ($companyCode) {
@@ -141,9 +160,24 @@ class EstateController extends Controller
         }
         $estates->orderBy('date_created', 'desc');
         $lists = $estates->paginate($limit, $page)->toArray();
+
+        $keyWord = is_array($keyWord) ? implode(', ' ,$keyWord) : $keyWord;
+        $lists['condition_search'] = [
+            'key_word' => $keyWord,
+            'price' => [
+                'min' => $minPrice,
+                'max' => $maxPrice
+            ],
+            'square' => [
+                'min' => $minSquare,
+                'max' => $maxSquare
+            ],
+            'flag_search' => $flagSearch
+        ];
         if ($lists['data']) {
             $lists['data'] = $this->getEstateInformation($lists['data'], $wishList);
             $lists['lasted_estate'] = $lists['data'][0];
+            
             return response()->json($lists, 200);
         }
 

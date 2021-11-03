@@ -1,10 +1,7 @@
 <template>
     <main>
         <div class="box_template">
-            <section class="section_near_property bg-white">
-                <EstatesComponent></EstatesComponent>
-                
-            </section>
+            <EstatesComponent></EstatesComponent>
         </div>
     </main>
 </template>

@@ -1,15 +1,29 @@
 <template>
-    <div>
+    <section class="section_near_property custom pt-0 bg-white">
         <div class="box_top">
             <div class="container">
-                <h2 class="title mb-2">{{ titleSearch }}</h2>
-                <!-- <p class="subtitle mb-4">リノベーション・中古マンション物件一覧</p> -->
+                <h2 class="title mb-2">検索結果</h2>
+                <div class="info_topsearch">
+                    <template v-if="conditionSearch">
+                        <p class="searchby_area_label"><b> {{ conditionSearch.flag_search == 'district' ? 'エリアから探す：' : '沿線・駅から探す：' }}</b>{{ conditionSearch.key_word }}</p>
+                        <template v-if="conditionSearch.price">
+                            <p class="mb-1"><b>価格：</b>{{ conditionSearch.price.min }}～{{ conditionSearch.price.max }}</p>
+                        </template>
+                        <template v-if="conditionSearch.square">
+                            <p><b>広さ：</b>{{ conditionSearch.square.min }}～{{ conditionSearch.square.max }}</p>
+                        </template>
+                    </template>
+                </div>
+                <ul class="box_sort">
+                    <li><a class="border-0 pl-0 search_number" href="#">検索結果 <span><b>{{ total }}</b></span> 件</a></li>
+                    <li><a href="/search"><img src="images/svg/i_sort.svg" alt="" class="img-fluid" width="15"> 条件を変更する</a></li>
+                </ul>
             </div>
         </div>
         <div class="container">
             <div class="row">
                 <div class="col-12 col-lg-12">
-                    <ul v-if="estates.length" class="list_property" v-on:scroll="handleScroll">
+                    <ul v-if="estates" class="list_property" v-on:scroll="handleScroll">
                         <li
                             v-for="(estate, index) in estates"
                             :key="index._id"
@@ -72,13 +86,13 @@
                             </div>
                         </li>
                     </ul>
-                    <div class="loading" v-if="hasMore" style="text-align: center;">
+                    <!-- <div class="loading" v-if="hasMore" style="text-align: center;">
                         <img v-lazy="`/images/loading.gif`" width="300" />
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 </template>
 
 <script>
@@ -101,9 +115,9 @@
                 heigthOfList: 0,
                 hasMore: true,
                 accessToken: false,
-                lastEstate: [],
-                titleSearch: '全ての物件一覧',
-                hasMore: true
+                hasMore: true,
+                conditionSearch: {},
+                total: 0
             };
         },
         components: {
@@ -150,11 +164,6 @@
                     // districtCode: districtCode,
                     // companyCode: companyCode
                     flag_search: flagSearch,
-                    key_word: keyWord,
-                    min_price: minPrice,
-                    max_price: maxPrice,
-                    min_square: minSquare,
-                    max_square: maxSquare
                 };
                 // if (district.length != 0) {
                 //     data.address = district;
@@ -162,6 +171,22 @@
                 // if (station.length != 0) {
                 //     data.station = station;
                 // }
+
+                if (keyWord) {
+                    data.key_word = keyWord;
+                }
+                if (minPrice) {
+                    data.min_price = minPrice;
+                }
+                if (maxPrice) {
+                    data.max_price = maxPrice;
+                }
+                if (minSquare) {
+                    data.min_square = minSquare;
+                }
+                if (maxSquare) {
+                    data.max_square = maxSquare;
+                }
 
                 if (accessToken) {
                     data.email = this.$getLocalStorage('userSocialId');
@@ -176,12 +201,14 @@
                         .dispatch('getEstateList', data)
                         .then(res => {
                             this.estates = this.estates.concat(res[0]['data']);
-                            this.lastEstate = res[0]['lastedEstate'];
-                            if (this.estates.length < res[0].total) {
-                                this.hasMore = true;
-                            } else {
-                                this.hasMore = false;
-                            }
+                            this.conditionSearch = res[0]['conditionSearch'];
+                            this.total = res[0]['total'];
+                            // this.lastEstate = res[0]['lastedEstate'];
+                            // if (this.estates.length < res[0].total) {
+                            //     this.hasMore = true;
+                            // } else {
+                            //     this.hasMore = false;
+                            // }
                         })
                         .catch(err => {
                             this.$setCookie('accessToken3d', '', 1);
@@ -194,12 +221,21 @@
                         .dispatch('getEstateList', data)
                         .then(res => {
                             this.estates = this.estates.concat(res[0]['data']);
-                            this.lastEstate = res[0]['lastedEstate'];
-                            if (this.estates.length < res[0].total) {
-                                this.hasMore = true;
-                            } else {
-                                this.hasMore = false;
-                            }
+                            this.conditionSearch = res[0]['conditionSearch'];
+                            this.total = res[0]['total'];
+                            // this.lastEstate = res[0]['lastedEstate'];
+                            // if (this.estates.length < res[0].total) {
+                            //     this.hasMore = true;
+                            // } else {
+                            //     this.hasMore = false;
+                            // }
+
+                            // console.log(res);
+                            // if (this.estates.length < res[0].total) {
+                            //     this.hasMore = true;
+                            // } else {
+                            //     this.hasMore = false;
+                            // }
                         })
                         .catch(err => {
                             this.$setCookie('accessToken3d', '', 1);
@@ -208,15 +244,15 @@
                             // this.$router.push({ name: 'login' }).catch(() => {});
                         });
                 }
-                if (window.localStorage.getItem('district') && districtCode != '') {
-                    this.titleSearch = this.$getLocalStorage('district') + 'の物件';
-                    window.localStorage.setItem('searchCode', this.titleSearch);
-                }
+                // if (window.localStorage.getItem('district') && districtCode != '') {
+                //     this.titleSearch = this.$getLocalStorage('district') + 'の物件';
+                //     window.localStorage.setItem('searchCode', this.titleSearch);
+                // }
 
-                if (window.localStorage.getItem('station') && companyCode != '') {
-                    this.titleSearch = this.$getLocalStorage('station') + 'の物件';
-                    window.localStorage.setItem('searchCode', this.titleSearch);
-                }
+                // if (window.localStorage.getItem('station') && companyCode != '') {
+                //     this.titleSearch = this.$getLocalStorage('station') + 'の物件';
+                //     window.localStorage.setItem('searchCode', this.titleSearch);
+                // }
                 // this.loading = false;
             },
             // Khi them danh sach phia duoi thi tinh toan lai do cao
