@@ -284,3 +284,7 @@ small h3 {
 	    margin-bottom: 5px;
 	}
 }
+
+ul li .search-district,ul li .search-station {
+    cursor: pointer;
+}
