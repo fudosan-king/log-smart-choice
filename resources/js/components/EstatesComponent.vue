@@ -86,9 +86,9 @@
                             </div>
                         </li>
                     </ul>
-                    <!-- <div class="loading" v-if="hasMore" style="text-align: center;">
+                    <div class="loading" v-if="hasMore" style="text-align: center;">
                         <img v-lazy="`/images/loading.gif`" width="300" />
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </div>
