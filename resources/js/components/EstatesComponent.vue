@@ -115,7 +115,6 @@
                 heigthOfList: 0,
                 hasMore: true,
                 accessToken: false,
-                hasMore: true,
                 conditionSearch: {},
                 total: 0
             };
@@ -204,17 +203,16 @@
                             this.conditionSearch = res[0]['conditionSearch'];
                             this.total = res[0]['total'];
                             // this.lastEstate = res[0]['lastedEstate'];
-                            // if (this.estates.length < res[0].total) {
-                            //     this.hasMore = true;
-                            // } else {
-                            //     this.hasMore = false;
-                            // }
+                            if (this.estates.length < res[0].total) {
+                                this.hasMore = true;
+                            } else {
+                                this.hasMore = false;
+                            }
                         })
                         .catch(err => {
                             this.$setCookie('accessToken3d', '', 1);
                             this.$removeAuthLocalStorage();
                             this.$removeLocalStorage('announcement_count');
-                            // this.$router.push({ name: 'login' }).catch(() => {});
                         });
                 } else {
                     this.$store
@@ -224,24 +222,16 @@
                             this.conditionSearch = res[0]['conditionSearch'];
                             this.total = res[0]['total'];
                             // this.lastEstate = res[0]['lastedEstate'];
-                            // if (this.estates.length < res[0].total) {
-                            //     this.hasMore = true;
-                            // } else {
-                            //     this.hasMore = false;
-                            // }
-
-                            // console.log(res);
-                            // if (this.estates.length < res[0].total) {
-                            //     this.hasMore = true;
-                            // } else {
-                            //     this.hasMore = false;
-                            // }
+                            if (this.estates.length < res[0].total) {
+                                this.hasMore = true;
+                            } else {
+                                this.hasMore = false;
+                            }
                         })
                         .catch(err => {
                             this.$setCookie('accessToken3d', '', 1);
                             this.$removeAuthLocalStorage();
                             this.$removeLocalStorage('announcement_count');
-                            // this.$router.push({ name: 'login' }).catch(() => {});
                         });
                 }
                 // if (window.localStorage.getItem('district') && districtCode != '') {
