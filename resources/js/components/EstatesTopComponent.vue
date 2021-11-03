@@ -1,5 +1,5 @@
 <template>
-    <ul class="list_property" v-if="estates.length">
+    <ul class="list_property" v-if="estates">
         <li v-for="(estate, index) in estates" :key="index._id">
             <div class="property_img">
                 <a v-bind:href="'/detail/' + estate._id">

@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use App\Helpers\Helper;
 
 class EstateController extends Controller
 {
@@ -41,91 +42,104 @@ class EstateController extends Controller
      */
     public function search(Request $request)
     {
-        $address = $request->get('address') ?? '';
-        $priceFrom = $request->get('price_from') ?? '';
-        $priceTo = $request->get('price_to') ?? '';
-        $metreSquare = $request->get('metre_square') ?? '';
-        $roomTypeFrom = $request->get('room_type_from') ?? '';
-        $roomTypeTo = $request->get('room_type_to') ?? '';
+        // $address = $request->get('address') ?? '';
+        $minPrice = $request->get('min_price') ?? Customer::CONDITION_MIN;
+        $maxPrice = $request->get('max_price') ?? Customer::CONDITION_MAX;
+        $minSquare = $request->get('min_square') ?? Customer::CONDITION_MIN;
+        $maxSquare = $request->get('max_square') ?? Customer::CONDITION_MAX;
+        // $roomTypeFrom = $request->get('room_type_from') ?? '';
+        // $roomTypeTo = $request->get('room_type_to') ?? '';
         $email = $request->get('email') ?? '';
         $isSocial = $request->get('isSocial') ?? '';
-        $districtCode = $request->get('districtCode') ?? '';
-        $companyCode = $request->get('companyCode') ?? '';
+        // $districtCode = $request->get('districtCode') ?? '';
+        // $companyCode = $request->get('companyCode') ?? '';
+        $flagSearch = $request->get('flag_search') ?? '';
+        $keyWord = $request->get('key_word') ?? '';
 
         $limit = $request->get('limit', 4);
         $page = $request->get('page', 1);
-        $validator = Validator::make($request->all(), [
-            'keyword'      => 'max:100',
-            'metre_square' => 'numeric',
-            'price_from'   => 'numeric',
-            'price_to'     => 'numeric',
-            'totalPrice'   => 'numeric',
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'keyword'      => 'max:1000',
+        // ]);
         
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
-        }
+        // if ($validator->fails()) {
+        //     return response()->json($validator->errors(), 422);
+        // }
 
         $estates = Estates::select($this->selectField);
 
         $estates->where('status', Estates::STATUS_SALE);
 
-
-        if ($districtCode) {
-            $districtModel = District::select('name')
-                ->where('code', '=', $districtCode)
-                ->get()->first();
-            if ($districtModel) {
-                $address = $districtModel->name;
+        if ($flagSearch == 'station') {
+            if (!$keyWord) {
+                $keyWord = [];
+                $stations = Station::select('name')->groupBy('name')->get()->toArray();
+                foreach ($stations as $value) {
+                    $keyWord[] = $value['name'];
+                }
             }
-         }
+            $estates->whereIn('transports.station_name', is_array($keyWord) ? $keyWord : [$keyWord]);
+            $flagSearch = 'station';
+        } else {
+            if (!$keyWord) {
+                $keyWord = [];
+                $districts = District::select('name')->where('status', District::STATUS_ACTIVATE)->get()->toArray();
+                foreach ($districts as $value) {
+                    $keyWord[] = $value['name'];
+                }
+            }
+            $estates->whereIn('address.city', is_array($keyWord) ? $keyWord : [$keyWord]);
+            $flagSearch = 'district';
+        }
+
+        // if ($districtCode) {
+        //     $districtModel = District::select('name')
+        //         ->where('code', '=', $districtCode)
+        //         ->get()->first();
+        //     if ($districtModel) {
+        //         $address = $districtModel->name;
+        //     }
+        //  }
 
         // address
-        if ($address) {
-            $estates->where('address.city', "like", "%" . $address . "%");
+        // if ($address) {
+        //     $estates->where('address.city', "like", "%" . $address . "%");
+        // }
+
+        // price
+        if ($minPrice || $maxPrice) {
+            $estates = Helper::instance()->conditionMinMaxVariable($estates, $minPrice, $maxPrice, Customer::CONDITION_MIN, Customer::CONDITION_MAX, 'price');
         }
 
-        // total price
-        if ($priceFrom) {
-            $estates->where('price', '>=', $priceFrom);
-        }
-
-        if ($priceTo) {
-            $estates->where('price', '<=', $priceTo);
-        }
-
-        // area
-        if ($metreSquare) {
-            $getMetreSquare = $this->_getConditionMetreSquare($metreSquare);
-            $estates->where('tatemono_menseki', '>=', (int)$getMetreSquare[0]);
-            $estates->where('tatemono_menseki', '<=', (int)$getMetreSquare[1]);
+        // square
+        if ($minSquare || $maxSquare) {
+            $estates = Helper::instance()->conditionMinMaxVariable($estates, $minSquare, $maxSquare, Customer::CONDITION_MIN, Customer::CONDITION_MAX, 'tatemono_menseki');
         }
 
         // station name
-        
-        if ($companyCode) {
-            $stationModel = Station::select(['name', 'tran_company_short_name'])
-                ->where('tran_company_code', '=', $companyCode)
-                ->get()->first();
-            if ($stationModel) {
-                $estates->where('transports.transport_company', $stationModel->tran_company_short_name);
-            }
-        }
+        // if ($companyCode) {
+        //     $stationModel = Station::select(['name', 'tran_company_short_name'])
+        //         ->where('tran_company_code', '=', $companyCode)
+        //         ->get()->first();
+        //     if ($stationModel) {
+        //         $estates->where('transports.transport_company', $stationModel->tran_company_short_name);
+        //     }
+        // }
 
         // room kind & room count
-        $roomTypeFrom = $this->_getRoomType($roomTypeFrom);
-        $roomTypeTo = $this->_getRoomType($roomTypeTo);
-        $roomKind = [];
+        // $roomTypeFrom = $this->_getRoomType($roomTypeFrom);
+        // $roomTypeTo = $this->_getRoomType($roomTypeTo);
+        // $roomKind = [];
 
-        if ($roomTypeTo) {
-            array_push($roomKind, $roomTypeTo[0]);
-        }
+        // if ($roomTypeTo) {
+        //     array_push($roomKind, $roomTypeTo[0]);
+        // }
 
-        if ($roomTypeFrom) {
-            array_push($roomKind, $roomTypeFrom[0]);
-            $estates->whereIn('room_count', $roomKind);
-            $estates->whereIn('room_kind', [$roomTypeFrom[1], $roomTypeFrom[2]]);
-        }
+        // if ($roomTypeFrom) {
+        //     array_push($roomKind, $roomTypeFrom[0]);
+        //     $estates->whereIn('room_count', $roomKind);
+        //     $estates->whereIn('room_kind', [$roomTypeFrom[1], $roomTypeFrom[2]]);
+        // }
 
         $customer = Customer::where('email', $email)->first();
         if ($isSocial) {
@@ -147,9 +161,23 @@ class EstateController extends Controller
         $estates->orderBy('date_created', 'desc');
         $lists = $estates->paginate($limit, $page)->toArray();
 
+        $keyWord = is_array($keyWord) ? implode(', ' ,$keyWord) : $keyWord;
+        $lists['condition_search'] = [
+            'key_word' => $keyWord,
+            'price' => [
+                'min' => $minPrice,
+                'max' => $maxPrice
+            ],
+            'square' => [
+                'min' => $minSquare,
+                'max' => $maxSquare
+            ],
+            'flag_search' => $flagSearch
+        ];
         if ($lists['data']) {
             $lists['data'] = $this->getEstateInformation($lists['data'], $wishList);
             $lists['lasted_estate'] = $lists['data'][0];
+            
             return response()->json($lists, 200);
         }
 

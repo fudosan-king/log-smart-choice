@@ -16,9 +16,7 @@
                         <ul class="d-none d-lg-flex">
                             <li><a target="_blank" href="https://form.run/@order-renove">お問い合わせ</a></li>
                             <li>
-                                <a target="_blank" href="https://www.logsuite.co.jp/policy/"
-                                    >プライバシーポリシー</a
-                                >
+                                <a target="_blank" href="https://www.logsuite.co.jp/policy/">プライバシーポリシー</a>
                             </li>
                             <li>
                                 <a target="_blank" href="https://www.logsuite.co.jp/socialmedia-policy/"
@@ -115,9 +113,22 @@
                 ><img src="/assets/images/svg/i_call.svg" alt="" class="img-fluid" width="18" />03-6897-8564</a
             >
         </div>
-        <div class="footer_bottom fixed-bottom align-center" v-if="routeName == 'home' || routeName == 'list' || routeName == 'listByCode'">
-            <a class="btn" href="javascript:void(0)" v-on:click="floatButtonEvent"
-                >希望条件を入力</a
+        <div
+            class="footer_bottom fixed-bottom align-center"
+            v-if="routeName == 'home' || routeName == 'listByCode'"
+        >
+            <a class="btn" href="javascript:void(0)" v-on:click="floatButtonEvent">希望条件を入力</a>
+        </div>
+        <div
+            class="footer_bottom fixed-bottom align-center"
+            v-if="routeName == 'list'"
+        >
+            <a class="btn" href="javascript:void(0)"><img src="images/svg/i_mail.svg" alt="" class="img-fluid" width="18">メルマガ骨盟 </a>
+            <a class="btn" href="javascript:void(0)" v-on:click="floatButtonEvent">希望条件を入力</a>
+        </div>
+        <div class="footer_bottom fixed-bottom" v-if="routeName == 'EstateSearch'">
+            <a class="btn btn_conditions btn_search_conditions" href="javascript:void(0)" v-on:click="resultSearch"
+                ><img src="images/svg/i_search.svg" alt="" class="img-fluid" width="18" />検索</a
             >
         </div>
         <!-- <div
@@ -253,14 +264,58 @@ export default {
         floatButtonEvent() {
             let accessToken = this.$getLocalStorage('accessToken');
             if (accessToken) {
-                this.$router.push({ name: 'announcementCondition'}).catch();
+                this.$router.push({ name: 'announcementCondition' }).catch();
             } else {
                 this.$router.push({ name: 'fastRegister' }).catch();
             }
+        },
+
+        resultSearch() {
+            let newString = [];
+            let flagSearch = 'station';
+
+            if ($('#pills-area-tab').hasClass('active')) {
+                $('input[name="inputDistrict[]"]:checked').each(function(i) {
+                    newString[i] = $(this).val();
+                });
+                flagSearch = 'district';
+            } else {
+                $('input[name="inputStation[]"]:checked').each(function(i) {
+                    newString[i] = $(this).val();
+                });
+            }
+
+            let minTotalPrice = $('select[name="minTotalPrices"]').val();
+            let maxTotalPrice = $('select[name="maxTotalPrices"]').val();
+            let minSquare = $('select[name="minSquare"]').val();
+            let maxSquare = $('select[name="maxSquare"]').val();
+
+            let data = {
+                keyWord: newString,
+                flagSearch: flagSearch,
+                price: {
+                    min: minTotalPrice,
+                    max: maxTotalPrice
+                },
+                square: {
+                    min: minSquare,
+                    max: maxSquare
+                }
+            };
+            this.$setLocalStorage('flagSearch', flagSearch);
+            this.$router
+                .push({ name: 'list', query: {keyWord: data.keyWord, minPrice: data.price.min, maxPrice:data.price.max, minSquare:data.square.min, maxSquare:data.square.max } })
+                .then(() => {
+                    this.$removeLocalStorage('tabActive');
+                    this.$router.go('0');
+                })
+                .catch(() => {
+                    this.$router.go('0');
+                });
         }
     },
     computed: {
-        routeName () {
+        routeName() {
             return this.$route.name;
         }
     }
