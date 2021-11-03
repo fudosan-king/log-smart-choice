@@ -115,16 +115,10 @@
         </div>
         <div
             class="footer_bottom fixed-bottom align-center"
-            v-if="routeName == 'home' || routeName == 'listByCode'"
+            v-if="routeName == 'home' || routeName == 'listByCode' || routeName == 'list'"
         >
-            <a class="btn" href="javascript:void(0)" v-on:click="floatButtonEvent">希望条件を入力</a>
-        </div>
-        <div
-            class="footer_bottom fixed-bottom align-center"
-            v-if="routeName == 'list'"
-        >
-            <a class="btn" href="javascript:void(0)"><img src="images/svg/i_mail.svg" alt="" class="img-fluid" width="18">メルマガ骨盟 </a>
-            <a class="btn" href="javascript:void(0)" v-on:click="floatButtonEvent">希望条件を入力</a>
+            <a class="btn" href="/fast-register"><img src="images/svg/i_mail.svg" alt="" class="img-fluid" width="18">メルマガ骨盟 </a>
+            <a class="btn" href="/search" >検索条件を入力</a>
         </div>
         <div class="footer_bottom fixed-bottom" v-if="routeName == 'EstateSearch'">
             <a class="btn btn_conditions btn_search_conditions" href="javascript:void(0)" v-on:click="resultSearch"
