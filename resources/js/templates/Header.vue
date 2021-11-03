@@ -72,7 +72,7 @@
                 </div>
 
                 <div class="dropdown dropdown_search">
-                    <a id="dropdown_search" href="#" v-on:click="dropSearch">
+                    <a id="dropdown_search" href="/search">
                         <img
                             src="/assets/images/svg/i_search.svg"
                             alt=""
@@ -355,16 +355,16 @@
                     });
             },
 
-            dropSearch(event) {
-                event.preventDefault();
-                $('.dropdown_search_content').slideToggle('fast');
-                $('.dropdown_user_content').hide();
-            },
+            // dropSearch(event) {
+            //     event.preventDefault();
+            //     $('.dropdown_search_content').slideToggle('fast');
+            //     $('.dropdown_user_content').hide();
+            // },
 
-            closeSearch() {
-                $('.dropdown_user_content').hide();
-                $('.dropdown_search_content').hide();
-            },
+            // closeSearch() {
+            //     $('.dropdown_user_content').hide();
+            //     $('.dropdown_search_content').hide();
+            // },
 
             // dropSearchByType(type = 'area') {
             //     $('.dropdown_search_content').slideToggle('fast');
