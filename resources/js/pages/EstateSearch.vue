@@ -103,6 +103,7 @@
                                                                         class="custom-control-input"
                                                                         :id="'ck0' + index + indexStation"
                                                                         :value="'ck0' + index + indexStation"
+                                                                        :checked="stationParentBefore ? stationParentBefore.includes('ck0' + index + indexStation) : ''"
                                                                     />
                                                                     <label
                                                                         class="custom-control-label"
@@ -150,6 +151,7 @@
                                                                                     :value="child.name"
                                                                                     name="inputStation[]"
                                                                                     v-on:click="checkChange"
+                                                                                    :checked="conditionSearchBefore.keyWord ? conditionSearchBefore.keyWord.includes(child.name) : ''"
                                                                                 />
                                                                                 <label
                                                                                     class="custom-control-label"
@@ -244,6 +246,8 @@
 export default {
     data() {
         let activeSearchTab = this.$getLocalStorage('tabActive') ? this.$getLocalStorage('tabActive') : 'area';
+        let conditionSearch = this.$getLocalStorage('conditionSearch') ? JSON.parse(this.$getLocalStorage('conditionSearch')) : [];
+        let idParent = this.$getLocalStorage('idParent') ? JSON.parse(this.$getLocalStorage('idParent')) : [];
         return {
             districtList: {},
             stationParents: {},
@@ -254,7 +258,9 @@ export default {
             minTotalPrices: '下限なし',
             maxTotalPrices: '上限なし',
             minSquare: '下限なし',
-            maxSquare: '上限なし'
+            maxSquare: '上限なし',
+            conditionSearchBefore: conditionSearch,
+            stationParentBefore: idParent
         };
     },
     updated() {
@@ -321,18 +327,19 @@ export default {
             }
         },
 
-        // checkChange(event) {
-        //     let child = event.target.id;
-        //     let positionAllChild = $('#'+child).parentsUntil('.childStation');
-        //     let childStation = $(positionAllChild[3]).attr('class').split(' ')[1];
-        //     var totalCheckbox = $('.'+childStation+' input:checkbox').length;
-        //     var totalChecked = $('.'+childStation+' [name="inputStation[]"]:checked').length;
-        //     if (totalCheckbox == totalChecked) {
-        //         $('input[name="inputStation[]"]').parent('.ck_all input').checked = true;
-        //     } else {
-        //         $('input[name="inputStation[]"]').parent('.ck_all input').checked = false;
-        //     }
-        // }
+        checkChange(event) {
+            let child = event.target.id;
+            let positionAllChild = $('#'+child).parentsUntil('.childStation');
+            let childStation = $(positionAllChild[3]).attr('class').split(' ')[1];
+            var totalCheckbox = $('.'+childStation+' input:checkbox').length;
+            var totalChecked = $('.'+childStation+' [name="inputStation[]"]:checked').length;
+            let eleParent = $('#'+childStation);
+            if (totalCheckbox == totalChecked) {
+                eleParent.prop("checked", true);
+            } else {
+                eleParent.prop("checked", false);
+            }
+        }
     }
 };
 </script>

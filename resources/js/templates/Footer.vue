@@ -267,7 +267,7 @@ export default {
         resultSearch() {
             let newString = [];
             let flagSearch = 'station';
-
+            let idParents = [];
             if ($('#pills-area-tab').hasClass('active')) {
                 $('input[name="inputDistrict[]"]:checked').each(function(i) {
                     newString[i] = $(this).val();
@@ -276,6 +276,10 @@ export default {
             } else {
                 $('input[name="inputStation[]"]:checked').each(function(i) {
                     newString[i] = $(this).val();
+                });
+
+                $('.ck_all input:checked').each(function(i) {
+                    idParents.push($(this).val());
                 });
             }
 
@@ -297,15 +301,18 @@ export default {
                 }
             };
             this.$setLocalStorage('flagSearch', flagSearch);
-            this.$router
-                .push({ name: 'list', query: {keyWord: data.keyWord, minPrice: data.price.min, maxPrice:data.price.max, minSquare:data.square.min, maxSquare:data.square.max } })
-                .then(() => {
-                    this.$removeLocalStorage('tabActive');
-                    this.$router.go('0');
-                })
-                .catch(() => {
-                    this.$router.go('0');
-                });
+            this.$setLocalStorage('conditionSearch', JSON.stringify(data));
+            this.$setLocalStorage('idParent', JSON.stringify(idParents));
+            
+            // this.$router
+            //     .push({ name: 'list', query: {keyWord: data.keyWord, minPrice: data.price.min, maxPrice:data.price.max, minSquare:data.square.min, maxSquare:data.square.max } })
+            //     .then(() => {
+            //         this.$removeLocalStorage('tabActive');
+            //         this.$router.go('0');
+            //     })
+            //     .catch(() => {
+            //         this.$router.go('0');
+            //     });
         }
     },
     computed: {
