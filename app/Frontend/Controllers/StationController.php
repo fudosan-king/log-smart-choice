@@ -52,7 +52,7 @@ class StationController extends Controller
             '東武鉄道' => Station::STATION_PARENT_4, '東急電鉄' => Station::STATION_PARENT_5, '都営地下鉄' => Station::STATION_PARENT_6,
             '京王電鉄' => Station::STATION_PARENT_7, '京成電鉄' => Station::STATION_PARENT_8, '京浜急行電鉄' => Station::STATION_PARENT_9,
             '小田急電鉄' => Station::STATION_PARENT_10, '東京臨海高速鉄道' => Station::STATION_PARENT_11, '東京モノレール' => Station::STATION_PARENT_12,
-            'ゆりかもめ' => Station::STATION_PARENT_13, 'つくばエクスプレス' => Station::STATION_PARENT_14, '成田スカイアクセス' => Station::STATION_PARENT_14,
+            'ゆりかもめ' => Station::STATION_PARENT_13, 'つくばエクスプレス' => Station::STATION_PARENT_14, '成田スカイアクセス' => Station::STATION_PARENT_15,
         ];
         $stationList = [];
         foreach ($stationParents as $key => $value) {
