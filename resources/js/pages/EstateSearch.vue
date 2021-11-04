@@ -4,7 +4,7 @@
             <section class="section_new_property p-0">
                 <div class="box_top mb-0">
                     <div class="container">
-                        <h2 class="title2 text-center">検索条件</h2>
+                        <h2 class="title text-center">検索条件</h2>
                     </div>
                 </div>
             </section>
@@ -321,22 +321,18 @@ export default {
             }
         },
 
-        checkChange(event) {
-            let child = event.target.id;
-            let positionAllChild = $('#'+child).parentsUntil('.childStation');
-            let childStation = $(positionAllChild[3]).attr('class').split(' ')[1];
-            var totalCheckbox = $('.'+childStation+' input:checkbox').length;
-            var totalChecked = $('.'+childStation+' input:checkbox :checked').length;
-            // var totalCheckbox = document.querySelectorAll('.'+childStation).length;
-            // var totalChecked = document.querySelectorAll('.'+childStation+' input:checkbox').length;
-            console.log(totalCheckbox);
-            console.log(totalChecked);
-            // if (totalCheckbox == totalChecked) {
-            //     $('input[name="inputStation[]"]').parent('.ck_all input').checked = true;
-            // } else {
-            //     $('input[name="inputStation[]"]').parent('.ck_all input').checked = false;
-            // }
-        }
+        // checkChange(event) {
+        //     let child = event.target.id;
+        //     let positionAllChild = $('#'+child).parentsUntil('.childStation');
+        //     let childStation = $(positionAllChild[3]).attr('class').split(' ')[1];
+        //     var totalCheckbox = $('.'+childStation+' input:checkbox').length;
+        //     var totalChecked = $('.'+childStation+' [name="inputStation[]"]:checked').length;
+        //     if (totalCheckbox == totalChecked) {
+        //         $('input[name="inputStation[]"]').parent('.ck_all input').checked = true;
+        //     } else {
+        //         $('input[name="inputStation[]"]').parent('.ck_all input').checked = false;
+        //     }
+        // }
     }
 };
 </script>
