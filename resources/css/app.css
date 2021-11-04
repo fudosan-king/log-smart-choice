@@ -89,12 +89,12 @@ footer .footer_bottom .btn {
 	    margin-bottom: 5px;
     }
     
-    .box_sort li a span {
-        font-size: 14px;
+    .section_near_property:before {
+        background: none;
     }
 
-    .section_banner {
-        height: 250px;
+    .box_sort li a span {
+        font-size: 14px;
     }
     .dropdown_user .dropdown_user_content {
         right: -67px;
@@ -229,10 +229,6 @@ main .section_property_main {
         padding-left: 30px;
         padding-right: 30px;
     }
-}
-
-.section_banner {
-    height: 500px;
 }
 
 @media (max-width: 375px) {
