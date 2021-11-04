@@ -47,7 +47,10 @@
             "Database\\Seeds\\": "database/seeds/",
             "Block\\": "app/Block/",
             "Actions\\": "app/Actions"
-        }
+        },
+        "files": [
+            "app/Helpers/Helper.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

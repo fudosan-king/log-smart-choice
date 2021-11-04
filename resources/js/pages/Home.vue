@@ -59,11 +59,7 @@
                 </li> -->
             </ul>
         </section>
-        <search-component 
-            :search-type="searchType"
-            v-if="searchType"
-            @handleCloseClick="handleCloseSearch()">
-
+        <search-component :search-type="searchType" v-if="searchType" @handleCloseClick="handleCloseSearch()">
         </search-component>
         <section class="section_near_property">
             <div class="container">
@@ -112,7 +108,7 @@ export default {
         EstatesTopComponent: () => import('../components/EstatesTopComponent'),
         EstateRecommendComponent: () => import('../components/EstateRecommendComponent'),
         EstatesNearComponent: () => import('../components/EstatesNearComponent'),
-        SearchComponent: () => import('../components/SearchComponent'),
+        SearchComponent: () => import('../components/SearchComponent')
     },
     methods: {
         clearConditionSearch() {
@@ -120,13 +116,25 @@ export default {
             this.$removeLocalStorage('station');
             this.$router.push('list').catch(() => {});
         },
-        handleHeaderContentClick (type = 'district', event) {
-            event.preventDefault();
-            if (this.searchType != type) {
-                this.searchType = type;
-            }
+        handleHeaderContentClick(type = 'district', event) {
+            // event.preventDefault();
+            // if (this.searchType != type) {
+            //     this.searchType = type;
+            // }
             // LSMEvent.$emit("handleSeachClick", type);
-
+            if (type == 'district') {
+                this.$setLocalStorage('tabActive', 'area');
+            } else {
+                this.$setLocalStorage('tabActive', 'station');
+            }
+            this.$router
+                .push({ name: 'EstateSearch' })
+                .then(() => {
+                    this.$router.go('0');
+                })
+                .catch(() => {
+                    this.$router.go('0');
+                });
         },
 
         handleCloseSearch() {

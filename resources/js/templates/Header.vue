@@ -72,7 +72,7 @@
                 </div>
 
                 <div class="dropdown dropdown_search">
-                    <a id="dropdown_search" href="#" v-on:click="dropSearch">
+                    <a id="dropdown_search" href="/search">
                         <img
                             src="/assets/images/svg/i_search.svg"
                             alt=""
@@ -101,6 +101,7 @@
                                             aria-expanded="true"
                                             aria-controls="collapseOne"
                                             ref="showArea"
+                                            v-on:click="setCondition('district')"
                                         >
                                             <img
                                                 src="/images/svg/i_map_black.svg"
@@ -113,7 +114,7 @@
                                     </h2>
                                 </div>
 
-                                <div
+                                <!-- <div
                                     id="collapseOne"
                                     ref="collapseArea"
                                     class="collapse show"
@@ -131,7 +132,7 @@
                                             </li>
                                         </ul>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="card">
                                 <div class="card-header" id="headingTwo">
@@ -144,6 +145,7 @@
                                             aria-expanded="false"
                                             aria-controls="collapseTwo"
                                             ref="showStation"
+                                            v-on:click="setCondition('station')"
                                         >
                                             <img
                                                 src="/assets/images/svg/i_stations_black.svg"
@@ -155,7 +157,7 @@
                                         </button>
                                     </h2>
                                 </div>
-                                <div
+                                <!-- <div
                                     id="collapseTwo"
                                     ref="collapseStation"
                                     class="collapse"
@@ -182,7 +184,7 @@
                                             </li>
                                         </ul>
                                     </div>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="card">
                                 <div class="" id="headingOne">
@@ -353,16 +355,16 @@
                     });
             },
 
-            dropSearch(event) {
-                event.preventDefault();
-                $('.dropdown_search_content').slideToggle('fast');
-                $('.dropdown_user_content').hide();
-            },
+            // dropSearch(event) {
+            //     event.preventDefault();
+            //     $('.dropdown_search_content').slideToggle('fast');
+            //     $('.dropdown_user_content').hide();
+            // },
 
-            closeSearch() {
-                $('.dropdown_user_content').hide();
-                $('.dropdown_search_content').hide();
-            },
+            // closeSearch() {
+            //     $('.dropdown_user_content').hide();
+            //     $('.dropdown_search_content').hide();
+            // },
 
             // dropSearchByType(type = 'area') {
             //     $('.dropdown_search_content').slideToggle('fast');
@@ -433,6 +435,20 @@
                 this.$router
                     .push({ name: 'listByCode', params: { searchCode: companyCode } })
                     .then(() => {
+                        this.$router.go('0');
+                    })
+                    .catch(() => {
+                        this.$router.go('0');
+                    });
+            },
+
+            setCondition(condition) {
+                if (condition == 'district') {
+                    this.$setLocalStorage('tabActive', 'area');
+                } else {
+                    this.$setLocalStorage('tabActive', 'station');
+                }
+                this.$router.push({ name: 'EstateSearch' }).then(() => {
                         this.$router.go('0');
                     })
                     .catch(() => {

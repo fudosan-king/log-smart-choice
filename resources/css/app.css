@@ -83,6 +83,37 @@ footer .footer_bottom .btn {
     #main .list_estate {
         padding-top: 70px;
     }
+
+    .dropdown_search .dropdown_search_content .card .card-body ul li {
+	    margin-right: 5px;
+	    margin-bottom: 5px;
+    }
+    
+    .box_sort li a span {
+        font-size: 14px;
+    }
+
+    .section_banner {
+        height: 250px;
+    }
+    .dropdown_user .dropdown_user_content {
+        right: -67px;
+    }
+    .section_near_property ul.list_property li .property_head .btn_wishlist {
+        display: block;
+    }
+    .section_near_property ul.list_property li .property_img,
+    .section_near_property ul.list_property li .property_img img {
+        height: 237px;
+    }
+    .flickity-prev-next-button {
+        width: 34px;
+        height: 34px;
+    }
+
+    .box_top .title, .box_top .subtitle {
+        text-align: left;
+    }
 }
 
 footer .modal_register ul li {
@@ -204,30 +235,6 @@ main .section_property_main {
     height: 500px;
 }
 
-@media (max-width: 768px) {
-    .section_banner {
-        height: 250px;
-    }
-    .dropdown_user .dropdown_user_content {
-        right: -67px;
-    }
-    .section_near_property ul.list_property li .property_head .btn_wishlist {
-        display: block;
-    }
-    .section_near_property ul.list_property li .property_img,
-    .section_near_property ul.list_property li .property_img img {
-        height: 237px;
-    }
-    .flickity-prev-next-button {
-        width: 34px;
-        height: 34px;
-    }
-
-    .box_top .title, .box_top .subtitle {
-        text-align: left;
-    }
-}
-
 @media (max-width: 375px) {
     .dropdown_user .dropdown_user_content {
         right: -67px;
@@ -278,9 +285,6 @@ small h3 {
 	padding: 0 10px;
 }
 
-@media (max-width: 768px) {
-	.dropdown_search .dropdown_search_content .card .card-body ul li {
-	    margin-right: 5px;
-	    margin-bottom: 5px;
-	}
+ul li .search-district,ul li .search-station {
+    cursor: pointer;
 }

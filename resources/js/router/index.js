@@ -212,6 +212,22 @@ const routes = [
             title: '物件問い合わせ完了｜Order Renove'
         }
     },
+    {
+        path: '/search',
+        name: 'EstateSearch',
+        component: () => import('../pages/EstateSearch.vue'),
+        meta: {
+            title: '検索条件｜Order Renove'
+        }
+    },
+    // {
+    //     path: '/search-results',
+    //     name: 'EstateSearchResult',
+    //     component: () => import('../pages/EstateSearchResult.vue'),
+    //     meta: {
+    //         title: '物件問い合わせ完了｜Order Renove'
+    //     }
+    // },
 ];
 
 const router = new VueRouter({

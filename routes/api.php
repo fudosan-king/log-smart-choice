@@ -74,6 +74,8 @@ Route::get('/get-meta-code-search', [MetaTagController::class, 'getMetaCodeSearc
 Route::post('/stations/list', [StationController::class, 'getAll']);
 Route::get('/stations/get-companies', [StationController::class, 'getTransportCompany']);
 Route::get('/stations/getByCompany', [StationController::class, 'getByTransportCompany']);
+Route::post('/stations/parent-station', [StationController::class, 'getParentStation']);
+Route::post('/stations/child-station', [StationController::class, 'getChildStation']);
 
 // District
 Route::post('/district/list', [DistrictController::class, 'list']);
