@@ -2,7 +2,7 @@
     <section class="section_near_property custom pt-0 bg-white">
         <div class="box_top">
             <div class="container">
-                <h2 class="title mb-2">検索結果</h2>
+                <h2 class="title mb-2 text-center">検索結果</h2>
                 <div class="info_topsearch">
                     <template v-if="conditionSearch">
                         <p class="searchby_area_label"><b> {{ conditionSearch.flag_search == 'district' ? 'エリアから探す：' : '沿線・駅から探す：' }}</b>{{ conditionSearch.key_word }}</p>
@@ -16,7 +16,7 @@
                 </div>
                 <ul class="box_sort">
                     <li><a class="border-0 pl-0 search_number" href="#">検索結果 <span><b>{{ total }}</b></span> 件</a></li>
-                    <li><a href="/search"><img src="images/svg/i_sort.svg" alt="" class="img-fluid" width="15"> 条件を変更する</a></li>
+                    <li><a href="/search"><img src="images/svg/i_sort.svg" alt="" class="img-fluid" width="15"><span> 条件を変更する</span></a></li>
                 </ul>
             </div>
         </div>

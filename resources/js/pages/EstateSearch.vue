@@ -252,14 +252,15 @@ export default {
             squares: [],
             checkedDistrictInput: [],
             minTotalPrices: '下限なし',
-            maxTotalPrices: 1000,
+            maxTotalPrices: '上限なし',
             minSquare: '下限なし',
-            maxSquare: 10
+            maxSquare: '上限なし'
         };
     },
     updated() {
+        let flagCheckAllChild = '';
         $('.ck_all input').click(function() {
-            let flagCheckAllChild = $(this).val();
+            flagCheckAllChild = $(this).val();
             $('.' + flagCheckAllChild + ' input:checkbox')
                 .not(this)
                 .prop('checked', this.checked);
