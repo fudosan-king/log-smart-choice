@@ -5,7 +5,6 @@
                 <div class="box_top mb-0">
                     <div class="container">
                         <h2 class="title2 text-center">検索条件</h2>
-                        <p class="text-center subtitle2">東京の中古マンションを沿線・駅から探す</p>
                     </div>
                 </div>
             </section>
@@ -125,7 +124,7 @@
                                                         </div>
                                                         <div
                                                             :id="'collapseOne' + index + indexStation"
-                                                            class="collapse"
+                                                            class="collapse childStation"
                                                             aria-labelledby="headingOne"
                                                             :data-parent="'#accordionExample' + index"
                                                         >
@@ -150,6 +149,7 @@
                                                                                     "
                                                                                     :value="child.name"
                                                                                     name="inputStation[]"
+                                                                                    v-on:click="checkChange"
                                                                                 />
                                                                                 <label
                                                                                     class="custom-control-label"
@@ -319,6 +319,23 @@ export default {
                 min = min + 10;
                 i++;
             }
+        },
+
+        checkChange(event) {
+            let child = event.target.id;
+            let positionAllChild = $('#'+child).parentsUntil('.childStation');
+            let childStation = $(positionAllChild[3]).attr('class').split(' ')[1];
+            var totalCheckbox = $('.'+childStation+' input:checkbox').length;
+            var totalChecked = $('.'+childStation+' input:checkbox :checked').length;
+            // var totalCheckbox = document.querySelectorAll('.'+childStation).length;
+            // var totalChecked = document.querySelectorAll('.'+childStation+' input:checkbox').length;
+            console.log(totalCheckbox);
+            console.log(totalChecked);
+            // if (totalCheckbox == totalChecked) {
+            //     $('input[name="inputStation[]"]').parent('.ck_all input').checked = true;
+            // } else {
+            //     $('input[name="inputStation[]"]').parent('.ck_all input').checked = false;
+            // }
         }
     }
 };
