@@ -247,10 +247,11 @@ export default {
         let activeSearchTab = this.$getLocalStorage('tabActive') ? this.$getLocalStorage('tabActive') : 'area';
         let conditionSearch = this.$getLocalStorage('conditionSearch') ? JSON.parse(this.$getLocalStorage('conditionSearch')) : [];
         let parentStations = this.$getLocalStorage('parentStations') ? JSON.parse(this.$getLocalStorage('parentStations')) : [];
-        let minPrice = conditionSearch.price.min ? conditionSearch.price.min : '下限なし';
-        let maxPrice = conditionSearch.price.max ? conditionSearch.price.max : '上限なし';
-        let minSquare = conditionSearch.square.min ? conditionSearch.square.min : '下限なし';
-        let maxSquare = conditionSearch.square.max ? conditionSearch.square.max : '上限なし';
+        let minPrice = conditionSearch.price ? conditionSearch.price.min : '下限なし';
+        let maxPrice = conditionSearch.price ? conditionSearch.price.max : '上限なし';
+        let minSquare = conditionSearch.square ? conditionSearch.square.min : '下限なし';
+        let maxSquare = conditionSearch.square ? conditionSearch.square.max : '上限なし';
+
         return {
             districtList: {},
             stationParents: {},
