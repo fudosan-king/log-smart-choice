@@ -141,7 +141,7 @@
                 let accessToken = this.$getLocalStorage('accessToken');
                 // let district = '';
                 // let station = '';
-                let flagSearch = this.$getLocalStorage('flagSearch') ? this.$getLocalStorage('flagSearch') : 'district';
+                let flagSearch = this.$getLocalStorage('tabActive') ? this.$getLocalStorage('tabActive') : 'area';
                 // let districtCode = '';
                 // let companyCode = '';
                 let keyWord = this.$route.query.keyWord;

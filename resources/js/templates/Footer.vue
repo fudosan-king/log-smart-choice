@@ -272,7 +272,7 @@ export default {
                 $('input[name="inputDistrict[]"]:checked').each(function(i) {
                     newString[i] = $(this).val();
                 });
-                flagSearch = 'district';
+                flagSearch = 'area';
             } else {
                 $('input[name="inputStation[]"]:checked').each(function(i) {
                     newString[i] = $(this).val();
@@ -300,19 +300,18 @@ export default {
                     max: maxSquare
                 }
             };
-            this.$setLocalStorage('flagSearch', flagSearch);
+            this.$setLocalStorage('tabActive', flagSearch);
             this.$setLocalStorage('conditionSearch', JSON.stringify(data));
-            this.$setLocalStorage('idParent', JSON.stringify(idParents));
-            
-            // this.$router
-            //     .push({ name: 'list', query: {keyWord: data.keyWord, minPrice: data.price.min, maxPrice:data.price.max, minSquare:data.square.min, maxSquare:data.square.max } })
-            //     .then(() => {
-            //         this.$removeLocalStorage('tabActive');
-            //         this.$router.go('0');
-            //     })
-            //     .catch(() => {
-            //         this.$router.go('0');
-            //     });
+            this.$setLocalStorage('parentStations', JSON.stringify(idParents));
+
+            this.$router
+                .push({ name: 'list', query: {keyWord: data.keyWord, minPrice: data.price.min, maxPrice:data.price.max, minSquare:data.square.min, maxSquare:data.square.max } })
+                .then(() => {
+                    this.$router.go('0');
+                })
+                .catch(() => {
+                    this.$router.go('0');
+                });
         }
     },
     computed: {

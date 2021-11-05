@@ -89,7 +89,7 @@ class EstateController extends Controller
                 }
             }
             $estates->whereIn('address.city', is_array($keyWord) ? $keyWord : [$keyWord]);
-            $flagSearch = 'district';
+            $flagSearch = 'area';
         }
 
         // if ($districtCode) {
@@ -236,44 +236,6 @@ class EstateController extends Controller
         }
 
         return $this->response(422, 'Get estate detail fail', []);
-    }
-
-    /**
-     * Get Condition Metre Square
-     *
-     * @param $metreSquare
-     * @return array
-     */
-    private function _getConditionMetreSquare($metreSquare)
-    {
-        $lengthOfString = strlen($metreSquare);
-        $numberFrom = '';
-        $numberTo = '';
-        for ($i = 1; $i < $lengthOfString; $i++) {
-            $numberFrom .= '0';
-            $numberTo .= '9';
-        }
-
-        $firstPartNumber = substr($metreSquare, 0, 1);
-
-        $fromMetreSquare = $firstPartNumber . $numberFrom;
-        $toMetreSquare = $firstPartNumber . $numberTo;
-        return [$fromMetreSquare, $toMetreSquare];
-    }
-
-
-    /**
-     * @param $roomType
-     * @return array
-     */
-    private function _getRoomType($roomType): array
-    {
-        $room = explode('/', $roomType);
-        if (count($room) != 3) {
-            return $room = [];
-        }
-
-        return [(int)substr($room[0], 0, 1), strtoupper($room[1]), strtoupper($room[2])];
     }
 
     /**
