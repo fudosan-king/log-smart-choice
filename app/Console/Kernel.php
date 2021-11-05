@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('estates:import_from_fdk')->everyTenMinutes();
-        // $schedule->job(new SendAnnoucement)->everyTwoMinutes();
+        // $schedule->job(new SendEmailAnnouncement)->everyTwoMinutes();
         // $schedule->job(new SendAnnoucement)->dailyAt('2:00');
         // $schedule->job(new SendAnnoucement)->dailyAt('8:00');
         $schedule->job(new SendEmailAnnouncement)->dailyAt('9:00');

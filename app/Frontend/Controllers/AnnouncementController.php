@@ -220,6 +220,7 @@ class AnnouncementController extends Controller
      */
     public function sendEmailAnnouncement()
     {
+        $listEstateSent = [];
         $customers = Customer::select('id', 'announcement_condition', 'email', 'first_announcement')->where('role3d', Customer::ROLE_3D_CUSTOMER)
             ->where('status', Customer::ACTIVE)
             ->where('send_announcement', Customer::SEND_ANNOUNCEMENT)
@@ -230,8 +231,8 @@ class AnnouncementController extends Controller
             ->get();
         try {
             foreach ($customers as $customer) {
-                $condition = json_decode($customer->announcement_condition, true);
-                $estates = Estates::select('_id', 'room_count', 'room_kind', 'tatemono_menseki', 'address', 'date_created');
+                $customerCondition = $condition = json_decode($customer->announcement_condition, true);
+                $estates = Estates::select('_id', 'room_count', 'room_kind', 'tatemono_menseki', 'address', 'date_created', 'price', 'estate_name', 'transports', 'renovation_cost');
                 if ($condition['city']) {
                     $estates->whereIn('address.city', $condition['city']);
                 }
@@ -245,16 +246,28 @@ class AnnouncementController extends Controller
                 }
 
                 $estates->where('is_send_announcement', Estates::SEND_ANNOUNCEMENT);
-                $estates->where('status', '!=', Estates::STATUS_STOP);
+                $estates->where('status', Estates::STATUS_SALE);
                 $estates->orderBy('date_imported', 'desc');
+
                 $listEstate = $estates->limit(Estates::LIMIT_ESTATE_ANNOUNCEMENT)->get();
 
-                if ($listEstate) {
+                if ($listEstate->isNotEmpty()) {
+                    $listEstateSent = $listEstate;
                     $estateController = new EstateController();
                     $data = $estateController->getEstateInformation($listEstate);
-                    $emailDailyEstate = new SendEmailDailyEstate($customer->email, $data, $condition);
+                    $customerCondition['city'] = '';
+                    if (count($condition['city'])) {
+                        $customerCondition['city'] = implode(', ', $condition['city']);
+                    }
+                    $emailDailyEstate = new SendEmailDailyEstate($customer, $data->toArray(), $customerCondition);
                     dispatch($emailDailyEstate);
                 }
+            }
+
+            foreach ($listEstateSent as $estate) {
+                $estate = Estates::find($estate->_id);
+                $estate->is_send_announcement = Estates::NOT_SEND_ANNOUNCEMENT;
+                $estate->save();
             }
         } catch (\Exception $e) {
             Log::error($e->getMessage());
