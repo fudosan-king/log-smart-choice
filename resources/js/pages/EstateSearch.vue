@@ -63,6 +63,7 @@
                                                             :id="'ck0' + district.id"
                                                             name="inputDistrict[]"
                                                             :value="district.name"
+                                                            :checked="conditionSearchBefore.keyWord ? conditionSearchBefore.keyWord.includes(district.name) : ''"
                                                         />
                                                         <label
                                                             class="custom-control-label"
@@ -215,7 +216,6 @@
                                             <option
                                                 v-if="square != '上限なし'"
                                                 :value="square"
-                                                :selected="square == minSquare ? 'selected' : ''"
                                                 >{{ square }}</option
                                             >
                                         </template>
@@ -226,7 +226,6 @@
                                             <option
                                                 v-if="square != '下限なし'"
                                                 :value="square"
-                                                :selected="square == maxSquare ? 'selected' : ''"
                                                 >{{ square }}</option
                                             >
                                         </template>
@@ -247,7 +246,11 @@ export default {
     data() {
         let activeSearchTab = this.$getLocalStorage('tabActive') ? this.$getLocalStorage('tabActive') : 'area';
         let conditionSearch = this.$getLocalStorage('conditionSearch') ? JSON.parse(this.$getLocalStorage('conditionSearch')) : [];
-        let idParent = this.$getLocalStorage('idParent') ? JSON.parse(this.$getLocalStorage('idParent')) : [];
+        let parentStations = this.$getLocalStorage('parentStations') ? JSON.parse(this.$getLocalStorage('parentStations')) : [];
+        let minPrice = conditionSearch.price.min ? conditionSearch.price.min : '下限なし';
+        let maxPrice = conditionSearch.price.max ? conditionSearch.price.max : '上限なし';
+        let minSquare = conditionSearch.square.min ? conditionSearch.square.min : '下限なし';
+        let maxSquare = conditionSearch.square.max ? conditionSearch.square.max : '上限なし';
         return {
             districtList: {},
             stationParents: {},
@@ -255,12 +258,12 @@ export default {
             totalPrices: [],
             squares: [],
             checkedDistrictInput: [],
-            minTotalPrices: '下限なし',
-            maxTotalPrices: '上限なし',
-            minSquare: '下限なし',
-            maxSquare: '上限なし',
+            minTotalPrices: minPrice,
+            maxTotalPrices: maxPrice,
+            minSquare: minSquare,
+            maxSquare: maxSquare,
             conditionSearchBefore: conditionSearch,
-            stationParentBefore: idParent
+            stationParentBefore: parentStations
         };
     },
     updated() {

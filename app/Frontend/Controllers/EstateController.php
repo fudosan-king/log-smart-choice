@@ -89,7 +89,7 @@ class EstateController extends Controller
                 }
             }
             $estates->whereIn('address.city', is_array($keyWord) ? $keyWord : [$keyWord]);
-            $flagSearch = 'district';
+            $flagSearch = 'area';
         }
 
         // if ($districtCode) {
