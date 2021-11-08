@@ -3,16 +3,23 @@
         <div class="box_template">
             <section class="section_subbanner pb-0">
                 <div class="container">
-                    <template v-if="estate.estate_information">
-                        <template v-if="estate.estate_information.estate_main_photo[0]">
-                            <img
-                            v-lazy="estate.estate_information.estate_main_photo[0] ?
-                            estate.estate_information.estate_main_photo[0].url_path : '/images/no-image.png'"
-                            alt=""
-                            class="img-fluid w-100"
-                            />
+                    <div class="pro_main_img">
+                        <template v-if="estate.estate_information">
+                            <template v-if="estate.estate_information.estate_main_photo[0]">
+                                <img
+                                v-lazy="estate.estate_information.estate_main_photo[0] ?
+                                estate.estate_information.estate_main_photo[0].url_path : '/images/no-image.png'"
+                                alt=""
+                                class="img-fluid w-100"
+                                />
+                            </template>
                         </template>
-                    </template>
+                        <span class="price">
+                            {{ $lscFormatCurrency(estate.price) }} 万円
+                            <template v-if="estate.renovation_type != 'リノベ済物件'"><span class="renovate_title">（改装前価格）</span></template>
+                        </span>
+                        
+                    </div>
                 </div>
             </section>
             <section class="p-0">

@@ -40,21 +40,23 @@ class EstateController extends Controller
     $resizeOption = ['exact', 'maxwidth', 'maxheight']
     */
     private function _uploadPhoto($estate_id, $image, $name, $local, $width=null, $height=null, $resizeOption='default'){
-        $resize = new ResizeImage($image);
-        if (!$width && !$height){
-            $width = $resize->origWidth;
-            $height = $resize->origHeight;
-        }
-        $resize->resizeTo($width, $height, $resizeOption);
+        // $resize = new ResizeImage($image);
+        // if (!$width && !$height){
+        //     $width = $resize->origWidth;
+        //     $height = $resize->origHeight;
+        // }
+        // $resize->resizeTo($width, $height, $resizeOption);
         $file_name = date('Ymd_His') . $name;
         $path = '/estates/' . $estate_id . '/' . $local;
         $public_path = public_path() . $path;
         if (!is_dir($public_path)) {
             mkdir($public_path, 0777, true);
         }
-        $ext = $resize->getTypeFile();
+        $ext = $image->getClientOriginalExtension();
+        // $ext = $resize->getTypeFile();
         $url_path = $path . '/' . $file_name . '.' . $ext;
-        $resize->saveImage($public_path . '/' . $file_name . '.' . $ext);
+        $image->move($public_path, $file_name . '.' . $ext);
+        // $resize->saveImage($public_path . '/' . $file_name . '.' . $ext);
         return $url_path;
     }
 
