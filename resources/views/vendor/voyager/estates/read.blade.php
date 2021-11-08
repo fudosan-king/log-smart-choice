@@ -160,7 +160,7 @@
                     @php
                     }
                     @endphp
-                    <h3 class="panel-title">Description</h3>
+                    <!-- <h3 class="panel-title">Description</h3>
                     <hr>
                     <estate-description-component style="padding: 10px;" :data="'{{ $dataTypeContent }}'" :data_read="true"></estate-description-component>
 
@@ -170,7 +170,7 @@
 
                     <h3 class="panel-title">Flooring</h3>
                     <hr>
-                    <estate-flooring-component style="padding: 10px;" :data="'{{ $estateInfo }}'" :data_read="true"></estate-flooring-component>
+                    <estate-flooring-component style="padding: 10px;" :data="'{{ $estateInfo }}'" :data_read="true"></estate-flooring-component> -->
                 </div>
             </div>
         </div>

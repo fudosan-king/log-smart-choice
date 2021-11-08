@@ -27,15 +27,17 @@
                     <div class="container">
                         <p class="subtitle mb-2">
                             <small v-if="estate.estate_information"><b class="estate_name_title">{{ estate.estate_information.article_title }}</b><br>
-                                <template v-if="estate.address"
-                                    >{{ estate.address.pref }}{{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}{{ estate.address.gaikutiban }}<br />
-                                    専有面積{{ estate.tatemono_menseki }}m²
-                                    <template v-if="estate.has_balcony != '無'">
-                                        ／バルコニー面積: {{ estate.balcony_space}}m²
+                                <span>
+                                    <template v-if="estate.address"
+                                        >{{ estate.address.pref }}{{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}{{ estate.address.gaikutiban }}<br />
+                                        専有面積{{ estate.tatemono_menseki }}m²
+                                        <template v-if="estate.has_balcony != '無'">
+                                            ／バルコニー面積: {{ estate.balcony_space}}m²
+                                        </template>
+                                        <br />
+                                        {{ estate.ground_floors ? estate.ground_floors + '階建' : '' }}／{{ estate.structure }}
                                     </template>
-                                    <br />
-                                    {{ estate.ground_floors ? estate.ground_floors + '階建' : '' }}／{{ estate.structure }}
-                                </template>
+                                </span>
                             </small>
                         </p>
                     </div>
@@ -118,7 +120,7 @@
                                 <!-- Street View -->
                                 <div class="map" v-html="srcStreetView"></div>
                                 <!-- End Street View -->
-                                <div class="box_calcu">
+                                <!-- <div class="box_calcu">
                                     <h1>
                                         物件価格<template v-if="estate.renovation_type != 'リノベ済物件'">＋リノベ費用</template>
                                         <span>{{ $lscFormatCurrency(estate.price + estate.renovation_cost) }}</span
@@ -245,8 +247,6 @@
                                                             name="my_range"
                                                             value=""
                                                         />
-
-                                                        <!-- <range-slide-component></range-slide-component> -->
                                                     </div>
                                                     <hr />
                                                     <div class="form-group">
@@ -299,7 +299,7 @@
                                             </div>
                                         </div>
                                     </form>
-                                </div>
+                                </div> -->
                                 <div class="renovation_specifications_table">
                                     <table class="table">
                                         <tr>
@@ -668,7 +668,7 @@ Vue.use(Lazyload, {
 export default {
     components: {
         EstatesNearComponent: () => import('../components/EstatesNearComponent'),
-        PieChartComponent: () => import('../components/PieChartComponent')
+        // PieChartComponent: () => import('../components/PieChartComponent')
     },
     data() {
         return {

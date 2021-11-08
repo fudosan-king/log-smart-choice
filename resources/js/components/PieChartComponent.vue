@@ -1,9 +1,13 @@
 <script>
 import { Pie } from 'vue-chartjs';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
-import Chart from 'chart.js';
+// import ChartDataLabels from 'chartjs-plugin-datalabels';
+// import Chart from 'chart.js';
 
 export default {
+    components: {
+        ChartDataLabels: () => import('chartjs-plugin-datalabels'),
+        Chart: () => import('chart.js'),
+    },
     extends: Pie,
     props: ['parentData'],
     data: () => ({
@@ -38,7 +42,7 @@ export default {
         }
     },
 
-    mounted() {
+    updated() {
         Chart.plugins.register(ChartDataLabels);
         this.renderChart(this.chartData, this.options);
     }
