@@ -85,10 +85,10 @@ footer .footer_bottom .btn {
     }
 
     .dropdown_search .dropdown_search_content .card .card-body ul li {
-	    margin-right: 5px;
-	    margin-bottom: 5px;
+        margin-right: 5px;
+        margin-bottom: 5px;
     }
-    
+
     .section_near_property:before {
         background: none;
     }
@@ -111,8 +111,19 @@ footer .footer_bottom .btn {
         height: 34px;
     }
 
-    .box_top .title, .box_top .subtitle {
+    .box_top .title,
+    .box_top .subtitle {
         text-align: left;
+    }
+
+    .container,
+    .container-fluid,
+    .container-lg,
+    .container-md,
+    .container-sm,
+    .container-xl {
+        padding-right: 20px;
+        padding-left: 20px;
     }
 }
 
@@ -167,7 +178,7 @@ input[type='number'] {
 }
 .estate_name_title {
     padding-top: 2%;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
     color: #000000;
 }
@@ -178,6 +189,7 @@ input[type='number'] {
 
 .title_estate_renovation {
     padding: 20px 0 5px 0;
+    font-size: 14px;
 }
 
 main .section_property_main {
@@ -252,7 +264,6 @@ main .section_property_main {
     width: 100%;
 }
 
-
 #pie-chart {
     height: 320px !important;
 }
@@ -274,17 +285,40 @@ small h3 {
 }
 
 .dropdown_search .dropdown_search_content .card .card-body ul li {
-	width: 31.33%;
+    width: 31.33%;
 }
 .dropdown_search .dropdown_search_content .card .card-body ul li:after {
-	right: 4px;
-	padding: 0 10px;
+    right: 4px;
+    padding: 0 10px;
 }
 
-ul li .search-district,ul li .search-station {
+ul li .search-district,
+ul li .search-station {
     cursor: pointer;
 }
 
 .renovate_title {
     font-size: 0.65em;
+}
+
+.carousel_property .flickity-prev-next-button {
+    width: 20px;
+    height: 20px;
+}
+
+div .container .subtitle small span {
+    font-size: 16px;
+}
+
+header .dropdown_user,
+.section_banner ul li a,
+footer .footer_bottom .btn,
+.btnSeemore,
+header.subheader #dropdown_user,
+.section_near_property ul.list_property li .property_img {
+    border-radius: 0;
+}
+
+ul.list_property li .property_img p.label_custom {
+    font-size: 12px;
 }

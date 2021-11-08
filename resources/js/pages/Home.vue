@@ -59,8 +59,8 @@
                 </li> -->
             </ul>
         </section>
-        <search-component :search-type="searchType" v-if="searchType" @handleCloseClick="handleCloseSearch()">
-        </search-component>
+        <!-- <search-component :search-type="searchType" v-if="searchType" @handleCloseClick="handleCloseSearch()">
+        </search-component> -->
         <section class="section_near_property">
             <div class="container">
                 <div class="row">
@@ -108,7 +108,7 @@ export default {
         EstatesTopComponent: () => import('../components/EstatesTopComponent'),
         EstateRecommendComponent: () => import('../components/EstateRecommendComponent'),
         EstatesNearComponent: () => import('../components/EstatesNearComponent'),
-        SearchComponent: () => import('../components/SearchComponent')
+        // SearchComponent: () => import('../components/SearchComponent')
     },
     methods: {
         clearConditionSearch() {
