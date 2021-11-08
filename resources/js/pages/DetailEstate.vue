@@ -16,7 +16,7 @@
                         </template>
                         <span class="price">
                             {{ $lscFormatCurrency(estate.price) }} 万円
-                            <template v-if="estate.renovation_type != 'リノベ済物件'">（改装前価格）</template>
+                            <template v-if="estate.renovation_type != 'リノベ済物件'"><span class="renovate_title">（改装前価格）</span></template>
                         </span>
                         
                     </div>

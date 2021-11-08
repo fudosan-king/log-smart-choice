@@ -284,3 +284,7 @@ small h3 {
 ul li .search-district,ul li .search-station {
     cursor: pointer;
 }
+
+.renovate_title {
+    font-size: 0.65em;
+}
