@@ -120,7 +120,7 @@
                                 <!-- Street View -->
                                 <div class="map" v-html="srcStreetView"></div>
                                 <!-- End Street View -->
-                                <!-- <div class="box_calcu">
+                                <div class="box_calcu">
                                     <h1>
                                         物件価格<template v-if="estate.renovation_type != 'リノベ済物件'">＋リノベ費用</template>
                                         <span>{{ $lscFormatCurrency(estate.price + estate.renovation_cost) }}</span
@@ -131,7 +131,7 @@
                                             </p>
                                         </template>
                                     </h1>
-                                    <form action="" class="frm_calcu">
+                                    <!-- <form action="" class="frm_calcu">
                                         <div class="row">
                                             <div class="col-12 col-lg-6">
                                                 <p class="text-center d-none d-lg-block">
@@ -298,8 +298,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </form>
-                                </div> -->
+                                    </form> -->
+                                </div>
                                 <div class="renovation_specifications_table">
                                     <table class="table">
                                         <tr>
