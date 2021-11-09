@@ -62,7 +62,7 @@
     Vue.use(Lazyload, {
         preLoad: 1.3,
         error: 'images/no-image.png',
-        loading: 'images/loading.gif',
+        loading: 'images/loading1.gif',
         attempt: 1
     });
     export default {

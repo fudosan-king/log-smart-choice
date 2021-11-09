@@ -142,6 +142,10 @@ footer .footer_bottom .btn {
         padding-bottom: 0;
         margin-bottom: 0;
     }
+
+    .box_renovation_specifications p {
+        font-size: 14px;
+    }
 }
 
 footer .modal_register ul li {
@@ -344,4 +348,8 @@ ul.list_property li .property_img p.label_custom {
 
 .box_top .title {
     font-size: 18px;
+}
+
+.box_renovation_specifications p {
+    font-size: 14px;
 }
