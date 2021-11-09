@@ -60,7 +60,7 @@
             </li>
         </ul>
         <div class="loading" v-if="hasMore" style="text-align: center;">
-            <img v-lazy="`/images/loading.gif`" />
+            <img v-lazy="`/images/loading1.gif`" />
         </div>
     </div>
 </template>
@@ -73,7 +73,7 @@
     Vue.use(Lazyload, {
         preLoad: 1.3,
         error: 'images/no-image.png',
-        loading: 'images/loading.gif',
+        loading: 'images/loading1.gif',
         attempt: 1
     });
     export default {

@@ -52,7 +52,7 @@
         </li>
     </ul>
     <ul class="list_property" v-else-if="!isHidden">
-        <img v-lazy="`images/loading.gif`" alt="" class="img-fluid img-fluid-loading" />
+        <img v-lazy="`images/loading1.gif`" alt="" class="img-fluid img-fluid-loading" />
     </ul>
 </template>
 
@@ -63,7 +63,7 @@ import Vue from 'vue';
 Vue.use(Lazyload, {
     preLoad: 1.3,
     error: 'images/no-image.png',
-    loading: 'images/loading.gif',
+    loading: 'images/loading1.gif',
     attempt: 1
 });
 export default {
