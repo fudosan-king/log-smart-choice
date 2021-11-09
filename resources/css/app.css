@@ -322,7 +322,8 @@ header .dropdown_user,
 footer .footer_bottom .btn,
 .btnSeemore,
 header.subheader #dropdown_user,
-.section_near_property ul.list_property li .property_img, .box_toplogin ul li,  {
+.section_near_property ul.list_property li .property_img,
+.box_toplogin ul li, .btnsave {
     border-radius: 0;
 }
 
