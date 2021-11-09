@@ -125,6 +125,13 @@ footer .footer_bottom .btn {
         padding-right: 20px;
         padding-left: 20px;
     }
+    .section_banner ul {
+        padding: 20px 20px;
+    }
+
+    .section_banner ul:after {
+        width: 90%;
+    }
 }
 
 footer .modal_register ul li {
@@ -302,8 +309,8 @@ ul li .search-station {
 }
 
 .carousel_property .flickity-prev-next-button {
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
 }
 
 div .container .subtitle small span {
@@ -315,10 +322,14 @@ header .dropdown_user,
 footer .footer_bottom .btn,
 .btnSeemore,
 header.subheader #dropdown_user,
-.section_near_property ul.list_property li .property_img {
+.section_near_property ul.list_property li .property_img, .box_toplogin ul li,  {
     border-radius: 0;
 }
 
 ul.list_property li .property_img p.label_custom {
     font-size: 12px;
+}
+
+.box_top .title {
+    font-size: 18px;
 }
