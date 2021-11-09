@@ -187,11 +187,11 @@
     </footer>
 </template>
 <script>
-import ScrollTopArrow from '../components/ScrollTopComponent';
+// import ScrollTopArrow from '../components/ScrollTopComponent';
 
 export default {
     components: {
-        ScrollTopArrow
+        ScrollTopArrow: () => import('../components/ScrollTopComponent'),
     },
     data() {
         const logoSliver = '/assets/images/SVG/logo_sliver.svg';

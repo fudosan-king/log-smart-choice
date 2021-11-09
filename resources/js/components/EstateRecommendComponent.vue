@@ -24,7 +24,7 @@
                         <div class="property_head">
                             <div class="row">
                                 <div class="col-10 col-lg-10 align-self-center">
-                                    <p class="property_name">{{ estate.estate_information.article_title }}</p>
+                                    <p class="property_name"><b><{{ estate.estate_information.article_title }}</b></p>
                                     <p class="property_address">
                                         <span>
                                         {{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}

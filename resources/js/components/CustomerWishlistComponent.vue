@@ -32,7 +32,7 @@
                 <div class="property_head">
                     <div class="row">
                         <div class="col-10 col-lg-10 align-self-center">
-                            <p class="property_name">{{ wishtlistItem.estate_information.article_title }}</p>
+                            <p class="property_name"><b>{{ wishtlistItem.estate_information.article_title }}</b></p>
                             <p class="property_address" v-if="wishtlistItem.address">
                                 <span>
                                 {{ wishtlistItem.address.city }}{{ wishtlistItem.address.ooaza

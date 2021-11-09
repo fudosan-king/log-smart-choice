@@ -3,11 +3,11 @@
 </template>
 
 <script>
-	import {VueCarousel, Slide} from '@chenfengyuan/vue-carousel'
+	// import {VueCarousel, Slide} from '@chenfengyuan/vue-carousel'
 	export default {
 	  	components: {
-	      	VueCarousel,
-	      	Slide
+	      	VueCarousel: () => import('@chenfengyuan/vue-carousel'),
+	      	Slide: () => import('@chenfengyuan/vue-carousel')
 	    },
 	    props: ['data'],
 	    data() {

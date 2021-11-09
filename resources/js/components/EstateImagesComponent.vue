@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import draggable from 'vuedraggable';
+// import draggable from 'vuedraggable';
 import Vue from 'vue';
 import CKEDITOR from 'ckeditor4-vue';
 
@@ -38,7 +38,7 @@ Vue.use(CKEDITOR);
 
 export default {
     components: {
-        draggable
+        // draggable
     },
     props: ['data'],
     data() {
