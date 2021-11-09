@@ -132,6 +132,16 @@ footer .footer_bottom .btn {
     .section_banner ul:after {
         width: 90%;
     }
+
+    .box_renovation_specifications .renovation_specifications_table .table td,
+    .box_renovation_specifications .renovation_specifications_table .table th {
+        font-size: 0.875em;
+    }
+
+    .section_property_main .box_calcu {
+        padding-bottom: 0;
+        margin-bottom: 0;
+    }
 }
 
 footer .modal_register ul li {
@@ -323,7 +333,8 @@ footer .footer_bottom .btn,
 .btnSeemore,
 header.subheader #dropdown_user,
 .section_near_property ul.list_property li .property_img,
-.box_toplogin ul li, .btnsave {
+.box_toplogin ul li,
+.btnsave {
     border-radius: 0;
 }
 
