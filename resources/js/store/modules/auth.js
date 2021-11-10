@@ -129,10 +129,10 @@ const actions = {
                                     customerName: resp.data.data.customer_name
                                 };
                                 this._vm.$setCookie('accessToken3d', tokenInfo.token, 1);
-                                Vue.prototype.$setLocalStorage('accessToken', tokenInfo.token);
-                                Vue.prototype.$setLocalStorage('userName', tokenInfo.customerName);
-                                Vue.prototype.$setLocalStorage('userEmail', resp.data.data.customer_email);
-                                Vue.prototype.$setLocalStorage('userSocialId', resp.data.data.customer_social_id);
+                                this._vm.$setLocalStorage('accessToken', tokenInfo.token);
+                                this._vm.$setLocalStorage('userName', tokenInfo.customerName);
+                                this._vm.$setLocalStorage('userEmail', resp.data.data.customer_email);
+                                this._vm.$setLocalStorage('userSocialId', resp.data.data.customer_social_id);
                                 commit('auth_success', tokenInfo);
                                 resolve(tokenInfo);
                             })
@@ -180,17 +180,17 @@ const actions = {
                                 customerName: resp.data.data.customer_name
                             };
                             vueVM.$setCookie('accessToken3d', tokenInfo.token, 1);
-                            Vue.prototype.$setLocalStorage('accessToken', tokenInfo.token);
-                            Vue.prototype.$setLocalStorage('userName', tokenInfo.customerName);
-                            Vue.prototype.$setLocalStorage('userEmail', resp.data.data.customer_email);
-                            Vue.prototype.$setLocalStorage('userSocialId', resp.data.data.customer_social_id);
+                            this._vm.$setLocalStorage('accessToken', tokenInfo.token);
+                            this._vm.$setLocalStorage('userName', tokenInfo.customerName);
+                            this._vm.$setLocalStorage('userEmail', resp.data.data.customer_email);
+                            this._vm.$setLocalStorage('userSocialId', resp.data.data.customer_social_id);
                             commit('auth_success', tokenInfo);
                             resolve(tokenInfo);
                         })
                         .catch(err => {
                             commit('auth_error');
                             vueVM.$setCookie('accessToken3d', '', 1);
-                            Vue.prototype.$removeAuthLocalStorage();
+                            this._vm.$removeAuthLocalStorage();
                             reject(err);
                         });
                 }

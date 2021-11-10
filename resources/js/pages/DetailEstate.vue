@@ -10,7 +10,9 @@
                                 v-lazy="estate.estate_information.estate_main_photo[0] ?
                                 estate.estate_information.estate_main_photo[0].url_path : '/images/no-image.png'"
                                 alt=""
-                                class="img-fluid w-100"
+                                class="img-fluid"
+                                width="100%"
+                                height="auto"
                                 />
                             </template>
                         </template>
@@ -53,6 +55,8 @@
                                     :src="photo.url_path ? photo.url_path : '/images/no-image.png'"
                                     alt=""
                                     class="img-fluid"
+                                    width="100%"
+                                    height="auto"
                                 />
                             </div>
                         </div>
@@ -65,6 +69,8 @@
                                     :src="photo.url_path ? photo.url_path : '/images/no-image.png'"
                                     alt=""
                                     class="img-fluid"
+                                    width="100%"
+                                    height="auto"
                                 />
                             </div>
                         </div>
@@ -459,7 +465,7 @@
                                                 <template v-if="estate.delivery">
                                                     <template v-if="estate.delivery.delivery_date_type == '即'">{{ estate.delivery.delivery_date_type }}</template>
                                                     <template v-else-if="estate.delivery.delivery_date_type == '相談'">{{ estate.delivery.delivery_date_type }}</template>
-                                                    <template v-else-if="estate.delivery.delivery_date_type == '指定有り'">{{ estate.delivery.delivery_date_type }} {{ moment(estate.delivery.delivery_date).format('YYYY年MM月') }}{{ estate.delivery.delivery_date_about }}</template>
+                                                    <template v-else-if="estate.delivery.delivery_date_type == '指定有り'">{{ estate.delivery.delivery_date_type }} {{ dayjs(parseInt(estate.delivery.delivery_date.$date.$numberLong)).format('YYYY年MM月') }}{{ estate.delivery.delivery_date_about }}</template>
                                                     <template v-else>契約後 {{ estate.delivery.resident_span }} ヶ月</template>
                                                 </template>
                                             </td>
@@ -504,7 +510,7 @@
                                             <td>
                                                 {{
                                                     estate.built_date
-                                                        ? moment(parseInt(estate.built_date.$date.$numberLong)).format('YYYY年MM月')
+                                                        ? dayjs(parseInt(estate.built_date.$date.$numberLong)).format('YYYY年MM月')
                                                         : ''
                                                 }}
                                             </td>
@@ -535,7 +541,7 @@
                                                         ({{ estate.land_leashold_years }}年 {{ estate.land_leashold_months }}月)
                                                     </template>
                                                     <template v-if="estate.land_leashold_type == '残存'">
-                                                        （～{{ estate.land_leashold_type }} {{ moment(parseInt(estate.land_leashold_limit.$date.$numberLong)).format('YYYY年MM月DD日迄') }})
+                                                        （～{{ estate.land_leashold_type }} {{ dayjs(parseInt(estate.land_leashold_limit.$date.$numberLong)).format('YYYY年MM月DD日迄') }})
                                                     </template>
                                                     <template v-if="estate.land_fee_type != '無'">
                                                         <div>
@@ -556,7 +562,7 @@
                                                             ({{ estate.land_leashold_years }}年 {{ estate.land_leashold_months }}月)
                                                         </template>
                                                         <template v-if="estate.land_leashold_type == '残存'">
-                                                            （～{{ moment(parseInt(estate.land_leashold_limit.$date.$numberLong)).format('YYYY年MM月DD日迄') }})
+                                                            （～{{ dayjs(parseInt(estate.land_leashold_limit.$date.$numberLong)).format('YYYY年MM月DD日迄') }})
                                                         </template>
                                                     </div>
                                                     <div v-if="estate.leasehold_ratio">
@@ -592,13 +598,13 @@
                                             <th>情報更新日</th>
                                             <td>
                                                 {{
-                                                     moment(estate.date_last_modified).format('YYYY年MM月DD日')
+                                                     dayjs(estate.date_last_modified).format('YYYY年MM月DD日')
                                                 }}
                                             </td>
                                         </tr>
                                         <tr>
                                             <th>更新予定日</th>
-                                            <td>{{ moment().weekday(8).format('YYYY年MM月DD日') }}</td>
+                                            <td>{{ dayjs().day(8).format('YYYY年MM月DD日') }}</td>
                                         </tr>
                                     </table>
 
@@ -655,7 +661,7 @@
 </template>
 
 <script>
-import moment from 'moment';
+import dayjs from 'dayjs';
 import Lazyload from 'vue-lazyload';
 import Vue from 'vue';
 
@@ -676,7 +682,7 @@ export default {
             mainPhoto: '/assets/images/bg_top.jpg',
             slider: [],
             haveEstate: false,
-            moment,
+            dayjs: dayjs,
             estateInfo: [],
             imageBefore: '',
             imageAfter: '',

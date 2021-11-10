@@ -46,18 +46,18 @@
   <meta name="msapplication-TileColor" content="#da532c">
   <meta name="theme-color" content="#ffffff">
 
-  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <!-- <link rel="preconnect" href="https://fonts.gstatic.com"> -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
   
-  <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/assets/css/bootstrap-datepicker.min.css" type="text/css">
-  <link rel="stylesheet" href="/assets/css/bootstrap-datepicker.standalone.min.css" type="text/css">
-  <link rel="stylesheet" href="/assets/css/animate.min.css" type="text/css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" type="text/css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.standalone.min.css" type="text/css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" type="text/css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"/>
   <link rel="stylesheet" type="text/css" href="/assets/css/flickity.min.css">
-  <link rel="stylesheet" href="/assets/css/styles.css" type="text/css">
+  <link rel="stylesheet" href="/assets/css/styles.min.css" type="text/css">
   <!-- <link rel="stylesheet" href="/assets/css/mobile.css" type="text/css"> -->
-  <link rel="stylesheet" href="/css/app.css" type="text/css">
+  <link rel="stylesheet" href="/css/app.min.css" type="text/css">
 </head>
 
 <body>
@@ -69,17 +69,17 @@
     <index>
     </index>
   </div>
-  <script src="/assets/js/jquery.min.js"></script>
-  <script src="/assets/js/ion.rangeSlider.min.js"></script>
-  <script src="{{ asset('/js/frontend.js') }}"></script>
-  <script src="{{ asset('/js/globalHelper.js') }}"></script>
-  <script src="/assets/js/bootstrap.bundle.min.js"></script>
-  <script src="/assets/js/flickity.pkgd.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/js/ion.rangeSlider.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/flickity@2.2.2/dist/flickity.pkgd.min.js"></script>
   <script src="/assets/js/bsnav.min.js"></script>
-  <script src="/assets/js/functions.js"></script>
-  <script src="/assets/js/bootstrap-datepicker.js"></script>
-  <script src="/assets/js/bootstrap-datepicker.ja.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ja.min.js"></script>
   <script src='https://www.google.com/recaptcha/api.js'></script>
+  <script src="{{ mix('/js/frontend.js') }}"></script>
+  <script src="{{ mix('/js/manifest.js') }}"></script>
+  <script src="{{ mix('/js/vendor.js') }}"></script>
 </body>
 
 </html>

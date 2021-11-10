@@ -5,7 +5,6 @@ import VueRouter from 'vue-router';
 import Vue from 'vue';
 import store from './store/index';
 import router from './router/index';
-import globalHelper from './globalHelper';
 import Vuelidate from 'vuelidate';
 import customerModule from './store/modules/customer.js';
 import gAuth from './config/googleAuth';
@@ -27,7 +26,6 @@ const fbAuthOption = {
 // Set Vue router
 Vue.router = router;
 Vue.use(VueRouter);
-Vue.use(globalHelper);
 Vue.use(Vuelidate);
 Vue.use(gAuth, gAuthOption);
 Vue.use(FBAuth, fbAuthOption);
@@ -56,30 +54,24 @@ new Vue({
     },
     created() {
         this.$store.registerModule('customer', customerModule);
-        // this.getRefreshTokenApi();
     },
     beforeDestroy() {
         this.$store.unregisterModule('customer');
     },
     methods: {
         getRefreshTokenApi: function() {
-            let isLoggedIn = this.$store.getters.isLoggedIn;
-            if (isLoggedIn) {
+            if (this.$store.getters.isLoggedIn) {
                 this.$store
                     .dispatch('customerInfo')
                     .then(resp => {})
                     .catch(() => {
                         this.$setCookie('accessToken3d', '', 1);
-                        Vue.prototype.$removeAuthLocalStorage();
+                        this.$removeAuthLocalStorage();
                         this.$removeLocalStorage('announcement_count');
                         delete axios.defaults.headers.common['Authorization'];
                         this.$router.go(0);
                     });
             }
         }
-    },
-    mounted() {
-        // mili seconds
-        // setInterval(this.getRefreshTokenApi, 15000000);
     }
 });

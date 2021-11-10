@@ -5,7 +5,7 @@ import estate from './modules/estate';
 import district from './modules/district';
 import station from './modules/station';
 import wishlist from './modules/wishlist';
-import announcement from './modules/announcement';
+// import announcement from './modules/announcement';
 
 Vue.use(Vuex);
 
@@ -16,6 +16,6 @@ export default new Vuex.Store({
         district,
         station,
         wishlist,
-        announcement
+        // announcement
     }
 });

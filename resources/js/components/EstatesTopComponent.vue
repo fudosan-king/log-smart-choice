@@ -11,6 +11,8 @@
                         "
                         alt=""
                         class="img-fluid"
+                        width="100%"
+                        height="auto"
                     />
                 
                     <p class="label_custom" v-if="estate.renovation_type == 'カスタム可能物件'">カスタム<br />可能物件</p>
@@ -52,7 +54,7 @@
         </li>
     </ul>
     <ul class="list_property" v-else-if="!isHidden">
-        <img v-lazy="`images/loading1.gif`" alt="" class="img-fluid img-fluid-loading" />
+        <img v-lazy="`images/loading1.gif`" alt="" class="img-fluid img-fluid-loading" height="auto" width="100%" />
     </ul>
 </template>
 

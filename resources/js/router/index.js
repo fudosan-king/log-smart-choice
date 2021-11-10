@@ -1,10 +1,6 @@
 import VueRouter from 'vue-router';
 import store from '../store/index';
 import axios from 'axios';
-import Vue from 'vue';
-import globalHelper from '../globalHelper';
-
-Vue.use(globalHelper);
 
 // Routes
 const routes = [
@@ -24,24 +20,6 @@ const routes = [
             title: '全物件一覧｜Order Renove'
         }
     },
-    {
-        path: '/list/:searchCode',
-        name: 'listByCode',
-        component: () => import('../../js/pages/ListEstates.vue'),
-        meta: {
-            title: 'の物件一覧｜Order Renove'
-        }
-    },
-    // {
-    //     path: '/list/:districtCode',
-    //     name: 'listByDistrict',
-    //     component: () => import('../../js/pages/ListEstatesByDistrict.vue'),
-    // },
-    // {
-    //     path: '/list/:companyCode/:stationCode',
-    //     name: 'listByStation',
-    //     component: () => import('../../js/pages/ListEstates.vue'),
-    // },
     {
         path: '/detail/:estateId',
         name: 'detail',
@@ -220,14 +198,6 @@ const routes = [
             title: '検索条件｜Order Renove'
         }
     },
-    // {
-    //     path: '/search-results',
-    //     name: 'EstateSearchResult',
-    //     component: () => import('../pages/EstateSearchResult.vue'),
-    //     meta: {
-    //         title: '物件問い合わせ完了｜Order Renove'
-    //     }
-    // },
 ];
 
 const router = new VueRouter({
@@ -237,11 +207,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
     let title = '';
-    if (to.name === 'listByCode') {
-        if (window.localStorage.getItem('searchCode')) {
-            title = window.localStorage.getItem('searchCode') + 'の物件一覧|Order Renove';
-        }
-    } else if (['contact', 'contactConfirm', 'contactSuccess'].includes(to.name)) {
+    if (['contact', 'contactConfirm', 'contactSuccess'].includes(to.name)) {
         title = window.localStorage.getItem('estateName') + to.meta.title;
     } else {
         title = to.meta.title;
@@ -295,16 +261,6 @@ router.beforeEach((to, from, next) => {
         metaHTML += `<meta property="og:title" content="${to.meta.title}">`;
         document.head.innerHTML += metaHTML;
     }
-    // let marketingString = '';
-    // if (to.name == 'contactSuccess') {
-    //     let orderRenoveCustomerId = window.localStorage.getItem('orderrenoveCustomerId');
-    //     marketingString += `<script>var msmaf_m_v="${orderRenoveCustomerId}"; var a8_affiliate_id="${orderRenoveCustomerId}"; var tamaru_id="${orderRenoveCustomerId}"; var imaf_uid="${orderRenoveCustomerId}";</script>`;
-    //     marketingString += `<script>window.dataLayer = window.dataLayer || []; dataLayer.push ({ 'a8_affiliate_id': "${orderRenoveCustomerId}",}); </script>`;
-    //     marketingString += `<script>window.dataLayer = window.dataLayer || []; dataLayer.push ({ 'msmaf_m_v': "${orderRenoveCustomerId}",}); </script>`;
-    //     marketingString += `<script>window.dataLayer = window.dataLayer || []; dataLayer.push ({ 'tamaru_id': "${orderRenoveCustomerId}",}); </script>`;
-    //     marketingString += `<script>window.dataLayer = window.dataLayer || []; dataLayer.push ({ 'imaf_uid': "${orderRenoveCustomerId}",}); </script>`;
-    //     document.head.innerHTML += marketingString;
-    // }
 
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (localStorage.getItem('accessToken')) {

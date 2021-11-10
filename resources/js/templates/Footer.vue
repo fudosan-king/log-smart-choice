@@ -11,6 +11,7 @@
                                     alt=""
                                     class="img-fluid"
                                     width="224"
+                                    height="224"
                             /></a>
                         </p>
                         <ul class="d-none d-lg-flex">
@@ -64,6 +65,7 @@
                                     alt=""
                                     class="img-fluid"
                                     width="108"
+                                    height="108"
                             /></a>
                         </p>
                         <ul>
@@ -74,6 +76,7 @@
                                         alt=""
                                         class="img-fluid"
                                         width="88"
+                                        height="88"
                                 /></a>
                             </li>
                             <li>
@@ -83,6 +86,7 @@
                                         alt=""
                                         class="img-fluid"
                                         width="120"
+                                        height="120"
                                 /></a>
                             </li>
                             <li>
@@ -92,6 +96,7 @@
                                         alt=""
                                         class="img-fluid"
                                         width="84"
+                                        height="84"
                                 /></a>
                             </li>
                         </ul>
@@ -107,22 +112,22 @@
         </div>
         <div class="footer_bottom fixed-bottom" v-if="contactPart == 'detail'">
             <a class="btn" href="javascript:void(0)" v-on:click="directToContact"
-                ><img src="/assets/images/svg/i_mail.svg" alt="" class="img-fluid" width="18" />お問い合わせ</a
+                ><img src="/assets/images/svg/i_mail.svg" alt="" class="img-fluid" width="18" height="18" />お問い合わせ</a
             >
             <a class="btn" href="tel:0368978564"
-                ><img src="/assets/images/svg/i_call.svg" alt="" class="img-fluid" width="18" />03-6897-8564</a
+                ><img src="/assets/images/svg/i_call.svg" alt="" class="img-fluid" width="18" height="18" />03-6897-8564</a
             >
         </div>
         <div
             class="footer_bottom fixed-bottom align-center"
             v-if="routeName == 'home' || routeName == 'listByCode' || routeName == 'list'"
         >
-            <a class="btn" href="/fast-register"><img src="images/svg/i_mail.svg" alt="" class="img-fluid" width="18">メルマガ登録 </a>
+            <a class="btn" href="/fast-register"><img src="/assets/images/svg/i_mail.svg" alt="" class="img-fluid" width="18" height="18">メルマガ登録 </a>
             <a class="btn" href="/search" >検索条件を入力</a>
         </div>
         <div class="footer_bottom fixed-bottom" v-if="routeName == 'EstateSearch'">
             <a class="btn btn_conditions btn_search_conditions" href="javascript:void(0)" v-on:click="resultSearch"
-                ><img src="images/svg/i_search.svg" alt="" class="img-fluid" width="18" />検索</a
+                ><img src="/assets/images/svg/i_search.svg" alt="" class="img-fluid" width="18" height="18" />検索</a
             >
         </div>
         <!-- <div

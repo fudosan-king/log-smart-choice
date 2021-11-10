@@ -11,6 +11,8 @@
                         "
                         alt=""
                         class="img-fluid"
+                        height="auto"
+                        width="100%"
                     />
                     <p class="label_custom" v-if="estate.renovation_type == 'カスタム可能物件'">カスタム<br />可能物件</p>
                     <p class="label_custom renovated" v-else>リノベ済<br />物件</p>

@@ -1,5 +1,3 @@
-import VueLazyload from 'vue-lazyload';
-
 export default {
     install(Vue, options) {
         Vue.auth = {
