@@ -20,7 +20,7 @@ class Helper
         } elseif ($maxValue == $maxValueCompare) {
             $objectModel->where($colCompare, '>=', (int)$minValue);
         } else {
-            $objectModel->whereBetween('tatemono_menseki', [(int)$minValue, (int)$maxValue]);
+            $objectModel->whereBetween($colCompare, [(int)$minValue, (int)$maxValue]);
         }
 
         return $objectModel;

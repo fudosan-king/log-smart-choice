@@ -69,8 +69,9 @@ class EstateController extends Controller
         $estates = Estates::select($this->selectField);
 
         $estates->where('status', Estates::STATUS_SALE);
-
+        
         if ($flagSearch == 'station') {
+            $keyWord = [];
             if (!$keyWord) {
                 $keyWord = [];
                 $stations = Station::select('name')->groupBy('name')->get()->toArray();
@@ -78,7 +79,8 @@ class EstateController extends Controller
                     $keyWord[] = $value['name'];
                 }
             }
-            $estates->whereIn('transports.station_name', is_array($keyWord) ? $keyWord : [$keyWord]);
+
+            $estates->whereIn('transports.station_name', $keyWord);
             $flagSearch = 'station';
         } else {
             if (!$keyWord) {
@@ -88,7 +90,8 @@ class EstateController extends Controller
                     $keyWord[] = $value['name'];
                 }
             }
-            $estates->whereIn('address.city', is_array($keyWord) ? $keyWord : [$keyWord]);
+            
+            $estates->whereIn('address.city', $keyWord);
             $flagSearch = 'area';
         }
 
