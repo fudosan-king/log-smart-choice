@@ -75,10 +75,10 @@ class EstateController extends Controller
                 $keyWord = [];
                 $stations = Station::select('name')->groupBy('name')->get()->toArray();
                 foreach ($stations as $value) {
-                    $keyWord[] = $value['name'];
+                    $keyWord[] = str_replace(' ', '', $value['name']);;
                 }
             }
-            $estates->whereIn('transports.station_name', is_array($keyWord) ? $keyWord : [$keyWord]);
+            $estates->whereIn('transports.station_name', explode(',', str_replace(' ', '', $keyWord)));
             $flagSearch = 'station';
         } else {
             if (!$keyWord) {
@@ -87,8 +87,9 @@ class EstateController extends Controller
                 foreach ($districts as $value) {
                     $keyWord[] = $value['name'];
                 }
+                
             }
-            $estates->whereIn('address.city', is_array($keyWord) ? $keyWord : [$keyWord]);
+            $estates->whereIn('address.city', explode(',', str_replace(' ', '', $keyWord)));
             $flagSearch = 'area';
         }
 
