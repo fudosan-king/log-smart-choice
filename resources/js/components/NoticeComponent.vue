@@ -13,6 +13,7 @@
                                 href="javascript:void(0)"
                                 v-on:click="readAnnouncement(announcement.announcement_id, announcement._id)"
                             >
+                            <template>
                                 <img
                                     v-lazy="
                                         announcement.estate_information.estate_main_photo.length
@@ -24,6 +25,7 @@
                                     width="100%"
                                     height="auto"
                                 />
+                            </template>
                             </a>
                             <span>新着物件</span>
                         </div>
@@ -32,11 +34,13 @@
                         <div class="box_notice_content">
                             <p>{{ announcement.announcement_created_at }}</p>
                             <p>
-                                <a
-                                    href="javascript:void(0)"
-                                    v-on:click="readAnnouncement(announcement.announcement_id, announcement._id)"
-                                    >{{ announcement.estate_information.article_title }}</a
-                                >
+                                <template>
+                                    <a
+                                        href="javascript:void(0)"
+                                        v-on:click="readAnnouncement(announcement.announcement_id, announcement._id)"
+                                        >{{ announcement.estate_information.article_title }}</a
+                                    >
+                                </template>
                             </p>
                             <p>{{ announcement.tatemono_menseki }}m²</p>
                             <p>{{ announcement.price }}万円<template v-if="estate.renovation_type != 'リノベ済物件'">（改装前価格）</template></p>

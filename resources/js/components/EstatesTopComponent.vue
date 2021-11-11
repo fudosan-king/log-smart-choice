@@ -3,18 +3,19 @@
         <li v-for="(estate, index) in estates" :key="index._id">
             <div class="property_img">
                 <a v-bind:href="'/detail/' + estate._id">
-                    <img
-                        v-lazy="
-                            estate.estate_information.estate_main_photo.length != 0
-                                ? estate.estate_information.estate_main_photo[0].url_path
-                                : '/images/no-image.png'
-                        "
-                        alt=""
-                        class="img-fluid"
-                        width="100%"
-                        height="auto"
-                    />
-                
+                    <template v-if="estate.estate_information">
+                        <img
+                            v-lazy="
+                                estate.estate_information.estate_main_photo.length != 0
+                                    ? estate.estate_information.estate_main_photo[0].url_path
+                                    : '/images/no-image.png'
+                            "
+                            alt=""
+                            class="img-fluid"
+                            width="100%"
+                            height="auto"
+                        />
+                    </template>
                     <p class="label_custom" v-if="estate.renovation_type == 'カスタム可能物件'">カスタム<br />可能物件</p>
                     <p class="label_custom renovated" v-else>リノベ済<br />物件</p>
                     <div class="w_property_head">
@@ -24,7 +25,9 @@
                         <div class="property_head">
                             <div class="row">
                                 <div class="col-10 col-lg-10 align-self-center">
-                                    <p class="property_name"><b>{{ estate.estate_information.article_title }}</b></p>
+                                    <template v-if="estate.estate_information">
+                                        <p class="property_name"><b>{{ estate.estate_information.article_title }}</b></p>
+                                    </template>
                                     <p class="property_address">
                                         <span>
                                         {{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}

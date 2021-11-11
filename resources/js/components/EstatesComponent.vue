@@ -31,6 +31,7 @@
                         >
                             <div class="property_img">
                                 <a v-bind:href="'/detail/' + estate._id">
+                                <template v-if="estate.estate_information">
                                     <img
                                         v-lazy="
                                             estate.estate_information.estate_main_photo.length > 0
@@ -42,6 +43,7 @@
                                         height="auto"
                                         width="100%"
                                     />
+                                </template>
                                     <p class="label_custom" v-if="estate.renovation_type == 'カスタム可能物件'">
                                         カスタム<br />可能物件
                                     </p>
@@ -56,9 +58,11 @@
                                         <div class="property_head">
                                             <div class="row">
                                                 <div class="col-10 col-lg-10 align-self-center">
-                                                    <p class="property_name">
-                                                        <b>{{ estate.estate_information.article_title }}</b>
-                                                    </p>
+                                                    <template v-if="estate.estate_information">
+                                                        <p class="property_name">
+                                                            <b>{{ estate.estate_information.article_title }}</b>
+                                                        </p>
+                                                    </template>
                                                     <p class="property_address">
                                                         <span>
                                                             {{ estate.address.city }}{{ estate.address.ooaza
@@ -174,7 +178,7 @@
                 // }
 
                 if (keyWord) {
-                    data.key_word = keyWord;
+                    data.key_word = Array.isArray(keyWord) ? keyWord : [keyWord];
                 }
                 if (minPrice) {
                     data.min_price = minPrice;

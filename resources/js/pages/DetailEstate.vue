@@ -12,7 +12,7 @@
                                 alt=""
                                 class="img-fluid"
                                 width="100%"
-                                height="auto"
+                                height="100px"
                                 />
                             </template>
                         </template>
@@ -55,8 +55,8 @@
                                     :src="photo.url_path ? photo.url_path : '/images/no-image.png'"
                                     alt=""
                                     class="img-fluid"
-                                    width="100%"
-                                    height="auto"
+                                    width="100px"
+                                    height="100px"
                                 />
                             </div>
                         </div>
@@ -69,8 +69,8 @@
                                     :src="photo.url_path ? photo.url_path : '/images/no-image.png'"
                                     alt=""
                                     class="img-fluid"
-                                    width="100%"
-                                    height="auto"
+                                    width="100px"
+                                    height="100px"
                                 />
                             </div>
                         </div>
@@ -105,6 +105,8 @@
                                             v-lazy="photo.url_path ? photo.url_path : '/images/no-image.png'"
                                             alt=""
                                             class="img-fluid"
+                                            width="100px"
+                                            height="100px"
                                         />
                                         <template v-if="indexPhoto == 0">
                                             <!-- <h3 class="estate_name_title">{{ estate.estate_name }}</h3>
@@ -650,7 +652,7 @@
                                 </div>
                             </template>
                             <p class="text-center mt-3">
-                                <a class="btn btnSeemore" @click="searchEstateDistrict(estate.address.city, district.code)">もっと見る</a>
+                                <a class="btn btnSeemore" href="/list">もっと見る</a>
                             </p>
                         </div>
                     </div>
@@ -708,32 +710,32 @@ export default {
         };
     },
     mounted() {
-        const payTerm = $('.js-range-slider1');
-        payTerm.ionRangeSlider({
-            min: 0,
-            max: 35,
-            from: 35,
-            postfix: '年'
-        });
+        // const payTerm = $('.js-range-slider1');
+        // payTerm.ionRangeSlider({
+        //     min: 0,
+        //     max: 35,
+        //     from: 35,
+        //     postfix: '年'
+        // });
 
-        payTerm.on('change', (data) => {
-            this.paymentTerm = parseFloat(data.currentTarget.value);
-            this.calculateMonthlyLoanPayment();
-        });
+        // payTerm.on('change', (data) => {
+        //     this.paymentTerm = parseFloat(data.currentTarget.value);
+        //     this.calculateMonthlyLoanPayment();
+        // });
 
-        const interest = $('.js-range-slider2');
-        interest.ionRangeSlider({
-            min: 0,
-            max: 3,
-            from: 0.8,
-            step: 0.1,
-            postfix: '%'
-        });
+        // const interest = $('.js-range-slider2');
+        // interest.ionRangeSlider({
+        //     min: 0,
+        //     max: 3,
+        //     from: 0.8,
+        //     step: 0.1,
+        //     postfix: '%'
+        // });
 
-        interest.on('change', (data) => {
-            this.paymentInterest = parseFloat(data.currentTarget.value);
-            this.calculateMonthlyLoanPayment();
-        });
+        // interest.on('change', (data) => {
+        //     this.paymentInterest = parseFloat(data.currentTarget.value);
+        //     this.calculateMonthlyLoanPayment();
+        // });
         this.getListEstates();
     },
     watch: {
@@ -793,132 +795,115 @@ export default {
                     .catch((error) => {});
             }
         },
-        mobileHandleShow() {
-            this.mobileShow = !this.mobileShow;
-            if (this.mobileFirstTime) {
-                this.chartData = [this.estate.management_fee, this.estate.repair_reserve_fee, this.monthlyLoan];
-                this.mobileFirstTime = false;
-            }
-        },
+        // mobileHandleShow() {
+        //     this.mobileShow = !this.mobileShow;
+        //     if (this.mobileFirstTime) {
+        //         this.chartData = [this.estate.management_fee, this.estate.repair_reserve_fee, this.monthlyLoan];
+        //         this.mobileFirstTime = false;
+        //     }
+        // },
+        // changeRangeSlider(type, from) {
+        //     let elementClass = '';
+        //     switch (type) {
+        //         case 'ownMoney':
+        //             elementClass = '.js-range-slider';
+        //             break;
+        //         case 'paymentTerm':
+        //             elementClass = '.js-range-slider1';
+        //             break;
+        //         case 'paymentInterest':
+        //             elementClass = '.js-range-slider2';
+        //             break;
+        //     }
+        //     if (elementClass.length > 0) {
+        //         $(elementClass).data('ionRangeSlider').update({
+        //             from: from
+        //         });
+        //     }
+        // },
+        // changeMoney(type, event) {
+        //     event.preventDefault();
+        //     let currentValue = parseFloat(event.target.value);
+        //     switch (type) {
+        //         case 'lscOwnMoney':
+        //             if (this.ownMoney == currentValue) {
+        //                 return;
+        //             }
+        //             this.ownMoney = currentValue;
+        //             this.borrowedMoney = this.estate.price - this.ownMoney;
+        //             this.changeRangeSlider('ownMoney', this.ownMoney);
+        //             break;
+        //         case 'lscBorrowedMoney':
+        //             if (this.borrowedMoney == currentValue) {
+        //                 return;
+        //             }
+        //             this.borrowedMoney = currentValue;
+        //             this.ownMoney = this.estate.price - this.borrowedMoney;
+        //             this.changeRangeSlider('ownMoney', this.ownMoney);
+        //             break;
+        //         case 'lscPaymentTerm':
+        //             if (this.paymentTerm == currentValue) {
+        //                 return;
+        //             }
+        //             let currentPaymentTerm = currentValue;
+        //             if (currentPaymentTerm < 0) {
+        //                 this.paymentTerm = 0;
+        //             } else if (currentPaymentTerm > 35) {
+        //                 this.paymentTerm = 35;
+        //             } else {
+        //                 this.paymentTerm = currentPaymentTerm;
+        //             }
+        //             this.changeRangeSlider('paymentTerm', this.paymentTerm);
+        //             break;
+        //         case 'lscPaymentInterest':
+        //             if (this.paymentInterest == currentValue) {
+        //                 return;
+        //             }
+        //             let currentPaymentInterest = currentValue;
+        //             if (currentPaymentInterest < 0) {
+        //                 this.paymentInterest = 0;
+        //             } else if (currentPaymentInterest > 3) {
+        //                 this.paymentInterest = 3;
+        //             } else {
+        //                 this.paymentInterest = currentPaymentInterest;
+        //             }
+        //             this.changeRangeSlider('paymentInterest', this.paymentInterest);
+        //             break;
+        //         case 'lscBonus':
+        //             if (this.bonus == currentValue) {
+        //                 return;
+        //             }
+        //             this.bonus = currentValue;
+        //             break;
+        //         default:
+        //             break;
+        //     }
+        //     this.calculateMonthlyLoanPayment();
+        // },
+        // calculateMonthlyLoanPayment() {
+        //     let interestPercen = this.paymentInterest / 100;
+        //     let paymentTerm12 = this.paymentTerm * 12;
+        //     let interest12 = 1 + interestPercen / 12;
+        //     let interestWithMonth = Math.pow(interest12, paymentTerm12);
+        //     let calBorrowedMoney = this.borrowedMoney * 10000;
 
-        searchEstateDistrict(district, districtCode) {
-            let cookieStation = this.$getLocalStorage('station');
-            if (cookieStation) {
-                this.$setLocalStorage('station', '');
-            }
-            this.$setLocalStorage('district', district);
-            this.$router
-                .push({ name: 'listByCode', params: {searchCode: districtCode} })
-                .then(() => {
-                    this.$router.go('0');
-                })
-                .catch(() => {
-                    this.$router.go('0');
-                });
-        },
-        changeRangeSlider(type, from) {
-            let elementClass = '';
-            switch (type) {
-                case 'ownMoney':
-                    elementClass = '.js-range-slider';
-                    break;
-                case 'paymentTerm':
-                    elementClass = '.js-range-slider1';
-                    break;
-                case 'paymentInterest':
-                    elementClass = '.js-range-slider2';
-                    break;
-            }
-            if (elementClass.length > 0) {
-                $(elementClass).data('ionRangeSlider').update({
-                    from: from
-                });
-            }
-        },
-        changeMoney(type, event) {
-            event.preventDefault();
-            let currentValue = parseFloat(event.target.value);
-            switch (type) {
-                case 'lscOwnMoney':
-                    if (this.ownMoney == currentValue) {
-                        return;
-                    }
-                    this.ownMoney = currentValue;
-                    this.borrowedMoney = this.estate.price - this.ownMoney;
-                    this.changeRangeSlider('ownMoney', this.ownMoney);
-                    break;
-                case 'lscBorrowedMoney':
-                    if (this.borrowedMoney == currentValue) {
-                        return;
-                    }
-                    this.borrowedMoney = currentValue;
-                    this.ownMoney = this.estate.price - this.borrowedMoney;
-                    this.changeRangeSlider('ownMoney', this.ownMoney);
-                    break;
-                case 'lscPaymentTerm':
-                    if (this.paymentTerm == currentValue) {
-                        return;
-                    }
-                    let currentPaymentTerm = currentValue;
-                    if (currentPaymentTerm < 0) {
-                        this.paymentTerm = 0;
-                    } else if (currentPaymentTerm > 35) {
-                        this.paymentTerm = 35;
-                    } else {
-                        this.paymentTerm = currentPaymentTerm;
-                    }
-                    this.changeRangeSlider('paymentTerm', this.paymentTerm);
-                    break;
-                case 'lscPaymentInterest':
-                    if (this.paymentInterest == currentValue) {
-                        return;
-                    }
-                    let currentPaymentInterest = currentValue;
-                    if (currentPaymentInterest < 0) {
-                        this.paymentInterest = 0;
-                    } else if (currentPaymentInterest > 3) {
-                        this.paymentInterest = 3;
-                    } else {
-                        this.paymentInterest = currentPaymentInterest;
-                    }
-                    this.changeRangeSlider('paymentInterest', this.paymentInterest);
-                    break;
-                case 'lscBonus':
-                    if (this.bonus == currentValue) {
-                        return;
-                    }
-                    this.bonus = currentValue;
-                    break;
-                default:
-                    break;
-            }
-            this.calculateMonthlyLoanPayment();
-        },
-        calculateMonthlyLoanPayment() {
-            let interestPercen = this.paymentInterest / 100;
-            let paymentTerm12 = this.paymentTerm * 12;
-            let interest12 = 1 + interestPercen / 12;
-            let interestWithMonth = Math.pow(interest12, paymentTerm12);
-            let calBorrowedMoney = this.borrowedMoney * 10000;
-
-            if (this.paymentTerm <= 0) {
-                this.monthlyLoan = calBorrowedMoney;
-            } else if (this.paymentInterest <= 0) {
-                this.monthlyLoan = Math.ceil(calBorrowedMoney / paymentTerm12);
-            } else {
-                let sharePart = calBorrowedMoney * (interestPercen / 12) * interestWithMonth;
-                let dividedPart = interestWithMonth - 1;
-                this.monthlyLoan = Math.ceil(sharePart / dividedPart);
-            }
-            this.paymentMonthly = Math.ceil(
-                this.monthlyLoan + this.estate.management_fee + this.estate.repair_reserve_fee
-            );
-            this.paymentMonthlyBonus = Math.ceil(this.paymentMonthly + this.bonus / 6);
-            this.chartData = [this.estate.management_fee, this.estate.repair_reserve_fee, this.monthlyLoan];
-        }
+        //     if (this.paymentTerm <= 0) {
+        //         this.monthlyLoan = calBorrowedMoney;
+        //     } else if (this.paymentInterest <= 0) {
+        //         this.monthlyLoan = Math.ceil(calBorrowedMoney / paymentTerm12);
+        //     } else {
+        //         let sharePart = calBorrowedMoney * (interestPercen / 12) * interestWithMonth;
+        //         let dividedPart = interestWithMonth - 1;
+        //         this.monthlyLoan = Math.ceil(sharePart / dividedPart);
+        //     }
+        //     this.paymentMonthly = Math.ceil(
+        //         this.monthlyLoan + this.estate.management_fee + this.estate.repair_reserve_fee
+        //     );
+        //     this.paymentMonthlyBonus = Math.ceil(this.paymentMonthly + this.bonus / 6);
+        //     this.chartData = [this.estate.management_fee, this.estate.repair_reserve_fee, this.monthlyLoan];
+        // }
     },
     updated() {
-        let estate = this.estate;
         $('.slider-detail').flickity({
             wrapAround: true,
             prevNextButtons: false,
