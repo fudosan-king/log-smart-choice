@@ -71,7 +71,6 @@ class EstateController extends Controller
         $estates->where('status', Estates::STATUS_SALE);
         
         if ($flagSearch == 'station') {
-            $keyWord = [];
             if (!$keyWord) {
                 $keyWord = [];
                 $stations = Station::select('name')->groupBy('name')->get()->toArray();
