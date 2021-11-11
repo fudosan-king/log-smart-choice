@@ -176,7 +176,7 @@
                 // }
 
                 if (keyWord) {
-                    data.key_word = keyWord;
+                    data.key_word = Array.isArray(keyWord) ? keyWord : [keyWord];
                 }
                 if (minPrice) {
                     data.min_price = minPrice;

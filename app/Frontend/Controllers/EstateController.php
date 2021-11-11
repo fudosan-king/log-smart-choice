@@ -83,7 +83,6 @@ class EstateController extends Controller
             $estates->whereIn('transports.station_name', $keyWord);
             $flagSearch = 'station';
         } else {
-            
             if (!$keyWord) {
                 $keyWord = [];
                 $districts = District::select('name')->where('status', District::STATUS_ACTIVATE)->get()->toArray();
