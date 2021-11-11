@@ -69,27 +69,30 @@ class EstateController extends Controller
         $estates = Estates::select($this->selectField);
 
         $estates->where('status', Estates::STATUS_SALE);
-
+        
         if ($flagSearch == 'station') {
+            $keyWord = [];
             if (!$keyWord) {
                 $keyWord = [];
                 $stations = Station::select('name')->groupBy('name')->get()->toArray();
                 foreach ($stations as $value) {
-                    $keyWord[] = str_replace(' ', '', $value['name']);;
+                    $keyWord[] = $value['name'];
                 }
             }
-            $estates->whereIn('transports.station_name', explode(',', str_replace(' ', '', $keyWord)));
+
+            $estates->whereIn('transports.station_name', $keyWord);
             $flagSearch = 'station';
         } else {
+            
             if (!$keyWord) {
                 $keyWord = [];
                 $districts = District::select('name')->where('status', District::STATUS_ACTIVATE)->get()->toArray();
                 foreach ($districts as $value) {
                     $keyWord[] = $value['name'];
                 }
-                
             }
-            $estates->whereIn('address.city', explode(',', str_replace(' ', '', $keyWord)));
+            
+            $estates->whereIn('address.city', $keyWord);
             $flagSearch = 'area';
         }
 
