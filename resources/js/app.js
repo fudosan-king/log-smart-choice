@@ -12,6 +12,6 @@ Vue.component('estatemainphoto-component', () => import('./components/EstateMain
 
 // Vue.component('vuecarousel-component', () => import('./components/VueCarouselComponent.vue'));
 
-const estate = new Vue({
+new Vue({
 	el: '.page-content',
 });

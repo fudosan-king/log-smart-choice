@@ -5,7 +5,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-12 col-lg-12">
-                            <h2 class="title mb-2">メルマガ配信希望条件（会員登録）</h2>
+                            <h2 class="title mb-2">希望に合った新着物件をお届け</h2>
                             <p class="text-center mb-3">
                                 あなたのご希望条件にマッチした物件をメールでいち早くお知らせします。<br />
                                 大手ポータルサイトに載っていない掘り出しものの物件もお届けしています。
