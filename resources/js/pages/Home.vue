@@ -2,7 +2,7 @@
     <main id="main">
         <section class="section_banner" style="background-image: url('/assets/images/takayamatei-800x534.jpg');">
             <div class="caption">
-                <img src="/assets/images/svg/label.svg" alt="" class="img-fluid" width="430" />
+                <img src="/assets/images/svg/label.svg" alt="" class="img-fluid" width="430" height="430" />
                 <p></p>
             </div>
             <ul>
@@ -13,12 +13,14 @@
                             alt=""
                             class="img-fluid d-none d-lg-inline-block"
                             width="18"
+                            height="18"
                         />
                         <img
                             src="/assets/images/svg/i_map_black.svg"
                             alt=""
                             class="img-fluid d-inline-block d-lg-none"
                             width="18"
+                            height="18"
                         />
                         <span>エリアから探す</span></a
                     >
@@ -30,37 +32,20 @@
                             alt=""
                             class="img-fluid d-none d-lg-inline-block"
                             width="13"
+                            height="13"
                         />
                         <img
                             src="/assets/images/svg/i_stations_black.svg"
                             alt=""
                             class="img-fluid d-inline-block d-lg-none"
                             width="13"
+                            height="13"
                         />
                         <span>沿線から探す</span></a
                     >
                 </li>
-                <!-- <li>
-                    <a v-on:click="handleHeaderContentClick('station', $event)">
-                        <img
-                            src="/assets/images/svg/i_locations.svg"
-                            alt=""
-                            class="img-fluid d-none d-lg-inline-block"
-                            width="14"
-                        />
-                        <img
-                            src="/assets/images/svg/i_locations_black.svg"
-                            alt=""
-                            class="img-fluid d-inline-block d-lg-none"
-                            width="14"
-                        />
-                        <span>MAPから探す</span></a
-                    >
-                </li> -->
             </ul>
         </section>
-        <!-- <search-component :search-type="searchType" v-if="searchType" @handleCloseClick="handleCloseSearch()">
-        </search-component> -->
         <section class="section_near_property">
             <div class="container">
                 <div class="row">
@@ -108,7 +93,6 @@ export default {
         EstatesTopComponent: () => import('../components/EstatesTopComponent'),
         EstateRecommendComponent: () => import('../components/EstateRecommendComponent'),
         EstatesNearComponent: () => import('../components/EstatesNearComponent'),
-        // SearchComponent: () => import('../components/SearchComponent')
     },
     methods: {
         clearConditionSearch() {
@@ -117,11 +101,6 @@ export default {
             this.$router.push('list').catch(() => {});
         },
         handleHeaderContentClick(type = 'district', event) {
-            // event.preventDefault();
-            // if (this.searchType != type) {
-            //     this.searchType = type;
-            // }
-            // LSMEvent.$emit("handleSeachClick", type);
             if (type == 'district') {
                 this.$setLocalStorage('tabActive', 'area');
             } else {

@@ -17,6 +17,8 @@
                             "
                             alt=""
                             class="img-fluid"
+                            height="auto"
+                            width="100%"
                     /></a>
                     <p class="total_price">
                         {{ wishtlistItem.price }}<span>万円</span
@@ -60,7 +62,7 @@
             </li>
         </ul>
         <div class="loading" v-if="hasMore" style="text-align: center;">
-            <img v-lazy="`/images/loading1.gif`" />
+            <img v-lazy="`/images/loading1.gif`" height="auto" width="100%" />
         </div>
     </div>
 </template>
