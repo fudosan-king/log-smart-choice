@@ -16,7 +16,7 @@
                 </div>
                 <ul class="box_sort">
                     <li><a class="border-0 pl-0 search_number" href="#">検索結果 <span><b>{{ total }}</b></span> 件</a></li>
-                    <li><a href="/search"><img src="images/svg/i_sort.svg" alt="" class="img-fluid" width="15"><span> 条件を変更する</span></a></li>
+                    <li><a href="/search"><img src="/asset/images/svg/i_sort.svg" alt="" class="img-fluid" width="15"><span> 条件を変更する</span></a></li>
                 </ul>
             </div>
         </div>
@@ -40,6 +40,8 @@
                                         "
                                         alt=""
                                         class="img-fluid"
+                                        height="auto"
+                                        width="100%"
                                     />
                                 </template>
                                     <p class="label_custom" v-if="estate.renovation_type == 'カスタム可能物件'">
@@ -91,7 +93,7 @@
                         </li>
                     </ul>
                     <div class="loading" v-if="hasMore" style="text-align: center;">
-                        <img v-lazy="`/images/loading1.gif`" width="300" />
+                        <img v-lazy="`/images/loading1.gif`" width="300" height="300" />
                     </div>
                 </div>
             </div>

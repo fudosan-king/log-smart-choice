@@ -8,6 +8,7 @@
                     class="img-fluid"
                     v-bind:class="[homeWhiteClass]"
                     width="224"
+                    height="224"
                 />
                 <img
                     v-if="homePage"
@@ -16,6 +17,7 @@
                     class="img-fluid"
                     v-bind:class="[homeBlackClass]"
                     width="134"
+                    height="134"
                 />
                 <img
                     v-else
@@ -24,6 +26,7 @@
                     class="img-fluid"
                     v-bind:class="[homeBlackClass]"
                     width="224"
+                    height="224"
                 />
             </a>
             <div class="ml-auto box_user">
@@ -40,6 +43,7 @@
                             class="img-fluid"
                             v-bind:class="[homeWhiteClass]"
                             width="15"
+                            height="15"
                         />
                         <img
                             src="/assets/images/svg/i_user_black.svg"
@@ -47,24 +51,17 @@
                             class="img-fluid"
                             v-bind:class="[homeBlackClass]"
                             width="15"
+                            height="15"
                         />
                         <span v-if="userName">ログイン中</span>
                         <span v-else>ログイン</span>
                     </a>
                     <div class="dropdown_user_content" style="display: none;">
                         <ul>
-                            <!-- <li>
-                                <a href="javascript:void(0)" v-if="userName">{{ userName }}様</a>
-                            </li> -->
                             <li>
                                 <a href="/customer/information">会員登録情報</a>
                             </li>
                             <li><a href="/customer/announcement-condition">メルマガ配信希望条件</a></li>
-                            <!-- <li>
-                                <a href="/notice"
-                                    >お知らせ <span v-if="announcementCount != 0">{{ announcementCount }}</span></a
-                                >
-                            </li> -->
                             <li><a href="/wishlist">お気に入り</a></li>
                             <li><a href="javascript:void(0)" v-on:click="logout">ログアウト</a></li>
                         </ul>
@@ -79,6 +76,7 @@
                             class="img-fluid"
                             v-bind:class="[homeWhiteClass]"
                             width="16"
+                            height="16"
                         />
                         <img
                             src="/assets/images/svg/i_search_black.svg"
@@ -86,6 +84,7 @@
                             class="img-fluid"
                             v-bind:class="[homeBlackClass]"
                             width="16"
+                            height="16"
                         />
                     </a>
                     <div class="dropdown_search_content" style="display: none;">
@@ -108,31 +107,12 @@
                                                 alt=""
                                                 class="img-fluid"
                                                 width="18"
+                                                height="18"
                                             />
                                             エリアから探す
                                         </button>
                                     </h2>
                                 </div>
-
-                                <!-- <div
-                                    id="collapseOne"
-                                    ref="collapseArea"
-                                    class="collapse show"
-                                    aria-labelledby="headingOne"
-                                    data-parent="#accordionExample"
-                                >
-                                    <div class="card-body districts">
-                                        <ul>
-                                            <li v-for="district in districtList" :key="district.id">
-                                                <a
-                                                    href="javascript:void(0)"
-                                                    v-on:click="searchDistrict(district.name, district.code)"
-                                                    >{{ district.name }}</a
-                                                >
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div> -->
                             </div>
                             <div class="card">
                                 <div class="card-header" id="headingTwo">
@@ -152,39 +132,12 @@
                                                 alt=""
                                                 class="img-fluid"
                                                 width="13"
+                                                height="13"
                                             />
                                             <span>沿線から探す</span>
                                         </button>
                                     </h2>
                                 </div>
-                                <!-- <div
-                                    id="collapseTwo"
-                                    ref="collapseStation"
-                                    class="collapse"
-                                    aria-labelledby="headingTwo"
-                                    data-parent="#accordionExample"
-                                >
-                                    <div class="card-body stations">
-                                        <ul>
-                                            <li
-                                                v-for="company in transportCompanyList"
-                                                :key="company.tran_company_code"
-                                            >
-                                                <a
-                                                    class="station-item"
-                                                    href="javascript:void(0)"
-                                                    v-on:click="
-                                                        searchStation(
-                                                            company.tran_company_short_name,
-                                                            company.tran_company_code
-                                                        )
-                                                    "
-                                                    >{{ company.tran_company_short_name }}</a
-                                                >
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div> -->
                             </div>
                             <div class="card">
                                 <div class="" id="headingOne">
@@ -204,62 +157,6 @@
                                     </h2>
                                 </div>
                             </div>
-                            <!-- <div class="card">
-                                <div class="card-header" id="headingThree">
-                                    <h2 class="mb-0">
-                                        <button
-                                            class="btn btn-block text-left collapsed"
-                                            type="button"
-                                            data-toggle="collapse"
-                                            data-target="#collapseThree"
-                                            aria-expanded="false"
-                                            aria-controls="collapseThree"
-                                        >
-                                            <img
-                                                src="/assets/images/svg/i_locations_black.svg"
-                                                alt=""
-                                                class="img-fluid"
-                                                width="14"
-                                            />
-                                            <span>MAPから探す</span>
-                                        </button>
-                                    </h2>
-                                </div>
-                                <div
-                                    id="collapseThree"
-                                    class="collapse"
-                                    aria-labelledby="headingThree"
-                                    data-parent="#accordionExample"
-                                >
-                                    <div class="card-body">
-                                        <ul>
-                                            <li><a href="#">足立区</a></li>
-                                            <li><a href="">荒川区</a></li>
-                                            <li><a href="">板橋区</a></li>
-                                            <li><a href="">江戸川区</a></li>
-                                            <li><a href="">大田区</a></li>
-                                            <li><a href="">葛飾区</a></li>
-                                            <li><a href="">北区</a></li>
-                                            <li><a href="">江東区</a></li>
-                                            <li><a href="">品川区</a></li>
-                                            <li><a href="">渋谷区</a></li>
-                                            <li><a href="">新宿区</a></li>
-                                            <li><a href="">杉並区</a></li>
-                                            <li><a href="">墨田区</a></li>
-                                            <li><a href="">世田谷区</a></li>
-                                            <li><a href="">台東区</a></li>
-                                            <li><a href="">千代田区</a></li>
-                                            <li><a href="">中央区</a></li>
-                                            <li><a href="">豊島区</a></li>
-                                            <li><a href="">中野区</a></li>
-                                            <li><a href="">練馬区</a></li>
-                                            <li><a href="">文京区</a></li>
-                                            <li><a href="">港区</a></li>
-                                            <li><a href="">目黒区</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div> -->
                         </div>
                     </div>
                 </div>

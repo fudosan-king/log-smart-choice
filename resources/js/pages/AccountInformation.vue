@@ -30,30 +30,12 @@
                                 <div class="col-8 col-lg-8 align-self-center">
                                     <p>{{ customerInfo.email ? customerInfo.email : '-/-' }}</p>
                                 </div>
-                                <!-- <div class="col-4 col-lg-4 align-self-center">
-                                    <p class="head">電話番号：</p>
-                                </div>
-                                <div class="col-8 col-lg-8 align-self-center">
-                                    <p>{{ convertPhone(customerInfo.phone_number) }}</p>
-                                </div> -->
                                 <div class="col-4 col-lg-4 align-self-center">
                                     <p class="head">電話番号：</p>
                                 </div>
                                 <div class="col-8 col-lg-8 align-self-center">
                                     <p>{{ convertPhone(customerInfo.land_line) }}</p>
                                 </div>
-                                <!-- <div class="col-4 col-lg-4 align-self-center">
-                                    <p class="head">生年月日：</p>
-                                </div>
-                                <div class="col-8 col-lg-8 align-self-center">
-                                    <p>
-                                        {{
-                                            customerInfo.birthday
-                                                ? moment(customerInfo.birthday).format('YYYY年MM月DD日')
-                                                : '-'
-                                        }}
-                                    </p>
-                                </div> -->
                             </div>
                             <h4>メルマガ配信希望条件</h4>
                             <div class="row no-gutters">
@@ -110,13 +92,11 @@
     </main>
 </template>
 <script>
-import moment from 'moment';
 
 export default {
     data() {
         return {
             customerInfo: '',
-            moment,
             districtList: '-/-',
             priceTotal: '-/-',
             square: '-/-'
@@ -133,7 +113,6 @@ export default {
                     let district = resp.announcement_condition.city;
                     let price = resp.announcement_condition.price;
                     let square = resp.announcement_condition.square;
-                    console.log(district);
                     if (district === null) {
                         this.districtList = '-/-';
                     } else {

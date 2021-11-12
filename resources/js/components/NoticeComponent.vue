@@ -22,6 +22,8 @@
                                     "
                                     alt=""
                                     class="img-fluid"
+                                    width="100%"
+                                    height="auto"
                                 />
                             </template>
                             </a>
@@ -51,8 +53,9 @@
                         alt=""
                         class="img-fluid d-none d-lg-block curser-pointer"
                         width="20"
+                        height="20"
                     />
-                    <img src="images/svg/i_delete_white.svg" alt="" class="img-fluid d-block d-lg-none" width="20" />
+                    <img src="images/svg/i_delete_white.svg" alt="" class="img-fluid d-block d-lg-none" width="20" height="20" />
                 </a>
             </div>
             <div v-else-if="announcement.is_read" 
@@ -75,6 +78,8 @@
                                     "
                                     alt=""
                                     class="img-fluid"
+                                    width="100%"
+                                    height="auto"
                                 />
                             </a>
                             <span v-if="announcement.status != '公開中'"> 成約済</span>
@@ -103,7 +108,7 @@
                         class="img-fluid d-none d-lg-block curser-pointer"
                         width="20"
                     />
-                    <img src="images/svg/i_delete_white.svg" alt="" class="img-fluid d-block d-lg-none" width="20" />
+                    <img src="images/svg/i_delete_white.svg" alt="" class="img-fluid d-block d-lg-none" width="20" height="20" />
                 </a>
             </div>
         </template>
