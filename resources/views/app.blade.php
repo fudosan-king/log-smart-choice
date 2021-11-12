@@ -45,8 +45,8 @@
   <!-- <link rel="manifest" href="/assets/favicon_package_v0.16/site.webmanifest"> -->
   <meta name="msapplication-TileColor" content="#da532c">
   <meta name="theme-color" content="#ffffff">
-
-  <!-- <link rel="preconnect" href="https://fonts.gstatic.com"> -->
+  <meta name="facebook-domain-verification" content="0k67lwtra49sl6z4qnaowtz5ko1a7p" />
+  <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" rel="preload" onload="this.rel='stylesheet'" as="style" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">

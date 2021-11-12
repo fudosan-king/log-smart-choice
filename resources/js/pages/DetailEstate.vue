@@ -27,7 +27,7 @@
             <section class="p-0">
                 <div class="box_top mb-0">
                     <div class="container">
-                        <p class="subtitle mb-2">
+                        <p class="subtitle mb-2 text-left">
                             <small v-if="estate.estate_information"><b class="estate_name_title">{{ estate.estate_information.article_title }}</b><br>
                                 <span>
                                     <template v-if="estate.address"
