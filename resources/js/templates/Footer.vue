@@ -122,8 +122,11 @@
             class="footer_bottom fixed-bottom align-center"
             v-if="routeName == 'home' || routeName == 'listByCode' || routeName == 'list'"
         >
-            <a class="btn" href="/fast-register"><img src="/assets/images/svg/i_mail.svg" alt="" class="img-fluid" width="18" height="18">メルマガ登録 </a>
-            <a class="btn" href="/search" >検索条件を入力</a>
+            <template v-if="routeName != 'home'">
+                <a class="btn" href="/fast-register"><img src="/assets/images/svg/i_mail.svg" alt="" class="img-fluid" width="18" height="18">希望条件を登録 </a>
+            </template>
+            
+            <a class="btn" href="/search" >条件を絞って物件検索</a>
         </div>
         <div class="footer_bottom fixed-bottom" v-if="routeName == 'EstateSearch'">
             <a class="btn btn_conditions btn_search_conditions" href="javascript:void(0)" v-on:click="resultSearch"
