@@ -102,66 +102,6 @@
                                         {{ errorsApi.land_line[0] }}
                                     </span>
                                 </div>
-                                <!-- <h4>生年月日</h4>
-                                <div class="row">
-                                    <div class="col-4 col-lg-4">
-                                        <div class="box_date">
-                                            <input
-                                                type="text"
-                                                class="form-control datepicker_year"
-                                                placeholder=""
-                                                v-model="birthYear"
-                                                :class="{
-                                                    'is-invalid': errorsApi.birthday && errorsApi.birthday.length
-                                                }"
-                                            />
-
-                                            <span>年</span>
-                                        </div>
-                                        <input
-                                            type="hidden"
-                                            :class="{
-                                                'is-invalid': errorsApi.birthday && errorsApi.birthday.length
-                                            }"
-                                        />
-                                        <div
-                                            v-if="errorsApi.birthday && errorsApi.birthday.length"
-                                            class="invalid-feedback"
-                                        >
-                                            <span>
-                                                {{ errorsApi.birthday[0] }}
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="col-4 col-lg-4">
-                                        <div class="box_date">
-                                            <input
-                                                type="text"
-                                                class="form-control datepicker_month"
-                                                placeholder=""
-                                                v-model="birthMonth"
-                                                :class="{
-                                                    'is-invalid': errorsApi.birthday && errorsApi.birthday.length
-                                                }"
-                                            />
-                                            <span>年</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-4 col-lg-4">
-                                        <div class="box_date">
-                                            <input
-                                                type="text"
-                                                class="form-control datepicker_day"
-                                                placeholder=""
-                                                v-model="birthDay"
-                                                :class="{
-                                                    'is-invalid': errorsApi.birthday && errorsApi.birthday.length
-                                                }"
-                                            />
-                                            <span>日</span>
-                                        </div>
-                                    </div>
-                                </div> -->
                                 <button type="button" class="btn btnsave my-5" @click="submit()">保存</button>
                             </form>
                         </div>
