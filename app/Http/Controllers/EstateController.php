@@ -564,6 +564,7 @@ class EstateController extends Controller
         if (!empty($request->get('tab_search'))) {
             $tabsSearch = array_keys($request->get('tab_search'));
         }
+        $data->tab_search = $tabsSearch;
 
         // Validate fields with ajax
         $this->validateBread($request->all(), $dataType->editRows, $dataType->name, $id)->validate();
