@@ -560,17 +560,17 @@ class EstateController extends Controller
         // }
 
         // tab search
-        // $tabsSearch = [];
-        // if (!empty($request->get('tab_search'))) {
-        //     $tabsSearch = array_keys($request->get('tab_search'));
-        // }
+        $tabsSearch = [];
+        if (!empty($request->get('tab_search'))) {
+            $tabsSearch = array_keys($request->get('tab_search'));
+        }
 
         // Validate fields with ajax
         $this->validateBread($request->all(), $dataType->editRows, $dataType->name, $id)->validate();
         // $this->_insertDatabase($id, 'estate_equipment', $slidesEquipment);
         // $this->_insertDatabase($id, 'estate_flooring', $flooring);
         // $this->_insertDatabase($id, 'category_tab_search', $categoriesTab);
-        // $this->_insertDatabase($id, 'tab_search', $tabsSearch);
+        $this->_insertDatabase($id, 'tab_search', $tabsSearch);
         $this->_insertDatabase($id, 'time_to_join', $request->get('time_to_join'));
         $this->_insertDatabase($id, 'direction', $request->get('direction'));
         $this->_insertDatabase($id, 'company_design', $request->get('company_design'));

@@ -87,22 +87,6 @@ class TabSearchSeeder extends Seeder
             ])->save();
         }
 
-        $dataRow = $this->dataRow($groupsDataType, 'category_tab_search_id');
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'select_dropdown',
-                'display_name' => __('Category'),
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'order'        => 4,
-                'details'      => [],
-            ])->save();
-        }
-
         Menu::firstOrCreate([
             'name' => 'admin',
         ]);

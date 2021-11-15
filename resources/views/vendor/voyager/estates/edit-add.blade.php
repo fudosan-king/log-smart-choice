@@ -138,8 +138,7 @@
                                     </div>
                                 @endforeach
                             @endif
-                        </div>
-
+                        </div>-->
                         <h2 class="padding_tab_search"> Tab Search</h2>
                         <hr class="hr_tab_search">
                         <div class="category_tab_search">
@@ -165,7 +164,7 @@
                         }
                         @endphp
 
-                        <h1 class="padding_tab_search">Description</h1>
+                        <!-- <h1 class="padding_tab_search">Description</h1>
                         <hr class="hr_tab_search">
                         <div class="col-md-12 ">
                             <estate-description-component :data="'{{ $dataTypeContent }}'" :data_read="false"></estate-description-component>

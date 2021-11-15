@@ -24,3 +24,4 @@ composer.lock
 ./bootstrap
 /public/*.js
 /public/*.js.*
+/public/assets/css/style.min.css
