@@ -464,7 +464,9 @@
                 let days = [];
                 var today = new Date();
                 for (let index = 0; index <= 6; index++) {
-                    days.push(this.formatDay(today));
+                    if (index != 2 && index != 3) {
+                        days.push(this.formatDay(today));
+                    }
                 }
                 this.listHopeDay = days;
             },
