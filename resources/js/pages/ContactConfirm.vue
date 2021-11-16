@@ -31,6 +31,35 @@
                                                                 </td>
                                                             </tr>
 
+                                                            
+
+                                                            <tr>
+                                                                <td>
+                                                                    <label>お名前</label>
+                                                                </td>
+                                                                <td id="full_name" class="confirm-text">
+                                                                    <span>{{ contactData.name + ' ' + contactData.lastName}}</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <label>メールアドレス</label>
+                                                                </td>
+                                                                <td id="email" class="confirm-text">
+                                                                    <span>{{ contactData.email }}</span>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>
+                                                                    <label>電話番号</label>
+                                                                </td>
+                                                                <td id="phone-number" class="confirm-text">
+                                                                    <span>{{
+                                                                        convertPhone(contactData.landLine)
+                                                                    }}</span>
+                                                                </td>
+                                                            </tr>
+
                                                             <tr>
                                                                 <td width="50%">
                                                                     <label>第1希望日時</label>
@@ -59,32 +88,6 @@
                                                                 </td>
                                                             </tr>
 
-                                                            <tr>
-                                                                <td>
-                                                                    <label>お名前</label>
-                                                                </td>
-                                                                <td id="full_name" class="confirm-text">
-                                                                    <span>{{ contactData.name + ' ' + contactData.lastName}}</span>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <label>メールアドレス</label>
-                                                                </td>
-                                                                <td id="email" class="confirm-text">
-                                                                    <span>{{ contactData.email }}</span>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <label>電話番号</label>
-                                                                </td>
-                                                                <td id="phone-number" class="confirm-text">
-                                                                    <span>{{
-                                                                        convertPhone(contactData.landLine)
-                                                                    }}</span>
-                                                                </td>
-                                                            </tr>
                                                             <tr>
                                                                 <td>
                                                                     <label>気になるご質問</label>

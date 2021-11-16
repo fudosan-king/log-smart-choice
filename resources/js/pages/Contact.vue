@@ -35,85 +35,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-12 col-lg-3 align-self-center">
-                                                    <label for="">第1希望日時<span class="red">（※）</span></label>
-                                                </div>
-                                                <div class="col-12 col-lg-9 align-self-center">
-                                                    <div class="row">
-                                                        <div class="col-12 col-lg-6">
-                                                            <select name="hope_day_first" class="custom-select">
-                                                                <option
-                                                                    v-for="hopeDay in listHopeDay"
-                                                                    :value="hopeDay"
-                                                                    :selected="
-                                                                        contactData.hopeDayFirst == hopeDay
-                                                                            ? 'selected'
-                                                                            : ''
-                                                                    "
-                                                                    >{{ hopeDay }}</option
-                                                                >
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-12 col-lg-6">
-                                                            <select name="start_time_first" class="custom-select">
-                                                                <option
-                                                                    v-for="startTime in listStartTime"
-                                                                    :value="startTime"
-                                                                    :selected="
-                                                                        contactData.startTimeFirst == startTime
-                                                                            ? 'selected'
-                                                                            : ''
-                                                                    "
-                                                                    >{{ startTime }}</option
-                                                                >
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-12 col-lg-3 align-self-center">
-                                                    <label for="">第2希望日時</label>
-                                                </div>
-                                                <div class="col-12 col-lg-9 align-self-center">
-                                                    <div class="row">
-                                                        <div class="col-12 col-lg-6">
-                                                            <select name="hope_day_second" class="custom-select">
-                                                                <option
-                                                                    v-for="hopeDay in listHopeDay"
-                                                                    :value="hopeDay"
-                                                                    :selected="
-                                                                        contactData.hopeDaySecond == hopeDay
-                                                                            ? 'selected'
-                                                                            : ''
-                                                                    "
-                                                                    >{{ hopeDay }}</option
-                                                                >
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-12 col-lg-6">
-                                                            <select name="start_time_second" class="custom-select">
-                                                                <option
-                                                                    v-for="startTime in listStartTime"
-                                                                    :value="startTime"
-                                                                    :selected="
-                                                                        contactData.startTimeSecond == startTime
-                                                                            ? 'selected'
-                                                                            : ''
-                                                                    "
-                                                                    >{{ startTime }}</option
-                                                                >
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        
 
                                         <div class="form-group">
                                             <div class="row">
@@ -217,6 +139,85 @@
                                                         <span v-if="!$v.land_line.minLength || !$v.land_line.maxLength"
                                                             >電話番号が無効です</span
                                                         >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-12 col-lg-3 align-self-center">
+                                                    <label for="">第1希望日時<span class="red">（※）</span></label>
+                                                </div>
+                                                <div class="col-12 col-lg-9 align-self-center">
+                                                    <div class="row">
+                                                        <div class="col-12 col-lg-6">
+                                                            <select name="hope_day_first" class="custom-select">
+                                                                <option
+                                                                    v-for="hopeDay in listHopeDay"
+                                                                    :value="hopeDay"
+                                                                    :selected="
+                                                                        contactData.hopeDayFirst == hopeDay
+                                                                            ? 'selected'
+                                                                            : ''
+                                                                    "
+                                                                    >{{ hopeDay }}</option
+                                                                >
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-12 col-lg-6">
+                                                            <select name="start_time_first" class="custom-select">
+                                                                <option
+                                                                    v-for="startTime in listStartTime"
+                                                                    :value="startTime"
+                                                                    :selected="
+                                                                        contactData.startTimeFirst == startTime
+                                                                            ? 'selected'
+                                                                            : ''
+                                                                    "
+                                                                    >{{ startTime }}</option
+                                                                >
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-12 col-lg-3 align-self-center">
+                                                    <label for="">第2希望日時</label>
+                                                </div>
+                                                <div class="col-12 col-lg-9 align-self-center">
+                                                    <div class="row">
+                                                        <div class="col-12 col-lg-6">
+                                                            <select name="hope_day_second" class="custom-select">
+                                                                <option
+                                                                    v-for="hopeDay in listHopeDay"
+                                                                    :value="hopeDay"
+                                                                    :selected="
+                                                                        contactData.hopeDaySecond == hopeDay
+                                                                            ? 'selected'
+                                                                            : ''
+                                                                    "
+                                                                    >{{ hopeDay }}</option
+                                                                >
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-12 col-lg-6">
+                                                            <select name="start_time_second" class="custom-select">
+                                                                <option
+                                                                    v-for="startTime in listStartTime"
+                                                                    :value="startTime"
+                                                                    :selected="
+                                                                        contactData.startTimeSecond == startTime
+                                                                            ? 'selected'
+                                                                            : ''
+                                                                    "
+                                                                    >{{ startTime }}</option
+                                                                >
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
