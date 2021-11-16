@@ -5,7 +5,7 @@
                 <section class="p-0">
                     <div class="box_top mb-0">
                         <div class="container">
-                            <h2 class="title mb-3">資料請求・問い合わせ</h2>
+                            <h2 class="title mb-3">資料請求・内見</h2>
                         </div>
                     </div>
                 </section>
