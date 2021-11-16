@@ -146,7 +146,7 @@
                                         <div class="form-group">
                                             <div class="row">
                                                 <div class="col-12 col-lg-3 align-self-center">
-                                                    <label for="">第1希望日時<span class="red">（※）</span></label>
+                                                    <label for="">第1希望日時</label>
                                                 </div>
                                                 <div class="col-12 col-lg-9 align-self-center">
                                                     <div class="row">
@@ -186,7 +186,7 @@
                                         <div class="form-group">
                                             <div class="row">
                                                 <div class="col-12 col-lg-3 align-self-center">
-                                                    <label for="">第2希望日時<span class="red">（※）</span></label>
+                                                    <label for="">第2希望日時</label>
                                                 </div>
                                                 <div class="col-12 col-lg-9 align-self-center">
                                                     <div class="row">
