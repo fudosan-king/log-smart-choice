@@ -35,7 +35,7 @@
                                             </div>
                                         </div>
 
-                                        <!-- <div class="form-group">
+                                        <div class="form-group">
                                             <div class="row">
                                                 <div class="col-12 col-lg-3 align-self-center">
                                                     <label for="">第1希望日時<span class="red">（※）</span></label>
@@ -73,9 +73,9 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div> -->
+                                        </div>
 
-                                        <!-- <div class="form-group">
+                                        <div class="form-group">
                                             <div class="row">
                                                 <div class="col-12 col-lg-3 align-self-center">
                                                     <label for="">第2希望日時</label>
@@ -113,7 +113,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div> -->
+                                        </div>
 
                                         <div class="form-group">
                                             <div class="row">
@@ -365,8 +365,8 @@
                 this.estate = window.localStorage.getItem('estateName');
             }
             this.getCustomerInformation();
-            // this.getListHopeDay();
-            // this.getListStartTime();
+            this.getListHopeDay();
+            this.getListStartTime();
         },
         methods: {
             getCustomerInformation() {
@@ -387,10 +387,10 @@
                             this.last_name = this.contactData.lastName;
                             this.email = this.contactData.email;
                             this.inquiryContent = this.contactData.inquiryContent;
-                            // this.hopeDayFirst = this.contactData.hopeDayFirst;
-                            // this.hopeDaySecond = this.contactData.hopeDaySecond;
-                            // this.startTimeFirst = this.contactData.startTimeFirst;
-                            // this.startTimeSecond = this.contactData.startTimeSecond;
+                            this.hopeDayFirst = this.contactData.hopeDayFirst;
+                            this.hopeDaySecond = this.contactData.hopeDaySecond;
+                            this.startTimeFirst = this.contactData.startTimeFirst;
+                            this.startTimeSecond = this.contactData.startTimeSecond;
                             this.checkedPrivacy = this.contactData.checkedPrivacy;
                         }
                     })
@@ -404,10 +404,10 @@
                             this.last_name = this.contactData.lastName;
                             this.email = this.contactData.email;
                             this.inquiryContent = this.contactData.inquiryContent;
-                            // this.hopeDayFirst = this.contactData.hopeDayFirst;
-                            // this.hopeDaySecond = this.contactData.hopeDaySecond;
-                            // this.startTimeFirst = this.contactData.startTimeFirst;
-                            // this.startTimeSecond = this.contactData.startTimeSecond;
+                            this.hopeDayFirst = this.contactData.hopeDayFirst;
+                            this.hopeDaySecond = this.contactData.hopeDaySecond;
+                            this.startTimeFirst = this.contactData.startTimeFirst;
+                            this.startTimeSecond = this.contactData.startTimeSecond;
                             this.checkedPrivacy = this.contactData.checkedPrivacy;
                         }
                     });
@@ -417,10 +417,10 @@
                 this.submitted = true;
                 this.$v.$touch();
                 this.errorMessage = {};
-                // let hopeDayFirst = $('select[name="hope_day_first"] option:selected').text();
-                // let hopeDaySecond = $('select[name="hope_day_second"] option:selected').text();
-                // let startTimeFirst = $('select[name="start_time_first"] option:selected').text();
-                // let startTimeSecond = $('select[name="start_time_second"] option:selected').text();
+                let hopeDayFirst = $('select[name="hope_day_first"] option:selected').text();
+                let hopeDaySecond = $('select[name="hope_day_second"] option:selected').text();
+                let startTimeFirst = $('select[name="start_time_first"] option:selected').text();
+                let startTimeSecond = $('select[name="start_time_second"] option:selected').text();
                 let inquiryContent = $('textarea[name="inquiry_content"]').val();
                 let orderRenoveCustomerID = $('input[name="orderrenove_customer_id"]').val();
 
@@ -442,10 +442,10 @@
                     data.landLine = this.land_line;
                     data.inquiryContent = inquiryContent;
                     data.estateUrl = window.location.origin + '/detail/' + window.localStorage.getItem('estate_id');
-                    // data.hopeDayFirst = hopeDayFirst;
-                    // data.hopeDaySecond = hopeDaySecond;
-                    // data.startTimeFirst = startTimeFirst;
-                    // data.startTimeSecond = startTimeSecond;
+                    data.hopeDayFirst = hopeDayFirst;
+                    data.hopeDaySecond = hopeDaySecond;
+                    data.startTimeFirst = startTimeFirst;
+                    data.startTimeSecond = startTimeSecond;
                     data.estateName = this.estate;
                     data.checkedPrivacy = 'on';
                     data.orderRenoveCustomerID = orderRenoveCustomerID;
