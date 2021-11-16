@@ -118,27 +118,6 @@
                             <input name="url_view_street" value="{{ $estateInfo->url_view_street ?? '' }}" class="form-control">
                         </div>
 
-                        <!-- <h2 class="padding_tab_search"> Category</h2>
-                        <hr class="hr_tab_search">
-                        <div class="category_tab_search">
-                            @if($categoriesTabSearch)
-                                @foreach($categoriesTabSearch as $key => $categoryTabSearch)
-                                    <div class="form-check category_checkbox">
-                                        <input type="checkbox" class="form-check-input"
-                                               id="category_{{ $categoryTabSearch->name.$key }}"
-                                               name="category[{{ $categoryTabSearch->id }}]"
-                                                @php
-                                                    if (isset($estateInfo->tab_search) && in_array($categoryTabSearch->id, $estateInfo->category_tab_search)) {
-                                                         echo "checked";
-                                                     }
-                                                @endphp
-                                        >
-                                        <label class="form-check-label"
-                                               for="category_{{ $categoryTabSearch->name.$key }}">{{ $categoryTabSearch->name }}</label>
-                                    </div>
-                                @endforeach
-                            @endif
-                        </div>-->
                         <h2 class="padding_tab_search"> Tab Search</h2>
                         <hr class="hr_tab_search">
                         <div class="category_tab_search">

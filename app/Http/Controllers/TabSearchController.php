@@ -86,10 +86,10 @@ class TabSearchController extends VoyagerBaseController
                 $searchValue = ($search->filter == 'equals') ? $search->value : '%' . $search->value . '%';
 
                 switch ($search->key) {
-                    case 'category_tab_search_id':
-                        $query->join('category_tab_search', 'tab_search.category_tab_search_id', '=', 'category_tab_search.id');
-                        $query->where('category_tab_search.name', $searchFilter, $searchValue);
-                        break;
+                    // case 'category_tab_search_id':
+                    //     $query->join('category_tab_search', 'tab_search.category_tab_search_id', '=', 'category_tab_search.id');
+                    //     $query->where('category_tab_search.name', $searchFilter, $searchValue);
+                    //     break;
                     case 'name':
                         $query = $this->syntaxFullTextSearch($query, $searchValue, (new $dataType->model_name())->searchable);
                         break;

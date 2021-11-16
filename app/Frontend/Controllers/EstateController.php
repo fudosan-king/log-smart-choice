@@ -146,7 +146,8 @@ class EstateController extends Controller
 
         // tabSearch
         if ($tabSearch) {
-                $estates->whereIn('tab_search', $tabSearch);
+                $estates->where('tab_search', 1);
+                $estates->where('tab_search', 2);
         }
 
         $customer = Customer::where('email', $email)->first();

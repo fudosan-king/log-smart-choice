@@ -223,19 +223,19 @@ class EstateController extends Controller
                 $searchFilter = ($search->filter == 'equals') ? '=' : 'LIKE';
                 $searchValue = ($search->filter == 'equals') ? $search->value : '%' . $search->value . '%';
                 switch ($search->key) {
-                    case 'category_tab_search_id':
-                        $categories = CategoryTabSearch::where('name', $searchFilter, $searchValue)->get();
-                        $categoryIds = [];
-                        foreach ($categories as $category) {
-                            $categoryIds[] = $category->id;
-                        }
-                        $estateIds = [];
-                        $estatesInformation = EstateInformation::whereIn('category_tab_search', $categoryIds)->get();
-                        foreach ($estatesInformation as $estateInformation) {
-                            $estateIds[] = $estateInformation->estate_id;
-                        }
-                        $query->whereIn('_id', $estateIds);
-                        break;
+                    // case 'category_tab_search_id':
+                    //     $categories = CategoryTabSearch::where('name', $searchFilter, $searchValue)->get();
+                    //     $categoryIds = [];
+                    //     foreach ($categories as $category) {
+                    //         $categoryIds[] = $category->id;
+                    //     }
+                    //     $estateIds = [];
+                    //     $estatesInformation = EstateInformation::whereIn('category_tab_search', $categoryIds)->get();
+                    //     foreach ($estatesInformation as $estateInformation) {
+                    //         $estateIds[] = $estateInformation->estate_id;
+                    //     }
+                    //     $query->whereIn('_id', $estateIds);
+                    //     break;
                     case 'tab_search_id':
                         $tabsSearch = TabSearch::where('name', $searchFilter, $searchValue)->get();
                         $tabIds = [];
@@ -640,7 +640,7 @@ class EstateController extends Controller
         $estateInfo = $this->_loadEstateInformation($id);
 
         // get category
-        $categoriesTabSearch = CategoryTabSearch::where('status', CategoryTabSearch::ACTIVE)->get();
+        // $categoriesTabSearch = CategoryTabSearch::where('status', CategoryTabSearch::ACTIVE)->get();
 
         // get tab search
         $tabsSearch = TabSearch::where('status', TabSearch::ACTIVE)->get();
@@ -648,7 +648,7 @@ class EstateController extends Controller
         $mapLabel = $this->mapLabel;
 
         return Voyager::view($view, compact('dataType',
-            'dataTypeContent', 'isModelTranslatable', 'mapLabel', 'estateInfo', 'categoriesTabSearch', 'tabsSearch'
+            'dataTypeContent', 'isModelTranslatable', 'mapLabel', 'estateInfo', 'tabsSearch'
         ));
     }
 
