@@ -152,16 +152,17 @@
                                                     <div class="row">
                                                         <div class="col-12 col-lg-6">
                                                             <select name="hope_day_first" class="custom-select">
-                                                                <option
-                                                                    v-for="hopeDay in listHopeDay"
-                                                                    :value="hopeDay"
-                                                                    :selected="
-                                                                        contactData.hopeDayFirst == hopeDay
-                                                                            ? 'selected'
-                                                                            : ''
-                                                                    "
-                                                                    >{{ hopeDay }}</option
-                                                                >
+                                                                <template v-for="hopeDay in listHopeDay">
+                                                                    <option v-if="hopeDay"
+                                                                        :value="hopeDay"
+                                                                        :selected="
+                                                                            contactData.hopeDayFirst == hopeDay
+                                                                                ? 'selected'
+                                                                                : ''
+                                                                        "
+                                                                        >{{ hopeDay }}</option
+                                                                    >
+                                                                </template>
                                                             </select>
                                                         </div>
                                                         <div class="col-12 col-lg-6">
@@ -192,16 +193,17 @@
                                                     <div class="row">
                                                         <div class="col-12 col-lg-6">
                                                             <select name="hope_day_second" class="custom-select">
-                                                                <option
-                                                                    v-for="hopeDay in listHopeDay"
-                                                                    :value="hopeDay"
-                                                                    :selected="
-                                                                        contactData.hopeDaySecond == hopeDay
-                                                                            ? 'selected'
-                                                                            : ''
-                                                                    "
-                                                                    >{{ hopeDay }}</option
-                                                                >
+                                                                <template v-for="hopeDay in listHopeDay">
+                                                                    <option v-if="hopeDay"
+                                                                        :value="hopeDay"
+                                                                        :selected="
+                                                                            contactData.hopeDaySecond == hopeDay
+                                                                                ? 'selected'
+                                                                                : ''
+                                                                        "
+                                                                        >{{ hopeDay }}</option
+                                                                    >
+                                                                </template>
                                                             </select>
                                                         </div>
                                                         <div class="col-12 col-lg-6">
@@ -464,9 +466,9 @@
                 let days = [];
                 var today = new Date();
                 for (let index = 0; index <= 6; index++) {
-                    if (index != 2 && index != 3) {
+                    // if (this.formatDay(today) !== 'undefined') {
                         days.push(this.formatDay(today));
-                    }
+                    // }
                 }
                 this.listHopeDay = days;
             },
@@ -478,32 +480,36 @@
                 let mm = String(newDate.getMonth() + 1).padStart(1, '0'); //January is 0!
                 let dayOfWeek = newDate.getDay(); // Sunday is 0, Monday is 1, and so on.
                 let dayKind = '';
-                switch (dayOfWeek) {
-                    case 0:
-                        dayKind = '日';
-                        break;
-                    case 1:
-                        dayKind = '月';
-                        break;
-                    case 2:
-                        dayKind = '火';
-                        break;
-                    case 3:
-                        dayKind = '水';
-                        break;
-                    case 4:
-                        dayKind = '木';
-                        break;
-                    case 5:
-                        dayKind = '金';
-                        break;
-                    case 6:
-                        dayKind = '土';
-                        break;
-                    default:
-                        break;
+                if (dayOfWeek != 2 && dayOfWeek != 3) {
+                    switch (dayOfWeek) {
+                        case 0:
+                            dayKind = '日';
+                            break;
+                        case 1:
+                            dayKind = '月';
+                            break;
+                        case 2:
+                            dayKind = '火';
+                            break;
+                        case 3:
+                            dayKind = '水';
+                            break;
+                        case 4:
+                            dayKind = '木';
+                            break;
+                        case 5:
+                            dayKind = '金';
+                            break;
+                        case 6:
+                            dayKind = '土';
+                            break;
+                        default:
+                            break;
+                    }
                 }
-                return mm + '月' + dd + '日 ' + '(' + dayKind + ')';
+                if (dayKind) {
+                    return mm + '月' + dd + '日 ' + '(' + dayKind + ')';
+                }
             },
 
             randomOrderRenoveCustomerId(length) {
