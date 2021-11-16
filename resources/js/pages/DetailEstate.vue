@@ -785,10 +785,11 @@ export default {
                             this.estateInfo = this.estate['estate_information'];
                             this.borrowedMoney = this.estate.price + this.estate.renovation_cost;
                             this.totalPrice = this.estate.price + this.estate.renovation_cost;
-                            this.calculateMonthlyLoanPayment();
+                            // this.calculateMonthlyLoanPayment();
+                            this.srcMap = this.estate['estate_information']['url_map'];
+                            this.srcStreetView = this.estate['estate_information']['url_view_street'];
                         }
-                        this.srcMap = this.estate['estate_information']['url_map'];
-                        this.srcStreetView = this.estate['estate_information']['url_view_street'];
+                        
                         let carParkNote = this.estate['homes']['carpark_note'];
                         this.carParkNote = carParkNote.replace(/\n/g, '<br>');
                     })
