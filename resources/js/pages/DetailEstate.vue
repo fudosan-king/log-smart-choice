@@ -768,7 +768,6 @@ export default {
                             if (this.estate['estate_information']['estate_main_photo']) {
                                 this.mainPhoto = this.estate['estate_information']['estate_main_photo'];
                             }
-
                             if (this.estate['other_fee']) {
                                 let data = {};
                                 this.estate['other_fee'].forEach((element, key) => {
@@ -789,7 +788,6 @@ export default {
                             this.srcMap = this.estate['estate_information']['url_map'];
                             this.srcStreetView = this.estate['estate_information']['url_view_street'];
                         }
-                        
                         let carParkNote = this.estate['homes']['carpark_note'];
                         this.carParkNote = carParkNote.replace(/\n/g, '<br>');
                     })
