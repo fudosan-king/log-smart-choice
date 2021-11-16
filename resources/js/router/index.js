@@ -9,7 +9,7 @@ const routes = [
         name: 'home',
         component: () => import('../../js/pages/Home.vue'),
         meta: {
-            title: 'リノベーションをするならオーダーリノベ ｜Order Renove'
+            title: 'リノベーションプラットフォーム「オーダーリノベ」｜Order Renove'
         }
     },
     {
