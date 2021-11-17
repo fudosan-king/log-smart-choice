@@ -112,7 +112,7 @@
         </div>
         <div class="footer_bottom fixed-bottom" v-if="contactPart == 'detail'">
             <a class="btn" href="javascript:void(0)" v-on:click="directToContact"
-                ><img src="/assets/images/svg/i_mail.svg" alt="" class="img-fluid" width="18" height="18" />お問い合わせ</a
+                ><img src="/assets/images/svg/i_mail.svg" alt="" class="img-fluid" width="18" height="18" />資料請求・内見</a
             >
             <a class="btn" href="tel:0368978564"
                 ><img src="/assets/images/svg/i_call.svg" alt="" class="img-fluid" width="18" height="18" />03-6897-8564</a
