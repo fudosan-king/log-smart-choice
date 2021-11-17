@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use TCG\Voyager\Http\Controllers\VoyagerBaseController as Controller;
-use App\Models\CategoryTabSearch;
 use App\Models\EstateInformation;
 use App\Models\TabSearch;
 use Exception;
@@ -16,7 +15,6 @@ use TCG\Voyager\Events\BreadDataAdded;
 use App\Actions\ResizeImage;
 use App\Models\District;
 use App\Models\Estates;
-use App\Models\Station;
 
 class EstateController extends Controller
 {
@@ -223,19 +221,6 @@ class EstateController extends Controller
                 $searchFilter = ($search->filter == 'equals') ? '=' : 'LIKE';
                 $searchValue = ($search->filter == 'equals') ? $search->value : '%' . $search->value . '%';
                 switch ($search->key) {
-                    // case 'category_tab_search_id':
-                    //     $categories = CategoryTabSearch::where('name', $searchFilter, $searchValue)->get();
-                    //     $categoryIds = [];
-                    //     foreach ($categories as $category) {
-                    //         $categoryIds[] = $category->id;
-                    //     }
-                    //     $estateIds = [];
-                    //     $estatesInformation = EstateInformation::whereIn('category_tab_search', $categoryIds)->get();
-                    //     foreach ($estatesInformation as $estateInformation) {
-                    //         $estateIds[] = $estateInformation->estate_id;
-                    //     }
-                    //     $query->whereIn('_id', $estateIds);
-                    //     break;
                     case 'tab_search_id':
                         $tabsSearch = TabSearch::where('name', $searchFilter, $searchValue)->get();
                         $tabIds = [];
@@ -562,9 +547,12 @@ class EstateController extends Controller
         // tab search
         $tabsSearch = [];
         if (!empty($request->get('tab_search'))) {
-            $tabsSearch = array_keys($request->get('tab_search'));
+            $tabs = array_keys($request->get('tab_search'));
+            foreach ($tabs as $key => $value) {
+                $tabsSearch[] = ['tab_search' => $value];
+            }
+            $data->tab_search = $tabsSearch;
         }
-        $data->tab_search = $tabsSearch;
 
         // Validate fields with ajax
         $this->validateBread($request->all(), $dataType->editRows, $dataType->name, $id)->validate();
@@ -638,9 +626,6 @@ class EstateController extends Controller
         // Eagerload Relations
         $this->eagerLoadRelations($dataTypeContent, $dataType, 'edit', $isModelTranslatable);
         $estateInfo = $this->_loadEstateInformation($id);
-
-        // get category
-        // $categoriesTabSearch = CategoryTabSearch::where('status', CategoryTabSearch::ACTIVE)->get();
 
         // get tab search
         $tabsSearch = TabSearch::where('status', TabSearch::ACTIVE)->get();

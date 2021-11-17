@@ -21,14 +21,13 @@ class EstateController extends Controller
 {
     private $linkS3 = 'https://fdk-production.s3-ap-northeast-1.amazonaws.com/';
 
-
     protected $selectField;
 
     public function __construct()
     {
         $this->selectField = [
             'estate_name', 'price', 'address', 
-            'tatemono_menseki', 'price', 'transports',
+            'tatemono_menseki', 'transports',
             'renovation_type', 'date_created', 'room_count',
             'room_kind', 'tab_search'
         ];
@@ -146,8 +145,7 @@ class EstateController extends Controller
 
         // tabSearch
         if ($tabSearch) {
-                $estates->where('tab_search', 1);
-                $estates->where('tab_search', 2);
+                $estates->whereIn('tab_search.tab_search', $tabSearch);
         }
 
         $customer = Customer::where('email', $email)->first();
