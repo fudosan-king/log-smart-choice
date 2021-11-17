@@ -262,6 +262,11 @@ export default {
         let maxSquare = conditionSearch.square ? conditionSearch.square.max : '上限なし';
         let tabListActived = conditionSearch.tabSesarch ? conditionSearch.tabSesarch : [];
 
+        $(".btn_commitment").click(function(event){
+            event.preventDefault();
+            $(this).toggleClass("actived");
+        });
+
         return {
             districtList: {},
             stationParents: {},
