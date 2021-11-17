@@ -114,6 +114,8 @@
     });
     export default {
         data() {
+            let conditionSearch = this.$getLocalStorage('conditionSearch') ? JSON.parse(this.$getLocalStorage('conditionSearch')) : [];
+            let tabListActived = conditionSearch.tabSesarch ? conditionSearch.tabSesarch : [];
             return {
                 estates: [],
                 page: 2,
@@ -122,7 +124,8 @@
                 hasMore: true,
                 accessToken: false,
                 conditionSearch: {},
-                total: 0
+                total: 0,
+                tabListActived: tabListActived
             };
         },
         components: {
@@ -155,6 +158,7 @@
                 let maxPrice = this.$route.query.maxPrice;
                 let minSquare = this.$route.query.minSquare;
                 let maxSquare = this.$route.query.maxSquare;
+                let tabSearchName = this.tabListActived;
                 // if (typeof this.$route.params.searchCode !== 'undefined' && this.$route.params.searchCode.length > 0) {
                 //     if (this.$route.params.searchCode.length >= 11) {
                 //         districtCode = this.$route.params.searchCode;
@@ -191,6 +195,9 @@
                 }
                 if (maxSquare) {
                     data.max_square = maxSquare;
+                }
+                if (tabSearchName) {
+                    data.tab_search = tabSearchName;
                 }
 
                 if (accessToken) {

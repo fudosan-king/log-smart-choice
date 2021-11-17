@@ -13,18 +13,10 @@ class CreateTableCategoryTabSearchAndTabSearch extends Migration
      */
     public function up()
     {
-        Schema::create('category_tab_search', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->boolean('status');
-            $table->timestamps();
-        });
-
         Schema::create('tab_search', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->boolean('status');
-            $table->string('category_tab_search_id');
             $table->timestamps();
         });
     }
@@ -36,7 +28,6 @@ class CreateTableCategoryTabSearchAndTabSearch extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('category_tab_search');
         Schema::dropIfExists('tab_search');
     }
 }

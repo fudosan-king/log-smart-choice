@@ -21,16 +21,15 @@ class EstateController extends Controller
 {
     private $linkS3 = 'https://fdk-production.s3-ap-northeast-1.amazonaws.com/';
 
-
     protected $selectField;
 
     public function __construct()
     {
         $this->selectField = [
             'estate_name', 'price', 'address', 
-            'tatemono_menseki', 'price', 'transports',
+            'tatemono_menseki', 'transports',
             'renovation_type', 'date_created', 'room_count',
-            'room_kind',
+            'room_kind', 'tab_search'
         ];
     }
 
@@ -47,6 +46,7 @@ class EstateController extends Controller
         $maxPrice = $request->get('max_price') ?? Customer::CONDITION_MAX;
         $minSquare = $request->get('min_square') ?? Customer::CONDITION_MIN;
         $maxSquare = $request->get('max_square') ?? Customer::CONDITION_MAX;
+        $tabSearch = $request->get('tab_search') ?? [];
         // $roomTypeFrom = $request->get('room_type_from') ?? '';
         // $roomTypeTo = $request->get('room_type_to') ?? '';
         $email = $request->get('email') ?? '';
@@ -142,6 +142,11 @@ class EstateController extends Controller
         //     $estates->whereIn('room_count', $roomKind);
         //     $estates->whereIn('room_kind', [$roomTypeFrom[1], $roomTypeFrom[2]]);
         // }
+
+        // tabSearch
+        if ($tabSearch) {
+                $estates->whereIn('tab_search.tab_search', $tabSearch);
+        }
 
         $customer = Customer::where('email', $email)->first();
         if ($isSocial) {

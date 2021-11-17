@@ -13,6 +13,7 @@ use App\Frontend\Controllers\CustomerController;
 use App\Frontend\Controllers\DistrictController;
 use App\Frontend\Controllers\MetaTagController;
 use App\Frontend\Controllers\StationController;
+use App\Frontend\Controllers\TabSearchController;
 use App\Models\Estates;
 
 /*
@@ -80,6 +81,9 @@ Route::post('/stations/child-station', [StationController::class, 'getChildStati
 // District
 Route::post('/district/list', [DistrictController::class, 'list']);
 Route::post('/district/customer/list', [DistrictController::class, 'customerList']);
+
+// Tab Search
+Route::post('tab-search/list', [TabSearchController::class, 'list']);
 
 //estate
 Route::group(['prefix' => 'list'], function () {

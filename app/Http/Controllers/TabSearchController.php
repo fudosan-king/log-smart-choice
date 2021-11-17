@@ -86,10 +86,10 @@ class TabSearchController extends VoyagerBaseController
                 $searchValue = ($search->filter == 'equals') ? $search->value : '%' . $search->value . '%';
 
                 switch ($search->key) {
-                    case 'category_tab_search_id':
-                        $query->join('category_tab_search', 'tab_search.category_tab_search_id', '=', 'category_tab_search.id');
-                        $query->where('category_tab_search.name', $searchFilter, $searchValue);
-                        break;
+                    // case 'category_tab_search_id':
+                    //     $query->join('category_tab_search', 'tab_search.category_tab_search_id', '=', 'category_tab_search.id');
+                    //     $query->where('category_tab_search.name', $searchFilter, $searchValue);
+                    //     break;
                     case 'name':
                         $query = $this->syntaxFullTextSearch($query, $searchValue, (new $dataType->model_name())->searchable);
                         break;
@@ -210,16 +210,6 @@ class TabSearchController extends VoyagerBaseController
 
         // Check permission
         $this->authorize('add', app($dataType->model_name));
-
-        // Check category exist
-        $categoryName = $request->has('category_tab_search_id') ? $request->get('category_tab_search_id') : '';
-        $categoryTabSearch = CategoryTabSearch::where('id', $categoryName)->first();
-        if (!$categoryTabSearch) {
-            return redirect()->back()->with([
-                'message'    => 'Category is not exist',
-                'alert-type' => 'error',
-            ]);
-        }
 
         // Validate fields with ajax
         $val = $this->validateBread($request->all(), $dataType->addRows)->validate();
