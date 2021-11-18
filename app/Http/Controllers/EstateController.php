@@ -551,8 +551,9 @@ class EstateController extends Controller
             foreach ($tabs as $key => $value) {
                 $tabsSearch[] = ['tab_search' => $value];
             }
-            $data->tab_search = $tabsSearch;
         }
+
+        $data->tab_search = $tabsSearch;
 
         // Validate fields with ajax
         $this->validateBread($request->all(), $dataType->editRows, $dataType->name, $id)->validate();

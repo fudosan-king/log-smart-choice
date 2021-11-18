@@ -245,6 +245,7 @@ class Estates extends Model
                     $estateInfo = new EstateInformation();
                     $estateInfo->estate_id = $estateDataId;
                     $estateInfo->status = self::STATUS_STOP;
+                    $estateInfo->tab_search = [];
                     $estateInfo->save();
 
                     $this->increaseDecreaseEstateInDistrict(json_decode(json_encode($estateData->address), true), false, $estateData->_id);
@@ -252,6 +253,7 @@ class Estates extends Model
                 } elseif (strtotime($estate->date_last_modified) != (int)$dateModifyFDK->toDateTime()->format('U')) {
                     $estateInfo = EstateInformation::where('estate_id', $estateDataId)->first();
                     $estate->status = $estateInfo->status;
+                    $estate->tab_search = $estateInfo->tab_search;
                     $estate->is_send_announcement = self::NOT_SEND_ANNOUNCEMENT;
                     $estate->date_imported = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d H:i:s')) * 1000);
                     $estate->sort_order_recommend = self::NUMBER_RECOMMEND_ORDER_BY;

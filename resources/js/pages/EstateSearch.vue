@@ -237,7 +237,7 @@
                                 <h2 class="little_title">こだわり</h2>
                                 <ul class="list_commitment">
                                     <li v-for="tab in tabList">
-                                        <a class="btn_commitment" :class="{ actived: tabListActived.includes(tab.id) ? true : false }" href="javascript:void(0)" :data-id="tab.id" :data-value="tab.name">{{ tab.name }}</a>
+                                        <a class="btn_commitment" v-on:click="eventToggleTab" :class="{ actived: tabListActived.includes(tab.id) ? true : false }" href="javascript:void(0)" :data-id="tab.id" :data-value="tab.name">{{ tab.name }}</a>
                                     </li>
                                 </ul>
                                 <!--End Tab Search-->
@@ -261,11 +261,6 @@ export default {
         let minSquare = conditionSearch.square ? conditionSearch.square.min : '下限なし';
         let maxSquare = conditionSearch.square ? conditionSearch.square.max : '上限なし';
         let tabListActived = conditionSearch.tabSesarch ? conditionSearch.tabSesarch : [];
-
-        $(".btn_commitment").click(function(event){
-            event.preventDefault();
-            $(this).toggleClass("actived");
-        });
 
         return {
             districtList: {},
@@ -291,10 +286,6 @@ export default {
             $('.' + flagCheckAllChild + ' input:checkbox')
                 .not(this)
                 .prop('checked', this.checked);
-        });
-        $(".btn_commitment").click(function(event){
-            event.preventDefault();
-            $(this).toggleClass("actived");
         });
     },
     mounted() {
@@ -371,6 +362,10 @@ export default {
             } else {
                 eleParent.prop("checked", false);
             }
+        },
+
+        eventToggleTab(event) {
+            $(event.target).toggleClass("actived");
         }
     }
 };
