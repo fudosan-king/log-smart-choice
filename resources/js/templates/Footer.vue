@@ -314,7 +314,8 @@ export default {
                     min: minSquare,
                     max: maxSquare
                 },
-                tabSesarch: tabList
+                tabSesarch: tabList,
+                tabName: tabListName
             };
             this.$setLocalStorage('tabActive', flagSearch);
             this.$setLocalStorage('conditionSearch', JSON.stringify(data));

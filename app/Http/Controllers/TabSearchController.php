@@ -311,7 +311,7 @@ class TabSearchController extends VoyagerBaseController
 
         if ($estatesInformation->isNotEmpty()) {
             return redirect()->back()->with([
-                'message'    => 'Please remove tag search inside estate '.$estateName.' before delete tab search',
+                'message'    => 'Please remove tab search inside estate '.$estateName.' before delete tab search',
                 'alert-type' => 'error',
             ]);
         }
