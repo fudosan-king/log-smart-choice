@@ -118,7 +118,7 @@
                             <input name="url_view_street" value="{{ $estateInfo->url_view_street ?? '' }}" class="form-control">
                         </div>
 
-                        <h2 class="padding_tab_search"> Tab Search</h2>
+                        <h2 class="padding_tab_search"> Tag Search</h2>
                         <hr class="hr_tab_search">
                         <div class="category_tab_search">
                             @if($tabsSearch)
