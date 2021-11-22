@@ -12,6 +12,9 @@
                         <template v-if="conditionSearch.square">
                             <p><b>広さ：</b>{{ conditionSearch.square.min }}～{{ conditionSearch.square.max }}</p>
                         </template>
+                        <template v-if="conditionSearch.tab_search_name">
+                            <p><b>こだわり：</b>{{ conditionSearch.tab_search_name}}</p>
+                        </template>
                     </template>
                 </div>
                 <ul class="box_sort">
@@ -114,6 +117,9 @@
     });
     export default {
         data() {
+            let conditionSearch = this.$getLocalStorage('conditionSearch') ? JSON.parse(this.$getLocalStorage('conditionSearch')) : [];
+            let tabListActived = conditionSearch.tabSesarch ? conditionSearch.tabSesarch : [];
+            
             return {
                 estates: [],
                 page: 2,
@@ -122,7 +128,8 @@
                 hasMore: true,
                 accessToken: false,
                 conditionSearch: {},
-                total: 0
+                total: 0,
+                tabListActived: tabListActived
             };
         },
         components: {
@@ -155,6 +162,8 @@
                 let maxPrice = this.$route.query.maxPrice;
                 let minSquare = this.$route.query.minSquare;
                 let maxSquare = this.$route.query.maxSquare;
+                let tabSearch = this.tabListActived;
+                let tabSearchName = this.$route.query.tabSearchName;
                 // if (typeof this.$route.params.searchCode !== 'undefined' && this.$route.params.searchCode.length > 0) {
                 //     if (this.$route.params.searchCode.length >= 11) {
                 //         districtCode = this.$route.params.searchCode;
@@ -192,6 +201,13 @@
                 if (maxSquare) {
                     data.max_square = maxSquare;
                 }
+                if (tabSearch) {
+                    data.tab_search = tabSearch;
+                }
+
+                if (tabSearchName) {
+                    data.tab_search_name = tabSearchName;
+                }
 
                 if (accessToken) {
                     data.email = this.$getLocalStorage('userSocialId');
@@ -207,6 +223,7 @@
                         .then(res => {
                             this.estates = this.estates.concat(res[0]['data']);
                             this.conditionSearch = res[0]['conditionSearch'];
+                            console.log(this.conditionSearch);
                             this.total = res[0]['total'];
                             // this.lastEstate = res[0]['lastedEstate'];
                             if (this.estates.length < res[0].total) {

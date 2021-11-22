@@ -135,21 +135,6 @@ class EstateInformation extends Seeder {
             ])->save();
         }
 
-        $dataRow = $this->dataRow($estateDataType, 'category_tab_search_id');
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
-                'display_name' => __('Category Tab Search'),
-                'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'order'        => 7,
-            ])->save();
-        }
-
         $dataRow = $this->dataRow($estateDataType, 'tab_search_id');
         if (!$dataRow->exists) {
             $dataRow->fill([

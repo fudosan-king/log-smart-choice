@@ -232,6 +232,15 @@
                                     </select>
                                 </div>
                                 <!--End Square-->
+
+                                <!--Tab Search-->
+                                <h2 class="little_title">こだわり</h2>
+                                <ul class="list_commitment">
+                                    <li v-for="tab in tabList">
+                                        <a class="btn_commitment" v-on:click="eventToggleTab" :class="{ actived: tabListActived.includes(tab.id) ? true : false }" href="javascript:void(0)" :data-id="tab.id" :data-value="tab.name">{{ tab.name }}</a>
+                                    </li>
+                                </ul>
+                                <!--End Tab Search-->
                             </form>
                         </div>
                     </div>
@@ -251,6 +260,7 @@ export default {
         let maxPrice = conditionSearch.price ? conditionSearch.price.max : '上限なし';
         let minSquare = conditionSearch.square ? conditionSearch.square.min : '下限なし';
         let maxSquare = conditionSearch.square ? conditionSearch.square.max : '上限なし';
+        let tabListActived = conditionSearch.tabSesarch ? conditionSearch.tabSesarch : [];
 
         return {
             districtList: {},
@@ -264,7 +274,9 @@ export default {
             minSquare: minSquare,
             maxSquare: maxSquare,
             conditionSearchBefore: conditionSearch,
-            stationParentBefore: parentStations
+            stationParentBefore: parentStations,
+            tabList: [],
+            tabListActived: tabListActived
         };
     },
     updated() {
@@ -281,6 +293,7 @@ export default {
         this.listTotalPrice();
         this.listSquare();
         this.getStationParents();
+        this.getTabList();
     },
     methods: {
         getDistrict() {
@@ -331,6 +344,12 @@ export default {
             }
         },
 
+        getTabList() {
+            this.$store.dispatch('getTabList').then(response => {
+                this.tabList = response;
+            });
+        },
+
         checkChange(event) {
             let child = event.target.id;
             let positionAllChild = $('#'+child).parentsUntil('.childStation');
@@ -343,6 +362,10 @@ export default {
             } else {
                 eleParent.prop("checked", false);
             }
+        },
+
+        eventToggleTab(event) {
+            $(event.target).toggleClass("actived");
         }
     }
 };

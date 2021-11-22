@@ -276,6 +276,8 @@ export default {
             let newString = [];
             let flagSearch = 'station';
             let idParents = [];
+            let tabList = [];
+            let tabListName = [];
             if ($('#pills-area-tab').hasClass('active')) {
                 $('input[name="inputDistrict[]"]:checked').each(function(i) {
                     newString[i] = $(this).val();
@@ -290,6 +292,11 @@ export default {
                     idParents.push($(this).val());
                 });
             }
+
+            $('a[class="btn_commitment actived"]').each(function(i) {
+                tabList[i] = $(this).data('id');
+                tabListName[i] = $(this).data('value');
+            })
 
             let minTotalPrice = $('select[name="minTotalPrices"]').val();
             let maxTotalPrice = $('select[name="maxTotalPrices"]').val();
@@ -306,14 +313,16 @@ export default {
                 square: {
                     min: minSquare,
                     max: maxSquare
-                }
+                },
+                tabSesarch: tabList,
+                tabName: tabListName
             };
             this.$setLocalStorage('tabActive', flagSearch);
             this.$setLocalStorage('conditionSearch', JSON.stringify(data));
             this.$setLocalStorage('parentStations', JSON.stringify(idParents));
 
             this.$router
-                .push({ name: 'list', query: {keyWord: data.keyWord, minPrice: data.price.min, maxPrice:data.price.max, minSquare:data.square.min, maxSquare:data.square.max } })
+                .push({ name: 'list', query: {keyWord: data.keyWord, minPrice: data.price.min, maxPrice:data.price.max, minSquare:data.square.min, maxSquare:data.square.max, tabSearchName: tabListName } })
                 .then(() => {
                     this.$router.go('0');
                 })

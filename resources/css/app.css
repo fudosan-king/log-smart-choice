@@ -181,7 +181,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type='number'] {
+input[type="number"] {
     -moz-appearance: textfield;
 }
 
@@ -352,4 +352,8 @@ ul.list_property li .property_img p.label_custom {
 
 .box_renovation_specifications p {
     font-size: 14px;
+}
+
+input:checked + .slider {
+    background-color: #2196f3;
 }
