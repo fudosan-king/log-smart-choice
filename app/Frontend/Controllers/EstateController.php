@@ -181,7 +181,7 @@ class EstateController extends Controller
                 'max' => $maxSquare
             ],
             'flag_search' => $flagSearch,
-            'tab_search_name' => implode(', ', $tabSearchName)
+            'tab_search_name' => is_array($tabSearchName) ? implode(', ', $tabSearchName) : $tabSearchName
         ];
         if ($lists['data']) {
             $lists['data'] = $this->getEstateInformation($lists['data'], $wishList);
