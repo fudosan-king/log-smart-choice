@@ -77,7 +77,7 @@ class StationController extends Controller
 
     private function getChildStation($tranCompanyCode)
     {
-        $stations = Station::select('name')
+        $stations = Station::select('name', 'old_name')
             ->where('tran_company_code', $tranCompanyCode)
             ->get();
         return $stations ?: [];
