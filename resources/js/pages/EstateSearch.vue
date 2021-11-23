@@ -162,7 +162,7 @@
                                                                                             indexStation +
                                                                                             indexChild
                                                                                     "
-                                                                                    >{{ child.name }}</label
+                                                                                    >{{ child.old_name }}</label
                                                                                 >
                                                                             </div>
                                                                         </div>
