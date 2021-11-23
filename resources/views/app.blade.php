@@ -5,6 +5,7 @@
 <head>
   <script src="//statics.a8.net/a8sales/a8sales.js"></script>
   <script src="https://r.moshimo.com/af/r/maftag.js"></script>
+  <script src="/js/argsv.min.js"></script>
   <script type="text/javascript" src="//aff.i-mobile.co.jp/script/lpcvlink.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -23,6 +24,7 @@
   window.dataLayer = window.dataLayer || []; dataLayer.push ({ 'imaf_uid': '{{ $customerId }}'});
   window.dataLayer = window.dataLayer || []; dataLayer.push ({ 'orderrenove_customer_id': '{{ $customerId }}'});
   window.dataLayer = window.dataLayer || []; dataLayer.push ({ 'salesOrder': '{{ $customerId }}'});
+  window.dataLayer = window.dataLayer || []; dataLayer.push ({ 'ARGSV': '{{ $customerId }}'});
   </script>
   @php
     unset($_COOKIE['orderrenoveCustomerId']); 
