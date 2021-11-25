@@ -4,6 +4,7 @@ namespace App\Frontend\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Jobs\SendEmailNoticeAdminAfterCustomerRegister;
 use App\Jobs\SendEmailVerifyAccount;
 use App\Models\Customer;
 use App\Models\District;
@@ -79,6 +80,7 @@ class RegisterController extends Controller
         try {
             if ($customer = $this->create($params)) {
                 $this->_sendActiveEmail($customer);
+                $this->_sendNoticeAdmin($customer);
                 return $this->response(200, __('customer.create_success'), [], true);
             }
         } catch (\Exception $ex) {
@@ -246,6 +248,7 @@ class RegisterController extends Controller
         try {
             if ($customer = $this->create($params)) {
                 $this->_sendActiveEmail($customer, true);
+                $this->_sendNoticeAdmin($customer);
                 return $this->response(200, __('customer.create_success'), [], true);
             }
         } catch (\Exception $ex) {
@@ -274,5 +277,14 @@ class RegisterController extends Controller
 
         $emailVerifyAccount = new SendEmailVerifyAccount($customer->email, $data);
         dispatch($emailVerifyAccount);
+    }
+
+    /**
+     * Send email notice admin group
+     * 
+     */
+    private function _sendNoticeAdmin(Customer $customer) {
+        $emailNoticeAdmin = new SendEmailNoticeAdminAfterCustomerRegister(env('EMAIL_SEND_NOTICE_TO_ADMIN', ''), $customer);
+        dispatch($emailNoticeAdmin);
     }
 }

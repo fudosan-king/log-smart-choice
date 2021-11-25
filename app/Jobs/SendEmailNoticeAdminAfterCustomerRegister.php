@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Mail\VerifyAccount;
+use App\Mail\NoticeAdmin;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -11,7 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
-class SendEmailVerifyAccount implements ShouldQueue
+class SendEmailNoticeAdminAfterCustomerRegister implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -38,11 +38,10 @@ class SendEmailVerifyAccount implements ShouldQueue
     public function handle()
     {
         try {
-            $email = new VerifyAccount($this->receiver, $this->data);
+            $email = new NoticeAdmin($this->receiver, $this->data);
             Mail::to($this->receiver)->send($email);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
         }
-
     }
 }

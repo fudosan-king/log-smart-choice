@@ -4,6 +4,7 @@ namespace App\Frontend\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Jobs\SendEmailNoticeAdminAfterCustomerRegister;
 use App\Models\Customer;
 use App\Models\District;
 use App\Providers\RouteServiceProvider;
@@ -145,6 +146,7 @@ class LoginController extends Controller
                     $customer->send_announcement = Customer::SEND_ANNOUNCEMENT;
                     $customer->announcement_condition = json_encode($announcementCondition);
                     $customer->save();
+                    $this->_sendNoticeAdmin($customer);
                 }
 
                 $objectToken = $this->_getAccessToken($customer);
@@ -182,5 +184,14 @@ class LoginController extends Controller
         $token = $tokenResult->token;
         $token->save();
         return $tokenResult;
+    }
+
+    /**
+     * Send email notice admin group
+     * 
+     */
+    private function _sendNoticeAdmin(Customer $customer) {
+        $emailNoticeAdmin = new SendEmailNoticeAdminAfterCustomerRegister(env('EMAIL_SEND_NOTICE_TO_ADMIN', ''), $customer);
+        dispatch($emailNoticeAdmin);
     }
 }

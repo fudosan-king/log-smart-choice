@@ -14,4 +14,5 @@ return [
     'phonenumber_invalid' => 'Invalid phone number',
     'landline_invalid' => 'Invalid landline',
     'birthday_invalid' => 'Birthday invalid',
+    'notice_admin_subject' => 'Test Email Register Customer',
 ];
