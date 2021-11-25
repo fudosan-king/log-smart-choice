@@ -146,7 +146,8 @@ class LoginController extends Controller
                     $customer->send_announcement = Customer::SEND_ANNOUNCEMENT;
                     $customer->announcement_condition = json_encode($announcementCondition);
                     $customer->save();
-                    $this->_sendNoticeAdmin($customer);
+                    $createdAtJPTime = date('Y-m-d H:i:s', strtotime('+9 hour', strtotime($customer->created_at)));
+                    $this->_sendNoticeAdmin($customer, $createdAtJPTime);
                 }
 
                 $objectToken = $this->_getAccessToken($customer);
@@ -190,7 +191,11 @@ class LoginController extends Controller
      * Send email notice admin group
      * 
      */
-    private function _sendNoticeAdmin(Customer $customer) {
+    private function _sendNoticeAdmin(Customer $customer, $createdAt) {
+        $data = [
+            'customer' => $customer,
+            'created_at' => $createdAt
+        ];
         $emailNoticeAdmin = new SendEmailNoticeAdminAfterCustomerRegister(env('EMAIL_SEND_NOTICE_TO_ADMIN', ''), $customer);
         dispatch($emailNoticeAdmin);
     }
