@@ -122,9 +122,9 @@
             class="footer_bottom fixed-bottom align-center"
             v-if="routeName == 'home' || routeName == 'listByCode' || routeName == 'list'"
         >
-            <template v-if="routeName != 'home'">
+            <!-- <template v-if="routeName != 'home'"> -->
                 <a class="btn" href="/fast-register"><img src="/assets/images/svg/i_mail.svg" alt="" class="img-fluid" width="18" height="18">希望条件を登録 </a>
-            </template>
+            <!-- </template> -->
             
             <a class="btn" href="/search" >条件を絞って物件検索</a>
         </div>
@@ -133,65 +133,6 @@
                 ><img src="/assets/images/svg/i_search.svg" alt="" class="img-fluid" width="18" height="18" />検索</a
             >
         </div>
-        <!-- <div
-            class="modal fade modal_register"
-            id="modal_register"
-            tabindex="-1"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true"
-        >
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">
-                            いつもOrderRenoveをご覧頂き<br />
-                            ありがとうございます。<br />
-                            お申し込みには「会員登録」が必要です。
-                        </h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <ul>
-                            <li>
-                                <a class="btn" href="javascript:void(0)" @click="facebookLogin"
-                                    ><img
-                                        src="/assets/images/svg/i_fb.svg"
-                                        alt=""
-                                        class="img-fluid"
-                                        width="24"
-                                    />Facebookではじめる</a
-                                >
-                            </li>
-                            <li>
-                                <a class="btn" href="javascript:void(0)" @click="googleLogin"
-                                    ><img src="/assets/images/svg/i_google.svg" alt="" class="img-fluid" width="24" />
-                                    Googleではじめる</a
-                                >
-                            </li>
-                        </ul>
-                        <p class="termofuse mt-3">
-                            <a href="https://www.propolife.co.jp/terms/">利用規約</a>・
-                            <a href="https://www.logsuite.co.jp/policy/">プライバシーポリシー</a>
-                            に同意の上、<br />会員登録を行ってください。
-                        </p>
-                        <p class="mb-0">または</p>
-                        <p class="mb-0">
-                            <a href="/register" class="btn btn-lg btn_register">メールアドレスで登録</a>
-                        </p>
-                    </div>
-                    <div class="modal-footer">
-                        <p class="text-center">
-                            <a href="/login">すでに会員の方はログイン</a>
-                        </p>
-                        <p class="text-center">
-                            <a href="javascript:void(0)" @click="contactWithOutLogin">ログインせずに自分入力</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div> -->
     </footer>
 </template>
 <script>
