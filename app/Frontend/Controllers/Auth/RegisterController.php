@@ -248,8 +248,9 @@ class RegisterController extends Controller
 
         try {
             if ($customer = $this->create($params)) {
+                $createdAtJPTime = date('Y-m-d H:i:s', strtotime('+9 hour', strtotime($customer->created_at)));
                 $this->_sendActiveEmail($customer, true);
-                $this->_sendNoticeAdmin($customer);
+                $this->_sendNoticeAdmin($customer, $createdAtJPTime);
                 return $this->response(200, __('customer.create_success'), [], true);
             }
         } catch (\Exception $ex) {
