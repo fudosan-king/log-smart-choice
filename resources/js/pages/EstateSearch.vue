@@ -14,173 +14,188 @@
                     <div class="row">
                         <div class="col-12 col-lg-12">
                             <form action="" class="frm_search_conditions">
-                                <h2 class="little_title">エリアまたは沿線・駅から選択（複数選択可）</h2>
-                                <ul class="nav nav-pills" id="pills-tab" role="tablist">
-                                    <li class="nav-item" role="presentation">
-                                        <a
-                                            class="nav-link"
+                                <h2 class="little_title">エリアまたは沿線・駅から選択（複数選択可）
+                                <button class="burger" v-on:click="eventToggleBugger">
+                                    <span class="burger_line"></span>
+                                    <span class="burger_line"></span>
+                                    <span class="burger_line"></span>
+                                </button>
+                                </h2>
+                                <div class="frm_search_conditions_content" style="display: none;">
+                                    <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                                        <li class="nav-item" role="presentation">
+                                            <a
+                                                class="nav-link"
+                                                :class="{ active: activeSearchTab == 'area' ? true : false }"
+                                                id="pills-area-tab"
+                                                data-toggle="pill"
+                                                href="#pills-area"
+                                                role="tab"
+                                                aria-controls="pills-area"
+                                                aria-selected="true"
+                                                >エリアから探す</a
+                                            >
+                                        </li>
+                                        <li class="nav-item" role="presentation">
+                                            <a
+                                                class="nav-link"
+                                                :class="{ active: activeSearchTab == 'station' ? true : false }"
+                                                id="pills-station-tab"
+                                                data-toggle="pill"
+                                                href="#pills-station"
+                                                role="tab"
+                                                aria-controls="pills-station"
+                                                aria-selected="false"
+                                                >沿線・駅から探す</a
+                                            >
+                                        </li>
+                                    </ul>
+
+                                    <div class="tab-content" id="pills-tabContent">
+                                        <!-- Areas Tab-->
+                                        <div
+                                            class="tab-pane fade show"
                                             :class="{ active: activeSearchTab == 'area' ? true : false }"
-                                            id="pills-area-tab"
-                                            data-toggle="pill"
-                                            href="#pills-area"
-                                            role="tab"
-                                            aria-controls="pills-area"
-                                            aria-selected="true"
-                                            >エリアから探す</a
+                                            id="pills-area"
+                                            role="tabpanel"
+                                            aria-labelledby="pills-area-tab"
                                         >
-                                    </li>
-                                    <li class="nav-item" role="presentation">
-                                        <a
-                                            class="nav-link"
-                                            :class="{ active: activeSearchTab == 'station' ? true : false }"
-                                            id="pills-station-tab"
-                                            data-toggle="pill"
-                                            href="#pills-station"
-                                            role="tab"
-                                            aria-controls="pills-station"
-                                            aria-selected="false"
-                                            >沿線・駅から探す</a
-                                        >
-                                    </li>
-                                </ul>
-
-                                <div class="tab-content" id="pills-tabContent">
-                                    <!-- Areas Tab-->
-                                    <div
-                                        class="tab-pane fade show"
-                                        :class="{ active: activeSearchTab == 'area' ? true : false }"
-                                        id="pills-area"
-                                        role="tabpanel"
-                                        aria-labelledby="pills-area-tab"
-                                    >
-                                        <div class="row">
-                                            <template v-for="district in districtList">
-                                                <div class="col-6 col-lg-6">
-                                                    <div class="custom-control custom-checkbox">
-                                                        <input
-                                                            type="checkbox"
-                                                            class="custom-control-input"
-                                                            :id="'ck0' + district.id"
-                                                            name="inputDistrict[]"
-                                                            :value="district.name"
-                                                            :checked="conditionSearchBefore.keyWord ? conditionSearchBefore.keyWord.includes(district.name) : ''"
-                                                        />
-                                                        <label
-                                                            class="custom-control-label"
-                                                            :for="'ck0' + district.id"
-                                                            >{{ district.name }}</label
-                                                        >
-                                                    </div>
-                                                </div>
-                                                <div class="col-6 col-lg-6">
-                                                    <p class="cases">
-                                                        <span>{{ district.count_estates }}</span
-                                                        >件
-                                                    </p>
-                                                </div>
-                                            </template>
-                                        </div>
-                                    </div>
-                                    <!-- End Areas Tab-->
-
-                                    <!-- Station Tab-->
-                                    <div
-                                        class="tab-pane fade show"
-                                        :class="{ active: activeSearchTab == 'station' ? true : false }"
-                                        id="pills-station"
-                                        role="tabpanel"
-                                        aria-labelledby="pills-station-tab"
-                                    >
-                                        <template v-for="(stationParent, index) in stationParents">
-                                            <h2 class="mb-0">{{ index }}</h2>
-                                            <div class="accordion" :id="'accordionExample' + index">
-                                                <template v-for="(station, indexStation) in stationParent">
-                                                    <div class="card">
-                                                        <div class="card-header" id="headingOne">
-                                                            <h2 class="mb-0">
-                                                                <div class="custom-control custom-checkbox ck_all">
-                                                                    <input
-                                                                        type="checkbox"
-                                                                        class="custom-control-input"
-                                                                        :id="'ck0' + index + indexStation"
-                                                                        :value="'ck0' + index + indexStation"
-                                                                        :checked="stationParentBefore ? stationParentBefore.includes('ck0' + index + indexStation) : ''"
-                                                                    />
-                                                                    <label
-                                                                        class="custom-control-label"
-                                                                        :for="'ck0' + index + indexStation"
-                                                                        ><span>{{
-                                                                            station.tran_company_short_name
-                                                                        }}</span></label
-                                                                    >
-                                                                </div>
-                                                                <button
-                                                                    class="btn btn-link btn-block text-left collapsed"
-                                                                    type="button"
-                                                                    data-toggle="collapse"
-                                                                    :data-target="'#collapseOne' + index + indexStation"
-                                                                    aria-expanded="false"
-                                                                    aria-controls="collapseOne"
-                                                                ></button>
-                                                            </h2>
-                                                        </div>
-                                                        <div
-                                                            :id="'collapseOne' + index + indexStation"
-                                                            class="collapse childStation"
-                                                            aria-labelledby="headingOne"
-                                                            :data-parent="'#accordionExample' + index"
-                                                        >
-                                                            <div
-                                                                class="card-body"
-                                                                :class="'ck0' + index + indexStation"
+                                            <div class="row">
+                                                <template v-for="district in districtList">
+                                                    <div class="col-6 col-lg-6">
+                                                        <div class="custom-control custom-checkbox">
+                                                            <input
+                                                                type="checkbox"
+                                                                class="custom-control-input"
+                                                                :id="'ck0' + district.id"
+                                                                name="inputDistrict[]"
+                                                                :value="district.name"
+                                                                :checked="conditionSearchBefore.keyWord ? conditionSearchBefore.keyWord.includes(district.name) : ''"
+                                                            />
+                                                            <label
+                                                                class="custom-control-label"
+                                                                :for="'ck0' + district.id"
+                                                                >{{ district.name }}</label
                                                             >
-                                                                <div class="row">
-                                                                    <template
-                                                                        v-for="(child, indexChild) in station.child"
-                                                                    >
-                                                                        <div class="col-6 col-lg-6">
-                                                                            <div class="custom-control custom-checkbox">
-                                                                                <input
-                                                                                    type="checkbox"
-                                                                                    class="custom-control-input"
-                                                                                    :id="
-                                                                                        'ck0' +
-                                                                                            index +
-                                                                                            indexStation +
-                                                                                            indexChild
-                                                                                    "
-                                                                                    :value="child.name"
-                                                                                    name="inputStation[]"
-                                                                                    v-on:click="checkChange"
-                                                                                    :checked="conditionSearchBefore.keyWord ? conditionSearchBefore.keyWord.includes(child.name) : ''"
-                                                                                />
-                                                                                <label
-                                                                                    class="custom-control-label"
-                                                                                    :for="
-                                                                                        'ck0' +
-                                                                                            index +
-                                                                                            indexStation +
-                                                                                            indexChild
-                                                                                    "
-                                                                                    >{{ child.old_name }}</label
-                                                                                >
-                                                                            </div>
-                                                                        </div>
-                                                                        <div class="col-6 col-lg-6">
-                                                                            <p class="cases"></p>
-                                                                        </div>
-                                                                    </template>
-                                                                </div>
-                                                            </div>
                                                         </div>
+                                                    </div>
+                                                    <div class="col-6 col-lg-6">
+                                                        <p class="cases">
+                                                            <span>{{ district.count_estates }}</span
+                                                            >件
+                                                        </p>
                                                     </div>
                                                 </template>
                                             </div>
-                                        </template>
-                                    </div>
-                                    <!-- End Station Tab-->
-                                </div>
+                                        </div>
+                                        <!-- End Areas Tab-->
 
+                                        <!-- Station Tab-->
+                                        <div
+                                            class="tab-pane fade show"
+                                            :class="{ active: activeSearchTab == 'station' ? true : false }"
+                                            id="pills-station"
+                                            role="tabpanel"
+                                            aria-labelledby="pills-station-tab"
+                                        >
+                                            <div class="accordion" id="accordionExample">
+                                                <template v-for="(stationParent, index) in stationParents">
+                                                    <!-- <div class="accordion" :id="'accordionExample' + index"> -->
+                                                        <h2>{{ index }}
+                                                            <a :href="'#box_jr'+ index" data-toggle="collapse" class="" aria-expanded="false">
+                                                                <div class="icon plus-to-minus"></div>
+                                                            </a>
+                                                        </h2>
+                                                        <div class="multi-collapse collapse" :id="'box_jr'+ index">
+                                                            <template v-for="(station, indexStation) in stationParent">
+                                                                <div class="card">
+                                                                    <div class="card-header" :id="'headingOne' + index + indexStation">
+                                                                        <h2 class="mb-0">
+                                                                            <div class="custom-control custom-checkbox ck_all">
+                                                                                <input
+                                                                                    type="checkbox"
+                                                                                    class="custom-control-input"
+                                                                                    :id="'ck0' + index + indexStation"
+                                                                                    :value="'ck0' + index + indexStation"
+                                                                                    :checked="stationParentBefore ? stationParentBefore.includes('ck0' + index + indexStation) : ''"
+                                                                                />
+                                                                                <label
+                                                                                    class="custom-control-label"
+                                                                                    :for="'ck0' + index + indexStation"
+                                                                                    ><span>{{
+                                                                                        station.tran_company_short_name
+                                                                                    }}</span></label
+                                                                                >
+                                                                            </div>
+                                                                            <button
+                                                                                class="btn btn-link btn-block text-left collapsed"
+                                                                                type="button"
+                                                                                data-toggle="collapse"
+                                                                                :data-target="'#collapseOne' + index + indexStation"
+                                                                                aria-expanded="false"
+                                                                                :aria-controls="'collapseOne' + index + indexStation"
+                                                                            ></button>
+                                                                        </h2>
+                                                                    </div>
+                                                                    <div
+                                                                        :id="'collapseOne' + index + indexStation"
+                                                                        class="collapse childStation"
+                                                                        :aria-labelledby="'headingOne' + index + indexStation"
+                                                                        :data-parent="'#collapseOne' + index + indexStation"
+                                                                    >
+                                                                        <div
+                                                                            class="card-body"
+                                                                            :class="'ck0' + index + indexStation"
+                                                                        >
+                                                                            <div class="row">
+                                                                                <template
+                                                                                    v-for="(child, indexChild) in station.child"
+                                                                                >
+                                                                                    <div class="col-6 col-lg-6">
+                                                                                        <div class="custom-control custom-checkbox">
+                                                                                            <input
+                                                                                                type="checkbox"
+                                                                                                class="custom-control-input"
+                                                                                                :id="
+                                                                                                    'ck0' +
+                                                                                                        index +
+                                                                                                        indexStation +
+                                                                                                        indexChild
+                                                                                                "
+                                                                                                :value="child.name"
+                                                                                                name="inputStation[]"
+                                                                                                v-on:click="checkChange"
+                                                                                                :checked="conditionSearchBefore.keyWord ? conditionSearchBefore.keyWord.includes(child.name) : ''"
+                                                                                            />
+                                                                                            <label
+                                                                                                class="custom-control-label"
+                                                                                                :for="
+                                                                                                    'ck0' +
+                                                                                                        index +
+                                                                                                        indexStation +
+                                                                                                        indexChild
+                                                                                                "
+                                                                                                >{{ child.old_name }}</label
+                                                                                            >
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-6 col-lg-6">
+                                                                                        <p class="cases"></p>
+                                                                                    </div>
+                                                                                </template>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </template>
+                                                        </div>
+                                                    <!-- </div> -->
+                                                </template>
+                                            </div>
+                                        </div>
+                                        <!-- End Station Tab-->
+                                    </div>
+                                </div>
                                 <!--Price-->
                                 <h2 class="little_title">価格（万円）</h2>
                                 <div class="form-group box_form_group">
@@ -287,6 +302,18 @@ export default {
                 .not(this)
                 .prop('checked', this.checked);
         });
+        
+
+        // const burger = document.querySelector(".burger");
+
+        // burger.addEventListener("click", function () {
+        //     const body = document.body;
+        //     body.classList.toggle("nav_open");
+        // });
+
+        $('.plus-to-minus').click( function( event ) {
+            $(this).toggleClass('minus');
+        });
     },
     mounted() {
         this.getDistrict();
@@ -366,6 +393,11 @@ export default {
 
         eventToggleTab(event) {
             $(event.target).toggleClass("actived");
+        },
+
+        eventToggleBugger(event) {
+            event.preventDefault();
+            $('.frm_search_conditions_content').slideToggle("fast");
         }
     }
 };
