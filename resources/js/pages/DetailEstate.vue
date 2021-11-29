@@ -17,8 +17,13 @@
                             </template>
                         </template>
                         <span class="price">
-                            {{ $lscFormatCurrency(estate.price) }} 万円
-                            <template v-if="estate.renovation_type != 'リノベ済物件'"><span class="renovate_title">（改装前価格）</span></template>
+                            <template v-if="estate.status == '成約済'">
+                                成約済
+                            </template>
+                            <template v-else>
+                                {{ $lscFormatCurrency(estate.price) }} 万円
+                                <template v-if="estate.renovation_type != 'リノベ済物件'"><span class="renovate_title">（改装前価格）</span></template>
+                            </template>
                         </span>
                         
                     </div>
@@ -791,7 +796,9 @@ export default {
                         let carParkNote = this.estate['homes']['carpark_note'];
                         this.carParkNote = carParkNote.replace(/\n/g, '<br>');
                     })
-                    .catch((error) => {});
+                    .catch((error) => {
+                        this.$router.push({ name: 'home' }).catch(() => {});
+                    });
             }
         },
         // mobileHandleShow() {
