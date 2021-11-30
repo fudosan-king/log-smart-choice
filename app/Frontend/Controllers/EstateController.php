@@ -146,7 +146,11 @@ class EstateController extends Controller
 
         // tabSearch
         if ($tabSearch) {
-                $estates->whereIn('tab_search.tab_search', $tabSearch);
+            $tabNew = [];
+            foreach ($tabSearch as $value) {
+                $tabNew[] = (int)$value;
+            }
+            $estates->whereIn('tab_search.tab_search', $tabNew);
         }
 
         $customer = Customer::where('email', $email)->first();
@@ -217,30 +221,30 @@ class EstateController extends Controller
             'has_balcony', 'balcony_space', 'land_rights', 'land_rights_detail', 'land_leashold_type', 'land_leashold_years',
             'land_leashold_months', 'land_leashold_limit', 'leasehold_ratio', 'land_fee_type', 'land_fee', 'land_fee_per',
             'transports', 'room_count', 'room_kind', 'spa_fee', 'rights_fee', 'deposit_fee', 'guarantee_fee_depreciation', 'guarantee_fee',
-            'repair_reserve_initial_fee', 'service_rooms', 'superintendent', 'renovation_type'
+            'repair_reserve_initial_fee', 'service_rooms', 'superintendent', 'renovation_type', 'status'
         )
             ->with('estateInformation')
             ->where('_id', $id)
+            ->where('status', '!=', Estates::STATUS_STOP)
             ->get();
-        $estateAddress = $estate[0]['address'];
-        $estateNearAddress = Estates::select('renovation_type', 'price', 'address', 'tatemono_menseki')
-            ->where('_id', '!=', $id)
-            ->where('address.city', $estateAddress['city'])->take(Estates::LIMIT_ESTATE_NEAR_AREA)->orderBy('date_created', 'desc')
-            ->get();
-
-        $district = District::where('name', 'like', '%'. $estateAddress['city'] . '%')->first();
-
-        $roundSquare = explode('.', $estate[0]['tatemono_menseki']);
-        $estate[0]['renovation_cost'] = 0;
-        if ($estate[0]['renovation_type'] != Estates::DECOR) {
-            if ($estate[0]['tatemono_menseki'] >= Estates::RENOVATION_SQUARE_MAX) {
-                $estate[0]['renovation_cost'] = Estates::RENOVATION_COST[Estates::RENOVATION_SQUARE_MAX];
-            } elseif (array_key_exists($roundSquare[0], Estates::RENOVATION_COST)) {
-                $estate[0]['renovation_cost'] = Estates::RENOVATION_COST[$roundSquare[0]];
+        if ($estate->isNotEmpty()) {
+            $estateAddress = $estate[0]['address'];
+            $estateNearAddress = Estates::select('renovation_type', 'price', 'address', 'tatemono_menseki')
+                ->where('_id', '!=', $id)
+                ->where('address.city', $estateAddress['city'])->take(Estates::LIMIT_ESTATE_NEAR_AREA)->orderBy('date_created', 'desc')
+                ->get();
+    
+            $district = District::where('name', 'like', '%'. $estateAddress['city'] . '%')->first();
+    
+            $roundSquare = explode('.', $estate[0]['tatemono_menseki']);
+            $estate[0]['renovation_cost'] = 0;
+            if ($estate[0]['renovation_type'] != Estates::DECOR) {
+                if ($estate[0]['tatemono_menseki'] >= Estates::RENOVATION_SQUARE_MAX) {
+                    $estate[0]['renovation_cost'] = Estates::RENOVATION_COST[Estates::RENOVATION_SQUARE_MAX];
+                } elseif (array_key_exists($roundSquare[0], Estates::RENOVATION_COST)) {
+                    $estate[0]['renovation_cost'] = Estates::RENOVATION_COST[$roundSquare[0]];
+                }
             }
-        }
-
-        if ($estate) {
             return $this->response(200, 'Get estate detail success', ['estate' => $estate, 'estateNearAddress' => $estateNearAddress, 'district' => $district], true);
         }
 
