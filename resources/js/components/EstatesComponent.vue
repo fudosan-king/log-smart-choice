@@ -162,7 +162,7 @@
                 let maxPrice = this.$route.query.maxPrice;
                 let minSquare = this.$route.query.minSquare;
                 let maxSquare = this.$route.query.maxSquare;
-                let tabSearch = this.tabListActived;
+                let tabSearch = this.$route.query.tabSearch ? this.$route.query.tabSearch : this.tabListActived;
                 let tabSearchName = this.$route.query.tabSearchName;
                 // if (typeof this.$route.params.searchCode !== 'undefined' && this.$route.params.searchCode.length > 0) {
                 //     if (this.$route.params.searchCode.length >= 11) {
@@ -202,7 +202,7 @@
                     data.max_square = maxSquare;
                 }
                 if (tabSearch) {
-                    data.tab_search = tabSearch;
+                    data.tab_search = Array.isArray(tabSearch) ? tabSearch : [tabSearch];
                 }
 
                 if (tabSearchName) {
