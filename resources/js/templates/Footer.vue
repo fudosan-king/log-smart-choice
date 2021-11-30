@@ -263,7 +263,15 @@ export default {
             this.$setLocalStorage('parentStations', JSON.stringify(idParents));
 
             this.$router
-                .push({ name: 'list', query: {keyWord: data.keyWord, minPrice: data.price.min, maxPrice:data.price.max, minSquare:data.square.min, maxSquare:data.square.max, tabSearchName: tabListName } })
+                .push({ name: 'list', query: {
+                        keyWord: data.keyWord,
+                        minPrice: data.price.min,
+                        maxPrice:data.price.max,
+                        minSquare:data.square.min,
+                        maxSquare:data.square.max,
+                        tabSearchName: tabListName,
+                        tabSearch: tabList
+                    }})
                 .then(() => {
                     this.$router.go('0');
                 })
