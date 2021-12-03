@@ -125,7 +125,7 @@
                                 @foreach($tabsSearch as $key => $tabSearch)
                                     <div class="form-check category_checkbox">
                                         <input type="checkbox" class="form-check-input" id="tab_search_{{ $tabSearch->name.$key }}" name="tab_search[{{ $tabSearch->id }}]"
-                                                @if (isset($estateInfo->tab_search[$key]) && in_array($tabSearch->id, $estateInfo->tab_search[$key])) checked @endif>
+                                                @if (isset($tabSelected) && in_array($tabSearch->id, $tabSelected)) checked @endif>
                                         <label for="tab_search_{{ $tabSearch->name.$key }}" class="form-check-label" forendif="tab_search_{{ $tabSearch->name.$key }}">{{ $tabSearch->name }}</label>
                                     </div>
                                 @endforeach
