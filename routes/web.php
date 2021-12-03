@@ -5,6 +5,7 @@ use TCG\Voyager\Facades\Voyager;
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DistrictController;
+use App\Frontend\Controllers\RssController;
 
 
 /*
@@ -18,10 +19,11 @@ use App\Http\Controllers\DistrictController;
 |
 */
 
+Route::get('/feed', [RssController::class, 'index'])->name('feed');
+
 // Route to handle page reload in Vue except for api routes
 Route::get('/{any?}', [AppController::class, 'get'])
     ->where('any', '^(?!(api|admin))[\/\w\.-]*');
-
 
 Route::group(['prefix' => 'admin'], function () {
     // overwrite store admin users
