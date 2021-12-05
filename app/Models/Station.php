@@ -36,5 +36,5 @@ class Station extends Model
     const STATION_PARENT_14 = [246];
     const STATION_PARENT_15 = [250];
 
-//    protected $tableName = 'stations';
+   protected $table = 'stations1';
 }

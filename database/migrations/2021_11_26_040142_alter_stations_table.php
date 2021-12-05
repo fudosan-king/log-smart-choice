@@ -13,7 +13,7 @@ class AlterStationsTable extends Migration
      */
     public function up()
     {
-        Schema::table('stations', function (Blueprint $table) {
+        Schema::table('stations1', function (Blueprint $table) {
             $table->dropColumn([
                 'region_code', 'tran_company_code', 'station_code',
                 'tran_company_full_name', 'tran_company_short_name',
@@ -21,6 +21,7 @@ class AlterStationsTable extends Migration
                 'parent_flag'
             ]);
             $table->integer('transport_id');
+            $table->dropUnique('stations_name_unique');
         });
     }
 
@@ -31,7 +32,7 @@ class AlterStationsTable extends Migration
      */
     public function down()
     {
-        Schema::table('stations', function (Blueprint $table) {
+        Schema::table('stations1', function (Blueprint $table) {
             $table->integer('region_code')->nullable()->after('id');
             $table->integer('tran_company_code')->nullable()->after('region_code');
             $table->integer('station_code')->nullable()->after('tran_company_code');
@@ -40,6 +41,7 @@ class AlterStationsTable extends Migration
             $table->string('old_name')->nullable()->after('tran_company_short_name');
             $table->integer('number_change')->nullable()->after('name');
             $table->integer('value_change')->nullable()->after('number_change');
+            $table->boolean('parent_flag')->default(true)->after('count_estates');
             $table->dropColumn('transport_id');
         });
     }
