@@ -72,8 +72,8 @@
                                                                 name="inputDistrict[]"
                                                                 :value="district.name"
                                                                 :checked="
-                                                                    conditionSearchBefore.keyWord
-                                                                        ? conditionSearchBefore.keyWord.includes(
+                                                                    conditionSearchBefore.districts
+                                                                        ? conditionSearchBefore.districts.includes(
                                                                               district.name
                                                                           )
                                                                         : ''
@@ -179,13 +179,13 @@
                                                                                         :value="station.name"
                                                                                         name="inputStation[]"
                                                                                         v-on:click="checkChange"
+                                                                                        :data-transport="station.transport_id"
                                                                                         :checked="
-                                                                                            conditionSearchBefore.keyWord
-                                                                                                ? conditionSearchBefore.keyWord.includes(
-                                                                                                      station.name
-                                                                                                  )
+                                                                                            conditionSearchBefore.stations
+                                                                                                ? conditionSearchBefore.stations.filter(e => e.name === station.name).length > 0 && conditionSearchBefore.stations.filter(e => e.transportId == transport.id).length > 0
                                                                                                 : ''
                                                                                         "
+
                                                                                     />
                                                                                     <label
                                                                                         class="custom-control-label"

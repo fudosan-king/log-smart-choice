@@ -112,10 +112,22 @@
         </div>
         <div class="footer_bottom fixed-bottom" v-if="contactPart == 'detail'">
             <a class="btn" href="javascript:void(0)" v-on:click="directToContact"
-                ><img src="/assets/images/svg/i_mail.svg" alt="" class="img-fluid" width="18" height="18" />資料請求・内見</a
+                ><img
+                    src="/assets/images/svg/i_mail.svg"
+                    alt=""
+                    class="img-fluid"
+                    width="18"
+                    height="18"
+                />資料請求・内見</a
             >
             <a class="btn" href="tel:0368978564"
-                ><img src="/assets/images/svg/i_call.svg" alt="" class="img-fluid" width="18" height="18" />03-6897-8564</a
+                ><img
+                    src="/assets/images/svg/i_call.svg"
+                    alt=""
+                    class="img-fluid"
+                    width="18"
+                    height="18"
+                />03-6897-8564</a
             >
         </div>
         <div
@@ -123,10 +135,18 @@
             v-if="routeName == 'home' || routeName == 'listByCode' || routeName == 'list'"
         >
             <!-- <template v-if="routeName != 'home'"> -->
-                <a class="btn" href="/fast-register"><img src="/assets/images/svg/i_mail.svg" alt="" class="img-fluid" width="18" height="18">希望条件を登録 </a>
+            <a class="btn" href="/fast-register"
+                ><img
+                    src="/assets/images/svg/i_mail.svg"
+                    alt=""
+                    class="img-fluid"
+                    width="18"
+                    height="18"
+                />希望条件を登録
+            </a>
             <!-- </template> -->
-            
-            <a class="btn" href="/search" >条件を絞って物件検索</a>
+
+            <a class="btn" href="/search">条件を絞って物件検索</a>
         </div>
         <div class="footer_bottom fixed-bottom" v-if="routeName == 'EstateSearch'">
             <a class="btn btn_conditions btn_search_conditions" href="javascript:void(0)" v-on:click="resultSearch"
@@ -136,10 +156,9 @@
     </footer>
 </template>
 <script>
-
 export default {
     components: {
-        ScrollTopArrow: () => import('../components/ScrollTopComponent'),
+        ScrollTopArrow: () => import('../components/ScrollTopComponent')
     },
     data() {
         const logoSliver = '/assets/images/SVG/logo_sliver.svg';
@@ -147,7 +166,7 @@ export default {
         return {
             logoSliver: logoSliver,
             iLocationBlack: iLocationBlack,
-            contactPart: '',
+            contactPart: ''
         };
     },
     mounted() {
@@ -213,30 +232,38 @@ export default {
         },
 
         resultSearch() {
-            let newString = [];
+            let districts = [];
+            let stations = [];
             let flagSearch = 'station';
             let idParents = [];
             let tabList = [];
             let tabListName = [];
+            let keyWord = [];
             if ($('#pills-area-tab').hasClass('active')) {
                 $('input[name="inputDistrict[]"]:checked').each(function(i) {
-                    newString[i] = $(this).val();
+                    districts[i] = $(this).val();
+                    keyWord[i] = $(this).val();
                 });
                 flagSearch = 'area';
+                
             } else {
                 $('input[name="inputStation[]"]:checked').each(function(i) {
-                    newString[i] = $(this).val();
+                    stations.push({
+                        name: $(this).val(),
+                        transportId: $(this).attr('data-transport')
+                    });
+                    keyWord[i] = $(this).val();
                 });
 
                 $('.ck_all input:checked').each(function(i) {
-                    idParents.push($(this).val());
+                    idParents[i] = $(this).val();
                 });
             }
 
             $('a[class="btn_commitment actived"]').each(function(i) {
                 tabList[i] = $(this).data('id');
                 tabListName[i] = $(this).data('value');
-            })
+            });
 
             let minTotalPrice = $('select[name="minTotalPrices"]').val();
             let maxTotalPrice = $('select[name="maxTotalPrices"]').val();
@@ -244,7 +271,8 @@ export default {
             let maxSquare = $('select[name="maxSquare"]').val();
 
             let data = {
-                keyWord: newString,
+                districts: districts,
+                stations: stations,
                 flagSearch: flagSearch,
                 price: {
                     min: minTotalPrice,
@@ -262,15 +290,18 @@ export default {
             this.$setLocalStorage('parentStations', JSON.stringify(idParents));
 
             this.$router
-                .push({ name: 'list', query: {
-                        keyWord: data.keyWord,
+                .push({
+                    name: 'list',
+                    query: {
+                        keyWord: keyWord,
                         minPrice: data.price.min,
-                        maxPrice:data.price.max,
-                        minSquare:data.square.min,
-                        maxSquare:data.square.max,
+                        maxPrice: data.price.max,
+                        minSquare: data.square.min,
+                        maxSquare: data.square.max,
                         tabSearchName: tabListName,
                         tabSearch: tabList
-                    }})
+                    }
+                })
                 .then(() => {
                     this.$router.go('0');
                 })
