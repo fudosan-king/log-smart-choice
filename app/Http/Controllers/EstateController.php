@@ -632,9 +632,13 @@ class EstateController extends Controller
         $tabsSearch = TabSearch::where('status', TabSearch::ACTIVE)->get();
 
         $mapLabel = $this->mapLabel;
+        $tabSelected = [];
+        foreach ($estateInfo->tab_search as $tab) {
+            $tabSelected[] = $tab['tab_search'];
+        }
 
         return Voyager::view($view, compact('dataType',
-            'dataTypeContent', 'isModelTranslatable', 'mapLabel', 'estateInfo', 'tabsSearch'
+            'dataTypeContent', 'isModelTranslatable', 'mapLabel', 'estateInfo', 'tabsSearch', 'tabSelected'
         ));
     }
 
