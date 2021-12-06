@@ -15,4 +15,5 @@ return [
     'landline_invalid' => '電話番号が無効です',
     'birthday_invalid' => '無効な生年月日',
     'title_template_daily_email' => 'オススメ物件のお知らせ：OrderRenove',
+    'notice_admin_subject' => 'Order Renoveの新規会員登録通知',
 ];

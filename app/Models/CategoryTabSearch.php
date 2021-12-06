@@ -10,7 +10,7 @@ class CategoryTabSearch extends Model
 {
 
     protected $fillable = ['name', 'status'];
-    protected $table = 'category_tab_search';
+    // protected $table = 'category_tab_search';
     public $searchable = ['name'];
 
     const ACTIVE = 1;

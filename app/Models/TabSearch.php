@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class TabSearch extends Model
 {
 
-    protected $fillable = ['name', 'status', 'category_tab_search_id'];
+    protected $fillable = ['name', 'status'];
     protected $table = 'tab_search';
     public $searchable = ['name'];
 

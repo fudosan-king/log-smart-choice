@@ -41,3 +41,4 @@ update.js
 deploy.sh
 excludes
 tests
+/public/assets/css/style.min.css

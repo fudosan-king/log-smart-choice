@@ -4,6 +4,7 @@ namespace App\Frontend\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Jobs\SendEmailNoticeAdminAfterCustomerRegister;
 use App\Jobs\SendEmailVerifyAccount;
 use App\Models\Customer;
 use App\Models\District;
@@ -78,7 +79,9 @@ class RegisterController extends Controller
 
         try {
             if ($customer = $this->create($params)) {
+                $createdAtJPTime = date('Y-m-d H:i:s', strtotime('+9 hour', strtotime($customer->created_at)));
                 $this->_sendActiveEmail($customer);
+                $this->_sendNoticeAdmin($customer, $createdAtJPTime);
                 return $this->response(200, __('customer.create_success'), [], true);
             }
         } catch (\Exception $ex) {
@@ -245,7 +248,9 @@ class RegisterController extends Controller
 
         try {
             if ($customer = $this->create($params)) {
+                $createdAtJPTime = date('Y-m-d H:i:s', strtotime('+9 hour', strtotime($customer->created_at)));
                 $this->_sendActiveEmail($customer, true);
+                $this->_sendNoticeAdmin($customer, $createdAtJPTime);
                 return $this->response(200, __('customer.create_success'), [], true);
             }
         } catch (\Exception $ex) {
@@ -274,5 +279,18 @@ class RegisterController extends Controller
 
         $emailVerifyAccount = new SendEmailVerifyAccount($customer->email, $data);
         dispatch($emailVerifyAccount);
+    }
+
+    /**
+     * Send email notice admin group
+     * 
+     */
+    private function _sendNoticeAdmin(Customer $customer, $createdAt) {
+        $data = [
+            'customer' => $customer,
+            'created_at' => $createdAt
+        ];
+        $emailNoticeAdmin = new SendEmailNoticeAdminAfterCustomerRegister(env('EMAIL_SEND_NOTICE_TO_ADMIN', ''), $data);
+        dispatch($emailNoticeAdmin);
     }
 }
