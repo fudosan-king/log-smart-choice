@@ -68,7 +68,7 @@
                                                             <input
                                                                 type="checkbox"
                                                                 class="custom-control-input"
-                                                                :id="'ck0' + district.id"
+                                                                :id="'ck000' + district.id"
                                                                 name="inputDistrict[]"
                                                                 :value="district.name"
                                                                 :checked="
@@ -81,7 +81,7 @@
                                                             />
                                                             <label
                                                                 class="custom-control-label"
-                                                                :for="'ck0' + district.id"
+                                                                :for="'ck000' + district.id"
                                                                 >{{ district.name }}</label
                                                             >
                                                         </div>
