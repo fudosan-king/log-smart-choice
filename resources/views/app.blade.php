@@ -48,6 +48,7 @@
   <meta name="msapplication-TileColor" content="#da532c">
   <meta name="theme-color" content="#ffffff">
   <meta name="facebook-domain-verification" content="0k67lwtra49sl6z4qnaowtz5ko1a7p" />
+  <meta name="p:domain_verify" content="30339f9b350e09f0f679429e3dc3cdac"/>
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
   
