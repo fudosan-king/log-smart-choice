@@ -250,11 +250,17 @@ class Estates extends Model
                     }
                     $estate->save();
 
-                    $estateInfo = new EstateInformation();
-                    $estateInfo->estate_id = $estateDataId;
-                    $estateInfo->status = self::STATUS_STOP;
-                    $estateInfo->tab_search = [];
-                    $estateInfo->save();
+                    $estateInfo = EstateInformation::where('estate_id', $estateDataId)->first();
+                    if (!$estateInfo) {
+                        $estateInfo = new EstateInformation();
+                        $estateInfo->estate_id = $estateDataId;
+                        $estateInfo->status = self::STATUS_STOP;
+                        $estateInfo->tab_search = [];
+                        $estateInfo->save();
+                    } else {
+                        $estateInfo->status = self::STATUS_STOP;
+                        $estateInfo->save();
+                    }
 
                     $this->increaseDecreaseEstateInDistrict(json_decode(json_encode($estateData->address), true), false, $estateData->_id);
                     $this->increaseDecreaseEstateInStation($estate->transports, false, $estateData->_id);
