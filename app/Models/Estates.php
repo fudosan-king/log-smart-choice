@@ -5,6 +5,7 @@ namespace App\Models;
 use DateTime;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Jenssegers\Mongodb\Eloquent\Model as Model;
 
@@ -156,7 +157,8 @@ class Estates extends Model
         '200' => 3047
     ];
 
-    public function estateInformation() {
+    public function estateInformation()
+    {
         return $this->hasOne(EstateInformation::class, 'estate_id', '_id');
     }
 
@@ -213,19 +215,25 @@ class Estates extends Model
         $estateDataId = (string) new \MongoDB\BSON\ObjectId($estateData->_id);
         $estate = self::firstOrNew(['_id' => $estateData->_id]);
         $dateModifyFDK = $estateData->date_last_modified;
-        $stations = [];
-        if ($estate->transports) {
-            foreach($estate->transports as $transport) {
-                if (!in_array($transport['transport_company'], $stations)) {
-                    array_push($stations, $transport['transport_company']);
-                }
-            }
-        }
+        // $stations = [];
+        // $transport = [];
+        // if ($estate->transports) {
+        //     foreach($estate->transports as $transport) {
+        //         if (!in_array($transport['transport_company'], $stations)) {
+        //             array_push($transport, $transport['transport_company']);
+        //         }
+        //         if (!in_array($transport['station_name'], $stations)) {
+        //             array_push($stations, $transport['station_name']);
+        //         }
+        //     }
+        // }
         $startDate = date('Y-m-d 00:00:00');
         $endDate = date('Y-m-d 23:59:59');
         try {
-            if (strtotime($startDate) <= (int)$dateModifyFDK->toDateTime()->format('U') &&
-            (int)$dateModifyFDK->toDateTime()->format('U') <= strtotime($endDate)) {
+            if (
+                strtotime($startDate) <= (int)$dateModifyFDK->toDateTime()->format('U') &&
+                (int)$dateModifyFDK->toDateTime()->format('U') <= strtotime($endDate)
+            ) {
                 if (!$estate->exists) {
                     $estate->status = self::STATUS_STOP;
                     $estate->date_imported = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d H:i:s')) * 1000);
@@ -255,7 +263,7 @@ class Estates extends Model
                     }
 
                     $this->increaseDecreaseEstateInDistrict(json_decode(json_encode($estateData->address), true), false, $estateData->_id);
-                    $this->increaseDecreaseEstateInStation($stations, false, $estateData->_id);
+                    $this->increaseDecreaseEstateInStation($estate->transports, false, $estateData->_id);
                 } elseif (strtotime($estate->date_last_modified) != (int)$dateModifyFDK->toDateTime()->format('U')) {
                     $estateInfo = EstateInformation::where('estate_id', $estateDataId)->first();
                     $estate->status = $estateInfo->status;
@@ -270,7 +278,7 @@ class Estates extends Model
                     }
                     $estate->save();
                     $this->increaseDecreaseEstateInDistrict(json_decode(json_encode($estateData->address), true), false, $estateData->_id);
-                    $this->increaseDecreaseEstateInStation($stations, false, $estateData->_id);
+                    $this->increaseDecreaseEstateInStation($estate->transports, false, $estateData->_id);
                 }
             }
         } catch (Exception $e) {
@@ -294,7 +302,7 @@ class Estates extends Model
                 array_push($estateIds, $estateId);
                 $district->estate_ids = implode(',', $estateIds);
             } else {
-                if ( $district->count_estates != 0 && in_array($estateId, $estateIds)) {
+                if ($district->count_estates != 0 && in_array($estateId, $estateIds)) {
                     $district->count_estates = $district->count_estates - 1;
                     $key = array_search($estateId, $estateIds);
                     unset($estateIds[$key]);
@@ -304,31 +312,59 @@ class Estates extends Model
             $district->save();
         }
     }
-    
-    public function increaseDecreaseEstateInStation($stationsEstate, $flag, $estateId)
+
+    public function increaseDecreaseEstateInStation($transportEstate, $flag, $estateId)
     {
-        $stations = Station::whereIn('tran_company_short_name', $stationsEstate)->get();
-        if ($stations) {
-            foreach ($stations as $key => $station) {
-                $estateIds = [];
-                if ($station->estate_ids) {
-                    $estateIds = explode(',', $station->estate_ids);
-                }
-    
-                if ($flag && !in_array($estateId, $estateIds)) {
-                    $station->count_estates = $station->count_estates + 1;
-                    array_push($estateIds, $estateId);
-                    $station->estate_ids = implode(',', $estateIds);
+        DB::beginTransaction();
+        try {
+            foreach ($transportEstate as $transport) {
+                $transportCurrent = Transport::where('name', $transport['transport_company'])->first();
+                if (!$transportCurrent) {
+                    if ($transport['transport_company']) {
+                        $transportNew = new Transport();
+                        $transportNew->name = $transport['transport_company'];
+                        $transportNew->save();
+                        if ($transport['station_name']) {
+                            $station = Station::where('name', $transport['station_name'])->where('transport_id', $transportNew->id)->first();
+                            if (!$station) {
+                                $stationNew = new Station();
+                                $stationNew->name = $transport['station_name'];
+                                $stationNew->count_estates = 1;
+                                $stationNew->estate_ids = $estateId;
+                                $stationNew->transport_id = $transportNew->id;
+                                $stationNew->save();
+                            }
+                        }
+                    }
                 } else {
-                    if ( $station->count_estates != 0 && in_array($estateId, $estateIds)) {
-                        $station->count_estates = $station->count_estates - 1;
-                        $key = array_search($estateId, $estateIds);
-                        unset($estateIds[$key]);
-                        $station->estate_ids = implode(',', $estateIds);
+                    $station = Station::where('transport_id', $transportCurrent->id)->where('name', $transport['station_name'])->first();
+                    $listIds = [];
+                    if ($station->estate_ids) {
+                        $listIds = explode(',', $station->estate_ids);
+                    }
+
+                    if ($flag) {
+                        if (!in_array($estateId, $listIds)) {
+                            array_push($listIds, $estateId);
+                            $station->count_estates = $station->count_estates + 1;
+                            $station->estate_ids = implode(',', $listIds);
+                            $station->save();
+                        }
+                    } else {
+                        if ( $station->count_estates > 0 && in_array($estateId, $listIds)) {
+                            $station->count_estates = $station->count_estates - 1;
+                            $key = array_search($estateId, $listIds);
+                            unset($listIds[$key]);
+                            $station->estate_ids = implode(',', $listIds);
+                            $station->save();
+                        }
                     }
                 }
-                $station->save();
             }
+            DB::commit();
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            DB::rollBack();
         }
     }
 }

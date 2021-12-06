@@ -405,6 +405,7 @@ class EstateController extends Controller
 
     public function update(Request $request, $id)
     {
+        
         $userId = Auth::user()->id;
         $timestamp = strtotime(date('Y-m-d H:i:s')) * 1000;
         $lastedModified = new \MongoDB\BSON\UTCDateTime($timestamp);
@@ -441,20 +442,24 @@ class EstateController extends Controller
                 ]);
             }
         }
+        
         $estate = Estates ::find($id);
-        $stations = [];
-        foreach($estate->transports as $transport) {
-            if (!in_array($transport['transport_company'], $stations)) {
-                array_push($stations, $transport['transport_company']);
-            }
-        }
-        $model->increaseDecreaseEstateInDistrict($estate->address['city'], false, $id);
-        $model->increaseDecreaseEstateInStation($stations, false, $id);
+        // $stations = [];
+        // foreach($estate->transports as $transport) {
+        //     if (!in_array($transport['transport_company'], $stations)) {
+        //         array_push($stations, $transport['transport_company']);
+        //     }
+        // }
+
         $data->is_send_announcement = Estates::NOT_SEND_ANNOUNCEMENT;
+
         if ($request->status == Estates::STATUS_SALE) {
-            $model->increaseDecreaseEstateInStation($stations, true, $id);
+            $model->increaseDecreaseEstateInStation($estate->transports, true, $id);
             $model->increaseDecreaseEstateInDistrict($estate->address['city'], true, $id);
             $data->is_send_announcement = Estates::SEND_ANNOUNCEMENT;
+        } else {
+            $model->increaseDecreaseEstateInDistrict($estate->address['city'], false, $id);
+            $model->increaseDecreaseEstateInStation($estate->transports, false, $id);
         }
 
         $roundSquare = explode('.', $estate['tatemono_menseki']);
@@ -633,8 +638,10 @@ class EstateController extends Controller
 
         $mapLabel = $this->mapLabel;
         $tabSelected = [];
-        foreach ($estateInfo->tab_search as $tab) {
-            $tabSelected[] = $tab['tab_search'];
+        if ($estateInfo->tab_search) {
+            foreach ($estateInfo->tab_search as $tab) {
+                $tabSelected[] = $tab['tab_search'];
+            }
         }
 
         return Voyager::view($view, compact('dataType',
