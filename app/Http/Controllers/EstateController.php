@@ -638,8 +638,10 @@ class EstateController extends Controller
 
         $mapLabel = $this->mapLabel;
         $tabSelected = [];
-        foreach ($estateInfo->tab_search as $tab) {
-            $tabSelected[] = $tab['tab_search'];
+        if ($estateInfo->tab_search) {
+            foreach ($estateInfo->tab_search as $tab) {
+                $tabSelected[] = $tab['tab_search'];
+            }
         }
 
         return Voyager::view($view, compact('dataType',

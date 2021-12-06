@@ -13,12 +13,14 @@ class CreateTableTagSearch extends Migration
      */
     public function up()
     {
-        Schema::create('tab_search', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->boolean('status');
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('tab_search')) {
+            Schema::create('tab_search', function (Blueprint $table) {
+                $table->id();
+                $table->string('name');
+                $table->boolean('status');
+                $table->timestamps();
+            });
+        }
     }
 
     /**
@@ -28,6 +30,8 @@ class CreateTableTagSearch extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tab_search');
+        if (Schema::hasTable('tab_search')) {
+            Schema::dropIfExists('tab_search');
+        }
     }
 }

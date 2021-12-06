@@ -15,7 +15,7 @@ class Estates extends Model
 
     protected $connection = 'mongodb';
 
-    protected $collection = 'estates_baibai1';
+    protected $collection = 'estates_baibai';
 
     protected $guarded = [];
 
@@ -334,24 +334,6 @@ class Estates extends Model
                                 $stationNew->transport_id = $transportNew->id;
                                 $stationNew->save();
                             }
-                            //  else {
-                            //     if ($transportNew->id != $station->transport_id) {
-                            //         $stationNew = new Station();
-                            //         $stationNew->name = $transport['station_name'];
-                            //         $stationNew->count_estates = 1;
-                            //         $stationNew->estate_ids = $estateId;
-                            //         $stationNew->transport_id = $transportNew->id;
-                            //         $stationNew->save();
-                            //     } else {
-                            //         $listIds = explode(',', $station->estate_ids);
-                            //         if (!in_array($estateId, $listIds)) {
-                            //             array_push($listIds, $estateId);
-                            //             $station->count_estates = $station->count_estates + 1;
-                            //             $station->estate_ids = implode(',', $listIds);
-                            //             $station->save();
-                            //         }
-                            //     }
-                            // }
                         }
                     }
                 } else {

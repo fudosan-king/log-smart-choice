@@ -203,8 +203,6 @@
         mounted() {
             window.addEventListener('scroll', this.scrollListener);
 
-            this.getStation();
-            this.getTransportCompany();
             this.getDistrict();
 
             // LSMEvent.$on('handleSeachClick', type => {
@@ -292,17 +290,6 @@
             getDistrict() {
                 this.$store.dispatch('getDistrict').then(response => {
                     this.districtList = response.data;
-                });
-            },
-
-            getStation() {
-                this.$store.dispatch('getStation').then(response => {
-                    this.stationList = response;
-                });
-            },
-            getTransportCompany() {
-                this.$store.dispatch('getTransportCompany').then(response => {
-                    this.transportCompanyList = response;
                 });
             },
 

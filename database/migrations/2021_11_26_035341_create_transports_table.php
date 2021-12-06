@@ -13,12 +13,14 @@ class CreateTransportsTable extends Migration
      */
     public function up()
     {
-        Schema::create('transports', function (Blueprint $table) {
-            $table->id();
-            $table->string('name', 255)->unique();
-            $table->boolean('status')->default(true);
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('transports')) {
+            Schema::create('transports', function (Blueprint $table) {
+                $table->id();
+                $table->string('name', 255)->unique();
+                $table->boolean('status')->default(true);
+                $table->timestamps();
+            });
+        }
     }
 
     /**
@@ -28,6 +30,8 @@ class CreateTransportsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transports');
+        if (Schema::hasTable('transports')) {
+            Schema::dropIfExists('transports');
+        }
     }
 }

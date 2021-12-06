@@ -248,18 +248,6 @@ router.beforeEach((to, from, next) => {
             metaHTML += `<meta name="property" content="${contentAddressDiscription}">`;
             document.head.innerHTML += metaHTML;
         });
-    } else {
-        if (to.name == 'listByCode') {
-            axios.get(`${process.env.MIX_APP_URL}/api/get-meta-code-search`, { params: { search_code: searchCode } }).then(response => {
-                let name = response.data.data.name;
-                metaHTML += `<meta name="property" content="${name}のリノベーション物件を探すならOrderRenove（オーダーリノベ）。大手ポータルサイトに載っていない掘り出しものの物件も掲載しています。会員登録すれば${name}のリノベーション済、リノベーション向きの物件もご希望に合った物件情報をお届けします。">`;
-                document.head.innerHTML += metaHTML;
-            });
-        }
-        document.title = title;
-        metaHTML += `<meta property="og:image" content="${imageSrc}">`;
-        metaHTML += `<meta property="og:title" content="${to.meta.title}">`;
-        document.head.innerHTML += metaHTML;
     }
 
     if (to.matched.some(record => record.meta.requiresAuth)) {

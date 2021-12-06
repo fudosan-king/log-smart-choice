@@ -14,6 +14,7 @@ use App\Frontend\Controllers\DistrictController;
 use App\Frontend\Controllers\MetaTagController;
 use App\Frontend\Controllers\StationController;
 use App\Frontend\Controllers\TabSearchController;
+use App\Frontend\Controllers\TransportController;
 use App\Models\Estates;
 
 /*
@@ -51,7 +52,6 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('/announcement', [AnnouncementController::class, 'delete']);
     Route::post('/announcement/list', [AnnouncementController::class, 'listAnnouncement']);
 
-    
 });
 
 // auth
@@ -69,14 +69,13 @@ Route::post('/fast-register', [RegisterController::class, 'fastRegisterCustomer'
 Route::post('/google-login', [LoginController::class, 'socialLogin']);
 Route::post('/facebook-login', [LoginController::class, 'socialLogin']);
 Route::get('/get-meta-tags', [MetaTagController::class, 'getMetaTags']);
-Route::get('/get-meta-code-search', [MetaTagController::class, 'getMetaCodeSearch']);
 
 // station
 Route::post('/stations/list', [StationController::class, 'getAll']);
-Route::get('/stations/get-companies', [StationController::class, 'getTransportCompany']);
 Route::get('/stations/getByCompany', [StationController::class, 'getByTransportCompany']);
 Route::post('/stations/parent-station', [StationController::class, 'getParentStation']);
 Route::post('/stations/child-station', [StationController::class, 'getChildStation']);
+Route::post('/transports/list', [TransportController::class, 'list']);
 
 // District
 Route::post('/district/list', [DistrictController::class, 'list']);
