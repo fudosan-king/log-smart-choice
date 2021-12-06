@@ -11,7 +11,7 @@ class Transport extends Model
 
     protected $fillable = ['name', 'status'];
     protected $table = 'transports';
-    protected $hidden = ['id', 'status', 'created_at', 'updated_at'];
+    protected $hidden = ['status', 'created_at', 'updated_at'];
 
     const ACTIVE = 1;
     const INACTIVE = 0;

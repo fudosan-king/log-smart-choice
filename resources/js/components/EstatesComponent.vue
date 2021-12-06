@@ -155,6 +155,8 @@
                 // let district = '';
                 // let station = '';
                 let flagSearch = this.$getLocalStorage('tabActive') ? this.$getLocalStorage('tabActive') : 'area';
+                let conditionSearch = this.$getLocalStorage('conditionSearch') ? JSON.parse(this.$getLocalStorage('conditionSearch')) : [];
+
                 // let districtCode = '';
                 // let companyCode = '';
                 let keyWord = this.$route.query.keyWord;
@@ -186,9 +188,14 @@
                 //     data.station = station;
                 // }
 
-                if (keyWord) {
-                    data.key_word = Array.isArray(keyWord) ? keyWord : [keyWord];
+                if (conditionSearch.districts) {
+                    data.districts = Array.isArray(conditionSearch.districts) ? conditionSearch.districts : [conditionSearch.districts];
                 }
+
+                if (conditionSearch.stations) {
+                    data.stations = conditionSearch.stations;
+                }
+
                 if (minPrice) {
                     data.min_price = minPrice;
                 }
