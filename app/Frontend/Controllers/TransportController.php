@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class TransportController extends Controller
 {
     public function list() {
-        $transports = Transport::with('stations')->get()->toArray();
+        $transports = Transport::with('stations')->orderBy('name', 'ASC')->get()->toArray();
         $transportNew = [];
         if ($transports) {
             foreach ($transports as $key => $transport) {
