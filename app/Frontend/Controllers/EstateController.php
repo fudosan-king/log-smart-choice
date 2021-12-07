@@ -55,7 +55,8 @@ class EstateController extends Controller
         // $districtCode = $request->get('districtCode') ?? '';
         // $companyCode = $request->get('companyCode') ?? '';
         $flagSearch = $request->get('flag_search') ?? '';
-        $keyWord = $request->get('key_word') ?? '';
+        $stations = $request->get('stations') ?? '';
+        $districts = $request->get('districts') ?? '';
 
         $limit = $request->get('limit', 4);
         $page = $request->get('page', 1);
@@ -70,29 +71,35 @@ class EstateController extends Controller
         $estates = Estates::select($this->selectField);
 
         $estates->where('status', Estates::STATUS_SALE);
-        
+        $keyWord = '';
         if ($flagSearch == 'station') {
-            if (!$keyWord) {
-                $keyWord = [];
-                $stations = Station::select('name')->groupBy('name')->get()->toArray();
+            $stationSelected = [];
+            if (!$stations) {
+                $stationList = Station::select('name')->get()->toArray();
+                foreach ($stationList as $value) {
+                    $stationSelected[] = $value['name'];
+                }
+            } else {
                 foreach ($stations as $value) {
-                    $keyWord[] = $value['name'];
+                    $stationSelected[] = $value['name'];
                 }
             }
 
-            $estates->whereIn('transports.station_name', $keyWord);
+            $estates->whereIn('transports.station_name', $stationSelected);
             $flagSearch = 'station';
+            $keyWord = is_array($stationSelected) ? implode(', ' ,$stationSelected) : $stationSelected;
         } else {
-            if (!$keyWord) {
-                $keyWord = [];
-                $districts = District::select('name')->where('status', District::STATUS_ACTIVATE)->get()->toArray();
-                foreach ($districts as $value) {
-                    $keyWord[] = $value['name'];
+            if (!$districts) {
+                $districts = [];
+                $districtList = District::select('name')->where('status', District::STATUS_ACTIVATE)->get()->toArray();
+                foreach ($districtList as $value) {
+                    $districts[] = $value['name'];
                 }
             }
             
-            $estates->whereIn('address.city', $keyWord);
+            $estates->whereIn('address.city', $districts);
             $flagSearch = 'area';
+            $keyWord = is_array($districts) ? implode(', ' ,$districts) : $districts;
         }
 
         // if ($districtCode) {
@@ -176,7 +183,7 @@ class EstateController extends Controller
         $estates->orderBy('date_created', 'desc');
         $lists = $estates->paginate($limit, $page)->toArray();
 
-        $keyWord = is_array($keyWord) ? implode(', ' ,$keyWord) : $keyWord;
+        
         $lists['condition_search'] = [
             'key_word' => $keyWord,
             'price' => [

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableTagSearch extends Migration
+class CreateTransportsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateTableTagSearch extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('tab_search')) {
-            Schema::create('tab_search', function (Blueprint $table) {
+        if (!Schema::hasTable('transports')) {
+            Schema::create('transports', function (Blueprint $table) {
                 $table->id();
-                $table->string('name');
-                $table->boolean('status');
+                $table->string('name', 255)->unique();
+                $table->boolean('status')->default(true);
                 $table->timestamps();
             });
         }
@@ -30,8 +30,8 @@ class CreateTableTagSearch extends Migration
      */
     public function down()
     {
-        if (Schema::hasTable('tab_search')) {
-            Schema::dropIfExists('tab_search');
+        if (Schema::hasTable('transports')) {
+            Schema::dropIfExists('transports');
         }
     }
 }

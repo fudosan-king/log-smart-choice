@@ -6,6 +6,7 @@ import district from './modules/district';
 import station from './modules/station';
 import wishlist from './modules/wishlist';
 import tablist from './modules/tab';
+import transport from './modules/transport';
 // import announcement from './modules/announcement';
 
 Vue.use(Vuex);
@@ -17,7 +18,8 @@ export default new Vuex.Store({
         district,
         station,
         wishlist,
-        tablist
+        tablist,
+        transport,
         // announcement
     }
 });

@@ -107,16 +107,12 @@ export default {
             }
             if(newValue == 'district') {
                 this.getDistrict();
-            } else {
-                this.getTransportCompany();
             }
         },
     },
     mounted() {
         if(this.searchType == 'district') {
             this.getDistrict();
-        } else {
-            this.getTransportCompany();
         }
     },
     methods: {
@@ -127,19 +123,6 @@ export default {
             });
         },
 
-        // getStation() {
-        //     this.$store.dispatch('getStation').then(response => {
-        //         this.stationList = response;
-        //         this.stationLoading = false;
-        //     });
-        // },
-
-        getTransportCompany() {
-            this.$store.dispatch('getTransportCompany').then(response => {
-                this.companyList = response;
-                this.companyLoading = false;
-            });
-        },
         searchDistrict(event, districtName, districtCode) {
             event.preventDefault();
             let cookieStation = this.$getLocalStorage('station');
