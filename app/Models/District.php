@@ -22,6 +22,6 @@ class District extends Model
         'city_id',
     ];
 
-    protected $table = 'district';
+    protected $table = 'district1';
     public $searchable = ['code', 'name', 'status', 'city_id'];
 }
