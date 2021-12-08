@@ -14,6 +14,7 @@ class District extends Model
     const STATUS_ACTIVATE = 1;
     const STATUS_DEACTIVATE = 0;
     const INIT_CONTAIN_ESTATE = 0;
+    const BEGIN_ESTATE_EXIST = 1;
 
     protected $fillable = [
         'code',
@@ -22,6 +23,6 @@ class District extends Model
         'city_id',
     ];
 
-    protected $table = 'district';
+    protected $table = 'district1';
     public $searchable = ['code', 'name', 'status', 'city_id'];
 }

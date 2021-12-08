@@ -19,6 +19,6 @@ class City extends Model
         'status'
     ];
 
-    protected $table = 'city';
+    protected $table = 'city1';
     public $searchable = ['name', 'status'];
 }
