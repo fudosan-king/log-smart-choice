@@ -32,7 +32,7 @@ class Kernel extends ConsoleKernel
         // $schedule->job(new SendEmailAnnouncement)->everyTwoMinutes();
         // $schedule->job(new SendAnnoucement)->dailyAt('2:00');
         // $schedule->job(new SendAnnoucement)->dailyAt('8:00');
-        $schedule->job(new SendEmailAnnouncement)->dailyAt('9:00');
+        $schedule->job(new SendEmailAnnouncement)->dailyAt('10:00');
     }
 
     /**
