@@ -72,9 +72,6 @@ Route::get('/get-meta-tags', [MetaTagController::class, 'getMetaTags']);
 
 // station
 Route::post('/stations/list', [StationController::class, 'getAll']);
-Route::get('/stations/getByCompany', [StationController::class, 'getByTransportCompany']);
-Route::post('/stations/parent-station', [StationController::class, 'getParentStation']);
-Route::post('/stations/child-station', [StationController::class, 'getChildStation']);
 Route::post('/transports/list', [TransportController::class, 'list']);
 
 // District

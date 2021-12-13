@@ -21,6 +21,7 @@ class DistrictController extends Controller
         $district = District::select('id', 'code', 'name', 'count_estates')
             ->where('status', District::STATUS_ACTIVATE)
             ->where('count_estates', '>', District::INIT_CONTAIN_ESTATE)
+            ->orderBy('city_id', 'ASC')
             ->get();
 
         if ($district) {
