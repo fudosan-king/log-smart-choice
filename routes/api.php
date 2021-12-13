@@ -15,6 +15,7 @@ use App\Frontend\Controllers\MetaTagController;
 use App\Frontend\Controllers\StationController;
 use App\Frontend\Controllers\TabSearchController;
 use App\Frontend\Controllers\TransportController;
+use App\Frontend\Controllers\CityController;
 use App\Models\Estates;
 
 /*
@@ -77,6 +78,9 @@ Route::post('/transports/list', [TransportController::class, 'list']);
 // District
 Route::post('/district/list', [DistrictController::class, 'list']);
 Route::post('/district/customer/list', [DistrictController::class, 'customerList']);
+
+// City
+Route::post('/city/list', [CityController::class, 'list']);
 
 // Tab Search
 Route::post('tab-search/list', [TabSearchController::class, 'list']);
