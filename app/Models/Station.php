@@ -11,5 +11,7 @@ class Station extends Model
 
     protected $hidden = ['id', 'created_at', 'updated_at', 'estate_ids'];
 
-   protected $table = 'stations';
+    protected $table = 'stations';
+
+    const BEGIN_ESTATE_EXIST = 1;
 }

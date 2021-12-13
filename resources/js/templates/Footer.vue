@@ -25,7 +25,7 @@
                                 >
                             </li>
                             <li><a target="_blank" href="https://www.propolife.co.jp/terms/"> 利用規約</a></li>
-                            <li><a target="_blank" href="https://www.logsuite.co.jp/">運営会社（企業情報）</a></li>
+                            <li><a target="_blank" href="https://www.logknot.co.jp/">運営会社（企業情報）</a></li>
                             <li>
                                 <a target="_blank" href="https://www.propolife.co.jp/antisocial/"
                                     >反社会的勢力排除に関する基本方針</a
@@ -120,14 +120,14 @@
                     height="18"
                 />資料請求・内見</a
             >
-            <a class="btn" href="tel:0368978564"
+            <a class="btn" href="tel:0120991657"
                 ><img
                     src="/assets/images/svg/i_call.svg"
                     alt=""
                     class="img-fluid"
                     width="18"
                     height="18"
-                />03-6897-8564</a
+                />0120-991-657</a
             >
         </div>
         <div

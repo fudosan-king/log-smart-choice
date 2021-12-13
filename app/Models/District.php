@@ -14,6 +14,7 @@ class District extends Model
     const STATUS_ACTIVATE = 1;
     const STATUS_DEACTIVATE = 0;
     const INIT_CONTAIN_ESTATE = 0;
+    const BEGIN_ESTATE_EXIST = 1;
 
     protected $fillable = [
         'code',

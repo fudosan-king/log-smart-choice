@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Models\City;
+use App\Models\District;
 use App\Models\Estates;
 use App\Models\Station;
 use App\Models\Transport;
@@ -48,6 +50,7 @@ class UpdateTransportStation extends Command
         try {
             foreach ($estates as $estate) {
                 $estateId = (string) new \MongoDB\BSON\ObjectId($estate->_id);
+                // Update district transport, station
                 foreach ($estate->transports as $transport) {
                     $transportCurrent = Transport::where('name', $transport['transport_company'])->first();
                     if (!$transportCurrent) {

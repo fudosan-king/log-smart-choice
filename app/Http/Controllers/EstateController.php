@@ -444,21 +444,16 @@ class EstateController extends Controller
         }
         
         $estate = Estates ::find($id);
-        // $stations = [];
-        // foreach($estate->transports as $transport) {
-        //     if (!in_array($transport['transport_company'], $stations)) {
-        //         array_push($stations, $transport['transport_company']);
-        //     }
-        // }
 
         $data->is_send_announcement = Estates::NOT_SEND_ANNOUNCEMENT;
 
         if ($request->status == Estates::STATUS_SALE) {
             $model->increaseDecreaseEstateInStation($estate->transports, true, $id);
-            $model->increaseDecreaseEstateInDistrict($estate->address['city'], true, $id);
+            $model->increaseDecreaseEstateInDistrict($estate->address, true, $id);
+
             $data->is_send_announcement = Estates::SEND_ANNOUNCEMENT;
         } else {
-            $model->increaseDecreaseEstateInDistrict($estate->address['city'], false, $id);
+            $model->increaseDecreaseEstateInDistrict($estate->address, false, $id);
             $model->increaseDecreaseEstateInStation($estate->transports, false, $id);
         }
 

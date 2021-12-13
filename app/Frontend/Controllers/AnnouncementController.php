@@ -227,7 +227,6 @@ class AnnouncementController extends Controller
             ->where('email', '!=', '')
             ->whereNotNull('email')
             ->where('announcement_condition', '!=', '')
-            ->whereNotNull('announcement_condition')
             ->get();
         try {
             foreach ($customers as $customer) {
@@ -340,7 +339,6 @@ class AnnouncementController extends Controller
             ->where('email', '!=', '')
             ->whereNotNull('email')
             ->where('announcement_condition', '!=', '')
-            ->whereNotNull('announcement_condition')
             ->get();
         try {
             foreach ($customers as $customer) {

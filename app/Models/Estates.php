@@ -156,7 +156,12 @@ class Estates extends Model
         '199' => 3037,
         '200' => 3047
     ];
-
+    
+    /**
+     * estateInformation
+     *
+     * @return void
+     */
     public function estateInformation()
     {
         return $this->hasOne(EstateInformation::class, 'estate_id', '_id');
@@ -215,18 +220,6 @@ class Estates extends Model
         $estateDataId = (string) new \MongoDB\BSON\ObjectId($estateData->_id);
         $estate = self::firstOrNew(['_id' => $estateData->_id]);
         $dateModifyFDK = $estateData->date_last_modified;
-        // $stations = [];
-        // $transport = [];
-        // if ($estate->transports) {
-        //     foreach($estate->transports as $transport) {
-        //         if (!in_array($transport['transport_company'], $stations)) {
-        //             array_push($transport, $transport['transport_company']);
-        //         }
-        //         if (!in_array($transport['station_name'], $stations)) {
-        //             array_push($stations, $transport['station_name']);
-        //         }
-        //     }
-        // }
         $startDate = date('Y-m-d 00:00:00');
         $endDate = date('Y-m-d 23:59:59');
         try {
@@ -287,76 +280,132 @@ class Estates extends Model
 
         return $estate;
     }
-
-    public function increaseDecreaseEstateInDistrict($districtEstate, $flag, $estateId)
+    
+    /**
+     * increaseDecreaseEstateInDistrict
+     *
+     * @param  mixed $address
+     * @param  mixed $flag
+     * @param  mixed $estateId
+     * @return void
+     */
+    public function increaseDecreaseEstateInDistrict($address, $flag, $estateId)
     {
-        $district = District::where('name', $districtEstate)->first();
-        if ($district) {
-            $estateIds = [];
-            if ($district->estate_ids) {
-                $estateIds = explode(',', $district->estate_ids);
-            }
-
-            if ($flag && !in_array($estateId, $estateIds)) {
-                $district->count_estates = $district->count_estates + 1;
-                array_push($estateIds, $estateId);
-                $district->estate_ids = implode(',', $estateIds);
+        DB::beginTransaction();
+        try {
+            $districtCurrent = $address['city'];
+            $cityCurrent = $address['pref'];
+            $city = City::where('name', $cityCurrent)->where('status', City::STATUS_ACTIVE)->first();
+            $district = District::where('name', $districtCurrent)->first();
+            if (!$city) {
+                $city = new City();
+                $city->name = $cityCurrent;
+                $city->save();
+                $district = new District();
+                $district->name = $districtCurrent;
+                $district->city_id = $city->id;
+                $district->estate_ids = $estateId;
+                $district->count_estates = District::BEGIN_ESTATE_EXIST;
+                $district->save();
             } else {
-                if ($district->count_estates != 0 && in_array($estateId, $estateIds)) {
-                    $district->count_estates = $district->count_estates - 1;
-                    $key = array_search($estateId, $estateIds);
-                    unset($estateIds[$key]);
-                    $district->estate_ids = implode(',', $estateIds);
+                if ($district) {
+                    $listId = explode(',', $district->estate_ids);
+                    if (!$listId[0]) {
+                        $district->estate_ids = $estateId;
+                        $district->count_estates = District::BEGIN_ESTATE_EXIST;
+                    } else {
+                        if ($flag) {
+                            if (!in_array($estateId, $listId)) {
+                                array_push($listId, $estateId);
+                                $district->estate_ids = implode(',', $listId);
+                                $district->count_estates = $district->count_estates + District::BEGIN_ESTATE_EXIST;
+                            }
+                        } else {
+                            
+                            if ($district->count_estates > 0 && in_array($estateId, $listId)) {
+                                $district->count_estates = $district->count_estates - District::BEGIN_ESTATE_EXIST;
+                                $key = array_search($estateId, $listId);
+                                unset($listId[$key]);
+                                $district->estate_ids = implode(',', $listId);
+                            }
+                        }
+                    }
+                    $district->save();
+                } else {
+                    $district = new District();
+                    $district->name = $districtCurrent;
+                    $district->city_id = $city->id;
+                    $district->estate_ids = $estateId;
+                    $district->count_estates = District::BEGIN_ESTATE_EXIST;
+                    $district->save();
                 }
             }
-            $district->save();
+            DB::commit();
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            DB::rollBack();
         }
     }
-
+    
+    /**
+     * increaseDecreaseEstateInStation
+     *
+     * @param  mixed $transportEstate
+     * @param  mixed $flag
+     * @param  mixed $estateId
+     * @return void
+     */
     public function increaseDecreaseEstateInStation($transportEstate, $flag, $estateId)
     {
         DB::beginTransaction();
         try {
             foreach ($transportEstate as $transport) {
                 $transportCurrent = Transport::where('name', $transport['transport_company'])->first();
+                $station = Station::where('transport_id', $transportCurrent->id)->where('name', $transport['station_name'])->first();
                 if (!$transportCurrent) {
                     if ($transport['transport_company']) {
                         $transportNew = new Transport();
                         $transportNew->name = $transport['transport_company'];
                         $transportNew->save();
                         if ($transport['station_name']) {
-                            $station = Station::where('name', $transport['station_name'])->where('transport_id', $transportNew->id)->first();
-                            if (!$station) {
-                                $stationNew = new Station();
-                                $stationNew->name = $transport['station_name'];
-                                $stationNew->count_estates = 1;
-                                $stationNew->estate_ids = $estateId;
-                                $stationNew->transport_id = $transportNew->id;
-                                $stationNew->save();
-                            }
+                            $stationNew = new Station();
+                            $stationNew->name = $transport['station_name'];
+                            $stationNew->count_estates = Station::BEGIN_ESTATE_EXIST;
+                            $stationNew->estate_ids = $estateId;
+                            $stationNew->transport_id = $transportNew->id;
+                            $stationNew->save();
                         }
                     }
                 } else {
-                    $station = Station::where('transport_id', $transportCurrent->id)->where('name', $transport['station_name'])->first();
-                    $listIds = [];
-                    if ($station->estate_ids) {
-                        $listIds = explode(',', $station->estate_ids);
-                    }
-
-                    if ($flag) {
-                        if (!in_array($estateId, $listIds)) {
-                            array_push($listIds, $estateId);
-                            $station->count_estates = $station->count_estates + 1;
-                            $station->estate_ids = implode(',', $listIds);
-                            $station->save();
+                    if ($station) {
+                        $listIds = [];
+                        if ($station->estate_ids) {
+                            $listIds = explode(',', $station->estate_ids);
+                        }
+                        if ($flag) {
+                            if (!in_array($estateId, $listIds)) {
+                                array_push($listIds, $estateId);
+                                $station->count_estates = $station->count_estates + Station::BEGIN_ESTATE_EXIST;
+                                $station->estate_ids = implode(',', $listIds);
+                                $station->save();
+                            }
+                        } else {
+                            if ($station->count_estates > 0 && in_array($estateId, $listIds)) {
+                                $station->count_estates = $station->count_estates - Station::BEGIN_ESTATE_EXIST;
+                                $key = array_search($estateId, $listIds);
+                                unset($listIds[$key]);
+                                $station->estate_ids = implode(',', $listIds);
+                                $station->save();
+                            }
                         }
                     } else {
-                        if ( $station->count_estates > 0 && in_array($estateId, $listIds)) {
-                            $station->count_estates = $station->count_estates - 1;
-                            $key = array_search($estateId, $listIds);
-                            unset($listIds[$key]);
-                            $station->estate_ids = implode(',', $listIds);
-                            $station->save();
+                        if ($transport['station_name']) {
+                            $stationNew = new Station();
+                            $stationNew->name = $transport['station_name'];
+                            $stationNew->count_estates = Station::BEGIN_ESTATE_EXIST;
+                            $stationNew->estate_ids = $estateId;
+                            $stationNew->transport_id = $transportCurrent->id;
+                            $stationNew->save();
                         }
                     }
                 }

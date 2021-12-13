@@ -102,20 +102,6 @@ class EstateController extends Controller
             $keyWord = is_array($districts) ? implode(', ' ,$districts) : $districts;
         }
 
-        // if ($districtCode) {
-        //     $districtModel = District::select('name')
-        //         ->where('code', '=', $districtCode)
-        //         ->get()->first();
-        //     if ($districtModel) {
-        //         $address = $districtModel->name;
-        //     }
-        //  }
-
-        // address
-        // if ($address) {
-        //     $estates->where('address.city', "like", "%" . $address . "%");
-        // }
-
         // price
         if ($minPrice || $maxPrice) {
             $estates = Helper::instance()->conditionMinMaxVariable($estates, $minPrice, $maxPrice, Customer::CONDITION_MIN, Customer::CONDITION_MAX, 'price');
@@ -125,31 +111,6 @@ class EstateController extends Controller
         if ($minSquare || $maxSquare) {
             $estates = Helper::instance()->conditionMinMaxVariable($estates, $minSquare, $maxSquare, Customer::CONDITION_MIN, Customer::CONDITION_MAX, 'tatemono_menseki');
         }
-
-        // station name
-        // if ($companyCode) {
-        //     $stationModel = Station::select(['name', 'tran_company_short_name'])
-        //         ->where('tran_company_code', '=', $companyCode)
-        //         ->get()->first();
-        //     if ($stationModel) {
-        //         $estates->where('transports.transport_company', $stationModel->tran_company_short_name);
-        //     }
-        // }
-
-        // room kind & room count
-        // $roomTypeFrom = $this->_getRoomType($roomTypeFrom);
-        // $roomTypeTo = $this->_getRoomType($roomTypeTo);
-        // $roomKind = [];
-
-        // if ($roomTypeTo) {
-        //     array_push($roomKind, $roomTypeTo[0]);
-        // }
-
-        // if ($roomTypeFrom) {
-        //     array_push($roomKind, $roomTypeFrom[0]);
-        //     $estates->whereIn('room_count', $roomKind);
-        //     $estates->whereIn('room_kind', [$roomTypeFrom[1], $roomTypeFrom[2]]);
-        // }
 
         // tabSearch
         if ($tabSearch) {
