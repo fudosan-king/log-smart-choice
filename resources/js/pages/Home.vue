@@ -2,55 +2,38 @@
     <main id="main">
         <section class="section_banner" style="background-image: url('/assets/images/takayamatei-800x534.jpg');">
             <div class="caption">
-                <img src="/assets/images/svg/label.svg" alt="" class="img-fluid" width="430" height="430" />
-                <p></p>
+                <img src="/assets/images/svg/label.svg" alt="" class="img-fluid" width="200" height="200" />
+                <p>まだ見ぬ住まいとの出会いを演出</p>
             </div>
-            <ul>
-                <li>
-                    <a class="btn_map search-district" v-on:click="handleHeaderContentClick('district', $event)">
-                        <img
-                            src="/assets/images/svg/i_map.svg"
-                            alt=""
-                            class="img-fluid d-none d-lg-inline-block"
-                            width="18"
-                            height="18"
-                        />
-                        <img
-                            src="/assets/images/svg/i_map_black.svg"
-                            alt=""
-                            class="img-fluid d-inline-block d-lg-none"
-                            width="18"
-                            height="18"
-                        />
-                        <span>エリアから探す</span></a
-                    >
-                </li>
-                <li>
-                    <a class="btn_stations search-station" v-on:click="handleHeaderContentClick('station', $event)">
-                        <img
-                            src="/assets/images/svg/i_stations.svg"
-                            alt=""
-                            class="img-fluid d-none d-lg-inline-block"
-                            width="13"
-                            height="13"
-                        />
-                        <img
-                            src="/assets/images/svg/i_stations_black.svg"
-                            alt=""
-                            class="img-fluid d-inline-block d-lg-none"
-                            width="13"
-                            height="13"
-                        />
-                        <span>沿線から探す</span></a
-                    >
-                </li>
-            </ul>
+            <div class="top_action">
+                <ul>
+                    <li>
+                        <a class="btn_map search-district" v-on:click="handleHeaderContentClick('district', $event)">
+                            <span>リノベ物件から探す</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="btn_stations search-station" v-on:click="handleHeaderContentClick('station', $event)">
+                            <span>リノベテイストから探す</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </section>
         <section class="section_near_property">
             <div class="container">
                 <div class="row">
                     <div class="col-12 col-lg-12">
-                        <h2 class="title"><b>新着物件</b></h2>
+                        <div class="top_info">
+                            <div class="top_brand">
+                                <img class="img-fluid" src="/assets/images/common/logo-orderrenove.svg" alt="" title="" />
+                            </div>
+                            <h3>提案型リノベーションプラットフォーム</h3>
+                            <p>
+                                Order
+                                Renoveは「リノベーション済み物件」だけでなく、まだ施工していない「リノベーション向き物件」まで紹介していきます。まだ物件数が少ない「リノベーション済み物件」だけでなく、「中古物件＋リノベーション」を視野に入れることで、人々の住まいにおける選択肢を増やし、ユーザーに最適な住まいを提案していきます。
+                            </p>
+                        </div>
                         <estates-top-component></estates-top-component>
                     </div>
                 </div>
@@ -92,7 +75,7 @@ export default {
     components: {
         EstatesTopComponent: () => import('../components/EstatesTopComponent'),
         EstateRecommendComponent: () => import('../components/EstateRecommendComponent'),
-        EstatesNearComponent: () => import('../components/EstatesNearComponent'),
+        EstatesNearComponent: () => import('../components/EstatesNearComponent')
     },
     methods: {
         clearConditionSearch() {
