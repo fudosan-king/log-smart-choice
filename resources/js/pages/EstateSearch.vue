@@ -62,36 +62,38 @@
                                             aria-labelledby="pills-area-tab"
                                         >
                                             <div class="row">
-                                                <template v-for="district in districtList">
-                                                    <div class="col-6 col-lg-6">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input
-                                                                type="checkbox"
-                                                                class="custom-control-input"
-                                                                :id="'ck000' + district.id"
-                                                                name="inputDistrict[]"
-                                                                :value="district.name"
-                                                                :checked="
-                                                                    conditionSearchBefore.districts
-                                                                        ? conditionSearchBefore.districts.includes(
-                                                                              district.name
-                                                                          )
-                                                                        : ''
-                                                                "
-                                                            />
-                                                            <label
-                                                                class="custom-control-label"
-                                                                :for="'ck000' + district.id"
-                                                                >{{ district.name }}</label
-                                                            >
+                                                <template v-for="city in cityList">
+                                                    <template v-for="district in city.districts">
+                                                        <div class="col-6 col-lg-6">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input
+                                                                    type="checkbox"
+                                                                    class="custom-control-input"
+                                                                    :id="'ck000' + district.id"
+                                                                    name="inputDistrict[]"
+                                                                    :value="district.name"
+                                                                    :checked="
+                                                                        conditionSearchBefore.districts
+                                                                            ? conditionSearchBefore.districts.includes(
+                                                                                  district.name
+                                                                              )
+                                                                            : ''
+                                                                    "
+                                                                />
+                                                                <label
+                                                                    class="custom-control-label"
+                                                                    :for="'ck000' + district.id"
+                                                                    >{{ district.name }}</label
+                                                                >
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-6 col-lg-6">
-                                                        <p class="cases">
-                                                            <span>{{ district.count_estates }}</span
-                                                            >件
-                                                        </p>
-                                                    </div>
+                                                        <div class="col-6 col-lg-6">
+                                                            <p class="cases">
+                                                                <span>{{ district.count_estates }}</span
+                                                                >件
+                                                            </p>
+                                                        </div>
+                                                    </template>
                                                 </template>
                                             </div>
                                         </div>
@@ -179,13 +181,23 @@
                                                                                         :value="station.name"
                                                                                         name="inputStation[]"
                                                                                         v-on:click="checkChange"
-                                                                                        :data-transport="station.transport_id"
+                                                                                        :data-transport="
+                                                                                            station.transport_id
+                                                                                        "
                                                                                         :checked="
                                                                                             conditionSearchBefore.stations
-                                                                                                ? conditionSearchBefore.stations.filter(e => e.name === station.name).length > 0 && conditionSearchBefore.stations.filter(e => e.transportId == transport.id).length > 0
+                                                                                                ? conditionSearchBefore.stations.filter(
+                                                                                                      e =>
+                                                                                                          e.name ===
+                                                                                                          station.name
+                                                                                                  ).length > 0 &&
+                                                                                                  conditionSearchBefore.stations.filter(
+                                                                                                      e =>
+                                                                                                          e.transportId ==
+                                                                                                          transport.id
+                                                                                                  ).length > 0
                                                                                                 : ''
                                                                                         "
-
                                                                                     />
                                                                                     <label
                                                                                         class="custom-control-label"
@@ -302,7 +314,7 @@ export default {
         let tabListActived = conditionSearch.tabSesarch ? conditionSearch.tabSesarch : [];
 
         return {
-            districtList: {},
+            cityList: {},
             transports: {},
             activeSearchTab: activeSearchTab,
             totalPrices: [],
@@ -339,24 +351,18 @@ export default {
         });
     },
     mounted() {
-        this.getDistrict();
+        this.getCities();
         this.listTotalPrice();
         this.listSquare();
         this.getTransports();
         this.getTabList();
     },
     methods: {
-        getDistrict() {
-            this.$store.dispatch('getDistrict').then(response => {
-                this.districtList = response.data;
+        getCities() {
+            this.$store.dispatch('getCityList').then(response => {
+                this.cityList = response.data;
             });
         },
-
-        // getStationParents() {
-        //     this.$store.dispatch('getStationParents').then(response => {
-        //         this.stationParents = response;
-        //     });
-        // },
 
         getTransports() {
             this.$store.dispatch('getTransportList').then(response => {

@@ -203,8 +203,6 @@
         mounted() {
             window.addEventListener('scroll', this.scrollListener);
 
-            this.getDistrict();
-
             // LSMEvent.$on('handleSeachClick', type => {
             //     this.dropSearchByType(type);
             // });
@@ -285,12 +283,6 @@
                 } else {
                     this.isScroll = false;
                 }
-            },
-
-            getDistrict() {
-                this.$store.dispatch('getDistrict').then(response => {
-                    this.districtList = response.data;
-                });
             },
 
             searchDistrict(districtName, code) {
