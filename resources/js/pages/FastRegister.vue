@@ -333,7 +333,7 @@
                 this.submitted = true;
                 this.$v.$touch();
                 this.errorsApi = {};
-                if ($('#send_announcement').is(':checked')) {
+                if ($('#ck_agree').is(':checked')) {
                     this.sendAnnouncment = 1;
                 }
                 let newDistrictsList = [];
