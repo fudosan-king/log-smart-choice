@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { reject } from 'lodash';
 import Vue from 'vue';
 import globalVaiable from '../../../js/globalHelper';
 
@@ -49,7 +48,7 @@ const actions = {
 
     getEstatesNear({}, data) {
         return new Promise((relove, reject) => {
-            const auth = this.auth;
+            const auth = this.$auth;
             axios({ url: '/estate/near', method: 'POST', data: data, auth: auth }).then(resp => {
                 if (resp.data['data']) {
                     relove(resp.data['data']);
