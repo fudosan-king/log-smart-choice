@@ -149,7 +149,6 @@ export default {
                         this.disabled = false;
                         this.submitted = false;
                         this.errorsApi = err.response.data.errors.messages[0];
-                        // console.log(this.errorsApi);
                     });
             }
         }

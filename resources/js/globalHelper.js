@@ -1,6 +1,6 @@
 export default {
     install(Vue, options) {
-        Vue.auth = {
+        Vue.prototype.$auth = {
             username: `${process.env.MIX_BASIC_AUTH_USERNAME}`,
             password: `${process.env.MIX_BASIC_AUTH_PASSWORD}`
         };
