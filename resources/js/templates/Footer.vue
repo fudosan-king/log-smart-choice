@@ -241,11 +241,16 @@ export default {
             let keyWord = [];
             if ($('#pills-area-tab').hasClass('active')) {
                 $('input[name="inputDistrict[]"]:checked').each(function(i) {
-                    districts[i] = $(this).val();
+                    districts.push({
+                        name: $(this).val(),
+                        cityId: $(this).attr('data-city')
+                    });
                     keyWord[i] = $(this).val();
                 });
+                $('.ck_all input:checked').each(function(i) {
+                    idParents[i] = $(this).val();
+                });
                 flagSearch = 'area';
-                
             } else {
                 $('input[name="inputStation[]"]:checked').each(function(i) {
                     stations.push({
@@ -287,7 +292,7 @@ export default {
             };
             this.$setLocalStorage('tabActive', flagSearch);
             this.$setLocalStorage('conditionSearch', JSON.stringify(data));
-            this.$setLocalStorage('parentStations', JSON.stringify(idParents));
+            this.$setLocalStorage('idParents', JSON.stringify(idParents));
 
             this.$router
                 .push({
