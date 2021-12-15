@@ -184,36 +184,9 @@ export default {
             if (this.$getLocalStorage('accessToken')) {
                 window.open(window.location.origin + routeContact, '_blank');
             } else {
-                // $('#modal_register').modal('toggle');
                 this.contactWithOutLogin();
             }
         },
-
-        // googleLogin() {
-        //     this.$store.dispatch('googleLogin').then(response => {
-        //         window.location.href = '/';
-        //     }).catch(err => {
-        //         this.$setCookie('accessToken3d', '', 1);
-        //         this.$removeAuthLocalStorage();
-        //         this.$removeLocalStorage('announcement_count');
-        //         this.$router.push({ name: 'login' }).catch(() => {});
-        //     });
-        // },
-
-        // facebookLogin() {
-        //     const store = this.$store;
-        //     FB.login(
-        //         function(response) {
-        //             if (response.authResponse) {
-        //                 store.dispatch('facebookLogin').then(response => {
-        //                     window.location.href = '/';
-        //                 });
-        //             }
-        //         },
-        //         { scope: 'public_profile, email' }
-        //     );
-        //     return false;
-        // },
 
         contactWithOutLogin() {
             let currentUrl = this.$route.path.split('/');
@@ -241,19 +214,20 @@ export default {
             let keyWord = [];
             if ($('#pills-area-tab').hasClass('active')) {
                 $('input[name="inputDistrict[]"]:checked').each(function(i) {
+                    idParents = [];
                     districts.push({
                         name: $(this).val(),
                         cityId: $(this).attr('data-city')
                     });
                     keyWord[i] = $(this).val();
                 });
-                $('.ck_all input:checked').each(function(i) {
+                $('.ck_allCity input:checked').each(function(i) {
                     idParents[i] = $(this).val();
                 });
                 flagSearch = 'area';
             } else {
                 $('input[name="inputStation[]"]:checked').each(function(i) {
-                    console.log($(this).attr('data-transport'))
+                    idParents = [];
                     stations.push({
                         name: $(this).val(),
                         transportId: $(this).attr('data-transport')
@@ -261,7 +235,7 @@ export default {
                     keyWord[i] = $(this).val();
                 });
 
-                $('.ck_all input:checked').each(function(i) {
+                $('.ck_allStation input:checked').each(function(i) {
                     idParents[i] = $(this).val();
                 });
             }
