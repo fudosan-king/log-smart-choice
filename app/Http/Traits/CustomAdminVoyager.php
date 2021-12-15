@@ -11,7 +11,9 @@ trait CustomAdminVoyager
     private function _mergeList($count, $elements = []) {
         $list = [];
         for ($i = 0; $i < $count; $i++) {
-            $list[$elements[$i]['id']] = $elements[$i]['name'];
+            if ($elements[$i]['id']) {
+                $list[$elements[$i]['id']] = $elements[$i]['name'];
+            }
         }
         return $list;
     }
