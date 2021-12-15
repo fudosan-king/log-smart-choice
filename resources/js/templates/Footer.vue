@@ -253,6 +253,7 @@ export default {
                 flagSearch = 'area';
             } else {
                 $('input[name="inputStation[]"]:checked').each(function(i) {
+                    console.log($(this).attr('data-transport'))
                     stations.push({
                         name: $(this).val(),
                         transportId: $(this).attr('data-transport')

@@ -118,14 +118,14 @@
                                                                                         :id="'ck000' + district.id"
                                                                                         name="inputDistrict[]"
                                                                                         :value="district.name"
-                                                                                        :data-transport="
+                                                                                        :data-city="
                                                                                             district.city_id
                                                                                         "
                                                                                         :checked="
                                                                                             conditionSearchBefore.districts
                                                                                                 ? conditionSearchBefore.districts.filter(
                                                                                                       e =>
-                                                                                                          e.name ===
+                                                                                                          e.name ==
                                                                                                           district.name
                                                                                                   ).length > 0 &&
                                                                                                   conditionSearchBefore.districts.filter(
@@ -257,14 +257,14 @@
                                                                                                 $event
                                                                                             )
                                                                                         "
-                                                                                        :data-city="
+                                                                                        :data-transport="
                                                                                             station.transport_id
                                                                                         "
                                                                                         :checked="
                                                                                             conditionSearchBefore.stations
                                                                                                 ? conditionSearchBefore.stations.filter(
                                                                                                       e =>
-                                                                                                          e.name ===
+                                                                                                          e.name ==
                                                                                                           station.name
                                                                                                   ).length > 0 &&
                                                                                                   conditionSearchBefore.stations.filter(
