@@ -106,7 +106,8 @@ class ResetPasswordController extends Controller
                     $customer->save();
 
                     // Delete token
-                    ResetPassword::where('email', $resetPassword->email)->delete();
+                    $resetPasswordEmail = ResetPassword::where('email', $resetPassword->email)->fisrt();
+                    $resetPasswordEmail->delete();
                 } catch (\Exception $e) {
                     Log::error($e->getMessage());
                 }
