@@ -48,28 +48,15 @@ class EstateController extends Controller
         $maxSquare = $request->get('max_square') ?? Customer::CONDITION_MAX;
         $tabSearch = $request->get('tab_search') ?? [];
         $tabSearchName = $request->get('tab_search_name') ?? [];
-        // $roomTypeFrom = $request->get('room_type_from') ?? '';
-        // $roomTypeTo = $request->get('room_type_to') ?? '';
         $email = $request->get('email') ?? '';
         $isSocial = $request->get('isSocial') ?? '';
-        // $districtCode = $request->get('districtCode') ?? '';
-        // $companyCode = $request->get('companyCode') ?? '';
         $flagSearch = $request->get('flag_search') ?? '';
         $stations = $request->get('stations') ?? '';
         $districts = $request->get('districts') ?? '';
-
         $limit = $request->get('limit', 4);
         $page = $request->get('page', 1);
-        // $validator = Validator::make($request->all(), [
-        //     'keyword'      => 'max:1000',
-        // ]);
-        
-        // if ($validator->fails()) {
-        //     return response()->json($validator->errors(), 422);
-        // }
 
         $estates = Estates::select($this->selectField);
-
         $estates->where('status', Estates::STATUS_SALE);
         $keyWord = '';
         if ($flagSearch == 'station') {
@@ -87,19 +74,23 @@ class EstateController extends Controller
 
             $estates->whereIn('transports.station_name', $stationSelected);
             $flagSearch = 'station';
-            $keyWord = is_array($stationSelected) ? implode(', ' ,$stationSelected) : $stationSelected;
+            $keyWord = is_array($stationSelected) ? implode(', ', $stationSelected) : $stationSelected;
         } else {
             if (!$districts) {
-                $districts = [];
+                $districtSelected = [];
                 $districtList = District::select('name')->where('status', District::STATUS_ACTIVATE)->get()->toArray();
                 foreach ($districtList as $value) {
-                    $districts[] = $value['name'];
+                    $districtSelected[] = $value['name'];
+                }
+            } else {
+                foreach ($districts as $value) {
+                    $districtSelected[] = $value['name'];
                 }
             }
-            
-            $estates->whereIn('address.city', $districts);
+
+            $estates->whereIn('address.city', $districtSelected);
             $flagSearch = 'area';
-            $keyWord = is_array($districts) ? implode(', ' ,$districts) : $districts;
+            $keyWord = is_array($districts) ? implode(', ', $districtSelected) : $districtSelected;
         }
 
         // price
@@ -144,7 +135,6 @@ class EstateController extends Controller
         $estates->orderBy('date_created', 'desc');
         $lists = $estates->paginate($limit, $page)->toArray();
 
-        
         $lists['condition_search'] = [
             'key_word' => $keyWord,
             'price' => [

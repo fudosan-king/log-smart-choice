@@ -61,39 +61,108 @@
                                             role="tabpanel"
                                             aria-labelledby="pills-area-tab"
                                         >
-                                            <div class="row">
-                                                <template v-for="city in cityList">
-                                                    <template v-for="district in city.districts">
-                                                        <div class="col-6 col-lg-6">
-                                                            <div class="custom-control custom-checkbox">
-                                                                <input
-                                                                    type="checkbox"
-                                                                    class="custom-control-input"
-                                                                    :id="'ck000' + district.id"
-                                                                    name="inputDistrict[]"
-                                                                    :value="district.name"
-                                                                    :checked="
-                                                                        conditionSearchBefore.districts
-                                                                            ? conditionSearchBefore.districts.includes(
-                                                                                  district.name
-                                                                              )
-                                                                            : ''
-                                                                    "
-                                                                />
-                                                                <label
-                                                                    class="custom-control-label"
-                                                                    :for="'ck000' + district.id"
-                                                                    >{{ district.name }}</label
-                                                                >
+                                            <div class="accordion" id="accordionExample">
+                                                <template v-for="(city, indexCity) in cityList">
+                                                    <div class="multi-collapse" :id="'box_jr' + indexCity">
+                                                        <div class="card">
+                                                            <div class="card-header" :id="'headingOne' + indexCity">
+                                                                <h2 class="mb-0">
+                                                                    <div
+                                                                        class="custom-control custom-checkbox ck_all ck_allCity"
+                                                                    >
+                                                                        <input
+                                                                            type="checkbox"
+                                                                            class="custom-control-input"
+                                                                            :id="'ck0000' + indexCity"
+                                                                            :value="'ck0000' + indexCity"
+                                                                            :checked="
+                                                                                idParentBefore
+                                                                                    ? idParentBefore.includes(
+                                                                                          'ck0000' + indexCity
+                                                                                      )
+                                                                                    : ''
+                                                                            "
+                                                                        />
+                                                                        <label
+                                                                            class="custom-control-label"
+                                                                            :for="'ck0000' + indexCity"
+                                                                            ><span>{{ city.name }}</span></label
+                                                                        >
+                                                                    </div>
+                                                                    <button
+                                                                        class="btn btn-link btn-block text-left collapsed"
+                                                                        type="button"
+                                                                        data-toggle="collapse"
+                                                                        :data-target="'#collapseOne' + indexCity"
+                                                                        aria-expanded="false"
+                                                                        :aria-controls="'collapseOne' + indexCity"
+                                                                    ></button>
+                                                                </h2>
+                                                            </div>
+                                                            <div
+                                                                :id="'collapseOne' + indexCity"
+                                                                class="collapse station"
+                                                                :aria-labelledby="'headingOne' + indexCity"
+                                                                :data-parent="'#collapseOne' + indexCity"
+                                                            >
+                                                                <div class="card-body" :class="'ck0000' + indexCity">
+                                                                    <div class="row">
+                                                                        <template v-for="district in city.districts">
+                                                                            <div class="col-6 col-lg-6">
+                                                                                <div
+                                                                                    class="custom-control custom-checkbox"
+                                                                                >
+                                                                                    <input
+                                                                                        type="checkbox"
+                                                                                        class="custom-control-input"
+                                                                                        :id="'ck000' + district.id"
+                                                                                        name="inputDistrict[]"
+                                                                                        :value="district.name"
+                                                                                        :data-city="
+                                                                                            district.city_id
+                                                                                        "
+                                                                                        :checked="
+                                                                                            conditionSearchBefore.districts
+                                                                                                ? conditionSearchBefore.districts.filter(
+                                                                                                      e =>
+                                                                                                          e.name ==
+                                                                                                          district.name
+                                                                                                  ).length > 0 &&
+                                                                                                  conditionSearchBefore.districts.filter(
+                                                                                                      e =>
+                                                                                                          e.cityId ==
+                                                                                                          city.id
+                                                                                                  ).length > 0
+                                                                                                : ''
+                                                                                        "
+                                                                                        v-on:click="
+                                                                                            checkChange(
+                                                                                                'district',
+                                                                                                $event
+                                                                                            )
+                                                                                        "
+                                                                                    />
+                                                                                    <label
+                                                                                        class="custom-control-label"
+                                                                                        :for="'ck000' + district.id"
+                                                                                        >{{ district.name }}</label
+                                                                                    >
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-6 col-lg-6">
+                                                                                <p class="cases">
+                                                                                    <span>{{
+                                                                                        district.count_estates
+                                                                                    }}</span
+                                                                                    >件
+                                                                                </p>
+                                                                            </div>
+                                                                        </template>
+                                                                    </div>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                        <div class="col-6 col-lg-6">
-                                                            <p class="cases">
-                                                                <span>{{ district.count_estates }}</span
-                                                                >件
-                                                            </p>
-                                                        </div>
-                                                    </template>
+                                                    </div>
                                                 </template>
                                             </div>
                                         </div>
@@ -122,15 +191,17 @@
                                                                 :id="'headingOne' + indexTransport"
                                                             >
                                                                 <h2 class="mb-0">
-                                                                    <div class="custom-control custom-checkbox ck_all">
+                                                                    <div
+                                                                        class="custom-control custom-checkbox ck_all ck_allStation"
+                                                                    >
                                                                         <input
                                                                             type="checkbox"
                                                                             class="custom-control-input"
                                                                             :id="'ck0' + indexTransport"
                                                                             :value="'ck0' + indexTransport"
                                                                             :checked="
-                                                                                stationParentBefore
-                                                                                    ? stationParentBefore.includes(
+                                                                                idParentBefore
+                                                                                    ? idParentBefore.includes(
                                                                                           'ck0' + indexTransport
                                                                                       )
                                                                                     : ''
@@ -180,7 +251,12 @@
                                                                                         "
                                                                                         :value="station.name"
                                                                                         name="inputStation[]"
-                                                                                        v-on:click="checkChange"
+                                                                                        v-on:click="
+                                                                                            checkChange(
+                                                                                                'station',
+                                                                                                $event
+                                                                                            )
+                                                                                        "
                                                                                         :data-transport="
                                                                                             station.transport_id
                                                                                         "
@@ -188,7 +264,7 @@
                                                                                             conditionSearchBefore.stations
                                                                                                 ? conditionSearchBefore.stations.filter(
                                                                                                       e =>
-                                                                                                          e.name ===
+                                                                                                          e.name ==
                                                                                                           station.name
                                                                                                   ).length > 0 &&
                                                                                                   conditionSearchBefore.stations.filter(
@@ -304,9 +380,7 @@ export default {
         let conditionSearch = this.$getLocalStorage('conditionSearch')
             ? JSON.parse(this.$getLocalStorage('conditionSearch'))
             : [];
-        let stations = this.$getLocalStorage('parentStations')
-            ? JSON.parse(this.$getLocalStorage('parentStations'))
-            : [];
+        let idParents = this.$getLocalStorage('idParents') ? JSON.parse(this.$getLocalStorage('idParents')) : [];
         let minPrice = conditionSearch.price ? conditionSearch.price.min : '下限なし';
         let maxPrice = conditionSearch.price ? conditionSearch.price.max : '上限なし';
         let minSquare = conditionSearch.square ? conditionSearch.square.min : '下限なし';
@@ -325,26 +399,25 @@ export default {
             minSquare: minSquare,
             maxSquare: maxSquare,
             conditionSearchBefore: conditionSearch,
-            stationParentBefore: stations,
+            idParentBefore: idParents,
             tabList: [],
             tabListActived: tabListActived
         };
     },
     updated() {
-        let flagCheckAllChild = '';
-        $('.ck_all input').click(function() {
-            flagCheckAllChild = $(this).val();
-            $('.' + flagCheckAllChild + ' input:checkbox')
+        $('.ck_allStation input').click(function() {
+            let flagCheckAllStation = $(this).val();
+            $('.' + flagCheckAllStation + ' input:checkbox')
                 .not(this)
                 .prop('checked', this.checked);
         });
 
-        // const burger = document.querySelector(".burger");
-
-        // burger.addEventListener("click", function () {
-        //     const body = document.body;
-        //     body.classList.toggle("nav_open");
-        // });
+        $('.ck_allCity input').click(function() {
+            let flagCheckAllCity = $(this).val();
+            $('.' + flagCheckAllCity + ' input:checkbox')
+                .not(this)
+                .prop('checked', this.checked);
+        });
 
         $('.plus-to-minus').click(function(event) {
             $(this).toggleClass('minus');
@@ -412,15 +485,24 @@ export default {
             });
         },
 
-        checkChange(event) {
+        checkChange(tag, event) {
+            let classChild = '';
+            let inputTag = '';
+            if (tag == 'station') {
+                classChild = 'station';
+                inputTag = 'inputStation';
+            } else {
+                classChild = 'district';
+                inputTag = 'inputDistrict';
+            }
             let child = event.target.id;
-            let positionAllChild = $('#' + child).parentsUntil('.station');
-            let station = $(positionAllChild[3])
+            let positionAllChild = $('#' + child).parentsUntil('.' + classChild + '');
+            let positionChild = $(positionAllChild[3])
                 .attr('class')
                 .split(' ')[1];
-            var totalCheckbox = $('.' + station + ' input:checkbox').length;
-            var totalChecked = $('.' + station + ' [name="inputStation[]"]:checked').length;
-            let eleParent = $('#' + station);
+            let totalCheckbox = $('.' + positionChild + ' input:checkbox').length;
+            let totalChecked = $('.' + positionChild + ' [name="' + inputTag + '[]"]:checked').length;
+            let eleParent = $('#' + positionChild);
             if (totalCheckbox == totalChecked) {
                 eleParent.prop('checked', true);
             } else {
