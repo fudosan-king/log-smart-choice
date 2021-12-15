@@ -17,4 +17,6 @@ class ResetPassword extends Model
 
     public $incrementing = false;
 
+    public $primaryKey = 'email';
+
 }
