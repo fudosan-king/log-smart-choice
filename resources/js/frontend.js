@@ -32,6 +32,7 @@ Vue.use(FBAuth, fbAuthOption);
 window.LSMEvent = new Vue();
 
 axios.defaults.withCredentials = true;
+axios.defaults.timeout = 2500;
 axios.defaults.baseURL = `${process.env.MIX_APP_URL}/api`;
 axios.interceptors.response.use(undefined, function(error) {
     if (error) {

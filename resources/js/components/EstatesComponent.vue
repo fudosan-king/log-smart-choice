@@ -141,6 +141,11 @@
         created() {
             this.$store.registerModule('estate', estateModule);
             window.addEventListener('scroll', this.handleScroll);
+            window.onload = function () {
+                window.onpopstate = function () {
+                    window.location.href = window.location.origin+"/search";
+                };
+            }
         },
         beforeDestroy() {
             this.$store.unregisterModule('estate');
@@ -154,8 +159,6 @@
                 let accessToken = this.$getLocalStorage('accessToken');
                 let flagSearch = this.$getLocalStorage('tabActive') ? this.$getLocalStorage('tabActive') : 'area';
                 let conditionSearch = this.$getLocalStorage('conditionSearch') ? JSON.parse(this.$getLocalStorage('conditionSearch')) : [];
-
-                let keyWord = this.$route.query.keyWord;
                 let minPrice = this.$route.query.minPrice;
                 let maxPrice = this.$route.query.maxPrice;
                 let minSquare = this.$route.query.minSquare;
