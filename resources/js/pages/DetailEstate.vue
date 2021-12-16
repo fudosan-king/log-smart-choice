@@ -765,6 +765,11 @@ export default {
             });
         }
     },
+    created() {
+        window.onpopstate = function () {
+            history.pushState('', null, null);
+        };
+    },
     methods: {
         getListEstates() {
             const id = this.$route.params.estateId;
