@@ -238,7 +238,7 @@
                                         <div class="col-md-12">
                                             <p>
                                                 <template v-for="tag in tabList">
-                                                    <a href="#">{{ tag.name }}</a> &nbsp;
+                                                    <a href="javascript:void(0)" v-on:click="searchTag(tag.name)>{{ tag.name }}</a> &nbsp;
                                                 </template>
                                                 
                                                 <!-- リノベ済物件　カスタム可能物件　ペット飼育可　ウォークインクローゼット　角部屋　眺望・夜景　セキュリティ充実 -->
@@ -310,6 +310,8 @@ export default {
                 this.tabList = response;
             });
         }
+
+        searchTag()
     }
 };
 </script>

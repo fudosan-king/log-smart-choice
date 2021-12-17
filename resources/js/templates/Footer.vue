@@ -21,13 +21,8 @@
                                     >ソーシャルメディアポリシー</a
                                 >
                             </li>
-<<<<<<< HEAD
                             <li><a target="_blank" href="https://www.propolife.co.jp/terms"> 利用規約</a></li>
                             <li><a target="_blank" href="https://www.propolife.co.jp">運営会社（企業情報）</a></li>
-=======
-                            <li><a target="_blank" href="https://www.propolife.co.jp/terms/"> 利用規約</a></li>
-                            <li><a target="_blank" href="https://www.logknot.co.jp/">運営会社（企業情報）</a></li>
->>>>>>> f337ede07b22a83ae258bdfa65a1ba8013a21ea8
                             <li>
                                 <a target="_blank" href="https://www.propolife.co.jp/antisocial"
                                     >反社会的勢力排除に関する基本方針</a
