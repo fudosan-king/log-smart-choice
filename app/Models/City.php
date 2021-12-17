@@ -19,6 +19,14 @@ class City extends Model
         'status'
     ];
 
+    protected $hidden = ['id', 'status', 'created_at', 'updated_at'];
+
     protected $table = 'city';
     public $searchable = ['name', 'status'];
+
+    public function districts() {
+        return $this->hasMany(District::class, 'city_id', 'id')->where('count_estates', '>', 0)
+        ->where('status', District::STATUS_ACTIVATE)
+        ->orderBy('name');
+    }
 }

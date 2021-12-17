@@ -19,7 +19,7 @@
                 </div>
                 <ul class="box_sort">
                     <li><a class="border-0 pl-0 search_number" href="#">検索結果 <span><b>{{ total }}</b></span> 件</a></li>
-                    <li><a href="/search"><img src="/asset/images/svg/i_sort.svg" alt="" class="img-fluid" width="15"><span> 条件を変更する</span></a></li>
+                    <li><a href="/search"><img src="/assets/images/svg/i_sort.svg" alt="" class="img-fluid" width="15"><span> 条件を変更する</span></a></li>
                 </ul>
             </div>
         </div>
@@ -135,12 +135,17 @@
         components: {
             WishlistComponent: () => import('../components/WishlistComponent')
         },
-        beforeMount() {
+        mounted() {
             this.getListEstates();
         },
         created() {
             this.$store.registerModule('estate', estateModule);
             window.addEventListener('scroll', this.handleScroll);
+            window.onload = function () {
+                window.onpopstate = function () {
+                    window.location.href = window.location.origin+"/search";
+                };
+            }
         },
         beforeDestroy() {
             this.$store.unregisterModule('estate');
@@ -152,41 +157,20 @@
             // Gui yeu cau den server sau moi lan cuon xuong
             getListEstates(pageLoad) {
                 let accessToken = this.$getLocalStorage('accessToken');
-                // let district = '';
-                // let station = '';
                 let flagSearch = this.$getLocalStorage('tabActive') ? this.$getLocalStorage('tabActive') : 'area';
                 let conditionSearch = this.$getLocalStorage('conditionSearch') ? JSON.parse(this.$getLocalStorage('conditionSearch')) : [];
-
-                // let districtCode = '';
-                // let companyCode = '';
-                let keyWord = this.$route.query.keyWord;
                 let minPrice = this.$route.query.minPrice;
                 let maxPrice = this.$route.query.maxPrice;
                 let minSquare = this.$route.query.minSquare;
                 let maxSquare = this.$route.query.maxSquare;
                 let tabSearch = this.$route.query.tabSearch ? this.$route.query.tabSearch : this.tabListActived;
                 let tabSearchName = this.$route.query.tabSearchName;
-                // if (typeof this.$route.params.searchCode !== 'undefined' && this.$route.params.searchCode.length > 0) {
-                //     if (this.$route.params.searchCode.length >= 11) {
-                //         districtCode = this.$route.params.searchCode;
-                //     } else {
-                //         companyCode = this.$route.params.searchCode;
-                //     }
-                // }
 
                 let data = {
                     limit: 4,
                     page: pageLoad,
-                    // districtCode: districtCode,
-                    // companyCode: companyCode
                     flag_search: flagSearch,
                 };
-                // if (district.length != 0) {
-                //     data.address = district;
-                // }
-                // if (station.length != 0) {
-                //     data.station = station;
-                // }
 
                 if (conditionSearch.districts) {
                     data.districts = Array.isArray(conditionSearch.districts) ? conditionSearch.districts : [conditionSearch.districts];
@@ -230,7 +214,6 @@
                         .then(res => {
                             this.estates = this.estates.concat(res[0]['data']);
                             this.conditionSearch = res[0]['conditionSearch'];
-                            console.log(this.conditionSearch);
                             this.total = res[0]['total'];
                             // this.lastEstate = res[0]['lastedEstate'];
                             if (this.estates.length < res[0].total) {
@@ -264,16 +247,6 @@
                             this.$removeLocalStorage('announcement_count');
                         });
                 }
-                // if (window.localStorage.getItem('district') && districtCode != '') {
-                //     this.titleSearch = this.$getLocalStorage('district') + 'の物件';
-                //     window.localStorage.setItem('searchCode', this.titleSearch);
-                // }
-
-                // if (window.localStorage.getItem('station') && companyCode != '') {
-                //     this.titleSearch = this.$getLocalStorage('station') + 'の物件';
-                //     window.localStorage.setItem('searchCode', this.titleSearch);
-                // }
-                // this.loading = false;
             },
             // Khi them danh sach phia duoi thi tinh toan lai do cao
             setOffsetTop() {

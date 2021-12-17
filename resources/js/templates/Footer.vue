@@ -21,8 +21,13 @@
                                     >ソーシャルメディアポリシー</a
                                 >
                             </li>
+<<<<<<< HEAD
                             <li><a target="_blank" href="https://www.propolife.co.jp/terms"> 利用規約</a></li>
                             <li><a target="_blank" href="https://www.propolife.co.jp">運営会社（企業情報）</a></li>
+=======
+                            <li><a target="_blank" href="https://www.propolife.co.jp/terms/"> 利用規約</a></li>
+                            <li><a target="_blank" href="https://www.logknot.co.jp/">運営会社（企業情報）</a></li>
+>>>>>>> f337ede07b22a83ae258bdfa65a1ba8013a21ea8
                             <li>
                                 <a target="_blank" href="https://www.propolife.co.jp/antisocial"
                                     >反社会的勢力排除に関する基本方針</a
@@ -74,14 +79,14 @@
                     height="18"
                 />資料請求・内見</a
             >
-            <a class="btn" href="tel:0368978564"
+            <a class="btn" href="tel:0120991657"
                 ><img
                     src="/assets/images/svg/i_call.svg"
                     alt=""
                     class="img-fluid"
                     width="18"
                     height="18"
-                />03-6897-8564</a
+                />0120-991-657</a
             >
         </div>
         <div
@@ -138,36 +143,9 @@ export default {
             if (this.$getLocalStorage('accessToken')) {
                 window.open(window.location.origin + routeContact, '_blank');
             } else {
-                // $('#modal_register').modal('toggle');
                 this.contactWithOutLogin();
             }
         },
-
-        // googleLogin() {
-        //     this.$store.dispatch('googleLogin').then(response => {
-        //         window.location.href = '/';
-        //     }).catch(err => {
-        //         this.$setCookie('accessToken3d', '', 1);
-        //         this.$removeAuthLocalStorage();
-        //         this.$removeLocalStorage('announcement_count');
-        //         this.$router.push({ name: 'login' }).catch(() => {});
-        //     });
-        // },
-
-        // facebookLogin() {
-        //     const store = this.$store;
-        //     FB.login(
-        //         function(response) {
-        //             if (response.authResponse) {
-        //                 store.dispatch('facebookLogin').then(response => {
-        //                     window.location.href = '/';
-        //                 });
-        //             }
-        //         },
-        //         { scope: 'public_profile, email' }
-        //     );
-        //     return false;
-        // },
 
         contactWithOutLogin() {
             let currentUrl = this.$route.path.split('/');
@@ -195,12 +173,20 @@ export default {
             let keyWord = [];
             if ($('#pills-area-tab').hasClass('active')) {
                 $('input[name="inputDistrict[]"]:checked').each(function(i) {
-                    districts[i] = $(this).val();
+                    idParents = [];
+                    districts.push({
+                        name: $(this).val(),
+                        cityId: $(this).attr('data-city')
+                    });
                     keyWord[i] = $(this).val();
+                });
+                $('.ck_allCity input:checked').each(function(i) {
+                    idParents[i] = $(this).val();
                 });
                 flagSearch = 'area';
             } else {
                 $('input[name="inputStation[]"]:checked').each(function(i) {
+                    idParents = [];
                     stations.push({
                         name: $(this).val(),
                         transportId: $(this).attr('data-transport')
@@ -208,7 +194,7 @@ export default {
                     keyWord[i] = $(this).val();
                 });
 
-                $('.ck_all input:checked').each(function(i) {
+                $('.ck_allStation input:checked').each(function(i) {
                     idParents[i] = $(this).val();
                 });
             }
@@ -240,7 +226,7 @@ export default {
             };
             this.$setLocalStorage('tabActive', flagSearch);
             this.$setLocalStorage('conditionSearch', JSON.stringify(data));
-            this.$setLocalStorage('parentStations', JSON.stringify(idParents));
+            this.$setLocalStorage('idParents', JSON.stringify(idParents));
 
             this.$router
                 .push({

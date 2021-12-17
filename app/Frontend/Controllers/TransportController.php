@@ -14,7 +14,7 @@ class TransportController extends Controller
         $transports = Transport::with('stations')->orderBy('name', 'ASC')->get()->toArray();
         $transportNew = [];
         if ($transports) {
-            foreach ($transports as $key => $transport) {
+            foreach ($transports as $transport) {
                 $countStations = count($transport['stations']);
                 if ($countStations > 0) {
                     $transportNew[] = $transport;

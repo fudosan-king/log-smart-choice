@@ -15,6 +15,7 @@ use App\Frontend\Controllers\MetaTagController;
 use App\Frontend\Controllers\StationController;
 use App\Frontend\Controllers\TabSearchController;
 use App\Frontend\Controllers\TransportController;
+use App\Frontend\Controllers\CityController;
 use App\Models\Estates;
 
 /*
@@ -72,14 +73,14 @@ Route::get('/get-meta-tags', [MetaTagController::class, 'getMetaTags']);
 
 // station
 Route::post('/stations/list', [StationController::class, 'getAll']);
-Route::get('/stations/getByCompany', [StationController::class, 'getByTransportCompany']);
-Route::post('/stations/parent-station', [StationController::class, 'getParentStation']);
-Route::post('/stations/child-station', [StationController::class, 'getChildStation']);
 Route::post('/transports/list', [TransportController::class, 'list']);
 
 // District
 Route::post('/district/list', [DistrictController::class, 'list']);
 Route::post('/district/customer/list', [DistrictController::class, 'customerList']);
+
+// City
+Route::post('/city/list', [CityController::class, 'list']);
 
 // Tab Search
 Route::post('tab-search/list', [TabSearchController::class, 'list']);

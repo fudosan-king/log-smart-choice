@@ -260,14 +260,7 @@ export default {
     },
     mounted() {
         window.addEventListener('scroll', this.scrollListener);
-
         this.getDistrict();
-
-        // LSMEvent.$on('handleSeachClick', type => {
-        //     this.dropSearchByType(type);
-        // });
-
-        // this.userName = this.$getLocalStorage('userName');
     },
     methods: {
         logout() {
@@ -323,39 +316,6 @@ export default {
             });
         },
 
-        searchDistrict(districtName, code) {
-            let cookieStation = this.$getLocalStorage('station');
-            if (cookieStation) {
-                this.$removeLocalStorage('station');
-            }
-            this.$setLocalStorage('district', districtName);
-            this.$router
-                // .push({ name: 'list'})
-                .push({ name: 'listByCode', params: { searchCode: code } })
-                .then(() => {
-                    this.$router.go('0');
-                })
-                .catch(() => {
-                    this.$router.go('0');
-                });
-        },
-
-        searchStation(companyName, companyCode) {
-            let cookieDistrict = this.$getLocalStorage('district');
-            if (cookieDistrict) {
-                this.$removeLocalStorage('district');
-            }
-            this.$setLocalStorage('station', companyName);
-            this.$router
-                .push({ name: 'listByCode', params: { searchCode: companyCode } })
-                .then(() => {
-                    this.$router.go('0');
-                })
-                .catch(() => {
-                    this.$router.go('0');
-                });
-        },
-
         setCondition(condition) {
             if (condition == 'district') {
                 this.$setLocalStorage('tabActive', 'area');
@@ -385,11 +345,11 @@ export default {
         }
     },
     watch: {
-        '$route' (to, from) {
-        if (to.path == '/') {
-          this.userName = this.$getLocalStorage('userName');
+        $route(to, from) {
+            if (to.path == '/') {
+                this.userName = this.$getLocalStorage('userName');
+            }
         }
-      }
     }
 };
 </script>
