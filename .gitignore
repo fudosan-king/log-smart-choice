@@ -25,4 +25,6 @@ composer.lock
 /public/*.js
 /public/*.js.*
 public/assets/css/styles.min.css
+public/assets/css/c_styles.min.css
+public/assets/css/t_styles.min.css
 .prettierrc.json

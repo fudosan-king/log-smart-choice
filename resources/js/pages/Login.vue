@@ -167,8 +167,7 @@ export default {
                 this.$store
                     .dispatch('login', { email, password })
                     .then(response => {
-                        this.$router.push('/').catch(() => {});
-                        // this.$router.go(0);
+                        this.$router.push('/').then(res => {this.$forceUpdate();}).catch(() => {});
                     })
                     .catch(error => {
                         this.errors = error.response.data.errors;

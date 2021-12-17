@@ -357,3 +357,11 @@ ul.list_property li .property_img p.label_custom {
 input:checked + .slider {
     background-color: #2196f3;
 }
+
+footer {
+    padding-bottom: 61px;
+}
+
+.more-info_item div p a:hover {
+    color:#000000;
+}
