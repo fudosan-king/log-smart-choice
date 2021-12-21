@@ -20,7 +20,11 @@
 
 ## Install packages<br>
 `composer install`<br>
-`npm install`
+`npm install` <br>
+<br>
+`mkdir -p ~/storage/framework/sessions` <br>
+`mkdir -p ~/storage/framework/views` <br>
+`mkdir -p ~/storage/framework/cache`
 
 ## Install MongoDB Driver for PHP<br>
 Install the PHP MongoDB Extension before installing the PHP Library for MongoDB. You can install the extension using PECL on the command line<br>
@@ -39,7 +43,8 @@ https://voyager-docs.devdojo.com/getting-started/installation
 
 ## Access database
 mysql -u root
-> CREATE DATABASE log_smart;<br>
+pass: hgLJ8-8FW9#vD[jM
+> CREATE DATABASE log_smart IDENTIFIED BY 'sP9m%c7cDUy.ey}{';<br>
 > CREATE USER 'log_smart'@'localhost';<br>
 > GRANT ALL PRIVILEGES ON log_smart.* TO log_smart@localhost WITH GRANT OPTION;<br>
 > FLUSH PRIVILEGES;<br>
