@@ -765,11 +765,6 @@ export default {
             });
         }
     },
-    created() {
-        window.onpopstate = function () {
-            history.pushState('', null, null);
-        };
-    },
     methods: {
         getListEstates() {
             const id = this.$route.params.estateId;
@@ -939,6 +934,13 @@ export default {
             pageDots: false,
             prevNextButtons: false
         });
+    },
+    created() {
+        window.onload = function() {
+            window.onpopstate = function() {
+                window.location.reload();
+            };
+        };
     }
 };
 </script>

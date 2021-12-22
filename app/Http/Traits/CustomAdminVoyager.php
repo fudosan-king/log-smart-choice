@@ -3,31 +3,10 @@
 namespace App\Http\Traits;
 
 use App\Models\City;
-use App\Models\PagesSeo;
 use TCG\Voyager\Models\DataRow;
 
 trait CustomAdminVoyager
 {
-    private function _mergeList($count, $elements = []) {
-        $list = [];
-        for ($i = 0; $i < $count; $i++) {
-            if (isset($elements[$i]['id'])) {
-                $list[$elements[$i]['id']] = $elements[$i]['name'];
-            }
-        }
-        return $list;
-    }
-
-    /**
-     * @return array
-     */
-    public function getPagesSeo()
-    {
-        $page = PagesSeo::where('status', PagesSeo::STATUS_ACTIVATE)->get()->toArray();
-        $count = count($page);
-        return $this->_mergeList($count, $page);
-    }
-
     /**
      * Replaces spaces with full text search wildcards
      *

@@ -40,7 +40,9 @@
                             </p>
                         </div>
                         <estates-top-component></estates-top-component>
-                        <button type="button" class="btn btn-load-more" v-on:click="clearConditionSearch">もっと見る</button>
+                        <button type="button" class="btn btn-load-more" v-on:click="clearConditionSearch">
+                            もっと見る
+                        </button>
                     </div>
                 </div>
             </div>
@@ -209,28 +211,39 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- <div class="col-md-3">
-                                    <div class="more-info_item">
-                                        <h3>エリアから探す</h3>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <p>表参道･青山　麻布･広尾　渋谷･恵比寿･中目黒　目黒･白金高輪　下北沢･三軒茶屋　東横線･目黒線　駒沢･二子玉川　代々木公園　井の頭線　神楽坂　品川・田町　銀座・築地　豊洲清澄・門前仲町　皇居西側　中央線　千駄ヶ谷･四ッ谷　西新宿　東新宿･早稲田　その他</p>
-                                            </div>
-                                        
+                            <div class="col-md-3">
+                                <div class="more-info_item">
+                                    <h3>エリアから探す</h3>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p>
+                                                <!-- <a href="javascript:void(0)" v-on:click="searchList('世田谷区', 'area')"
+                                                    >世田谷区 &nbsp;</a
+                                                > -->
+                                                <template v-for="district in districtList">
+                                                    <a href="javascript:void(0)" v-on:click="searchList(district, 'area')">{{ district.name }} &nbsp;</a>
+                                                </template>
+                                                <!-- 表参道･青山　麻布･広尾　渋谷･恵比寿･中目黒　目黒･白金高輪　下北沢･三軒茶屋　東横線･目黒線　駒沢･二子玉川　代々木公園　井の頭線　神楽坂　品川・田町　銀座・築地　豊洲清澄・門前仲町　皇居西側　中央線　千駄ヶ谷･四ッ谷　西新宿　東新宿･早稲田　その他 -->
+                                            </p>
                                         </div>
                                     </div>
-                                </div> -->
-                            <!-- <div class="col-md-3">
-                                    <div class="more-info_item">
-                                        <h3>人気の駅から探す</h3>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <p>表参道駅　乃木坂駅　目黒駅　中目黒駅　代官山駅　恵比寿駅　渋谷駅　三軒茶屋駅　広尾駅　麻布十番駅　六本木駅　品川駅　田町駅　五反田駅　大崎駅</p>
-                                            </div>
-                                        
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="more-info_item">
+                                    <h3>人気の駅から探す</h3>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p>
+                                                <template v-for="station in stationList">
+                                                    <a href="javascript:void(0)" v-on:click="searchList(station, 'station')">{{ station.name }} &nbsp;</a>
+                                                </template>
+                                                <!-- 表参道駅　乃木坂駅　目黒駅　中目黒駅　代官山駅　恵比寿駅　渋谷駅　三軒茶屋駅　広尾駅　麻布十番駅　六本木駅　品川駅　田町駅　五反田駅　大崎駅 -->
+                                            </p>
                                         </div>
                                     </div>
-                                </div> -->
+                                </div>
+                            </div>
                             <div class="col-md-3">
                                 <div class="more-info_item">
                                     <h3>こだわりから探す</h3>
@@ -238,10 +251,11 @@
                                         <div class="col-md-12">
                                             <p>
                                                 <template v-for="tag in tabList">
-                                                    <a href="javascript:void(0)" v-on:click="searchTag(tag.name)>{{ tag.name }}</a> &nbsp;
+                                                    <a href="javascript:void(0)" v-on:click="searchList(tag, 'tag')">{{
+                                                        tag.name
+                                                    }}</a>
+                                                    &nbsp;
                                                 </template>
-                                                
-                                                <!-- リノベ済物件　カスタム可能物件　ペット飼育可　ウォークインクローゼット　角部屋　眺望・夜景　セキュリティ充実 -->
                                             </p>
                                         </div>
                                     </div>
@@ -268,7 +282,9 @@ export default {
     data() {
         return {
             searchType: '',
-            tabList: ''
+            tabList: '',
+            stationList: '',
+            districtList: ''
         };
     },
     components: {
@@ -278,6 +294,8 @@ export default {
     },
     mounted() {
         this.getTabList();
+        this.getStaionHardCode();
+        this.getDistrictHardCode();
     },
     methods: {
         clearConditionSearch() {
@@ -309,9 +327,60 @@ export default {
             this.$store.dispatch('getTabList').then(response => {
                 this.tabList = response;
             });
-        }
+        },
 
-        searchTag()
+        searchList(data, type) {
+            let query = {
+                minPrice: '下限なし',
+                maxPrice: '上限なし',
+                minSquare: '下限なし',
+                maxSquare: '上限なし'
+            };
+            let dataConditionSearch = {
+                districts: [],
+                stations: [],
+                tabSearch: query.tabSearchName,
+                tabName: query.tabSearch
+            };
+            if (type == 'tag') {
+                query.tabSearchName = data.name;
+                query.tabSearch = data.id;
+                this.$removeLocalStorage('idParents');
+            } else if (type == 'station') {
+                this.$setLocalStorage('tabActive', 'station');
+                query.keyWord = data.name;
+                dataConditionSearch.stations[0] = { name: data.name, transportId: data.transport_id };
+            } else {
+                this.$setLocalStorage('tabActive', 'area');
+                query.keyWord = data.name;
+                dataConditionSearch.districts[0] = { name: data.name, cityId: data.city_id };
+            }
+
+            this.$setLocalStorage('conditionSearch', JSON.stringify(dataConditionSearch));
+            this.$router
+                .push({
+                    name: 'list',
+                    query: query
+                })
+                .then(() => {
+                    this.$router.go('0');
+                })
+                .catch(() => {
+                    this.$router.go('0');
+                });
+        },
+
+        getStaionHardCode() {
+            this.$store.dispatch('getStationsHardCodeSearch').then(response => {
+                this.stationList = response;
+            });
+        },
+
+        getDistrictHardCode() {
+            this.$store.dispatch('getDistrictsHardCodeSearch').then(response => {
+                this.districtList = response;
+            });
+        }
     }
 };
 </script>

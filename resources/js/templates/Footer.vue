@@ -6,7 +6,7 @@
                     <div class="col-12 col-lg-12">
                         <p class="text-center mb-4">
                             <a class="logo_footer" href="index.php"
-                                ><img src="images/svg/logo_orderrenove_white.svg" alt="" class="img-fluid" width="224"
+                                ><img src="/images/svg/logo_orderrenove_white.svg" alt="" class="img-fluid" width="224"
                             /></a>
                         </p>
                         <ul class="text-center">
@@ -34,23 +34,23 @@
 
                         <p class="text-center">
                             <a target="_blank" href="https://www.logrenove.jp"
-                                ><img src="images/svg/logrenove_logo.svg" alt="" class="img-fluid" width="108"
+                                ><img src="/images/svg/logrenove_logo.svg" alt="" class="img-fluid" width="108"
                             /></a>
                         </p>
                         <ul class="footer_logo">
                             <li>
                                 <a target="_blank" href="https://www.logsuite.co.jp"
-                                    ><img src="images/svg/logSuite2_white.svg" alt="" class="img-fluid" width="88"
+                                    ><img src="/images/svg/logSuite2_white.svg" alt="" class="img-fluid" width="88"
                                 /></a>
                             </li>
                             <li>
                                 <a target="_blank" href="https://www.logarchitects.co.jp"
-                                    ><img src="images/svg/logArch2_white.svg" alt="" class="img-fluid" width="120"
+                                    ><img src="/images/svg/logArch2_white.svg" alt="" class="img-fluid" width="120"
                                 /></a>
                             </li>
                             <li>
                                 <a target="_blank" href="https://www.logknot.co.jp"
-                                    ><img src="images/svg/logKnot2_white.svg" alt="" class="img-fluid" width="84"
+                                    ><img src="/images/svg/logKnot2_white.svg" alt="" class="img-fluid" width="84"
                                 /></a>
                             </li>
                         </ul>

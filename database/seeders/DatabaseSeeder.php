@@ -6,11 +6,9 @@ use Database\Seeds\CitySeeder;
 use Database\Seeds\CustomerSeeder;
 use Database\Seeds\DistrictSeeder;
 use Database\Seeds\EstateInformation;
-use Database\Seeds\PagesSeoSeeder;
 use Database\Seeds\RenovationSeeder;
 use Database\Seeds\SaleSeeder;
 use Database\Seeds\TabSearchSeeder;
-use Database\Seeds\TagsSeeder;
 use Database\Seeds\VoyagerDatabaseSeeder;
 use Illuminate\Database\Seeder;
 use Database\Seeds\EstateSeeder;
@@ -33,8 +31,6 @@ class DatabaseSeeder extends Seeder
             SaleSeeder::class,
             EstateSeeder::class,
             GroupsSeeder::class,
-            PagesSeoSeeder::class,
-            TagsSeeder::class,
             VoyagerDatabaseSeeder::class,
             DefaultTagsSEO::class,
             TabSearchSeeder::class,

@@ -26,4 +26,12 @@ class StationController extends Controller
         return $this->response(422, 'Get list station fail', []);
     }
 
+    public function listHardCodeSearch() {
+        $stations = Station::whereIn('name', Station::HARD_CODE_STATION_SEARCH)->groupBy('name')->get();
+        if ($stations) {
+            return $this->response(200, 'Get list station success', $stations, true);
+        }
+
+        return $this->response(422, 'Get list station fail', []);
+    }
 }

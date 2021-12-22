@@ -1,18 +1,26 @@
 <template>
-    <div class="navigation sp-fixed nav-fixed nav-white" :class="{ subheader: !homePage, 'nav-black': isScroll }">
+    <div class="navigation sp-fixed " :class="{'nav-black': isScroll || !homePage, 'nav-fixed nav-white': homePage }">
         <header :class="{ 'nav-animation-scroll': isScroll }">
             <div class="nav_menu">
                 <nav class="navbar navbar-expand-lg">
                     <a class="navbar-brand" href="/">
-                        <img
+
+                        <img v-if="homePage"
                             src="/assets/images/svg/logo_orderrenove_white.svg"
                             alt=""
                             class="img-fluid logo-white"
                             width="160"
                             height="160"
                         />
+                        <img v-else
+                            src="/assets/images/svg/logo_orderrenove_black.svg"
+                            alt=""
+                            class="img-fluid logo-black"
+                            width="160"
+                            height="160"
+                        />
                         <img
-                            v-if="isScroll"
+                            v-if="isScroll && homePage"
                             src="/assets/images/svg/logo_orderrenove_black.svg"
                             alt=""
                             class="img-fluid logo-black"
@@ -218,7 +226,7 @@
                                 ></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">ご利用ガイド<i class="c-icon i-arrow-gray"></i></a>
+                                <a class="nav-link" href="/fast-register">ご利用ガイド<i class="c-icon i-arrow-gray"></i></a>
                             </li>
                         </ul>
                     </div>
@@ -234,9 +242,10 @@ export default {
         if (this.$route.name) {
             page = this.$route.name;
         }
+        let userName = this.$getLocalStorage('userName');
         return {
             page: page,
-            userName: '',
+            userName: userName,
             districtList: {},
             stationList: {},
             transportCompanyList: {},
@@ -341,13 +350,6 @@ export default {
                 $('body').removeClass('menu-opened menu-opening');
                 $('.js-menu').removeClass('open');
                 $('.nav_menu-list').removeClass('show');
-            }
-        }
-    },
-    watch: {
-        $route(to, from) {
-            if (to.path == '/') {
-                this.userName = this.$getLocalStorage('userName');
             }
         }
     }

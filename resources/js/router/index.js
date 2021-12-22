@@ -255,6 +255,10 @@ router.beforeEach((to, from, next) => {
             next();
         } else {
             return router.push('/login').catch(() => {});
+            // return next({
+            //     path: '/login',
+            //     query: { redirect: to.fullPath }
+            // })
         }
     } else {
         next();

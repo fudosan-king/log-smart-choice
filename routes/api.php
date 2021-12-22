@@ -73,16 +73,21 @@ Route::get('/get-meta-tags', [MetaTagController::class, 'getMetaTags']);
 
 // station
 Route::post('/stations/list', [StationController::class, 'getAll']);
+Route::post('/stations/hardcode-search', [StationController::class, 'listHardCodeSearch']);
+
+// transport
 Route::post('/transports/list', [TransportController::class, 'list']);
 
-// District
+
+// district
 Route::post('/district/list', [DistrictController::class, 'list']);
 Route::post('/district/customer/list', [DistrictController::class, 'customerList']);
+Route::post('/district/hardcode-search', [DistrictController::class, 'listHardCodeSearch']);
 
-// City
+// city
 Route::post('/city/list', [CityController::class, 'list']);
 
-// Tab Search
+// tab Search
 Route::post('tab-search/list', [TabSearchController::class, 'list']);
 
 //estate
