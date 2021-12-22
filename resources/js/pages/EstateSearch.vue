@@ -118,9 +118,7 @@
                                                                                         :id="'ck000' + district.id"
                                                                                         name="inputDistrict[]"
                                                                                         :value="district.name"
-                                                                                        :data-city="
-                                                                                            district.city_id
-                                                                                        "
+                                                                                        :data-city="district.city_id"
                                                                                         :checked="
                                                                                             conditionSearchBefore.districts
                                                                                                 ? conditionSearchBefore.districts.filter(
@@ -423,14 +421,26 @@ export default {
             $(this).toggleClass('minus');
         });
     },
+    beforeDestroy() {
+        window.removeEventListener('visibilitychange', this.handleChangeTab);
+    },
     mounted() {
         this.getCities();
         this.listTotalPrice();
         this.listSquare();
         this.getTransports();
         this.getTabList();
+        window.addEventListener('visibilitychange', this.handleChangeTab);
     },
     methods: {
+        handleChangeTab() {
+            if (window.visibilityState != 'visible') {
+                localStorage.removeItem('conditionSearch');
+                localStorage.removeItem('idParents');
+                window.location.reload();
+            }
+        },
+
         getCities() {
             this.$store.dispatch('getCityList').then(response => {
                 this.cityList = response.data;
