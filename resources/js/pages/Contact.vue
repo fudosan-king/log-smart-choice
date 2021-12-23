@@ -165,7 +165,7 @@
                                                                 </template>
                                                             </select>
                                                         </div>
-                                                        <div class="col-12 col-lg-6">
+                                                        <!-- <div class="col-12 col-lg-6">
                                                             <select name="start_time_first" class="custom-select">
                                                                 <option
                                                                     v-for="startTime in listStartTime"
@@ -178,7 +178,7 @@
                                                                     >{{ startTime }}</option
                                                                 >
                                                             </select>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -206,7 +206,7 @@
                                                                 </template>
                                                             </select>
                                                         </div>
-                                                        <div class="col-12 col-lg-6">
+                                                        <!-- <div class="col-12 col-lg-6">
                                                             <select name="start_time_second" class="custom-select">
                                                                 <option
                                                                     v-for="startTime in listStartTime"
@@ -219,7 +219,7 @@
                                                                     >{{ startTime }}</option
                                                                 >
                                                             </select>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -470,6 +470,13 @@
                         days.push(this.formatDay(today));
                     // }
                 }
+                days = [
+                    '12月24日 (金)',
+                    '12月25日 (土)',
+                    '12月26日 (日)',
+                    '12月27日 (月)',
+                    '1月06日 (木)'
+                ]
                 this.listHopeDay = days;
             },
 
