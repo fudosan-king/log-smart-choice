@@ -70,10 +70,4 @@ trait CustomAdminVoyager
 
         return $query;
     }
-
-    public function getCities() {
-        $page = City::where('status', City::STATUS_ACTIVE)->get()->toArray();
-        $count = count($page);
-        return $this->_mergeList($count, $page);
-    }
 }

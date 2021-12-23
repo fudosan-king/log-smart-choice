@@ -2,27 +2,30 @@
     <div class="form-group hp_photo_wrap" id="hp_photo_wrap">
         <ul id="sortable">
             <!-- <draggable @start="drag = true" @end="drag = false"> -->
-            <li class="imageInfo" v-for="(image, idx) in images" :key="idx">
-                <h3>Image</h3>
-                <div class="img-wrap" style="text-align: right;">
-                    <a class="remove-image" @click="removeImage(idx)">&times;</a>
-                </div>
-                <img class="estate_image_url image-photo" v-bind:src="image[0]" />
-                <input
-                    class="estate_image_file"
-                    name="estate_image[]"
-                    type="file"
-                    @change="onFileChange"
-                    v-bind:data-index-image="idx"
-                />
-                <input name="estate_image_hidden[]" type="hidden" v-bind:value="image[0]" />
-                <div class="photo_info">
-                    <textarea class="form-control" rows="10" cols="40" name="description[]" style="display:none;">{{
-                        image[1]
-                    }}</textarea>
-                    <ckeditor v-model="image[1]" :config="editorConfig" tag-name="textarea"></ckeditor>
-                </div>
-            </li>
+            <template v-if="images">
+                <li class="imageInfo" v-for="(image, idx) in images" :key="idx">
+                    <h3>Image</h3>
+                    <div class="img-wrap" style="text-align: right;">
+                        <a class="remove-image" @click="removeImage(idx)">&times;</a>
+                    </div>
+                    <img class="estate_image_url image-photo" v-bind:src="image[0]" />
+                    <input
+                        class="estate_image_file"
+                        name="estate_image[]"
+                        type="file"
+                        @change="onFileChange"
+                        v-bind:data-index-image="idx"
+                    />
+                    <input name="estate_image_hidden[]" type="hidden" v-bind:value="image[0]" />
+                    <div class="photo_info">
+                        <textarea class="form-control" rows="10" cols="40" name="description[]" style="display:none;">{{
+                            image[1]
+                        }}</textarea>
+                        <ckeditor v-model="image[1]" :config="editorConfig" tag-name="textarea"></ckeditor>
+                    </div>
+                </li>
+            </template>
+
             <!-- </draggable> -->
         </ul>
         <button type="button" class="btn btn-primary append-image" @click="addImage">Append Images</button>

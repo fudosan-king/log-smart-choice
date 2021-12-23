@@ -13,8 +13,9 @@ use Database\Seeds\VoyagerDatabaseSeeder;
 use Illuminate\Database\Seeder;
 use Database\Seeds\EstateSeeder;
 use Database\Seeds\GroupsSeeder;
-use Database\Seeds\DefaultTagsSEO;
 use Database\Seeds\StationSeeder;
+use Database\Seeds\PostSeeder;
+use Database\Seeds\TagPostSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -32,13 +33,14 @@ class DatabaseSeeder extends Seeder
             EstateSeeder::class,
             GroupsSeeder::class,
             VoyagerDatabaseSeeder::class,
-            DefaultTagsSEO::class,
             TabSearchSeeder::class,
             EstateInformation::class,
             CustomerSeeder::class,
             StationSeeder::class,
             CitySeeder::class,
             DistrictSeeder::class,
+            PostSeeder::class,
+            TagPostSeeder::class
         ]);
     }
 }

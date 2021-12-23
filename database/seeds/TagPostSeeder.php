@@ -4,8 +4,8 @@
 namespace Database\Seeds;
 
 
-use App\Http\Traits\CustomAdminVoyager;
-use App\Models\District;
+use App\Models\TabSearch;
+use App\Models\TagPost;
 use Illuminate\Database\Seeder;
 use TCG\Voyager\Models\DataRow;
 use TCG\Voyager\Models\DataType;
@@ -13,29 +13,46 @@ use TCG\Voyager\Models\Menu;
 use TCG\Voyager\Models\MenuItem;
 use TCG\Voyager\Models\Permission;
 
-class DistrictSeeder extends Seeder
+class TagPostSeeder extends Seeder
 {
-    use CustomAdminVoyager;
 
     public function run()
     {
-        $dataType = $this->dataType('slug', 'district');
+        $dataType = $this->dataType('slug', 'tag_post');
         if (!$dataType->exists) {
             $dataType->fill([
-                'name'                  => 'district',
-                'display_name_singular' => __('District'),
-                'display_name_plural'   => __('Districts'),
-                'icon'                  => 'voyager-sound',
-                'model_name'            => 'App\Models\District',
-                'controller'            => 'App\\Http\\Controllers\\DistrictController',
+                'name'                  => 'tag_post',
+                'display_name_singular' => __('Tag Post'),
+                'display_name_plural'   => __('Tags Post'),
+                'icon'                  => 'voyager-window-list',
+                'model_name'            => 'App\Models\TagPost',
+                'controller'            => 'App\\Http\\Controllers\\TagPostController',
+                'generate_permissions'  => 1,
                 'description'           => '',
                 'server_side'           => 1
             ])->save();
         }
-        Permission::generateFor('district');
 
-        $groupsDataType = DataType::where('slug', 'district')->firstOrFail();
+        Permission::generateFor('tag_post');
+        Permission::firstOrCreate(['key' => 'edit_tag_post', 'table_name' => 'tag_post']);
 
+        $groupsDataType = DataType::where('slug', 'tag_post')->firstOrFail();
+
+        $dataRow = $this->dataRow($groupsDataType, 'name');
+
+        if (!$dataRow->exists) {
+            $dataRow->fill([
+                'type'         => 'text',
+                'display_name' => __('Name'),
+                'required'     => 1,
+                'browse'       => 1,
+                'read'         => 1,
+                'edit'         => 1,
+                'add'          => 1,
+                'delete'       => 1,
+                'order'        => 1,
+            ])->save();
+        }
 
         $dataRow = $this->dataRow($groupsDataType, 'id');
 
@@ -53,21 +70,6 @@ class DistrictSeeder extends Seeder
             ])->save();
         }
 
-        $dataRow = $this->dataRow($groupsDataType, 'name');
-
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
-                'display_name' => __('District name'),
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'order'        => 1,
-            ])->save();
-        }
 
         $dataRow = $this->dataRow($groupsDataType, 'status');
 
@@ -82,26 +84,16 @@ class DistrictSeeder extends Seeder
                 'add'          => 1,
                 'delete'       => 1,
                 'order'        => 3,
-                'details'      => ["default" => "Activate", "options" => [District::STATUS_ACTIVATE => "Activate", District::STATUS_DEACTIVATE => "Deactivate"]],
+                'details'      => ["default" => "Activate", "options" => [TagPost::STATUS_ACTIVE => "Activate", TagPost::STATUS_INACTIVE => "Inactivate"]],
             ])->save();
         }
 
-        $dataRow = $this->dataRow($groupsDataType, 'city_id');
+        
 
-        $dataRow = $this->dataRow($groupsDataType, 'count_estates');
-
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'text',
-                'display_name' => __('Contain Estates'),
-                'required'     => 0,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 0,
-                'add'          => 0,
-                'delete'       => 0,
-                'order'        => 6,
-            ])->save();
+        $menuEstate = MenuItem::where('title', 'Post Manages')->where('url', 'admin/post')->first();
+        $menuEstateId = null;
+        if ($menuEstate) {
+            $menuEstateId = $menuEstate->id;
         }
 
         Menu::firstOrCreate([
@@ -112,27 +104,20 @@ class DistrictSeeder extends Seeder
 
         $menuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
-            'title'   => __('Districts'),
-            'url'     => 'admin/district',
+            'title'   => __('Tag Post'),
+            'url'     => 'admin/tag_post',
             'route'   => null,
         ]);
-
-        $menuEstate = MenuItem::where('title', 'Estates')->where('url', 'admin/estates')->first();
-        $menuEstateId = null;
-        if ($menuEstate) {
-            $menuEstateId = $menuEstate->id;
-        }
 
         if (!$menuItem->exists) {
             $menuItem->fill([
                 'target'     => '_self',
-                'icon_class' => 'voyager-sound',
+                'icon_class' => 'voyager-flashlight',
                 'color'      => null,
                 'parent_id'  => $menuEstateId,
-                'order'      => 5,
+                'order'      => 1,
             ])->save();
         }
-
     }
 
     /**
@@ -163,5 +148,4 @@ class DistrictSeeder extends Seeder
             'field'        => $field,
         ]);
     }
-
 }

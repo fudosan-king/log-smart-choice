@@ -99,7 +99,7 @@ const routes = [
     },
     {
         path: '/customer/change-password',
-        name: 'ChangePassword',
+        name: 'changePassword',
         component: () => import('../pages/ChangePassword.vue'),
         meta: {
             requiresAuth: true,
@@ -168,7 +168,7 @@ const routes = [
     },
     {
         path: '/register-thank-you',
-        name: 'RegisterThankYou',
+        name: 'registerThankYou',
         component: () => import('../pages/RegisterThankYou.vue'),
         meta: {
             title: '会員登録申請完了｜Order Renove'
@@ -176,7 +176,7 @@ const routes = [
     },
     {
         path: '/contact/thanks-fast-register/',
-        name: 'ContactThanksGuest',
+        name: 'contactThanksGuest',
         component: () => import('../pages/ContactThanksGuest.vue'),
         meta: {
             title: '物件問い合わせ完了｜Order Renove'
@@ -184,7 +184,7 @@ const routes = [
     },
     {
         path: '/contact/thanks/',
-        name: 'ContactThanksCustomer',
+        name: 'contactThanksCustomer',
         component: () => import('../pages/ContactThanksCustomer.vue'),
         meta: {
             title: '物件問い合わせ完了｜Order Renove'
@@ -192,7 +192,7 @@ const routes = [
     },
     {
         path: '/search',
-        name: 'EstateSearch',
+        name: 'estateSearch',
         component: () => import('../pages/EstateSearch.vue'),
         meta: {
             title: '検索条件｜Order Renove'

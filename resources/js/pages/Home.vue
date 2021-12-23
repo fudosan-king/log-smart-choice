@@ -271,6 +271,7 @@
 <script>
 import Lazyload from 'vue-lazyload';
 import Vue from 'vue';
+import PagePost from '../store/modules/page-post.js'
 
 Vue.use(Lazyload, {
     preLoad: 1.3,
@@ -280,12 +281,20 @@ Vue.use(Lazyload, {
 });
 export default {
     data() {
+        
         return {
             searchType: '',
             tabList: '',
             stationList: '',
-            districtList: ''
+            districtList: '',
+            routerList: [],
         };
+    },
+    created() {
+        this.$store.registerModule('page-post', PagePost)
+    },
+    beforeDestroy() {
+        this.$store.unregisterModule('page-post');
     },
     components: {
         EstatesTopComponent: () => import('../components/EstatesTopComponent'),
@@ -296,6 +305,7 @@ export default {
         this.getTabList();
         this.getStaionHardCode();
         this.getDistrictHardCode();
+        this.pushRouterToServer();
     },
     methods: {
         clearConditionSearch() {
@@ -380,6 +390,16 @@ export default {
             this.$store.dispatch('getDistrictsHardCodeSearch').then(response => {
                 this.districtList = response;
             });
+        },
+
+        pushRouterToServer() {
+            let routerList = [];
+            this.$router.options.routes.forEach(route => {
+                routerList.push({
+                    name: route.name
+                })
+            })
+            this.$store.dispatch('updatePagePost', routerList).then().catch();
         }
     }
 };
