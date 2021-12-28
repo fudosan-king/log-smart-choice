@@ -156,7 +156,7 @@ class Estates extends Model
         '199' => 3037,
         '200' => 3047
     ];
-    
+
     /**
      * estateInformation
      *
@@ -231,7 +231,7 @@ class Estates extends Model
                     $estate->status = self::STATUS_STOP;
                     $estate->date_imported = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d H:i:s')) * 1000);
                     $estate->sort_order_recommend = self::NUMBER_RECOMMEND_ORDER_BY;
-                    $estate['_id'] = $estateData->_id;
+                    $estate['_id'] = $estateDataId;
                     $estate->is_send_announcement = self::NOT_SEND_ANNOUNCEMENT;
 
                     foreach ($estateData as $key => $value) {
@@ -255,8 +255,8 @@ class Estates extends Model
                         $estateInfo->save();
                     }
 
-                    $this->increaseDecreaseEstateInDistrict(json_decode(json_encode($estateData->address), true), false, $estateData->_id);
-                    $this->increaseDecreaseEstateInStation($estate->transports, false, $estateData->_id);
+                    $this->increaseDecreaseEstateInDistrict(json_decode(json_encode($estateData->address), true), false, $estateDataId);
+                    $this->increaseDecreaseEstateInStation($estate->transports, false, $estateDataId);
                 } elseif (strtotime($estate->date_last_modified) != (int)$dateModifyFDK->toDateTime()->format('U')) {
                     $estateInfo = EstateInformation::where('estate_id', $estateDataId)->first();
                     $estate->status = $estateInfo->status;
@@ -264,14 +264,14 @@ class Estates extends Model
                     $estate->is_send_announcement = self::NOT_SEND_ANNOUNCEMENT;
                     $estate->date_imported = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d H:i:s')) * 1000);
                     $estate->sort_order_recommend = self::NUMBER_RECOMMEND_ORDER_BY;
-                    $estate['_id'] = $estateData->_id;
+                    $estate['_id'] = $estateDataId;
 
                     foreach ($estateData as $key => $value) {
                         $estate->$key = $value;
                     }
                     $estate->save();
-                    $this->increaseDecreaseEstateInDistrict(json_decode(json_encode($estateData->address), true), false, $estateData->_id);
-                    $this->increaseDecreaseEstateInStation($estate->transports, false, $estateData->_id);
+                    $this->increaseDecreaseEstateInDistrict(json_decode(json_encode($estateData->address), true), false, $estateDataId);
+                    $this->increaseDecreaseEstateInStation($estate->transports, false, $estateDataId);
                 }
             }
         } catch (Exception $e) {
@@ -280,7 +280,7 @@ class Estates extends Model
 
         return $estate;
     }
-    
+
     /**
      * increaseDecreaseEstateInDistrict
      *
@@ -321,7 +321,7 @@ class Estates extends Model
                                 $district->count_estates = $district->count_estates + District::BEGIN_ESTATE_EXIST;
                             }
                         } else {
-                            
+
                             if ($district->count_estates > 0 && in_array($estateId, $listId)) {
                                 $district->count_estates = $district->count_estates - District::BEGIN_ESTATE_EXIST;
                                 $key = array_search($estateId, $listId);
@@ -346,7 +346,7 @@ class Estates extends Model
             DB::rollBack();
         }
     }
-    
+
     /**
      * increaseDecreaseEstateInStation
      *
@@ -360,16 +360,16 @@ class Estates extends Model
         DB::beginTransaction();
         try {
             foreach ($transportEstate as $transport) {
-                $transportCurrent = Transport::where('name', $transport['transport_company'])->first();
-                $station = Station::where('transport_id', $transportCurrent->id)->where('name', $transport['station_name'])->first();
+                $transportCurrent = Transport::where('name', $transport->transport_company)->first();
+                $station = Station::where('transport_id', $transportCurrent->id)->where('name', $transport->station_name)->first();
                 if (!$transportCurrent) {
-                    if ($transport['transport_company']) {
+                    if ($transport->transport_company) {
                         $transportNew = new Transport();
-                        $transportNew->name = $transport['transport_company'];
+                        $transportNew->name = $transport->transport_company;
                         $transportNew->save();
-                        if ($transport['station_name']) {
+                        if ($transport->station_name) {
                             $stationNew = new Station();
-                            $stationNew->name = $transport['station_name'];
+                            $stationNew->name = $transport->station_name;
                             $stationNew->count_estates = Station::BEGIN_ESTATE_EXIST;
                             $stationNew->estate_ids = $estateId;
                             $stationNew->transport_id = $transportNew->id;
@@ -399,9 +399,9 @@ class Estates extends Model
                             }
                         }
                     } else {
-                        if ($transport['station_name']) {
+                        if ($transport->station_name) {
                             $stationNew = new Station();
-                            $stationNew->name = $transport['station_name'];
+                            $stationNew->name = $transport->station_name;
                             $stationNew->count_estates = Station::BEGIN_ESTATE_EXIST;
                             $stationNew->estate_ids = $estateId;
                             $stationNew->transport_id = $transportCurrent->id;
