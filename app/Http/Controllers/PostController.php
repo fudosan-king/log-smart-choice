@@ -1,14 +1,19 @@
 <?php
+
 namespace App\Http\Controllers;
 
 
 use App\Http\Traits\CustomAdminVoyager;
+use App\Models\Post;
+use App\Models\PostImage;
 use App\Models\TagPost;
+use Exception;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use TCG\Voyager\Events\BreadDataAdded;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use TCG\Voyager\Events\BreadDataUpdated;
 use TCG\Voyager\Facades\Voyager;
 use TCG\Voyager\Http\Controllers\VoyagerBaseController;
@@ -71,12 +76,42 @@ class PostController extends VoyagerBaseController
 
         // get tab search
         $tagsPost = TagPost::where('status', TagPost::STATUS_ACTIVE)->get();
+        $postInfo = '';
+        $postImage = PostImage::where('post_id', $id)->get();
+        if ($postImage) {
+            $postInfo = $postImage;
+        }
+
+        $post = Post::where('id', $id)->get();
+        $post[0]->content = str_replace("'", '', $post[0]->content);
+        $post[0]->content = preg_replace('#(\\\r|\\\r\\\n|\\\n)#', '', $post[0]->content);
+
+        // get tab seleted
+        $tagSelected = [];
+        if ($post[0]->tag_post_id) {
+            $tagSelected = explode(',', $post[0]->tag_post_id);
+        }
+
+        // get list page
+        $pageSelected = $post[0]->page_post;
+        $pagesName = Storage::get('/public/pages/page_list.json');
+        $listPage = json_decode($pagesName, true);
 
         if (view()->exists("voyager::$slug.edit-add")) {
             $view = "voyager::$slug.edit-add";
         }
 
-        return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'tagsPost'));
+        return Voyager::view($view, compact(
+            'dataType',
+            'dataTypeContent',
+            'isModelTranslatable',
+            'tagsPost',
+            'tagSelected',
+            'postInfo',
+            'listPage',
+            'pageSelected',
+            'post'
+        ));
     }
 
     public function update(Request $request, $id)
@@ -84,7 +119,6 @@ class PostController extends VoyagerBaseController
         $slug = $this->getSlug($request);
 
         $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
-
         // Compatibility with Model binding.
         $id = $id instanceof \Illuminate\Database\Eloquent\Model ? $id->{$id->getKeyName()} : $id;
 
@@ -98,6 +132,69 @@ class PostController extends VoyagerBaseController
         }
 
         $data = $query->findOrFail($id);
+
+        DB::beginTransaction();
+        try {
+            $post = Post::find($id);
+            $post->title = $request->title_package;
+            $post->title_signal = $request->title_signal;
+            $post->page_post = $request->page_post;
+            $post->content = $request->description[0];
+            $post->tag_post_id = isset($request->tag_post) ? implode(',', $request->tag_post) : '';
+
+            if (isset($request->estate_main_photo[0])) {
+                if (File::exists(public_path($post->title_image))) {
+                    File::delete(public_path($post->title_image));
+                }
+                $post->title_image = $this->uploadImage($request->page_post, $request->estate_main_photo[0], 'title_image');
+            }
+
+            if (isset($request->estate_image[0])) {
+                if (File::exists(public_path($post->top_image))) {
+                    File::delete(public_path($post->top_image));
+                }
+                $post->top_image = $this->uploadImage($request->page_post, $request->estate_image[0], 'top_image');
+            }
+
+            if ($request->has('post_main_photo_hidden')) {
+                $imageMainCount = count($request->get('post_main_photo_hidden'));
+                $postImagesdelete = PostImage::where('post_id', $id)->get();
+                foreach($postImagesdelete as $image) {
+                    if (File::exists(public_path($image->title_image))) {
+                        File::delete(public_path($image->image_url));
+                    }
+                }
+                PostImage::where('post_id', $id)->delete();
+                for ($i = 0; $i < $imageMainCount; $i++) {
+                    $urlImageMain = $request->get('post_main_photo_hidden')[$i];
+                    if (isset($request->file('post_main_photo')[$i])) {
+                        $imagePostPage = $request->file('post_main_photo')[$i];
+                        $urlImageMain = $this->uploadImage($request->page_post, $imagePostPage, 'post_image', $i);
+                    }
+                    if ($i <= 2) {
+                        if ($i == 0) {
+                            $classCss = 'bottom-img_left';
+                        } elseif ($i == 1) {
+                            $classCss = 'bottom-img_right';
+                        } else {
+                            $classCss = 'bottom-img_full';
+                        }
+                        $postImage = new PostImage();
+                        $postImage->image_url = $urlImageMain;
+                        $postImage->class_css = $classCss;
+                        $postImage->post_id = $post->id;
+                        $postImage->save();
+                    }
+                }
+            }
+
+            $post->save();
+            DB::commit();
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            DB::rollBack();
+        }
+
 
         // Check permission
         $this->authorize('edit', $data);
@@ -124,8 +221,6 @@ class PostController extends VoyagerBaseController
         } else {
             $redirect = redirect()->back();
         }
-
-        
 
         return $redirect->with([
             'message'    => __('voyager::generic.successfully_updated') . " {$dataType->getTranslatedAttribute('display_name_singular')}",
@@ -157,9 +252,13 @@ class PostController extends VoyagerBaseController
         $isModelTranslatable = is_bread_translatable($dataTypeContent);
 
         // get tab search
-        $tagsPost = TagPost::where('status', TagPost::STATUS_ACTIVE)->get();
         $tagSelected = [];
+        $tagsPost = TagPost::where('status', TagPost::STATUS_ACTIVE)->get();
 
+        // get list page
+        $pageSelected = '';
+        $pagesName = Storage::get('/public/pages/page_list.json');
+        $listPage = json_decode($pagesName, true);
         // Eagerload Relations
         $this->eagerLoadRelations($dataTypeContent, $dataType, 'add', $isModelTranslatable);
 
@@ -168,9 +267,19 @@ class PostController extends VoyagerBaseController
         if (view()->exists("voyager::$slug.edit-add")) {
             $view = "voyager::$slug.edit-add";
         }
-        $estateInfo = $dataTypeContent;
+        $post = $postInfo = $dataTypeContent;
 
-        return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'tagsPost', 'tagSelected', 'estateInfo'));
+        return Voyager::view($view, compact(
+            'dataType',
+            'dataTypeContent',
+            'isModelTranslatable',
+            'tagsPost',
+            'tagSelected',
+            'postInfo',
+            'listPage',
+            'pageSelected',
+            'post'
+        ));
     }
 
     /**
@@ -188,16 +297,63 @@ class PostController extends VoyagerBaseController
 
         // Check permission
         $this->authorize('add', app($dataType->model_name));
-        dd($request->all());
-        $
-        // Validate fields with ajax
-        $val = $this->validateBread($request->all(), $dataType->addRows)->validate();
-        $data = $this->insertUpdateData($request, $slug, $dataType->addRows, new $dataType->model_name());
 
-        event(new BreadDataAdded($dataType, $data));
+        $request->validate([
+            'title_package' => 'required',
+            'title_image' => 'image|mimes:jpeg,png,jpg,gif,svg',
+            'top_image' => 'image|mimes:jpeg,png,jpg,gif,svg',
+            // 'post_main_photo' => 'image|mimes:jpeg,png,jpg,gif,svg'
+        ]);
+
+        $content = '';
+        if (isset($request->description[0])) {
+            $content = DB::connection()->getPdo()->quote($request->description[0]);
+        }
+
+        // Validate fields with ajax
+        $this->validateBread($request->all(), $dataType->addRows)->validate();
+        // $data = $this->insertUpdateData($request, $slug, $dataType->addRows, new $dataType->model_name());
+
+        $postImages = $request->post_main_photo;
+        try {
+            $post = new Post();
+            $post->title = $request->title_package;
+            $post->title_signal = $request->title_signal;
+            $post->title_image = $this->uploadImage($request->page_post, $request->estate_main_photo[0], 'title_image');
+            $post->tag_post_id = is_array($request->tag_post) ? implode(',', $request->tag_post) : '';
+            $post->top_image = $this->uploadImage($request->page_post, $request->estate_image[0], 'top_image');
+            $post->content = $content;
+            $post->status = $request->status;
+            $post->page_post = $request->page_post;
+            $post->save();
+
+            $postImages = $request->post_main_photo;
+            $classCss = '';
+            foreach ($postImages as $key => $image) {
+                if ($key <= 2) {
+                    if ($key == 0) {
+                        $classCss = 'bottom-img_left';
+                    } elseif ($key == 1) {
+                        $classCss = 'bottom-img_right';
+                    } else {
+                        $classCss = 'bottom-img_full';
+                    }
+                    $postImage = new PostImage();
+                    $postImage->image_url = $this->uploadImage($request->page_post, $image, 'post_image', $key);
+                    $postImage->class_css = $classCss;
+                    $postImage->post_id = $post->id;
+                    $postImage->save();
+                }
+            }
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+        }
+
+
+        // event(new BreadDataAdded($dataType, $data));
 
         if (!$request->has('_tagging')) {
-            if (auth()->user()->can('browse', $data)) {
+            if (auth()->user()->can('browse', $post)) {
                 $redirect = redirect()->route("voyager.{$dataType->slug}.index");
             } else {
                 $redirect = redirect()->back();
@@ -208,7 +364,24 @@ class PostController extends VoyagerBaseController
                 'alert-type' => 'success',
             ]);
         } else {
-            return response()->json(['success' => true, 'data' => $data]);
+            return response()->json(['success' => true, 'data' => $post]);
         }
+    }
+
+    private function uploadImage($pageName, $image, $local, $index = 0)
+    {
+        $urlPath = '';
+        if ($image) {
+            $fileName = date('Ymd_His') . $index;
+            $path = '/posts/' . $pageName . '/' . $local;
+            $publicPath = public_path() . $path;
+            if (!is_dir($publicPath)) {
+                mkdir($publicPath, 0777, true);
+            }
+            $ext = $image->getClientOriginalExtension();
+            $urlPath = $path . '/' . $fileName . '.' . $ext;
+            $image->move($publicPath, $fileName . '.' . $ext);
+        }
+        return $urlPath;
     }
 }

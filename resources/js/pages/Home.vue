@@ -66,57 +66,67 @@
 
         <section class="p-0">
             <div class="top-lists">
-                <div class="top_item">
-                    <div class="container">
-                        <div class="top_item-ct">
-                            <div class="top_logo">
-                                <img class="img-fluid" src="/assets/images/common/logo-logrenove.svg" alt="" title="" />
-                            </div>
-                            <p class="logan">
-                                LogRenove Premium<br />
-                                Produced by LogRenove
-                            </p>
-                            <div class="top_group">
-                                <div class="top_img">
-                                    <img class="img-fluid" src="/assets/images/top-page/top-img.jpg" alt="" title="" />
+                <template v-for="post in posts">
+                    <div class="top_item">
+                        <div class="container">
+                            <div class="top_item-ct">
+                                <div class="top_logo">
+                                    <img
+                                        v-lazy="post.title_image ? post.title_image : '/images/no-image.png'"
+                                        alt=""
+                                        class="img-fluid"
+                                        width="216"
+                                        height="40"
+                                    />
                                 </div>
-
-                                <p class="style">Style 01</p>
-                                <h2>
-                                    木の香に包まれた<br />
-                                    無垢材リノベStyle
-                                </h2>
-                                <p>
-                                    フローリングはもちろん、ドア、洗面、キッチンに至るまで、すべて天然木で埋め尽くしたユニークな定額ノベーション。都市で暮らす私たちが忘れかけていた、ナチュラルな生活を味わえるプランです。
+                                <p class="logan">
+                                    {{ post.title }}<br />
+                                    {{ post.title_signal }}
                                 </p>
-                                <ul>
-                                    <li>
-                                        <a href="#">無垢材</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">定額リノベーション</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">LogRenove</a>
-                                    </li>
-                                </ul>
-                                <a href="#" class="btn btn-detail">DETAIL</a>
+                                <div class="top_group">
+                                    <div class="top_img">
+                                        <img
+                                            v-lazy="post.top_image ? post.top_image : '/images/no-image.png'"
+                                            alt=""
+                                            class="img-fluid"
+                                            width="690"
+                                            height="520"
+                                        />
+                                    </div>
+
+                                    <template>
+                                        <div v-html="post.content"></div>
+                                    </template>
+                                    <!-- <p class="style">Style 01</p>
+                                    <h2>
+                                        木の香に包まれた<br />
+                                        無垢材リノベStyle
+                                    </h2>
+                                    <p>
+                                        フローリングはもちろん、ドア、洗面、キッチンに至るまで、すべて天然木で埋め尽くしたユニークな定額ノベーション。都市で暮らす私たちが忘れかけていた、ナチュラルな生活を味わえるプランです。
+                                    </p> -->
+                                    <ul>
+                                        <li v-for="tag in post.tag_posts">
+                                            <a href="#">{{ tag.name }}</a>
+                                        </li>
+                                    </ul>
+                                    <a href="#" class="btn btn-detail">DETAIL</a>
+                                </div>
                             </div>
                         </div>
+                        <div class="bottom-img">
+                            <template v-for="(images, index) in post.post_images">
+                                <div :class="images.class_css">
+                                    <img
+                                        v-lazy="images.image_url ? images.image_url : '/images/no-image.png'"
+                                        alt=""
+                                        class="img-fluid"
+                                    />
+                                </div>
+                            </template>
+                        </div>
                     </div>
-                    <div class="bottom-img">
-                        <div class="bottom-img_left">
-                            <img class="img-fluid" src="/assets/images/top-page/img-bottom-1.png" alt="" />
-                        </div>
-                        <div class="bottom-img_right">
-                            <img class="img-fluid" src="/assets/images/top-page/img-bottom.jpg" alt="" />
-                        </div>
-                        <div class="bottom-img_full">
-                            <img class="img-fluid" src="/assets/images/top-page/img-bottom-1.jpg" alt="" />
-                        </div>
-                    </div>
-                </div>
-
+                </template>
                 <!-- <div class="top_item">
                         <div class="container">
                             <div class="top_item-ct">
@@ -211,24 +221,28 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- District -->
                             <div class="col-md-3">
                                 <div class="more-info_item">
                                     <h3>エリアから探す</h3>
                                     <div class="row">
                                         <div class="col-md-12">
                                             <p>
-                                                <!-- <a href="javascript:void(0)" v-on:click="searchList('世田谷区', 'area')"
-                                                    >世田谷区 &nbsp;</a
-                                                > -->
                                                 <template v-for="district in districtList">
-                                                    <a href="javascript:void(0)" v-on:click="searchList(district, 'area')">{{ district.name }} &nbsp;</a>
+                                                    <a
+                                                        href="javascript:void(0)"
+                                                        v-on:click="searchList(district, 'area')"
+                                                        >{{ district.name }} &nbsp;</a
+                                                    >
                                                 </template>
-                                                <!-- 表参道･青山　麻布･広尾　渋谷･恵比寿･中目黒　目黒･白金高輪　下北沢･三軒茶屋　東横線･目黒線　駒沢･二子玉川　代々木公園　井の頭線　神楽坂　品川・田町　銀座・築地　豊洲清澄・門前仲町　皇居西側　中央線　千駄ヶ谷･四ッ谷　西新宿　東新宿･早稲田　その他 -->
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <!-- End District -->
+
+                            <!-- Station -->
                             <div class="col-md-3">
                                 <div class="more-info_item">
                                     <h3>人気の駅から探す</h3>
@@ -236,14 +250,19 @@
                                         <div class="col-md-12">
                                             <p>
                                                 <template v-for="station in stationList">
-                                                    <a href="javascript:void(0)" v-on:click="searchList(station, 'station')">{{ station.name }} &nbsp;</a>
+                                                    <a
+                                                        href="javascript:void(0)"
+                                                        v-on:click="searchList(station, 'station')"
+                                                        >{{ station.name }} &nbsp;</a
+                                                    >
                                                 </template>
-                                                <!-- 表参道駅　乃木坂駅　目黒駅　中目黒駅　代官山駅　恵比寿駅　渋谷駅　三軒茶屋駅　広尾駅　麻布十番駅　六本木駅　品川駅　田町駅　五反田駅　大崎駅 -->
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <!-- End Station -->
+
                             <div class="col-md-3">
                                 <div class="more-info_item">
                                     <h3>こだわりから探す</h3>
@@ -271,7 +290,7 @@
 <script>
 import Lazyload from 'vue-lazyload';
 import Vue from 'vue';
-import PagePost from '../store/modules/page-post.js'
+import PagePost from '../store/modules/page-post.js';
 
 Vue.use(Lazyload, {
     preLoad: 1.3,
@@ -281,17 +300,17 @@ Vue.use(Lazyload, {
 });
 export default {
     data() {
-        
         return {
             searchType: '',
             tabList: '',
             stationList: '',
             districtList: '',
             routerList: [],
+            posts: ''
         };
     },
     created() {
-        this.$store.registerModule('page-post', PagePost)
+        this.$store.registerModule('page-post', PagePost);
     },
     beforeDestroy() {
         this.$store.unregisterModule('page-post');
@@ -306,6 +325,7 @@ export default {
         this.getStaionHardCode();
         this.getDistrictHardCode();
         this.pushRouterToServer();
+        this.getPost();
     },
     methods: {
         clearConditionSearch() {
@@ -397,9 +417,21 @@ export default {
             this.$router.options.routes.forEach(route => {
                 routerList.push({
                     name: route.name
-                })
-            })
-            this.$store.dispatch('updatePagePost', routerList).then().catch();
+                });
+            });
+            this.$store
+                .dispatch('updatePagePost', routerList)
+                .then()
+                .catch();
+        },
+
+        getPost() {
+            let data = {
+                page_post: this.$route.name
+            };
+            this.$store.dispatch('getPost', data).then(response => {
+                this.posts = response;
+            });
         }
     }
 };

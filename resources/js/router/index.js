@@ -74,7 +74,11 @@ const routes = [
             title: '忘れたパスワード｜Order Renove'
         }
     },
-    { path: '*', component: () => import('../pages/PageNotFound.vue') },
+    {
+        path: '*',
+        name: 'pageNotFound',
+        component: () => import('../pages/PageNotFound.vue')
+    },
     {
         path: '/login-social',
         name: 'loginSocial',
@@ -254,7 +258,7 @@ router.beforeEach((to, from, next) => {
         if (localStorage.getItem('accessToken')) {
             next();
         } else {
-            return router.push('/login').catch(() => {});
+            return router.push('/login').catch(() => { });
             // return next({
             //     path: '/login',
             //     query: { redirect: to.fullPath }

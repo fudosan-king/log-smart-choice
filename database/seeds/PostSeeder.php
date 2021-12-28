@@ -34,12 +34,12 @@ class PostSeeder extends Seeder
 
         $groupsDataType = DataType::where('slug', 'post')->firstOrFail();
 
-        $dataRow = $this->dataRow($groupsDataType, 'name');
+        $dataRow = $this->dataRow($groupsDataType, 'title');
 
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type' => 'text',
-                'display_name' => __('Posts'),
+                'display_name' => __('Title'),
                 'required' => 1,
                 'browse' => 1,
                 'read' => 1,

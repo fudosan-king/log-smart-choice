@@ -15,11 +15,20 @@ class Post extends Model
     const STATUS_INACTIVE = 0;
 
     protected $fillable = [
-        'name',
+        'title',
+        'title_signal',
+        'tag_post_id',
+        'title_image',
+        'top_image',
         'status'
     ];
 
     protected $table = 'post';
     public $searchable = ['name', 'status'];
 
+    protected $hidden = ['status', 'created_at', 'updated_at'];
+
+    public function postImages() {
+        return $this->hasMany(PostImage::class);
+    }
 }

@@ -45,16 +45,29 @@
                             </ul>
                         </div>
                         @endif
+                        <h2 class="padding_tab_search">Title Image</h2>
+                        <hr class="hr_tab_search">
+                        <estatemainphoto-component :data="{{ $post }}" flag="post"></estatemainphoto-component>
+
                         <div class="form-group">
                             <label for="name">Title Package</label>
-                            <input name="title_package" value="" class="form-control">
+                            <input name="title_package" value="{{ isset($post[0]->title) ? $post[0]->title : '' }}" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="name">Title Signal</label>
-                            <input name="title_signal" value="" class="form-control">
+                            <input name="title_signal" value="{{ isset($post[0]->title_signal) ? $post[0]->title_signal : '' }}" class="form-control">
                         </div>
-                        @foreach($dataType->addRows as $row)
 
+                        <div class="form-group">
+                            <label for="name">Page</label>
+                            <select name="page_post" class="form-control select2 select2-hidden-accessible">
+                                @foreach ($listPage as $page)
+                                <option value="{{ $page['name'] }}" @if ($page['name']==$pageSelected) selected="selected" @endif>{{ $page['name'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        @foreach($dataType->addRows as $row)
                         <div class="form-group">
                             <label for="name">{{ $row->getTranslatedAttribute('display_name') }}</label>
 
@@ -63,10 +76,10 @@
                         </div>
                         @endforeach
 
-                        <h1 class="padding_tab_search">Image Title</h1>
+                        <h2 class="padding_tab_search">Image & Content</h2>
                         <hr class="hr_tab_search">
 
-                        <estatemainphoto-component :data="{{ $estateInfo }}"></estatemainphoto-component>
+                        <estateimage-component :data="{{ $post }}" flag="post"></estateimage-component>
 
                         <h2 class="padding_tab_search"> Tag Post</h2>
                         <hr class="hr_tab_search">
@@ -80,6 +93,7 @@
                             @endforeach
                             @endif
                         </div>
+
                         @php
                         if (!isset($imagesData)){
                         $imagesData = null;
@@ -89,12 +103,11 @@
                         }
                         @endphp
 
-                        <!-- <h1 class="padding_tab_search">Main Photo</h1>
-                        <hr class="hr_tab_search"> -->
-
+                        <h2 class="padding_tab_search">Post Image</h2>
+                        <hr class="hr_tab_search">
+                        <post-image-component :data="{{ $postInfo }}" flag="post"></post-image-component>
                         <!-- <h1>Photos</h1>
-                        <hr> -->
-
+                        <hr>
 
                     </div><!-- panel-body -->
 

@@ -152,7 +152,7 @@
                         <h1 class="padding_tab_search">Main Photo</h1>
                         <hr class="hr_tab_search">
 
-                        <estatemainphoto-component :data="{{ $estateInfo }}"></estatemainphoto-component>
+                        <estatemainphoto-component :data="{{ $estateInfo }}" flag="estate"></estatemainphoto-component>
 
                         <!-- <h1>Befor/After</h1>
                         <hr>
@@ -161,7 +161,7 @@
                         <h1>Photos</h1>
                         <hr>
 
-                        <estateimage-component :data="{{ $estateInfo }}"></estateimage-component>
+                        <estateimage-component :data="{{ $estateInfo }}" flag="estate"></estateimage-component>
 
                         <!-- <h1>Slide Equipment</h1>
                         <hr>

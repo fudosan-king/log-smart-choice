@@ -22,7 +22,7 @@ class CreatePostTable extends Migration
                 $table->string('top_image');
                 $table->boolean('status')->default(true);
                 $table->text('content');
-                $table->string('page_post_id');
+                $table->string('page_post');
                 $table->string('tag_post_id');
                 $table->timestamps();
             });

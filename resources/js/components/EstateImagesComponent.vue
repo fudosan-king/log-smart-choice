@@ -28,7 +28,9 @@
 
             <!-- </draggable> -->
         </ul>
-        <button type="button" class="btn btn-primary append-image" @click="addImage">Append Images</button>
+        <template v-if="flag == 'estate'">
+            <button type="button" class="btn btn-primary append-image" @click="addImage">Append Images</button>
+        </template>
     </div>
 </template>
 
@@ -43,17 +45,27 @@ export default {
     components: {
         // draggable
     },
-    props: ['data'],
+    props: ['data', 'flag'],
     data() {
         let images = [];
         let data = this.data;
-        if (typeof data.renovation_media != 'undefined') {
-            const renovation_media = data.renovation_media;
-            for (let i = 0; i < renovation_media.length; i++) {
-                const url = renovation_media[i]['url_path'];
-                images.push([url, renovation_media[i]['description']]);
+        if (this.flag == 'estate') {
+            if (typeof data.renovation_media != 'undefined') {
+                const renovation_media = data.renovation_media;
+                for (let i = 0; i < renovation_media.length; i++) {
+                    const url = renovation_media[i]['url_path'];
+                    images.push([url, renovation_media[i]['description']]);
+                }
+            }
+        } else if (this.flag == 'post') {
+            if (this.data[0]) {
+                let content = this.data[0].content;
+                images.push([this.data[0].top_image, content]);
+            } else {
+                images.push(['/images/no-image.png']);
             }
         }
+
         return {
             images: images,
             editorConfig: {

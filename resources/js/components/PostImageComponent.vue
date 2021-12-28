@@ -8,21 +8,21 @@
                     <div class="img-wrap" style="text-align: right;">
                         <a class="remove-image" @click="removeImage(idx)">&times;</a>
                     </div>
-                    <img class="estate_image_url image-photo" v-bind:src="image[0]" />
+                    <img class="estate_image_url image-photo" v-bind:src="image" />
                     <input
                         class="estate_image_file"
-                        name="estate_main_photo[]"
+                        name="post_main_photo[]"
                         type="file"
                         @change="onFileChange"
                         v-bind:data-index-image="idx"
                     />
-                    <input name="estate_main_photo_hidden[]" type="hidden" v-bind:value="image[0]" />
+                    <input name="post_main_photo_hidden[]" type="hidden" v-bind:value="image" />
                 </li>
             </template>
 
             <!-- </draggable> -->
         </ul>
-        <template v-if="flag == 'estate'">
+        <template v-if="count < 3">
             <button type="button" class="btn btn-primary append-image" @click="addImage">Append Images</button>
         </template>
     </div>
@@ -37,38 +37,32 @@ export default {
     props: ['data', 'flag'],
     data() {
         let images = [];
-        let data = this.data;
-        if (this.flag == 'estate') {
-            if (typeof data.estate_main_photo != 'undefined') {
-                const mainPhoto = data.estate_main_photo;
-                for (let i = 0; i < mainPhoto.length; i++) {
-                    const url = mainPhoto[i]['url_path'];
-                    images.push([url, mainPhoto[i]['description']]);
-                }
-            }
-        } else if (this.flag == 'post') {
-            if (this.data[0]) {
-                images.push([this.data[0].title_image]);
-            } else {
-                images.push(['/images/no-image.png']);
+        if (this.flag == 'post') {
+            if (typeof this.data != 'undefined') {
+                this.data.forEach(e => {
+                    images.push(e.image_url);
+                });
             }
         }
-
+        let count = 0;
         return {
-            images: images
+            images: images,
+            count : count
         };
     },
     methods: {
         addImage() {
-            this.images.push(['/images/no-image.png', '']);
+            this.images.push(['/images/no-image.png']);
+            this.count ++;
         },
         removeImage(idx) {
             this.$delete(this.images, idx);
+            this.count --;
         },
         onFileChange(e) {
             const file = e.target.files[0];
             if (file) {
-                this.images[e.target.dataset.indexImage][0] = URL.createObjectURL(file);
+                this.images[e.target.dataset.indexImage] = URL.createObjectURL(file);
                 this.$forceUpdate();
             }
         }

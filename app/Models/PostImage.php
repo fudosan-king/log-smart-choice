@@ -17,4 +17,6 @@ class PostImage extends Model
     protected $fillable = [];
 
     protected $table = 'post_image';
+
+    protected $hidden = ['id', 'created_at', 'updated_at'];
 }
