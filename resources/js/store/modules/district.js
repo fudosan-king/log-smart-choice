@@ -50,6 +50,27 @@ const actions = {
                 });
         });
     },
+
+    getDistrictsHardCodeSearch() {
+        return new Promise((resolve, reject) => {
+            const auth = this.auth;
+            axios({
+                url: '/district/hardcode-search',
+                method: 'POST',
+                data: {},
+                headers: {
+                    'content-type': 'application/json'
+                },
+                auth: auth,
+            })
+                .then(resp => {
+                    resolve(resp.data.data);
+                })
+                .catch(err => {
+                    reject(err);
+                });
+        })
+    }
 };
 
 

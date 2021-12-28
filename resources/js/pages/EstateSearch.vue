@@ -16,13 +16,8 @@
                             <form action="" class="frm_search_conditions">
                                 <h2 class="little_title">
                                     エリアまたは沿線・駅から選択（複数選択可）
-                                    <button class="burger" v-on:click="eventToggleBugger">
-                                        <span class="burger_line"></span>
-                                        <span class="burger_line"></span>
-                                        <span class="burger_line"></span>
-                                    </button>
                                 </h2>
-                                <div class="frm_search_conditions_content" style="display: none;">
+                                <div class="frm_search_conditions_content">
                                     <ul class="nav nav-pills" id="pills-tab" role="tablist">
                                         <li class="nav-item" role="presentation">
                                             <a

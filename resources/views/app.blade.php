@@ -59,6 +59,8 @@
   <link rel="stylesheet" rel="preload" onload="this.rel='stylesheet'" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"/>
   <link rel="stylesheet" rel="preload" onload="this.rel='stylesheet'" as="style" href="/assets/css/flickity.min.css" type="text/css" >
   <link rel="stylesheet" rel="preload" onload="this.rel='stylesheet'" as="style" href="/assets/css/styles.min.css" type="text/css">
+  <link rel="stylesheet" rel="preload" onload="this.rel='stylesheet'" as="style" href="/assets/css/t_styles.min.css" type="text/css">
+  <link rel="stylesheet" rel="preload" onload="this.rel='stylesheet'" as="style" href="/assets/css/c_styles.min.css" type="text/css">
   <link rel="stylesheet" rel="preload" onload="this.rel='stylesheet'" href="/css/app.min.css" type="text/css">
 </head>
 

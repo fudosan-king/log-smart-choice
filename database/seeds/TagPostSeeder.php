@@ -3,44 +3,47 @@
 
 namespace Database\Seeds;
 
-use App\Models\PagesSeo;
+
+use App\Models\TabSearch;
+use App\Models\TagPost;
+use Illuminate\Database\Seeder;
 use TCG\Voyager\Models\DataRow;
 use TCG\Voyager\Models\DataType;
-use Illuminate\Database\Seeder;
-use TCG\Voyager\Models\Permission;
 use TCG\Voyager\Models\Menu;
 use TCG\Voyager\Models\MenuItem;
+use TCG\Voyager\Models\Permission;
 
-class PagesSeoSeeder extends Seeder
+class TagPostSeeder extends Seeder
 {
+
     public function run()
     {
-        $dataType = $this->dataType('slug', 'pages_seo');
+        $dataType = $this->dataType('slug', 'tag_post');
         if (!$dataType->exists) {
             $dataType->fill([
-                'name'                  => 'pages_seo',
-                'display_name_singular' => __('Pages SEO'),
-                'display_name_plural'   => __('Pages SEO'),
-                'icon'                  => 'voyager-shop',
-                'model_name'            => 'App\Models\PagesSeo',
-                'controller'            => 'App\\Http\\Controllers\\PagesSeoController',
+                'name'                  => 'tag_post',
+                'display_name_singular' => __('Tag Post'),
+                'display_name_plural'   => __('Tags Post'),
+                'icon'                  => 'voyager-window-list',
+                'model_name'            => 'App\Models\TagPost',
+                'controller'            => 'App\\Http\\Controllers\\TagPostController',
                 'generate_permissions'  => 1,
                 'description'           => '',
                 'server_side'           => 1
             ])->save();
         }
 
-        Permission::generateFor('pages_seo');
-        Permission::firstOrCreate(['key' => 'edit_pages_seo', 'table_name' => 'pages_seo']);
+        Permission::generateFor('tag_post');
+        Permission::firstOrCreate(['key' => 'edit_tag_post', 'table_name' => 'tag_post']);
 
-        $groupsDataType = DataType::where('slug', 'pages_seo')->firstOrFail();
+        $groupsDataType = DataType::where('slug', 'tag_post')->firstOrFail();
 
         $dataRow = $this->dataRow($groupsDataType, 'name');
 
         if (!$dataRow->exists) {
             $dataRow->fill([
                 'type'         => 'text',
-                'display_name' => __('Page Name'),
+                'display_name' => __('Name'),
                 'required'     => 1,
                 'browse'       => 1,
                 'read'         => 1,
@@ -81,10 +84,17 @@ class PagesSeoSeeder extends Seeder
                 'add'          => 1,
                 'delete'       => 1,
                 'order'        => 3,
-                'details'      => ["default" => "Activate", "options" => ["Activate" => "Activate", "Deactivate" => "Deactivate"]],
+                'details'      => ["default" => "Activate", "options" => [TagPost::STATUS_ACTIVE => "Activate", TagPost::STATUS_INACTIVE => "Inactivate"]],
             ])->save();
         }
 
+        
+
+        $menuEstate = MenuItem::where('title', 'Post Manages')->where('url', 'admin/post')->first();
+        $menuEstateId = null;
+        if ($menuEstate) {
+            $menuEstateId = $menuEstate->id;
+        }
 
         Menu::firstOrCreate([
             'name' => 'admin',
@@ -94,32 +104,20 @@ class PagesSeoSeeder extends Seeder
 
         $menuItem = MenuItem::firstOrNew([
             'menu_id' => $menu->id,
-            'title'   => __('Pages SEO'),
-            'url'     => 'admin/pages_seo',
+            'title'   => __('Tag Post'),
+            'url'     => 'admin/tag_post',
             'route'   => null,
         ]);
+
         if (!$menuItem->exists) {
             $menuItem->fill([
                 'target'     => '_self',
-                'icon_class' => 'voyager-lab',
+                'icon_class' => 'voyager-flashlight',
                 'color'      => null,
-                'parent_id'  => null,
-                'order'      => 2,
+                'parent_id'  => $menuEstateId,
+                'order'      => 1,
             ])->save();
         }
-
-        $pageDefault = PagesSeo::where('name', 'default')->where('status', PagesSeo::STATUS_ACTIVATE)->get();
-        if ($pageDefault->isEmpty()) {
-            $pageDefault = new PagesSeo();
-            $pageDefault->name = 'default';
-            $pageDefault->status = 'Activate';
-            $pageDefault->save();
-        }
-
-        $pageSeoDataType = DataType::where('model_name', 'App\Models\PagesSeo')->where('name', 'pages_seo')->first();
-        $pageSeoDataType->icon = 'voyager-lab';
-        $pageSeoDataType->save();
-
     }
 
     /**

@@ -90,7 +90,7 @@ class EstateController extends Controller
 
             $estates->whereIn('address.city', $districtSelected);
             $flagSearch = 'area';
-            $keyWord = is_array($districts) ? implode(', ', $districtSelected) : $districtSelected;
+            $keyWord = is_array($districtSelected) ? implode(', ', $districtSelected) : $districtSelected;
         }
 
         // price

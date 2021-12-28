@@ -16,22 +16,28 @@
                             height="auto"
                         />
                     </template>
-                    <p class="label_custom" v-if="estate.renovation_type == 'カスタム可能物件'">カスタム<br />可能物件</p>
+                    <p class="label_custom" v-if="estate.renovation_type == 'カスタム可能物件'">
+                        カスタム<br />可能物件
+                    </p>
                     <p class="label_custom renovated" v-else>リノベ済<br />物件</p>
                     <div class="w_property_head">
                         <p class="total_price">
-                            {{ estate.price }}<span>万円</span><span class="sub" v-if="estate.renovation_type != 'リノベ済物件'">（改装前価格）</span>
+                            {{ estate.price }}<span>万円</span
+                            ><span class="sub" v-if="estate.renovation_type != 'リノベ済物件'">（改装前価格）</span>
                         </p>
                         <div class="property_head">
                             <div class="row">
                                 <div class="col-10 col-lg-10 align-self-center">
                                     <template v-if="estate.estate_information">
-                                        <p class="property_name"><b>{{ estate.estate_information.article_title }}</b></p>
+                                        <p class="property_name">
+                                            <b>{{ estate.estate_information.article_title }}</b>
+                                        </p>
                                     </template>
                                     <p class="property_address">
                                         <span>
-                                        {{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}
-                                        {{ estate.tatemono_menseki }}m² / {{ estate.room_count }}{{ estate.room_kind }}
+                                            {{ estate.address.city }}{{ estate.address.ooaza
+                                            }}{{ estate.address.tyoume }} {{ estate.tatemono_menseki }}m² /
+                                            {{ estate.room_count }}{{ estate.room_kind }}
                                         </span>
                                     </p>
                                     <!-- <p class="property_square">{{ estate.tatemono_menseki }}m² / {{ estate.room_count }}{{ estate.room_kind }}</p> -->
@@ -85,6 +91,13 @@ export default {
     },
     mounted() {
         this.getListEstates();
+    },
+    created() {
+        window.onload = function() {
+            window.onpopstate = function() {
+                window.location.reload();
+            };
+        };
     },
     methods: {
         getListEstates() {
