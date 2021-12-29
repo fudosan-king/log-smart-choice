@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Models\District;
 use Illuminate\Http\Request;
 use App\Models\Estates;
-use App\Models\PagesSeo;
 use App\Models\Station;
 
 class MetaTagController extends Controller
@@ -39,9 +38,6 @@ class MetaTagController extends Controller
         )
             ->where('_id', $estateID)
             ->get()->first()->toArray();
-
-        // $pageSEO = PagesSeo::select('*')
-        //     ->get()->first();
 
         $resultData = array(
             'pageSEOInfo' => '',

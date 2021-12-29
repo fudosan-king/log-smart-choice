@@ -5,98 +5,52 @@
                 <div class="row">
                     <div class="col-12 col-lg-12">
                         <p class="text-center mb-4">
-                            <a class="logo_footer" href="https://order-renove.jp/"
-                                ><img
-                                    src="/assets/images/svg/logo_orderrenove_white.svg"
-                                    alt=""
-                                    class="img-fluid"
-                                    width="224"
-                                    height="224"
+                            <a class="logo_footer" href="index.php"
+                                ><img src="/images/svg/logo_orderrenove_white.svg" alt="" class="img-fluid" width="224"
                             /></a>
                         </p>
-                        <ul class="d-none d-lg-flex">
-                            <li><a target="_blank" href="https://form.run/@order-renove">お問い合わせ</a></li>
+                        <ul class="text-center">
+                            <li><a target="_blank" href="https://www.logrenove.jp/contact/">お問い合わせ</a></li>
                             <li>
-                                <a target="_blank" href="https://www.logsuite.co.jp/policy/">プライバシーポリシー</a>
+                                <a target="_blank" href="https://www.propolife.co.jp/privacypolicy"
+                                    >プライバシーポリシー</a
+                                >
                             </li>
                             <li>
-                                <a target="_blank" href="https://www.logsuite.co.jp/socialmedia-policy/"
+                                <a target="_blank" href="https://www.propolife.co.jp/socialpolicy"
                                     >ソーシャルメディアポリシー</a
                                 >
                             </li>
-                            <li><a target="_blank" href="https://www.propolife.co.jp/terms/"> 利用規約</a></li>
-                            <li><a target="_blank" href="https://www.logknot.co.jp/">運営会社（企業情報）</a></li>
+                            <li><a target="_blank" href="https://www.propolife.co.jp/terms"> 利用規約</a></li>
+                            <li><a target="_blank" href="https://www.propolife.co.jp">運営会社（企業情報）</a></li>
                             <li>
-                                <a target="_blank" href="https://www.propolife.co.jp/antisocial/"
+                                <a target="_blank" href="https://www.propolife.co.jp/antisocial"
                                     >反社会的勢力排除に関する基本方針</a
                                 >
                             </li>
                         </ul>
-                        <div class="d-flex">
-                            <ul class="d-block d-lg-none mr-5">
-                                <li><a target="_blank" href="https://form.run/@order-renove">お問い合わせ</a></li>
-                                <li>
-                                    <a target="_blank" href="https://www.logsuite.co.jp/policy/"
-                                        >プライバシーポリシー</a
-                                    >
-                                </li>
-                                <li>
-                                    <a target="_blank" href="https://www.logsuite.co.jp/socialmedia-policy/"
-                                        >ソーシャルメディアポリシー</a
-                                    >
-                                </li>
-                            </ul>
-                            <ul class="d-block d-lg-none">
-                                <li><a target="_blank" href="https://www.propolife.co.jp/terms/">利用規約</a></li>
-                                <li><a target="_blank" href="https://www.logsuite.co.jp/">運営会社（企業情報）</a></li>
-                                <li>
-                                    <a target="_blank" href="https://www.propolife.co.jp/antisocial/"
-                                        >反社会的勢力排除に関する基本方針</a
-                                    >
-                                </li>
-                            </ul>
-                        </div>
+
                         <hr />
 
                         <p class="text-center">
-                            <a target="_blank" href="https://www.logrenove.jp/"
-                                ><img
-                                    src="/assets/images/svg/logrenove_logo_copy.svg"
-                                    alt=""
-                                    class="img-fluid"
-                                    width="108"
-                                    height="108"
+                            <a target="_blank" href="https://www.logrenove.jp"
+                                ><img src="/images/svg/logrenove_logo.svg" alt="" class="img-fluid" width="108"
                             /></a>
                         </p>
-                        <ul>
+                        <ul class="footer_logo">
                             <li>
                                 <a target="_blank" href="https://www.logsuite.co.jp"
-                                    ><img
-                                        src="/assets/images/svg/logSuite2_white.svg"
-                                        alt=""
-                                        class="img-fluid"
-                                        width="88"
-                                        height="88"
+                                    ><img src="/images/svg/logSuite2_white.svg" alt="" class="img-fluid" width="88"
                                 /></a>
                             </li>
                             <li>
                                 <a target="_blank" href="https://www.logarchitects.co.jp"
-                                    ><img
-                                        src="/assets/images/svg/logArch2_white.svg"
-                                        alt=""
-                                        class="img-fluid"
-                                        width="120"
-                                        height="120"
+                                    ><img src="/images/svg/logArch2_white.svg" alt="" class="img-fluid" width="120"
                                 /></a>
                             </li>
                             <li>
                                 <a target="_blank" href="https://www.logknot.co.jp"
-                                    ><img
-                                        src="/assets/images/svg/logKnot2_white.svg"
-                                        alt=""
-                                        class="img-fluid"
-                                        width="84"
-                                        height="84"
+                                    ><img src="/images/svg/logKnot2_white.svg" alt="" class="img-fluid" width="84"
                                 /></a>
                             </li>
                         </ul>
@@ -135,18 +89,18 @@
             v-if="routeName == 'home' || routeName == 'listByCode' || routeName == 'list'"
         >
             <!-- <template v-if="routeName != 'home'"> -->
-            <a class="btn" href="/fast-register"
+            <a class="btn btn-ft" href="/contact"
                 ><img
                     src="/assets/images/svg/i_mail.svg"
                     alt=""
                     class="img-fluid"
                     width="18"
                     height="18"
-                />希望条件を登録
+                />内覧・お問い合わせ
             </a>
             <!-- </template> -->
 
-            <a class="btn" href="/search">条件を絞って物件検索</a>
+            <!-- <a class="btn" href="/search">条件を絞って物件検索</a> -->
         </div>
         <div class="footer_bottom fixed-bottom" v-if="routeName == 'EstateSearch'">
             <a class="btn btn_conditions btn_search_conditions" href="javascript:void(0)" v-on:click="resultSearch"

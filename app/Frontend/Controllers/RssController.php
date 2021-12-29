@@ -2,6 +2,7 @@
 namespace App\Frontend\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Estates;
+use App\Models\EstateInformation;
 use \stdClass;
 use \DateTime;
 
@@ -40,8 +41,28 @@ class RssController extends Controller {
             $body = '<p>物件価格: ' . number_format($estate['price'], 0) . '万円</p>';
             $body = $body . '<p>専有面積: ' . $estate['tatemono_menseki'] . 'm²</p>';
             $body = $body . '<p>間取り: ' . $estate['room_count'] . $estate['room_kind'] . '</p>';
-            $demo->body = $body;
 
+            $photo_first = null;
+
+            $estateInformation = EstateInformation::select('estate_main_photo')->where('estate_id', $estate['_id'])->get()->first();
+
+            if ($estateInformation && $estateInformation->estate_main_photo) {
+                $estate_main_photo = $estateInformation->estate_main_photo;
+                $photo_first = 'https://' . $url_web . $estate_main_photo[0]['url_path'];
+            }
+            if (!$photo_first) {
+                $linkS3 = 'https://fdk-production.s3-ap-northeast-1.amazonaws.com/';
+                if ($estate && array_key_exists('photos', $estate)) {
+                    $photo = $estate['photos'][0];
+
+                    if ($photo && $photo['photo']) {
+                        $photo_first = $linkS3 . substr($estate['_id'], -2) . '/' . $estate['_id'] . '/' . $photo['photo'] . '.jpeg';
+                    }
+                }
+            }
+
+            $demo->photo_first = $photo_first;
+            $demo->body = $body;
             $demo->category = 'Estates';
             $demo->id = $estate['_id'];
             $demo->user = 'Order Renove';

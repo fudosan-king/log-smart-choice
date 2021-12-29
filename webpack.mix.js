@@ -15,5 +15,7 @@ mix.js('resources/js/frontend.js', 'public/js').minify('public/js/frontend.js');
 mix.js('resources/js/argsv.js', 'public/js').minify('public/js/argsv.js');
 mix.styles('resources/css/app.css', 'public/css/app.css').minify('public/css/app.css');
 mix.minify('public/assets/css/styles.css');
+mix.minify('public/assets/css/t_styles.css');
+mix.minify('public/assets/css/c_styles.css');
 mix.styles('resources/css/estates_images.css', 'public/css/estate.css');
 mix.styles('resources/css/custom-css-voyager.css', 'public/css/custom-css-voyager.css');

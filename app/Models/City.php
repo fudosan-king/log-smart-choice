@@ -19,7 +19,7 @@ class City extends Model
         'status'
     ];
 
-    protected $hidden = ['id', 'status', 'created_at', 'updated_at'];
+    protected $hidden = ['status', 'created_at', 'updated_at'];
 
     protected $table = 'city';
     public $searchable = ['name', 'status'];

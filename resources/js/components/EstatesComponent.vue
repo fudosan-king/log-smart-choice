@@ -141,11 +141,11 @@
         created() {
             this.$store.registerModule('estate', estateModule);
             window.addEventListener('scroll', this.handleScroll);
-            window.onload = function () {
-                window.onpopstate = function () {
-                    window.location.href = window.location.origin+"/search";
+            window.onload = function() {
+                window.onpopstate = function() {
+                    window.location.reload();
                 };
-            }
+            };
         },
         beforeDestroy() {
             this.$store.unregisterModule('estate');
