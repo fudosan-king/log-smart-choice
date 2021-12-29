@@ -158,13 +158,13 @@ class PostController extends VoyagerBaseController
 
             if ($request->has('post_main_photo_hidden')) {
                 $imageMainCount = count($request->get('post_main_photo_hidden'));
-                $postImagesdelete = PostImage::where('post_id', $id)->get();
-                foreach($postImagesdelete as $image) {
-                    if (File::exists(public_path($image->title_image))) {
-                        File::delete(public_path($image->image_url));
-                    }
-                }
+                $imagesOld = [];
+                $imagesNew = [];
+                $postImageBeforeDelete = PostImage::where('post_id', $id)->get();
                 PostImage::where('post_id', $id)->delete();
+                foreach($postImageBeforeDelete as $imageBeforeDelete) {
+                    $imagesOld[] = $imageBeforeDelete->image_url;
+                }
                 for ($i = 0; $i < $imageMainCount; $i++) {
                     $urlImageMain = $request->get('post_main_photo_hidden')[$i];
                     if (isset($request->file('post_main_photo')[$i])) {
@@ -184,6 +184,13 @@ class PostController extends VoyagerBaseController
                         $postImage->class_css = $classCss;
                         $postImage->post_id = $post->id;
                         $postImage->save();
+                    }
+                    $imagesNew[] = $urlImageMain;
+                }
+                $imagesShouldDelete = array_diff($imagesOld, $imagesNew);
+                foreach ($imagesShouldDelete as $imageShouldDelete) {
+                    if (File::exists(public_path($imageShouldDelete))) {
+                        File::delete(public_path($imageShouldDelete));
                     }
                 }
             }

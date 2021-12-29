@@ -5,9 +5,12 @@
             <template v-if="images">
                 <li id="imageInfo" v-for="(image, idx) in images" :key="idx">
                     <h3>Image</h3>
-                    <div class="img-wrap" style="text-align: right;">
-                        <a class="remove-image" @click="removeImage(idx)">&times;</a>
-                    </div>
+                    <template v-if="flag == 'estate'">
+                        <div class="img-wrap" style="text-align: right;">
+                            <a class="remove-image" @click="removeImage(idx)">&times;</a>
+                        </div>
+                    </template>
+
                     <img class="estate_image_url image-photo" v-bind:src="image[0]" />
                     <input
                         class="estate_image_file"
