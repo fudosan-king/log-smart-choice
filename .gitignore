@@ -26,3 +26,4 @@ composer.lock
 /public/*.js.*
 public/assets/css/styles.min.css
 .prettierrc.json
+/public/posts/
