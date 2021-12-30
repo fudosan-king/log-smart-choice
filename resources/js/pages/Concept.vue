@@ -1,5 +1,13 @@
 <template>
     <div>
+        <section class="section_banner" style="background-image: url('/assets/images/slideshow/slide-1.jpg');">
+            <div class="caption">
+                <img src="/assets/images/svg/label.svg" alt="" class="img-fluid" width="200" height="200" />
+            </div>
+            <p>テイストと予算で選べる<br>
+                定額リノベーションプラン</p>
+                <h3>価格、立地、広さ…条件にあった中古マンションを<br>好みのテイストでリノベーションする醍醐味</h3>
+        </section>
         <section class="section_near_property">
             <div class="container">
                 <div class="row">

@@ -229,8 +229,8 @@
 
                 <!-- <a class="btn" href="/search">条件を絞って物件検索</a> -->
             </div>
-            <div class="footer_bottom fixed-bottom" v-if="routeName == 'EstateSearch'">
-                <a class="btn btn_conditions btn_search_conditions" href="javascript:void(0)" v-on:click="resultSearch"
+            <div class="footer_bottom fixed-bottom" v-if="routeName == 'estateSearch'">
+                <a class="btn btn-ft" href="javascript:void(0)" v-on:click="resultSearch"
                     ><img
                         src="/assets/images/svg/i_search.svg"
                         alt=""
@@ -263,6 +263,8 @@ export default {
     mounted() {
         this.showContactPart();
         this.getTabList();
+        this.getStaionHardCode();
+        this.getDistrictHardCode();
     },
     methods: {
         showContactPart() {
@@ -428,6 +430,18 @@ export default {
                 this.tabList = response;
             });
         },
+
+        getStaionHardCode() {
+            this.$store.dispatch('getStationsHardCodeSearch').then(response => {
+                this.stationList = response;
+            });
+        },
+
+        getDistrictHardCode() {
+            this.$store.dispatch('getDistrictsHardCodeSearch').then(response => {
+                this.districtList = response;
+            });
+        }
     },
     computed: {
         routeName() {

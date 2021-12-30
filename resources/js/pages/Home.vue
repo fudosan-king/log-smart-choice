@@ -200,8 +200,6 @@ export default {
     },
     mounted() {
         this.getTabList();
-        this.getStaionHardCode();
-        this.getDistrictHardCode();
         this.pushRouterToServer();
         this.getPost();
     },
@@ -209,6 +207,8 @@ export default {
         clearConditionSearch() {
             this.$removeLocalStorage('district');
             this.$removeLocalStorage('station');
+            this.$removeLocalStorage('conditionSearch');
+            this.$removeLocalStorage('idParent');
             this.$router.push('list').catch(() => {});
         },
 
@@ -236,18 +236,6 @@ export default {
         getTabList() {
             this.$store.dispatch('getTabList').then(response => {
                 this.tabList = response;
-            });
-        },
-
-        getStaionHardCode() {
-            this.$store.dispatch('getStationsHardCodeSearch').then(response => {
-                this.stationList = response;
-            });
-        },
-
-        getDistrictHardCode() {
-            this.$store.dispatch('getDistrictsHardCodeSearch').then(response => {
-                this.districtList = response;
             });
         },
 

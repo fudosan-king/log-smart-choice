@@ -12,7 +12,7 @@ class PostController extends Controller
     public function getPosts(Request $request) {
         $pagePost = $request->get('page_post', '');
         if ($pagePost) {
-            $posts = Post::with('postImages')->where('page_post', $pagePost)->where('status', Post::STATUS_ACTIVE)->get()->toArray();
+            $posts = Post::with('postImages')->where('status', Post::STATUS_ACTIVE)->get()->toArray();
             $string = ["'", "\\r", "\\n"];
             if ($posts) {
                 foreach ($posts as $key => $post) {
