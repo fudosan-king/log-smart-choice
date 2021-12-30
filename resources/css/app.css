@@ -365,3 +365,18 @@ footer {
 .more-info_item div p a:hover {
     color:#000000;
 }
+
+.space_div {
+    padding: 20px;
+    background: white;
+}
+
+.top_promotion {
+    margin-bottom: 0;
+    background: white;
+    padding-top: 65px;
+}
+
+.top-lists .top_item {
+    margin-bottom: 0px;
+}
