@@ -1,23 +1,22 @@
 <template>
     <main>
-        <div class="box_template">
+        <div>
             <section class="p-0">
-                <div class="box_top mb-0">
+                <div class="box_top mb-0 bg-white">
                     <div class="container">
-                        <h2 class="title mb-3">メルマガ配信希望条件</h2>
-                        <p class="subtitle subtitle-announcement-condition mb-2">
-                            <small>あなたのご希望条件にマッチした物件をメールでいち早くお知らせします。</small>
-                        </p>
+                        <h2 class="title">メルマガ配信希望条件</h2>
                     </div>
                 </div>
             </section>
 
-            <section class="section_accinfo bg-white pt-0">
+            <section class="section_search_conditions bg-white pt-0">
                 <div class="container">
                     <div class="row">
                         <div class="col-12 col-lg-12">
-                            <form class="frm_accinfo">
-                                <h4>エリア（複数選択可）</h4>
+                            <form class="frm_search_conditions">
+                                <p class="mb-5">あなたのご希望条件にマッチした物件をメールとお知らせ機能でいち早くお知らせします。</p>
+
+                                <h2 class="little_title">エリア（複数選択可）</h2>
                                 <ul class="list_area">
                                     <li v-for="district in districts" :key="district.id">
                                         <div class="custom-control custom-checkbox">
@@ -35,99 +34,148 @@
                                         </div>
                                     </li>
                                 </ul>
-                                <h4>価格（万円）</h4>
-                                <div class="row">
-                                    <div class="col-6 col-lg-6">
-                                        <div class="box_select">
-                                            <select
-                                                class="custom-select"
-                                                v-model="minTotalPrices"
-                                                :class="{
-                                                    'is-invalid': errorsApi.price && errorsApi.price.length
-                                                }"
-                                            >
-                                            <template v-for="price in totalPrices">
-                                                <option v-if="price != '上限なし'" :value="price" :selected="price == price ? 'selected' : ''">{{ price }}</option>
-                                            </template>
-                                                
-                                            </select>
-                                            <div
-                                                v-if="errorsApi.price && errorsApi.price.length"
-                                                class="invalid-feedback"
-                                            >
-                                                <span>
-                                                    {{ errorsApi.price[0] }}
-                                                </span>
-                                            </div>
-                                        </div>
+                                <h2 class="little_title">価格（万円）</h2>
+                                <div class="form-group box_form_group">
+                                    <select
+                                        class="custom-select"
+                                        v-model="minTotalPrices"
+                                        :class="{
+                                            'is-invalid': errorsApi.price && errorsApi.price.length
+                                        }"
+                                    >
+                                    <template v-for="price in totalPrices">
+                                        <option v-if="price != '上限なし'" :value="price" :selected="price == price ? 'selected' : ''">{{ price }}</option>
+                                    </template>
+
+                                    </select>
+                                    <div
+                                        v-if="errorsApi.price && errorsApi.price.length"
+                                        class="invalid-feedback"
+                                    >
+                                        <span>
+                                            {{ errorsApi.price[0] }}
+                                        </span>
                                     </div>
-                                    <div class="col-6 col-lg-6">
-                                        <select class="custom-select" v-model="maxTotalPrices">
-                                            <template v-for="price in totalPrices">
-                                                <option v-if="price != '下限なし'" :value="price" :selected="price == maxTotalPrices ? 'selected' : ''">{{ price }}</option>
-                                            </template>
-                                        </select>
+                                    <p class="mb-0">⁓</p>
+                                    <select class="custom-select" v-model="maxTotalPrices">
+                                        <template v-for="price in totalPrices">
+                                            <option v-if="price != '下限なし'" :value="price" :selected="price == maxTotalPrices ? 'selected' : ''">{{ price }}</option>
+                                        </template>
+                                    </select>
+                                </div>
+
+                                <h2 class="little_title">広さ（m<sup>2</sup>）</h2>
+                                <div class="form-group box_form_group">
+                                    <select
+                                        class="custom-select"
+                                        v-model="minSquare"
+                                        :class="{
+                                            'is-invalid': errorsApi.square && errorsApi.square.length
+                                        }"
+                                    >
+                                        <template v-for="square in squares">
+                                            <option v-if="square != '上限なし'" :value="square" :selected="square == minSquare ? 'selected' : ''">{{ square }}</option>
+                                        </template>
+                                    </select>
+                                    <div
+                                        v-if="errorsApi.square && errorsApi.square.length"
+                                        class="invalid-feedback"
+                                    >
+                                        <span>
+                                            {{ errorsApi.square[0] }}
+                                        </span>
+                                    </div>
+                                    <p class="mb-0">⁓</p>
+                                    <select class="custom-select" v-model="maxSquare">
+                                        <template v-for="square in squares">
+                                            <option v-if="square != '下限なし'" :value="square" :selected="square == maxSquare ? 'selected' : ''">{{ square }}</option>
+                                        </template>
+                                    </select>
+                                </div>
+
+                                <h2 class="little_title">メール通知設定</h2>
+                                <div class="form-group box_form_group">
+                                    <div class="custom-control custom-checkbox">
+                                        <input
+                                            type="checkbox"
+                                            class="custom-control-input"
+                                            id="send_announcement"
+                                            name="sendAnnouncement"
+                                            :checked="customerInformation.send_announcement ? 'checked' : ''"
+                                        />
+                                        <label class="custom-control-label" for="send_announcement"
+                                            >メールで通知を受け取る</label
+                                        >
                                     </div>
                                 </div>
 
-                                <h4>広さ<i>（m<sup>2</sup>)</i></h4>
-                                <div class="row">
-                                    <div class="col-6 col-lg-6">
-                                        <div class="box_select">
-                                            <select
-                                                class="custom-select"
-                                                v-model="minSquare"
-                                                :class="{
-                                                    'is-invalid': errorsApi.square && errorsApi.square.length
-                                                }"
-                                            >
-                                                <template v-for="square in squares">
-                                                    <option v-if="square != '上限なし'" :value="square" :selected="square == minSquare ? 'selected' : ''">{{ square }}</option>
-                                                </template>
-                                            </select>
-                                            <div
-                                                v-if="errorsApi.square && errorsApi.square.length"
-                                                class="invalid-feedback"
-                                            >
-                                                <span>
-                                                    {{ errorsApi.square[0] }}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-6 col-lg-6">
-                                        <select class="custom-select" v-model="maxSquare">
-                                            <template v-for="square in squares">
-                                                <option v-if="square != '下限なし'" :value="square" :selected="square == maxSquare ? 'selected' : ''">{{ square }}</option>
-                                            </template>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <h4>メール通知設定</h4>
-                                <div class="row">
-                                    <div class="col-12 col-lg-12">
-                                        <div class="custom-control custom-checkbox">
-                                            <input
-                                                type="checkbox"
-                                                class="custom-control-input"
-                                                id="send_announcement"
-                                                name="sendAnnouncement"
-                                                :checked="customerInformation.send_announcement ? 'checked' : ''"
-                                            />
-                                            <label class="custom-control-label" for="send_announcement"
-                                                >メールで通知を受け取る</label
-                                            >
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <button type="button" class="btn btnsave my-5" v-on:click="submit">保存</button>
+                                <p class="text-center mb-0 mt-3">
+                                    <button type="button" class="btn btn_register" v-on:click="submit">選び直す</button>
+                                </p>
                             </form>
                         </div>
                     </div>
                 </div>
             </section>
+        </div>
+
+        <div class="top-more-info">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="more-info_item">
+                            <h3>サービス一覧</h3>
+                            <div class="row">
+                                <div class="col-6">
+                                    <p>OrderRenoveについて</p>
+                                    <p>リノベプラン一覧</p>
+                                    <p>マネーシミュレータ</p>
+                                    <p>売却サポート</p>
+                                </div>
+                                <div class="col-6">
+                                    <p>物件一覧</p>
+                                    <p>OrderRenove通信</p>
+                                    <p>コンシェルジュ相談</p>
+                                    <p>会員登録</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="more-info_item">
+                            <h3>エリアから探す</h3>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p>表参道･青山　麻布･広尾　渋谷･恵比寿･中目黒　目黒･白金高輪　下北沢･三軒茶屋　東横線･目黒線　駒沢･二子玉川　代々木公園　井の頭線　神楽坂　品川・田町　銀座・築地　豊洲清澄・門前仲町　皇居西側　中央線　千駄ヶ谷･四ッ谷　西新宿　東新宿･早稲田　その他</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="more-info_item">
+                            <h3>人気の駅から探す</h3>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p>表参道駅　乃木坂駅　目黒駅　中目黒駅　代官山駅　恵比寿駅　渋谷駅　三軒茶屋駅　広尾駅　麻布十番駅　六本木駅　品川駅　田町駅　五反田駅　大崎駅</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="more-info_item">
+                            <h3>こだわりから探す</h3>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p>リノベ済物件　カスタム可能物件　ペット飼育可　ウォークインクローゼット　角部屋　眺望・夜景　セキュリティ充実</p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 </template>
