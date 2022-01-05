@@ -193,6 +193,20 @@ class PostController extends VoyagerBaseController
                         File::delete(public_path($imageShouldDelete));
                     }
                 }
+            } else {
+                $imagesOld = [];
+                $imagesNew = [];
+                $postImageBeforeDelete = PostImage::where('post_id', $id)->get();
+                PostImage::where('post_id', $id)->delete();
+                foreach($postImageBeforeDelete as $imageBeforeDelete) {
+                    $imagesOld[] = $imageBeforeDelete->image_url;
+                }
+                $imagesShouldDelete = array_diff($imagesOld, $imagesNew);
+                foreach ($imagesShouldDelete as $imageShouldDelete) {
+                    if (File::exists(public_path($imageShouldDelete))) {
+                        File::delete(public_path($imageShouldDelete));
+                    }
+                }
             }
 
             $post->save();

@@ -48,21 +48,21 @@
             </div>
         </section>
 
-        <section class="section_near_property bg-white">
+        <!-- <section class="section_near_property bg-white">
             <div class="container">
                 <div class="row">
                     <div class="col-12 col-lg-12">
-                        <!-- <h2 class="title"><b>おすすめ物件</b></h2> -->
-                        <!-- <estates-near-component></estates-near-component> -->
-                        <!-- <estate-recommend-component></estate-recommend-component> -->
+                        <h2 class="title"><b>おすすめ物件</b></h2>
+                        <estates-near-component></estates-near-component>
+                        <estate-recommend-component></estate-recommend-component>
 
-                        <!-- <p class="text-center mt-3">
+                        <p class="text-center mt-3">
                             <a v-on:click="clearConditionSearch" class="btn btnSeemore"><b>もっと見る</b></a>
-                        </p> -->
+                        </p>
                     </div>
                 </div>
             </div>
-        </section>
+        </section> -->
 
         <section class="p-0">
             <div class="top-lists">
@@ -129,6 +129,7 @@
                         </div>
                     </div>
                 </template>
+                <div class="top-more-info top-more-bg"></div>
             </div>
         </section>
     </main>
@@ -151,6 +152,17 @@ export default {
             routerList: [],
             posts: ''
         };
+    },
+    updated() {
+        $('.top_item').each(function(i, ele) {
+            if (
+                $(ele)
+                    .find('.bottom-img')
+                    .children().length < 3
+            ) {
+                $(ele).addClass('changed');
+            }
+        });
     },
     created() {
         this.$store.registerModule('page-post', PagePost);
