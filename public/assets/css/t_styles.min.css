@@ -988,15 +988,15 @@
     margin-left: 0;
   }
   .nav_menu .navbar-expand-lg ul.navbar-nav .nav-item .nav-link {
-    padding: 0 0 15px;
+    padding: 8px 15px;
     width: 100%;
     text-align: left;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    font-size: 0.9375rem;
+    font-weight: normal;
+    letter-spacing: .05em;
+    font-size: .9375rem;
     line-height: 1.6;
-    color: #F6F6F6;
-  }
+    color: #f6f6f6;
+}
   .nav_menu .navbar-expand-lg ul.navbar-nav .nav-item .nav-link i {
     position: absolute;
     right: 0;

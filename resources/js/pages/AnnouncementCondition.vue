@@ -118,65 +118,6 @@
                 </div>
             </section>
         </div>
-
-        <div class="top-more-info">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="more-info_item">
-                            <h3>サービス一覧</h3>
-                            <div class="row">
-                                <div class="col-6">
-                                    <p>OrderRenoveについて</p>
-                                    <p>リノベプラン一覧</p>
-                                    <p>マネーシミュレータ</p>
-                                    <p>売却サポート</p>
-                                </div>
-                                <div class="col-6">
-                                    <p>物件一覧</p>
-                                    <p>OrderRenove通信</p>
-                                    <p>コンシェルジュ相談</p>
-                                    <p>会員登録</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="more-info_item">
-                            <h3>エリアから探す</h3>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <p>表参道･青山　麻布･広尾　渋谷･恵比寿･中目黒　目黒･白金高輪　下北沢･三軒茶屋　東横線･目黒線　駒沢･二子玉川　代々木公園　井の頭線　神楽坂　品川・田町　銀座・築地　豊洲清澄・門前仲町　皇居西側　中央線　千駄ヶ谷･四ッ谷　西新宿　東新宿･早稲田　その他</p>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="more-info_item">
-                            <h3>人気の駅から探す</h3>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <p>表参道駅　乃木坂駅　目黒駅　中目黒駅　代官山駅　恵比寿駅　渋谷駅　三軒茶屋駅　広尾駅　麻布十番駅　六本木駅　品川駅　田町駅　五反田駅　大崎駅</p>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="more-info_item">
-                            <h3>こだわりから探す</h3>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <p>リノベ済物件　カスタム可能物件　ペット飼育可　ウォークインクローゼット　角部屋　眺望・夜景　セキュリティ充実</p>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </main>
 </template>
 <script>

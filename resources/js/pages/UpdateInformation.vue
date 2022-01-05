@@ -102,7 +102,10 @@
                                         {{ errorsApi.land_line[0] }}
                                     </span>
                                 </div>
-                                <button type="button" class="btn btnsave my-5" @click="submit()">保存</button>
+                                <p class="text-center mb-0 mt-3">
+                                    <button type="button" class="btn btn_register" @click="submit()">保存</button>
+                                </p>
+                                
                             </form>
                         </div>
                     </div>
