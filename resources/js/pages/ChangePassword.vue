@@ -73,7 +73,7 @@
                                         </span>
                                     </div>
                                 </div>
-                                <button type="button" class="btn btnsave" :disabled="disabled" @click="submit()">
+                                <button type="button" class="btn btn_register" :disabled="disabled" @click="submit()">
                                     保存
                                 </button>
                             </form>

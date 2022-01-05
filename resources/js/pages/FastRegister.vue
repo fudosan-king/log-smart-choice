@@ -253,7 +253,7 @@
 
                                 <button
                                     type="submit"
-                                    class="btn btnsave mb-lg-5 font-weight-bold"
+                                    class="btn btn_register"
                                     data-toggle="modal"
                                     data-target="#modal_info"
                                     :disabled="disabled"
