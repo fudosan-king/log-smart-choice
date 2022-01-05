@@ -77,29 +77,28 @@
                                 class="img-fluid"
                                 width="265"
                             />
-                            <div class="group_price" v-if="estate.renovation_type != 'カスタム可能物件'">
-                                <div class="g-bg">
-                                    <div class="g-bg_item bg-yellow"></div>
-                                    <p class="total_price">
-                                        {{ estate.price }}<span class="unit">万円</span
-                                        ><span class="sub">リノベ済</span>
-                                    </p>
-                                </div>
-                                <div class="g-bg">
-                                    <div class="g-bg_item bg-gray"></div>
-                                    <p class="price_info">仲介手数料無料</p>
-                                </div>
-                            </div>
-                            <div class="group_price" v-else>
-                                <div class="g-bg">
-                                    <div class="g-bg_item bg-black"></div>
-                                    <p class="total_price">
-                                        {{ estate.price }}<span class="unit">万円</span
-                                        ><span class="sub">（改装前価格）</span>
-                                    </p>
-                                </div>
-                            </div>
                         </template>
+                        <div class="group_price" v-if="estate.renovation_type != 'カスタム可能物件'">
+                            <div class="g-bg">
+                                <div class="g-bg_item bg-yellow"></div>
+                                <p class="total_price">
+                                    {{ estate.price }}<span class="unit">万円</span><span class="sub">リノベ済</span>
+                                </p>
+                            </div>
+                            <div class="g-bg">
+                                <div class="g-bg_item bg-gray"></div>
+                                <p class="price_info">仲介手数料無料</p>
+                            </div>
+                        </div>
+                        <div class="group_price" v-else>
+                            <div class="g-bg">
+                                <div class="g-bg_item bg-black"></div>
+                                <p class="total_price">
+                                    {{ estate.price }}<span class="unit">万円</span
+                                    ><span class="sub">（改装前価格）</span>
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </a>
                 <div class="w_property-archive_head">
