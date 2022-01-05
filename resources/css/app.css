@@ -377,10 +377,6 @@ footer {
     padding-top: 65px;
 }
 
-.top-lists .top_item {
-    margin-bottom: 0px;
-}
-
 .property-archive_item * .property_img .total_price {
     font-size: 1rem;
 }
@@ -392,4 +388,8 @@ footer {
 .total_estates_wishlist {
     font-weight: 900;
     font-size: 150%;
+}
+
+.top-more-bg {
+    background: white;
 }

@@ -1,6 +1,6 @@
 <template>
     <section class="section_near_property custom pt-0 bg-white">
-        <div class="box_top">
+        <!-- <div class="box_top">
             <div class="container">
                 <h2 class="title mb-2 text-center">検索結果</h2>
                 <div class="info_topsearch">
@@ -22,7 +22,7 @@
                     <li><a href="/search"><img src="/assets/images/svg/i_sort.svg" alt="" class="img-fluid" width="15"><span> 条件を変更する</span></a></li>
                 </ul>
             </div>
-        </div>
+        </div> -->
         <div class="container">
             <div class="row">
                 <div class="col-12 col-lg-12">

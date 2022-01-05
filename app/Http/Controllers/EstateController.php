@@ -442,7 +442,7 @@ class EstateController extends Controller
                 ]);
             }
         }
-        
+
         $estate = Estates ::find($id);
 
         $data->is_send_announcement = Estates::NOT_SEND_ANNOUNCEMENT;
