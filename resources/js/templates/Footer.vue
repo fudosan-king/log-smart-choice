@@ -53,12 +53,15 @@
                             <h3>サービス一覧</h3>
                             <div class="row">
                                 <div class="col-6">
-                                    <p>OrderRenoveについて</p>
+                                    <p><a href="/about">OrderRenoveについて</a></p>
+                                    <p><a href="/concept">リノベプラン一覧</a></p>
+                                    <!-- <p>マネーシミュレータ</p>
+                                    <p>売却サポート</p> -->
                                 </div>
                                 <div class="col-6">
-                                    <p>物件一覧</p>
-
-                                    <p>会員登録</p>
+                                    <p><a href="/list">物件一覧</a></p>
+                                    <p><a href="/fast-register">OrderRenove通信</a></p>
+                                    <p><a href="/register">会員登録</a></p>
                                 </div>
                             </div>
                         </div>
@@ -137,21 +140,21 @@
                                 /></a>
                             </p>
                             <ul class="text-center">
-                                <li><a target="_blank" href="https://www.logrenove.jp/contact/">お問い合わせ</a></li>
+                                <li><a target="_blank" href="https://form.run/@order-renove">お問い合わせ</a></li>
                                 <li>
-                                    <a target="_blank" href="https://www.propolife.co.jp/privacypolicy"
+                                    <a target="_blank" href="https://www.logsuite.co.jp/policy/"
                                         >プライバシーポリシー</a
                                     >
                                 </li>
                                 <li>
-                                    <a target="_blank" href="https://www.propolife.co.jp/socialpolicy"
+                                    <a target="_blank" href="https://www.logsuite.co.jp/socialmedia-policy/"
                                         >ソーシャルメディアポリシー</a
                                     >
                                 </li>
-                                <li><a target="_blank" href="https://www.propolife.co.jp/terms"> 利用規約</a></li>
-                                <li><a target="_blank" href="https://www.propolife.co.jp">運営会社（企業情報）</a></li>
+                                <li><a target="_blank" href="https://www.propolife.co.jp/terms/"> 利用規約</a></li>
+                                <li><a target="_blank" href="https://www.logknot.co.jp/">運営会社（企業情報）</a></li>
                                 <li>
-                                    <a target="_blank" href="https://www.propolife.co.jp/antisocial"
+                                    <a target="_blank" href="https://www.propolife.co.jp/antisocial/"
                                         >反社会的勢力排除に関する基本方針</a
                                     >
                                 </li>
@@ -192,24 +195,26 @@
                 </div>
             </div>
             <div class="footer_bottom fixed-bottom" v-if="contactPart == 'detail'">
-                <a class="btn" href="javascript:void(0)" v-on:click="directToContact"
-                    ><img
-                        src="/assets/images/svg/i_mail.svg"
-                        alt=""
-                        class="img-fluid"
-                        width="18"
-                        height="18"
-                    />資料請求・内見</a
-                >
-                <a class="btn" href="tel:0120991657"
-                    ><img
-                        src="/assets/images/svg/i_call.svg"
-                        alt=""
-                        class="img-fluid"
-                        width="18"
-                        height="18"
-                    />0120-991-657</a
-                >
+                <div class="bottom_box">
+                    <a class="btn btn-ft" href="javascript:void(0)" v-on:click="directToContact"
+                        ><img
+                            src="/assets/images/svg/i_mail.svg"
+                            alt=""
+                            class="img-fluid"
+                            width="18"
+                            height="18"
+                        />内覧・お問い合わせ</a
+                    >
+                    <a class="btn btn-ft" href="tel:0120991657"
+                        ><img
+                            src="/assets/images/svg/i_call.svg"
+                            alt=""
+                            class="img-fluid"
+                            width="18"
+                            height="18"
+                        />0120-991-657</a
+                    >
+                </div>
             </div>
             <div
                 class="footer_bottom fixed-bottom align-center"

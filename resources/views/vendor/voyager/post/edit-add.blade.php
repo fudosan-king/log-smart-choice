@@ -58,14 +58,14 @@
                             <input name="title_signal" value="{{ isset($post[0]->title_signal) ? $post[0]->title_signal : '' }}" class="form-control">
                         </div>
 
-                        <!-- <div class="form-group">
+                        <div class="form-group">
                             <label for="name">Page</label>
                             <select name="page_post" class="form-control select2 select2-hidden-accessible">
                                 @foreach ($listPage as $page)
                                 <option value="{{ $page['name'] }}" @if ($page['name']==$pageSelected) selected="selected" @endif>{{ $page['name'] }}</option>
                                 @endforeach
                             </select>
-                        </div> -->
+                        </div>
 
                         @foreach($dataType->addRows as $row)
                         <div class="form-group">

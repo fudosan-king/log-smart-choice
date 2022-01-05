@@ -174,6 +174,14 @@ const routes = [
         }
     },
     {
+        path: '/fast-register-thank-you',
+        name: 'fastRegisterThankYou',
+        component: () => import('../pages/FastRegisterThankYou.vue'),
+        meta: {
+            title: '会員登録申請完了｜Order Renove'
+        }
+    },
+    {
         path: '/register-thank-you',
         name: 'registerThankYou',
         component: () => import('../pages/RegisterThankYou.vue'),

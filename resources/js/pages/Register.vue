@@ -286,7 +286,7 @@ export default {
                     })
                     .then(res => {
                         this.$setLocalStorage('emailRegister', this.customer.email);
-                        this.$router.push({ name: 'RegisterThankYou' }).catch(() => {});
+                        this.$router.push({ name: 'registerThankYou' }).catch(() => {});
                     })
                     .catch(err => {
                         this.disabled = false;

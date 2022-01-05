@@ -51,12 +51,12 @@
                         </div>
                         @foreach($dataType->addRows as $row)
                         @php if ($row->field == 'custom_field' ||
-                                $row->field == 'estate_equipment' ||
-                                $row->field == 'estate_flooring') {
-                                continue;
-                                }
+                        $row->field == 'estate_equipment' ||
+                        $row->field == 'estate_flooring') {
+                        continue;
+                        }
                         @endphp
-                        
+
                         <div class="form-group">
                             <label for="name">{{ $row->getTranslatedAttribute('display_name') }}</label>
 
@@ -69,7 +69,7 @@
                             <label for="name">Decor</label>
                             <input type="text" class="form-control" placeholder="0" value="{{ $dataTypeContent->decor ?? 0 }}" name="decor">
                         </div> -->
-<!-- 
+                        <!-- 
                         @php
                         $custom_field = $dataTypeContent->custom_field;
                         foreach ($mapLabel as $key => $value) {
@@ -106,40 +106,43 @@
                             <input name="company_design" value="{{ $estateInfo->company_design ?? '' }}" class="form-control">
                         </div> -->
 
-                        
+
 
                         <div class="form-group">
                             <label for="name">MAP URL</label>
                             <input name="url_map" value="{{ $estateInfo->url_map ?? '' }}" class="form-control">
                         </div>
 
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <label for="name">ストリートビュー</label>
                             <input name="url_view_street" value="{{ $estateInfo->url_view_street ?? '' }}" class="form-control">
+                        </div> -->
+
+                        <div class="form-group">
+                        <label for="name">Tab Search</label>
+                            <!-- <h2 class="padding_tab_search">Tab Search</h2> -->
+                            <hr class="hr_tab_search">
+                            <div class="category_tab_search">
+                                @if($tabsSearch)
+                                @foreach($tabsSearch as $key => $tabSearch)
+                                <div class="form-check category_checkbox">
+                                    <input type="checkbox" class="form-check-input" id="tab_search_{{ $tabSearch->name.$key }}" name="tab_search[{{ $tabSearch->id }}]" @if (isset($tabSelected) && in_array($tabSearch->id, $tabSelected)) checked @endif>
+                                    <label for="tab_search_{{ $tabSearch->name.$key }}" class="form-check-label" forendif="tab_search_{{ $tabSearch->name.$key }}">{{ $tabSearch->name }}</label>
+                                </div>
+                                @endforeach
+                                @endif
+                            </div>
                         </div>
 
-                        <h2 class="padding_tab_search"> Tab Search</h2>
-                        <hr class="hr_tab_search">
-                        <div class="category_tab_search">
-                            @if($tabsSearch)
-                                @foreach($tabsSearch as $key => $tabSearch)
-                                    <div class="form-check category_checkbox">
-                                        <input type="checkbox" class="form-check-input" id="tab_search_{{ $tabSearch->name.$key }}" name="tab_search[{{ $tabSearch->id }}]"
-                                                @if (isset($tabSelected) && in_array($tabSearch->id, $tabSelected)) checked @endif>
-                                        <label for="tab_search_{{ $tabSearch->name.$key }}" class="form-check-label" forendif="tab_search_{{ $tabSearch->name.$key }}">{{ $tabSearch->name }}</label>
-                                    </div>
-                                @endforeach
-                            @endif
-                        </div>
                         @php
                         if (!isset($imagesData)){
-                            $imagesData = null;
+                        $imagesData = null;
                         }
                         if (!isset($mainPhoto)){
-                            $mainPhoto = null;
+                        $mainPhoto = null;
                         }
                         if (!isset($beforAfterPhoto)){
-                            $beforAfterPhoto = array(null, null);
+                        $beforAfterPhoto = array(null, null);
                         }
                         @endphp
 
@@ -149,19 +152,21 @@
                             <estate-description-component :data="'{{ $dataTypeContent }}'" :data_read="false"></estate-description-component>
                         </div> -->
 
-                        <h1 class="padding_tab_search">Main Photo</h1>
+                        <!-- <h1 class="padding_tab_search">Main Photo</h1>
                         <hr class="hr_tab_search">
 
-                        <estatemainphoto-component :data="{{ $estateInfo }}" flag="estate"></estatemainphoto-component>
+                        <estatemainphoto-component :data="{{ $estateInfo }}" flag="estate"></estatemainphoto-component> -->
 
                         <!-- <h1>Befor/After</h1>
                         <hr>
                         <estatebeforafter-component :befor="'{{ $estateInfo }}'" :after="'{{ $estateInfo }}'"></estatebeforafter-component> -->
 
-                        <h1>Photos</h1>
-                        <hr>
+                        <div class="form-group padding_tab_search">
+                        <label for="name">Photos</label>
+                            <hr>
+                            <estateimage-component :data="{{ $estateInfo }}" flag="estate"></estateimage-component>
+                        </div>
 
-                        <estateimage-component :data="{{ $estateInfo }}" flag="estate"></estateimage-component>
 
                         <!-- <h1>Slide Equipment</h1>
                         <hr>

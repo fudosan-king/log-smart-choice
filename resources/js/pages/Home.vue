@@ -13,7 +13,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="btn_stations search-station" v-on:click="handleHeaderContentClick('station')">
+                        <a class="btn_stations search-station" href="/concept">
                             <span>リノベテイストから探す</span>
                         </a>
                     </li>
@@ -129,41 +129,6 @@
                         </div>
                     </div>
                 </template>
-                <!-- <div class="top_item">
-                        <div class="container">
-                            <div class="top_item-ct">
-                                <div class="top_logo">
-                                    <img class="img-fluid" src="./images/common/logo-mukustyle.svg" alt="" title="">
-                                </div>
-                                <p class="logan">LogRenove Premium<br>
-                                Produced by LogRenove</p>
-                                <div class="top_group">
-                                    <div class="top_img">
-                                        <img class="img-fluid" src="./images/top-page/top-img.jpg" alt="" title="">
-                                    </div>
-
-                                    <p class="style">Style 02</p>
-                                    <h2>無垢に暮らす。という選択</h2>
-                                    <p>天然木が肌に馴染む、無垢な優しさに包まれる。</p>
-                                    <p>家族が過ごす、仲間が集う。</p>
-                                    <p>大人も子供も無邪気に笑う。</p>
-                                    <ul>
-                                        <li>
-                                            <a href="#">無垢材</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">定額リノベーション</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">LogRenove</a>
-                                        </li>
-                                    </ul>
-                                    <a href="#" class="btn btn-detail">DETAIL</a>
-                                   
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
             </div>
         </section>
     </main>

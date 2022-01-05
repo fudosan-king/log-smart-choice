@@ -54,6 +54,7 @@ div > div > .estate_image_url {
 .padding_tab_search {
     float: left;
     width: 100%;
+    padding-top: 1%;
 }
 
 .hr_tab_search {
