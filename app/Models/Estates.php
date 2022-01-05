@@ -360,16 +360,16 @@ class Estates extends Model
         DB::beginTransaction();
         try {
             foreach ($transportEstate as $transport) {
-                $transportCurrent = Transport::where('name', $transport->transport_company)->first();
-                $station = Station::where('transport_id', $transportCurrent->id)->where('name', $transport->station_name)->first();
+                $transportCurrent = Transport::where('name', $transport['transport_company'])->first();
+                $station = Station::where('transport_id', $transportCurrent->id)->where('name', $transport['station_name'])->first();
                 if (!$transportCurrent) {
-                    if ($transport->transport_company) {
+                    if ($transport['transport_company']) {
                         $transportNew = new Transport();
-                        $transportNew->name = $transport->transport_company;
+                        $transportNew->name = $transport['transport_company'];
                         $transportNew->save();
-                        if ($transport->station_name) {
+                        if ($transport['station_name']) {
                             $stationNew = new Station();
-                            $stationNew->name = $transport->station_name;
+                            $stationNew->name = $transport['station_name'];
                             $stationNew->count_estates = Station::BEGIN_ESTATE_EXIST;
                             $stationNew->estate_ids = $estateId;
                             $stationNew->transport_id = $transportNew->id;
@@ -399,9 +399,9 @@ class Estates extends Model
                             }
                         }
                     } else {
-                        if ($transport->station_name) {
+                        if ($transport['station_name']) {
                             $stationNew = new Station();
-                            $stationNew->name = $transport->station_name;
+                            $stationNew->name = $transport['station_name'];
                             $stationNew->count_estates = Station::BEGIN_ESTATE_EXIST;
                             $stationNew->estate_ids = $estateId;
                             $stationNew->transport_id = $transportCurrent->id;

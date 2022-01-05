@@ -177,6 +177,17 @@ export default {
                 this.posts = response;
             });
         }
-    }
+    },
+    updated() {
+        $('.top_item').each(function(i, ele) {
+            if (
+                $(ele)
+                    .find('.bottom-img')
+                    .children().length < 3
+            ) {
+                $(ele).addClass('changed');
+            }
+        });
+    },
 };
 </script>
