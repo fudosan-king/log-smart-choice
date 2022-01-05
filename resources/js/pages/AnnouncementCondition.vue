@@ -19,7 +19,7 @@
                                 <h2 class="little_title">エリア（複数選択可）</h2>
                                 <ul class="list_area">
                                     <li v-for="district in districts" :key="district.id">
-                                        <div class="custom-control custom-checkbox">
+                                        <div class="custom-control custom-checkbox more-space">
                                             <input
                                                 type="checkbox"
                                                 class="custom-control-input district-input"
