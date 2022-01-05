@@ -3,151 +3,43 @@
         <template>
             <div>
                 <main>
-                    <div class="box_template">
+                    <div class="bg-white">
                         <section class="p-0">
-                            <div class="box_top mb-0">
+                            <div class="box_top mb-0 bg-transparent">
                                 <div class="container">
-                                    <h2 class="title mb-3">確認</h2>
+                                    <h2 class="title mb-3">お問い合わせ内容の確認</h2>
                                 </div>
                             </div>
                         </section>
-
-                        <section class="section_contact">
+                        <section class="section_top_template pt-3">
                             <div class="container">
                                 <div class="row">
-                                    <div class="col-12 col-lg-12">
-                                        <form class="frm_contact" action="#" method="post">
-                                            <!-- confirm -->
-                                            <div class="box_confirm">
-                                                <div class="frm_general_content frm_confirm mt-3" style="">
-                                                    <table class="table table-bordered">
-                                                        <tbody>
-                                                            <tr>
-                                                                <td width="50%">
-                                                                    <label>物件名 </label>
-                                                                </td>
-                                                                <td class="confirm-text">
-                                                                    <span id="date">{{ contactData.estateName }}</span>
-                                                                </td>
-                                                            </tr>
-
-                                                            
-
-                                                            <tr>
-                                                                <td>
-                                                                    <label>お名前</label>
-                                                                </td>
-                                                                <td id="full_name" class="confirm-text">
-                                                                    <span>{{ contactData.name + ' ' + contactData.lastName}}</span>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <label>メールアドレス</label>
-                                                                </td>
-                                                                <td id="email" class="confirm-text">
-                                                                    <span>{{ contactData.email }}</span>
-                                                                </td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>
-                                                                    <label>電話番号</label>
-                                                                </td>
-                                                                <td id="phone-number" class="confirm-text">
-                                                                    <span>{{
-                                                                        convertPhone(contactData.landLine)
-                                                                    }}</span>
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr>
-                                                                <td width="50%">
-                                                                    <label>第1希望日時</label>
-                                                                </td>
-                                                                <td class="confirm-text">
-                                                                    <span id="date">{{
-                                                                        contactData.hopeDayFirst
-                                                                    }}</span>
-                                                                    <span id="time">{{
-                                                                        contactData.startTimeFirst
-                                                                    }}</span>
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr>
-                                                                <td>
-                                                                    <label>第2希望日時</label>
-                                                                </td>
-                                                                <td class="confirm-text">
-                                                                    <span id="date">{{
-                                                                        contactData.hopeDaySecond
-                                                                    }}</span>
-                                                                    <span id="time">{{
-                                                                        contactData.startTimeSecond
-                                                                    }}</span>
-                                                                </td>
-                                                            </tr>
-
-                                                            <tr>
-                                                                <td>
-                                                                    <label>気になるご質問</label>
-                                                                </td>
-                                                                <td id="inquiry_content" class="confirm-text">
-                                                                    <span>{{ contactData.inquiryContent }}</span>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-
-                                                    <div class="box_content_footer mt-4">
-                                                        <div class="form-group text-center">
-                                                            <div class="row">
-                                                                <div class="col-12 col-lg-6">
-                                                                    <a href="/contact" class="btn btn_back"
-                                                                        ><img
-                                                                            src="/assets/images/svg/i_left_white.svg"
-                                                                            alt=""
-                                                                            class="img-fluid"
-                                                                            width="10"
-                                                                        />
-                                                                        戻る</a
-                                                                    >
-                                                                </div>
-                                                                <div class="col-12 col-lg-6">
-                                                                    <a
-                                                                        class="btn btn_send"
-                                                                        @click="successContact"
-                                                                        data-toggle="modal"
-                                                                        >送信する
-                                                                        <img
-                                                                            src="/assets/images/svg/i_right_white.svg"
-                                                                            alt=""
-                                                                            class="img-fluid"
-                                                                            width="10"
-                                                                    /></a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
+                                    <div class="col-12 col-lg-8 m-auto">
+                                        <h5>
+                                            物件名 : {{ contactData.estateName }} <br />
+                                            お名前 : {{ contactData.name + ' ' + contactData.lastName }} <br />
+                                            メールアドレス : {{ contactData.email }} <br />
+                                            電話番号 : {{ convertPhone(contactData.landLine) }} <br />
+                                            第1希望日時 : {{ contactData.hopeDayFirst }} <br />
+                                            第2希望日時 : {{ contactData.hopeDaySecond }} <br />
+                                            気になるご質問 : {{ contactData.inquiryContent }}
+                                        </h5>
+                                        <p class="text-center mb-0 mt-5">
+                                            <a href="/contact" class="btn d-inline-block">戻る</a>
+                                            <a
+                                                href="javascript:void(0)"
+                                                @click="successContact"
+                                                class="btn d-inline-block mr-0"
+                                                >送信する</a
+                                            >
+                                        </p>
                                         <!-- Do not change class, action, method. -->
-                                        <form
-                                            class="formrun d-none"
-                                            action="#"
-                                            method="post"
-                                            id="postToFormrun"
-                                        >
+                                        <form class="formrun d-none" action="#" method="post" id="postToFormrun">
                                             <!-- ↓You can add/change fields. -->
 
                                             <div>
                                                 <label>物件名</label>
-                                                <input
-                                                    name="物件名"
-                                                    type="text"
-                                                    :value="contactData.estateName"
-                                                />
+                                                <input name="物件名" type="text" :value="contactData.estateName" />
                                             </div>
 
                                             <div>
@@ -172,7 +64,11 @@
 
                                             <div>
                                                 <label>お名前</label>
-                                                <input name="お名前" type="text" :value="contactData.name + ' ' + contactData.lastName" />
+                                                <input
+                                                    name="お名前"
+                                                    type="text"
+                                                    :value="contactData.name + ' ' + contactData.lastName"
+                                                />
                                             </div>
 
                                             <div>
@@ -200,11 +96,6 @@
 
                                             <div>
                                                 <label>EstateUrl</label>
-                                                <input name="estate_url" type="text" :value="contactData.estateUrl" />
-                                            </div>
-
-                                            <div>
-                                                <label>EstateUrl</label>
                                                 <input name="estate_url" :value="contactData.estateUrl" />
                                             </div>
 
@@ -215,7 +106,7 @@
 
                                             <div>
                                                 <label>Checked Privacy</label>
-                                                <input type="checkbox" name="プライバシーポリシー" checked/>
+                                                <input type="checkbox" name="プライバシーポリシー" checked />
                                             </div>
                                             <button
                                                 type="submit"

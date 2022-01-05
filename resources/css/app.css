@@ -181,7 +181,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type="number"] {
+input[type='number'] {
     -moz-appearance: textfield;
 }
 
@@ -271,8 +271,8 @@ main .section_property_main {
 }
 
 @media (min-width: 1024px) {
-    .section_near_property ul.list_property li .property_img,
-    .section_near_property ul.list_property li .property_img img {
+    li .property_img,
+    li .property_img img {
         height: 185px;
     }
 }
@@ -363,5 +363,28 @@ footer {
 }
 
 .more-info_item div p a:hover {
-    color:#000000;
+    color: #000000;
+}
+
+.space_div {
+    padding: 20px;
+    background: white;
+}
+
+.top_promotion {
+    margin-bottom: 0;
+    background: white;
+    padding-top: 65px;
+}
+
+.top-lists .top_item {
+    margin-bottom: 0px;
+}
+
+.property-archive_item * .property_img .total_price {
+    font-size: 1rem;
+}
+
+.property-archive_head .property_name {
+    font-weight: 600;
 }

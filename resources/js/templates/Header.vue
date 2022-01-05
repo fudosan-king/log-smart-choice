@@ -201,13 +201,13 @@
                                 </ul>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">OrderRenoveについて<i class="c-icon i-arrow-gray"></i></a>
+                                <a class="nav-link" href="/about">OrderRenoveについて<i class="c-icon i-arrow-gray"></i></a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/list">物件一覧<i class="c-icon i-arrow-gray"></i></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">リノベプラン一覧<i class="c-icon i-arrow-gray"></i></a>
+                                <a class="nav-link" href="/concept">リノベプラン一覧<i class="c-icon i-arrow-gray"></i></a>
                             </li>
                             <!-- <li class="nav-item">
                                 <a class="nav-link" href="#">コンシェルジュ相談<i class="c-icon i-arrow-gray"></i></a>

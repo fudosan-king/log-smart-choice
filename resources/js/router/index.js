@@ -25,7 +25,7 @@ const routes = [
         name: 'detail',
         component: () => import('../../js/pages/DetailEstate.vue'),
         meta: {
-            title: '｜Order Renove'
+            title: '不動産の詳細｜Order Renove'
         }
     },
     {
@@ -40,7 +40,10 @@ const routes = [
     {
         path: '/about',
         name: 'about',
-        component: () => import('../pages/About.vue')
+        component: () => import('../pages/About.vue'),
+        meta: {
+            title: 'Order Renoveとは｜Order Renove'
+        }
     },
     {
         path: '/contact',
@@ -171,6 +174,14 @@ const routes = [
         }
     },
     {
+        path: '/fast-register-thank-you',
+        name: 'fastRegisterThankYou',
+        component: () => import('../pages/FastRegisterThankYou.vue'),
+        meta: {
+            title: '会員登録申請完了｜Order Renove'
+        }
+    },
+    {
         path: '/register-thank-you',
         name: 'registerThankYou',
         component: () => import('../pages/RegisterThankYou.vue'),
@@ -200,6 +211,14 @@ const routes = [
         component: () => import('../pages/EstateSearch.vue'),
         meta: {
             title: '検索条件｜Order Renove'
+        }
+    },
+    {
+        path: '/concept',
+        name: 'concept',
+        component: () => import('../pages/Concept.vue'),
+        meta: {
+            title: '概念｜Order Renove'
         }
     },
 ];

@@ -1,64 +1,38 @@
 <template>
-    <main>
+    <div>
         <section class="section_banner" style="background-image: url('/assets/images/slideshow/slide-1.jpg');">
             <div class="caption">
                 <img src="/assets/images/svg/label.svg" alt="" class="img-fluid" width="200" height="200" />
             </div>
-            <p>まだ見ぬ住まいとの出会いを演出</p>
-            <div class="top_action">
-                <ul>
-                    <li>
-                        <a class="btn_map search-district" v-on:click="handleHeaderContentClick('district')">
-                            <span>リノベ物件から探す</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="btn_stations search-station" href="/concept">
-                            <span>リノベテイストから探す</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
+            <p>テイストと予算で選べる<br>
+                定額リノベーションプラン</p>
+                <h3>価格、立地、広さ…条件にあった中古マンションを<br>好みのテイストでリノベーションする醍醐味</h3>
         </section>
         <section class="section_near_property">
             <div class="container">
                 <div class="row">
                     <div class="col-12 col-lg-12">
-                        <div class="top_info">
-                            <div class="top_brand">
-                                <img
-                                    class="img-fluid"
-                                    src="/assets/images/common/logo-orderrenove.svg"
-                                    alt=""
-                                    title=""
-                                />
+                        <div class="rnv-explain">
+                            <div class="container">
+                                <p class="sm-title">CONCEPT</p>
+                                <h2>
+                                    中古マンション＋定額リノベ<br />
+                                    で理想の住まいを手に入れる
+                                </h2>
+                                <div class="plan_info">
+                                    <p>
+                                        中古マンションを購入してリノベーションする場合、最終的な施工金額と仕上がりイメージがわかりにくいのが難点とされてきました。そこでOrder
+                                        Renoveは、金額と仕上がりイメージが具体的にわかる「定額リノベーションプラン」を複数ご用意いたしました。希望の価格、立地、広さの物件に、好みのリノベーションプランをかけ合わせて、理想の住まいを「不安なく」「賢く」「自分らしく」手にいれましょう。
+                                    </p>
+                                    <!-- <p>
+                                        周辺には植え込みのあるスタイリッシュな建物が多く、緑を目にすることが可能です。
+                                    </p> -->
+                                </div>
+                                <div class="plan_img">
+                                    <img class="img-fluid" src="/assets/images/concept/concept.png" alt="" title="" />
+                                </div>
                             </div>
-                            <h3>提案型リノベーションプラットフォーム</h3>
-                            <p>
-                                Order
-                                Renoveは「リノベーション済み物件」だけでなく、まだ施工していない「リノベーション向き物件」まで紹介していきます。まだ物件数が少ない「リノベーション済み物件」だけでなく、「中古物件＋リノベーション」を視野に入れることで、人々の住まいにおける選択肢を増やし、ユーザーに最適な住まいを提案していきます。
-                            </p>
                         </div>
-                        <estates-top-component></estates-top-component>
-                        <button type="button" class="btn btn-load-more" v-on:click="clearConditionSearch">
-                            もっと見る
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section_near_property bg-white">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12 col-lg-12">
-                        <!-- <h2 class="title"><b>おすすめ物件</b></h2> -->
-                        <!-- <estates-near-component></estates-near-component> -->
-                        <!-- <estate-recommend-component></estate-recommend-component> -->
-
-                        <!-- <p class="text-center mt-3">
-                            <a v-on:click="clearConditionSearch" class="btn btnSeemore"><b>もっと見る</b></a>
-                        </p> -->
                     </div>
                 </div>
             </div>
@@ -129,9 +103,44 @@
                         </div>
                     </div>
                 </template>
+                <!-- <div class="top_item">
+                        <div class="container">
+                            <div class="top_item-ct">
+                                <div class="top_logo">
+                                    <img class="img-fluid" src="./images/common/logo-mukustyle.svg" alt="" title="">
+                                </div>
+                                <p class="logan">LogRenove Premium<br>
+                                Produced by LogRenove</p>
+                                <div class="top_group">
+                                    <div class="top_img">
+                                        <img class="img-fluid" src="./images/top-page/top-img.jpg" alt="" title="">
+                                    </div>
+
+                                    <p class="style">Style 02</p>
+                                    <h2>無垢に暮らす。という選択</h2>
+                                    <p>天然木が肌に馴染む、無垢な優しさに包まれる。</p>
+                                    <p>家族が過ごす、仲間が集う。</p>
+                                    <p>大人も子供も無邪気に笑う。</p>
+                                    <ul>
+                                        <li>
+                                            <a href="#">無垢材</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">定額リノベーション</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">LogRenove</a>
+                                        </li>
+                                    </ul>
+                                    <a href="#" class="btn btn-detail">DETAIL</a>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
             </div>
         </section>
-    </main>
+    </div>
 </template>
 <script>
 import Lazyload from 'vue-lazyload';
@@ -147,8 +156,6 @@ Vue.use(Lazyload, {
 export default {
     data() {
         return {
-            searchType: '',
-            routerList: [],
             posts: ''
         };
     },
@@ -158,65 +165,10 @@ export default {
     beforeDestroy() {
         this.$store.unregisterModule('page-post');
     },
-    components: {
-        EstatesTopComponent: () => import('../components/EstatesTopComponent'),
-        EstateRecommendComponent: () => import('../components/EstateRecommendComponent'),
-        EstatesNearComponent: () => import('../components/EstatesNearComponent')
-    },
     mounted() {
-        this.getTabList();
-        this.pushRouterToServer();
         this.getPost();
     },
     methods: {
-        clearConditionSearch() {
-            this.$removeLocalStorage('district');
-            this.$removeLocalStorage('station');
-            this.$removeLocalStorage('conditionSearch');
-            this.$removeLocalStorage('idParent');
-            this.$router.push('list').catch(() => {});
-        },
-
-        handleHeaderContentClick(type) {
-            if (type == 'district') {
-                this.$setLocalStorage('tabActive', 'area');
-            } else {
-                this.$setLocalStorage('tabActive', 'station');
-            }
-
-            this.$router
-                .push('search')
-                .then(() => {
-                    this.$router.go('0');
-                })
-                .catch(() => {
-                    this.$router.go('0');
-                });
-        },
-
-        handleCloseSearch() {
-            this.searchType = '';
-        },
-
-        getTabList() {
-            this.$store.dispatch('getTabList').then(response => {
-                this.tabList = response;
-            });
-        },
-
-        pushRouterToServer() {
-            let routerList = [];
-            this.$router.options.routes.forEach(route => {
-                routerList.push({
-                    name: route.name
-                });
-            });
-            this.$store
-                .dispatch('updatePagePost', routerList)
-                .then()
-                .catch();
-        },
-
         getPost() {
             let data = {
                 page_post: this.$route.name

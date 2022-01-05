@@ -1,33 +1,27 @@
 <template>
     <main>
-        <div class="box_template">
+        <div class="bg-white">
             <section class="p-0">
-                <div class="box_top mb-0">
+                <div class="box_top mb-0 bg-transparent">
                     <div class="container">
-                        <h2 class="title mb-2">物件問い合わせ完了</h2>
+                        <h2 class="title">物件問い合わせ完了</h2>
                     </div>
                 </div>
             </section>
 
-            <section class="section_thanks">
+            <section class="section_top_template pt-3">
                 <div class="container">
                     <div class="row">
-                        <div
-                            class="col-12 col-lg-7 offset-lg-2 m-auto text-center"
-                        >
-                            <h3>お問い合わせいただき、ありがとうございます</h3>
+                        <div class="col-12 col-lg-8 m-auto">
                             <p>
-                                ご入力いただいたメールアドレスに、お問い合わせ完了メールをお送りいたしました。<br />
+                                お問い合わせいただき、ありがとうございますご入力いただいたメールアドレスに、お問い合わせ完了メールをお送りいたしました。<br />
                                 後ほど、（株）LogSuiteの担当者よりご連絡申し上げます。
                             </p>
-                            <a class="btn btngoto" href="#"
-                                >トップに戻る
-                                <img
-                                    src="assets/images/svg/i_right_white.svg"
-                                    alt=""
-                                    class="img-fluid"
-                                    width="10"
-                            /></a>
+                            <p class="text-center mb-0 mt-5">
+                                <a class="btn d-inline-block mr-0" href="javascript:void(0)" v-on:click="backHome"
+                                    >トップに戻る
+                                </a>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -39,8 +33,8 @@
 export default {
     methods: {
         backHome() {
-            this.$router.push("/").catch(() => {});
-        },
-    },
+            this.$router.push('/').catch(() => {});
+        }
+    }
 };
 </script>
