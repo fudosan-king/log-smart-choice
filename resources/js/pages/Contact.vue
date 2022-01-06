@@ -466,15 +466,8 @@
                 let days = [];
                 var today = new Date();
                 for (let index = 0; index <= 6; index++) {
-                    // if (this.formatDay(today) !== 'undefined') {
-                        days.push(this.formatDay(today));
-                    // }
+                    days.push(this.formatDay(today));
                 }
-                days = [
-                    '1月06日 (木)',
-                    '1月07日 (金)',
-                    '1月08日 (土)'
-                ];
                 this.listHopeDay = days;
             },
 
