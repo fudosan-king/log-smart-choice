@@ -8,7 +8,7 @@
                         <div class="swiper-wrapper">
                             <div class="swiper-slide">
                                 <div class="property-archive_item">
-                                    <a href="propertys_detail.php">
+                                    <a href="#">
                                         <div class="property_img">
                                             <img
                                                 src="/assets/images/property-detail/img.jpg"
@@ -51,7 +51,7 @@
                                     <p>
                                         ウォルナット、オークなど人気の天然木をふんだんに使ったパッケージリノベーションです。ドアなどの建具も天然木を使用した「木の香りあふれる部屋」に仕上がります。
                                     </p>
-                                    <a href="" class="btn btn-check">詳細をcheck!</a>
+                                    <a href="" class="btn btn-check">「Log Renove」プランをcheck!</a>
                                 </div>
                             </div>
                             <div class="swiper-slide">
@@ -59,7 +59,7 @@
                                     <a href="propertys_detail.php">
                                         <div class="property_img">
                                             <img
-                                                src="/assets/images/property-detail/img.jpg"
+                                                src="/assets/images/property-detail/img1.jpg"
                                                 alt=""
                                                 class="img-fluid"
                                             />
@@ -81,9 +81,13 @@
                                         <div class="w_property-archive_head">
                                             <div class="property-archive_head">
                                                 <div class="property_info">
-                                                    <p class="property_name">麻布狸穴ナショナルコート</p>
+                                                    <p class="property_name">
+                                                        厳選した素材が光る日本橋のこだわりの部屋
+                                                    </p>
                                                     <p class="property_address">
-                                                        <span>東京都中央区日本橋／56.56㎡／ワンルーム</span>
+                                                        <span
+                                                            >東京都中央区日本橋／JR「東京」駅徒歩3分／70㎡／ワンルーム</span
+                                                        >
                                                     </p>
                                                 </div>
                                                 <!-- <div class="property_wishlist">
@@ -95,11 +99,11 @@
                                 </div>
                                 <div class="property-detail_info">
                                     <img class="img-fluid" src="/assets/images/common/logo-assy.png" />
-                                    <h3>天然木材をふんだんに使った香り高いリノベーション</h3>
+                                    <h3>厳選素材とパーツを使った「組み合わせ済みの空間」</h3>
                                     <p>
-                                        ウォルナット、オークなど人気の天然木をふんだんに使ったパッケージリノベーションです。ドアなどの建具も天然木を使用した「木の香りあふれる部屋」に仕上がります。
+                                        ASSY（アシー）とは、組み立てを意味するAssembly（アッセンブリー）が語源です。予算や部屋のトーンを気にしながら、正しい選択はどれだろう？といった悩みから解放する、もう少し違った自由を提供する定額制のパッケージリノベーションです。
                                     </p>
-                                    <a href="" class="btn btn-check">詳細をcheck!</a>
+                                    <a href="" class="btn btn-check">「ASSY」プランをcheck!</a>
                                 </div>
                             </div>
                             <div class="swiper-slide">
@@ -107,7 +111,7 @@
                                     <a href="propertys_detail.php">
                                         <div class="property_img">
                                             <img
-                                                src="/assets/images/property-detail/img.jpg"
+                                                src="/assets/images/property-detail/img2.jpg"
                                                 alt=""
                                                 class="img-fluid"
                                             />
@@ -129,9 +133,13 @@
                                         <div class="w_property-archive_head">
                                             <div class="property-archive_head">
                                                 <div class="property_info">
-                                                    <p class="property_name">麻布狸穴ナショナルコート</p>
+                                                    <p class="property_name">
+                                                        伝統の日本橋ではじめる3つのリノベストーリー
+                                                    </p>
                                                     <p class="property_address">
-                                                        <span>東京都中央区日本橋／56.56㎡／ワンルーム</span>
+                                                        <span
+                                                            >東京都中央区日本橋／JR「東京」駅徒歩3分／70㎡／ワンルーム</span
+                                                        >
                                                     </p>
                                                 </div>
                                                 <!-- <div class="property_wishlist">
@@ -143,11 +151,11 @@
                                 </div>
                                 <div class="property-detail_info">
                                     <img class="img-fluid" src="/assets/images/common/logo-reasy.png" />
-                                    <h3>天然木材をふんだんに使った香り高いリノベーション</h3>
+                                    <h3>３つのスタイルから選ぶ暮らしを変えるリフォーム</h3>
                                     <p>
-                                        ウォルナット、オークなど人気の天然木をふんだんに使ったパッケージリノベーションです。ドアなどの建具も天然木を使用した「木の香りあふれる部屋」に仕上がります。
+                                        間取りはそのままに３つのインテリアスタイルから選んで暮らしを変える定額制リフォームプランです。デザイン性の高い住まいづくりがスムーズに出来ます。「REFORM」リフォームが「EASY」簡単に出来るという意味を込めて「REASY」と名付けました。
                                     </p>
-                                    <a href="" class="btn btn-check">詳細をcheck!</a>
+                                    <a href="" class="btn btn-check">「REASY」プランをcheck!</a>
                                 </div>
                             </div>
                         </div>

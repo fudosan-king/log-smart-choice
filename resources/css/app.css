@@ -396,3 +396,7 @@ footer {
 .top-more-bg {
     background: white;
 }
+
+.listing_top .listing_sort ul li button.black {
+    font-weight: 900;
+}

@@ -361,7 +361,6 @@ class Estates extends Model
         try {
             foreach ($transportEstate as $transport) {
                 $transportCurrent = Transport::where('name', $transport['transport_company'])->first();
-                $station = Station::where('transport_id', $transportCurrent->id)->where('name', $transport['station_name'])->first();
                 if (!$transportCurrent) {
                     if ($transport['transport_company']) {
                         $transportNew = new Transport();
@@ -377,6 +376,7 @@ class Estates extends Model
                         }
                     }
                 } else {
+                    $station = Station::where('transport_id', $transportCurrent->id)->where('name', $transport['station_name'])->first();
                     if ($station) {
                         $listIds = [];
                         if ($station->estate_ids) {

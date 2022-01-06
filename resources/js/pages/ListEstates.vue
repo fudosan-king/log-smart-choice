@@ -1,8 +1,6 @@
 <template>
     <main>
-        <div class="box_template">
-            <EstatesComponent></EstatesComponent>
-        </div>
+        <EstatesComponent></EstatesComponent>
     </main>
 </template>
 
