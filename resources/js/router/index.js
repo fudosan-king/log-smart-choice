@@ -277,11 +277,10 @@ router.beforeEach((to, from, next) => {
         if (localStorage.getItem('accessToken')) {
             next();
         } else {
-            return router.push('/login').catch(() => { });
-            // return next({
-            //     path: '/login',
-            //     query: { redirect: to.fullPath }
-            // })
+            return next({
+                path: '/login',
+                query: { redirect: to.fullPath }
+            })
         }
     } else {
         next();

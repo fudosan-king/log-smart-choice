@@ -83,7 +83,7 @@
                                             </a>
                                         </template>
                                         <template v-else>
-                                            <a href="/login" class="btn_wishlist"></a>
+                                            <a :href="'/login?redirect='+urlRedirect" class="btn_wishlist"></a>
                                         </template>
                                     </div>
                                 </div>
@@ -112,6 +112,7 @@ Vue.use(Lazyload, {
 });
 export default {
     data() {
+        let urlRedirect = this.$route.fullPath;
         return {
             wishtlist: [],
             page: 2,
@@ -120,7 +121,8 @@ export default {
             isHidden: false,
             accessToken: false,
             hasMore: true,
-            total: 0
+            total: 0,
+            urlRedirect: urlRedirect
         };
     },
     components: {

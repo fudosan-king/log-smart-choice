@@ -16,25 +16,28 @@
                             width="100%"
                         />
                     </template>
-                    <p class="label_custom" v-if="estate.renovation_type == 'カスタム可能物件'">カスタム<br />可能物件</p>
+                    <p class="label_custom" v-if="estate.renovation_type == 'カスタム可能物件'">
+                        カスタム<br />可能物件
+                    </p>
                     <p class="label_custom renovated" v-else>リノベ済<br />物件</p>
                     <div class="w_property_head">
                         <p class="total_price">
                             {{ estate.price }}<span>万円</span
-                            ><span class="sub" v-if="estate.renovation_type != 'リノベ済物件'"
-                                >（改装前価格）</span
-                            >
+                            ><span class="sub" v-if="estate.renovation_type != 'リノベ済物件'">（改装前価格）</span>
                         </p>
                         <div class="property_head">
                             <div class="row">
                                 <div class="col-10 col-lg-10 align-self-center">
                                     <template v-if="estate.estate_information">
-                                        <p class="property_name"><b><{{ estate.estate_information.article_title }}</b></p>
+                                        <p class="property_name">
+                                            <b><{{ estate.estate_information.article_title }}</b>
+                                        </p>
                                     </template>
                                     <p class="property_address">
                                         <span>
-                                        {{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}
-                                        {{ estate.tatemono_menseki }}m² / {{ estate.room_count }}{{ estate.room_kind }}
+                                            {{ estate.address.city }}{{ estate.address.ooaza
+                                            }}{{ estate.address.tyoume }} {{ estate.tatemono_menseki }}m² /
+                                            {{ estate.room_count }}{{ estate.room_kind }}
                                         </span>
                                     </p>
                                     <!-- <p class="property_square">{{ estate.tatemono_menseki }}m² / {{ estate.room_count }}{{ estate.room_kind }}</p> -->
@@ -49,7 +52,7 @@
                                         </a>
                                     </template>
                                     <template v-else>
-                                        <a href="/login" class="btn_wishlist"></a>
+                                        <a :href="'/login?redirect=' + urlRedirect" class="btn_wishlist"></a>
                                     </template>
                                 </div>
                             </div>
@@ -62,83 +65,85 @@
 </template>
 
 <script>
-    import Lazyload from 'vue-lazyload';
-    import Vue from 'vue';
+import Lazyload from 'vue-lazyload';
+import Vue from 'vue';
 
-    Vue.use(Lazyload, {
-        preLoad: 1.3,
-        error: 'images/no-image.png',
-        loading: 'images/loading1.gif',
-        attempt: 1
-    });
-    export default {
-        props: {
-            estateId: String
+Vue.use(Lazyload, {
+    preLoad: 1.3,
+    error: 'images/no-image.png',
+    loading: 'images/loading1.gif',
+    attempt: 1
+});
+export default {
+    props: {
+        estateId: String
+    },
+    data() {
+        let urlRedirect = this.$route.fullPath;
+        return {
+            estates: [],
+            accessToken: false,
+            existedEstate: false,
+            urlRedirect: urlRedirect
+        };
+    },
+    components: {
+        WishlistComponent: () => import('../components/WishlistComponent')
+    },
+    mounted() {
+        this.getEstatesRecommend();
+    },
+    methods: {
+        getEstatesRecommend() {
+            let accessToken = this.$getLocalStorage('accessToken');
+            let data = {};
+            data.estate_id = this.estateId;
+            if (accessToken) {
+                data.email = this.$getLocalStorage('userSocialId');
+                data.isSocial = true;
+                this.accessToken = true;
+                if (this.$getLocalStorage('userSocialId') == 'null') {
+                    data.email = this.$getLocalStorage('userEmail');
+                    data.isSocial = false;
+                }
+            }
+            this.$store
+                .dispatch('getEstatesRecommend', data)
+                .then(res => {
+                    this.estates = res;
+                    this.isHidden = true;
+                })
+                .catch(err => {
+                    this.$setCookie('accessToken3d', '', 1);
+                    this.$removeAuthLocalStorage();
+                    this.$removeLocalStorage('announcement_count');
+                    delete axios.defaults.headers.common['Authorization'];
+                });
         },
-        data() {
-            return {
-                estates: [],
-                accessToken: false,
-                existedEstate: false
-            };
-        },
-        components: {
-            WishlistComponent: () => import('../components/WishlistComponent')
-        },
-        mounted() {
-            this.getEstatesRecommend();
-        },
-        methods: {
-            getEstatesRecommend() {
-                let accessToken = this.$getLocalStorage('accessToken');
-                let data = {};
-                data.estate_id = this.estateId;
-                if (accessToken) {
-                    data.email = this.$getLocalStorage('userSocialId');
-                    data.isSocial = true;
-                    this.accessToken = true;
-                    if (this.$getLocalStorage('userSocialId') == 'null') {
-                        data.email = this.$getLocalStorage('userEmail');
-                        data.isSocial = false;
-                    }
+
+        // Add states to wishlist
+        addToWishList(estateId, isWish) {
+            let accessToken = this.$getLocalStorage('accessToken');
+            if (accessToken != '') {
+                let data = {
+                    estateId: estateId,
+                    is_wish: 1,
+                    accessToken: accessToken
+                };
+                if (isWish === 1) {
+                    data.is_wish = 0;
                 }
                 this.$store
-                    .dispatch('getEstatesRecommend', data)
-                    .then(res => {
-                        this.estates = res;
-                        this.isHidden = true;
-                    })
+                    .dispatch('addWishList', data, accessToken)
+                    .then()
                     .catch(err => {
                         this.$setCookie('accessToken3d', '', 1);
                         this.$removeAuthLocalStorage();
                         this.$removeLocalStorage('announcement_count');
-                        delete axios.defaults.headers.common['Authorization'];
+                        this.$router.push({ name: 'login' }).catch(() => {});
                     });
-            },
-
-            // Add states to wishlist
-            addToWishList(estateId, isWish) {
-                let accessToken = this.$getLocalStorage('accessToken');
-                if (accessToken != '') {
-                    let data = {
-                        estateId: estateId,
-                        is_wish: 1,
-                        accessToken: accessToken
-                    };
-                    if (isWish === 1) {
-                        data.is_wish = 0;
-                    }
-                    this.$store
-                        .dispatch('addWishList', data, accessToken)
-                        .then()
-                        .catch(err => {
-                            this.$setCookie('accessToken3d', '', 1);
-                            this.$removeAuthLocalStorage();
-                            this.$removeLocalStorage('announcement_count');
-                            this.$router.push({ name: 'login' }).catch(() => {});
-                        });
-                }
             }
         }
-    };
+    }
+};
 </script>

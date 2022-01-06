@@ -119,7 +119,7 @@
                                                 </a>
                                             </template>
                                             <template v-else>
-                                                <a href="/login" class="btn_wishlist"></a>
+                                                <a :href="'/login?redirect='+urlRedirect" class="btn_wishlist"></a>
                                             </template>
                                         </div>
                                     </div>
@@ -150,7 +150,7 @@ export default {
             ? JSON.parse(this.$getLocalStorage('conditionSearch'))
             : [];
         let tabListActived = conditionSearch.tabSesarch ? conditionSearch.tabSesarch : [];
-
+        let urlRedirect = this.$route.fullPath;
         return {
             estates: [],
             page: 2,
@@ -160,7 +160,8 @@ export default {
             accessToken: false,
             conditionSearch: {},
             total: 0,
-            tabListActived: tabListActived
+            tabListActived: tabListActived,
+            urlRedirect: urlRedirect
         };
     },
     components: {

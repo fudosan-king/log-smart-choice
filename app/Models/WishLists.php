@@ -20,4 +20,5 @@ class WishLists extends Model
 
     const ADDED_WISH_LIST = 1;
     const NOT_YET_WISH_LIST = 0;
+    const ITEM_PER_PAGE = 8;
 }
