@@ -165,7 +165,6 @@ export default {
             tabListActived: tabListActived,
             urlRedirect: urlRedirect,
             paginationInfo: [],
-            pages: 0,
             pageChoice: pageChoice
         };
     },
@@ -255,7 +254,9 @@ export default {
                 this.$store
                     .dispatch('getEstateList', data)
                     .then(res => {
-                        this.estates = this.estates.concat(res[0]['data']);
+                        // this.estates = this.estates.concat(res[0]['data']);
+                        this.estates = res[0]['data'];
+                        this.paginationInfo = res[0]['paginationInfo'];
                         this.conditionSearch = res[0]['conditionSearch'];
                         this.total = res[0]['total'];
                         if (this.estates.length < res[0].total) {
@@ -283,16 +284,6 @@ export default {
                             this.hasMore = false;
                         }
                         this.paginationInfo = res[0]['paginationInfo'];
-                        this.pages = Math.ceil(this.total / this.paginationInfo.itemPerPage);
-                        this.start = this.paginationInfo.currentPage - 2;
-                        this.end = this.paginationInfo.currentPage + 2;
-                        if (this.start < 1) {
-                            this.start = 1;
-                            this.end += 1;
-                        }
-                        if (this.end >= this.paginationInfo.lastPage) {
-                            this.end = this.paginationInfo.lastPage;
-                        }
                     })
                     .catch(err => {
                         this.$setCookie('accessToken3d', '', 1);
