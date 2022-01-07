@@ -91,9 +91,10 @@
                         </div>
                     </li>
                 </ul>
-                <div class="loading" v-if="hasMore" style="text-align: center;">
+                <PaginationComponent :pagination-info="paginationInfo" :page-choice="pageChoice" @getListEstates="getWishlist"></PaginationComponent>
+                <!-- <div class="loading" v-if="hasMore" style="text-align: center;">
                     <img v-lazy="`/images/loading1.gif`" height="auto" width="100%" />
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -113,6 +114,7 @@ Vue.use(Lazyload, {
 export default {
     data() {
         let urlRedirect = this.$route.fullPath;
+        let pageChoice = this.$getLocalStorage('pageChoice') ? this.$getLocalStorage('pageChoice') : 1;
         return {
             wishtlist: [],
             page: 2,
@@ -122,43 +124,51 @@ export default {
             accessToken: false,
             hasMore: true,
             total: 0,
-            urlRedirect: urlRedirect
+            urlRedirect: urlRedirect,
+            paginationInfo: [],
+            pages: 0,
+            pageChoice: pageChoice
         };
     },
     components: {
-        WishlistComponent: () => import('../components/WishlistComponent')
+        WishlistComponent: () => import('../components/WishlistComponent'),
+        PaginationComponent: () => import('../components/PaginationComponent')
     },
     beforeMount() {
         this.getWishlist();
     },
     created() {
         this.$store.registerModule('wishtlist', wishlistModule);
-        window.addEventListener('scroll', this.handleScroll);
+        // window.addEventListener('scroll', this.handleScroll);
     },
     beforeDestroy() {
         this.$store.unregisterModule('wishlist');
     },
     destroyed() {
-        window.removeEventListener('scroll', this.handleScroll);
+        // window.removeEventListener('scroll', this.handleScroll);
     },
     methods: {
         // Gui yeu cau den server sau moi lan cuon xuong
         getWishlist(pageLoad) {
             let accessToken = this.$getLocalStorage('accessToken');
             let data = {
-                limit: 8,
+                limit: 4,
                 page: pageLoad
             };
             if (accessToken) {
                 data.email = this.$getLocalStorage('userSocialId');
                 data.isSocial = true;
+                data.accessToken = accessToken;
                 this.accessToken = true;
                 if (this.$getLocalStorage('userSocialId') == 'null') {
                     data.email = this.$getLocalStorage('userEmail');
                     data.isSocial = false;
                 }
                 this.$store.dispatch('getWishlist', data).then(res => {
-                    this.wishtlist = this.wishtlist.concat(res[0]['data']['data']);
+                    // this.wishtlist = this.wishtlist.concat(res[0]['data']['data']);
+                    this.wishtlist = res[0]['data']['data'];
+                    this.paginationInfo = res[0]['paginationInfo'];
+                    console.log(this.paginationInfo);
                     this.total = res[0]['data']['total'];
                     if (this.wishtlist.length < res[0]['data'].total) {
                         this.hasMore = true;

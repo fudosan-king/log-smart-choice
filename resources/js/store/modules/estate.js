@@ -36,7 +36,16 @@ const actions = {
                         'data':resp.data['data'],
                         'lastedEstate': resp.data['lasted_estate'],
                         'total': resp.data.total,
-                        'conditionSearch': resp.data.condition_search
+                        'conditionSearch': resp.data.condition_search,
+                        'paginationInfo' : {
+                            'currentPage': resp.data.current_page,
+                            'from': resp.data.from,
+                            'lastPage': resp.data.last_page,
+                            'nextPageUrl': resp.data.next_page_url,
+                            'itemPerPage': resp.data.per_page,
+                            'prevPageUrl': resp.data.prev_page_url,
+                            'to': resp.data.to,
+                        }
                     }
                     relove(data);
                 }

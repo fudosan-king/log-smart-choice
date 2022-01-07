@@ -119,7 +119,7 @@
                                                 </a>
                                             </template>
                                             <template v-else>
-                                                <a :href="'/login?redirect='+urlRedirect" class="btn_wishlist"></a>
+                                                <a :href="'/login?redirect=' + urlRedirect" class="btn_wishlist"></a>
                                             </template>
                                         </div>
                                     </div>
@@ -127,6 +127,7 @@
                             </div>
                         </li>
                     </ul>
+                    <PaginationComponent :pagination-info="paginationInfo" :page-choice="pageChoice" @getListEstates="getListEstates"></PaginationComponent>
                 </div>
             </div>
         </div>
@@ -151,6 +152,7 @@ export default {
             : [];
         let tabListActived = conditionSearch.tabSesarch ? conditionSearch.tabSesarch : [];
         let urlRedirect = this.$route.fullPath;
+        let pageChoice = this.$getLocalStorage('pageChoice') ? this.$getLocalStorage('pageChoice') : 1;
         return {
             estates: [],
             page: 2,
@@ -161,14 +163,18 @@ export default {
             conditionSearch: {},
             total: 0,
             tabListActived: tabListActived,
-            urlRedirect: urlRedirect
+            urlRedirect: urlRedirect,
+            paginationInfo: [],
+            pages: 0,
+            pageChoice: pageChoice
         };
     },
     components: {
-        WishlistComponent: () => import('../components/WishlistComponent')
+        WishlistComponent: () => import('../components/WishlistComponent'),
+        PaginationComponent: () => import('../components/PaginationComponent')
     },
     mounted() {
-        this.getListEstates();
+        this.getListEstates(this.pageChoice);
     },
     created() {
         this.$store.registerModule('estate', estateModule);
@@ -188,6 +194,7 @@ export default {
     methods: {
         // Gui yeu cau den server sau moi lan cuon xuong
         getListEstates(pageLoad) {
+            this.$setLocalStorage('pageChoice', pageLoad);
             let accessToken = this.$getLocalStorage('accessToken');
             let flagSearch = this.$getLocalStorage('tabActive') ? this.$getLocalStorage('tabActive') : 'area';
             let conditionSearch = this.$getLocalStorage('conditionSearch')
@@ -251,7 +258,6 @@ export default {
                         this.estates = this.estates.concat(res[0]['data']);
                         this.conditionSearch = res[0]['conditionSearch'];
                         this.total = res[0]['total'];
-                        // this.lastEstate = res[0]['lastedEstate'];
                         if (this.estates.length < res[0].total) {
                             this.hasMore = true;
                         } else {
@@ -267,14 +273,25 @@ export default {
                 this.$store
                     .dispatch('getEstateList', data)
                     .then(res => {
-                        this.estates = this.estates.concat(res[0]['data']);
+                        // this.estates = this.estates.concat(res[0]['data']);
+                        this.estates = res[0]['data'];
                         this.conditionSearch = res[0]['conditionSearch'];
                         this.total = res[0]['total'];
-                        // this.lastEstate = res[0]['lastedEstate'];
                         if (this.estates.length < res[0].total) {
                             this.hasMore = true;
                         } else {
                             this.hasMore = false;
+                        }
+                        this.paginationInfo = res[0]['paginationInfo'];
+                        this.pages = Math.ceil(this.total / this.paginationInfo.itemPerPage);
+                        this.start = this.paginationInfo.currentPage - 2;
+                        this.end = this.paginationInfo.currentPage + 2;
+                        if (this.start < 1) {
+                            this.start = 1;
+                            this.end += 1;
+                        }
+                        if (this.end >= this.paginationInfo.lastPage) {
+                            this.end = this.paginationInfo.lastPage;
                         }
                     })
                     .catch(err => {
@@ -327,11 +344,11 @@ export default {
             // console.log(this.loading)
             // if (this.loading == false) return
 
-            if (document.scrollingElement.scrollTop > this.offsetTop && this.hasMore) {
-                this.getListEstates(this.page);
-                this.setOffsetTop();
-                this.page++;
-            }
+            // if (document.scrollingElement.scrollTop > this.offsetTop && this.hasMore) {
+            //     this.getListEstates(this.page);
+            //     this.setOffsetTop();
+            //     this.page++;
+            // }
         },
 
         // Add states to wishlist

@@ -57,7 +57,7 @@ class WishListController extends Controller
      */
     public function getWishLists(Request $request)
     {
-        $limit = WishLists::ITEM_PER_PAGE;
+        $limit = $request->get('limit', WishLists::ITEM_PER_PAGE);
         $page = $request->get('page');
         $customerId = auth()->guard('api')->user()->id;
         $customerCheck = Customer::select('status')->where('id', $customerId)->first();
