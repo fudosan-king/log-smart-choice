@@ -25,17 +25,23 @@
                                         <div class="form-group">
                                             <div class="row">
                                                 <div class="col-12 col-lg-3 align-self-center">
-                                                    <label for="">物件名</label>
+                                                    <label for="">プラン名<span class="red">（※）</span></label>
                                                 </div>
                                                 <div class="col-12 col-lg-9 align-self-center">
-                                                    <p class="mb-0">
-                                                        <span>{{ estate }}</span>
-                                                    </p>
+                                                    <input
+                                                        type="text"
+                                                        name="plan_name"
+                                                        class="form-control"
+                                                        placeholder="プラン名"
+                                                        :class="{
+                                                            'is-invalid': submitted && $v.plan_name.$error
+                                                        }"
+                                                        v-bind:value="plan_name"
+                                                        v-on:input="plan_name = $event.target.value"
+                                                    />
                                                 </div>
                                             </div>
                                         </div>
-
-                                        
 
                                         <div class="form-group">
                                             <div class="row">
@@ -143,87 +149,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-12 col-lg-3 align-self-center">
-                                                    <label for="">第1希望日時</label>
-                                                </div>
-                                                <div class="col-12 col-lg-9 align-self-center">
-                                                    <div class="row">
-                                                        <div class="col-12 col-lg-6">
-                                                            <select name="hope_day_first" class="custom-select">
-                                                                <template v-for="hopeDay in listHopeDay">
-                                                                    <option v-if="hopeDay"
-                                                                        :value="hopeDay"
-                                                                        :selected="
-                                                                            contactData.hopeDayFirst == hopeDay
-                                                                                ? 'selected'
-                                                                                : ''
-                                                                        "
-                                                                        >{{ hopeDay }}</option
-                                                                    >
-                                                                </template>
-                                                            </select>
-                                                        </div>
-                                                        <!-- <div class="col-12 col-lg-6">
-                                                            <select name="start_time_first" class="custom-select">
-                                                                <option
-                                                                    v-for="startTime in listStartTime"
-                                                                    :value="startTime"
-                                                                    :selected="
-                                                                        contactData.startTimeFirst == startTime
-                                                                            ? 'selected'
-                                                                            : ''
-                                                                    "
-                                                                    >{{ startTime }}</option
-                                                                >
-                                                            </select>
-                                                        </div> -->
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <div class="row">
-                                                <div class="col-12 col-lg-3 align-self-center">
-                                                    <label for="">第2希望日時</label>
-                                                </div>
-                                                <div class="col-12 col-lg-9 align-self-center">
-                                                    <div class="row">
-                                                        <div class="col-12 col-lg-6">
-                                                            <select name="hope_day_second" class="custom-select">
-                                                                <template v-for="hopeDay in listHopeDay">
-                                                                    <option v-if="hopeDay"
-                                                                        :value="hopeDay"
-                                                                        :selected="
-                                                                            contactData.hopeDaySecond == hopeDay
-                                                                                ? 'selected'
-                                                                                : ''
-                                                                        "
-                                                                        >{{ hopeDay }}</option
-                                                                    >
-                                                                </template>
-                                                            </select>
-                                                        </div>
-                                                        <!-- <div class="col-12 col-lg-6">
-                                                            <select name="start_time_second" class="custom-select">
-                                                                <option
-                                                                    v-for="startTime in listStartTime"
-                                                                    :value="startTime"
-                                                                    :selected="
-                                                                        contactData.startTimeSecond == startTime
-                                                                            ? 'selected'
-                                                                            : ''
-                                                                    "
-                                                                    >{{ startTime }}</option
-                                                                >
-                                                            </select>
-                                                        </div> -->
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        
                                         <div class="form-group">
                                             <div class="row">
                                                 <div class="col-12 col-lg-3">
@@ -268,7 +194,7 @@
                                                 ご確認の上、ご同意いただける方は下の「同意する」をチェックしてください。
                                             </p>
                                             <div class="form-group text-center mb-0">
-                                                <div class="custom-control custom-checkbox">
+                                                <div class="custom-control custom-checkbox padding-bottom-button">
                                                     <input
                                                         type="checkbox"
                                                         class="custom-control-input"
@@ -296,10 +222,10 @@
                                                     </div>
                                                 </div>
 
-                                                <button type="button" class="btn btnsave" @click="submitData">
+                                                <button type="button" class="btn btn-save-plan-contact" @click="submitData">
                                                     上記に同意して確認画面へ
                                                     <img
-                                                        src="assets/images/svg/i_right_white.svg"
+                                                        src="/assets/images/svg/i_right_white.svg"
                                                         alt=""
                                                         class="img-fluid"
                                                         width="10"
@@ -324,7 +250,6 @@
     export default {
         data() {
             return {
-                estate: {},
                 customer: {},
                 submitted: false,
                 disabled: false,
@@ -334,16 +259,11 @@
                 last_name: '',
                 land_line: '',
                 errorMessage: {},
-                contactData: {},
+                planContactData: {},
                 inquiryContent: '',
-                hopeDayFirst: '',
-                hopeDaySecond: '',
-                startTimeFirst: '',
-                startTimeSecond: '',
-                listHopeDay: [],
-                listStartTime: [],
                 checkedPrivacy: '',
-                orderrenoveCustomerId: ''
+                orderrenoveCustomerId: '',
+                plan_name: '',
             };
         },
         validations: {
@@ -361,15 +281,13 @@
                 required,
                 minLength: minLength(10),
                 maxLength: maxLength(11)
+            },
+            plan_name: {
+                required
             }
         },
         mounted() {
-            if (window.localStorage.getItem('estateName')) {
-                this.estate = window.localStorage.getItem('estateName');
-            }
             this.getCustomerInformation();
-            this.getListHopeDay();
-            this.getListStartTime();
         },
         methods: {
             getCustomerInformation() {
@@ -383,35 +301,28 @@
                         this.email = resp.email;
                         this.land_line = resp.land_line;
                         this.orderrenoveCustomerId = resp.orderrenove_customer_id;
-                        if (window.localStorage.getItem('contactData')) {
-                            this.contactData = JSON.parse(window.localStorage.getItem('contactData'));
-                            this.land_line = this.contactData.landLine;
-                            this.name = this.contactData.name;
-                            this.last_name = this.contactData.lastName;
-                            this.email = this.contactData.email;
-                            this.inquiryContent = this.contactData.inquiryContent;
-                            this.hopeDayFirst = this.contactData.hopeDayFirst;
-                            this.hopeDaySecond = this.contactData.hopeDaySecond;
-                            this.startTimeFirst = this.contactData.startTimeFirst;
-                            this.startTimeSecond = this.contactData.startTimeSecond;
-                            this.checkedPrivacy = this.contactData.checkedPrivacy;
+                        if (window.localStorage.getItem('planContactData')) {
+                            this.planContactData = JSON.parse(window.localStorage.getItem('planContactData'));
+                            this.land_line = this.planContactData.landLine;
+                            this.plan_name = this.planContactData.planName
+                            this.name = this.planContactData.name;
+                            this.last_name = this.planContactData.lastName;
+                            this.email = this.planContactData.email;
+                            this.inquiryContent = this.planContactData.inquiryContent;
+                            this.checkedPrivacy = this.planContactData.checkedPrivacy;
                         }
                     })
                     .catch(() => {
-                        this.estate = window.localStorage.getItem('estateName');
                         this.orderrenoveCustomerId = this.randomOrderRenoveCustomerId(10);
-                        if (window.localStorage.getItem('contactData')) {
-                            this.contactData = JSON.parse(window.localStorage.getItem('contactData'));
-                            this.land_line = this.contactData.landLine;
-                            this.name = this.contactData.name;
-                            this.last_name = this.contactData.lastName;
-                            this.email = this.contactData.email;
-                            this.inquiryContent = this.contactData.inquiryContent;
-                            this.hopeDayFirst = this.contactData.hopeDayFirst;
-                            this.hopeDaySecond = this.contactData.hopeDaySecond;
-                            this.startTimeFirst = this.contactData.startTimeFirst;
-                            this.startTimeSecond = this.contactData.startTimeSecond;
-                            this.checkedPrivacy = this.contactData.checkedPrivacy;
+                        if (window.localStorage.getItem('planContactData')) {
+                            this.planContactData = JSON.parse(window.localStorage.getItem('planContactData'));
+                            this.land_line = this.planContactData.landLine;
+                            this.plan_name = this.planContactData.planName;
+                            this.name = this.planContactData.name;
+                            this.last_name = this.planContactData.lastName;
+                            this.email = this.planContactData.email;
+                            this.inquiryContent = this.planContactData.inquiryContent;
+                            this.checkedPrivacy = this.planContactData.checkedPrivacy;
                         }
                     });
             },
@@ -420,10 +331,6 @@
                 this.submitted = true;
                 this.$v.$touch();
                 this.errorMessage = {};
-                let hopeDayFirst = $('select[name="hope_day_first"] option:selected').text();
-                let hopeDaySecond = $('select[name="hope_day_second"] option:selected').text();
-                let startTimeFirst = $('select[name="start_time_first"] option:selected').text();
-                let startTimeSecond = $('select[name="start_time_second"] option:selected').text();
                 let inquiryContent = $('textarea[name="inquiry_content"]').val();
                 let orderRenoveCustomerID = $('input[name="orderrenove_customer_id"]').val();
 
@@ -439,85 +346,17 @@
 
                 let data = {};
                 if (!this.$v.$invalid && this.submitted) {
+                    data.planName = this.plan_name;
                     data.email = this.email;
                     data.name = this.name;
                     data.lastName = this.last_name;
                     data.landLine = this.land_line;
                     data.inquiryContent = inquiryContent;
-                    data.estateUrl = window.location.origin + '/detail/' + window.localStorage.getItem('estate_id');
-                    data.hopeDayFirst = hopeDayFirst;
-                    data.hopeDaySecond = hopeDaySecond;
-                    data.startTimeFirst = startTimeFirst;
-                    data.startTimeSecond = startTimeSecond;
-                    data.estateName = this.estate;
                     data.checkedPrivacy = 'on';
                     data.orderRenoveCustomerID = orderRenoveCustomerID;
-                    window.localStorage.setItem('contactData', JSON.stringify(data));
-                    this.$router.push('contact/confirm').catch(() => {});
+                    window.localStorage.setItem('planContactData', JSON.stringify(data));
+                    this.$router.push('/plan/contact-confirm').catch(() => {});
                 }
-            },
-
-            getListStartTime() {
-                let listStartTime = ['10:00', '12:00', '14:00', '16:00'];
-                this.listStartTime = listStartTime;
-            },
-
-            getListHopeDay() {
-                let days = [];
-                var today = new Date();
-                for (let index = 0; index <= 6; index++) {
-                    days.push(this.formatDay(today));
-                }
-                this.listHopeDay = days;
-            },
-
-            formatDay(today) {
-                let currentDate = today.setDate(today.getDate() + 1);
-                let newDate = new Date(currentDate);
-                let dd = String(newDate.getDate()).padStart(1, '0');
-                let mm = String(newDate.getMonth() + 1).padStart(1, '0'); //January is 0!
-                let dayOfWeek = newDate.getDay(); // Sunday is 0, Monday is 1, and so on.
-                let dayKind = '';
-                if (dayOfWeek != 2 && dayOfWeek != 3) {
-                    switch (dayOfWeek) {
-                        case 0:
-                            dayKind = '日';
-                            break;
-                        case 1:
-                            dayKind = '月';
-                            break;
-                        case 2:
-                            dayKind = '火';
-                            break;
-                        case 3:
-                            dayKind = '水';
-                            break;
-                        case 4:
-                            dayKind = '木';
-                            break;
-                        case 5:
-                            dayKind = '金';
-                            break;
-                        case 6:
-                            dayKind = '土';
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                if (dayKind) {
-                    return mm + '月' + dd + '日 ' + '(' + dayKind + ')';
-                }
-            },
-
-            randomOrderRenoveCustomerId(length) {
-                var result = '';
-                var characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
-                var charactersLength = characters.length;
-                for (var i = 0; i < length; i++) {
-                    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-                }
-                return result;
             }
         }
     };

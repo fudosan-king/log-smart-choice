@@ -221,6 +221,38 @@ const routes = [
             title: '概念｜Order Renove'
         }
     },
+    {
+        path: '/plan/contact',
+        name: 'planContact',
+        component: () => import('../pages/PlanContact.vue'),
+        meta: {
+            title: 'プラン名｜Order Renove'
+        }
+    },
+    {
+        path: '/plan/contact-confirm',
+        name: 'planContactConfirm',
+        component: () => import('../pages/PlanContactConfirm.vue'),
+        meta: {
+            title: 'プラン名｜Order Renove'
+        }
+    },
+    {
+        path: '/plan/contact-thanks-customer',
+        name: 'planContactThanksCustomer',
+        component: () => import('../pages/PlanContactThanksCustomer.vue'),
+        meta: {
+            title: 'プラン名｜Order Renove'
+        }
+    },
+    {
+        path: '/plan/contact-thanks-guest',
+        name: 'planContactThankGuest',
+        component: () => import('../pages/PlanContactThanksGuest.vue'),
+        meta: {
+            title: 'プラン名｜Order Renove'
+        }
+    },
 ];
 
 const router = new VueRouter({
