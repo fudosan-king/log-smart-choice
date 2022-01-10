@@ -110,7 +110,10 @@
                                             <a href="#">{{ tag.name }}</a>
                                         </li>
                                     </ul>
-                                    <a href="#" class="btn btn-detail">DETAIL</a>
+                                    <div class="group_box">
+                                        <a href="#" class="btn btn-detail">DETAIL</a>
+                                        <a href="/plan/contact" class="btn btn-detail">資料請求・お問い合わせ</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

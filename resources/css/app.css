@@ -400,3 +400,27 @@ footer {
 .listing_top .listing_sort ul li button.black {
     font-weight: 900;
 }
+
+.group_box {
+    margin: auto;
+    max-width: 530px;
+    display: -webkit-box;
+}
+
+.padding-bottom-button {
+    padding-bottom: 5%;
+}
+
+.btn-save-plan-contact {
+    background: #424242;
+    color: #fff;
+    font-size: 0.875em;
+    font-weight: 600;
+    padding: 15px 30px;
+    min-width: 165px;
+}
+
+.btn-save-plan-contact:hover {
+    background: #424242;
+    color: #fff;
+}
