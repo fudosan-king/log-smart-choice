@@ -111,7 +111,7 @@
                                         </li>
                                     </ul>
                                     <div class="group_box">
-                                        <a href="#" class="btn btn-detail">DETAIL</a>
+                                        <a href="/plan/detail" class="btn btn-detail">DETAIL</a>
                                         <a href="/plan/contact" class="btn btn-detail">資料請求・お問い合わせ</a>
                                     </div>
                                 </div>
