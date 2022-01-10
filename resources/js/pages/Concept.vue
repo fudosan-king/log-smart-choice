@@ -84,7 +84,7 @@
                                             <a href="#">{{ tag.name }}</a>
                                         </li>
                                     </ul>
-                                    <a href="#" class="btn btn-detail">DETAIL</a>
+                                    <a href="/plan/detail" class="btn btn-detail">DETAIL</a>
                                 </div>
                             </div>
                         </div>

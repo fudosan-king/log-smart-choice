@@ -253,6 +253,14 @@ const routes = [
             title: 'プラン名｜Order Renove'
         }
     },
+    {
+        path: '/plan/detail',
+        name: 'planDetail',
+        component: () => import('../pages/PlanDetail.vue'),
+        meta: {
+            title: 'プラン詳細｜Order Renove'
+        }
+    },
 ];
 
 const router = new VueRouter({
