@@ -20,8 +20,6 @@
                                             お名前 : {{ planContactData.name + ' ' + planContactData.lastName }} <br />
                                             メールアドレス : {{ planContactData.email }} <br />
                                             電話番号 : {{ convertPhone(planContactData.landLine) }} <br />
-                                            第1希望日時 : {{ planContactData.hopeDayFirst }} <br />
-                                            第2希望日時 : {{ planContactData.hopeDaySecond }} <br />
                                             気になるご質問 : {{ planContactData.inquiryContent }}
                                         </h5>
                                         <p class="text-center mb-0 mt-5">
