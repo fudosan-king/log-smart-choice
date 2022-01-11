@@ -29,18 +29,16 @@
                                         <div class="g-bg">
                                             <div class="g-bg_item bg-yellow"></div>
                                             <p class="total_price">
-                                                {{ wishtlistItem.price }}<span class="unit">万円</span
-                                                ><span
-                                                    class="sub"
-                                                    v-if="wishtlistItem.renovation_type != 'リノベ済物件'"
-                                                    >（改装前価格）</span
-                                                >
+                                                {{ wishtlistItem.price }}<span class="unit">万円</span>
+                                                <span class="sub">リノベ済</span>
                                             </p>
                                         </div>
-                                        <div class="g-bg">
-                                            <div class="g-bg_item bg-gray"></div>
-                                            <p class="price_info">仲介手数料無料</p>
-                                        </div>
+                                        <template v-if="wishtlistItem.estate_information">
+                                            <div class="g-bg" v-if="wishtlistItem.estate_information.estate_fee == 1">
+                                                <div class="g-bg_item bg-gray"></div>
+                                                <p class="price_info">仲介手数料無料</p>
+                                            </div>
+                                        </template>
                                     </div>
                                     <div class="group_price" v-else>
                                         <div class="g-bg">
@@ -50,6 +48,12 @@
                                                 ><span class="sub">（改装前価格）</span>
                                             </p>
                                         </div>
+                                        <template v-if="wishtlistItem.estate_information">
+                                            <div class="g-bg" v-if="wishtlistItem.estate_information.estate_fee == 1">
+                                                <div class="g-bg_item bg-gray"></div>
+                                                <p class="price_info">仲介手数料無料</p>
+                                            </div>
+                                        </template>
                                     </div>
                                 </div>
                             </a>
@@ -83,7 +87,7 @@
                                             </a>
                                         </template>
                                         <template v-else>
-                                            <a :href="'/login?redirect='+urlRedirect" class="btn_wishlist"></a>
+                                            <a :href="'/login?redirect=' + urlRedirect" class="btn_wishlist"></a>
                                         </template>
                                     </div>
                                 </div>
@@ -91,7 +95,11 @@
                         </div>
                     </li>
                 </ul>
-                <PaginationComponent :pagination-info="paginationInfo" :page-choice="pageChoice" @getListEstates="getWishlist"></PaginationComponent>
+                <PaginationComponent
+                    :pagination-info="paginationInfo"
+                    :page-choice="pageChoice"
+                    @getListEstates="getWishlist"
+                ></PaginationComponent>
                 <!-- <div class="loading" v-if="hasMore" style="text-align: center;">
                     <img v-lazy="`/images/loading1.gif`" height="auto" width="100%" />
                 </div> -->

@@ -33,6 +33,8 @@ class Estates extends Model
     const RENOVATION_SQUARE_MAX = 200;
     const DECOR = 'リノベ済物件';
     const NOT_DECOR = 'カスタム可能物件';
+    const BROKERAGE_FEE_ENABLE = 1;
+    const BROKERAGE_FEE_DISABLE = 0;
     const RENOVATION_COST = [
         '80' => 1336,
         '81' => 1368,
@@ -249,6 +251,7 @@ class Estates extends Model
                         $estateInfo->estate_id = $estateDataId;
                         $estateInfo->status = self::STATUS_STOP;
                         $estateInfo->tab_search = [];
+                        $estateInfo->estate_fee = Estates::BROKERAGE_FEE_DISABLE;
                         $estateInfo->save();
                     } else {
                         $estateInfo->status = self::STATUS_STOP;
@@ -261,6 +264,7 @@ class Estates extends Model
                     $estateInfo = EstateInformation::where('estate_id', $estateDataId)->first();
                     $estate->status = $estateInfo->status;
                     $estate->tab_search = $estateInfo->tab_search;
+                    $estate->estate_fee = $estateInfo->estate_fee;
                     $estate->is_send_announcement = self::NOT_SEND_ANNOUNCEMENT;
                     $estate->date_imported = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d H:i:s')) * 1000);
                     $estate->sort_order_recommend = self::NUMBER_RECOMMEND_ORDER_BY;

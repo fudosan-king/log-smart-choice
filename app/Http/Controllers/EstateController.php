@@ -30,7 +30,7 @@ class EstateController extends Controller
         $estate = EstateInformation::select('renovation_media', 'estate_befor_photo',
             'estate_after_photo', 'estate_main_photo', 'estate_equipment', 'estate_flooring', 'category_tab_search',
             'tab_search', 'id_estate_3d', 'time_to_join', 'direction', 'company_design', 'article_title', 'url_map',
-            'url_view_street')
+            'url_view_street', 'estate_fee')
             ->where('estate_id', $estate_id)->get()->first();
         return $estate ? $estate : '{}';
     }
@@ -331,78 +331,6 @@ class EstateController extends Controller
         ));
     }
 
-    public function create(Request $request)
-    {
-        $slug = $this->getSlug($request);
-
-        $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
-
-        // Check permission
-        $this->authorize('add', app($dataType->model_name));
-
-        $dataTypeContent = (strlen($dataType->model_name) != 0)
-                            ? new $dataType->model_name()
-                            : false;
-
-        foreach ($dataType->addRows as $key => $row) {
-            $dataType->addRows[$key]['col_width'] = $row->details->width ?? 100;
-        }
-
-        // If a column has a relationship associated with it, we do not want to show that field
-        $this->removeRelationshipField($dataType, 'add');
-
-        // Check if BREAD is Translatable
-        $isModelTranslatable = is_bread_translatable($dataTypeContent);
-
-        // Eagerload Relations
-        $this->eagerLoadRelations($dataTypeContent, $dataType, 'add', $isModelTranslatable);
-
-        $view = 'voyager::bread.edit-add';
-
-        if (view()->exists("voyager::$slug.edit-add")) {
-            $view = "voyager::$slug.edit-add";
-        }
-
-        $mapLabel = $this->mapLabel;
-
-        return Voyager::view($view, compact('dataType', 'dataTypeContent', 'isModelTranslatable', 'mapLabel'));
-    }
-
-    public function store(Request $request)
-    {
-        $slug = $this->getSlug($request);
-
-        $dataType = Voyager::model('DataType')->where('slug', '=', $slug)->first();
-
-        // Check permission
-        $this->authorize('add', app($dataType->model_name));
-
-        // Validate fields with ajax
-        $request['custom_field'] = $this->_setCustomField($request);
-        $val = $this->validateBread($request->all(), $dataType->addRows)->validate();
-        $data = $this->insertUpdateData($request, $slug, $dataType->addRows, new $dataType->model_name());
-        $this->_insertImages($request, $data->_id);
-        $this->_insertMainImage($request, $data->_id);
-        $this->_insertBeforAfterImage($request, $data->_id);
-
-        event(new BreadDataAdded($dataType, $data));
-
-        if (!$request->has('_tagging')) {
-            if (auth()->user()->can('browse', $data)) {
-                $redirect = redirect()->route("voyager.{$dataType->slug}.index");
-            } else {
-                $redirect = redirect()->back();
-            }
-
-            return $redirect->with([
-                'message'    => __('voyager::generic.successfully_added_new')." {$dataType->getTranslatedAttribute('display_name_singular')}",
-                'alert-type' => 'success',
-            ]);
-        } else {
-            return response()->json(['success' => true, 'data' => $data]);
-        }
-    }
-
     public function update(Request $request, $id)
     {
         
@@ -555,6 +483,10 @@ class EstateController extends Controller
 
         $data->tab_search = $tabsSearch;
 
+
+        // estate fee
+        $data->estate_fee = $request->get('estate_fee') == 'on' ? Estates::BROKERAGE_FEE_ENABLE : Estates::BROKERAGE_FEE_DISABLE;
+
         // Validate fields with ajax
         $this->validateBread($request->all(), $dataType->editRows, $dataType->name, $id)->validate();
         // $this->_insertDatabase($id, 'estate_equipment', $slidesEquipment);
@@ -570,6 +502,7 @@ class EstateController extends Controller
         $this->_insertDatabase($id, 'date_lasted_modified_in_lsc', $lastedModified);
         $this->_insertDatabase($id, 'user_lasted_modified_in_lsc', $userId);
         $this->_insertDatabase($id, 'status', $request->get('status'));
+        $this->_insertDatabase($id, 'estate_fee', $data->estate_fee);
 
         $this->insertUpdateData($request, $slug, $dataType->editRows, $data);
 

@@ -106,7 +106,10 @@
                             <input name="company_design" value="{{ $estateInfo->company_design ?? '' }}" class="form-control">
                         </div> -->
 
-
+                        <div class="form-group">
+                            <label for="estate_fee">仲介手数料無料</label>
+                            <input type="checkbox" class="form-check-input" id="estate_fee" name="estate_fee" @if ($estateInfo->estate_fee) checked @endif>
+                        </div>
 
                         <div class="form-group">
                             <label for="name">MAP URL</label>
@@ -119,7 +122,7 @@
                         </div> -->
 
                         <div class="form-group">
-                        <label for="name">Tab Search</label>
+                            <label for="name">Tab Search</label>
                             <!-- <h2 class="padding_tab_search">Tab Search</h2> -->
                             <hr class="hr_tab_search">
                             <div class="category_tab_search">
@@ -162,7 +165,7 @@
                         <estatebeforafter-component :befor="'{{ $estateInfo }}'" :after="'{{ $estateInfo }}'"></estatebeforafter-component> -->
 
                         <div class="form-group padding_tab_search">
-                        <label for="name">Photos</label>
+                            <label for="name">Photos</label>
                             <hr>
                             <estateimage-component :data="{{ $estateInfo }}" flag="estate"></estateimage-component>
                         </div>

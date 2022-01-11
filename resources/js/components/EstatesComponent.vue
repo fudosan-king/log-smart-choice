@@ -74,10 +74,12 @@
                                                     ><span class="sub">リノベ済</span>
                                                 </p>
                                             </div>
-                                            <div class="g-bg">
-                                                <div class="g-bg_item bg-gray"></div>
-                                                <p class="price_info">仲介手数料無料</p>
-                                            </div>
+                                            <template v-if="estate.estate_information">
+                                                <div class="g-bg" v-if="estate.estate_information.estate_fee == 1">
+                                                    <div class="g-bg_item bg-gray"></div>
+                                                    <p class="price_info">仲介手数料無料</p>
+                                                </div>
+                                            </template>
                                         </div>
                                         <div class="group_price" v-else>
                                             <div class="g-bg">
@@ -87,6 +89,12 @@
                                                     ><span class="sub">（改装前価格）</span>
                                                 </p>
                                             </div>
+                                            <template v-if="estate.estate_information">
+                                                <div class="g-bg" v-if="estate.estate_information.estate_fee == 1">
+                                                    <div class="g-bg_item bg-gray"></div>
+                                                    <p class="price_info">仲介手数料無料</p>
+                                                </div>
+                                            </template>
                                         </div>
                                     </div>
                                 </a>
@@ -127,7 +135,11 @@
                             </div>
                         </li>
                     </ul>
-                    <PaginationComponent :pagination-info="paginationInfo" :page-choice="pageChoice" @getListEstates="getListEstates"></PaginationComponent>
+                    <PaginationComponent
+                        :pagination-info="paginationInfo"
+                        :page-choice="pageChoice"
+                        @getListEstates="getListEstates"
+                    ></PaginationComponent>
                 </div>
             </div>
         </div>
