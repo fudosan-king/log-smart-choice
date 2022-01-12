@@ -27,4 +27,12 @@ class PostController extends Controller
         }
         return $this->response('422', 'Page post is required', [], false);
     }
+
+    public function getPost(Request $request) {
+        $post = Post::where('status', Post::STATUS_ACTIVE)->find($request->get('post_id'));
+        if ($post) {
+            return $this->response('200', 'Get post successful', $post, true);
+        }
+        return $this->response('422', 'Get post fail', [], false);
+    }
 }

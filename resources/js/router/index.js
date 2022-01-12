@@ -217,7 +217,7 @@ const routes = [
         }
     },
     {
-        path: '/plan/contact',
+        path: '/plan/contact/:postId',
         name: 'planContact',
         component: () => import('../pages/PlanContact.vue'),
         meta: {
