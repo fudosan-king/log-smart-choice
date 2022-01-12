@@ -245,8 +245,15 @@
 
 <script>
 import { required, minLength, maxLength, email } from 'vuelidate/lib/validators';
+import PagePost from '../store/modules/page-post.js';
 
 export default {
+    created() {
+        this.$store.registerModule('page-post', PagePost);
+    },
+    beforeDestroy() {
+        this.$store.unregisterModule('page-post');
+    },
     data() {
         return {
             customer: {},
@@ -287,6 +294,7 @@ export default {
     },
     mounted() {
         this.getCustomerInformation();
+        this.getPostInformation();
     },
     methods: {
         getCustomerInformation() {
@@ -366,6 +374,16 @@ export default {
                 result += characters.charAt(Math.floor(Math.random() * charactersLength));
             }
             return result;
+        },
+
+        getPostInformation() {
+            let postId = this.$route.params.postId;
+            this.$store
+                .dispatch('getPost', postId)
+                .then(resp => {
+                    this.plan_name = resp.title;
+                })
+                .catch();
         }
     },
     metaInfo: {

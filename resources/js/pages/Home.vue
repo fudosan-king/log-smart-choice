@@ -112,7 +112,9 @@
                                     </ul>
                                     <div class="group_box">
                                         <a href="/plan/detail" class="btn btn-detail">DETAIL</a>
-                                        <a href="/plan/contact" class="btn btn-detail">資料請求・お問い合わせ</a>
+                                        <a :href="'/plan/contact/' + post.id" class="btn btn-detail"
+                                            >資料請求・お問い合わせ</a
+                                        >
                                     </div>
                                 </div>
                             </div>
@@ -149,6 +151,12 @@ Vue.use(Lazyload, {
     attempt: 1
 });
 export default {
+    created() {
+        this.$store.registerModule('page-post', PagePost);
+    },
+    beforeDestroy() {
+        this.$store.unregisterModule('page-post');
+    },
     data() {
         return {
             searchType: '',
@@ -181,7 +189,7 @@ export default {
     mounted() {
         this.getTabList();
         this.pushRouterToServer();
-        this.getPost();
+        this.getPosts();
     },
     methods: {
         clearConditionSearch() {
@@ -232,12 +240,13 @@ export default {
                 .catch();
         },
 
-        getPost() {
+        getPosts() {
             let data = {
                 page_post: this.$route.name
             };
-            this.$store.dispatch('getPost', data).then(response => {
+            this.$store.dispatch('getPosts', data).then(response => {
                 this.posts = response;
+                console.log(response)
             });
         }
     },

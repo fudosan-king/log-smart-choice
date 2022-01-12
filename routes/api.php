@@ -143,6 +143,7 @@ Route::get('test_import_estates', function () {
 // page post
 Route::put('/manage-page-post/page-post', [PagePostController::class, 'updatePagePost']);
 Route::post('/post/list', [PostController::class, 'getPosts']);
+Route::post('/post', [PostController::class, 'getPost']);
 
 Route::get('/test', [AnnouncementController::class, 'testSendNotice'])->name('admin.announcement.store');
 Route::get('/test-sendnotice', [AnnouncementController::class, 'testSendEmail'])->name('admin.announcement.send.email');
