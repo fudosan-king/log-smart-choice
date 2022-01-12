@@ -195,7 +195,9 @@ export default {
             );
             return false;
         },
-
+    },
+    metaInfo: {
+        titleTemplate: 'ログイン｜Order Renove'
     }
 };
 </script>

@@ -35,8 +35,6 @@
                                             </div>
                                         </div>
 
-                                        
-
                                         <div class="form-group">
                                             <div class="row">
                                                 <div class="col-12 col-lg-3 align-self-center">
@@ -54,13 +52,8 @@
                                                         v-bind:value="name"
                                                         v-on:input="name = $event.target.value"
                                                     />
-                                                    <div
-                                                        v-if="submitted && $v.name.$error"
-                                                        class="invalid-feedback"
-                                                    >
-                                                        <span v-if="!$v.name.required"
-                                                            >名前を入力してください。</span
-                                                        >
+                                                    <div v-if="submitted && $v.name.$error" class="invalid-feedback">
+                                                        <span v-if="!$v.name.required">名前を入力してください。</span>
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-lg-4 align-self-center">
@@ -153,7 +146,8 @@
                                                         <div class="col-12 col-lg-6">
                                                             <select name="hope_day_first" class="custom-select">
                                                                 <template v-for="hopeDay in listHopeDay">
-                                                                    <option v-if="hopeDay"
+                                                                    <option
+                                                                        v-if="hopeDay"
                                                                         :value="hopeDay"
                                                                         :selected="
                                                                             contactData.hopeDayFirst == hopeDay
@@ -194,7 +188,8 @@
                                                         <div class="col-12 col-lg-6">
                                                             <select name="hope_day_second" class="custom-select">
                                                                 <template v-for="hopeDay in listHopeDay">
-                                                                    <option v-if="hopeDay"
+                                                                    <option
+                                                                        v-if="hopeDay"
                                                                         :value="hopeDay"
                                                                         :selected="
                                                                             contactData.hopeDaySecond == hopeDay
@@ -319,206 +314,209 @@
 </template>
 
 <script>
-    import { required, minLength, maxLength, email } from 'vuelidate/lib/validators';
+import { required, minLength, maxLength, email } from 'vuelidate/lib/validators';
 
-    export default {
-        data() {
-            return {
-                estate: {},
-                customer: {},
-                submitted: false,
-                disabled: false,
-                email: '',
-                full_name: '',
-                name: '',
-                last_name: '',
-                land_line: '',
-                errorMessage: {},
-                contactData: {},
-                inquiryContent: '',
-                hopeDayFirst: '',
-                hopeDaySecond: '',
-                startTimeFirst: '',
-                startTimeSecond: '',
-                listHopeDay: [],
-                listStartTime: [],
-                checkedPrivacy: '',
-                orderrenoveCustomerId: ''
-            };
+export default {
+    data() {
+        return {
+            estate: {},
+            customer: {},
+            submitted: false,
+            disabled: false,
+            email: '',
+            full_name: '',
+            name: '',
+            last_name: '',
+            land_line: '',
+            errorMessage: {},
+            contactData: {},
+            inquiryContent: '',
+            hopeDayFirst: '',
+            hopeDaySecond: '',
+            startTimeFirst: '',
+            startTimeSecond: '',
+            listHopeDay: [],
+            listStartTime: [],
+            checkedPrivacy: '',
+            orderrenoveCustomerId: ''
+        };
+    },
+    validations: {
+        email: {
+            required,
+            email
         },
-        validations: {
-            email: {
-                required,
-                email
-            },
-            name: {
-                required
-            },
-            last_name: {
-                required
-            },
-            land_line: {
-                required,
-                minLength: minLength(10),
-                maxLength: maxLength(11)
-            }
+        name: {
+            required
         },
-        mounted() {
-            if (window.localStorage.getItem('estateName')) {
-                this.estate = window.localStorage.getItem('estateName');
-            }
-            this.getCustomerInformation();
-            this.getListHopeDay();
-            this.getListStartTime();
+        last_name: {
+            required
         },
-        methods: {
-            getCustomerInformation() {
-                this.$store
-                    .dispatch('customerInfo')
-                    .then(resp => {
-                        this.customer = resp;
-                        this.name = resp.name;
-                        this.last_name = resp.last_name;
-                        this.full_name = resp.name + ' ' + resp.last_name;
-                        this.email = resp.email;
-                        this.land_line = resp.land_line;
-                        this.orderrenoveCustomerId = resp.orderrenove_customer_id;
-                        if (window.localStorage.getItem('contactData')) {
-                            this.contactData = JSON.parse(window.localStorage.getItem('contactData'));
-                            this.land_line = this.contactData.landLine;
-                            this.name = this.contactData.name;
-                            this.last_name = this.contactData.lastName;
-                            this.email = this.contactData.email;
-                            this.inquiryContent = this.contactData.inquiryContent;
-                            this.hopeDayFirst = this.contactData.hopeDayFirst;
-                            this.hopeDaySecond = this.contactData.hopeDaySecond;
-                            this.startTimeFirst = this.contactData.startTimeFirst;
-                            this.startTimeSecond = this.contactData.startTimeSecond;
-                            this.checkedPrivacy = this.contactData.checkedPrivacy;
-                        }
-                    })
-                    .catch(() => {
-                        this.estate = window.localStorage.getItem('estateName');
-                        this.orderrenoveCustomerId = this.randomOrderRenoveCustomerId(10);
-                        if (window.localStorage.getItem('contactData')) {
-                            this.contactData = JSON.parse(window.localStorage.getItem('contactData'));
-                            this.land_line = this.contactData.landLine;
-                            this.name = this.contactData.name;
-                            this.last_name = this.contactData.lastName;
-                            this.email = this.contactData.email;
-                            this.inquiryContent = this.contactData.inquiryContent;
-                            this.hopeDayFirst = this.contactData.hopeDayFirst;
-                            this.hopeDaySecond = this.contactData.hopeDaySecond;
-                            this.startTimeFirst = this.contactData.startTimeFirst;
-                            this.startTimeSecond = this.contactData.startTimeSecond;
-                            this.checkedPrivacy = this.contactData.checkedPrivacy;
-                        }
-                    });
-            },
-
-            submitData() {
-                this.submitted = true;
-                this.$v.$touch();
-                this.errorMessage = {};
-                let hopeDayFirst = $('select[name="hope_day_first"] option:selected').text();
-                let hopeDaySecond = $('select[name="hope_day_second"] option:selected').text();
-                let startTimeFirst = $('select[name="start_time_first"] option:selected').text();
-                let startTimeSecond = $('select[name="start_time_second"] option:selected').text();
-                let inquiryContent = $('textarea[name="inquiry_content"]').val();
-                let orderRenoveCustomerID = $('input[name="orderrenove_customer_id"]').val();
-
-                if (!$('#ck_agree').prop('checked')) {
-                    this.errorMessage.checkbox_agree = 'プライバシーポリシーをチェックしてください。';
-                    return false;
-                }
-                var recaptcha = $('#g-recaptcha-response').val();
-                if (recaptcha === '') {
-                    this.errorMessage.recaptcha = 'Recapchaをチェックしてください。';
-                    return false;
-                }
-
-                let data = {};
-                if (!this.$v.$invalid && this.submitted) {
-                    data.email = this.email;
-                    data.name = this.name;
-                    data.lastName = this.last_name;
-                    data.landLine = this.land_line;
-                    data.inquiryContent = inquiryContent;
-                    data.estateUrl = window.location.origin + '/detail/' + window.localStorage.getItem('estate_id');
-                    data.hopeDayFirst = hopeDayFirst;
-                    data.hopeDaySecond = hopeDaySecond;
-                    data.startTimeFirst = startTimeFirst;
-                    data.startTimeSecond = startTimeSecond;
-                    data.estateName = this.estate;
-                    data.checkedPrivacy = 'on';
-                    data.orderRenoveCustomerID = orderRenoveCustomerID;
-                    window.localStorage.setItem('contactData', JSON.stringify(data));
-                    this.$router.push('contact/confirm').catch(() => {});
-                }
-            },
-
-            getListStartTime() {
-                let listStartTime = ['10:00', '12:00', '14:00', '16:00'];
-                this.listStartTime = listStartTime;
-            },
-
-            getListHopeDay() {
-                let days = [];
-                var today = new Date();
-                for (let index = 0; index <= 6; index++) {
-                    days.push(this.formatDay(today));
-                }
-                this.listHopeDay = days;
-            },
-
-            formatDay(today) {
-                let currentDate = today.setDate(today.getDate() + 1);
-                let newDate = new Date(currentDate);
-                let dd = String(newDate.getDate()).padStart(1, '0');
-                let mm = String(newDate.getMonth() + 1).padStart(1, '0'); //January is 0!
-                let dayOfWeek = newDate.getDay(); // Sunday is 0, Monday is 1, and so on.
-                let dayKind = '';
-                if (dayOfWeek != 2 && dayOfWeek != 3) {
-                    switch (dayOfWeek) {
-                        case 0:
-                            dayKind = '日';
-                            break;
-                        case 1:
-                            dayKind = '月';
-                            break;
-                        case 2:
-                            dayKind = '火';
-                            break;
-                        case 3:
-                            dayKind = '水';
-                            break;
-                        case 4:
-                            dayKind = '木';
-                            break;
-                        case 5:
-                            dayKind = '金';
-                            break;
-                        case 6:
-                            dayKind = '土';
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                if (dayKind) {
-                    return mm + '月' + dd + '日 ' + '(' + dayKind + ')';
-                }
-            },
-
-            randomOrderRenoveCustomerId(length) {
-                var result = '';
-                var characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
-                var charactersLength = characters.length;
-                for (var i = 0; i < length; i++) {
-                    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-                }
-                return result;
-            }
+        land_line: {
+            required,
+            minLength: minLength(10),
+            maxLength: maxLength(11)
         }
-    };
+    },
+    mounted() {
+        if (window.localStorage.getItem('estateName')) {
+            this.estate = window.localStorage.getItem('estateName');
+        }
+        this.getCustomerInformation();
+        this.getListHopeDay();
+        this.getListStartTime();
+    },
+    methods: {
+        getCustomerInformation() {
+            this.$store
+                .dispatch('customerInfo')
+                .then(resp => {
+                    this.customer = resp;
+                    this.name = resp.name;
+                    this.last_name = resp.last_name;
+                    this.full_name = resp.name + ' ' + resp.last_name;
+                    this.email = resp.email;
+                    this.land_line = resp.land_line;
+                    this.orderrenoveCustomerId = resp.orderrenove_customer_id;
+                    if (window.localStorage.getItem('contactData')) {
+                        this.contactData = JSON.parse(window.localStorage.getItem('contactData'));
+                        this.land_line = this.contactData.landLine;
+                        this.name = this.contactData.name;
+                        this.last_name = this.contactData.lastName;
+                        this.email = this.contactData.email;
+                        this.inquiryContent = this.contactData.inquiryContent;
+                        this.hopeDayFirst = this.contactData.hopeDayFirst;
+                        this.hopeDaySecond = this.contactData.hopeDaySecond;
+                        this.startTimeFirst = this.contactData.startTimeFirst;
+                        this.startTimeSecond = this.contactData.startTimeSecond;
+                        this.checkedPrivacy = this.contactData.checkedPrivacy;
+                    }
+                })
+                .catch(() => {
+                    this.estate = window.localStorage.getItem('estateName');
+                    this.orderrenoveCustomerId = this.randomOrderRenoveCustomerId(10);
+                    if (window.localStorage.getItem('contactData')) {
+                        this.contactData = JSON.parse(window.localStorage.getItem('contactData'));
+                        this.land_line = this.contactData.landLine;
+                        this.name = this.contactData.name;
+                        this.last_name = this.contactData.lastName;
+                        this.email = this.contactData.email;
+                        this.inquiryContent = this.contactData.inquiryContent;
+                        this.hopeDayFirst = this.contactData.hopeDayFirst;
+                        this.hopeDaySecond = this.contactData.hopeDaySecond;
+                        this.startTimeFirst = this.contactData.startTimeFirst;
+                        this.startTimeSecond = this.contactData.startTimeSecond;
+                        this.checkedPrivacy = this.contactData.checkedPrivacy;
+                    }
+                });
+        },
+
+        submitData() {
+            this.submitted = true;
+            this.$v.$touch();
+            this.errorMessage = {};
+            let hopeDayFirst = $('select[name="hope_day_first"] option:selected').text();
+            let hopeDaySecond = $('select[name="hope_day_second"] option:selected').text();
+            let startTimeFirst = $('select[name="start_time_first"] option:selected').text();
+            let startTimeSecond = $('select[name="start_time_second"] option:selected').text();
+            let inquiryContent = $('textarea[name="inquiry_content"]').val();
+            let orderRenoveCustomerID = $('input[name="orderrenove_customer_id"]').val();
+
+            if (!$('#ck_agree').prop('checked')) {
+                this.errorMessage.checkbox_agree = 'プライバシーポリシーをチェックしてください。';
+                return false;
+            }
+            var recaptcha = $('#g-recaptcha-response').val();
+            if (recaptcha === '') {
+                this.errorMessage.recaptcha = 'Recapchaをチェックしてください。';
+                return false;
+            }
+
+            let data = {};
+            if (!this.$v.$invalid && this.submitted) {
+                data.email = this.email;
+                data.name = this.name;
+                data.lastName = this.last_name;
+                data.landLine = this.land_line;
+                data.inquiryContent = inquiryContent;
+                data.estateUrl = window.location.origin + '/detail/' + window.localStorage.getItem('estate_id');
+                data.hopeDayFirst = hopeDayFirst;
+                data.hopeDaySecond = hopeDaySecond;
+                data.startTimeFirst = startTimeFirst;
+                data.startTimeSecond = startTimeSecond;
+                data.estateName = this.estate;
+                data.checkedPrivacy = 'on';
+                data.orderRenoveCustomerID = orderRenoveCustomerID;
+                window.localStorage.setItem('contactData', JSON.stringify(data));
+                this.$router.push('contact/confirm').catch(() => {});
+            }
+        },
+
+        getListStartTime() {
+            let listStartTime = ['10:00', '12:00', '14:00', '16:00'];
+            this.listStartTime = listStartTime;
+        },
+
+        getListHopeDay() {
+            let days = [];
+            var today = new Date();
+            for (let index = 0; index <= 6; index++) {
+                days.push(this.formatDay(today));
+            }
+            this.listHopeDay = days;
+        },
+
+        formatDay(today) {
+            let currentDate = today.setDate(today.getDate() + 1);
+            let newDate = new Date(currentDate);
+            let dd = String(newDate.getDate()).padStart(1, '0');
+            let mm = String(newDate.getMonth() + 1).padStart(1, '0'); //January is 0!
+            let dayOfWeek = newDate.getDay(); // Sunday is 0, Monday is 1, and so on.
+            let dayKind = '';
+            if (dayOfWeek != 2 && dayOfWeek != 3) {
+                switch (dayOfWeek) {
+                    case 0:
+                        dayKind = '日';
+                        break;
+                    case 1:
+                        dayKind = '月';
+                        break;
+                    case 2:
+                        dayKind = '火';
+                        break;
+                    case 3:
+                        dayKind = '水';
+                        break;
+                    case 4:
+                        dayKind = '木';
+                        break;
+                    case 5:
+                        dayKind = '金';
+                        break;
+                    case 6:
+                        dayKind = '土';
+                        break;
+                    default:
+                        break;
+                }
+            }
+            if (dayKind) {
+                return mm + '月' + dd + '日 ' + '(' + dayKind + ')';
+            }
+        },
+
+        randomOrderRenoveCustomerId(length) {
+            var result = '';
+            var characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+            var charactersLength = characters.length;
+            for (var i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result;
+        }
+    },
+    metaInfo: {
+        titleTemplate: 'への 内見・お問い合わせ入力｜Order Renove'
+    }
+};
 </script>

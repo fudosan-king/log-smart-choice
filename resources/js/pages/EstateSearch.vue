@@ -506,6 +506,9 @@ export default {
             event.preventDefault();
             $('.frm_search_conditions_content').slideToggle('fast');
         }
+    },
+    metaInfo: {
+        titleTemplate: '検索条件｜Order Renove'
     }
 };
 </script>

@@ -315,6 +315,9 @@ export default {
             );
             return false;
         }
+    },
+    metaInfo: {
+        titleTemplate: '新規会員登録｜Order Renove'
     }
 };
 </script>

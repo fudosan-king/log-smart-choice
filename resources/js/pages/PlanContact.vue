@@ -60,13 +60,8 @@
                                                         v-bind:value="name"
                                                         v-on:input="name = $event.target.value"
                                                     />
-                                                    <div
-                                                        v-if="submitted && $v.name.$error"
-                                                        class="invalid-feedback"
-                                                    >
-                                                        <span v-if="!$v.name.required"
-                                                            >名前を入力してください。</span
-                                                        >
+                                                    <div v-if="submitted && $v.name.$error" class="invalid-feedback">
+                                                        <span v-if="!$v.name.required">名前を入力してください。</span>
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-lg-4 align-self-center">
@@ -149,7 +144,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="form-group">
                                             <div class="row">
                                                 <div class="col-12 col-lg-3">
@@ -222,7 +217,11 @@
                                                     </div>
                                                 </div>
 
-                                                <button type="button" class="btn btn-save-plan-contact" @click="submitData">
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-save-plan-contact"
+                                                    @click="submitData"
+                                                >
                                                     上記に同意して確認画面へ
                                                     <img
                                                         src="/assets/images/svg/i_right_white.svg"
@@ -245,129 +244,132 @@
 </template>
 
 <script>
-    import { required, minLength, maxLength, email } from 'vuelidate/lib/validators';
+import { required, minLength, maxLength, email } from 'vuelidate/lib/validators';
 
-    export default {
-        data() {
-            return {
-                customer: {},
-                submitted: false,
-                disabled: false,
-                email: '',
-                full_name: '',
-                name: '',
-                last_name: '',
-                land_line: '',
-                errorMessage: {},
-                planContactData: {},
-                inquiryContent: '',
-                checkedPrivacy: '',
-                orderrenoveCustomerId: '',
-                plan_name: '',
-            };
+export default {
+    data() {
+        return {
+            customer: {},
+            submitted: false,
+            disabled: false,
+            email: '',
+            full_name: '',
+            name: '',
+            last_name: '',
+            land_line: '',
+            errorMessage: {},
+            planContactData: {},
+            inquiryContent: '',
+            checkedPrivacy: '',
+            orderrenoveCustomerId: '',
+            plan_name: ''
+        };
+    },
+    validations: {
+        email: {
+            required,
+            email
         },
-        validations: {
-            email: {
-                required,
-                email
-            },
-            name: {
-                required
-            },
-            last_name: {
-                required
-            },
-            land_line: {
-                required,
-                minLength: minLength(10),
-                maxLength: maxLength(11)
-            },
-            plan_name: {
-                required
-            }
+        name: {
+            required
         },
-        mounted() {
-            this.getCustomerInformation();
+        last_name: {
+            required
         },
-        methods: {
-            getCustomerInformation() {
-                this.$store
-                    .dispatch('customerInfo')
-                    .then(resp => {
-                        this.customer = resp;
-                        this.name = resp.name;
-                        this.last_name = resp.last_name;
-                        this.full_name = resp.name + ' ' + resp.last_name;
-                        this.email = resp.email;
-                        this.land_line = resp.land_line;
-                        this.orderrenoveCustomerId = resp.orderrenove_customer_id;
-                        if (window.localStorage.getItem('planContactData')) {
-                            this.planContactData = JSON.parse(window.localStorage.getItem('planContactData'));
-                            this.land_line = this.planContactData.landLine;
-                            this.plan_name = this.planContactData.planName
-                            this.name = this.planContactData.name;
-                            this.last_name = this.planContactData.lastName;
-                            this.email = this.planContactData.email;
-                            this.inquiryContent = this.planContactData.inquiryContent;
-                            this.checkedPrivacy = this.planContactData.checkedPrivacy;
-                        }
-                    })
-                    .catch(() => {
-                        this.orderrenoveCustomerId = this.randomOrderRenoveCustomerId(10);
-                        if (window.localStorage.getItem('planContactData')) {
-                            this.planContactData = JSON.parse(window.localStorage.getItem('planContactData'));
-                            this.land_line = this.planContactData.landLine;
-                            this.plan_name = this.planContactData.planName;
-                            this.name = this.planContactData.name;
-                            this.last_name = this.planContactData.lastName;
-                            this.email = this.planContactData.email;
-                            this.inquiryContent = this.planContactData.inquiryContent;
-                            this.checkedPrivacy = this.planContactData.checkedPrivacy;
-                        }
-                    });
-            },
-
-            submitData() {
-                this.submitted = true;
-                this.$v.$touch();
-                this.errorMessage = {};
-                let inquiryContent = $('textarea[name="inquiry_content"]').val();
-                let orderRenoveCustomerID = $('input[name="orderrenove_customer_id"]').val();
-
-                if (!$('#ck_agree').prop('checked')) {
-                    this.errorMessage.checkbox_agree = 'プライバシーポリシーをチェックしてください。';
-                    return false;
-                }
-                var recaptcha = $('#g-recaptcha-response').val();
-                if (recaptcha === '') {
-                    this.errorMessage.recaptcha = 'Recapchaをチェックしてください。';
-                    return false;
-                }
-
-                let data = {};
-                if (!this.$v.$invalid && this.submitted) {
-                    data.planName = this.plan_name;
-                    data.email = this.email;
-                    data.name = this.name;
-                    data.lastName = this.last_name;
-                    data.landLine = this.land_line;
-                    data.inquiryContent = inquiryContent;
-                    data.checkedPrivacy = 'on';
-                    data.orderRenoveCustomerID = orderRenoveCustomerID;
-                    window.localStorage.setItem('planContactData', JSON.stringify(data));
-                    this.$router.push('/plan/contact-confirm').catch(() => {});
-                }
-            },
-
-            randomOrderRenoveCustomerId(length) {
-                var result = '';
-                var characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
-                var charactersLength = characters.length;
-                for (var i = 0; i < length; i++) {
-                    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-                }
-                return result;
-            }
+        land_line: {
+            required,
+            minLength: minLength(10),
+            maxLength: maxLength(11)
+        },
+        plan_name: {
+            required
         }
-    };
+    },
+    mounted() {
+        this.getCustomerInformation();
+    },
+    methods: {
+        getCustomerInformation() {
+            this.$store
+                .dispatch('customerInfo')
+                .then(resp => {
+                    this.customer = resp;
+                    this.name = resp.name;
+                    this.last_name = resp.last_name;
+                    this.full_name = resp.name + ' ' + resp.last_name;
+                    this.email = resp.email;
+                    this.land_line = resp.land_line;
+                    this.orderrenoveCustomerId = resp.orderrenove_customer_id;
+                    if (window.localStorage.getItem('planContactData')) {
+                        this.planContactData = JSON.parse(window.localStorage.getItem('planContactData'));
+                        this.land_line = this.planContactData.landLine;
+                        this.plan_name = this.planContactData.planName;
+                        this.name = this.planContactData.name;
+                        this.last_name = this.planContactData.lastName;
+                        this.email = this.planContactData.email;
+                        this.inquiryContent = this.planContactData.inquiryContent;
+                        this.checkedPrivacy = this.planContactData.checkedPrivacy;
+                    }
+                })
+                .catch(() => {
+                    this.orderrenoveCustomerId = this.randomOrderRenoveCustomerId(10);
+                    if (window.localStorage.getItem('planContactData')) {
+                        this.planContactData = JSON.parse(window.localStorage.getItem('planContactData'));
+                        this.land_line = this.planContactData.landLine;
+                        this.plan_name = this.planContactData.planName;
+                        this.name = this.planContactData.name;
+                        this.last_name = this.planContactData.lastName;
+                        this.email = this.planContactData.email;
+                        this.inquiryContent = this.planContactData.inquiryContent;
+                        this.checkedPrivacy = this.planContactData.checkedPrivacy;
+                    }
+                });
+        },
+
+        submitData() {
+            this.submitted = true;
+            this.$v.$touch();
+            this.errorMessage = {};
+            let inquiryContent = $('textarea[name="inquiry_content"]').val();
+            let orderRenoveCustomerID = $('input[name="orderrenove_customer_id"]').val();
+
+            if (!$('#ck_agree').prop('checked')) {
+                this.errorMessage.checkbox_agree = 'プライバシーポリシーをチェックしてください。';
+                return false;
+            }
+            var recaptcha = $('#g-recaptcha-response').val();
+            if (recaptcha === '') {
+                this.errorMessage.recaptcha = 'Recapchaをチェックしてください。';
+                return false;
+            }
+
+            let data = {};
+            if (!this.$v.$invalid && this.submitted) {
+                data.planName = this.plan_name;
+                data.email = this.email;
+                data.name = this.name;
+                data.lastName = this.last_name;
+                data.landLine = this.land_line;
+                data.inquiryContent = inquiryContent;
+                data.checkedPrivacy = 'on';
+                data.orderRenoveCustomerID = orderRenoveCustomerID;
+                window.localStorage.setItem('planContactData', JSON.stringify(data));
+                this.$router.push('/plan/contact-confirm').catch(() => {});
+            }
+        },
+
+        randomOrderRenoveCustomerId(length) {
+            var result = '';
+            var characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+            var charactersLength = characters.length;
+            for (var i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result;
+        }
+    },
+    metaInfo: {
+        titleTemplate: 'プラン名｜Order Renove'
+    }
+};
 </script>

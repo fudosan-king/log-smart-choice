@@ -194,6 +194,9 @@ export default {
                     this.$router.go('0');
                 });
         }
+    },
+    metaInfo: {
+        titleTemplate: 'Order Renoveとは｜Order Renove'
     }
 };
 </script>

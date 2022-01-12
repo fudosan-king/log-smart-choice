@@ -92,6 +92,9 @@ export default {
                 this.districts = resp.data;
             });
         }
+    },
+    metaInfo: {
+        titleTemplate: 'プラン名｜Order Renove'
     }
 };
 </script>

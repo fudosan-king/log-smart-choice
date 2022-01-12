@@ -92,6 +92,9 @@ export default {
                 this.districts = resp.data;
             });
         }
+    },
+    metaInfo: {
+        titleTemplate: '物件問い合わせ完了｜Order Renove'
     }
 };
 </script>

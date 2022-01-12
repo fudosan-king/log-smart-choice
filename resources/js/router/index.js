@@ -83,11 +83,6 @@ const routes = [
         component: () => import('../pages/PageNotFound.vue')
     },
     {
-        path: '/login-social',
-        name: 'loginSocial',
-        component: () => import('../pages/LoginSocial.vue')
-    },
-    {
         path: '/reconfirmation-email',
         name: 'reconfirmEmail',
         component: () => import('../pages/ReconfirmEmail.vue'),
@@ -283,9 +278,7 @@ router.beforeEach((to, from, next) => {
     }
 
     let imageSrc = `${window.location.origin}/assets/images/svg/logo_orderrenove_white.svg`;
-
     let estateID = to.params.estateId;
-    let searchCode = to.params.searchCode;
     if (to.name === 'detail') {
         axios.get(`${process.env.MIX_APP_URL}/api/get-meta-tags`, { params: { estateID: estateID } }).then(response => {
             let totalPrice = response.data.dataInfo.price;

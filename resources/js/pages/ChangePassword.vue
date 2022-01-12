@@ -148,6 +148,9 @@ export default {
                     });
             }
         }
+    },
+    metaInfo: {
+        titleTemplate: 'パスワード設定｜Order Renove'
     }
 };
 </script>

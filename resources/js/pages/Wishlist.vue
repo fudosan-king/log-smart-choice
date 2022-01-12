@@ -20,6 +20,9 @@
 export default {
     components: {
         CustomerWishlistComponent: () => import('../components/CustomerWishlistComponent')
+    },
+    metaInfo: {
+        titleTemplate: 'お気に入り物件一覧｜Order Renove'
     }
 };
 </script>

@@ -8,6 +8,9 @@
 export default {
     components: {
         EstatesComponent: () => import('../components/EstatesComponent')
+    },
+    metaInfo: {
+        titleTemplate: '全物件一覧｜Order Renove'
     }
 };
 </script>

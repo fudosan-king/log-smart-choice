@@ -144,18 +144,21 @@ export default {
             slidesPerView: 1
         });
         const swiperNomarlSlide = new Swiper('.slide-normal_swiper', {
-		  	loop: true,
-		  	slidesPerView: 3,
-		  	spaceBetween: 20,
-		  	breakpoints: {
-			    320: {
-			      slidesPerView: 1.3,
-			    },
-			    767: {
-			      slidesPerView: 3,
-			    }
-			},
-		});
+            loop: true,
+            slidesPerView: 3,
+            spaceBetween: 20,
+            breakpoints: {
+                320: {
+                    slidesPerView: 1.3
+                },
+                767: {
+                    slidesPerView: 3
+                }
+            }
+        });
+    },
+    metaInfo: {
+        titleTemplate: 'プラン詳細｜Order Renove'
     }
 };
 </script>

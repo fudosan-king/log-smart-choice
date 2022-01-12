@@ -110,6 +110,9 @@ export default {
                     });
             }
         }
+    },
+    metaInfo: {
+        titleTemplate: '確認メールの再送信｜Order Renove'
     }
 };
 </script>

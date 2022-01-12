@@ -240,6 +240,9 @@ export default {
                 this.posts = response;
             });
         }
+    },
+    metaInfo: {
+        titleTemplate: 'リノベーションプラットフォーム「オーダーリノベ」｜Order Renove'
     }
 };
 </script>

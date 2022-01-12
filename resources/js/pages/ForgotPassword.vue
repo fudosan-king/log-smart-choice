@@ -113,6 +113,9 @@ export default {
                     });
             }
         }
+    },
+    metaInfo: {
+        titleTemplate: '忘れたパスワード｜Order Renove'
     }
 };
 </script>

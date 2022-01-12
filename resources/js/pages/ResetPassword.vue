@@ -152,6 +152,9 @@ export default {
                     });
             }
         }
+    },
+    metaInfo: {
+        titleTemplate: 'パスワードを再設定する｜Order Renove'
     }
 };
 </script>

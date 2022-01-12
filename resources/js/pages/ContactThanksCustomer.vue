@@ -35,6 +35,9 @@ export default {
         backHome() {
             this.$router.push('/').catch(() => {});
         }
+    },
+    metaInfo: {
+        titleTemplate: '物件問い合わせ完了｜Order Renove'
     }
 };
 </script>

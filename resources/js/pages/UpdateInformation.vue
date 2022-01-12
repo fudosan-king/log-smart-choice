@@ -232,6 +232,9 @@ export default {
                     .val(this.value)[0]
                     .dispatchEvent(new Event('input'));
             });
+    },
+    metaInfo: {
+        titleTemplate: '登録情報の更新｜Order Renove'
     }
 };
 </script>

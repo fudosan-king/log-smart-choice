@@ -410,6 +410,9 @@ export default {
                 i++;
             }
         }
+    },
+    metaInfo: {
+        titleTemplate: 'メルマガ配信希望条件｜Order Renove'
     }
 };
 </script>

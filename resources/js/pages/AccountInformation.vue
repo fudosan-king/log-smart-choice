@@ -161,6 +161,9 @@ export default {
                 return '-';
             }
         }
+    },
+    metaInfo: {
+        titleTemplate: '登録情報｜Order Renove'
     }
 };
 </script>

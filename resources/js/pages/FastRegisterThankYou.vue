@@ -53,6 +53,9 @@ export default {
             this.$removeLocalStorage('emailRegister');
             this.$router.push({ name: 'home' }).catch(() => {});
         }
+    },
+    metaInfo: {
+        titleTemplate: '会員登録申請完了｜Order Renove'
     }
 };
 </script>

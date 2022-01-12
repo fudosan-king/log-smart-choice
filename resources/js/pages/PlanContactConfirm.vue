@@ -146,6 +146,9 @@ export default {
             }
             $('#postPlanToFormrun').submit();
         }
+    },
+    metaInfo: {
+        titleTemplate: 'プラン名｜Order Renove'
     }
 };
 </script>
