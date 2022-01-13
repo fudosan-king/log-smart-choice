@@ -155,10 +155,10 @@
                             <estate-description-component :data="'{{ $dataTypeContent }}'" :data_read="false"></estate-description-component>
                         </div> -->
 
-                        <!-- <h1 class="padding_tab_search">Main Photo</h1>
+                        <h1 class="padding_tab_search">Main Photo</h1>
                         <hr class="hr_tab_search">
 
-                        <estatemainphoto-component :data="{{ $estateInfo }}" flag="estate"></estatemainphoto-component> -->
+                        <estatemainphoto-component :data="{{ $estateInfo }}" flag="estate"></estatemainphoto-component>
 
                         <!-- <h1>Befor/After</h1>
                         <hr>
