@@ -219,7 +219,7 @@ export default {
             let tabSearchName = this.$route.query.tabSearchName;
 
             let data = {
-                limit: 4,
+                limit: 16,
                 page: pageLoad,
                 flag_search: flagSearch
             };
@@ -380,7 +380,7 @@ export default {
         },
 
         goSearchPage() {
-            return this.$router.push({ name: 'search' }).catch(() => {});
+            return this.$router.push('/search').catch(() => {});
         }
     }
 };

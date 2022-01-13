@@ -160,7 +160,7 @@ export default {
         getWishlist(pageLoad) {
             let accessToken = this.$getLocalStorage('accessToken');
             let data = {
-                limit: 4,
+                limit: 16,
                 page: pageLoad
             };
             if (accessToken) {

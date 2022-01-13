@@ -1,7 +1,8 @@
 <template>
     <!-- <main> -->
     <div class="p-0 bg-white">
-        <div class="detail_swiper">
+        <!-- swiper slide -->
+        <!-- <div class="detail_swiper">
             <div class="detail_swiper_block bg-gray">
                 <div class="container">
                     <div class="swiper detail-slide_swiper">
@@ -38,9 +39,6 @@
                                                         <span>東京都中央区日本橋／56.56㎡／ワンルーム</span>
                                                     </p>
                                                 </div>
-                                                <!-- <div class="property_wishlist">
-                                                        <a class="btn_wishlist" href="#"></a>
-                                                    </div> -->
                                             </div>
                                         </div>
                                     </a>
@@ -90,9 +88,6 @@
                                                         >
                                                     </p>
                                                 </div>
-                                                <!-- <div class="property_wishlist">
-                                                        <a class="btn_wishlist" href="#"></a>
-                                                    </div> -->
                                             </div>
                                         </div>
                                     </a>
@@ -142,9 +137,6 @@
                                                         >
                                                     </p>
                                                 </div>
-                                                <!-- <div class="property_wishlist">
-                                                        <a class="btn_wishlist" href="#"></a>
-                                                    </div> -->
                                             </div>
                                         </div>
                                     </a>
@@ -248,7 +240,8 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
+        <!-- end swiper slide -->
         <!-- <section class="section_subbanner pb-0">
                 <div class="container">
                     <div class="pro_main_img">
