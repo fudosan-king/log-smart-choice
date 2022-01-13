@@ -27,7 +27,7 @@ class StationController extends Controller
     }
 
     public function listHardCodeSearch() {
-        $stations = Station::whereIn('name', Station::HARD_CODE_STATION_SEARCH)->groupBy('name')->get();
+        $stations = Station::whereIn('name', Station::HARD_CODE_STATION_SEARCH)->groupBy('name')->orderBy('name', 'DESC')->get();
         if ($stations) {
             return $this->response(200, 'Get list station success', $stations, true);
         }
