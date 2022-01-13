@@ -193,10 +193,7 @@ input[type='number'] {
 .container .subtitle-register {
     text-align: center;
 }
-.subtitle small {
-    font-size: 100%;
-    text-align: left;
-}
+
 .estate_name_title {
     padding-top: 2%;
     font-size: 18px;
@@ -423,4 +420,8 @@ footer {
 .btn-save-plan-contact:hover {
     background: #424242;
     color: #fff;
+}
+
+.padding-boxtemplate {
+    padding-top: 0;
 }
