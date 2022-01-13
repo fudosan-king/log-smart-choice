@@ -246,7 +246,6 @@ export default {
             };
             this.$store.dispatch('getPosts', data).then(response => {
                 this.posts = response;
-                console.log(response)
             });
         }
     },

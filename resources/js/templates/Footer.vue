@@ -162,11 +162,6 @@
 
                             <hr />
 
-                            <p class="text-center">
-                                <a target="_blank" href="https://www.logrenove.jp"
-                                    ><img src="/images/svg/logrenove_logo.svg" alt="" class="img-fluid" width="108"
-                                /></a>
-                            </p>
                             <ul class="footer_logo">
                                 <li>
                                     <a target="_blank" href="https://www.logsuite.co.jp"
