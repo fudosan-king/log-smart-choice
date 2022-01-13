@@ -111,7 +111,7 @@
                                         </li>
                                     </ul>
                                     <div class="group_box">
-                                        <a href="/plan/detail" class="btn btn-detail">DETAIL</a>
+                                        <!-- <a href="/plan/detail" class="btn btn-detail">DETAIL</a> -->
                                         <a :href="'/plan/contact/' + post.id" class="btn btn-detail"
                                             >資料請求・お問い合わせ</a
                                         >

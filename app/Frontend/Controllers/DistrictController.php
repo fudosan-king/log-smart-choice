@@ -51,7 +51,7 @@ class DistrictController extends Controller
      * @return void
      */
     public function listHardCodeSearch() {
-        $districts = District::whereIn('name', District::HARD_CODE_DISTRICT_SEARCH)->distinct()->get();
+        $districts = District::whereIn('name', District::HARD_CODE_DISTRICT_SEARCH)->distinct()->orderBy('name', 'DESC')->get();
         if ($districts) {
             return $this->response(200, 'Get list district success', $districts, true);
         }
