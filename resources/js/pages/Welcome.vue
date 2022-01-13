@@ -22,16 +22,20 @@
                                 <input
                                     type="hidden"
                                     :class="{
-                                        'is-invalid': (submitted && error.length)
+                                        'is-invalid': submitted && error.length
                                     }"
                                 />
                                 <div v-if="submitted && error.length" class="invalid-feedback text-center">
                                     <span>{{ error[0] }}</span>
                                 </div>
-                                <a class="btn btnsave" @click="verifyEmail()" :disabled="disabled" :class="{'d-none': error[0]}">
+                                <a
+                                    class="btn btnsave"
+                                    @click="verifyEmail()"
+                                    :disabled="disabled"
+                                    :class="{ 'd-none': error[0] }"
+                                >
                                     ログイン
                                 </a>
-                                
                             </div>
                         </div>
                     </div>
@@ -67,10 +71,13 @@ export default {
                     this.disabled = true;
                     this.error = error.response.data.errors.messages;
                     setTimeout(() => {
-                            this.$router.push({ name: 'login' }).catch(() => {});
-                        }, 2000);
+                        this.$router.push({ name: 'login' }).catch(() => {});
+                    }, 2000);
                 });
         }
+    },
+    metaInfo: {
+        titleTemplate: '会員登録完了｜Order Renove'
     }
 };
 </script>

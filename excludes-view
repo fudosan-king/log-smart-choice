@@ -40,3 +40,4 @@ deploy.sh
 excludes
 tests
 /public/assets/css/style.min.css
+/public/posts/

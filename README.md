@@ -95,7 +95,14 @@ php artisan voyager:admin your@email.com --create
 php artisan passport:client --personal
 ```
 
+## Fix permission mySQL
+```
+docker exec -it [CONTAINER ID of log-smart-choice_laravel_1] chmod -R 777 /var/www/html/docker-data/mysql;
 
+```
+
+
+## mySQL staging
 ```
 ALTER USER 'root'@'localhost' IDENTIFIED BY 'hgLJ8-8FW9#vD[jM';
 CREATE USER 'log_smart'@'localhost' IDENTIFIED BY 'sP9m%c7cDUy.ey}{';

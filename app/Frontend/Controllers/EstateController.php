@@ -26,7 +26,7 @@ class EstateController extends Controller
     public function __construct()
     {
         $this->selectField = [
-            'estate_name', 'price', 'address', 
+            'estate_name', 'price', 'address',
             'tatemono_menseki', 'transports',
             'renovation_type', 'date_created', 'room_count',
             'room_kind', 'tab_search'
@@ -90,7 +90,7 @@ class EstateController extends Controller
 
             $estates->whereIn('address.city', $districtSelected);
             $flagSearch = 'area';
-            $keyWord = is_array($districts) ? implode(', ', $districtSelected) : $districtSelected;
+            $keyWord = is_array($districtSelected) ? implode(', ', $districtSelected) : $districtSelected;
         }
 
         // price
@@ -229,7 +229,7 @@ class EstateController extends Controller
                 'estate_id', 'id_estate_3d', 'estate_main_photo',
                 'renovation_media', 'estate_befor_photo', 'estate_after_photo',
                 'time_to_join', 'direction', 'company_design',
-                'url_map', 'article_title',
+                'url_map', 'article_title', 'estate_fee',
             )
                 ->where('estate_id', $estates[$key]['_id'])->get()->first();
             $estates[$key]['estate_information'] = $estateInformation;

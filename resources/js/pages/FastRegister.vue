@@ -253,7 +253,7 @@
 
                                 <button
                                     type="submit"
-                                    class="btn btnsave mb-lg-5 font-weight-bold"
+                                    class="btn btn_register"
                                     data-toggle="modal"
                                     data-target="#modal_info"
                                     :disabled="disabled"
@@ -270,146 +270,149 @@
 </template>
 
 <script>
-    import { required, email } from 'vuelidate/lib/validators';
-    import Vue from 'vue';
-    import globalVaiable from '../globalHelper';
+import { required, email } from 'vuelidate/lib/validators';
+import Vue from 'vue';
+import globalVaiable from '../globalHelper';
 
-    Vue.use(globalVaiable);
+Vue.use(globalVaiable);
 
-    export default {
-        data() {
-            return {
-                customer: {
-                    email: null,
-                    land_line: null,
-                    name: null,
-                    last_name: null
-                },
-                errorsApi: {},
-                submitted: false,
-                disabled: false,
-                checkboxConfirm: false,
-                districts: {},
-                totalPrices: [],
-                squares: [],
-                checkedDistrictInput: [],
-                minTotalPrices: '下限なし',
-                maxTotalPrices: '上限なし',
-                minSquare: '下限なし',
-                maxSquare: '上限なし',
-                getDistrictList: [],
-                sendAnnouncment: 0
-            };
-        },
-        validations: {
+export default {
+    data() {
+        return {
             customer: {
-                name: {
-                    required
-                },
-                last_name: {
-                    required
-                },
-                email: {
-                    required,
-                    email
-                },
-                land_line: {
-                    required
-                }
+                email: null,
+                land_line: null,
+                name: null,
+                last_name: null
             },
-            checkboxConfirm: {
-                checked(val) {
-                    return val;
-                }
+            errorsApi: {},
+            submitted: false,
+            disabled: false,
+            checkboxConfirm: false,
+            districts: {},
+            totalPrices: [],
+            squares: [],
+            checkedDistrictInput: [],
+            minTotalPrices: '下限なし',
+            maxTotalPrices: '上限なし',
+            minSquare: '下限なし',
+            maxSquare: '上限なし',
+            getDistrictList: [],
+            sendAnnouncment: 0
+        };
+    },
+    validations: {
+        customer: {
+            name: {
+                required
+            },
+            last_name: {
+                required
+            },
+            email: {
+                required,
+                email
+            },
+            land_line: {
+                required
             }
         },
-        mounted() {
-            this.listDistrict();
-            this.listTotalPrice();
-            this.listSquare();
-        },
-        methods: {
-            submit() {
-                this.submitted = true;
-                this.$v.$touch();
-                this.errorsApi = {};
-                if ($('#ck_agree').is(':checked')) {
-                    this.sendAnnouncment = 1;
-                }
-                let newDistrictsList = [];
-                $('input[name="districtInput[]"]:checked').each(function(i) {
-                    newDistrictsList[i] = $(this).val();
-                });
-                if (!this.$v.$invalid && this.submitted) {
-                    this.submitted = false;
-                    this.disabled = true;
-                    this.customer.city = newDistrictsList;
-                    this.customer.price = {
-                        min: this.minTotalPrices,
-                        max: this.maxTotalPrices
-                    };
-                    this.customer.square = {
-                        min: this.minSquare,
-                        max: this.maxSquare
-                    };
-                    this.customer.send_announcement = this.sendAnnouncment;
-                    axios
-                        .post('/fast-register', this.customer, {
-                            headers: {
-                                'content-type': 'application/json'
-                            }
-                        })
-                        .then(res => {
-                            this.$setLocalStorage('emailRegister', this.customer.email);
-                            this.$router.push({ name: 'RegisterThankYou' }).catch(() => {});
-                        })
-                        .catch(err => {
-                            this.disabled = false;
-                            this.submitted = false;
-                            this.errorsApi = err.response.data.errors.messages[0];
-                        });
-                }
-            },
-
-            listDistrict() {
-                this.$store.dispatch('getCustomerDistrict').then(resp => {
-                    this.districts = resp.data;
-                });
-            },
-            listTotalPrice() {
-                let min = 0;
-                let max = 20000;
-                let i = 0;
-                while (min <= max) {
-                    if (i == 0) {
-                        this.totalPrices.push('下限なし');
-                    } else if (min == max) {
-                        this.totalPrices.push(min);
-                        this.totalPrices.push('上限なし');
-                    } else {
-                        this.totalPrices.push(min);
-                    }
-                    min = min + 1000;
-                    i++;
-                }
-            },
-            listSquare() {
-                let min = 0;
-                let max = 150;
-                let i = 0;
-                while (min <= max) {
-                    if (i == 0) {
-                        this.squares.push('下限なし');
-                    } else if (min == max) {
-                        this.squares.push(min);
-                        this.squares.push('上限なし');
-                    } else {
-                        this.squares.push(min);
-                    }
-                    min = min + 10;
-                    i++;
-                }
+        checkboxConfirm: {
+            checked(val) {
+                return val;
             }
         }
-    };
+    },
+    mounted() {
+        this.listDistrict();
+        this.listTotalPrice();
+        this.listSquare();
+    },
+    methods: {
+        submit() {
+            this.submitted = true;
+            this.$v.$touch();
+            this.errorsApi = {};
+            if ($('#ck_agree').is(':checked')) {
+                this.sendAnnouncment = 1;
+            }
+            let newDistrictsList = [];
+            $('input[name="districtInput[]"]:checked').each(function(i) {
+                newDistrictsList[i] = $(this).val();
+            });
+            if (!this.$v.$invalid && this.submitted) {
+                this.submitted = false;
+                this.disabled = true;
+                this.customer.city = newDistrictsList;
+                this.customer.price = {
+                    min: this.minTotalPrices,
+                    max: this.maxTotalPrices
+                };
+                this.customer.square = {
+                    min: this.minSquare,
+                    max: this.maxSquare
+                };
+                this.customer.send_announcement = this.sendAnnouncment;
+                axios
+                    .post('/fast-register', this.customer, {
+                        headers: {
+                            'content-type': 'application/json'
+                        }
+                    })
+                    .then(res => {
+                        this.$setLocalStorage('emailRegister', this.customer.email);
+                        this.$router.push({ name: 'fastRegisterThankYou' }).catch(() => {});
+                    })
+                    .catch(err => {
+                        this.disabled = false;
+                        this.submitted = false;
+                        this.errorsApi = err.response.data.errors.messages[0];
+                    });
+            }
+        },
+
+        listDistrict() {
+            this.$store.dispatch('getCustomerDistrict').then(resp => {
+                this.districts = resp.data;
+            });
+        },
+        listTotalPrice() {
+            let min = 0;
+            let max = 20000;
+            let i = 0;
+            while (min <= max) {
+                if (i == 0) {
+                    this.totalPrices.push('下限なし');
+                } else if (min == max) {
+                    this.totalPrices.push(min);
+                    this.totalPrices.push('上限なし');
+                } else {
+                    this.totalPrices.push(min);
+                }
+                min = min + 1000;
+                i++;
+            }
+        },
+        listSquare() {
+            let min = 0;
+            let max = 150;
+            let i = 0;
+            while (min <= max) {
+                if (i == 0) {
+                    this.squares.push('下限なし');
+                } else if (min == max) {
+                    this.squares.push(min);
+                    this.squares.push('上限なし');
+                } else {
+                    this.squares.push(min);
+                }
+                min = min + 10;
+                i++;
+            }
+        }
+    },
+    metaInfo: {
+        titleTemplate: 'メルマガ配信希望条件｜Order Renove'
+    }
+};
 </script>

@@ -88,26 +88,7 @@ class DistrictSeeder extends Seeder
 
         $dataRow = $this->dataRow($groupsDataType, 'city_id');
 
-        $allCity = $this->getCities();
-
-        if (!$dataRow->exists) {
-            $dataRow->fill([
-                'type'         => 'select_dropdown',
-                'display_name' => __('City'),
-                'required'     => 1,
-                'browse'       => 1,
-                'read'         => 1,
-                'edit'         => 1,
-                'add'          => 1,
-                'delete'       => 1,
-                'order'        => 5,
-                'details'      => ["options" => $allCity, "default" => array_shift($allCity)],
-            ])->save();
-        }
-
         $dataRow = $this->dataRow($groupsDataType, 'count_estates');
-
-        $allCity = $this->getCities();
 
         if (!$dataRow->exists) {
             $dataRow->fill([

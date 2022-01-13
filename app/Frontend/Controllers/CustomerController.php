@@ -36,8 +36,14 @@ class CustomerController extends Controller
             $customer->announcement_count = $announcement;
             $customer->orderrenove_customer_id = $this->randomOrderRenoveCustomerId(10);
             return $this->response(200, __('customer.customer_success'), $customer, true);
+        } else {
+            $customerCheck = Customer::select('status')->where('id', $customerId)->first();
+            if ($customerCheck->status == Customer::DEACTIVE) {
+                return $this->response(401, __('customer.customer_fail'));
+            }
+            return $this->response(422, __('customer.customer_fail'));
         }
-        return $this->response(422, __('customer.customer_fail'));
+        
     }
 
     /**

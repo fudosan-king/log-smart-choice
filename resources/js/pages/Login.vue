@@ -167,8 +167,8 @@ export default {
                 this.$store
                     .dispatch('login', { email, password })
                     .then(response => {
-                        this.$router.push('/').catch(() => {});
-                        // this.$router.go(0);
+                        let urlRedirect = this.$route.query.redirect || '/';
+                        this.$router.push(urlRedirect).then(() => {this.$router.go('0');}).catch(() => {});
                     })
                     .catch(error => {
                         this.errors = error.response.data.errors;
@@ -195,7 +195,9 @@ export default {
             );
             return false;
         },
-
+    },
+    metaInfo: {
+        titleTemplate: 'ログイン｜Order Renove'
     }
 };
 </script>

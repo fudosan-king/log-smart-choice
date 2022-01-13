@@ -9,6 +9,8 @@ import Vuelidate from 'vuelidate';
 import customerModule from './store/modules/customer.js';
 import gAuth from './config/googleAuth';
 import FBAuth from './config/facebookAuth';
+import VueMeta from 'vue-meta';
+
 
 const gAuthOption = {
     clientId: process.env.MIX_GOOGLE_CLIENT_ID,
@@ -27,6 +29,7 @@ const fbAuthOption = {
 Vue.router = router;
 Vue.use(VueRouter);
 Vue.use(Vuelidate);
+Vue.use(VueMeta)
 Vue.use(gAuth, gAuthOption);
 Vue.use(FBAuth, fbAuthOption);
 window.LSMEvent = new Vue();
@@ -34,12 +37,11 @@ window.LSMEvent = new Vue();
 axios.defaults.withCredentials = true;
 axios.defaults.timeout = 2500;
 axios.defaults.baseURL = `${process.env.MIX_APP_URL}/api`;
-axios.interceptors.response.use(undefined, function(error) {
+axios.interceptors.response.use(undefined, function (error) {
     if (error) {
         if (error.response.status === 401) {
-            store.dispatch('logout').then(response => {
-                return router.push('/login');
-            }).catch();
+            let urlRedirect = window.location.pathname;
+            return router.push({ path: '/login', query: { redirect: urlRedirect } });
         } else {
             return Promise.reject(error);
         }
@@ -60,19 +62,5 @@ new Vue({
         this.$store.unregisterModule('customer');
     },
     methods: {
-        getRefreshTokenApi: function() {
-            if (this.$store.getters.isLoggedIn) {
-                this.$store
-                    .dispatch('customerInfo')
-                    .then(resp => {})
-                    .catch(() => {
-                        this.$setCookie('accessToken3d', '', 1);
-                        this.$removeAuthLocalStorage();
-                        this.$removeLocalStorage('announcement_count');
-                        delete axios.defaults.headers.common['Authorization'];
-                        this.$router.go(0);
-                    });
-            }
-        }
     }
 });

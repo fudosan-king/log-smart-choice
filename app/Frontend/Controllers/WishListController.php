@@ -5,7 +5,7 @@ namespace App\Frontend\Controllers;
 
 
 use App\Http\Controllers\Controller;
-
+use App\Models\Customer;
 use App\Models\Estates;
 use App\Models\WishLists;
 use Illuminate\Http\JsonResponse;
@@ -23,7 +23,7 @@ class WishListController extends Controller
     public function upsertWishList(Request $request)
     {
         $estateId = $request->get('estateId');
-        $userId = auth()->guard('api')->user()->id;
+        $customerId = auth()->guard('api')->user()->id;
         $isWish = $request->get('is_wish', 1);
 
         $wishStatus = [WishLists::ADDED_WISH_LIST, Wishlists::NOT_YET_WISH_LIST];
@@ -41,7 +41,7 @@ class WishListController extends Controller
 
         try {
             WishLists::updateOrCreate(
-                ['estate_id' => $estateId, 'user_id' => $userId],
+                ['estate_id' => $estateId, 'user_id' => $customerId],
                 ['is_wishlist' => $isWish]
             );
             return $this->response(200, 'Success', [], true);
@@ -57,10 +57,14 @@ class WishListController extends Controller
      */
     public function getWishLists(Request $request)
     {
-        $limit = 8;
+        $limit = $request->get('limit', WishLists::ITEM_PER_PAGE);
         $page = $request->get('page');
-        $userId = auth()->guard('api')->user()->id;
-        $wishLists = WishLists::select('estate_id')->where('user_id', $userId)->where('is_wishlist', WishLists::ADDED_WISH_LIST)->get();
+        $customerId = auth()->guard('api')->user()->id;
+        $customerCheck = Customer::select('status')->where('id', $customerId)->first();
+        if ($customerCheck->status == Customer::DEACTIVE) {
+            return $this->response(401, __('customer.customer_fail'));
+        }
+        $wishLists = WishLists::select('estate_id')->where('user_id', $customerId)->where('is_wishlist', WishLists::ADDED_WISH_LIST)->get();
         $estateIds = [];
         foreach ($wishLists as $wishList) {
             $estateIds[] = $wishList->estate_id;

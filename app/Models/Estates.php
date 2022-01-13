@@ -33,6 +33,8 @@ class Estates extends Model
     const RENOVATION_SQUARE_MAX = 200;
     const DECOR = 'リノベ済物件';
     const NOT_DECOR = 'カスタム可能物件';
+    const BROKERAGE_FEE_ENABLE = 1;
+    const BROKERAGE_FEE_DISABLE = 0;
     const RENOVATION_COST = [
         '80' => 1336,
         '81' => 1368,
@@ -156,7 +158,7 @@ class Estates extends Model
         '199' => 3037,
         '200' => 3047
     ];
-    
+
     /**
      * estateInformation
      *
@@ -231,7 +233,7 @@ class Estates extends Model
                     $estate->status = self::STATUS_STOP;
                     $estate->date_imported = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d H:i:s')) * 1000);
                     $estate->sort_order_recommend = self::NUMBER_RECOMMEND_ORDER_BY;
-                    $estate['_id'] = $estateData->_id;
+                    $estate['_id'] = $estateDataId;
                     $estate->is_send_announcement = self::NOT_SEND_ANNOUNCEMENT;
 
                     foreach ($estateData as $key => $value) {
@@ -249,29 +251,31 @@ class Estates extends Model
                         $estateInfo->estate_id = $estateDataId;
                         $estateInfo->status = self::STATUS_STOP;
                         $estateInfo->tab_search = [];
+                        $estateInfo->estate_fee = Estates::BROKERAGE_FEE_DISABLE;
                         $estateInfo->save();
                     } else {
                         $estateInfo->status = self::STATUS_STOP;
                         $estateInfo->save();
                     }
 
-                    $this->increaseDecreaseEstateInDistrict(json_decode(json_encode($estateData->address), true), false, $estateData->_id);
-                    $this->increaseDecreaseEstateInStation($estate->transports, false, $estateData->_id);
+                    $this->increaseDecreaseEstateInDistrict(json_decode(json_encode($estateData->address), true), false, $estateDataId);
+                    $this->increaseDecreaseEstateInStation($estate->transports, false, $estateDataId);
                 } elseif (strtotime($estate->date_last_modified) != (int)$dateModifyFDK->toDateTime()->format('U')) {
                     $estateInfo = EstateInformation::where('estate_id', $estateDataId)->first();
                     $estate->status = $estateInfo->status;
                     $estate->tab_search = $estateInfo->tab_search;
+                    $estate->estate_fee = $estateInfo->estate_fee;
                     $estate->is_send_announcement = self::NOT_SEND_ANNOUNCEMENT;
                     $estate->date_imported = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d H:i:s')) * 1000);
                     $estate->sort_order_recommend = self::NUMBER_RECOMMEND_ORDER_BY;
-                    $estate['_id'] = $estateData->_id;
+                    $estate['_id'] = $estateDataId;
 
                     foreach ($estateData as $key => $value) {
                         $estate->$key = $value;
                     }
                     $estate->save();
-                    $this->increaseDecreaseEstateInDistrict(json_decode(json_encode($estateData->address), true), false, $estateData->_id);
-                    $this->increaseDecreaseEstateInStation($estate->transports, false, $estateData->_id);
+                    $this->increaseDecreaseEstateInDistrict(json_decode(json_encode($estateData->address), true), false, $estateDataId);
+                    $this->increaseDecreaseEstateInStation($estate->transports, false, $estateDataId);
                 }
             }
         } catch (Exception $e) {
@@ -280,7 +284,7 @@ class Estates extends Model
 
         return $estate;
     }
-    
+
     /**
      * increaseDecreaseEstateInDistrict
      *
@@ -321,7 +325,7 @@ class Estates extends Model
                                 $district->count_estates = $district->count_estates + District::BEGIN_ESTATE_EXIST;
                             }
                         } else {
-                            
+
                             if ($district->count_estates > 0 && in_array($estateId, $listId)) {
                                 $district->count_estates = $district->count_estates - District::BEGIN_ESTATE_EXIST;
                                 $key = array_search($estateId, $listId);
@@ -346,7 +350,7 @@ class Estates extends Model
             DB::rollBack();
         }
     }
-    
+
     /**
      * increaseDecreaseEstateInStation
      *
@@ -361,7 +365,6 @@ class Estates extends Model
         try {
             foreach ($transportEstate as $transport) {
                 $transportCurrent = Transport::where('name', $transport['transport_company'])->first();
-                $station = Station::where('transport_id', $transportCurrent->id)->where('name', $transport['station_name'])->first();
                 if (!$transportCurrent) {
                     if ($transport['transport_company']) {
                         $transportNew = new Transport();
@@ -377,6 +380,7 @@ class Estates extends Model
                         }
                     }
                 } else {
+                    $station = Station::where('transport_id', $transportCurrent->id)->where('name', $transport['station_name'])->first();
                     if ($station) {
                         $listIds = [];
                         if ($station->estate_ids) {

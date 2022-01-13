@@ -16,6 +16,8 @@ use App\Frontend\Controllers\StationController;
 use App\Frontend\Controllers\TabSearchController;
 use App\Frontend\Controllers\TransportController;
 use App\Frontend\Controllers\CityController;
+use App\Frontend\Controllers\PagePostController;
+use App\Frontend\Controllers\PostController;
 use App\Models\Estates;
 
 /*
@@ -73,16 +75,21 @@ Route::get('/get-meta-tags', [MetaTagController::class, 'getMetaTags']);
 
 // station
 Route::post('/stations/list', [StationController::class, 'getAll']);
+Route::post('/stations/hardcode-search', [StationController::class, 'listHardCodeSearch']);
+
+// transport
 Route::post('/transports/list', [TransportController::class, 'list']);
 
-// District
+
+// district
 Route::post('/district/list', [DistrictController::class, 'list']);
 Route::post('/district/customer/list', [DistrictController::class, 'customerList']);
+Route::post('/district/hardcode-search', [DistrictController::class, 'listHardCodeSearch']);
 
-// City
+// city
 Route::post('/city/list', [CityController::class, 'list']);
 
-// Tab Search
+// tab Search
 Route::post('tab-search/list', [TabSearchController::class, 'list']);
 
 //estate
@@ -132,6 +139,11 @@ Route::get('test_import_estates', function () {
     }
     return response()->json(array('estates' => $estates));
 });
+
+// page post
+Route::put('/manage-page-post/page-post', [PagePostController::class, 'updatePagePost']);
+Route::post('/post/list', [PostController::class, 'getPosts']);
+Route::post('/post', [PostController::class, 'getPost']);
 
 Route::get('/test', [AnnouncementController::class, 'testSendNotice'])->name('admin.announcement.store');
 Route::get('/test-sendnotice', [AnnouncementController::class, 'testSendEmail'])->name('admin.announcement.send.email');

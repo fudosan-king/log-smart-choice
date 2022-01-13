@@ -181,7 +181,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type="number"] {
+input[type='number'] {
     -moz-appearance: textfield;
 }
 
@@ -271,8 +271,8 @@ main .section_property_main {
 }
 
 @media (min-width: 1024px) {
-    .section_near_property ul.list_property li .property_img,
-    .section_near_property ul.list_property li .property_img img {
+    li .property_img,
+    li .property_img img {
         height: 185px;
     }
 }
@@ -356,4 +356,71 @@ ul.list_property li .property_img p.label_custom {
 
 input:checked + .slider {
     background-color: #2196f3;
+}
+
+footer {
+    padding-bottom: 61px;
+}
+
+.more-info_item div p a:hover {
+    color: #000000;
+}
+
+.space_div {
+    padding: 20px;
+    background: white;
+}
+
+.top_promotion {
+    margin-bottom: 0;
+    background: white;
+    padding-top: 65px;
+}
+
+.property-archive_item * .property_img .total_price {
+    font-size: 1rem;
+}
+
+.property-archive_head .property_name {
+    font-weight: 600;
+}
+
+.list_area .more-space {
+    margin-bottom: 0;
+}
+.total_estates_wishlist {
+    font-weight: 900;
+    font-size: 150%;
+}
+
+.top-more-bg {
+    background: white;
+}
+
+.listing_top .listing_sort ul li button.black {
+    font-weight: 900;
+}
+
+.group_box {
+    margin: auto;
+    max-width: 330px;
+    display: -webkit-box;
+}
+
+.padding-bottom-button {
+    padding-bottom: 5%;
+}
+
+.btn-save-plan-contact {
+    background: #424242;
+    color: #fff;
+    font-size: 0.875em;
+    font-weight: 600;
+    padding: 15px 30px;
+    min-width: 165px;
+}
+
+.btn-save-plan-contact:hover {
+    background: #424242;
+    color: #fff;
 }

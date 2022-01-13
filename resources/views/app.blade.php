@@ -58,7 +58,10 @@
   <link rel="stylesheet" rel="preload" onload="this.rel='stylesheet'" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" type="text/css">
   <link rel="stylesheet" rel="preload" onload="this.rel='stylesheet'" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css"/>
   <link rel="stylesheet" rel="preload" onload="this.rel='stylesheet'" as="style" href="/assets/css/flickity.min.css" type="text/css" >
+  <link rel="stylesheet" rel="preload" onload="this.rel='stylesheet'" as="style" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
   <link rel="stylesheet" rel="preload" onload="this.rel='stylesheet'" as="style" href="/assets/css/styles.min.css" type="text/css">
+  <link rel="stylesheet" rel="preload" onload="this.rel='stylesheet'" as="style" href="/assets/css/t_styles.min.css" type="text/css">
+  <link rel="stylesheet" rel="preload" onload="this.rel='stylesheet'" as="style" href="/assets/css/c_styles.min.css" type="text/css">
   <link rel="stylesheet" rel="preload" onload="this.rel='stylesheet'" href="/css/app.min.css" type="text/css">
 </head>
 
@@ -79,6 +82,7 @@
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.ja.min.js"></script> -->
   <script rel="preload" as="script" src='https://www.google.com/recaptcha/api.js'></script>
+  <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
   <script rel="preload" as="script" src="/js/frontend.min.js"></script>
 </body>
 

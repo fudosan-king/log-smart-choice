@@ -6,7 +6,6 @@ namespace App\Frontend\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Transport;
-use Illuminate\Http\Request;
 
 class TransportController extends Controller
 {

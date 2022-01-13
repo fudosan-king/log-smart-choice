@@ -33,4 +33,8 @@ Route::group(['/'], function () {
     Route::get('/import', [ImportManagementSystemController::class, 'index'])->name('admin.station.index');
     Route::post('/station/import', [ImportManagementSystemController::class, 'importStation'])->name('admin.station.import');
     Route::post('/customer/import', [ImportManagementSystemController::class, 'importCustomer'])->name('admin.customer.import');
+
+    // Route::group(['prefix' => 'estates'], function () {
+    //     Route::get('/', [EstateController::class, 'index'])->name('voyager.estates.index');
+    // });
 });

@@ -25,7 +25,7 @@ const routes = [
         name: 'detail',
         component: () => import('../../js/pages/DetailEstate.vue'),
         meta: {
-            title: '｜Order Renove'
+            title: '不動産の詳細｜Order Renove'
         }
     },
     {
@@ -40,7 +40,10 @@ const routes = [
     {
         path: '/about',
         name: 'about',
-        component: () => import('../pages/About.vue')
+        component: () => import('../pages/About.vue'),
+        meta: {
+            title: 'Order Renoveとは｜Order Renove'
+        }
     },
     {
         path: '/contact',
@@ -74,11 +77,10 @@ const routes = [
             title: '忘れたパスワード｜Order Renove'
         }
     },
-    { path: '*', component: () => import('../pages/PageNotFound.vue') },
     {
-        path: '/login-social',
-        name: 'loginSocial',
-        component: () => import('../pages/LoginSocial.vue')
+        path: '*',
+        name: 'pageNotFound',
+        component: () => import('../pages/PageNotFound.vue')
     },
     {
         path: '/reconfirmation-email',
@@ -99,7 +101,7 @@ const routes = [
     },
     {
         path: '/customer/change-password',
-        name: 'ChangePassword',
+        name: 'changePassword',
         component: () => import('../pages/ChangePassword.vue'),
         meta: {
             requiresAuth: true,
@@ -167,8 +169,16 @@ const routes = [
         }
     },
     {
+        path: '/fast-register-thank-you',
+        name: 'fastRegisterThankYou',
+        component: () => import('../pages/FastRegisterThankYou.vue'),
+        meta: {
+            title: '会員登録申請完了｜Order Renove'
+        }
+    },
+    {
         path: '/register-thank-you',
-        name: 'RegisterThankYou',
+        name: 'registerThankYou',
         component: () => import('../pages/RegisterThankYou.vue'),
         meta: {
             title: '会員登録申請完了｜Order Renove'
@@ -176,7 +186,7 @@ const routes = [
     },
     {
         path: '/contact/thanks-fast-register/',
-        name: 'ContactThanksGuest',
+        name: 'contactThanksGuest',
         component: () => import('../pages/ContactThanksGuest.vue'),
         meta: {
             title: '物件問い合わせ完了｜Order Renove'
@@ -184,7 +194,7 @@ const routes = [
     },
     {
         path: '/contact/thanks/',
-        name: 'ContactThanksCustomer',
+        name: 'contactThanksCustomer',
         component: () => import('../pages/ContactThanksCustomer.vue'),
         meta: {
             title: '物件問い合わせ完了｜Order Renove'
@@ -192,10 +202,58 @@ const routes = [
     },
     {
         path: '/search',
-        name: 'EstateSearch',
+        name: 'estateSearch',
         component: () => import('../pages/EstateSearch.vue'),
         meta: {
             title: '検索条件｜Order Renove'
+        }
+    },
+    {
+        path: '/concept',
+        name: 'concept',
+        component: () => import('../pages/Concept.vue'),
+        meta: {
+            title: '概念｜Order Renove'
+        }
+    },
+    {
+        path: '/plan/contact/:postId',
+        name: 'planContact',
+        component: () => import('../pages/PlanContact.vue'),
+        meta: {
+            title: 'プラン名｜Order Renove'
+        }
+    },
+    {
+        path: '/plan/contact-confirm',
+        name: 'planContactConfirm',
+        component: () => import('../pages/PlanContactConfirm.vue'),
+        meta: {
+            title: 'プラン名｜Order Renove'
+        }
+    },
+    {
+        path: '/plan/contact-thanks-customer',
+        name: 'planContactThanksCustomer',
+        component: () => import('../pages/PlanContactThanksCustomer.vue'),
+        meta: {
+            title: 'プラン名｜Order Renove'
+        }
+    },
+    {
+        path: '/plan/contact-thanks-guest',
+        name: 'planContactThankGuest',
+        component: () => import('../pages/PlanContactThanksGuest.vue'),
+        meta: {
+            title: 'プラン名｜Order Renove'
+        }
+    },
+    {
+        path: '/plan/detail',
+        name: 'planDetail',
+        component: () => import('../pages/PlanDetail.vue'),
+        meta: {
+            title: 'プラン詳細｜Order Renove'
         }
     },
 ];
@@ -220,9 +278,7 @@ router.beforeEach((to, from, next) => {
     }
 
     let imageSrc = `${window.location.origin}/assets/images/svg/logo_orderrenove_white.svg`;
-
     let estateID = to.params.estateId;
-    let searchCode = to.params.searchCode;
     if (to.name === 'detail') {
         axios.get(`${process.env.MIX_APP_URL}/api/get-meta-tags`, { params: { estateID: estateID } }).then(response => {
             let totalPrice = response.data.dataInfo.price;
@@ -254,7 +310,10 @@ router.beforeEach((to, from, next) => {
         if (localStorage.getItem('accessToken')) {
             next();
         } else {
-            return router.push('/login').catch(() => {});
+            return next({
+                path: '/login',
+                query: { redirect: to.fullPath }
+            })
         }
     } else {
         next();

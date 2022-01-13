@@ -31,15 +31,19 @@ div > div > .estate_image_url {
 
 .remove-image {
     cursor: pointer;
+    float: right;
+    font-size: 140%;
 }
 
 .estate_flooring_title {
     width: 100%;
 }
 
-.imageInfo .equipment-estate, .imageInfo .flooring-estate, #imageInfo .image-photo {
+.imageInfo .equipment-estate,
+.imageInfo .flooring-estate,
+#imageInfo .image-photo {
     height: 30%;
-    background:black;
+    background: black;
 }
 
 .category_tab_search .category_checkbox {
@@ -50,6 +54,7 @@ div > div > .estate_image_url {
 .padding_tab_search {
     float: left;
     width: 100%;
+    padding-top: 1%;
 }
 
 .hr_tab_search {

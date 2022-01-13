@@ -1,39 +1,145 @@
 <template>
-    <footer>
-        <div class="footer_top">
-            <div class="container-fluid">
+    <div>
+        <!-- <div class="top_promotion">
+            <div class="container">
                 <div class="row">
-                    <div class="col-12 col-lg-12">
-                        <p class="text-center mb-4">
-                            <a class="logo_footer" href="https://order-renove.jp/"
-                                ><img
-                                    src="/assets/images/svg/logo_orderrenove_white.svg"
-                                    alt=""
+                    <div class="col-md-6">
+                        <div class="promotion_box">
+                            <div class="promotion_img">
+                                <img
                                     class="img-fluid"
-                                    width="224"
-                                    height="224"
-                            /></a>
-                        </p>
-                        <ul class="d-none d-lg-flex">
-                            <li><a target="_blank" href="https://form.run/@order-renove">お問い合わせ</a></li>
-                            <li>
-                                <a target="_blank" href="https://www.logsuite.co.jp/policy/">プライバシーポリシー</a>
-                            </li>
-                            <li>
-                                <a target="_blank" href="https://www.logsuite.co.jp/socialmedia-policy/"
-                                    >ソーシャルメディアポリシー</a
-                                >
-                            </li>
-                            <li><a target="_blank" href="https://www.propolife.co.jp/terms/"> 利用規約</a></li>
-                            <li><a target="_blank" href="https://www.logknot.co.jp/">運営会社（企業情報）</a></li>
-                            <li>
-                                <a target="_blank" href="https://www.propolife.co.jp/antisocial/"
-                                    >反社会的勢力排除に関する基本方針</a
-                                >
-                            </li>
-                        </ul>
-                        <div class="d-flex">
-                            <ul class="d-block d-lg-none mr-5">
+                                    src="/assets/images/top-page/top-promotion.png"
+                                    alt=""
+                                    title=""
+                                />
+                            </div>
+                            <div class="promotion_info">
+                                <h3>マネー診断シミュレータ</h3>
+                                <p>ライフプランに応じた物件価格を診断</p>
+                                <div class="promotion_btn">
+                                    <a href="#">シミュレーション</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="promotion_box">
+                            <div class="promotion_img">
+                                <img
+                                    class="img-fluid"
+                                    src="/assets/images/top-page/top-promotion-1.png"
+                                    alt=""
+                                    title=""
+                                />
+                            </div>
+                            <div class="promotion_info">
+                                <h3>コンシェルジュ相談</h3>
+                                <p>ニーズに応じた理想の住まいをご提案</p>
+                                <div class="promotion_btn">
+                                    <a href="#">相談する</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <div class="space_div"></div>
+        <div class="top-more-info">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="more-info_item">
+                            <h3>サービス一覧</h3>
+                            <div class="row">
+                                <div class="col-6">
+                                    <p><a href="/about">OrderRenoveについて</a></p>
+                                    <p><a href="/concept">リノベプラン一覧</a></p>
+                                    <!-- <p>マネーシミュレータ</p>
+                                    <p>売却サポート</p> -->
+                                </div>
+                                <div class="col-6">
+                                    <p><a href="/list">物件一覧</a></p>
+                                    <p><a href="/fast-register">OrderRenove通信</a></p>
+                                    <p><a href="/register">会員登録</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- District -->
+                    <div class="col-md-3">
+                        <div class="more-info_item">
+                            <h3>エリアから探す</h3>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p>
+                                        <template v-for="district in districtList">
+                                            <a href="javascript:void(0)" v-on:click="searchList(district, 'area')"
+                                                >{{ district.name }} &nbsp;</a
+                                            >
+                                        </template>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End District -->
+
+                    <!-- Station -->
+                    <div class="col-md-3">
+                        <div class="more-info_item">
+                            <h3>人気の駅から探す</h3>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p>
+                                        <template v-for="station in stationList">
+                                            <a href="javascript:void(0)" v-on:click="searchList(station, 'station')"
+                                                >{{ station.name }} &nbsp;</a
+                                            >
+                                        </template>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Station -->
+
+                    <div class="col-md-3">
+                        <div class="more-info_item">
+                            <h3>こだわりから探す</h3>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p>
+                                        <template v-for="tag in tabList">
+                                            <a href="javascript:void(0)" v-on:click="searchList(tag, 'tag')">{{
+                                                tag.name
+                                            }}</a>
+                                            &nbsp;
+                                        </template>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="footer_top">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12 col-lg-12">
+                            <p class="text-center mb-4">
+                                <a class="logo_footer" href="index.php"
+                                    ><img
+                                        src="/images/svg/logo_orderrenove_white.svg"
+                                        alt=""
+                                        class="img-fluid"
+                                        width="224"
+                                /></a>
+                            </p>
+                            <ul class="text-center">
                                 <li><a target="_blank" href="https://form.run/@order-renove">お問い合わせ</a></li>
                                 <li>
                                     <a target="_blank" href="https://www.logsuite.co.jp/policy/"
@@ -45,115 +151,102 @@
                                         >ソーシャルメディアポリシー</a
                                     >
                                 </li>
-                            </ul>
-                            <ul class="d-block d-lg-none">
-                                <li><a target="_blank" href="https://www.propolife.co.jp/terms/">利用規約</a></li>
-                                <li><a target="_blank" href="https://www.logsuite.co.jp/">運営会社（企業情報）</a></li>
+                                <li><a target="_blank" href="https://www.propolife.co.jp/terms/"> 利用規約</a></li>
+                                <li><a target="_blank" href="https://www.logknot.co.jp/">運営会社（企業情報）</a></li>
                                 <li>
                                     <a target="_blank" href="https://www.propolife.co.jp/antisocial/"
                                         >反社会的勢力排除に関する基本方針</a
                                     >
                                 </li>
                             </ul>
-                        </div>
-                        <hr />
 
-                        <p class="text-center">
-                            <a target="_blank" href="https://www.logrenove.jp/"
-                                ><img
-                                    src="/assets/images/svg/logrenove_logo_copy.svg"
-                                    alt=""
-                                    class="img-fluid"
-                                    width="108"
-                                    height="108"
-                            /></a>
-                        </p>
-                        <ul>
-                            <li>
-                                <a target="_blank" href="https://www.logsuite.co.jp"
-                                    ><img
-                                        src="/assets/images/svg/logSuite2_white.svg"
-                                        alt=""
-                                        class="img-fluid"
-                                        width="88"
-                                        height="88"
+                            <hr />
+
+                            <p class="text-center">
+                                <a target="_blank" href="https://www.logrenove.jp"
+                                    ><img src="/images/svg/logrenove_logo.svg" alt="" class="img-fluid" width="108"
                                 /></a>
-                            </li>
-                            <li>
-                                <a target="_blank" href="https://www.logarchitects.co.jp"
-                                    ><img
-                                        src="/assets/images/svg/logArch2_white.svg"
-                                        alt=""
-                                        class="img-fluid"
-                                        width="120"
-                                        height="120"
-                                /></a>
-                            </li>
-                            <li>
-                                <a target="_blank" href="https://www.logknot.co.jp"
-                                    ><img
-                                        src="/assets/images/svg/logKnot2_white.svg"
-                                        alt=""
-                                        class="img-fluid"
-                                        width="84"
-                                        height="84"
-                                /></a>
-                            </li>
-                        </ul>
-                        <p class="text-center">
-                            <small
-                                >Copyright © <a target="_blank" href="https://www.logsuite.co.jp">LogSuite.</a> All
-                                Rights Reserved.</small
-                            >
-                        </p>
+                            </p>
+                            <ul class="footer_logo">
+                                <li>
+                                    <a target="_blank" href="https://www.logsuite.co.jp"
+                                        ><img src="/images/svg/logSuite2_white.svg" alt="" class="img-fluid" width="88"
+                                    /></a>
+                                </li>
+                                <li>
+                                    <a target="_blank" href="https://www.logarchitects.co.jp"
+                                        ><img src="/images/svg/logArch2_white.svg" alt="" class="img-fluid" width="120"
+                                    /></a>
+                                </li>
+                                <li>
+                                    <a target="_blank" href="https://www.logknot.co.jp"
+                                        ><img src="/images/svg/logKnot2_white.svg" alt="" class="img-fluid" width="84"
+                                    /></a>
+                                </li>
+                            </ul>
+                            <p class="text-center">
+                                <small
+                                    >Copyright © <a target="_blank" href="https://www.logsuite.co.jp">LogSuite.</a> All
+                                    Rights Reserved.</small
+                                >
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="footer_bottom fixed-bottom" v-if="contactPart == 'detail'">
-            <a class="btn" href="javascript:void(0)" v-on:click="directToContact"
-                ><img
-                    src="/assets/images/svg/i_mail.svg"
-                    alt=""
-                    class="img-fluid"
-                    width="18"
-                    height="18"
-                />資料請求・内見</a
+            <div class="footer_bottom fixed-bottom" v-if="contactPart == 'detail'">
+                <div class="bottom_box">
+                    <a class="btn btn-ft" href="javascript:void(0)" v-on:click="directToContact"
+                        ><img
+                            src="/assets/images/svg/i_mail.svg"
+                            alt=""
+                            class="img-fluid"
+                            width="18"
+                            height="18"
+                        />内覧・お問い合わせ</a
+                    >
+                    <a class="btn btn-ft" href="tel:0120991657"
+                        ><img
+                            src="/assets/images/svg/i_call.svg"
+                            alt=""
+                            class="img-fluid"
+                            width="18"
+                            height="18"
+                        />0120-991-657</a
+                    >
+                </div>
+            </div>
+            <div
+                class="footer_bottom fixed-bottom align-center"
+                v-if="routeName == 'home' || routeName == 'listByCode' || routeName == 'list'"
             >
-            <a class="btn" href="tel:0120991657"
-                ><img
-                    src="/assets/images/svg/i_call.svg"
-                    alt=""
-                    class="img-fluid"
-                    width="18"
-                    height="18"
-                />0120-991-657</a
-            >
-        </div>
-        <div
-            class="footer_bottom fixed-bottom align-center"
-            v-if="routeName == 'home' || routeName == 'listByCode' || routeName == 'list'"
-        >
-            <!-- <template v-if="routeName != 'home'"> -->
-            <a class="btn" href="/fast-register"
-                ><img
-                    src="/assets/images/svg/i_mail.svg"
-                    alt=""
-                    class="img-fluid"
-                    width="18"
-                    height="18"
-                />希望条件を登録
-            </a>
-            <!-- </template> -->
+                <!-- <template v-if="routeName != 'home'"> -->
+                <a class="btn btn-ft" href="/contact"
+                    ><img
+                        src="/assets/images/svg/i_mail.svg"
+                        alt=""
+                        class="img-fluid"
+                        width="18"
+                        height="18"
+                    />内覧・お問い合わせ
+                </a>
+                <!-- </template> -->
 
-            <a class="btn" href="/search">条件を絞って物件検索</a>
-        </div>
-        <div class="footer_bottom fixed-bottom" v-if="routeName == 'EstateSearch'">
-            <a class="btn btn_conditions btn_search_conditions" href="javascript:void(0)" v-on:click="resultSearch"
-                ><img src="/assets/images/svg/i_search.svg" alt="" class="img-fluid" width="18" height="18" />検索</a
-            >
-        </div>
-    </footer>
+                <!-- <a class="btn" href="/search">条件を絞って物件検索</a> -->
+            </div>
+            <div class="footer_bottom fixed-bottom" v-if="routeName == 'estateSearch'">
+                <a class="btn btn-ft" href="javascript:void(0)" v-on:click="resultSearch"
+                    ><img
+                        src="/assets/images/svg/i_search.svg"
+                        alt=""
+                        class="img-fluid"
+                        width="18"
+                        height="18"
+                    />検索</a
+                >
+            </div>
+        </footer>
+    </div>
 </template>
 <script>
 export default {
@@ -166,11 +259,17 @@ export default {
         return {
             logoSliver: logoSliver,
             iLocationBlack: iLocationBlack,
-            contactPart: ''
+            contactPart: '',
+            tabList: '',
+            stationList: '',
+            districtList: ''
         };
     },
     mounted() {
         this.showContactPart();
+        this.getTabList();
+        this.getStaionHardCode();
+        this.getDistrictHardCode();
     },
     methods: {
         showContactPart() {
@@ -288,6 +387,65 @@ export default {
                 .catch(() => {
                     this.$router.go('0');
                 });
+        },
+
+        searchList(data, type) {
+            let query = {
+                minPrice: '下限なし',
+                maxPrice: '上限なし',
+                minSquare: '下限なし',
+                maxSquare: '上限なし'
+            };
+            let dataConditionSearch = {
+                districts: [],
+                stations: [],
+                tabSearch: query.tabSearchName,
+                tabName: query.tabSearch
+            };
+            if (type == 'tag') {
+                query.tabSearchName = data.name;
+                query.tabSearch = data.id;
+                this.$removeLocalStorage('idParents');
+            } else if (type == 'station') {
+                this.$setLocalStorage('tabActive', 'station');
+                query.keyWord = data.name;
+                dataConditionSearch.stations[0] = { name: data.name, transportId: data.transport_id };
+            } else {
+                this.$setLocalStorage('tabActive', 'area');
+                query.keyWord = data.name;
+                dataConditionSearch.districts[0] = { name: data.name, cityId: data.city_id };
+            }
+
+            this.$setLocalStorage('conditionSearch', JSON.stringify(dataConditionSearch));
+            this.$router
+                .push({
+                    name: 'list',
+                    query: query
+                })
+                .then(() => {
+                    this.$router.go('0');
+                })
+                .catch(() => {
+                    this.$router.go('0');
+                });
+        },
+
+        getTabList() {
+            this.$store.dispatch('getTabList').then(response => {
+                this.tabList = response;
+            });
+        },
+
+        getStaionHardCode() {
+            this.$store.dispatch('getStationsHardCodeSearch').then(response => {
+                this.stationList = response;
+            });
+        },
+
+        getDistrictHardCode() {
+            this.$store.dispatch('getDistrictsHardCodeSearch').then(response => {
+                this.districtList = response;
+            });
         }
     },
     computed: {

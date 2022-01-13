@@ -1,44 +1,29 @@
 <template>
     <main>
-        <div class="box_template">
+        <div class="bg-white">
             <section class="p-0">
-                <div class="box_top mb-0">
+                <div class="box_top mb-0 bg-transparent">
                     <div class="container">
-                        <h2 class="title mb-2">会員登録申請完了</h2>
+                        <h2 class="title mb-2 mt-4">登録完了</h2>
                     </div>
                 </div>
             </section>
 
-            <section class="section_thanks">
+            <section class="section_top_template pt-3">
                 <div class="container">
                     <div class="row">
-                        <div
-                            class="col-12 col-lg-7 offset-lg-2 m-auto text-center"
-                        >
-                            <h3>ご登録ありがとうございます。</h3>
-                            <p>
-                                送信先：{{ email }}<br />
-                                上記のメールアドレスに仮登録のご案内メールを送信いたしました。<br />
-                                記載されているURLを24時間以内にクリックし、登録を完了してください。
+                        <div class="col-12 col-lg-8 m-auto">
+                            <h3 class="text-center mb-4">会員登録が完了いたしました！</h3>
+                            <h5>
+                                ようこそ！OrderRenoveへ！<br />
+                                以下のボタンよりログインいただけます。
+                            </h5>
+                            <p class="text-center mb-0 mt-5">
+                                <a class="btn d-inline-block" href="/register">OrderRenoveとは</a>
+                                <a class="btn d-inline-block" v-on:click="gotoTopPage" href="javascript:void(0);"
+                                    >トップに戻る</a
+                                >
                             </p>
-                            <p>
-                                ※メールが届かない場合は、メールアドレスが間違っている可能性があります。お手数ですが、メールアドレスを確認の上、再度会員登録お願いいたします。<br />
-                                ※ドメイン指定受信をご利用の方は、<a
-                                    href="https://order-renove.jp/"
-                                    >order-renove.jp</a
-                                >のドメインからのメールが受信できるよう設定変更をお願いします。
-                            </p>
-                            <a
-                                class="btn btngoto"
-                                v-on:click="gotoTopPage"
-                                href="javascript:void(0);"
-                                >トップに戻る
-                                <img
-                                    src="/assets/images/svg/i_right_white.svg"
-                                    alt=""
-                                    class="img-fluid"
-                                    width="10"
-                            /></a>
                         </div>
                     </div>
                 </div>
@@ -50,17 +35,20 @@
 <script>
 export default {
     data() {
-        let email = this.$getLocalStorage('emailRegister')
+        let email = this.$getLocalStorage('emailRegister');
 
         return {
-            email: email,
-        }
+            email: email
+        };
     },
     methods: {
         gotoTopPage() {
-            this.$removeLocalStorage('emailRegister')
-            this.$router.push({ name: 'home' }).catch(() => {})
-        },
+            this.$removeLocalStorage('emailRegister');
+            this.$router.push({ name: 'home' }).catch(() => {});
+        }
     },
-}
+    metaInfo: {
+        titleTemplate: '会員登録申請完了｜Order Renove'
+    }
+};
 </script>

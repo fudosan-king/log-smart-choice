@@ -15,5 +15,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+    metaInfo: {
+        titleTemplate: 'ページが見つかりません｜Order Renove'
+    }
+};
 </script>

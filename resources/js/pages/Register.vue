@@ -286,7 +286,7 @@ export default {
                     })
                     .then(res => {
                         this.$setLocalStorage('emailRegister', this.customer.email);
-                        this.$router.push({ name: 'RegisterThankYou' }).catch(() => {});
+                        this.$router.push({ name: 'registerThankYou' }).catch(() => {});
                     })
                     .catch(err => {
                         this.disabled = false;
@@ -315,6 +315,9 @@ export default {
             );
             return false;
         }
+    },
+    metaInfo: {
+        titleTemplate: '新規会員登録｜Order Renove'
     }
 };
 </script>

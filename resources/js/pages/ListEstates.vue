@@ -1,8 +1,6 @@
 <template>
     <main>
-        <div class="box_template">
-            <EstatesComponent></EstatesComponent>
-        </div>
+        <EstatesComponent></EstatesComponent>
     </main>
 </template>
 
@@ -10,6 +8,9 @@
 export default {
     components: {
         EstatesComponent: () => import('../components/EstatesComponent')
+    },
+    metaInfo: {
+        titleTemplate: '全物件一覧｜Order Renove'
     }
 };
 </script>
