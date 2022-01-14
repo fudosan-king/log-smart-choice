@@ -425,3 +425,7 @@ footer {
 .padding-boxtemplate {
     padding-top: 0;
 }
+
+.property-archive_item a .property_img img {
+    max-width: 1200px;
+}

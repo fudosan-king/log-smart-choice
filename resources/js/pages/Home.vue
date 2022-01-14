@@ -9,14 +9,14 @@
                 <ul>
                     <li>
                         <a class="btn_map search-district" v-on:click="handleHeaderContentClick('district')">
-                            <span>リノベ物件から探す</span>
+                            <span>物件を探す</span>
                         </a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a class="btn_stations search-station" href="/concept">
                             <span>リノベテイストから探す</span>
                         </a>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </section>
@@ -111,7 +111,7 @@
                                         </li>
                                     </ul>
                                     <div class="group_box">
-                                        <!-- <a href="/plan/detail" class="btn btn-detail">DETAIL</a> -->
+                                        <a href="/plan/detail" class="btn btn-detail">DETAIL</a>
                                         <a :href="'/plan/contact/' + post.id" class="btn btn-detail"
                                             >資料請求・お問い合わせ</a
                                         >
