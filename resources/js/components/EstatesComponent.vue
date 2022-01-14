@@ -68,7 +68,7 @@
                                         </template>
                                         <div class="group_price" v-if="estate.renovation_type != 'カスタム可能物件'">
                                             <div class="g-bg">
-                                                <div class="g-bg_item bg-yellow"></div>
+                                                <div class="g-bg_item bg-black"></div>
                                                 <p class="total_price">
                                                     {{ estate.price }}<span class="unit">万円</span
                                                     ><span class="sub">リノベ済</span>
