@@ -1,64 +1,85 @@
 <template>
-    <ul class="list_property" v-if="estates.length">
+    <ul class="archive-list" v-if="estates">
         <li v-for="(estate, index) in estates" :key="index._id">
-            <div class="property_img">
+            <div class="property-archive_item">
                 <a v-bind:href="'/detail/' + estate._id">
-                    <template v-if="estate.estate_information">
-                        <img
-                            v-lazy="
-                                estate.estate_information.estate_main_photo.length != 0
-                                    ? estate.estate_information.estate_main_photo[0].url_path
-                                    : '/images/no-image.png'
-                            "
-                            alt=""
-                            class="img-fluid"
-                            height="auto"
-                            width="100%"
-                        />
-                    </template>
-                    <p class="label_custom" v-if="estate.renovation_type == 'カスタム可能物件'">
-                        カスタム<br />可能物件
-                    </p>
-                    <p class="label_custom renovated" v-else>リノベ済<br />物件</p>
-                    <div class="w_property_head">
-                        <p class="total_price">
-                            {{ estate.price }}<span>万円</span
-                            ><span class="sub" v-if="estate.renovation_type != 'リノベ済物件'">（改装前価格）</span>
-                        </p>
-                        <div class="property_head">
-                            <div class="row">
-                                <div class="col-10 col-lg-10 align-self-center">
-                                    <template v-if="estate.estate_information">
-                                        <p class="property_name">
-                                            <b>{{ estate.estate_information.article_title }}</b>
-                                        </p>
-                                    </template>
-                                    <p class="property_address">
-                                        <span>
-                                            {{ estate.address.city }}{{ estate.address.ooaza
-                                            }}{{ estate.address.tyoume }} {{ estate.tatemono_menseki }}m² /
-                                            {{ estate.room_count }}{{ estate.room_kind }}
-                                        </span>
-                                    </p>
-                                    <!-- <p class="property_square">{{ estate.tatemono_menseki }}m² / {{ estate.room_count }}{{ estate.room_kind }}</p> -->
-                                </div>
-                                <div class="col-2 col-lg-2">
-                                    <template v-if="accessToken">
-                                        <a @click="addToWishList(estate._id, estate.is_wish)">
-                                            <WishlistComponent
-                                                :estate-id="estate._id"
-                                                :data-wished="estate.is_wish"
-                                            ></WishlistComponent>
-                                        </a>
-                                    </template>
-                                    <template v-else>
-                                        <a :href="'/login?redirect=' + urlRedirect" class="btn_wishlist"></a>
-                                    </template>
-                                </div>
+                    <div class="property_img">
+                        <template v-if="estate.estate_information">
+                            <img
+                                v-lazy="
+                                    estate.estate_information.estate_main_photo.length != 0
+                                        ? estate.estate_information.estate_main_photo[0].url_path
+                                        : '/images/no-image.png'
+                                "
+                                alt=""
+                                class="img-fluid"
+                                width="265"
+                            />
+                        </template>
+                        <div class="group_price" v-if="estate.renovation_type != 'カスタム可能物件'">
+                            <div class="g-bg">
+                                <div class="g-bg_item bg-black"></div>
+                                <p class="total_price">
+                                    {{ estate.price }}<span class="unit">万円</span><span class="sub">リノベ済</span>
+                                </p>
                             </div>
+                            <template v-if="estate.estate_information">
+                                <div class="g-bg" v-if="estate.estate_information.estate_fee == 1">
+                                    <div class="g-bg_item bg-gray"></div>
+                                    <p class="price_info">仲介手数料無料</p>
+                                </div>
+                            </template>
+                        </div>
+                        <div class="group_price" v-else>
+                            <div class="g-bg">
+                                <div class="g-bg_item bg-black"></div>
+                                <p class="total_price">
+                                    {{ estate.price }}<span class="unit">万円</span
+                                    ><span class="sub">（改装前価格）</span>
+                                </p>
+                            </div>
+                            <template v-if="estate.estate_information">
+                                <div class="g-bg" v-if="estate.estate_information.estate_fee == 1">
+                                    <div class="g-bg_item bg-gray"></div>
+                                    <p class="price_info">仲介手数料無料</p>
+                                </div>
+                            </template>
                         </div>
                     </div>
                 </a>
+                <div class="w_property-archive_head">
+                    <a v-bind:href="'/detail/' + estate._id"> </a>
+                    <div class="property-archive_head">
+                        <a v-bind:href="'/detail/' + estate._id">
+                            <div class="property_info">
+                                <template v-if="estate.estate_information">
+                                    <p class="property_name">
+                                        {{ estate.estate_information.article_title }}
+                                    </p>
+                                </template>
+                                <p class="property_address">
+                                    <span>
+                                        {{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}
+                                        {{ estate.tatemono_menseki }}m² / {{ estate.room_count }}{{ estate.room_kind }}
+                                    </span>
+                                </p>
+                            </div>
+                        </a>
+                        <div class="property_wishlist">
+                            <template v-if="accessToken">
+                                <a v-if="estate._id">
+                                    <WishlistComponent
+                                        :estate-id="estate._id"
+                                        :data-wished="estate.is_wish"
+                                    ></WishlistComponent>
+                                </a>
+                            </template>
+                            <template v-else>
+                                <a :href="'/login?redirect=' + urlRedirect" class="btn_wishlist"></a>
+                            </template>
+                        </div>
+                    </div>
+                </div>
             </div>
         </li>
     </ul>

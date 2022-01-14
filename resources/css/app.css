@@ -429,3 +429,7 @@ footer {
 .property-archive_item a .property_img img {
     max-width: 1200px;
 }
+
+.section_banner .top_action ul li a {
+    background: #424242;
+}

@@ -4,7 +4,7 @@
             <div class="caption">
                 <img src="/assets/images/svg/label.svg" alt="" class="img-fluid" width="200" height="200" />
             </div>
-            <p>まだ見ぬ住まいとの出会いを演出</p>
+            <p>ラグジュアリーリノベ物件に住まう</p>
             <div class="top_action">
                 <ul>
                     <li>
@@ -250,7 +250,10 @@ export default {
         }
     },
     metaInfo: {
-        titleTemplate: 'リノベーションプラットフォーム「オーダーリノベ」｜Order Renove'
+        titleTemplate: 'リノベーションプラットフォーム「オーダーリノベ」｜Order Renove',
+        meta: [{
+            description: 'リノベーションプラットフォーム「オーダーリノベ」｜Order Renove',
+        }]
     }
 };
 </script>
