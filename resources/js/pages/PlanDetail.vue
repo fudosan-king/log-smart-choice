@@ -6,13 +6,9 @@
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
                             <div class="property-archive_item">
-                                <a href="propertys_detail.php">
+                                <a href="javascript:void(0)">
                                     <div class="property_img">
-                                        <img
-                                            src="/assets/images/slideshow/plan-detail-slide-1.jpeg"
-                                            alt=""
-                                            class="img-fluid"
-                                        />
+                                        <img src="/assets/images/plan-detail/Photo1.jpg" alt="" class="img-fluid" />
                                     </div>
                                     <div class="w_property-archive_head">
                                         <div class="property-archive_head">
@@ -28,7 +24,7 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="swiper-slide">
+                        <!-- <div class="swiper-slide">
                             <div class="property-archive_item">
                                 <a href="propertys_detail.php">
                                     <div class="property_img">
@@ -48,7 +44,7 @@
                                     </div>
                                 </a>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -57,8 +53,8 @@
                 <div class="container">
                     <p class="sm-title">CONCEPT</p>
                     <h2>
-                        原宿・徒歩圏内の<br />
-                        スタイリッシュレジデンス
+                        自宅に居ながら森林浴が楽しめる<br />
+                        天然無垢材のリノベーション
                     </h2>
                     <div class="plan_info">
                         <p>
@@ -78,8 +74,8 @@
                     <div class="frame-yellow">
                         <p class="sm-title">FEATURE</p>
                         <h2>
-                            手触りのある質感と<br />
-                            さわやかなテイストがポイント
+                            香り高い天然木をふんだんに使った<br />
+                            上質でナチュラルなデザイン
                         </h2>
                         <div class="plan_info">
                             <p>
@@ -99,18 +95,18 @@
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
                             <div class="slide-normal_item">
-                                <img class="img-fluid" src="/assets/images/plan-detail/img3.jpg" />
+                                <img class="img-fluid" src="/assets/images/plan-detail/Photo2_living.jpg" />
                                 <div class="slide-normal_info">
                                     <p class="sm-title">LIVING</p>
                                     <p>
-                                        全面に敷き詰められた無垢材フローリングが印象的なリビングダイニング。ドアや収納扉などの建具も無垢材を使用。壁と床の境にある巾木も無垢材です。天井の木製化粧梁いいアクセントになっています。。
+                                        全面に敷き詰められた無垢材フローリングが印象的なリビングダイニング。ドアや収納扉などの建具も無垢材を使用。壁と床の境にある巾木も無垢材、天井にも無垢材をあしらった統一感のあるデザインが特徴です。
                                     </p>
                                 </div>
                             </div>
                         </div>
                         <div class="swiper-slide">
                             <div class="slide-normal_item">
-                                <img class="img-fluid" src="/assets/images/plan-detail/img3.jpg" />
+                                <img class="img-fluid" src="/assets/images/plan-detail/Photo2_kitchin.jpg" />
                                 <div class="slide-normal_info">
                                     <p class="sm-title">KITCHEN</p>
                                     <p>
@@ -121,11 +117,33 @@
                         </div>
                         <div class="swiper-slide">
                             <div class="slide-normal_item">
-                                <img class="img-fluid" src="/assets/images/plan-detail/img3.jpg" />
+                                <img class="img-fluid" src="/assets/images/plan-detail/Photo2_entrance.jpg" />
                                 <div class="slide-normal_info">
-                                    <p class="sm-title">KITCHEN</p>
+                                    <p class="sm-title">ENTRANCE</p>
                                     <p>
-                                        無垢材パネルと御影石のワークトップをおごったオリジナルキッチンとクリナップ製のシステムキッチンを用意。どちらも食器洗い乾燥機、浄水器一体型水栓、三口ガスコンロを備えた機能性に優れた製品です。
+                                        玄関周りにもふんだんに無垢材を使用しています。オリジナルの下足入れ、玄関框、廊下、さらには天井まで無垢材を使用。玄関に入った瞬間から「木の香り」に包まれ、無垢材に彩られたLogRenove独特の世界観が味わえます。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="slide-normal_item">
+                                <img class="img-fluid" src="/assets/images/plan-detail/Photo2_bathroom.JPG" />
+                                <div class="slide-normal_info">
+                                    <p class="sm-title">BATH ROOM</p>
+                                    <p>
+                                        LIXIL製のSOLEOをセレクト。ストレートラインの浴槽、汚れにくく冷たくなりにくいフロア、お掃除が簡単な排水溝など、人気の仕様を組み込んだユニットバスを標準装備しています。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide">
+                            <div class="slide-normal_item">
+                                <img class="img-fluid" src="/assets/images/plan-detail/Photo2_powder_room.jpg" />
+                                <div class="slide-normal_info">
+                                    <p class="sm-title">POWDER ROOM</p>
+                                    <p>
+                                        木の温もりを感じられる、使い勝手のいい洗面室です。木製の棚の上にオーバルの洗面ボウルを配したホテルライクな造り。側面にはオリジナルの木製可動棚も用意しています。
                                     </p>
                                 </div>
                             </div>
@@ -140,7 +158,7 @@
 export default {
     mounted() {
         const swiperPlanSide = new Swiper('.plan-slide_swiper', {
-            loop: true,
+            loop: false,
             slidesPerView: 1
         });
         const swiperNomarlSlide = new Swiper('.slide-normal_swiper', {
