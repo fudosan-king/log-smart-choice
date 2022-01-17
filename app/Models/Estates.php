@@ -338,6 +338,7 @@ class Estates extends Model
                     $district = new District();
                     $district->name = $districtCurrent;
                     $district->city_id = $city->id;
+                    $district->romaji_name = District::DISTRICT_NOT_ORDER;
                     $district->estate_ids = $estateId;
                     $district->count_estates = District::BEGIN_ESTATE_EXIST;
                     $district->save();

@@ -84,6 +84,7 @@ class UpdateDistrict extends Command
                     $district->city_id = $city->id;
                     $district->name = $currentDistrict;
                     $district->estate_ids = $estateId;
+                    $district->romaji_name = District::DISTRICT_NOT_ORDER;
                     $district->count_estates = District::BEGIN_ESTATE_EXIST;
                     $district->save();
                 }
