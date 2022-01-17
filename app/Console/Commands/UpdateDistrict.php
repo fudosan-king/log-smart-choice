@@ -60,10 +60,10 @@ class UpdateDistrict extends Command
                             $district->estate_ids = $estateId;
                             $district->count_estates = District::BEGIN_ESTATE_EXIST;
                         } else {
-                            if (!in_array($estateId ,$listEstates)) {
+                            if (!in_array($estateId, $listEstates)) {
                                 array_push($listEstates, $estateId);
                                 $district->estate_ids = implode(',', $listEstates);
-                                $district->count_estates =  $district->count_estates + 1;
+                                $district->count_estates =  $district->count_estates + District::BEGIN_ESTATE_EXIST;
                             }
                         }
                         $district->save();
