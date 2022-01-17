@@ -258,8 +258,8 @@ class Estates extends Model
                         $estateInfo->save();
                     }
 
-                    $this->increaseDecreaseEstateInDistrict(json_decode(json_encode($estateData->address), true), false, $estateDataId);
-                    $this->increaseDecreaseEstateInStation($estate->transports, false, $estateDataId);
+                    $this->increaseDecreaseEstateInDistrict(json_decode(json_encode($estateData->address), true), true, $estateDataId);
+                    $this->increaseDecreaseEstateInStation($estate->transports, true, $estateDataId);
                 } elseif (strtotime($estate->date_last_modified) != (int)$dateModifyFDK->toDateTime()->format('U')) {
                     $estateInfo = EstateInformation::where('estate_id', $estateDataId)->first();
                     $estate->status = $estateInfo->status;
@@ -325,7 +325,6 @@ class Estates extends Model
                                 $district->count_estates = $district->count_estates + District::BEGIN_ESTATE_EXIST;
                             }
                         } else {
-
                             if ($district->count_estates > 0 && in_array($estateId, $listId)) {
                                 $district->count_estates = $district->count_estates - District::BEGIN_ESTATE_EXIST;
                                 $key = array_search($estateId, $listId);

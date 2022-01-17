@@ -2,8 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Models\City;
-use App\Models\District;
 use App\Models\Estates;
 use App\Models\Station;
 use App\Models\Transport;
