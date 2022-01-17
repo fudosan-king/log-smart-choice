@@ -6,7 +6,6 @@ use App\Http\Controllers\EstateController;
 use Illuminate\Support\Facades\Route;
 use TCG\Voyager\Facades\Voyager;
 use App\Http\Controllers\GroupEstateController;
-use App\Http\Controllers\TagsController;
 use App\Http\Controllers\ImportManagementSystemController;
 
 
@@ -29,7 +28,6 @@ Route::group(['/'], function () {
         Route::get('/{id}/edit', [EstateController::class, 'edit'])->name('voyager.estates.edit');
     });
 
-    Route::get('/{pageId}/tags', [TagsController::class, 'indexTags'])->name('admin.page.tags.index');
     Route::get('/import', [ImportManagementSystemController::class, 'index'])->name('admin.station.index');
     Route::post('/station/import', [ImportManagementSystemController::class, 'importStation'])->name('admin.station.import');
     Route::post('/customer/import', [ImportManagementSystemController::class, 'importCustomer'])->name('admin.customer.import');
