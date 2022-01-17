@@ -26,6 +26,7 @@ class District extends Model
         '品川区',
         '世田谷区'
     ];
+    const DISTRICT_NOT_ORDER = 'Not Order';
 
     protected $fillable = [
         'code',

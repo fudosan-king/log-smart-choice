@@ -86,8 +86,6 @@ class DistrictSeeder extends Seeder
             ])->save();
         }
 
-        // $dataRow = $this->dataRow($groupsDataType, 'city_id');
-
         $dataRow = $this->dataRow($groupsDataType, 'romaji_name');
 
         if (!$dataRow->exists) {
