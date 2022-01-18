@@ -59,6 +59,7 @@ class EstateController extends Controller
         $estates = Estates::select($this->selectField);
         $estates->where('status', Estates::STATUS_SALE);
         $keyWord = '';
+        $selectAll = false;
         if ($flagSearch == 'station') {
             $stationSelected = [];
             if (!$stations) {
@@ -66,6 +67,7 @@ class EstateController extends Controller
                 foreach ($stationList as $value) {
                     $stationSelected[] = $value['name'];
                 }
+                $selectAll = true;
             } else {
                 foreach ($stations as $value) {
                     $stationSelected[] = $value['name'];
@@ -74,6 +76,7 @@ class EstateController extends Controller
 
             $estates->whereIn('transports.station_name', $stationSelected);
             $flagSearch = 'station';
+            $stationSelected = $selectAll ? $stationSelected[0] = '指定なし' : $stationSelected;
             $keyWord = is_array($stationSelected) ? implode(', ', $stationSelected) : $stationSelected;
         } else {
             if (!$districts) {
@@ -82,6 +85,7 @@ class EstateController extends Controller
                 foreach ($districtList as $value) {
                     $districtSelected[] = $value['name'];
                 }
+                $selectAll = true;
             } else {
                 foreach ($districts as $value) {
                     $districtSelected[] = $value['name'];
@@ -90,6 +94,7 @@ class EstateController extends Controller
 
             $estates->whereIn('address.city', $districtSelected);
             $flagSearch = 'area';
+            $districtSelected = $selectAll ? $districtSelected[0] = '指定なし' : $districtSelected;
             $keyWord = is_array($districtSelected) ? implode(', ', $districtSelected) : $districtSelected;
         }
 
