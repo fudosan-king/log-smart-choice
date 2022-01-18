@@ -15,6 +15,7 @@
 * XML PHP Extension
 * PDO PHP Extension
 * <a href="https://laravel.com/docs/8.x/passport">Passport >= 10.1</a>
+* Redis
 ### Check modules has been loaded:<br>
 `$ php -m`
 
@@ -38,6 +39,11 @@ Finally, add the following line to your php.ini file:<br>
 `extension=mongodb.so`<br>
 `extension=sodium.so`<br>
 
+## Install Redis for PHP<br>
+Install redis-cli <br>
+`$ sudo yum install redis` <br>
+Install driver redis php <br>
+`$ sudo pecl install redis` <br>
 ## Voyager - The Missing Laravel Admin<br>
 https://voyager-docs.devdojo.com/getting-started/installation
 
