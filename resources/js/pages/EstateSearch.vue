@@ -87,17 +87,17 @@
                                                                     class="btn btn-link btn-block text-left collapsed"
                                                                     type="button"
                                                                     data-toggle="collapse"
-                                                                    :data-target="'#collapseOne' + indexCity"
+                                                                    :data-target="'#city' + indexCity"
                                                                     aria-expanded="false"
-                                                                    :aria-controls="'collapseOne' + indexCity"
+                                                                    :aria-controls="'city' + indexCity"
                                                                 ></button>
                                                             </h2>
                                                         </div>
                                                         <div
-                                                            :id="'collapseOne' + indexCity"
+                                                            :id="'city' + indexCity"
                                                             class="collapse station"
                                                             :aria-labelledby="'headingOne' + indexCity"
-                                                            :data-parent="'#collapseOne' + indexCity"
+                                                            :data-parent="'#city' + indexCity"
                                                         >
                                                             <div class="card-body" :class="'ck0000' + indexCity">
                                                                 <div class="row">
@@ -199,17 +199,17 @@
                                                                     class="btn btn-link btn-block text-left collapsed"
                                                                     type="button"
                                                                     data-toggle="collapse"
-                                                                    :data-target="'#collapseOne' + indexTransport"
+                                                                    :data-target="'#transports' + indexTransport"
                                                                     aria-expanded="false"
-                                                                    :aria-controls="'collapseOne' + indexTransport"
+                                                                    :aria-controls="'transports' + indexTransport"
                                                                 ></button>
                                                             </h2>
                                                         </div>
                                                         <div
-                                                            :id="'collapseOne' + indexTransport"
+                                                            :id="'transports' + indexTransport"
                                                             class="collapse station"
                                                             :aria-labelledby="'headingOne' + indexTransport"
-                                                            :data-parent="'#collapseOne' + indexTransport"
+                                                            :data-parent="'#transports' + indexTransport"
                                                         >
                                                             <div class="card-body" :class="'ck0' + indexTransport">
                                                                 <div class="row">
@@ -362,6 +362,8 @@ export default {
         let minSquare = conditionSearch.square ? conditionSearch.square.min : '下限なし';
         let maxSquare = conditionSearch.square ? conditionSearch.square.max : '上限なし';
         let tabListActived = conditionSearch.tabSesarch ? conditionSearch.tabSesarch : [];
+        let tagShow = this.$getLocalStorage('tagShow') ? JSON.parse(this.$getLocalStorage('tagShow')) : [];
+        
 
         return {
             cityList: {},
@@ -377,7 +379,8 @@ export default {
             conditionSearchBefore: conditionSearch,
             idParentBefore: idParents,
             tabList: [],
-            tabListActived: tabListActived
+            tabListActived: tabListActived,
+            tagShow: tagShow
         };
     },
     updated() {
@@ -398,6 +401,7 @@ export default {
         $('.plus-to-minus').click(function(event) {
             $(this).toggleClass('minus');
         });
+        this.tagShowSelected();
     },
     beforeDestroy() {
         window.removeEventListener('visibilitychange', this.handleChangeTab);
@@ -504,6 +508,13 @@ export default {
         eventToggleBugger(event) {
             event.preventDefault();
             $('.frm_search_conditions_content').slideToggle('fast');
+        },
+
+        tagShowSelected() {
+            for (let i = 0; i < this.tagShow.length; i++) {
+                $('[data-target="#' + this.tagShow[i] + '"]').removeClass('collapsed');
+                $('#' + this.tagShow[i]).addClass('show');
+            }
         }
     },
     metaInfo: {
