@@ -306,6 +306,10 @@ export default {
             let tabList = [];
             let tabListName = [];
             let keyWord = [];
+            let tagShow = [];
+            $('.accordion div .card').find('.show').each( (i, e) => {
+                tagShow.push(e['id']);
+            });
             if ($('#pills-area-tab').hasClass('active')) {
                 $('input[name="inputDistrict[]"]:checked').each(function(i) {
                     idParents = [];
@@ -362,6 +366,7 @@ export default {
             this.$setLocalStorage('tabActive', flagSearch);
             this.$setLocalStorage('conditionSearch', JSON.stringify(data));
             this.$setLocalStorage('idParents', JSON.stringify(idParents));
+            this.$setLocalStorage('tagShow', JSON.stringify(tagShow));
 
             this.$router
                 .push({
