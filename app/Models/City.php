@@ -27,6 +27,6 @@ class City extends Model
     public function districts() {
         return $this->hasMany(District::class, 'city_id', 'id')->where('count_estates', '>', 0)
         ->where('status', District::STATUS_ACTIVATE)
-        ->orderBy('romaji_name');
+        ->orderByRaw('romaji_name+0');
     }
 }

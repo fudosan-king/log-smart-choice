@@ -415,7 +415,6 @@ export default {
             if (window.visibilityState != 'visible') {
                 localStorage.removeItem('conditionSearch');
                 localStorage.removeItem('idParents');
-                window.location.reload();
             }
         },
 
