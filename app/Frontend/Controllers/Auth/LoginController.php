@@ -59,7 +59,6 @@ class LoginController extends Controller
         $customer = Customer::where('email', $request->email)->where('status', Customer::EMAIL_VERIFY)->first();
 
         if ($customer) {
-            
             if ($customer->validateForPassportPasswordGrant($request->password)) {
                 $objectToken = $this->_getAccessToken($customer);
                 $data = [

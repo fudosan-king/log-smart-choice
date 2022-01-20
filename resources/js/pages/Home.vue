@@ -252,7 +252,7 @@ export default {
     metaInfo: {
         titleTemplate: 'リノベーションプラットフォーム「オーダーリノベ」｜Order Renove',
         meta: [{
-            description: 'リノベーションプラットフォーム「オーダーリノベ」｜Order Renove',
+            description: 'Order Renove（オーダーリノベ）は都内を中心に、「リノベーション済物件」「リノベーション向き物件」を多数掲載。大手ポータル未掲載の物件も多数そろえています。',
         }]
     }
 };
