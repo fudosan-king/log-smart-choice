@@ -136,12 +136,12 @@
                                                                                 >
                                                                             </div>
                                                                         </div>
-                                                                        <div class="col-6 col-lg-6">
+                                                                        <!-- <div class="col-6 col-lg-6">
                                                                             <p class="cases">
                                                                                 <span>{{ district.count_estates }}</span
                                                                                 >件
                                                                             </p>
-                                                                        </div>
+                                                                        </div> -->
                                                                     </template>
                                                                 </div>
                                                             </div>
