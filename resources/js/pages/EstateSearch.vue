@@ -3,7 +3,7 @@
         <section class="section_new_property p-0">
             <div class="box_top mb-0">
                 <div class="container">
-                    <h2 class="title text-center">検索条件</h2>
+                    <h2 class="title text-center">リノベーション物件の検索</h2>
                 </div>
             </div>
         </section>
