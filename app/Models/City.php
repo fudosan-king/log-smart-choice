@@ -27,7 +27,7 @@ class City extends Model
 
     public function districts()
     {
-        return $this->hasMany(District::class, 'city_id', 'id')->select(DB::raw("romaji_name, (romaji_name = '-') boolDash, (romaji_name = '0') boolZero, (romaji_name+0 > 0) boolNum, id, name, city_id, count_estates"))->where('count_estates', '>', 0)
+        return $this->hasMany(District::class, 'city_id', 'id')->select(DB::raw("romaji_name, (romaji_name = '-') boolDash, (romaji_name = '0') boolZero, (romaji_name+0 > 0) boolNum, id, name, city_id"))->where('count_estates', '>', 0)
             ->where('status', District::STATUS_ACTIVATE)
             ->orderByRaw('boolDash DESC, boolZero DESC, boolNum DESC, romaji_name+0, romaji_name');
     }
