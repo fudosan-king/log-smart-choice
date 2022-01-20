@@ -136,12 +136,12 @@
                                                                                 >
                                                                             </div>
                                                                         </div>
-                                                                        <!-- <div class="col-6 col-lg-6">
+                                                                        <div class="col-6 col-lg-6">
                                                                             <p class="cases">
-                                                                                <span>{{ district.count_estates }}</span
-                                                                                >件
+                                                                                <!-- <span>{{ district.count_estates }}</span
+                                                                                >件 -->
                                                                             </p>
-                                                                        </div> -->
+                                                                        </div>
                                                                     </template>
                                                                 </div>
                                                             </div>
@@ -362,8 +362,7 @@ export default {
         let minSquare = conditionSearch.square ? conditionSearch.square.min : '下限なし';
         let maxSquare = conditionSearch.square ? conditionSearch.square.max : '上限なし';
         let tabListActived = conditionSearch.tabSesarch ? conditionSearch.tabSesarch : [];
-        let tagShow = this.$getLocalStorage('tagShow') ? JSON.parse(this.$getLocalStorage('tagShow')) : [];
-        
+        let tagShow = this.$getLocalStorage('tagShow') ? JSON.parse(this.$getLocalStorage('tagShow')) : ['city0'];
 
         return {
             cityList: {},
