@@ -257,9 +257,6 @@ class Estates extends Model
                         $estateInfo->status = self::STATUS_STOP;
                         $estateInfo->save();
                     }
-
-                    $this->increaseDecreaseEstateInDistrict(json_decode(json_encode($estateData->address), true), true, $estateDataId);
-                    $this->increaseDecreaseEstateInStation($estate->transports, true, $estateDataId);
                 } elseif (strtotime($estate->date_last_modified) != (int)$dateModifyFDK->toDateTime()->format('U')) {
                     $estateInfo = EstateInformation::where('estate_id', $estateDataId)->first();
                     $estate->status = $estateInfo->status;
@@ -363,7 +360,8 @@ class Estates extends Model
     {
         DB::beginTransaction();
         try {
-            foreach ($transportEstate as $transport) {
+            foreach ((array) $transportEstate as $transport) {
+                $transport = (array) $transport;
                 $transportCurrent = Transport::where('name', $transport['transport_company'])->first();
                 if (!$transportCurrent) {
                     if ($transport['transport_company']) {
