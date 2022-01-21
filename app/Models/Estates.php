@@ -271,8 +271,6 @@ class Estates extends Model
                         $estate->$key = $value;
                     }
                     $estate->save();
-                    $this->increaseDecreaseEstateInDistrict(json_decode(json_encode($estateData->address), true), false, $estateDataId);
-                    $this->increaseDecreaseEstateInStation($estate->transports, false, $estateDataId);
                 }
             }
         } catch (Exception $e) {
