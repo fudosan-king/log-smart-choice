@@ -268,7 +268,8 @@
   .pagination ul li .page-link {
     border: 0.5px solid #CFAF6E;
     border-radius: 4px;
-    color: #CFAF6E;
+    color: #fff;
+    background: #CFAF6E;
   }
   .pagination ul li .page-link:hover {
     background: #CFAF6E;
@@ -279,11 +280,13 @@
   }
   .pagination ul li.disabled .page-link {
     border: 0.5px solid #CFAF6E;
-    color: #CFAF6E;
+    color: #fff;
+    background: #CFAF6E;
   }
   .pagination ul li.active .page-link {
-    background: #CFAF6E;
+    background: #fff;
     border: 0.5px solid #CFAF6E;
+    color: #CFAF6E;
   }
   .pagination ul li:last-child {
     margin-right: 0;
@@ -572,8 +575,8 @@
   }
   .property-archive_head .property_wishlist {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: -35px;
+    right: 5px;
   }
   .property-archive_head .btn_wishlist {
     float: right;
@@ -2066,10 +2069,6 @@
     width: 15px;
     height: 15px;
     margin-right: 5px;
-  }
-  
-  .listing {
-    margin-bottom: 60px;
   }
   
   .property-listing_detail .full-width {

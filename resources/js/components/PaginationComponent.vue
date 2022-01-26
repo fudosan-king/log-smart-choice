@@ -2,7 +2,7 @@
     <div class="pagination justify-content-center">
         <nav>
             <ul class="pagination">
-                <li class="page-item" :class="{ disabled: paginationInfo.currentPage == 1 }">
+                <!-- <li class="page-item" :class="{ disabled: paginationInfo.currentPage == 1 }">
                     <template v-if="paginationInfo.currentPage != 1">
                         <a
                             class="page-link"
@@ -12,17 +12,17 @@
                             >&lt;</a
                         >
                     </template>
-                </li>
+                </li> -->
                 <li class="page-item" v-if="paginationInfo.currentPage > 3">
                     <a class="page-link" href="javascript:void(0)" v-on:click="pageNumber(1, 'number', $event)">1</a>
                 </li>
-                <li v-if="paginationInfo.currentPage > 4" class="page-item disabled">
+                <li v-if="paginationInfo.currentPage > 3" class="page-item disabled">
                     <span class="page-link">...</span>
                 </li>
 
                 <template v-for="number in paginationInfo.lastPage">
                     <template
-                        v-if="number >= paginationInfo.currentPage - 2 && number <= paginationInfo.currentPage + 2"
+                        v-if="number >= paginationInfo.currentPage - 1 && number <= paginationInfo.currentPage + 1"
                     >
                         <li
                             class="page-item"
@@ -45,7 +45,7 @@
                         paginationInfo.lastPage
                     }}</a>
                 </li>
-                <li class="page-item" :class="{ disabled: paginationInfo.currentPage == paginationInfo.lastPage }">
+                <!-- <li class="page-item" :class="{ disabled: paginationInfo.currentPage == paginationInfo.lastPage }">
                     <template v-if="paginationInfo.currentPage != paginationInfo.lastPage">
                         <a
                             class="page-link"
@@ -54,7 +54,7 @@
                             >&gt;</a
                         >
                     </template>
-                </li>
+                </li> -->
             </ul>
         </nav>
     </div>
@@ -70,7 +70,22 @@ export default {
     methods: {
         pageNumber(page) {
             this.$emit('getListEstates', page);
+            this.intervalId = setInterval(() => {
+                if (window.pageYOffset === 0) {
+                    clearInterval(this.intervalId);
+                }
+                window.scroll(0, window.pageYOffset - 50);
+            }, 20);
+        },
+        scrollListener(e) {
+            this.visible = window.scrollY > 150;
         }
+    },
+    mounted: function() {
+        window.addEventListener('scroll', this.scrollListener);
+    },
+    beforeDestroy: function() {
+        window.removeEventListener('scroll', this.scrollListener);
     }
 };
 </script>

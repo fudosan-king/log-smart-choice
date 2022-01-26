@@ -362,7 +362,7 @@ export default {
         let minSquare = conditionSearch.square ? conditionSearch.square.min : '下限なし';
         let maxSquare = conditionSearch.square ? conditionSearch.square.max : '上限なし';
         let tabListActived = conditionSearch.tabSesarch ? conditionSearch.tabSesarch : [];
-        let tagShow = ['city0'];
+        let tagShow = [];
 
         return {
             cityList: {},
