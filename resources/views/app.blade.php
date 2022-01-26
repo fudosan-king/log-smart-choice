@@ -68,7 +68,7 @@
             j.src =
                 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
             f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', 'GTM-MQP8XNZ');
+        })(window, document, 'script', 'dataLayer', 'GTM-KK6FDLZ');
     </script>
     <!-- End Google Tag Manager -->
 
@@ -99,7 +99,7 @@
 
 <body>
     <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MQP8XNZ" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KK6FDLZ" height="0" width="0" loading="lazy" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
     <div id="app">
         <index>
