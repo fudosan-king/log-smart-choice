@@ -143,12 +143,12 @@ class EstateController extends Controller
         $lists['condition_search'] = [
             'key_word' => $keyWord,
             'price' => [
-                'min' => $minPrice,
-                'max' => $maxPrice
+                'min' => $minPrice != '下限なし' ? $minPrice.'万円' : $minPrice,
+                'max' => $maxPrice != '上限なし' ? $maxPrice.'万円' : $maxPrice
             ],
             'square' => [
-                'min' => $minSquare,
-                'max' => $maxSquare
+                'min' => $minSquare != '下限なし' ? $minSquare.'㎡' : $minSquare,
+                'max' => $maxSquare != '上限なし' ? $maxSquare.'㎡' : $maxSquare
             ],
             'flag_search' => $flagSearch,
             'tab_search_name' => is_array($tabSearchName) ? implode(', ', $tabSearchName) : $tabSearchName

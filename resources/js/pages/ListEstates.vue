@@ -1,16 +1,30 @@
 <template>
     <main>
-        <EstatesComponent></EstatesComponent>
+        <EstatesComponent @title-dynamic="updateTitle"></EstatesComponent>
     </main>
 </template>
 
 <script>
 export default {
+    data() {
+        let titleDynamic = '';
+        return {
+            titleDynamic: titleDynamic
+        }
+    },
     components: {
         EstatesComponent: () => import('../components/EstatesComponent')
     },
-    metaInfo: {
-        titleTemplate: '全物件一覧｜Order Renove'
-    }
+    metaInfo() {
+        let titleTemplate = this.titleDynamic + ' リノベーションマンション一覧｜OrderRenove';
+        return {
+            titleTemplate: titleTemplate
+        }
+    },
+    methods: {
+        updateTitle(keyword) {
+            this.titleDynamic = keyword;
+        }
+    },
 };
 </script>

@@ -122,7 +122,7 @@ Vue.use(Lazyload, {
 export default {
     data() {
         let urlRedirect = this.$route.fullPath;
-        let pageChoice = this.$getLocalStorage('pageChoice') ? this.$getLocalStorage('pageChoice') : 1;
+        let pageChoice = 1;
         return {
             wishtlist: [],
             page: 2,
