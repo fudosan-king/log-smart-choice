@@ -305,7 +305,7 @@ export default {
                 idParents = [],
                 tabList = [],
                 tabListName = [],
-                keyWord = [],
+                keyWord = [];
 
 
             if ($('#pills-area-tab').hasClass('active')) {
