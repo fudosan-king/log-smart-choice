@@ -361,6 +361,8 @@ export default {
     mounted() {
         if (window.localStorage.getItem('estateName')) {
             this.estate = window.localStorage.getItem('estateName');
+        } else {
+            this.$router.push('https://form.run/@order-renove').catch(() => {});
         }
         this.getCustomerInformation();
         this.getListHopeDay();

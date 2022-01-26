@@ -216,7 +216,7 @@
                 v-if="routeName == 'home' || routeName == 'listByCode' || routeName == 'list'"
             >
                 <!-- <template v-if="routeName != 'home'"> -->
-                <a class="btn btn-ft button-contact" href="/contact"
+                <a class="btn btn-ft button-contact" href="https://form.run/@order-renove" target="_blank"
                     ><img
                         src="/assets/images/svg/i_mail.svg"
                         alt=""
@@ -299,13 +299,15 @@ export default {
         },
 
         resultSearch() {
-            let districts = [];
-            let stations = [];
-            let flagSearch = 'station';
-            let idParents = [];
-            let tabList = [];
-            let tabListName = [];
-            let keyWord = [];
+            let districts = [],
+                stations = [],
+                flagSearch = 'station',
+                idParents = [],
+                tabList = [],
+                tabListName = [],
+                keyWord = [],
+
+
             if ($('#pills-area-tab').hasClass('active')) {
                 $('input[name="inputDistrict[]"]:checked').each(function(i) {
                     idParents = [];

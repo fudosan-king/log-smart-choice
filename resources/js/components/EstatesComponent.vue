@@ -327,7 +327,7 @@ export default {
                         } else if (this.conditionSearch.square.min != '下限なし') {
                             square += this.conditionSearch.square.min + '～,';
                         } else if (this.conditionSearch.square.max != '上限なし') {
-                            square += '～' + this.conditionSearch.square.max + ',';
+                            square += '～' + this.conditionSearch.square.max;
                         }
 
                         let string = keyword + price + square;
@@ -376,7 +376,7 @@ export default {
                         } else if (this.conditionSearch.square.min != '下限なし') {
                             square += this.conditionSearch.square.min + '～,';
                         } else if (this.conditionSearch.square.max != '上限なし') {
-                            square += '～' + this.conditionSearch.square.max + ',';
+                            square += '～' + this.conditionSearch.square.max;
                         }
 
                         let string = keyword + price + square;
