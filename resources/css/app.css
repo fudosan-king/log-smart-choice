@@ -434,3 +434,11 @@ footer {
     background: #424242;
     border: solid 1px #f8f9fa;
 }
+
+footer .footer_bottom .button-contact {
+    background: #cfaf6e;
+}
+
+.button-search-condition {
+    margin-bottom: 0px;
+}

@@ -6,22 +6,35 @@
                     <h2>検索結果</h2>
                     <div class="listing_info">
                         <template v-if="conditionSearch">
-                            <p class="searchby_area_label">
+                            <p class="searchby_area_label" v-if="conditionSearch.key_word != '指定なし'">
                                 <b>
                                     {{
-                                        conditionSearch.flag_search == 'district'
+                                        conditionSearch.flag_search == 'area'
                                             ? 'エリアから探す：'
                                             : '沿線・駅から探す：'
                                     }}</b
                                 >{{ conditionSearch.key_word }}
                             </p>
                             <template v-if="conditionSearch.price">
-                                <p class="mb-1">
+                                <p
+                                    class="mb-1"
+                                    v-if="
+                                        conditionSearch.price.min != '下限なし' ||
+                                            conditionSearch.price.max != '上限なし'
+                                    "
+                                >
                                     <b>価格：</b>{{ conditionSearch.price.min }}～{{ conditionSearch.price.max }}
                                 </p>
                             </template>
                             <template v-if="conditionSearch.square">
-                                <p><b>広さ：</b>{{ conditionSearch.square.min }}～{{ conditionSearch.square.max }}</p>
+                                <p
+                                    v-if="
+                                        conditionSearch.square.min != '下限なし' ||
+                                            conditionSearch.square.max != '上限なし'
+                                    "
+                                >
+                                    <b>広さ：</b>{{ conditionSearch.square.min }}～{{ conditionSearch.square.max }}
+                                </p>
                             </template>
                             <template v-if="conditionSearch.tab_search_name">
                                 <p><b>こだわり：</b>{{ conditionSearch.tab_search_name }}</p>
@@ -63,7 +76,7 @@
                                                 "
                                                 alt=""
                                                 class="img-fluid"
-                                                width="265"
+                                                width="335"
                                             />
                                         </template>
                                         <div class="group_price" v-if="estate.renovation_type != 'カスタム可能物件'">
@@ -140,6 +153,21 @@
                         :page-choice="pageChoice"
                         @getListEstates="getListEstates"
                     ></PaginationComponent>
+                    <div class="listing_top button-search-condition">
+                        <div class="container">
+                            <div class="listing_sort">
+                                <div class="border-0 pl-0 search_number"></div>
+                                <ul>
+                                    <li>
+                                        <button type="button" class="btn btn-filter black" v-on:click="goSearchPage">
+                                            <i class="c-icon i-filter-white"></i>
+                                            条件を変更する
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

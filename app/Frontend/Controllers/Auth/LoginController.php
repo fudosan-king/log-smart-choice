@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Laravel\Passport\Token;
 use Laravel\Socialite\Facades\Socialite;
+use HungNguyen\LoginSocialNetwork\Http\LoginSocialNetwork;
 
 class LoginController extends Controller
 {
@@ -101,9 +102,8 @@ class LoginController extends Controller
         try {
             $socialId = $request->get('socialId');
             $socialType = $request->get('socialType');
-            $data = Socialite::driver($socialType);
-            $token = $request->get('token');
-            if ($user = $data->userFromToken($token)) {
+            $user = LoginSocialNetwork::getUserInfoByToken($request->get('token'), $socialType);
+            if ($user) {
                 $customer = Customer::where('social_id', $socialId)->where('status', Customer::ACTIVE)->first();
                 $districts = District::select('name')
                     ->where('status', District::STATUS_ACTIVATE)

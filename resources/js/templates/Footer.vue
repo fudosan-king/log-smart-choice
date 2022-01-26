@@ -191,7 +191,7 @@
             </div>
             <div class="footer_bottom fixed-bottom" v-if="contactPart == 'detail'">
                 <div class="bottom_box">
-                    <a class="btn btn-ft" href="javascript:void(0)" v-on:click="directToContact"
+                    <a class="btn btn-ft button-contact" href="javascript:void(0)" v-on:click="directToContact"
                         ><img
                             src="/assets/images/svg/i_mail.svg"
                             alt=""
@@ -200,7 +200,7 @@
                             height="18"
                         />内覧・お問い合わせ</a
                     >
-                    <a class="btn btn-ft" href="tel:0120991657"
+                    <a class="btn btn-ft button-contact" href="tel:0120991657"
                         ><img
                             src="/assets/images/svg/i_call.svg"
                             alt=""
@@ -216,7 +216,7 @@
                 v-if="routeName == 'home' || routeName == 'listByCode' || routeName == 'list'"
             >
                 <!-- <template v-if="routeName != 'home'"> -->
-                <a class="btn btn-ft" href="/contact"
+                <a class="btn btn-ft button-contact" href="/contact"
                     ><img
                         src="/assets/images/svg/i_mail.svg"
                         alt=""
