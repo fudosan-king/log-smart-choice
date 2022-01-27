@@ -38,7 +38,7 @@ axios.defaults.withCredentials = true;
 axios.defaults.timeout = 2500;
 axios.defaults.baseURL = `${process.env.MIX_APP_URL}/api`;
 axios.interceptors.response.use(undefined, function (error) {
-    if (error) {
+    if (error && error.response) {
         if (error.response.status === 401) {
             let urlRedirect = window.location.pathname;
             return router.push({ path: '/login', query: { redirect: urlRedirect } });
