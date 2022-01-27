@@ -244,6 +244,12 @@ export default {
             let maxSquare = this.$route.query.maxSquare;
             let tabSearch = this.$route.query.tabSearch ? this.$route.query.tabSearch : this.tabListActived;
             let tabSearchName = this.$route.query.tabSearchName;
+            let parentIdSelected = this.$getLocalStorage('parentIdSelected')
+                ? JSON.parse(this.$getLocalStorage('parentIdSelected'))
+                : '';
+            let parentNameSelected = this.$getLocalStorage('parentNameSelected')
+                ? JSON.parse(this.$getLocalStorage('parentNameSelected'))
+                : '';
 
             let data = {
                 limit: 16,
@@ -279,6 +285,14 @@ export default {
 
             if (tabSearchName) {
                 data.tab_search_name = tabSearchName;
+            }
+
+            if (parentIdSelected) {
+                data.parent_id_selected = parentIdSelected;
+            }
+
+            if (parentNameSelected) {
+                data.parent_name_selected = parentNameSelected;
             }
 
             if (accessToken) {
@@ -342,6 +356,7 @@ export default {
                 this.$store
                     .dispatch('getEstateList', data)
                     .then(res => {
+                        let stringTitle = [];
                         // this.estates = this.estates.concat(res[0]['data']);
                         this.estates = res[0]['data'];
                         this.conditionSearch = conditionSearch = res[0]['conditionSearch'];
@@ -353,34 +368,49 @@ export default {
                             this.hasMore = false;
                         }
 
-                        let keyword =
-                            this.conditionSearch.key_word != '指定なし' ? this.conditionSearch.key_word + ',' : '';
+                        let keyword = '';
+
                         let price = '';
                         let square = '';
-                        if (
-                            this.conditionSearch.price.min != '下限なし' &&
-                            this.conditionSearch.price.max != '上限なし'
-                        ) {
-                            price += this.conditionSearch.price.min + '～' + this.conditionSearch.price.max + ',';
-                        } else if (this.conditionSearch.price.min != '下限なし') {
-                            price += this.conditionSearch.price.min + '～,';
-                        } else if (this.conditionSearch.price.max != '上限なし') {
-                            price += '～' + this.conditionSearch.price.max + ',';
+                        let tagName = '';
+                        if (this.conditionSearch.key_word) {
+                            keyword = this.conditionSearch.key_word != '指定なし' ? this.conditionSearch.key_word : '';
+                            stringTitle.push(keyword);
+                        }
+                        if (this.conditionSearch.price) {
+                            if (
+                                this.conditionSearch.price.min != '下限なし' &&
+                                this.conditionSearch.price.max != '上限なし'
+                            ) {
+                                price += ' ' + this.conditionSearch.price.min + '～' + this.conditionSearch.price.max;
+                            } else if (this.conditionSearch.price.min != '下限なし') {
+                                price += ' ' + this.conditionSearch.price.min + '～';
+                            } else if (this.conditionSearch.price.max != '上限なし') {
+                                price += ' ～' + this.conditionSearch.price.max;
+                            }
+                            stringTitle.push(price);
                         }
 
-                        if (
-                            this.conditionSearch.square.min != '下限なし' &&
-                            this.conditionSearch.square.max != '上限なし'
-                        ) {
-                            square += this.conditionSearch.square.min + '～' + this.conditionSearch.square.max + ',';
-                        } else if (this.conditionSearch.square.min != '下限なし') {
-                            square += this.conditionSearch.square.min + '～,';
-                        } else if (this.conditionSearch.square.max != '上限なし') {
-                            square += '～' + this.conditionSearch.square.max;
+                        if (this.conditionSearch.square) {
+                            if (
+                                this.conditionSearch.square.min != '下限なし' &&
+                                this.conditionSearch.square.max != '上限なし'
+                            ) {
+                                square +=
+                                    ' ' + this.conditionSearch.square.min + '～' + this.conditionSearch.square.max;
+                            } else if (this.conditionSearch.square.min != '下限なし') {
+                                square += ' ' + this.conditionSearch.square.min + '～';
+                            } else if (this.conditionSearch.square.max != '上限なし') {
+                                square += ' ～' + this.conditionSearch.square.max;
+                            }
+                            stringTitle.push(square);
                         }
 
-                        let string = keyword + price + square;
-                        this.$emit('title-dynamic', string);
+                        if (this.conditionSearch.tab_search_name) {
+                            tagName = ' ' + this.conditionSearch.tab_search_name;
+                            stringTitle.push(tagName);
+                        }
+                        this.$emit('title-dynamic', stringTitle.join());
                     })
                     .catch(err => {
                         this.$setCookie('accessToken3d', '', 1);

@@ -305,8 +305,9 @@ export default {
                 idParents = [],
                 tabList = [],
                 tabListName = [],
-                keyWord = [];
-
+                keyWord = [],
+                parentIdSelected = [],
+                parentNameSelected = [];
 
             if ($('#pills-area-tab').hasClass('active')) {
                 $('input[name="inputDistrict[]"]:checked').each(function(i) {
@@ -319,6 +320,8 @@ export default {
                 });
                 $('.ck_allCity input:checked').each(function(i) {
                     idParents[i] = $(this).val();
+                    parentIdSelected[i] = parseInt($(this).attr('data-id'));
+                    parentNameSelected[i] = $(this).attr('data-name');
                 });
                 flagSearch = 'area';
             } else {
@@ -333,6 +336,8 @@ export default {
 
                 $('.ck_allStation input:checked').each(function(i) {
                     idParents[i] = $(this).val();
+                    parentIdSelected[i] = parseInt($(this).attr('data-id'));
+                    parentNameSelected[i] = $(this).attr('data-name');
                 });
             }
 
@@ -361,9 +366,12 @@ export default {
                 tabSesarch: tabList,
                 tabName: tabListName
             };
+
             this.$setLocalStorage('tabActive', flagSearch);
             this.$setLocalStorage('conditionSearch', JSON.stringify(data));
             this.$setLocalStorage('idParents', JSON.stringify(idParents));
+            this.$setLocalStorage('parentIdSelected', JSON.stringify(parentIdSelected));
+            this.$setLocalStorage('parentNameSelected', JSON.stringify(parentNameSelected));
 
             this.$router
                 .push({

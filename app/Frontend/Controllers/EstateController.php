@@ -48,6 +48,8 @@ class EstateController extends Controller
         $maxSquare = $request->get('max_square') ?? Customer::CONDITION_MAX;
         $tabSearch = $request->get('tab_search') ?? [];
         $tabSearchName = $request->get('tab_search_name') ?? [];
+        $parentIdSelected = $request->get('parent_id_selected') ?? [];
+        $parentNameSelected = $request->get('parent_name_selected') ?? [];
         $email = $request->get('email') ?? '';
         $isSocial = $request->get('isSocial') ?? '';
         $flagSearch = $request->get('flag_search') ?? '';
@@ -62,6 +64,7 @@ class EstateController extends Controller
         $selectAll = false;
         if ($flagSearch == 'station') {
             $stationSelected = [];
+            $stationGroup = [];
             if (!$stations) {
                 $stationList = Station::select('name')->get()->toArray();
                 foreach ($stationList as $value) {
@@ -71,16 +74,31 @@ class EstateController extends Controller
             } else {
                 foreach ($stations as $value) {
                     $stationSelected[] = $value['name'];
+                    if ($parentIdSelected) {
+                        if (!in_array($value['transportId'], $parentIdSelected)) {
+                            $stationGroup[] = $value['name'];
+                        }
+                    }
+                }
+                if ($parentIdSelected) {
+                    foreach ($parentNameSelected as $name) {
+                        array_push($stationGroup, $name);
+                    }
                 }
             }
 
             $estates->whereIn('transports.station_name', $stationSelected);
             $flagSearch = 'station';
             $stationSelected = $selectAll ? $stationSelected[0] = '指定なし' : $stationSelected;
-            $keyWord = is_array($stationSelected) ? implode(', ', $stationSelected) : $stationSelected;
+            if ($parentIdSelected) {
+                $keyWord = implode(', ', $stationGroup);
+            } else {
+                $keyWord = is_array($stationSelected) ? implode(', ', $stationSelected) : $stationSelected;
+            }
         } else {
+            $districtGroup = [];
+            $districtSelected = [];
             if (!$districts) {
-                $districtSelected = [];
                 $districtList = District::select('name')->where('status', District::STATUS_ACTIVATE)->get()->toArray();
                 foreach ($districtList as $value) {
                     $districtSelected[] = $value['name'];
@@ -89,13 +107,27 @@ class EstateController extends Controller
             } else {
                 foreach ($districts as $value) {
                     $districtSelected[] = $value['name'];
+                    if ($parentIdSelected) {
+                        if (!in_array($value['cityId'], $parentIdSelected)) {
+                            $districtGroup[] = $value['name'];
+                        }
+                    }
+                }
+                if ($parentIdSelected) {
+                    foreach ($parentNameSelected as $name) {
+                        array_push($districtGroup, $name);
+                    }
                 }
             }
 
             $estates->whereIn('address.city', $districtSelected);
             $flagSearch = 'area';
             $districtSelected = $selectAll ? $districtSelected[0] = '指定なし' : $districtSelected;
-            $keyWord = is_array($districtSelected) ? implode(', ', $districtSelected) : $districtSelected;
+            if ($parentIdSelected) {
+                $keyWord = implode(', ', $districtGroup);
+            } else {
+                $keyWord = is_array($districtSelected) ? implode(', ', $districtSelected) : $districtSelected;
+            }
         }
 
         // price
@@ -143,12 +175,12 @@ class EstateController extends Controller
         $lists['condition_search'] = [
             'key_word' => $keyWord,
             'price' => [
-                'min' => $minPrice != '下限なし' ? $minPrice.'万円' : $minPrice,
-                'max' => $maxPrice != '上限なし' ? $maxPrice.'万円' : $maxPrice
+                'min' => $minPrice != '下限なし' ? $minPrice . '万円' : $minPrice,
+                'max' => $maxPrice != '上限なし' ? $maxPrice . '万円' : $maxPrice
             ],
             'square' => [
-                'min' => $minSquare != '下限なし' ? $minSquare.'㎡' : $minSquare,
-                'max' => $maxSquare != '上限なし' ? $maxSquare.'㎡' : $maxSquare
+                'min' => $minSquare != '下限なし' ? $minSquare . '㎡' : $minSquare,
+                'max' => $maxSquare != '上限なし' ? $maxSquare . '㎡' : $maxSquare
             ],
             'flag_search' => $flagSearch,
             'tab_search_name' => is_array($tabSearchName) ? implode(', ', $tabSearchName) : $tabSearchName
@@ -156,7 +188,7 @@ class EstateController extends Controller
         if ($lists['data']) {
             $lists['data'] = $this->getEstateInformation($lists['data'], $wishList);
             $lists['lasted_estate'] = $lists['data'][0];
-            
+
             return response()->json($lists, 200);
         }
 
@@ -175,19 +207,83 @@ class EstateController extends Controller
         if (!$id) {
             return response()->json(['data' => []], 200);
         }
-        $estate = Estates::select('estate_name', 'area_bldg_name', 'address', 'price', 'custom_field', 'tatemono_menseki',
-            'structure', 'management_fee', 'room_floor', 'total_houses', 'built_date', 'delivery', 'date_last_modified',
-            'renovation_done_date', 'house_status', 'delivery', 'land_law_report', 'trade_type', 
-             'decor', 'repair_reserve_fee', 'other_fee', 'total_houses', 'built_date', 'motoduke.company', 'constructor',
-            'management_company', 'management_scope', 'land_rights', 'latitude', 'longitude',
-            'bicycles_park_price', 'usen_fee', 'internet_fee', 'catv_fee', 'community_fee', 'community_fee_type',
-            'area_purpose', 'carpark_fee_min', 'carpark_manage_fee', 'homes', 'carpark_fee_min',
-            'carpark_manage_fee', 'bike_park', 'bike_park_price', 'bike_park_price_per', 'bicycles_park',
-            'bicycles_park_price', 'bicycles_park_price_per', 'ground_floors', 'structure', 'window_direction',
-            'has_balcony', 'balcony_space', 'land_rights', 'land_rights_detail', 'land_leashold_type', 'land_leashold_years',
-            'land_leashold_months', 'land_leashold_limit', 'leasehold_ratio', 'land_fee_type', 'land_fee', 'land_fee_per',
-            'transports', 'room_count', 'room_kind', 'spa_fee', 'rights_fee', 'deposit_fee', 'guarantee_fee_depreciation', 'guarantee_fee',
-            'repair_reserve_initial_fee', 'service_rooms', 'superintendent', 'renovation_type', 'status'
+        $estate = Estates::select(
+            'estate_name',
+            'area_bldg_name',
+            'address',
+            'price',
+            'custom_field',
+            'tatemono_menseki',
+            'structure',
+            'management_fee',
+            'room_floor',
+            'total_houses',
+            'built_date',
+            'delivery',
+            'date_last_modified',
+            'renovation_done_date',
+            'house_status',
+            'delivery',
+            'land_law_report',
+            'trade_type',
+            'decor',
+            'repair_reserve_fee',
+            'other_fee',
+            'total_houses',
+            'built_date',
+            'motoduke.company',
+            'constructor',
+            'management_company',
+            'management_scope',
+            'land_rights',
+            'latitude',
+            'longitude',
+            'bicycles_park_price',
+            'usen_fee',
+            'internet_fee',
+            'catv_fee',
+            'community_fee',
+            'community_fee_type',
+            'area_purpose',
+            'carpark_fee_min',
+            'carpark_manage_fee',
+            'homes',
+            'carpark_fee_min',
+            'carpark_manage_fee',
+            'bike_park',
+            'bike_park_price',
+            'bike_park_price_per',
+            'bicycles_park',
+            'bicycles_park_price',
+            'bicycles_park_price_per',
+            'ground_floors',
+            'structure',
+            'window_direction',
+            'has_balcony',
+            'balcony_space',
+            'land_rights',
+            'land_rights_detail',
+            'land_leashold_type',
+            'land_leashold_years',
+            'land_leashold_months',
+            'land_leashold_limit',
+            'leasehold_ratio',
+            'land_fee_type',
+            'land_fee',
+            'land_fee_per',
+            'transports',
+            'room_count',
+            'room_kind',
+            'spa_fee',
+            'rights_fee',
+            'deposit_fee',
+            'guarantee_fee_depreciation',
+            'guarantee_fee',
+            'repair_reserve_initial_fee',
+            'service_rooms',
+            'superintendent',
+            'renovation_type',
+            'status'
         )
             ->with('estateInformation')
             ->where('_id', $id)
@@ -199,9 +295,9 @@ class EstateController extends Controller
                 ->where('_id', '!=', $id)
                 ->where('address.city', $estateAddress['city'])->take(Estates::LIMIT_ESTATE_NEAR_AREA)->orderBy('date_created', 'desc')
                 ->get();
-    
-            $district = District::where('name', 'like', '%'. $estateAddress['city'] . '%')->first();
-    
+
+            $district = District::where('name', 'like', '%' . $estateAddress['city'] . '%')->first();
+
             $roundSquare = explode('.', $estate[0]['tatemono_menseki']);
             $estate[0]['renovation_cost'] = 0;
             if ($estate[0]['renovation_type'] != Estates::DECOR) {
@@ -231,10 +327,18 @@ class EstateController extends Controller
                 $estates[$key]['decor'] = (float)$estates[$key]['decor'];
             }
             $estateInformation = EstateInformation::select(
-                'estate_id', 'id_estate_3d', 'estate_main_photo',
-                'renovation_media', 'estate_befor_photo', 'estate_after_photo',
-                'time_to_join', 'direction', 'company_design',
-                'url_map', 'article_title', 'estate_fee',
+                'estate_id',
+                'id_estate_3d',
+                'estate_main_photo',
+                'renovation_media',
+                'estate_befor_photo',
+                'estate_after_photo',
+                'time_to_join',
+                'direction',
+                'company_design',
+                'url_map',
+                'article_title',
+                'estate_fee',
             )
                 ->where('estate_id', $estates[$key]['_id'])->get()->first();
             $estates[$key]['estate_information'] = $estateInformation;
@@ -284,7 +388,7 @@ class EstateController extends Controller
         }
         return $photos_s3;
     }
-    
+
     /**
      * updateEstateId3D
      *
@@ -330,7 +434,8 @@ class EstateController extends Controller
         return $this->response(200, 'Update id estate 3d success', []);
     }
 
-    public function getEstateNear(Request $request) {
+    public function getEstateNear(Request $request)
+    {
 
         $email = $request->get('email') ?? '';
         $isSocial = $request->get('isSocial') ?? '';
@@ -339,7 +444,7 @@ class EstateController extends Controller
         if ($isSocial) {
             $customer = Customer::where('social_id', $email)->first();
         }
-        
+
         $estateLasted = Estates::select($this->selectField)
             ->where('status', Estates::STATUS_SALE)
             ->orderBy('date_created', 'desc')
@@ -370,8 +475,8 @@ class EstateController extends Controller
                 })
                 ->orderBy('date_created', 'desc')->take(Estates::LIMIT_ESTATE_NEAR_AREA)
                 ->get()->toArray();
-    
-            
+
+
             if ($estatesNear) {
                 $wishList = [];
                 if ($customer) {
@@ -386,7 +491,7 @@ class EstateController extends Controller
                     }
                 }
                 $lists = $this->getEstateInformation($estatesNear, $wishList);
-    
+
                 return $this->response(200, 'Get near estate success', $lists, true);
             }
         }
@@ -428,7 +533,7 @@ class EstateController extends Controller
         $wishList = [];
         if ($customer) {
             $wishListForCustomer = WishLists::select('estate_id')
-            ->where('user_id', $customer->id)
+                ->where('user_id', $customer->id)
                 ->where('is_wishlist', WishLists::ADDED_WISH_LIST)
                 ->get()->toArray();
             if (!empty($wishListForCustomer)) {
@@ -443,7 +548,7 @@ class EstateController extends Controller
             foreach ($estateRecommendList as $key => $estateRecommend) {
                 $estateRecommendList[$key]['order_sort'] = $estatesSort[$estateRecommend['_id']];
             }
-            usort($estateRecommendList, function($a, $b) {
+            usort($estateRecommendList, function ($a, $b) {
                 return $a['order_sort'] <=> $b['order_sort'];
             });
             return $this->response(200, "Get estate recommend success", $estateRecommendList, true);
