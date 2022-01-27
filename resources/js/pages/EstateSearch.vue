@@ -76,6 +76,8 @@
                                                                                   )
                                                                                 : ''
                                                                         "
+                                                                        :data-id="city.id"
+                                                                        :data-name="city.name"
                                                                     />
                                                                     <label
                                                                         class="custom-control-label"
@@ -188,6 +190,8 @@
                                                                                   )
                                                                                 : ''
                                                                         "
+                                                                        :data-id="transport.id"
+                                                                        :data-name="transport.name"
                                                                     />
                                                                     <label
                                                                         class="custom-control-label"
