@@ -514,8 +514,8 @@ class EstateController extends Controller
         }
 
         $this->validate($request, [
-            'estate_image.*' => 'image|mimes:jpg,png,jpeg|max:2048',
-            'estate_main_photo.*' => 'image|mimes:jpg,png,jpeg|max:2048',
+            'estate_image.*' => 'mimes:jpg,png,jpeg,webp|max:2048',
+            'estate_main_photo.*' => 'mimes:jpg,png,jpeg,webp|max:2048',
         ]);
 
         $this->_insertMainImage($request, $id);
