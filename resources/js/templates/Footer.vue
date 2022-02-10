@@ -137,6 +137,7 @@
                                         alt=""
                                         class="img-fluid"
                                         width="224"
+                                        height="224"
                                 /></a>
                             </p>
                             <ul class="text-center">
@@ -165,17 +166,17 @@
                             <ul class="footer_logo">
                                 <li>
                                     <a target="_blank" href="https://www.logsuite.co.jp"
-                                        ><img src="/images/svg/logSuite2_white.svg" alt="" class="img-fluid" width="88"
+                                        ><img src="/images/svg/logSuite2_white.svg" alt="" class="img-fluid" width="88" height="88"
                                     /></a>
                                 </li>
                                 <li>
                                     <a target="_blank" href="https://www.logarchitects.co.jp"
-                                        ><img src="/images/svg/logArch2_white.svg" alt="" class="img-fluid" width="120"
+                                        ><img src="/images/svg/logArch2_white.svg" alt="" class="img-fluid" width="120" height="120"
                                     /></a>
                                 </li>
                                 <li>
                                     <a target="_blank" href="https://www.logknot.co.jp"
-                                        ><img src="/images/svg/logKnot2_white.svg" alt="" class="img-fluid" width="84"
+                                        ><img src="/images/svg/logKnot2_white.svg" alt="" class="img-fluid" width="84" height="84"
                                     /></a>
                                 </li>
                             </ul>

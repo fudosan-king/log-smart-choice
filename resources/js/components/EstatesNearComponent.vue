@@ -14,6 +14,7 @@
                                 alt=""
                                 class="img-fluid"
                                 width="265"
+                                height="265"
                             />
                         </template>
                         <div class="group_price" v-if="estate.renovation_type != 'カスタム可能物件'">
