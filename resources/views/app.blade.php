@@ -3,10 +3,10 @@
 <html class="no-js">
 
 <head>
-    <script src="//statics.a8.net/a8sales/a8sales.js"></script>
-    <script src="https://r.moshimo.com/af/r/maftag.js"></script>
-    <script src="/js/argsv.min.js"></script>
-    <script type="text/javascript" src="//aff.i-mobile.co.jp/script/lpcvlink.js"></script>
+    <script rel="preload" as="script" src="//statics.a8.net/a8sales/a8sales.js"></script>
+    <script rel="preload" as="script" src="https://r.moshimo.com/af/r/maftag.js"></script>
+    <script rel="preload" as="script" src="/js/argsv.min.js"></script>
+    <script rel="preload" as="script" type="text/javascript" src="//aff.i-mobile.co.jp/script/lpcvlink.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0,user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     @if (preg_match('/(contact\/thanks)/', url()->current()))
@@ -81,8 +81,8 @@
     <meta name="theme-color" content="#ffffff">
     <meta name="facebook-domain-verification" content="0k67lwtra49sl6z4qnaowtz5ko1a7p" />
     <meta name="p:domain_verify" content="30339f9b350e09f0f679429e3dc3cdac" />
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+    <!-- <link rel="preconnect" href="https://fonts.gstatic.com"> -->
+    <link rel="preload" onload="this.rel='stylesheet'" as="style" href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
 
     <link rel="preload" onload="this.rel='stylesheet'" as="style" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
     <link rel="preload" onload="this.rel='stylesheet'" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" type="text/css">
