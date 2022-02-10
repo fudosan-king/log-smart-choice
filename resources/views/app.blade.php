@@ -84,17 +84,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" rel="preload" onload="this.rel='stylesheet'" as="style" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" rel="preload" onload="this.rel='stylesheet'" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" type="text/css">
-    <link rel="stylesheet" rel="preload" onload="this.rel='stylesheet'" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.standalone.min.css" type="text/css">
-    <link rel="stylesheet" rel="preload" onload="this.rel='stylesheet'" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" type="text/css">
-    <link rel="stylesheet" rel="preload" onload="this.rel='stylesheet'" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css" />
-    <link rel="stylesheet" rel="preload" onload="this.rel='stylesheet'" as="style" href="/assets/css/flickity.min.css" type="text/css">
-    <link rel="stylesheet" rel="preload" onload="this.rel='stylesheet'" as="style" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
-    <link rel="stylesheet" rel="preload" onload="this.rel='stylesheet'" as="style" href="/assets/css/styles.min.css" type="text/css">
-    <link rel="stylesheet" rel="preload" onload="this.rel='stylesheet'" as="style" href="/assets/css/t_styles.min.css" type="text/css">
-    <link rel="stylesheet" rel="preload" onload="this.rel='stylesheet'" as="style" href="/assets/css/c_styles.min.css" type="text/css">
-    <link rel="stylesheet" rel="preload" onload="this.rel='stylesheet'" href="/css/app.min.css" type="text/css">
+    <link rel="preload" onload="this.rel='stylesheet'" as="style" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+    <link rel="preload" onload="this.rel='stylesheet'" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" type="text/css">
+    <link rel="preload" onload="this.rel='stylesheet'" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.standalone.min.css" type="text/css">
+    <link rel="preload" onload="this.rel='stylesheet'" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" type="text/css">
+    <link rel="preload" onload="this.rel='stylesheet'" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.1/css/ion.rangeSlider.min.css" />
+    <link rel="preload" onload="this.rel='stylesheet'" as="style" href="/assets/css/flickity.min.css" type="text/css">
+    <link rel="preload" onload="this.rel='stylesheet'" as="style" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
+    <link rel="preload" onload="this.rel='stylesheet'" as="style" href="/assets/css/styles.min.css" type="text/css">
+    <link rel="preload" onload="this.rel='stylesheet'" as="style" href="/assets/css/t_styles.min.css" type="text/css">
+    <link rel="preload" onload="this.rel='stylesheet'" as="style" href="/assets/css/c_styles.min.css" type="text/css">
+    <link rel="preload" onload="this.rel='stylesheet'" href="/css/app.min.css" type="text/css">
 </head>
 
 <body>

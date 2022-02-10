@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\AboutController;
-use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EstateController;
 use Illuminate\Support\Facades\Route;
 use TCG\Voyager\Facades\Voyager;
@@ -35,4 +34,5 @@ Route::group(['/'], function () {
     // Route::group(['prefix' => 'estates'], function () {
     //     Route::get('/', [EstateController::class, 'index'])->name('voyager.estates.index');
     // });
+
 });
