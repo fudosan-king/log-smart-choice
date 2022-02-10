@@ -31,6 +31,8 @@
                                     src="/assets/images/common/logo-orderrenove.svg"
                                     alt=""
                                     title=""
+                                    width="60px"
+                                    height="43px"
                                 />
                             </div>
                             <h3>大手ポータルサイト未掲載の物件多数</h3>
