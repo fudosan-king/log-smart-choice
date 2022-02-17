@@ -490,10 +490,10 @@ export default {
             if (dayOfWeek == 1) {
                 dayKind = '月';
             }
-            if (dayOfWeek == 2 && $.inArray(dd, holimonth) == 0) {
+            if (dayOfWeek == 2 && ($.inArray(parseInt(dd), holimonth) > -1)) {
                 dayKind = '火';
             }
-            if (dayOfWeek == 3 && $.inArray(dd, holimonth) == 0) {
+            if (dayOfWeek == 3 && ($.inArray(parseInt(dd), holimonth) > -1)) {
                 dayKind = '水';
             }
             if (dayOfWeek == 4) {
