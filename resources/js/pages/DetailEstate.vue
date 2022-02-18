@@ -129,8 +129,8 @@
                                         width="100px"
                                         height="100px"
                                     />
-                                    <template v-if="indexPhoto == 0">
-                                        <!-- <h3 class="estate_name_title">{{ estate.estate_name }}</h3>
+                                    <!-- <template v-if="indexPhoto == 0">
+                                        <h3 class="estate_name_title">{{ estate.estate_name }}</h3>
                                             <p v-if="estate.address"
                                                 >{{ estate.address.pref }}{{ estate.address.city }}{{ estate.address.ooaza }}{{ estate.address.tyoume }}{{ estate.address.gaikutiban }}<br />
                                                 専有面積{{ estate.tatemono_menseki }}m²
@@ -139,11 +139,11 @@
                                                 </template>
                                                 <br />
                                                 {{ estate.ground_floors ? estate.ground_floors + '階建' : '' }}／{{ estate.structure }}
-                                            </p> -->
+                                            </p>
                                     </template>
-                                    <template v-else>
+                                    <template v-else> -->
                                         <p class="describe" v-html="photo.description"></p>
-                                    </template>
+                                    <!-- </template> -->
                                 </div>
                             </template>
                             <!-- Street View -->
