@@ -94,7 +94,7 @@
     <link rel="preload" onload="this.rel='stylesheet'" as="style" href="/assets/css/styles.min.css" type="text/css">
     <link rel="preload" onload="this.rel='stylesheet'" as="style" href="/assets/css/t_styles.min.css" type="text/css">
     <link rel="preload" onload="this.rel='stylesheet'" as="style" href="/assets/css/c_styles.min.css" type="text/css">
-    <link rel="preload" onload="this.rel='stylesheet'" href="/css/app.min.css" type="text/css">
+    <link rel="preload" onload="this.rel='stylesheet'" as="style" href="/css/app.min.css" type="text/css">
 </head>
 
 <body>

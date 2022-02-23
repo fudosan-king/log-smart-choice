@@ -20,9 +20,7 @@
                         </template>
                     </template>
                     <span class="price">
-                        <template v-if="estate.status == '成約済'">
-                            成約済
-                        </template>
+                        <template v-if="estate.status == '成約済'"> 成約済 </template>
                         <template v-else>
                             {{ $lscFormatCurrency(estate.price) }} 万円
                             <template v-if="estate.renovation_type != 'リノベ済物件'"
@@ -40,8 +38,8 @@
                         <div class="col-12 col-lg-10 align-self-center">
                             <p class="subtitle mb-2">
                                 <small v-if="estate.estate_information"
-                                    ><b class="estate_name_title">{{ estate.estate_information.article_title }}</b
-                                    ><br />
+                                    ><h1 class="estate_name_title">{{ estate.estate_information.article_title }}</h1>
+                                    <br />
                                     <!-- <span> -->
                                     <template v-if="estate.address"
                                         >{{ estate.address.pref }}{{ estate.address.city }}{{ estate.address.ooaza
@@ -142,26 +140,28 @@
                                             </p>
                                     </template>
                                     <template v-else> -->
-                                        <p class="describe" v-html="photo.description"></p>
+                                    <p class="describe" v-html="photo.description"></p>
                                     <!-- </template> -->
                                 </div>
                             </template>
                             <!-- Street View -->
                             <div class="map" v-html="srcStreetView"></div>
                             <!-- End Street View -->
-                            <div class="box_calcu">
-                                <template v-if="estate.status == '成約済'">
-                                    <h1><span>成約済</span></h1>
-                                </template>
-                                <template v-else>
-                                    <h1>
-                                        物件価格<template v-if="estate.renovation_type != 'リノベ済物件'"
-                                            >＋リノベ費用</template
-                                        >
+                            <div class="box_calcu mt-5">
+                                <div class="renovationproperty_price">
+                                    <template v-if="estate.status == '成約済'">
+                                        <h2><span>成約済</span></h2>
+                                    </template>
+                                    <template v-else>
+                                        <h2>
+                                            物件価格<template v-if="estate.renovation_type != 'リノベ済物件'"
+                                                >＋リノベ費用</template
+                                            >
+                                        </h2>
                                         <span>{{ $lscFormatCurrency(estate.price + estate.renovation_cost) }}</span
                                         ><i>万円</i>
                                         <template v-if="estate.renovation_type != 'リノベ済物件'">
-                                            <p class="mb-0 mt-2 fee">
+                                            <p class="mb-0 mt-1 fee">
                                                 物件価格：{{
                                                     $lscFormatCurrency(estate.price ? estate.price : estate.price)
                                                 }}万円 ／リノベ費用：{{
@@ -173,8 +173,8 @@
                                                 }}万円
                                             </p>
                                         </template>
-                                    </h1>
-                                </template>
+                                    </template>
+                                </div>
                                 <form action="" class="frm_calcu">
                                     <div class="row">
                                         <div class="col-12 col-lg-6">
@@ -378,6 +378,9 @@
                             </div>
                             <div class="renovation_specifications_table">
                                 <table class="table">
+                                    <thead>
+                                        <h2 class="title-specifications-table">物件概要</h2>
+                                    </thead>
                                     <tr>
                                         <th width="45%">マンション名</th>
                                         <td>{{ estate.estate_name }}{{ estate.area_bldg_name }}</td>
@@ -466,10 +469,10 @@
                                                     v-if="
                                                         (estate.usen_fee.initial_cost &&
                                                             estate.usen_fee.repeat_cost.price) ||
-                                                            (estate.internet_fee.initial_cost &&
-                                                                estate.internet_fee.repeat_cost.price) ||
-                                                            (estate.catv_fee.initial_cost &&
-                                                                estate.catv_fee.repeat_cost.price)
+                                                        (estate.internet_fee.initial_cost &&
+                                                            estate.internet_fee.repeat_cost.price) ||
+                                                        (estate.catv_fee.initial_cost &&
+                                                            estate.catv_fee.repeat_cost.price)
                                                     "
                                                 >
                                                     <div>
@@ -477,7 +480,7 @@
                                                         <ul
                                                             v-if="
                                                                 estate.usen_fee.initial_cost &&
-                                                                    estate.usen_fee.repeat_cost.price
+                                                                estate.usen_fee.repeat_cost.price
                                                             "
                                                         >
                                                             <li>
@@ -509,7 +512,7 @@
                                                         <ul
                                                             v-if="
                                                                 estate.internet_fee.initial_cost &&
-                                                                    estate.internet_fee.repeat_cost.price
+                                                                estate.internet_fee.repeat_cost.price
                                                             "
                                                         >
                                                             <li>
@@ -541,7 +544,7 @@
                                                         <ul
                                                             v-if="
                                                                 estate.catv_fee.initial_cost &&
-                                                                    estate.catv_fee.repeat_cost.price
+                                                                estate.catv_fee.repeat_cost.price
                                                             "
                                                         >
                                                             <li>
@@ -806,11 +809,7 @@
                                     <tr>
                                         <th>更新予定日</th>
                                         <td>
-                                            {{
-                                                dayjs()
-                                                    .day(8)
-                                                    .format('YYYY年MM月DD日')
-                                            }}
+                                            {{ dayjs().day(8).format('YYYY年MM月DD日') }}
                                         </td>
                                     </tr>
                                 </table>
@@ -847,7 +846,7 @@
                 <div class="row">
                     <div class="col-12 col-lg-12">
                         <template v-if="estate.address">
-                            <h2 class="title">{{ estate.address.city }}エリアの物件</h2>
+                            <h2 class="title-near-estates">{{ estate.address.city }}エリアの物件</h2>
                         </template>
 
                         <template v-if="estate._id">
@@ -922,7 +921,7 @@ export default {
             postfix: '年'
         });
 
-        payTerm.on('change', data => {
+        payTerm.on('change', (data) => {
             this.paymentTerm = parseFloat(data.currentTarget.value);
             this.calculateMonthlyLoanPayment();
         });
@@ -936,19 +935,19 @@ export default {
             postfix: '%'
         });
 
-        interest.on('change', data => {
+        interest.on('change', (data) => {
             this.paymentInterest = parseFloat(data.currentTarget.value);
             this.calculateMonthlyLoanPayment();
         });
         this.getListEstates();
     },
     watch: {
-        totalPrice: function(newValue, oldValue) {
+        totalPrice: function (newValue, oldValue) {
             $('.js-range-slider').ionRangeSlider({
                 min: 0,
                 max: parseInt(newValue),
                 step: 100,
-                onChange: data => {
+                onChange: (data) => {
                     this.ownMoney = data.from;
                     this.borrowedMoney = this.totalPrice - this.ownMoney;
                     this.calculateMonthlyLoanPayment();
@@ -964,7 +963,7 @@ export default {
                 data.id = id;
                 this.$store
                     .dispatch('getEstate', data)
-                    .then(resp => {
+                    .then((resp) => {
                         this.estate = resp.data.data.estate[0];
                         this.district = resp.data.data.district;
                         window.localStorage.setItem('estateName', this.estate.estate_name);
@@ -995,7 +994,7 @@ export default {
                         let carParkNote = this.estate['homes']['carpark_note'];
                         this.carParkNote = carParkNote.replace(/\n/g, '<br>');
                     })
-                    .catch(error => {
+                    .catch((error) => {
                         this.$router.push({ name: 'home' }).catch(() => {});
                     });
             }
@@ -1021,11 +1020,9 @@ export default {
                     break;
             }
             if (elementClass.length > 0) {
-                $(elementClass)
-                    .data('ionRangeSlider')
-                    .update({
-                        from: from
-                    });
+                $(elementClass).data('ionRangeSlider').update({
+                    from: from
+                });
             }
         },
         changeMoney(type, event) {
@@ -1129,8 +1126,8 @@ export default {
         });
     },
     created() {
-        window.onload = function() {
-            window.onpopstate = function() {
+        window.onload = function () {
+            window.onpopstate = function () {
                 window.location.reload();
             };
         };
