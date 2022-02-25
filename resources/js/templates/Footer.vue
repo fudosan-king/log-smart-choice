@@ -50,7 +50,7 @@
                 <div class="row">
                     <div class="col-md-3">
                         <div class="more-info_item">
-                            <h3>サービス一覧</h3>
+                            <h2>サービス一覧</h2>
                             <div class="row">
                                 <div class="col-6">
                                     <p><a href="/about">OrderRenoveについて</a></p>
@@ -69,7 +69,7 @@
                     <!-- District -->
                     <div class="col-md-3">
                         <div class="more-info_item">
-                            <h3>エリアから探す</h3>
+                            <h2>エリアから探す</h2>
                             <div class="row">
                                 <div class="col-md-12">
                                     <p>
@@ -88,7 +88,7 @@
                     <!-- Station -->
                     <div class="col-md-3">
                         <div class="more-info_item">
-                            <h3>人気の駅から探す</h3>
+                            <h2>人気の駅から探す</h2>
                             <div class="row">
                                 <div class="col-md-12">
                                     <p>
@@ -106,7 +106,7 @@
 
                     <div class="col-md-3">
                         <div class="more-info_item">
-                            <h3>こだわりから探す</h3>
+                            <h2>こだわりから探す</h2>
                             <div class="row">
                                 <div class="col-md-12">
                                     <p>
