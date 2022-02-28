@@ -33,16 +33,16 @@ export default {
             customerName: ''
         };
     },
-    mounted() {
+    created() {
         this.getCustomerName();
+    },
+    metaInfo: {
+        titleTemplate: '希望条件にあった物件一覧｜Order Renove'
     },
     methods: {
         getCustomerName() {
             this.customerName = this.$getLocalStorage('userName');
         }
-    },
-    metaInfo: {
-        titleTemplate: '希望条件にあった物件一覧｜Order Renove'
     }
 };
 </script>

@@ -133,8 +133,11 @@ export default {
             contactData: {}
         };
     },
-    mounted() {
+    created() {
         this.getContactData();
+    },
+    metaInfo: {
+        titleTemplate: 'への 内見・お問い合わせ確認｜Order Renove'
     },
     methods: {
         getContactData() {
@@ -176,9 +179,6 @@ export default {
             }
             $('#postToFormrun').submit();
         }
-    },
-    metaInfo: {
-        titleTemplate: 'への 内見・お問い合わせ確認｜Order Renove'
     }
 };
 </script>

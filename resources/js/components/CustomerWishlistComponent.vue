@@ -142,11 +142,9 @@ export default {
         WishlistComponent: () => import('../components/WishlistComponent'),
         PaginationComponent: () => import('../components/PaginationComponent')
     },
-    beforeMount() {
-        this.getWishlist();
-    },
     created() {
         this.$store.registerModule('wishtlist', wishlistModule);
+        this.getWishlist();
         // window.addEventListener('scroll', this.handleScroll);
     },
     beforeDestroy() {

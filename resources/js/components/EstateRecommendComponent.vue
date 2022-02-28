@@ -90,7 +90,7 @@ export default {
     components: {
         WishlistComponent: () => import('../components/WishlistComponent')
     },
-    mounted() {
+    created() {
         this.getEstatesRecommend();
     },
     methods: {

@@ -49,7 +49,9 @@
                                         <p class="head">エリア：</p>
                                     </div>
                                     <div class="col-8 col-lg-8">
-                                        <p v-if="customerInfo.first_announcement != 0 && districtList != ''">{{ districtList }}</p>
+                                        <p v-if="customerInfo.first_announcement != 0 && districtList != ''">
+                                            {{ districtList }}
+                                        </p>
                                         <p v-else>設定なし</p>
                                     </div>
                                     <div class="col-4 col-lg-4">
@@ -95,7 +97,6 @@
     </main>
 </template>
 <script>
-
 export default {
     data() {
         return {
@@ -105,12 +106,15 @@ export default {
             square: '-/-'
         };
     },
-    mounted() {
+    created() {
         this.getCustomerInformation();
+    },
+    metaInfo: {
+        titleTemplate: '登録情報｜Order Renove'
     },
     methods: {
         getCustomerInformation() {
-            this.$store.dispatch('customerInfo').then(resp => {
+            this.$store.dispatch('customerInfo').then((resp) => {
                 this.customerInfo = resp;
                 if (resp.announcement_condition) {
                     let district = resp.announcement_condition.city;
@@ -122,7 +126,7 @@ export default {
                         let i = 1;
                         let count = district.length;
                         this.districtList = '';
-                        district.forEach(element => {
+                        district.forEach((element) => {
                             if (i != count) {
                                 this.districtList += element + ', ';
                             } else {
@@ -161,9 +165,6 @@ export default {
                 return '-';
             }
         }
-    },
-    metaInfo: {
-        titleTemplate: '登録情報｜Order Renove'
     }
 };
 </script>

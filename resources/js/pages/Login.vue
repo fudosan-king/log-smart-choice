@@ -33,66 +33,65 @@
                                     </p>
                                 </div>
                                 <form autocomplete="off" @submit.prevent="login" class="frm_settingpass">
-                                    <div class="form-group"> 
-                                            <div class="">
-                                                <label for="">メールアドレス <span class="red">必須</span></label>
+                                    <div class="form-group">
+                                        <div class="">
+                                            <label for="">メールアドレス <span class="red">必須</span></label>
+                                        </div>
+                                        <div class="">
+                                            <input
+                                                class="form-control"
+                                                placeholder="orderrenove@propolife.co.jp"
+                                                v-model="customer.email"
+                                                :class="{
+                                                    'is-invalid':
+                                                        (submitted && $v.customer.email.$error) ||
+                                                        (errors && errors.length)
+                                                }"
+                                            />
+                                            <div v-if="submitted && $v.customer.email.$error" class="invalid-feedback">
+                                                <span v-if="!$v.customer.email.required">メールが必要です</span>
+                                                <span v-if="!$v.customer.email.email">メールが無効です</span>
                                             </div>
-                                            <div class="">
-                                                <input
-                                                    class="form-control"
-                                                    placeholder="orderrenove@propolife.co.jp"
-                                                    v-model="customer.email"
-                                                    :class="{
-                                                        'is-invalid':
-                                                            (submitted && $v.customer.email.$error) ||
-                                                            (errors && errors.length)
-                                                    }"
-                                                />
-                                                <div v-if="submitted && $v.customer.email.$error" class="invalid-feedback">
-                                                    <span v-if="!$v.customer.email.required">メールが必要です</span>
-                                                    <span v-if="!$v.customer.email.email">メールが無効です</span>
-                                                </div>
-                                                <div class="invalid-feedback" v-if="errors.email">
-                                                    {{ errors.email }}
-                                                </div>
+                                            <div class="invalid-feedback" v-if="errors.email">
+                                                {{ errors.email }}
                                             </div>
+                                        </div>
                                     </div>
                                     <div class="form-group">
-                                            <div class="">
-                                                <label for="">パスワード  <span class="red">必須</span></label>
+                                        <div class="">
+                                            <label for="">パスワード <span class="red">必須</span></label>
+                                        </div>
+                                        <div class="">
+                                            <input
+                                                type="password"
+                                                class="form-control"
+                                                placeholder="英数字８文字以上"
+                                                v-model="customer.password"
+                                                :class="{
+                                                    'is-invalid':
+                                                        (submitted && $v.customer.password.$error) ||
+                                                        (errors && errors.length)
+                                                }"
+                                            />
+                                            <div class="text-danger" v-for="error in errors.password" :key="error">
+                                                <small>{{ error }}</small>
                                             </div>
-                                            <div class="">
-                                                <input
-                                                    type="password"
-                                                    class="form-control"
-                                                    placeholder="英数字８文字以上"
-                                                    v-model="customer.password"
-                                                    :class="{
-                                                        'is-invalid':
-                                                            (submitted && $v.customer.password.$error) ||
-                                                            (errors && errors.length)
-                                                    }"
-                                                />
-                                                <div class="text-danger" v-for="error in errors.password" :key="error">
-                                                    <small>{{ error }}</small>
-                                                </div>
-                                                <div class="text-danger" v-for="error in errors.messages" :key="error">
-                                                    <small>{{ error }}</small>
-                                                </div>
-                                                <div
-                                                    v-if="submitted && $v.customer.password.$error"
-                                                    class="invalid-feedback"
-                                                >
-                                                    <span v-if="!$v.customer.password.required"
-                                                        >パスワードを入力してください
-                                                    </span>
-                                                    <span v-if="!$v.customer.password.minLength">
-                                                        パスワードは8～16文字以内で指定してください
-                                                    </span>
-                                                </div>
+                                            <div class="text-danger" v-for="error in errors.messages" :key="error">
+                                                <small>{{ error }}</small>
                                             </div>
+                                            <div
+                                                v-if="submitted && $v.customer.password.$error"
+                                                class="invalid-feedback"
+                                            >
+                                                <span v-if="!$v.customer.password.required"
+                                                    >パスワードを入力してください
+                                                </span>
+                                                <span v-if="!$v.customer.password.minLength">
+                                                    パスワードは8～16文字以内で指定してください
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
-
 
                                     <!-- <div class="custom-control custom-checkbox mb-3">
                                         <input type="checkbox" class="custom-control-input" id="customCheck1">
@@ -147,13 +146,16 @@ export default {
             }
         }
     },
-    mounted: function() {
+    mounted: function () {
         this.intervalId = setInterval(() => {
             if (window.pageYOffset === 0) {
                 clearInterval(this.intervalId);
             }
             window.scroll(0, window.pageYOffset - 50);
         }, 20);
+    },
+    metaInfo: {
+        titleTemplate: 'ログイン｜Order Renove'
     },
     methods: {
         login() {
@@ -166,17 +168,22 @@ export default {
                 this.submitted = false;
                 this.$store
                     .dispatch('login', { email, password })
-                    .then(response => {
+                    .then((response) => {
                         let urlRedirect = this.$route.query.redirect || '/';
-                        this.$router.push(urlRedirect).then(() => {this.$router.go('0');}).catch(() => {});
+                        this.$router
+                            .push(urlRedirect)
+                            .then(() => {
+                                this.$router.go('0');
+                            })
+                            .catch(() => {});
                     })
-                    .catch(error => {
+                    .catch((error) => {
                         this.errors = error.response.data.errors;
                     });
             }
         },
         googleLogin() {
-            this.$store.dispatch('googleLogin').then(response => {
+            this.$store.dispatch('googleLogin').then((response) => {
                 window.location.href = '/';
             });
         },
@@ -184,9 +191,9 @@ export default {
         facebookLogin() {
             const store = this.$store;
             FB.login(
-                function(response) {
+                function (response) {
                     if (response.authResponse) {
-                        store.dispatch('facebookLogin').then(response => {
+                        store.dispatch('facebookLogin').then((response) => {
                             window.location.href = '/';
                         });
                     }
@@ -194,10 +201,7 @@ export default {
                 { scope: 'public_profile, email' }
             );
             return false;
-        },
-    },
-    metaInfo: {
-        titleTemplate: 'ログイン｜Order Renove'
+        }
     }
 };
 </script>

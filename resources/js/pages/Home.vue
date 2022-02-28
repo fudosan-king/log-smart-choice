@@ -1,6 +1,6 @@
 <template>
     <main>
-        <section class="section_banner" style="background-image: url('/assets/images/slideshow/slide-1.jpg');">
+        <section class="section_banner" style="background-image: url('/assets/images/slideshow/slide-1.jpg')">
             <div class="caption">
                 <img src="/assets/images/svg/label.svg" alt="" class="img-fluid" width="200" height="200" />
             </div>
@@ -153,12 +153,6 @@ Vue.use(Lazyload, {
     attempt: 1
 });
 export default {
-    created() {
-        this.$store.registerModule('page-post', PagePost);
-    },
-    beforeDestroy() {
-        this.$store.unregisterModule('page-post');
-    },
     data() {
         return {
             searchType: '',
@@ -166,32 +160,35 @@ export default {
             posts: ''
         };
     },
-    updated() {
-        $('.top_item').each(function(i, ele) {
-            if (
-                $(ele)
-                    .find('.bottom-img')
-                    .children().length < 3
-            ) {
-                $(ele).addClass('changed');
-            }
-        });
-    },
-    created() {
-        this.$store.registerModule('page-post', PagePost);
-    },
-    beforeDestroy() {
-        this.$store.unregisterModule('page-post');
-    },
     components: {
         EstatesTopComponent: () => import('../components/EstatesTopComponent'),
         EstateRecommendComponent: () => import('../components/EstateRecommendComponent'),
         EstatesNearComponent: () => import('../components/EstatesNearComponent')
     },
-    mounted() {
+    created() {
+        this.$store.registerModule('page-post', PagePost);
         this.getTabList();
         this.pushRouterToServer();
         this.getPosts();
+    },
+    updated() {
+        $('.top_item').each(function (i, ele) {
+            if ($(ele).find('.bottom-img').children().length < 3) {
+                $(ele).addClass('changed');
+            }
+        });
+    },
+    beforeDestroy() {
+        this.$store.unregisterModule('page-post');
+    },
+    metaInfo: {
+        titleTemplate: 'リノベーションプラットフォーム「オーダーリノベ」｜Order Renove',
+        meta: [
+            {
+                description:
+                    'Order Renove（オーダーリノベ）は都内を中心に、「リノベーション済物件」「リノベーション向き物件」を多数掲載。大手ポータル未掲載の物件も多数そろえています。'
+            }
+        ]
     },
     methods: {
         clearConditionSearch() {
@@ -224,41 +221,29 @@ export default {
         },
 
         getTabList() {
-            this.$store.dispatch('getTabList').then(response => {
+            this.$store.dispatch('getTabList').then((response) => {
                 this.tabList = response;
             });
         },
 
         pushRouterToServer() {
             let routerList = [];
-            this.$router.options.routes.forEach(route => {
+            this.$router.options.routes.forEach((route) => {
                 routerList.push({
                     name: route.name
                 });
             });
-            this.$store
-                .dispatch('updatePagePost', routerList)
-                .then()
-                .catch();
+            this.$store.dispatch('updatePagePost', routerList).then().catch();
         },
 
         getPosts() {
             let data = {
                 page_post: this.$route.name
             };
-            this.$store.dispatch('getPosts', data).then(response => {
+            this.$store.dispatch('getPosts', data).then((response) => {
                 this.posts = response;
             });
         }
-    },
-    metaInfo: {
-        titleTemplate: 'リノベーションプラットフォーム「オーダーリノベ」｜Order Renove',
-        meta: [
-            {
-                description:
-                    'Order Renove（オーダーリノベ）は都内を中心に、「リノベーション済物件」「リノベーション向き物件」を多数掲載。大手ポータル未掲載の物件も多数そろえています。'
-            }
-        ]
     }
 };
 </script>

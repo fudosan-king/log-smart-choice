@@ -175,15 +175,13 @@ export default {
     components: {
         WishlistComponent: () => import('../components/WishlistComponent')
     },
-    mounted() {
-        this.getListEstates();
-    },
     created() {
         window.onload = function() {
             window.onpopstate = function() {
                 window.location.reload();
             };
         };
+        this.getListEstates();
     },
     methods: {
         getListEstates() {

@@ -292,15 +292,18 @@ export default {
             required
         }
     },
-    mounted() {
+    created() {
         this.getCustomerInformation();
         this.getPostInformation();
+    },
+    metaInfo: {
+        titleTemplate: 'プラン名｜Order Renove'
     },
     methods: {
         getCustomerInformation() {
             this.$store
                 .dispatch('customerInfo')
-                .then(resp => {
+                .then((resp) => {
                     this.customer = resp;
                     this.name = resp.name;
                     this.last_name = resp.last_name;
@@ -380,14 +383,11 @@ export default {
             let postId = this.$route.params.postId;
             this.$store
                 .dispatch('getPost', postId)
-                .then(resp => {
+                .then((resp) => {
                     this.plan_name = resp.title;
                 })
                 .catch();
         }
-    },
-    metaInfo: {
-        titleTemplate: 'プラン名｜Order Renove'
     }
 };
 </script>

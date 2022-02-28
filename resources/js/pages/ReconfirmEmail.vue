@@ -1,14 +1,15 @@
 <template>
     <div>
         <main id="main">
-
             <div class="box_template">
                 <section class="p-0">
                     <div class="box_top mb-0">
                         <div class="container">
                             <h2 class="title mb-3">確認メールの再送信</h2>
                             <p class="subtitle mb-2">
-                                <small>下記に登録したメールアドレスを入力してください。登録確認のご案内をメールでお送りします。</small>
+                                <small
+                                    >下記に登録したメールアドレスを入力してください。登録確認のご案内をメールでお送りします。</small
+                                >
                             </p>
                         </div>
                     </div>
@@ -84,6 +85,9 @@ export default {
             email
         }
     },
+    metaInfo: {
+        titleTemplate: '確認メールの再送信｜Order Renove'
+    },
     methods: {
         reconfirmEmail() {
             this.error = {};
@@ -93,26 +97,23 @@ export default {
             if (!this.$v.$invalid && this.submitted) {
                 this.submitted = false;
                 let data = {
-                    email: this.email,
+                    email: this.email
                 };
                 this.$store
-                    .dispatch('reconfirmEmail', data )
-                    .then(resp => {
+                    .dispatch('reconfirmEmail', data)
+                    .then((resp) => {
                         this.disabled = true;
                         this.message = resp.data.success.messages;
                         setTimeout(() => {
                             this.$router.push({ name: 'login' }).catch(() => {});
                         }, 2000);
                     })
-                    .catch(error => {
+                    .catch((error) => {
                         this.disabled = false;
                         this.error = error.response.data.errors.messages;
                     });
             }
         }
-    },
-    metaInfo: {
-        titleTemplate: '確認メールの再送信｜Order Renove'
     }
 };
 </script>

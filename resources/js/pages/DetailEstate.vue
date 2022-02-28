@@ -912,6 +912,14 @@ export default {
             district: {}
         };
     },
+    created() {
+        window.onload = function () {
+            window.onpopstate = function () {
+                window.location.reload();
+            };
+        };
+        this.getListEstates();
+    },
     mounted() {
         const payTerm = $('.js-range-slider1');
         payTerm.ionRangeSlider({
@@ -939,7 +947,27 @@ export default {
             this.paymentInterest = parseFloat(data.currentTarget.value);
             this.calculateMonthlyLoanPayment();
         });
-        this.getListEstates();
+    },
+    beforeUpdate() {
+        $('.js-range-slider1').trigger('change');
+    },
+    updated() {
+        $('.slider-detail').flickity({
+            wrapAround: true,
+            prevNextButtons: false,
+            autoPlay: true
+        });
+        $('.carousel-main').flickity({
+            contain: true,
+            pageDots: false,
+            initialIndex: 1
+        });
+        $('.carousel-nav').flickity({
+            asNavFor: '.carousel-main',
+            contain: true,
+            pageDots: false,
+            prevNextButtons: false
+        });
     },
     watch: {
         totalPrice: function (newValue, oldValue) {
@@ -1106,34 +1134,6 @@ export default {
             this.paymentMonthlyBonus = Math.ceil(this.paymentMonthly + this.bonus / 6);
             this.chartData = [this.estate.management_fee, this.estate.repair_reserve_fee, this.monthlyLoan];
         }
-    },
-    updated() {
-        $('.slider-detail').flickity({
-            wrapAround: true,
-            prevNextButtons: false,
-            autoPlay: true
-        });
-        $('.carousel-main').flickity({
-            contain: true,
-            pageDots: false,
-            initialIndex: 1
-        });
-        $('.carousel-nav').flickity({
-            asNavFor: '.carousel-main',
-            contain: true,
-            pageDots: false,
-            prevNextButtons: false
-        });
-    },
-    created() {
-        window.onload = function () {
-            window.onpopstate = function () {
-                window.location.reload();
-            };
-        };
-    },
-    beforeUpdate() {
-        $('.js-range-slider1').trigger('change');
     }
 };
 </script>

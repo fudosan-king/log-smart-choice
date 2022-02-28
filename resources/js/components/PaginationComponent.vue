@@ -67,6 +67,13 @@ export default {
     data() {
         return {};
     },
+    created: function () {
+        window.addEventListener('scroll', this.scrollListener);
+    },
+
+    beforeDestroy: function () {
+        window.removeEventListener('scroll', this.scrollListener);
+    },
     methods: {
         pageNumber(page) {
             this.$emit('getListEstates', page);
@@ -80,12 +87,6 @@ export default {
         scrollListener(e) {
             this.visible = window.scrollY > 150;
         }
-    },
-    mounted: function() {
-        window.addEventListener('scroll', this.scrollListener);
-    },
-    beforeDestroy: function() {
-        window.removeEventListener('scroll', this.scrollListener);
     }
 };
 </script>

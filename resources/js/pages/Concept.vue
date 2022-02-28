@@ -1,6 +1,6 @@
 <template>
     <div>
-        <section class="section_banner" style="background-image: url('/assets/images/slideshow/slide-1.jpg');">
+        <section class="section_banner" style="background-image: url('/assets/images/slideshow/slide-1.jpg')">
             <div class="caption">
                 <img src="/assets/images/svg/label.svg" alt="" class="img-fluid" width="200" height="200" />
             </div>
@@ -88,7 +88,9 @@
                                     </ul>
                                     <div class="group_box">
                                         <a href="/plan/detail" class="btn btn-detail">DETAIL</a>
-                                        <a :href="'/plan/contact/'+post.id" class="btn btn-detail">資料請求・お問い合わせ</a>
+                                        <a :href="'/plan/contact/' + post.id" class="btn btn-detail"
+                                            >資料請求・お問い合わせ</a
+                                        >
                                     </div>
                                 </div>
                             </div>
@@ -166,36 +168,30 @@ export default {
     },
     created() {
         this.$store.registerModule('page-post', PagePost);
-    },
-    beforeDestroy() {
-        this.$store.unregisterModule('page-post');
-    },
-    mounted() {
         this.getPosts();
     },
-    methods: {
-        getPosts() {
-            let data = {
-                page_post: this.$route.name
-            };
-            this.$store.dispatch('getPosts', data).then(response => {
-                this.posts = response;
-            });
-        }
-    },
     updated() {
-        $('.top_item').each(function(i, ele) {
-            if (
-                $(ele)
-                    .find('.bottom-img')
-                    .children().length < 3
-            ) {
+        $('.top_item').each(function (i, ele) {
+            if ($(ele).find('.bottom-img').children().length < 3) {
                 $(ele).addClass('changed');
             }
         });
     },
     metaInfo: {
         titleTemplate: '概念｜Order Renove'
+    },
+    beforeDestroy() {
+        this.$store.unregisterModule('page-post');
+    },
+    methods: {
+        getPosts() {
+            let data = {
+                page_post: this.$route.name
+            };
+            this.$store.dispatch('getPosts', data).then((response) => {
+                this.posts = response;
+            });
+        }
     }
 };
 </script>

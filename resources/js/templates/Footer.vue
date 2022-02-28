@@ -261,11 +261,13 @@ export default {
             districtList: ''
         };
     },
-    mounted() {
-        this.showContactPart();
+    created() {
         this.getTabList();
         this.getStaionHardCode();
         this.getDistrictHardCode();
+    },
+    mounted() {
+        this.showContactPart();
     },
     methods: {
         showContactPart() {

@@ -1,7 +1,8 @@
 <template>
     <div class="col-12 col-lg-12">
         <template v-for="(announcement, index) in announcementList">
-            <div v-if="!announcement.is_read && announcement.status == '公開中'"
+            <div
+                v-if="!announcement.is_read && announcement.status == '公開中'"
                 class="box_notice_item new"
                 :key="index._id"
                 v-bind:class="{ 'estate-last': index === announcementList.length - 1 }"
@@ -13,19 +14,19 @@
                                 href="javascript:void(0)"
                                 v-on:click="readAnnouncement(announcement.announcement_id, announcement._id)"
                             >
-                            <template>
-                                <img
-                                    v-lazy="
-                                        announcement.estate_information.estate_main_photo.length
-                                            ? announcement.estate_information.estate_main_photo[0].url_path
-                                            : '/images/no-image.png'
-                                    "
-                                    alt=""
-                                    class="img-fluid"
-                                    width="100%"
-                                    height="auto"
-                                />
-                            </template>
+                                <template>
+                                    <img
+                                        v-lazy="
+                                            announcement.estate_information.estate_main_photo.length
+                                                ? announcement.estate_information.estate_main_photo[0].url_path
+                                                : '/images/no-image.png'
+                                        "
+                                        alt=""
+                                        class="img-fluid"
+                                        width="100%"
+                                        height="auto"
+                                    />
+                                </template>
                             </a>
                             <span>新着物件</span>
                         </div>
@@ -43,7 +44,11 @@
                                 </template>
                             </p>
                             <p>{{ announcement.tatemono_menseki }}m²</p>
-                            <p>{{ announcement.price }}万円<template v-if="estate.renovation_type != 'リノベ済物件'">（改装前価格）</template></p>
+                            <p>
+                                {{ announcement.price }}万円<template v-if="estate.renovation_type != 'リノベ済物件'"
+                                    >（改装前価格）</template
+                                >
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -55,10 +60,17 @@
                         width="20"
                         height="20"
                     />
-                    <img src="images/svg/i_delete_white.svg" alt="" class="img-fluid d-block d-lg-none" width="20" height="20" />
+                    <img
+                        src="images/svg/i_delete_white.svg"
+                        alt=""
+                        class="img-fluid d-block d-lg-none"
+                        width="20"
+                        height="20"
+                    />
                 </a>
             </div>
-            <div v-else-if="announcement.is_read" 
+            <div
+                v-else-if="announcement.is_read"
                 class="box_notice_item"
                 :key="index._id"
                 v-bind:class="{ 'estate-last': index === announcementList.length - 1 }"
@@ -97,7 +109,11 @@
                                 >
                             </p>
                             <p>{{ announcement.tatemono_menseki }}m²</p>
-                            <p>{{ announcement.price }}万円<template v-if="estate.renovation_type != 'リノベ済物件'">（改装前価格）</template></p>
+                            <p>
+                                {{ announcement.price }}万円<template v-if="estate.renovation_type != 'リノベ済物件'"
+                                    >（改装前価格）</template
+                                >
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -108,7 +124,13 @@
                         class="img-fluid d-none d-lg-block curser-pointer"
                         width="20"
                     />
-                    <img src="images/svg/i_delete_white.svg" alt="" class="img-fluid d-block d-lg-none" width="20" height="20" />
+                    <img
+                        src="images/svg/i_delete_white.svg"
+                        alt=""
+                        class="img-fluid d-block d-lg-none"
+                        width="20"
+                        height="20"
+                    />
                 </a>
             </div>
         </template>
@@ -139,17 +161,13 @@ export default {
             hasMore: true
         };
     },
-    mounted() {
-        this.getAnnouncementList(1, this.limit);
-    },
     created() {
         this.$store.registerModule('announcement', announcementModule);
         window.addEventListener('scroll', this.handleScroll);
+        this.getAnnouncementList(1, this.limit);
     },
     beforeDestroy() {
         this.$store.unregisterModule('announcement');
-    },
-    destroyed() {
         window.removeEventListener('scroll', this.handleScroll);
     },
     methods: {
@@ -161,18 +179,21 @@ export default {
                 page: pageLoad
             };
             if (accessToken) {
-                this.$store.dispatch('getAnnouncementList', data).then(res => {
-                    if (typeof res[0] === 'undefined') {
-                        this.announcementList = this.announcementList.concat(res.data.data);
-                    } else {
-                        this.announcementList = this.announcementList.concat(res[0]['data']['data']);
-                    }
-                }).catch(err => {
-                    this.$setCookie('accessToken3d', '', 1);
-                    this.$removeAuthLocalStorage();
-                    this.$removeLocalStorage('announcement_count');
-                    this.$router.push({ name: 'login' }).catch(() => {});
-                });
+                this.$store
+                    .dispatch('getAnnouncementList', data)
+                    .then((res) => {
+                        if (typeof res[0] === 'undefined') {
+                            this.announcementList = this.announcementList.concat(res.data.data);
+                        } else {
+                            this.announcementList = this.announcementList.concat(res[0]['data']['data']);
+                        }
+                    })
+                    .catch((err) => {
+                        this.$setCookie('accessToken3d', '', 1);
+                        this.$removeAuthLocalStorage();
+                        this.$removeLocalStorage('announcement_count');
+                        this.$router.push({ name: 'login' }).catch(() => {});
+                    });
             } else {
                 this.$setCookie('accessToken3d', '', 1);
                 this.$removeAuthLocalStorage();
@@ -214,29 +235,35 @@ export default {
             let data = {
                 id: [announcementID]
             };
-            this.$store.dispatch('deleteAnnoutcement', data).then(res => {
-                this.announcementList.splice(this.announcementList.indexOf(announcement), 1);
-            }).catch(err => {
-                this.$router.push({ name: 'login' }).catch(() => {});
-            });
+            this.$store
+                .dispatch('deleteAnnoutcement', data)
+                .then((res) => {
+                    this.announcementList.splice(this.announcementList.indexOf(announcement), 1);
+                })
+                .catch((err) => {
+                    this.$router.push({ name: 'login' }).catch(() => {});
+                });
         },
 
         readAnnouncement(announcementID, estetaId) {
             let data = {
                 id: announcementID
             };
-            this.$store.dispatch('readAnnouncement', data).then(res => {
-                if (typeof res[0] === 'undefined') {
-                    let annoucementCount = res.data.data;
-                    this.$setLocalStorage('announcement_count', annoucementCount.announcement_count);
-                } else {
-                    let annoucementCount = res[0]['data']['data'];
-                    this.$setLocalStorage('announcement_count', annoucementCount.announcement_count);
-                }
-                this.$router.push({ path: 'detail/' + estetaId });
-            }).catch( err => {
-                this.$router.push({ name: 'login' }).catch(() => {});
-            });
+            this.$store
+                .dispatch('readAnnouncement', data)
+                .then((res) => {
+                    if (typeof res[0] === 'undefined') {
+                        let annoucementCount = res.data.data;
+                        this.$setLocalStorage('announcement_count', annoucementCount.announcement_count);
+                    } else {
+                        let annoucementCount = res[0]['data']['data'];
+                        this.$setLocalStorage('announcement_count', annoucementCount.announcement_count);
+                    }
+                    this.$router.push({ path: 'detail/' + estetaId });
+                })
+                .catch((err) => {
+                    this.$router.push({ name: 'login' }).catch(() => {});
+                });
         }
     }
 };

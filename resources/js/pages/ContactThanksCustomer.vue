@@ -31,13 +31,13 @@
 </template>
 <script>
 export default {
+    metaInfo: {
+        titleTemplate: '物件問い合わせ完了｜Order Renove'
+    },
     methods: {
         backHome() {
             this.$router.push('/').catch(() => {});
         }
-    },
-    metaInfo: {
-        titleTemplate: '物件問い合わせ完了｜Order Renove'
     }
 };
 </script>

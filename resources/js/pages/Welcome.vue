@@ -54,6 +54,9 @@ export default {
             error: []
         };
     },
+    metaInfo: {
+        titleTemplate: '会員登録完了｜Order Renove'
+    },
     methods: {
         verifyEmail() {
             this.submitted = true;
@@ -63,11 +66,11 @@ export default {
             };
             this.$store
                 .dispatch('verifyEmail', data)
-                .then(resp => {
+                .then((resp) => {
                     this.disabled = true;
                     this.$router.push({ name: 'login' }).catch(() => {});
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.disabled = true;
                     this.error = error.response.data.errors.messages;
                     setTimeout(() => {
@@ -75,9 +78,6 @@ export default {
                     }, 2000);
                 });
         }
-    },
-    metaInfo: {
-        titleTemplate: '会員登録完了｜Order Renove'
     }
 };
 </script>
