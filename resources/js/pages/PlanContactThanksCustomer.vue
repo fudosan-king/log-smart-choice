@@ -31,13 +31,13 @@
 </template>
 <script>
 export default {
+    metaInfo: {
+        titleTemplate: 'プラン名｜Order Renove'
+    },
     methods: {
         backHome() {
             this.$router.push('/').catch(() => {});
         }
-    },
-    metaInfo: {
-        titleTemplate: 'プラン名｜Order Renove'
     }
 };
 </script>

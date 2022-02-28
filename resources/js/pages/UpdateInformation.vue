@@ -105,7 +105,6 @@
                                 <p class="text-center mb-0 mt-3">
                                     <button type="button" class="btn btn_register" @click="submit()">保存</button>
                                 </p>
-                                
                             </form>
                         </div>
                     </div>
@@ -134,9 +133,6 @@ export default {
             disabled: false
         };
     },
-    mounted: function() {
-        this.getCustomer();
-    },
     validations: {
         customerInfo: {
             email: {
@@ -145,9 +141,48 @@ export default {
             }
         }
     },
+    created() {
+        this.getCustomer();
+    },
+    updated() {
+        $('.datepicker_year')
+            .datepicker({
+                format: 'yyyy',
+                viewMode: 'years',
+                minViewMode: 'years',
+                language: 'ja'
+            })
+            .on('change', function () {
+                $('.datepicker_year').val(this.value)[0].dispatchEvent(new Event('input'));
+            });
+
+        $('.datepicker_month')
+            .datepicker({
+                format: 'mm',
+                viewMode: 'months',
+                minViewMode: 'months',
+                language: 'ja'
+            })
+            .on('change', function () {
+                $('.datepicker_month').val(this.value)[0].dispatchEvent(new Event('input'));
+            });
+        $('.datepicker_day')
+            .datepicker({
+                format: 'dd',
+                viewMode: 'days',
+                minViewMode: 'days',
+                language: 'ja'
+            })
+            .on('change', function () {
+                $('.datepicker_day').val(this.value)[0].dispatchEvent(new Event('input'));
+            });
+    },
+    metaInfo: {
+        titleTemplate: '登録情報の更新｜Order Renove'
+    },
     methods: {
         getCustomer() {
-            this.$store.dispatch('customerInfo').then(resp => {
+            this.$store.dispatch('customerInfo').then((resp) => {
                 this.customerInfo = resp;
                 if (resp.birthday) {
                     this.birthYear = resp.birthday.slice(0, 4);
@@ -179,62 +214,20 @@ export default {
                 this.$setLocalStorage('userName', data.name, 1);
                 this.$store
                     .dispatch('updateInformation', data)
-                    .then(resp => {
-                        this.$swal('会員情報更新', content, 'success').then(result => {
+                    .then((resp) => {
+                        this.$swal('会員情報更新', content, 'success').then((result) => {
                             if (result.isConfirmed) {
                                 this.$router.push({ name: 'information' }).catch(() => {});
                             }
                         });
                     })
-                    .catch(err => {
+                    .catch((err) => {
                         this.disabled = false;
                         this.submitted = false;
                         this.errorsApi = err.response.data.errors.messages[0];
                     });
             }
         }
-    },
-    updated() {
-        $('.datepicker_year')
-            .datepicker({
-                format: 'yyyy',
-                viewMode: 'years',
-                minViewMode: 'years',
-                language: 'ja'
-            })
-            .on('change', function() {
-                $('.datepicker_year')
-                    .val(this.value)[0]
-                    .dispatchEvent(new Event('input'));
-            });
-
-        $('.datepicker_month')
-            .datepicker({
-                format: 'mm',
-                viewMode: 'months',
-                minViewMode: 'months',
-                language: 'ja'
-            })
-            .on('change', function() {
-                $('.datepicker_month')
-                    .val(this.value)[0]
-                    .dispatchEvent(new Event('input'));
-            });
-        $('.datepicker_day')
-            .datepicker({
-                format: 'dd',
-                viewMode: 'days',
-                minViewMode: 'days',
-                language: 'ja'
-            })
-            .on('change', function() {
-                $('.datepicker_day')
-                    .val(this.value)[0]
-                    .dispatchEvent(new Event('input'));
-            });
-    },
-    metaInfo: {
-        titleTemplate: '登録情報の更新｜Order Renove'
     }
 };
 </script>

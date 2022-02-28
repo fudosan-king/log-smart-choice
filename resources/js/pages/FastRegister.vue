@@ -134,8 +134,9 @@
                                                         v-if="price != '上限なし'"
                                                         :value="price"
                                                         :selected="price == price ? 'selected' : ''"
-                                                        >{{ price }}</option
                                                     >
+                                                        {{ price }}
+                                                    </option>
                                                 </template>
                                             </select>
                                             <div
@@ -155,8 +156,9 @@
                                                     v-if="price != '下限なし'"
                                                     :value="price"
                                                     :selected="price == maxTotalPrices ? 'selected' : ''"
-                                                    >{{ price }}</option
                                                 >
+                                                    {{ price }}
+                                                </option>
                                             </template>
                                         </select>
                                     </div>
@@ -178,8 +180,9 @@
                                                         v-if="square != '上限なし'"
                                                         :value="square"
                                                         :selected="square == minSquare ? 'selected' : ''"
-                                                        >{{ square }}</option
                                                     >
+                                                        {{ square }}
+                                                    </option>
                                                 </template>
                                             </select>
                                             <div
@@ -199,8 +202,9 @@
                                                     v-if="square != '下限なし'"
                                                     :value="square"
                                                     :selected="square == maxSquare ? 'selected' : ''"
-                                                    >{{ square }}</option
                                                 >
+                                                    {{ square }}
+                                                </option>
                                             </template>
                                         </select>
                                     </div>
@@ -328,6 +332,9 @@ export default {
         this.listTotalPrice();
         this.listSquare();
     },
+    metaInfo: {
+        titleTemplate: 'メルマガ配信希望条件｜Order Renove'
+    },
     methods: {
         submit() {
             this.submitted = true;
@@ -337,7 +344,7 @@ export default {
                 this.sendAnnouncment = 1;
             }
             let newDistrictsList = [];
-            $('input[name="districtInput[]"]:checked').each(function(i) {
+            $('input[name="districtInput[]"]:checked').each(function (i) {
                 newDistrictsList[i] = $(this).val();
             });
             if (!this.$v.$invalid && this.submitted) {
@@ -359,11 +366,11 @@ export default {
                             'content-type': 'application/json'
                         }
                     })
-                    .then(res => {
+                    .then((res) => {
                         this.$setLocalStorage('emailRegister', this.customer.email);
                         this.$router.push({ name: 'fastRegisterThankYou' }).catch(() => {});
                     })
-                    .catch(err => {
+                    .catch((err) => {
                         this.disabled = false;
                         this.submitted = false;
                         this.errorsApi = err.response.data.errors.messages[0];
@@ -372,7 +379,7 @@ export default {
         },
 
         listDistrict() {
-            this.$store.dispatch('getCustomerDistrict').then(resp => {
+            this.$store.dispatch('getCustomerDistrict').then((resp) => {
                 this.districts = resp.data;
             });
         },
@@ -410,9 +417,6 @@ export default {
                 i++;
             }
         }
-    },
-    metaInfo: {
-        titleTemplate: 'メルマガ配信希望条件｜Order Renove'
     }
 };
 </script>

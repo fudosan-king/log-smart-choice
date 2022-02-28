@@ -6,8 +6,10 @@
                     <div class="container">
                         <h2 class="title mb-3">新規会員登録</h2>
                         <p class="subtitle subtitle-register mb-2">
-                            <small>ようこそOrder-Renoveへ！<br>
-                            あなただけの新しい住まい探しはここから</small>
+                            <small
+                                >ようこそOrder-Renoveへ！<br />
+                                あなただけの新しい住まい探しはここから</small
+                            >
                         </p>
                     </div>
                 </div>
@@ -19,9 +21,25 @@
                             <div class="box_toplogin">
                                 <ul>
                                     <li>
-                                        <a class="btn" @click="facebookLogin" href="#"><img src="images/svg/i_fb.svg" alt="" class="img-fluid" width="24">Facebookで登録</a>
+                                        <a class="btn" @click="facebookLogin" href="#"
+                                            ><img
+                                                src="images/svg/i_fb.svg"
+                                                alt=""
+                                                class="img-fluid"
+                                                width="24"
+                                            />Facebookで登録</a
+                                        >
                                     </li>
-                                    <li><a class="btn" @click="googleLogin" href="#"><img src="images/svg/i_google.svg" alt="" class="img-fluid" width="24">Googleで登録</a></li>
+                                    <li>
+                                        <a class="btn" @click="googleLogin" href="#"
+                                            ><img
+                                                src="images/svg/i_google.svg"
+                                                alt=""
+                                                class="img-fluid"
+                                                width="24"
+                                            />Googleで登録</a
+                                        >
+                                    </li>
                                 </ul>
 
                                 <div
@@ -31,7 +49,7 @@
                                 ></div>
                                 <p class="or"><span>または</span></p>
                             </div>
-                            
+
                             <form autocomplete="off" @submit.prevent="submit" class="frm_settingpass">
                                 <div class="form-group">
                                     <label for="">名前 <span class="red">必須</span></label>
@@ -44,11 +62,14 @@
                                                 placeholder="例：山田"
                                                 :class="{
                                                     'is-invalid':
-                                                    (submitted && $v.customer.name.$error) ||
-                                                    (errorsApi.name && errorsApi.name.length)
+                                                        (submitted && $v.customer.name.$error) ||
+                                                        (errorsApi.name && errorsApi.name.length)
                                                 }"
                                             />
-                                            <div v-if="errorsApi.name && errorsApi.name.length" class="invalid-feedback">
+                                            <div
+                                                v-if="errorsApi.name && errorsApi.name.length"
+                                                class="invalid-feedback"
+                                            >
                                                 <span>
                                                     {{ errorsApi.name[0] }}
                                                 </span>
@@ -66,8 +87,8 @@
                                                 placeholder="例：太郎"
                                                 :class="{
                                                     'is-invalid':
-                                                    (submitted && $v.customer.last_name.$error) ||
-                                                    errorsApi.last_name && errorsApi.last_name.length
+                                                        (submitted && $v.customer.last_name.$error) ||
+                                                        (errorsApi.last_name && errorsApi.last_name.length)
                                                 }"
                                             />
                                             <div
@@ -78,7 +99,10 @@
                                                     {{ errorsApi.last_name[0] }}
                                                 </span>
                                             </div>
-                                            <div v-if="submitted && $v.customer.last_name.$error" class="invalid-feedback">
+                                            <div
+                                                v-if="submitted && $v.customer.last_name.$error"
+                                                class="invalid-feedback"
+                                            >
                                                 <span v-if="!$v.customer.last_name.required">この項目は必須です</span>
                                             </div>
                                         </div>
@@ -97,10 +121,7 @@
                                                 (errorsApi.email && errorsApi.email.length)
                                         }"
                                     />
-                                    <div
-                                        class="invalid-feedback"
-                                        v-if="errorsApi.email && errorsApi.email.length"
-                                    >
+                                    <div class="invalid-feedback" v-if="errorsApi.email && errorsApi.email.length">
                                         <span>{{ errorsApi.email[0] }}</span>
                                     </div>
                                     <div v-if="submitted && $v.customer.email.$error" class="invalid-feedback">
@@ -110,7 +131,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="">パスワード  <span class="red">必須</span></label>
+                                    <label for="">パスワード <span class="red">必須</span></label>
                                     <input
                                         type="password"
                                         class="form-control"
@@ -123,13 +144,8 @@
                                         }"
                                     />
 
-                                    <div
-                                        v-if="submitted && $v.customer.password.$error"
-                                        class="invalid-feedback"
-                                    >
-                                        <span v-if="!$v.customer.password.required"
-                                            >パスワードを入力してください
-                                        </span>
+                                    <div v-if="submitted && $v.customer.password.$error" class="invalid-feedback">
+                                        <span v-if="!$v.customer.password.required">パスワードを入力してください </span>
                                         <span v-if="!$v.customer.password.minLength">
                                             パスワードは8～16文字以内で指定してください
                                         </span>
@@ -159,10 +175,7 @@
                                         }"
                                     />
                                     <div
-                                        v-if="
-                                            errorsApi.password_confirmation &&
-                                                errorsApi.password_confirmation.length
-                                        "
+                                        v-if="errorsApi.password_confirmation && errorsApi.password_confirmation.length"
                                         class="invalid-feedback"
                                     >
                                         <span>
@@ -181,18 +194,24 @@
                                         </span>
                                     </div>
                                 </div>
-                                <p>ご入力いただいた情報は、当社のプライバシーポリシーに従って厳重に管理いたします。<br>
-                                    下記の <a href="https://www.propolife.co.jp/privacypolicy" target="blank">プライバシーポリシー</a>  を必ずご一読頂き、同意のうえお問い合わせください。</p>
+                                <p>
+                                    ご入力いただいた情報は、当社のプライバシーポリシーに従って厳重に管理いたします。<br />
+                                    下記の
+                                    <a href="https://www.propolife.co.jp/privacypolicy" target="blank"
+                                        >プライバシーポリシー</a
+                                    >
+                                    を必ずご一読頂き、同意のうえお問い合わせください。
+                                </p>
                                 <div class="custom-control custom-checkbox text-center mb-3">
-                                    <input 
-                                        type="checkbox" 
-                                        class="custom-control-input" 
-                                        id="customCheck1" 
+                                    <input
+                                        type="checkbox"
+                                        class="custom-control-input"
+                                        id="customCheck1"
                                         v-model="checkboxConfirm"
                                         :class="{
-                                            'is-invalid':
-                                                (submitted && !$v.checkboxConfirm.checked)
-                                        }">
+                                            'is-invalid': submitted && !$v.checkboxConfirm.checked
+                                        }"
+                                    />
                                     <label class="custom-control-label" for="customCheck1">同意する</label>
                                     <div v-if="submitted && !$v.checkboxConfirm.checked" class="invalid-feedback">
                                         <span>プライバシーポリシーをチェックしてください</span>
@@ -202,9 +221,7 @@
                                     <button type="submit" class="btn btnsave" :disabled="disabled">会員登録</button>
                                 </div>
                                 <p class="text-center red">
-                                    <router-link class="d-block" :to="{ name: 'login' }">
-                                        ログインに戻る
-                                    </router-link>
+                                    <router-link class="d-block" :to="{ name: 'login' }"> ログインに戻る </router-link>
                                 </p>
                             </form>
                         </div>
@@ -229,22 +246,22 @@ export default {
                 password: null,
                 password_confirmation: '',
                 name: null,
-                last_name: null,
+                last_name: null
             },
             errors: [],
             errorsApi: {},
             submitted: false,
             disabled: false,
-            checkboxConfirm: false,
+            checkboxConfirm: false
         };
     },
     validations: {
         customer: {
             name: {
-                required,
+                required
             },
             last_name: {
-                required,
+                required
             },
             email: {
                 required,
@@ -256,19 +273,22 @@ export default {
                 maxLength: maxLength(255)
             },
             password_confirmation: {
-                required: requiredIf(function() {
+                required: requiredIf(function () {
                     return this.customer.password;
                 }),
-                sameAs: sameAs(function() {
+                sameAs: sameAs(function () {
                     return this.customer.password;
                 })
             }
         },
-        checkboxConfirm : {
+        checkboxConfirm: {
             checked(val) {
                 return val;
             }
         }
+    },
+    metaInfo: {
+        titleTemplate: '新規会員登録｜Order Renove'
     },
     methods: {
         submit() {
@@ -284,11 +304,11 @@ export default {
                             'content-type': 'application/json'
                         }
                     })
-                    .then(res => {
+                    .then((res) => {
                         this.$setLocalStorage('emailRegister', this.customer.email);
                         this.$router.push({ name: 'registerThankYou' }).catch(() => {});
                     })
-                    .catch(err => {
+                    .catch((err) => {
                         this.disabled = false;
                         this.submitted = false;
                         this.errorsApi = err.response.data.errors;
@@ -296,7 +316,7 @@ export default {
             }
         },
         googleLogin() {
-            this.$store.dispatch('googleLogin').then(response => {
+            this.$store.dispatch('googleLogin').then((response) => {
                 window.location.href = '/';
             });
         },
@@ -304,9 +324,9 @@ export default {
         facebookLogin() {
             const store = this.$store;
             FB.login(
-                function(response) {
+                function (response) {
                     if (response.authResponse) {
-                        store.dispatch('facebookLogin').then(response => {
+                        store.dispatch('facebookLogin').then((response) => {
                             window.location.href = '/';
                         });
                     }
@@ -315,9 +335,6 @@ export default {
             );
             return false;
         }
-    },
-    metaInfo: {
-        titleTemplate: '新規会員登録｜Order Renove'
     }
 };
 </script>

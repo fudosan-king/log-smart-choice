@@ -21,6 +21,12 @@ export default {
             styleScrollTop: styleScrollTop,
         };
     },
+    created: function() {
+        window.addEventListener('scroll', this.scrollListener);
+    },
+    beforeDestroy: function() {
+        window.removeEventListener('scroll', this.scrollListener);
+    },
     methods: {
         scrollTop: function() {
             this.intervalId = setInterval(() => {
@@ -33,12 +39,7 @@ export default {
         scrollListener: function(e) {
             this.visible = window.scrollY > 150;
         }
-    },
-    mounted: function() {
-        window.addEventListener('scroll', this.scrollListener);
-    },
-    beforeDestroy: function() {
-        window.removeEventListener('scroll', this.scrollListener);
     }
+
 };
 </script>

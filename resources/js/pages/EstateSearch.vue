@@ -386,6 +386,14 @@ export default {
             tagShow: tagShow
         };
     },
+    created() {
+        this.getCities();
+        this.listTotalPrice();
+        this.listSquare();
+        this.getTransports();
+        this.getTabList();
+        window.addEventListener('visibilitychange', this.handleChangeTab);
+    },
     updated() {
         $('.ck_allStation input').click(function () {
             let flagCheckAllStation = $(this).val();
@@ -406,16 +414,11 @@ export default {
         });
         this.tagShowSelected();
     },
-    created() {
-        this.getCities();
-        this.listTotalPrice();
-        this.listSquare();
-        this.getTransports();
-        this.getTabList();
-        window.addEventListener('visibilitychange', this.handleChangeTab);
-    },
     beforeDestroy() {
         window.removeEventListener('visibilitychange', this.handleChangeTab);
+    },
+    metaInfo: {
+        titleTemplate: '検索条件｜Order Renove'
     },
     methods: {
         handleChangeTab() {
@@ -517,9 +520,6 @@ export default {
                 $('#' + this.tagShow[i]).addClass('show');
             }
         }
-    },
-    metaInfo: {
-        titleTemplate: '検索条件｜Order Renove'
     }
 };
 </script>

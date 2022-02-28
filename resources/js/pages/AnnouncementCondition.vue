@@ -50,8 +50,9 @@
                                                 v-if="price != '上限なし'"
                                                 :value="price"
                                                 :selected="price == price ? 'selected' : ''"
-                                                >{{ price }}</option
                                             >
+                                                {{ price }}
+                                            </option>
                                         </template>
                                     </select>
                                     <div v-if="errorsApi.price && errorsApi.price.length" class="invalid-feedback">
@@ -66,8 +67,9 @@
                                                 v-if="price != '下限なし'"
                                                 :value="price"
                                                 :selected="price == maxTotalPrices ? 'selected' : ''"
-                                                >{{ price }}</option
                                             >
+                                                {{ price }}
+                                            </option>
                                         </template>
                                     </select>
                                 </div>
@@ -86,8 +88,9 @@
                                                 v-if="square != '上限なし'"
                                                 :value="square"
                                                 :selected="square == minSquare ? 'selected' : ''"
-                                                >{{ square }}</option
                                             >
+                                                {{ square }}
+                                            </option>
                                         </template>
                                     </select>
                                     <div v-if="errorsApi.square && errorsApi.square.length" class="invalid-feedback">
@@ -102,8 +105,9 @@
                                                 v-if="square != '下限なし'"
                                                 :value="square"
                                                 :selected="square == maxSquare ? 'selected' : ''"
-                                                >{{ square }}</option
                                             >
+                                                {{ square }}
+                                            </option>
                                         </template>
                                     </select>
                                 </div>
@@ -164,9 +168,12 @@ export default {
         this.listSquare();
         this.getCustomerInformation();
     },
+    metaInfo: {
+        titleTemplate: 'メルマガ配信希望条件｜Order Renove'
+    },
     methods: {
         listDistrict() {
-            this.$store.dispatch('getCustomerDistrict').then(resp => {
+            this.$store.dispatch('getCustomerDistrict').then((resp) => {
                 this.districts = resp.data;
             });
         },
@@ -212,7 +219,7 @@ export default {
             this.message = [];
             this.submitted = true;
             let newDistrictsList = [];
-            $('input[name="districtInput[]"]:checked').each(function(i) {
+            $('input[name="districtInput[]"]:checked').each(function (i) {
                 newDistrictsList[i] = $(this).val();
             });
             if (this.submitted) {
@@ -231,15 +238,15 @@ export default {
                 var content = 'メルマガ配信希望条件が正常に変更されました！';
                 this.$store
                     .dispatch('updateAnnouncement', data)
-                    .then(resp => {
+                    .then((resp) => {
                         this.disabled = true;
-                        this.$swal('メルマガ配信希望条件', content, 'success').then(result => {
+                        this.$swal('メルマガ配信希望条件', content, 'success').then((result) => {
                             if (result.isConfirmed) {
                                 this.$router.push({ name: 'information' }).catch(() => {});
                             }
                         });
                     })
-                    .catch(error => {
+                    .catch((error) => {
                         this.disabled = false;
                         this.submitted = false;
                         this.errorsApi = error.response.data.errors.messages[0];
@@ -248,7 +255,7 @@ export default {
         },
 
         getCustomerInformation() {
-            this.$store.dispatch('customerInfo').then(resp => {
+            this.$store.dispatch('customerInfo').then((resp) => {
                 this.customerInformation = resp;
                 if (resp.announcement_condition) {
                     if (resp.announcement_condition.city) {
@@ -263,7 +270,7 @@ export default {
                         this.maxSquare = resp.announcement_condition.square.max;
                     }
                     if (this.districts) {
-                        this.districts.forEach(element => {
+                        this.districts.forEach((element) => {
                             if (this.getDistrictList.includes(element.name)) {
                                 this.checkedDistrictInput.push(element.name);
                             }
@@ -272,9 +279,6 @@ export default {
                 }
             });
         }
-    },
-    metaInfo: {
-        titleTemplate: 'メルマガ配信希望条件｜Order Renove'
     }
 };
 </script>

@@ -20,7 +20,7 @@
                                     class="mb-1"
                                     v-if="
                                         conditionSearch.price.min != '下限なし' ||
-                                            conditionSearch.price.max != '上限なし'
+                                        conditionSearch.price.max != '上限なし'
                                     "
                                 >
                                     <b>価格：</b>{{ conditionSearch.price.min }}～{{ conditionSearch.price.max }}
@@ -30,7 +30,7 @@
                                 <p
                                     v-if="
                                         conditionSearch.square.min != '下限なし' ||
-                                            conditionSearch.square.max != '上限なし'
+                                        conditionSearch.square.max != '上限なし'
                                     "
                                 >
                                     <b>広さ：</b>{{ conditionSearch.square.min }}～{{ conditionSearch.square.max }}
@@ -214,8 +214,8 @@ export default {
     created() {
         this.$store.registerModule('estate', estateModule);
         window.addEventListener('scroll', this.handleScroll);
-        window.onload = function() {
-            window.onpopstate = function() {
+        window.onload = function () {
+            window.onpopstate = function () {
                 window.location.reload();
             };
         };
@@ -223,8 +223,6 @@ export default {
     },
     beforeDestroy() {
         this.$store.unregisterModule('estate');
-    },
-    destroyed() {
         window.removeEventListener('scroll', this.handleScroll);
     },
     methods: {
@@ -304,7 +302,7 @@ export default {
 
                 this.$store
                     .dispatch('getEstateList', data)
-                    .then(res => {
+                    .then((res) => {
                         // this.estates = this.estates.concat(res[0]['data']);
                         this.estates = res[0]['data'];
                         this.paginationInfo = res[0]['paginationInfo'];
@@ -345,7 +343,7 @@ export default {
                         let string = keyword + price + square;
                         this.$emit('title-dynamic', string);
                     })
-                    .catch(err => {
+                    .catch((err) => {
                         this.$setCookie('accessToken3d', '', 1);
                         this.$removeAuthLocalStorage();
                         this.$removeLocalStorage('announcement_count');
@@ -353,7 +351,7 @@ export default {
             } else {
                 this.$store
                     .dispatch('getEstateList', data)
-                    .then(res => {
+                    .then((res) => {
                         let stringTitle = [];
                         // this.estates = this.estates.concat(res[0]['data']);
                         this.estates = res[0]['data'];
@@ -410,7 +408,7 @@ export default {
                         }
                         this.$emit('title-dynamic', stringTitle.join());
                     })
-                    .catch(err => {
+                    .catch((err) => {
                         this.$setCookie('accessToken3d', '', 1);
                         this.$removeAuthLocalStorage();
                         this.$removeLocalStorage('announcement_count');
@@ -483,7 +481,7 @@ export default {
                 this.$store
                     .dispatch('addWishList', data, accessToken)
                     .then()
-                    .catch(err => {
+                    .catch((err) => {
                         this.$setCookie('accessToken3d', '', 1);
                         this.$removeAuthLocalStorage();
                         this.$removeLocalStorage('announcement_count');

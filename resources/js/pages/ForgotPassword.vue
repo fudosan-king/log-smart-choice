@@ -1,15 +1,15 @@
 <template>
     <div>
         <main id="main">
-
-
             <div class="box_template">
                 <section class="p-0">
                     <div class="box_top mb-0">
                         <div class="container">
                             <h2 class="title mb-3">パスワード再設定</h2>
                             <p class="subtitle mb-2">
-                                <small>下記に登録したメールアドレスを入力してください。パスワード再設定のご案内をメールでお送りします。</small>
+                                <small
+                                    >下記に登録したメールアドレスを入力してください。パスワード再設定のご案内をメールでお送りします。</small
+                                >
                             </p>
                         </div>
                     </div>
@@ -28,8 +28,7 @@
                                             placeholder="orderrenove@propolife.co.jp"
                                             v-model="email"
                                             :class="{
-                                                'is-invalid':
-                                                    (submitted && $v.email.$error) || (error && error.length)
+                                                'is-invalid': (submitted && $v.email.$error) || (error && error.length)
                                             }"
                                         />
                                         <div v-if="submitted && $v.email.$error" class="invalid-feedback">
@@ -64,7 +63,6 @@
                         </div>
                     </div>
                 </section>
-
             </div>
         </main>
     </div>
@@ -88,6 +86,9 @@ export default {
             email
         }
     },
+    metaInfo: {
+        titleTemplate: '忘れたパスワード｜Order Renove'
+    },
     methods: {
         forgotPassword() {
             this.error = [];
@@ -100,22 +101,19 @@ export default {
                 };
                 this.$store
                     .dispatch('forgotPassword', data)
-                    .then(resp => {
+                    .then((resp) => {
                         this.disabled = true;
                         this.message = resp.data.success.messages;
                         setTimeout(() => {
                             this.$router.push({ name: 'login' }).catch(() => {});
                         }, 2000);
                     })
-                    .catch(error => {
+                    .catch((error) => {
                         this.disabled = false;
                         this.error = error.response.data.errors.messages;
                     });
             }
         }
-    },
-    metaInfo: {
-        titleTemplate: '忘れたパスワード｜Order Renove'
     }
 };
 </script>

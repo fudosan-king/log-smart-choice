@@ -47,6 +47,9 @@ export default {
     created() {
         this.listDistrict();
     },
+    metaInfo: {
+        titleTemplate: '物件問い合わせ完了｜Order Renove'
+    },
     methods: {
         backHome() {
             this.$router.push('/').catch(() => {});
@@ -90,9 +93,6 @@ export default {
                 this.districts = resp.data;
             });
         }
-    },
-    metaInfo: {
-        titleTemplate: '物件問い合わせ完了｜Order Renove'
     }
 };
 </script>

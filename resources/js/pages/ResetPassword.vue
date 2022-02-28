@@ -53,7 +53,8 @@
                                             'is-invalid':
                                                 (submitted && $v.password_confirmation.$error) ||
                                                 (errorsApi.password_confirmation &&
-                                                    errorsApi.password_confirmation.length || errorsApi.length)
+                                                    errorsApi.password_confirmation.length) ||
+                                                errorsApi.length
                                         }"
                                     />
                                     <div
@@ -103,10 +104,10 @@ export default {
             maxLength: maxLength(255)
         },
         password_confirmation: {
-            required: requiredIf(function() {
+            required: requiredIf(function () {
                 return this.password;
             }),
-            sameAs: sameAs(function() {
+            sameAs: sameAs(function () {
                 return this.password;
             })
         }
@@ -119,6 +120,9 @@ export default {
             submitted: false,
             disabled: false
         };
+    },
+    metaInfo: {
+        titleTemplate: 'パスワードを再設定する｜Order Renove'
     },
     methods: {
         submit() {
@@ -138,23 +142,20 @@ export default {
 
                 this.$store
                     .dispatch('resetPassword', data)
-                    .then(resp => {
-                        this.$swal('パスワード変更', content, 'success').then(result => {
+                    .then((resp) => {
+                        this.$swal('パスワード変更', content, 'success').then((result) => {
                             if (result.isConfirmed) {
                                 this.$router.push({ name: 'login' }).catch(() => {});
                             }
                         });
                     })
-                    .catch(err => {
+                    .catch((err) => {
                         this.disabled = false;
                         this.submitted = false;
                         this.errorsApi = err.response.data.errors.messages[0];
                     });
             }
         }
-    },
-    metaInfo: {
-        titleTemplate: 'パスワードを再設定する｜Order Renove'
     }
 };
 </script>

@@ -375,6 +375,9 @@ export default {
             this.$router.push('https://form.run/@order-renove').catch(() => {});
         }
     },
+    metaInfo: {
+        titleTemplate: 'への 内見・お問い合わせ入力｜Order Renove'
+    },
     methods: {
         getCustomerInformation() {
             this.$store
@@ -521,9 +524,6 @@ export default {
             }
             return result;
         }
-    },
-    metaInfo: {
-        titleTemplate: 'への 内見・お問い合わせ入力｜Order Renove'
     }
 };
 </script>

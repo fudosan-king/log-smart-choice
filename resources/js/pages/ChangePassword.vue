@@ -100,10 +100,10 @@ export default {
             maxLength: maxLength(255)
         },
         password_confirmation: {
-            required: requiredIf(function() {
+            required: requiredIf(function () {
                 return this.password;
             }),
-            sameAs: sameAs(function() {
+            sameAs: sameAs(function () {
                 return this.password;
             })
         }
@@ -116,6 +116,9 @@ export default {
             submitted: false,
             disabled: false
         };
+    },
+    metaInfo: {
+        titleTemplate: 'パスワード設定｜Order Renove'
     },
     methods: {
         submit() {
@@ -134,23 +137,20 @@ export default {
 
                 this.$store
                     .dispatch('changePassword', data)
-                    .then(resp => {
-                        this.$swal('パスワード変更', content, 'success').then(result => {
+                    .then((resp) => {
+                        this.$swal('パスワード変更', content, 'success').then((result) => {
                             if (result.isConfirmed) {
                                 this.$router.push({ name: 'information' }).catch(() => {});
                             }
                         });
                     })
-                    .catch(err => {
+                    .catch((err) => {
                         this.disabled = false;
                         this.submitted = false;
                         this.errorsApi = err.response.data.errors.messages[0];
                     });
             }
         }
-    },
-    metaInfo: {
-        titleTemplate: 'パスワード設定｜Order Renove'
     }
 };
 </script>

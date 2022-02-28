@@ -74,7 +74,10 @@
 
                                             <div>
                                                 <label>OrderRenoveCustomerId</label>
-                                                <input name="orderrenove_customer_id" :value="planContactData.estateUrl" />
+                                                <input
+                                                    name="orderrenove_customer_id"
+                                                    :value="planContactData.estateUrl"
+                                                />
                                             </div>
 
                                             <div>
@@ -106,8 +109,11 @@ export default {
             planContactData: {}
         };
     },
-    mounted() {
+    created() {
         this.getContactData();
+    },
+    metaInfo: {
+        titleTemplate: 'プラン名｜Order Renove'
     },
     methods: {
         getContactData() {
@@ -146,9 +152,6 @@ export default {
             }
             $('#postPlanToFormrun').submit();
         }
-    },
-    metaInfo: {
-        titleTemplate: 'プラン名｜Order Renove'
     }
 };
 </script>
