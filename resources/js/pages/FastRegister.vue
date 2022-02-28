@@ -323,7 +323,7 @@ export default {
             }
         }
     },
-    mounted() {
+    created() {
         this.listDistrict();
         this.listTotalPrice();
         this.listSquare();

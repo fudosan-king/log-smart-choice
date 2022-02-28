@@ -13,9 +13,7 @@
                 <div class="row">
                     <div class="col-12 col-lg-12">
                         <form action="" class="frm_search_conditions">
-                            <h2 class="little_title">
-                                エリアまたは沿線・駅から選択（複数選択可）
-                            </h2>
+                            <h2 class="little_title">エリアまたは沿線・駅から選択（複数選択可）</h2>
                             <div class="frm_search_conditions_content">
                                 <ul class="nav nav-pills" id="pills-tab" role="tablist">
                                     <li class="nav-item" role="presentation">
@@ -116,12 +114,12 @@
                                                                                     :checked="
                                                                                         conditionSearchBefore.districts
                                                                                             ? conditionSearchBefore.districts.filter(
-                                                                                                  e =>
+                                                                                                  (e) =>
                                                                                                       e.name ==
                                                                                                       district.name
                                                                                               ).length > 0 &&
                                                                                               conditionSearchBefore.districts.filter(
-                                                                                                  e =>
+                                                                                                  (e) =>
                                                                                                       e.cityId ==
                                                                                                       city.id
                                                                                               ).length > 0
@@ -229,9 +227,9 @@
                                                                                     class="custom-control-input"
                                                                                     :id="
                                                                                         'ck0' +
-                                                                                            station.name +
-                                                                                            indexStation +
-                                                                                            station.transport_id
+                                                                                        station.name +
+                                                                                        indexStation +
+                                                                                        station.transport_id
                                                                                     "
                                                                                     :value="station.name"
                                                                                     name="inputStation[]"
@@ -244,12 +242,12 @@
                                                                                     :checked="
                                                                                         conditionSearchBefore.stations
                                                                                             ? conditionSearchBefore.stations.filter(
-                                                                                                  e =>
+                                                                                                  (e) =>
                                                                                                       e.name ==
                                                                                                       station.name
                                                                                               ).length > 0 &&
                                                                                               conditionSearchBefore.stations.filter(
-                                                                                                  e =>
+                                                                                                  (e) =>
                                                                                                       e.transportId ==
                                                                                                       transport.id
                                                                                               ).length > 0
@@ -260,9 +258,9 @@
                                                                                     class="custom-control-label"
                                                                                     :for="
                                                                                         'ck0' +
-                                                                                            station.name +
-                                                                                            indexStation +
-                                                                                            station.transport_id
+                                                                                        station.name +
+                                                                                        indexStation +
+                                                                                        station.transport_id
                                                                                     "
                                                                                     >{{ station.name }}</label
                                                                                 >
@@ -294,8 +292,9 @@
                                             v-if="price != '上限なし'"
                                             :value="price"
                                             :selected="price == price ? 'selected' : ''"
-                                            >{{ price }}</option
                                         >
+                                            {{ price }}
+                                        </option>
                                     </template>
                                 </select>
                                 <p class="mb-0">⁓</p>
@@ -305,8 +304,9 @@
                                             v-if="price != '下限なし'"
                                             :value="price"
                                             :selected="price == maxTotalPrices ? 'selected' : ''"
-                                            >{{ price }}</option
                                         >
+                                            {{ price }}
+                                        </option>
                                     </template>
                                 </select>
                             </div>
@@ -387,35 +387,35 @@ export default {
         };
     },
     updated() {
-        $('.ck_allStation input').click(function() {
+        $('.ck_allStation input').click(function () {
             let flagCheckAllStation = $(this).val();
             $('.' + flagCheckAllStation + ' input:checkbox')
                 .not(this)
                 .prop('checked', this.checked);
         });
 
-        $('.ck_allCity input').click(function() {
+        $('.ck_allCity input').click(function () {
             let flagCheckAllCity = $(this).val();
             $('.' + flagCheckAllCity + ' input:checkbox')
                 .not(this)
                 .prop('checked', this.checked);
         });
 
-        $('.plus-to-minus').click(function(event) {
+        $('.plus-to-minus').click(function (event) {
             $(this).toggleClass('minus');
         });
         this.tagShowSelected();
     },
-    beforeDestroy() {
-        window.removeEventListener('visibilitychange', this.handleChangeTab);
-    },
-    mounted() {
+    created() {
         this.getCities();
         this.listTotalPrice();
         this.listSquare();
         this.getTransports();
         this.getTabList();
         window.addEventListener('visibilitychange', this.handleChangeTab);
+    },
+    beforeDestroy() {
+        window.removeEventListener('visibilitychange', this.handleChangeTab);
     },
     methods: {
         handleChangeTab() {
@@ -426,13 +426,13 @@ export default {
         },
 
         getCities() {
-            this.$store.dispatch('getCityList').then(response => {
+            this.$store.dispatch('getCityList').then((response) => {
                 this.cityList = response.data;
             });
         },
 
         getTransports() {
-            this.$store.dispatch('getTransportList').then(response => {
+            this.$store.dispatch('getTransportList').then((response) => {
                 this.transports = response.data;
             });
         },
@@ -474,7 +474,7 @@ export default {
         },
 
         getTabList() {
-            this.$store.dispatch('getTabList').then(response => {
+            this.$store.dispatch('getTabList').then((response) => {
                 this.tabList = response;
             });
         },
@@ -491,9 +491,7 @@ export default {
             }
             let child = event.target.id;
             let positionAllChild = $('#' + child).parentsUntil('.' + classChild + '');
-            let positionChild = $(positionAllChild[3])
-                .attr('class')
-                .split(' ')[1];
+            let positionChild = $(positionAllChild[3]).attr('class').split(' ')[1];
             let totalCheckbox = $('.' + positionChild + ' input:checkbox').length;
             let totalChecked = $('.' + positionChild + ' [name="' + inputTag + '[]"]:checked').length;
             let eleParent = $('#' + positionChild);

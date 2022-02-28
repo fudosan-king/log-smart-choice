@@ -105,7 +105,7 @@ export default {
             square: '-/-'
         };
     },
-    mounted() {
+    created() {
         this.getCustomerInformation();
     },
     methods: {

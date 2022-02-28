@@ -912,6 +912,9 @@ export default {
             district: {}
         };
     },
+    created() {
+        this.getListEstates();
+    },
     mounted() {
         const payTerm = $('.js-range-slider1');
         payTerm.ionRangeSlider({
@@ -939,7 +942,6 @@ export default {
             this.paymentInterest = parseFloat(data.currentTarget.value);
             this.calculateMonthlyLoanPayment();
         });
-        this.getListEstates();
     },
     watch: {
         totalPrice: function (newValue, oldValue) {

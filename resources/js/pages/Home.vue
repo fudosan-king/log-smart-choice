@@ -153,12 +153,6 @@ Vue.use(Lazyload, {
     attempt: 1
 });
 export default {
-    created() {
-        this.$store.registerModule('page-post', PagePost);
-    },
-    beforeDestroy() {
-        this.$store.unregisterModule('page-post');
-    },
     data() {
         return {
             searchType: '',
@@ -179,6 +173,9 @@ export default {
     },
     created() {
         this.$store.registerModule('page-post', PagePost);
+        this.getTabList();
+        this.pushRouterToServer();
+        this.getPosts();
     },
     beforeDestroy() {
         this.$store.unregisterModule('page-post');
@@ -187,11 +184,6 @@ export default {
         EstatesTopComponent: () => import('../components/EstatesTopComponent'),
         EstateRecommendComponent: () => import('../components/EstateRecommendComponent'),
         EstatesNearComponent: () => import('../components/EstatesNearComponent')
-    },
-    mounted() {
-        this.getTabList();
-        this.pushRouterToServer();
-        this.getPosts();
     },
     methods: {
         clearConditionSearch() {

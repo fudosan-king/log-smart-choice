@@ -110,7 +110,7 @@ export default {
             }
         },
     },
-    mounted() {
+    created() {
         if(this.searchType == 'district') {
             this.getDistrict();
         }

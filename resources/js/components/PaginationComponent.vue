@@ -81,7 +81,7 @@ export default {
             this.visible = window.scrollY > 150;
         }
     },
-    mounted: function() {
+    created: function() {
         window.addEventListener('scroll', this.scrollListener);
     },
     beforeDestroy: function() {

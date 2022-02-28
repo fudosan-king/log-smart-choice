@@ -166,12 +166,10 @@ export default {
     },
     created() {
         this.$store.registerModule('page-post', PagePost);
+        this.getPosts();
     },
     beforeDestroy() {
         this.$store.unregisterModule('page-post');
-    },
-    mounted() {
-        this.getPosts();
     },
     methods: {
         getPosts() {

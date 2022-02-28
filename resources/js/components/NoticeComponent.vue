@@ -139,12 +139,10 @@ export default {
             hasMore: true
         };
     },
-    mounted() {
-        this.getAnnouncementList(1, this.limit);
-    },
     created() {
         this.$store.registerModule('announcement', announcementModule);
         window.addEventListener('scroll', this.handleScroll);
+        this.getAnnouncementList(1, this.limit);
     },
     beforeDestroy() {
         this.$store.unregisterModule('announcement');

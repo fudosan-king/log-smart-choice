@@ -211,9 +211,6 @@ export default {
         WishlistComponent: () => import('../components/WishlistComponent'),
         PaginationComponent: () => import('../components/PaginationComponent')
     },
-    mounted() {
-        this.getListEstates(this.pageChoice);
-    },
     created() {
         this.$store.registerModule('estate', estateModule);
         window.addEventListener('scroll', this.handleScroll);
@@ -222,6 +219,7 @@ export default {
                 window.location.reload();
             };
         };
+        this.getListEstates(this.pageChoice);
     },
     beforeDestroy() {
         this.$store.unregisterModule('estate');

@@ -133,7 +133,7 @@ export default {
             contactData: {}
         };
     },
-    mounted() {
+    created() {
         this.getContactData();
     },
     methods: {

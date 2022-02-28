@@ -363,15 +363,17 @@ export default {
             maxLength: maxLength(11)
         }
     },
+    created() {
+        this.getCustomerInformation();
+        this.getListHopeDay();
+        this.getListStartTime();
+    },
     mounted() {
         if (window.localStorage.getItem('estateName')) {
             this.estate = window.localStorage.getItem('estateName');
         } else {
             this.$router.push('https://form.run/@order-renove').catch(() => {});
         }
-        this.getCustomerInformation();
-        this.getListHopeDay();
-        this.getListStartTime();
     },
     methods: {
         getCustomerInformation() {
@@ -490,10 +492,10 @@ export default {
             if (dayOfWeek == 1) {
                 dayKind = '月';
             }
-            if (dayOfWeek == 2 && ($.inArray(parseInt(dd), holimonth) > -1)) {
+            if (dayOfWeek == 2 && $.inArray(parseInt(dd), holimonth) > -1) {
                 dayKind = '火';
             }
-            if (dayOfWeek == 3 && ($.inArray(parseInt(dd), holimonth) > -1)) {
+            if (dayOfWeek == 3 && $.inArray(parseInt(dd), holimonth) > -1) {
                 dayKind = '水';
             }
             if (dayOfWeek == 4) {

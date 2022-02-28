@@ -4,9 +4,7 @@
             <section class="p-0">
                 <div class="box_top mb-0 bg-transparent">
                     <div class="container">
-                        <h2 class="title">
-                            物件問い合わせ完了
-                        </h2>
+                        <h2 class="title">物件問い合わせ完了</h2>
                     </div>
                 </div>
             </section>
@@ -46,7 +44,7 @@ export default {
             districts: ''
         };
     },
-    mounted() {
+    created() {
         this.listDistrict();
     },
     methods: {
@@ -67,7 +65,7 @@ export default {
                 min: '下限なし',
                 max: '上限なし'
             };
-            this.customer.city = Object.keys(this.districts).map(key => this.districts[key]['name']);
+            this.customer.city = Object.keys(this.districts).map((key) => this.districts[key]['name']);
 
             axios
                 .post('/fast-register', this.customer, {
@@ -75,12 +73,12 @@ export default {
                         'content-type': 'application/json'
                     }
                 })
-                .then(res => {
+                .then((res) => {
                     window.localStorage.removeItem('contactData');
                     this.$setLocalStorage('emailRegister', this.customer.email);
                     this.$router.push({ name: 'fastRegisterThankYou' }).catch(() => {});
                 })
-                .catch(err => {
+                .catch((err) => {
                     this.disabled = false;
                     this.submitted = false;
                     this.errorsApi = err.response.data.errors.messages[0];
@@ -88,7 +86,7 @@ export default {
         },
 
         listDistrict() {
-            this.$store.dispatch('getCustomerDistrict').then(resp => {
+            this.$store.dispatch('getCustomerDistrict').then((resp) => {
                 this.districts = resp.data;
             });
         }
