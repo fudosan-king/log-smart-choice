@@ -1,13 +1,14 @@
 import VueRouter from 'vue-router';
 import store from '../store/index';
 import axios from 'axios';
+import Home from '../../js/pages/Home.vue';
 
 // Routes
 const routes = [
     {
         path: '/',
         name: 'home',
-        component: () => import('../../js/pages/Home.vue'),
+        component: Home,
         meta: {
             title: 'リノベーションプラットフォーム「オーダーリノベ」｜Order Renove'
         }
@@ -51,15 +52,33 @@ const routes = [
         component: () => import('../pages/Contact.vue'),
         meta: {
             title: 'への 内見・お問い合わせ入力｜Order Renove'
-        }
-    },
-    {
-        path: '/contact/confirm',
-        name: 'contactConfirm',
-        component: () => import('../pages/ContactConfirm.vue'),
-        meta: {
-            title: 'への 内見・お問い合わせ確認｜Order Renove'
-        }
+        },
+        children: [
+            {
+                path: 'confirm',
+                name: 'contactConfirm',
+                component: () => import('../pages/ContactConfirm.vue'),
+                meta: {
+                    title: 'への 内見・お問い合わせ確認｜Order Renove'
+                }
+            },
+            {
+                path: 'thanks-fast-register/',
+                name: 'contactThanksGuest',
+                component: () => import('../pages/ContactThanksGuest.vue'),
+                meta: {
+                    title: '物件問い合わせ完了｜Order Renove'
+                }
+            },
+            {
+                path: 'thanks/',
+                name: 'contactThanksCustomer',
+                component: () => import('../pages/ContactThanksCustomer.vue'),
+                meta: {
+                    title: '物件問い合わせ完了｜Order Renove'
+                }
+            }
+        ]
     },
     {
         path: '/register',
@@ -91,31 +110,53 @@ const routes = [
         }
     },
     {
-        path: '/customer/information',
-        name: 'information',
-        component: () => import('../pages/AccountInformation.vue'),
-        meta: {
-            requiresAuth: true,
-            title: '登録情報｜Order Renove'
-        }
-    },
-    {
-        path: '/customer/change-password',
-        name: 'changePassword',
-        component: () => import('../pages/ChangePassword.vue'),
-        meta: {
-            requiresAuth: true,
-            title: 'パスワード設定｜Order Renove'
-        }
-    },
-    {
-        path: '/customer/update',
-        name: 'updateInformation',
-        component: () => import('../pages/UpdateInformation.vue'),
-        meta: {
-            requiresAuth: true,
-            title: '登録情報の更新｜Order Renove'
-        }
+        path: '/customer',
+        children: [
+            {
+                path: 'information',
+                name: 'information',
+                component: () => import('../pages/AccountInformation.vue'),
+                meta: {
+                    requiresAuth: true,
+                    title: '登録情報｜Order Renove'
+                }
+            },
+            {
+                path: 'change-password',
+                name: 'changePassword',
+                component: () => import('../pages/ChangePassword.vue'),
+                meta: {
+                    requiresAuth: true,
+                    title: 'パスワード設定｜Order Renove'
+                }
+            },
+            {
+                path: 'update',
+                name: 'updateInformation',
+                component: () => import('../pages/UpdateInformation.vue'),
+                meta: {
+                    requiresAuth: true,
+                    title: '登録情報の更新｜Order Renove'
+                }
+            },
+            {
+                path: 'announcement-condition',
+                name: 'announcementCondition',
+                component: () => import('../pages/AnnouncementCondition.vue'),
+                meta: {
+                    requiresAuth: true,
+                    title: 'メルマガ配信希望条件｜Order Renove'
+                }
+            },
+            {
+                path: ':verify/active-email',
+                name: 'welcome',
+                component: () => import('../pages/Welcome.vue'),
+                meta: {
+                    title: '会員登録完了｜Order Renove'
+                }
+            }
+        ]
     },
     {
         path: '/wishlist',
@@ -133,23 +174,6 @@ const routes = [
         meta: {
             requiresAuth: true,
             title: '希望条件にあった物件一覧｜Order Renove'
-        }
-    },
-    {
-        path: '/customer/announcement-condition',
-        name: 'announcementCondition',
-        component: () => import('../pages/AnnouncementCondition.vue'),
-        meta: {
-            requiresAuth: true,
-            title: 'メルマガ配信希望条件｜Order Renove'
-        }
-    },
-    {
-        path: '/customer/:verify/active-email',
-        name: 'welcome',
-        component: () => import('../pages/Welcome.vue'),
-        meta: {
-            title: '会員登録完了｜Order Renove'
         }
     },
     {
@@ -185,22 +209,6 @@ const routes = [
         }
     },
     {
-        path: '/contact/thanks-fast-register/',
-        name: 'contactThanksGuest',
-        component: () => import('../pages/ContactThanksGuest.vue'),
-        meta: {
-            title: '物件問い合わせ完了｜Order Renove'
-        }
-    },
-    {
-        path: '/contact/thanks/',
-        name: 'contactThanksCustomer',
-        component: () => import('../pages/ContactThanksCustomer.vue'),
-        meta: {
-            title: '物件問い合わせ完了｜Order Renove'
-        }
-    },
-    {
         path: '/search',
         name: 'estateSearch',
         component: () => import('../pages/EstateSearch.vue'),
@@ -217,45 +225,50 @@ const routes = [
         }
     },
     {
-        path: '/plan/contact/:postId',
-        name: 'planContact',
-        component: () => import('../pages/PlanContact.vue'),
-        meta: {
-            title: 'プラン名｜Order Renove'
-        }
-    },
-    {
-        path: '/plan/contact-confirm',
-        name: 'planContactConfirm',
-        component: () => import('../pages/PlanContactConfirm.vue'),
-        meta: {
-            title: 'プラン名｜Order Renove'
-        }
-    },
-    {
-        path: '/plan/contact-thanks-customer',
-        name: 'planContactThanksCustomer',
-        component: () => import('../pages/PlanContactThanksCustomer.vue'),
-        meta: {
-            title: 'プラン名｜Order Renove'
-        }
-    },
-    {
-        path: '/plan/contact-thanks-guest',
-        name: 'planContactThankGuest',
-        component: () => import('../pages/PlanContactThanksGuest.vue'),
-        meta: {
-            title: 'プラン名｜Order Renove'
-        }
-    },
-    {
-        path: '/plan/detail',
-        name: 'planDetail',
-        component: () => import('../pages/PlanDetail.vue'),
-        meta: {
-            title: 'プラン詳細｜Order Renove'
-        }
-    },
+        path: 'plan',
+        children: [
+            {
+                path: 'contact/:postId',
+                name: 'planContact',
+                component: () => import('../pages/PlanContact.vue'),
+                meta: {
+                    title: 'プラン名｜Order Renove'
+                }
+            },
+            {
+                path: 'contact-confirm',
+                name: 'planContactConfirm',
+                component: () => import('../pages/PlanContactConfirm.vue'),
+                meta: {
+                    title: 'プラン名｜Order Renove'
+                }
+            },
+            {
+                path: 'contact-thanks-customer',
+                name: 'planContactThanksCustomer',
+                component: () => import('../pages/PlanContactThanksCustomer.vue'),
+                meta: {
+                    title: 'プラン名｜Order Renove'
+                }
+            },
+            {
+                path: 'contact-thanks-guest',
+                name: 'planContactThankGuest',
+                component: () => import('../pages/PlanContactThanksGuest.vue'),
+                meta: {
+                    title: 'プラン名｜Order Renove'
+                }
+            },
+            {
+                path: 'detail',
+                name: 'planDetail',
+                component: () => import('../pages/PlanDetail.vue'),
+                meta: {
+                    title: 'プラン詳細｜Order Renove'
+                }
+            }
+        ]
+    }
 ];
 
 const router = new VueRouter({
@@ -280,40 +293,42 @@ router.beforeEach((to, from, next) => {
     let imageSrc = `${window.location.origin}/assets/images/svg/logo_orderrenove_white.svg`;
     let estateID = to.params.estateId;
     if (to.name === 'detail') {
-        axios.get(`${process.env.MIX_APP_URL}/api/get-meta-tags`, { params: { estateID: estateID } }).then(response => {
-            let totalPrice = response.data.dataInfo.price;
-            let address =
-                response.data.dataInfo.address.pref +
-                response.data.dataInfo.address.city +
-                response.data.dataInfo.address.ooaza +
-                response.data.dataInfo.address.tyoume;
-            let addressDescription =
-                response.data.dataInfo.address.pref +
-                response.data.dataInfo.address.city +
-                response.data.dataInfo.address.ooaza +
-                response.data.dataInfo.address.tyoume +
-                response.data.dataInfo.address.gaikutiban;
-            let title = `${response.data.dataInfo.estate_name}｜${address}｜${totalPrice}/${response.data.dataInfo.tatemono_menseki}/${response.data.dataInfo.room_floor}/${response.data.dataInfo.structure}｜Order Renove`;
-            let contentAddressDiscription = `${response.data.dataInfo.estate_name}｜${addressDescription}のリノベーション物件を探すならOrderRenove（オーダーリノベ）。大手ポータルサイトに載っていない掘り出しものの物件も掲載しています。会員登録すれば${response.data.dataInfo.estate_name}｜${addressDescription}のリノベーション済、リノベーション向きの物件もご希望に合った物件情報をお届けします。`;
-            document.title = title;
-            if (typeof response.data.dataInfo.estate_information !== 'undefined') {
-                imageSrc = response.data.dataInfo.estate_information.estate_main_photo;
-            }
-            metaHTML += `<meta property="og:image" content="${imageSrc}"></meta>`;
-            metaHTML += `<meta property="og:title" content="${title}">`;
-            metaHTML += `<meta name="property" content="${contentAddressDiscription}">`;
-            document.head.innerHTML += metaHTML;
-        });
+        axios
+            .get(`${process.env.MIX_APP_URL}/api/get-meta-tags`, { params: { estateID: estateID } })
+            .then((response) => {
+                let totalPrice = response.data.dataInfo.price;
+                let address =
+                    response.data.dataInfo.address.pref +
+                    response.data.dataInfo.address.city +
+                    response.data.dataInfo.address.ooaza +
+                    response.data.dataInfo.address.tyoume;
+                let addressDescription =
+                    response.data.dataInfo.address.pref +
+                    response.data.dataInfo.address.city +
+                    response.data.dataInfo.address.ooaza +
+                    response.data.dataInfo.address.tyoume +
+                    response.data.dataInfo.address.gaikutiban;
+                let title = `${response.data.dataInfo.estate_name}｜${address}｜${totalPrice}/${response.data.dataInfo.tatemono_menseki}/${response.data.dataInfo.room_floor}/${response.data.dataInfo.structure}｜Order Renove`;
+                let contentAddressDiscription = `${response.data.dataInfo.estate_name}｜${addressDescription}のリノベーション物件を探すならOrderRenove（オーダーリノベ）。大手ポータルサイトに載っていない掘り出しものの物件も掲載しています。会員登録すれば${response.data.dataInfo.estate_name}｜${addressDescription}のリノベーション済、リノベーション向きの物件もご希望に合った物件情報をお届けします。`;
+                document.title = title;
+                if (typeof response.data.dataInfo.estate_information !== 'undefined') {
+                    imageSrc = response.data.dataInfo.estate_information.estate_main_photo;
+                }
+                metaHTML += `<meta property="og:image" content="${imageSrc}"></meta>`;
+                metaHTML += `<meta property="og:title" content="${title}">`;
+                metaHTML += `<meta name="property" content="${contentAddressDiscription}">`;
+                document.head.innerHTML += metaHTML;
+            });
     }
 
-    if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (to.matched.some((record) => record.meta.requiresAuth)) {
         if (localStorage.getItem('accessToken')) {
             next();
         } else {
             return next({
                 path: '/login',
                 query: { redirect: to.fullPath }
-            })
+            });
         }
     } else {
         next();

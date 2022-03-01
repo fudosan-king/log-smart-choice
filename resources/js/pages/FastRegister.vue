@@ -275,10 +275,6 @@
 
 <script>
 import { required, email } from 'vuelidate/lib/validators';
-import Vue from 'vue';
-import globalVaiable from '../globalHelper';
-
-Vue.use(globalVaiable);
 
 export default {
     data() {

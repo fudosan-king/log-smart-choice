@@ -11,7 +11,6 @@ import gAuth from './config/googleAuth';
 import FBAuth from './config/facebookAuth';
 import VueMeta from 'vue-meta';
 
-
 const gAuthOption = {
     clientId: process.env.MIX_GOOGLE_CLIENT_ID,
     scope: 'profile email',
@@ -29,7 +28,7 @@ const fbAuthOption = {
 Vue.router = router;
 Vue.use(VueRouter);
 Vue.use(Vuelidate);
-Vue.use(VueMeta)
+Vue.use(VueMeta);
 Vue.use(gAuth, gAuthOption);
 Vue.use(FBAuth, fbAuthOption);
 window.LSMEvent = new Vue();
@@ -60,7 +59,5 @@ new Vue({
     },
     beforeDestroy() {
         this.$store.unregisterModule('customer');
-    },
-    methods: {
     }
 });
