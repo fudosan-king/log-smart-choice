@@ -233,10 +233,10 @@
 </template>
 <script>
 import { required, email, minLength, sameAs, maxLength, requiredIf } from 'vuelidate/lib/validators';
-import Vue from 'vue';
-import globalVaiable from '../globalHelper';
+// import Vue from 'vue';
+// import globalVaiable from '../globalHelper';
 
-Vue.use(globalVaiable);
+// Vue.use(globalVaiable);
 
 export default {
     data() {
