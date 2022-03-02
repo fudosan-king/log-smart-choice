@@ -1,7 +1,7 @@
 import VueRouter from 'vue-router';
 import store from '../store/index';
 import axios from 'axios';
-import Home from '../../js/pages/Home.vue';
+import Home from '../pages/Home.vue';
 
 // Routes
 const routes = [
@@ -53,32 +53,30 @@ const routes = [
         meta: {
             title: 'への 内見・お問い合わせ入力｜Order Renove'
         },
-        children: [
-            {
-                path: 'confirm',
-                name: 'contactConfirm',
-                component: () => import('../pages/ContactConfirm.vue'),
-                meta: {
-                    title: 'への 内見・お問い合わせ確認｜Order Renove'
-                }
-            },
-            {
-                path: 'thanks-fast-register/',
-                name: 'contactThanksGuest',
-                component: () => import('../pages/ContactThanksGuest.vue'),
-                meta: {
-                    title: '物件問い合わせ完了｜Order Renove'
-                }
-            },
-            {
-                path: 'thanks/',
-                name: 'contactThanksCustomer',
-                component: () => import('../pages/ContactThanksCustomer.vue'),
-                meta: {
-                    title: '物件問い合わせ完了｜Order Renove'
-                }
-            }
-        ]
+    },
+    {
+        path: '/contact/confirm',
+        name: 'contactConfirm',
+        component: () => import('../pages/ContactConfirm.vue'),
+        meta: {
+            title: 'への 内見・お問い合わせ確認｜Order Renove'
+        }
+    },
+    {
+        path: '/contact/thanks-fast-register',
+        name: 'contactThanksGuest',
+        component: () => import('../pages/ContactThanksGuest.vue'),
+        meta: {
+            title: '物件問い合わせ完了｜Order Renove'
+        }
+    },
+    {
+        path: '/contact/thanks',
+        name: 'contactThanksCustomer',
+        component: () => import('../pages/ContactThanksCustomer.vue'),
+        meta: {
+            title: '物件問い合わせ完了｜Order Renove'
+        }
     },
     {
         path: '/register',
@@ -110,53 +108,48 @@ const routes = [
         }
     },
     {
-        path: '/customer',
-        children: [
-            {
-                path: 'information',
-                name: 'information',
-                component: () => import('../pages/AccountInformation.vue'),
-                meta: {
-                    requiresAuth: true,
-                    title: '登録情報｜Order Renove'
-                }
-            },
-            {
-                path: 'change-password',
-                name: 'changePassword',
-                component: () => import('../pages/ChangePassword.vue'),
-                meta: {
-                    requiresAuth: true,
-                    title: 'パスワード設定｜Order Renove'
-                }
-            },
-            {
-                path: 'update',
-                name: 'updateInformation',
-                component: () => import('../pages/UpdateInformation.vue'),
-                meta: {
-                    requiresAuth: true,
-                    title: '登録情報の更新｜Order Renove'
-                }
-            },
-            {
-                path: 'announcement-condition',
-                name: 'announcementCondition',
-                component: () => import('../pages/AnnouncementCondition.vue'),
-                meta: {
-                    requiresAuth: true,
-                    title: 'メルマガ配信希望条件｜Order Renove'
-                }
-            },
-            {
-                path: ':verify/active-email',
-                name: 'welcome',
-                component: () => import('../pages/Welcome.vue'),
-                meta: {
-                    title: '会員登録完了｜Order Renove'
-                }
-            }
-        ]
+        path: '/customer/information',
+        name: 'information',
+        component: () => import('../pages/AccountInformation.vue'),
+        meta: {
+            requiresAuth: true,
+            title: '登録情報｜Order Renove'
+        }
+    },
+    {
+        path: '/customer/change-password',
+        name: 'changePassword',
+        component: () => import('../pages/ChangePassword.vue'),
+        meta: {
+            requiresAuth: true,
+            title: 'パスワード設定｜Order Renove'
+        }
+    },
+    {
+        path: '/customer/update',
+        name: 'updateInformation',
+        component: () => import('../pages/UpdateInformation.vue'),
+        meta: {
+            requiresAuth: true,
+            title: '登録情報の更新｜Order Renove'
+        }
+    },
+    {
+        path: '/customer/announcement-condition',
+        name: 'announcementCondition',
+        component: () => import('../pages/AnnouncementCondition.vue'),
+        meta: {
+            requiresAuth: true,
+            title: 'メルマガ配信希望条件｜Order Renove'
+        }
+    },
+    {
+        path: '/customer/:verify/active-email',
+        name: 'welcome',
+        component: () => import('../pages/Welcome.vue'),
+        meta: {
+            title: '会員登録完了｜Order Renove'
+        }
     },
     {
         path: '/wishlist',
@@ -225,49 +218,44 @@ const routes = [
         }
     },
     {
-        path: 'plan',
-        children: [
-            {
-                path: 'contact/:postId',
-                name: 'planContact',
-                component: () => import('../pages/PlanContact.vue'),
-                meta: {
-                    title: 'プラン名｜Order Renove'
-                }
-            },
-            {
-                path: 'contact-confirm',
-                name: 'planContactConfirm',
-                component: () => import('../pages/PlanContactConfirm.vue'),
-                meta: {
-                    title: 'プラン名｜Order Renove'
-                }
-            },
-            {
-                path: 'contact-thanks-customer',
-                name: 'planContactThanksCustomer',
-                component: () => import('../pages/PlanContactThanksCustomer.vue'),
-                meta: {
-                    title: 'プラン名｜Order Renove'
-                }
-            },
-            {
-                path: 'contact-thanks-guest',
-                name: 'planContactThankGuest',
-                component: () => import('../pages/PlanContactThanksGuest.vue'),
-                meta: {
-                    title: 'プラン名｜Order Renove'
-                }
-            },
-            {
-                path: 'detail',
-                name: 'planDetail',
-                component: () => import('../pages/PlanDetail.vue'),
-                meta: {
-                    title: 'プラン詳細｜Order Renove'
-                }
-            }
-        ]
+        path: '/plan/contact/:postId',
+        name: 'planContact',
+        component: () => import('../pages/PlanContact.vue'),
+        meta: {
+            title: 'プラン名｜Order Renove'
+        }
+    },
+    {
+        path: '/plan/contact-confirm',
+        name: 'planContactConfirm',
+        component: () => import('../pages/PlanContactConfirm.vue'),
+        meta: {
+            title: 'プラン名｜Order Renove'
+        }
+    },
+    {
+        path: '/plan/contact-thanks-customer',
+        name: 'planContactThanksCustomer',
+        component: () => import('../pages/PlanContactThanksCustomer.vue'),
+        meta: {
+            title: 'プラン名｜Order Renove'
+        }
+    },
+    {
+        path: '/plan/contact-thanks-guest',
+        name: 'planContactThankGuest',
+        component: () => import('../pages/PlanContactThanksGuest.vue'),
+        meta: {
+            title: 'プラン名｜Order Renove'
+        }
+    },
+    {
+        path: '/plan/detail',
+        name: 'planDetail',
+        component: () => import('../pages/PlanDetail.vue'),
+        meta: {
+            title: 'プラン詳細｜Order Renove'
+        }
     }
 ];
 

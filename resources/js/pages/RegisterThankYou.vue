@@ -1,6 +1,6 @@
 <template>
     <main>
-        <div class="bg-white">
+        <div class="bg-white" v-once>
             <section class="p-0">
                 <div class="box_top mb-0 bg-transparent">
                     <div class="container">
