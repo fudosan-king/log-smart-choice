@@ -296,7 +296,7 @@
                                                 <button type="button" class="btn btnsave" @click="submitData">
                                                     上記に同意して確認画面へ
                                                     <img
-                                                        src="assets/images/svg/i_right_white.svg"
+                                                        src="/assets/images/svg/i_right_white.svg"
                                                         alt=""
                                                         class="img-fluid"
                                                         width="10"
@@ -372,7 +372,7 @@ export default {
         if (window.localStorage.getItem('estateName')) {
             this.estate = window.localStorage.getItem('estateName');
         } else {
-            this.$router.push('https://form.run/@order-renove').catch(() => {});
+            window.location.replace('https://form.run/@order-renove');
         }
     },
     metaInfo: {
@@ -460,7 +460,8 @@ export default {
                 data.checkedPrivacy = 'on';
                 data.orderRenoveCustomerID = orderRenoveCustomerID;
                 window.localStorage.setItem('contactData', JSON.stringify(data));
-                this.$router.push('contact/confirm').catch(() => {});
+                //this.$router.push({name: 'contactConfirm'}).catch(() => {});
+                this.$router.push('/contact/confirm').catch(() => {});
             }
         },
 

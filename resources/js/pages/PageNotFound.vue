@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-once>
         <main id="main">
             <section class="section_login">
                 <div class="container">

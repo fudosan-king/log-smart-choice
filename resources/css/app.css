@@ -334,8 +334,7 @@ footer .footer_bottom .btn,
 .btnSeemore,
 header.subheader #dropdown_user,
 .section_near_property ul.list_property li .property_img,
-.box_toplogin ul li,
-.btnsave {
+.box_toplogin ul li {
     border-radius: 0;
 }
 
@@ -476,4 +475,11 @@ footer {
 
 .title-specifications-table {
     font-size: 1.125rem;
+}
+
+.btnsave {
+    border-radius: 0;
+    background: #262626;
+    font-weight: 600;
+    font-size: 0.875em;
 }
