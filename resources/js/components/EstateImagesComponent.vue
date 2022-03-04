@@ -41,13 +41,12 @@
 // import draggable from 'vuedraggable';
 import Vue from 'vue';
 import CKEDITOR from 'ckeditor4-vue';
+import uploadImagesMixin from '../mixins/uploadImagesMixin';
 
 Vue.use(CKEDITOR);
 
 export default {
-    components: {
-        // draggable
-    },
+    mixins: [uploadImagesMixin],
     props: ['data', 'flag'],
     data() {
         let images = [];
@@ -79,21 +78,6 @@ export default {
                 ]
             }
         };
-    },
-    methods: {
-        addImage() {
-            this.images.push(['/images/no-image.png', '']);
-        },
-        removeImage(idx) {
-            this.$delete(this.images, idx);
-        },
-        onFileChange(e) {
-            const file = e.target.files[0];
-            if (file) {
-                this.images[e.target.dataset.indexImage][0] = URL.createObjectURL(file);
-                this.$forceUpdate();
-            }
-        }
     }
 };
 </script>

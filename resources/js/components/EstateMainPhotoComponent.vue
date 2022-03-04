@@ -6,7 +6,7 @@
                 <li id="imageInfo" v-for="(image, idx) in images" :key="idx">
                     <h3>Image</h3>
                     <template v-if="flag == 'estate'">
-                        <div class="img-wrap" style="text-align: right;">
+                        <div class="img-wrap" style="text-align: right">
                             <a class="remove-image" @click="removeImage(idx)">&times;</a>
                         </div>
                     </template>
@@ -32,12 +32,11 @@
 </template>
 
 <script>
-// import draggable from 'vuedraggable';
+import uploadImagesMixin from '../mixins/uploadImagesMixin';
+
 export default {
-    components: {
-        // draggable
-    },
     props: ['data', 'flag'],
+    mixins: [uploadImagesMixin],
     data() {
         let images = [];
         let data = this.data;
@@ -60,21 +59,6 @@ export default {
         return {
             images: images
         };
-    },
-    methods: {
-        addImage() {
-            this.images.push(['/images/no-image.png', '']);
-        },
-        removeImage(idx) {
-            this.$delete(this.images, idx);
-        },
-        onFileChange(e) {
-            const file = e.target.files[0];
-            if (file) {
-                this.images[e.target.dataset.indexImage][0] = URL.createObjectURL(file);
-                this.$forceUpdate();
-            }
-        }
     }
 };
 </script>
