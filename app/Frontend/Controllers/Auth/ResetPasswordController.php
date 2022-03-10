@@ -12,6 +12,7 @@ use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Illuminate\Http\Response;
 
 class ResetPasswordController extends Controller
 {
@@ -47,7 +48,7 @@ class ResetPasswordController extends Controller
         $customer = Customer::where('email', $request->email)->where('status', Customer::ACTIVE)->first();
 
         if (!$customer) {
-            return $this->response(422, __('auth.email_not_exist'));
+            return $this->response(Response::HTTP_BAD_REQUEST, __('auth.email_not_exist'));
         }
 
         // create or update if exists
@@ -73,7 +74,7 @@ class ResetPasswordController extends Controller
 
         $emailResetPassword = new SendEmailResetPassword($request->only('email'), $data);
         dispatch($emailResetPassword);
-        return $this->response(200, __('auth.send_email_reset_link'), [],true);
+        return $this->response(Response::HTTP_OK, __('auth.send_email_reset_link'), [],true);
     }
 
     /**
@@ -96,7 +97,7 @@ class ResetPasswordController extends Controller
                 $timeVerify = date('Y-m-d H:i:s', strtotime($resetPassword->created_at) + Customer::TIME_VERIFY_ACCOUNT);
 
                 if ($timeCurrent > $timeVerify) {
-                    return $this->response(422, __('auth.token_forgotpassword_expired'));
+                    return $this->response(Response::HTTP_BAD_REQUEST, __('auth.token_forgotpassword_expired'));
                 }
 
                 try {
@@ -111,10 +112,10 @@ class ResetPasswordController extends Controller
                     Log::error($e->getMessage());
                 }
 
-                return $this->response(200, __('auth.reset_password_success'), [], true);
+                return $this->response(Response::HTTP_OK, __('auth.reset_password_success'), [], true);
             }
-            return $this->response(422, __('auth.link_check_token_password_fail'));
+            return $this->response(Response::HTTP_BAD_REQUEST, __('auth.link_check_token_password_fail'));
         }
-        return $this->response(422, __('auth.password_not_match'));
+        return $this->response(Response::HTTP_BAD_REQUEST, __('auth.password_not_match'));
     }
 }

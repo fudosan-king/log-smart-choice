@@ -867,15 +867,6 @@
 
 <script>
 import dayjs from 'dayjs';
-import Lazyload from 'vue-lazyload';
-import Vue from 'vue';
-
-Vue.use(Lazyload, {
-    preLoad: 1.3,
-    error: '../images/no-image.png',
-    loading: '../images/loading1.gif',
-    attempt: 1
-});
 export default {
     components: {
         EstatesNearComponent: () => import('../components/EstatesNearComponent'),

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Response;
 
 class ConfirmPasswordController extends Controller
 {
@@ -64,7 +65,7 @@ class ConfirmPasswordController extends Controller
         $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
-            return $this->response(422, $validator->errors(), []);
+            return $this->response(Response::HTTP_BAD_REQUEST, $validator->errors(), []);
         }
 
         try {
@@ -74,9 +75,9 @@ class ConfirmPasswordController extends Controller
             $customer->save();
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            return $this->response(422, __('auth.update_password_fail'), []);
+            return $this->response(Response::HTTP_BAD_REQUEST, __('auth.update_password_fail'), []);
         }
 
-        return $this->response(200, __('auth.update_password_success'), [], true);
+        return $this->response(Response::HTTP_OK, __('auth.update_password_success'), [], true);
     }
 }

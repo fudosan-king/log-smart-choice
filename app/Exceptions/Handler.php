@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Response;
 
 class Handler extends ExceptionHandler
 {
@@ -39,10 +40,10 @@ class Handler extends ExceptionHandler
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         if ($request->expectsJson()) {
-            return response()->json(['error' => 'Unauthenticated.'], 422);
+            return response()->json(['error' => 'Unauthenticated.'], Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         // return a plain 401 response even when not a json call
-        return response('Unauthenticated.', 401);
+        return response('Unauthenticated.', Response::HTTP_UNAUTHORIZED);
     }
 }

@@ -6,6 +6,7 @@ namespace App\Frontend\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Transport;
+use Illuminate\Http\Response;
 
 class TransportController extends Controller
 {
@@ -19,8 +20,8 @@ class TransportController extends Controller
                     $transportNew[] = $transport;
                 }
             }
-            return $this->response(200, "Get list success", $transports, true);
+            return $this->response(Response::HTTP_OK, "Get list success", $transports, true);
         }
-        return $this->response(422, "Get list fail", $transports, false);
+        return $this->response(Response::HTTP_BAD_REQUEST, "Get list fail", $transports, false);
     }
 }

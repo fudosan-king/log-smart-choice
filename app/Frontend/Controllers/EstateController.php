@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use App\Helpers\Helper;
+use Illuminate\Http\Response;
 
 class EstateController extends Controller
 {
@@ -188,11 +189,10 @@ class EstateController extends Controller
         if ($lists['data']) {
             $lists['data'] = $this->getEstateInformation($lists['data'], $wishList);
             $lists['lasted_estate'] = $lists['data'][0];
-
-            return response()->json($lists, 200);
+            return response()->json($lists, Response::HTTP_OK);
         }
 
-        return response()->json($lists, 200);
+        return response()->json($lists, Response::HTTP_OK);
     }
 
     /**
@@ -205,7 +205,7 @@ class EstateController extends Controller
     {
         $id = $request->has('id') ? $request->get('id') : '';
         if (!$id) {
-            return response()->json(['data' => []], 200);
+            return response()->json(['data' => []], Response::HTTP_OK);
         }
         $estate = Estates::select(
             'estate_name',
@@ -307,10 +307,10 @@ class EstateController extends Controller
                     $estate[0]['renovation_cost'] = Estates::RENOVATION_COST[$roundSquare[0]];
                 }
             }
-            return $this->response(200, 'Get estate detail success', ['estate' => $estate, 'estateNearAddress' => $estateNearAddress, 'district' => $district], true);
+            return $this->response(Response::HTTP_OK, 'Get estate detail success', ['estate' => $estate, 'estateNearAddress' => $estateNearAddress, 'district' => $district], true);
         }
 
-        return $this->response(422, 'Get estate detail fail', []);
+        return $this->response(Response::HTTP_BAD_REQUEST, 'Get estate detail fail', []);
     }
 
     /**
@@ -416,12 +416,12 @@ class EstateController extends Controller
         $validator = Validator::make($request->all(), $rules, []);
 
         if ($validator->fails()) {
-            return $this->response(422, $validator->errors(), []);
+            return $this->response(Response::HTTP_BAD_REQUEST, $validator->errors(), []);
         }
 
         $estate = Estates::where('_id', $id)->where('status', Estates::STATUS_SALE)->first();
         if (!$estate) {
-            return $this->response(422, 'Estate not found', []);
+            return $this->response(Response::HTTP_BAD_REQUEST, 'Estate not found', []);
         }
 
         try {
@@ -431,7 +431,7 @@ class EstateController extends Controller
             Log::error($e->getMessage());
         }
 
-        return $this->response(200, 'Update id estate 3d success', []);
+        return $this->response(Response::HTTP_OK, 'Update id estate 3d success', []);
     }
 
     public function getEstateNear(Request $request)
@@ -492,11 +492,11 @@ class EstateController extends Controller
                 }
                 $lists = $this->getEstateInformation($estatesNear, $wishList);
 
-                return $this->response(200, 'Get near estate success', $lists, true);
+                return $this->response(Response::HTTP_OK, 'Get near estate success', $lists, true);
             }
         }
 
-        return $this->response(200, 'data not found', []);
+        return $this->response(Response::HTTP_NOT_FOUND, 'data not found', []);
     }
 
     public function getEstatesRecomment(Request $request)
@@ -551,9 +551,9 @@ class EstateController extends Controller
             usort($estateRecommendList, function ($a, $b) {
                 return $a['order_sort'] <=> $b['order_sort'];
             });
-            return $this->response(200, "Get estate recommend success", $estateRecommendList, true);
+            return $this->response(Response::HTTP_OK, "Get estate recommend success", $estateRecommendList, true);
         }
 
-        return $this->response(200, "Get estate recommend fail", []);
+        return $this->response(Response::HTTP_NOT_FOUND, "Get estate recommend fail", []);
     }
 }

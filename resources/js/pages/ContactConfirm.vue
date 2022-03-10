@@ -34,12 +34,12 @@
                                             >
                                         </p>
                                         <!-- Do not change class, action, method. -->
-                                        <form class="formrun d-none" action="#" method="post" id="postToFormrun">
+                                        <form class="formrun d-none" action="#" method="post" id="postToFormrun" ref="postToFormrun">
                                             <!-- ↓You can add/change fields. -->
 
                                             <div>
                                                 <label>物件名</label>
-                                                <input name="物件名" type="text" :value="contactData.estateName" />
+                                                <input name="物件名" type="text" :value="contactData.estateName" ref="estateName" />
                                             </div>
 
                                             <div>
@@ -47,7 +47,8 @@
                                                 <input
                                                     name="第1希望日時"
                                                     type="text"
-                                                    :value="contactData.hopeDayFirst + ' ' + contactData.startTimeFirst"
+                                                    :value="contactData.hopeDayFirst"
+                                                    ref="hopeDayFirst"
                                                 />
                                             </div>
 
@@ -56,9 +57,8 @@
                                                 <input
                                                     name="第2希望日時"
                                                     type="text"
-                                                    :value="
-                                                        contactData.hopeDaySecond + ' ' + contactData.startTimeSecond
-                                                    "
+                                                    :value="contactData.hopeDaySecond"
+                                                    ref="hopeDaySecond"
                                                 />
                                             </div>
 
@@ -68,12 +68,13 @@
                                                     name="お名前"
                                                     type="text"
                                                     :value="contactData.name + ' ' + contactData.lastName"
+                                                    ref="fullName"
                                                 />
                                             </div>
 
                                             <div>
                                                 <label>メールアドレス</label>
-                                                <input name="メールアドレス" type="text" :value="contactData.email" />
+                                                <input name="メールアドレス" type="text" :value="contactData.email" ref="email"/>
                                             </div>
 
                                             <div>
@@ -82,6 +83,7 @@
                                                     name="電話番号"
                                                     type="text"
                                                     :value="convertPhone(contactData.landLine)"
+                                                    ref="landLine"
                                                 />
                                             </div>
 
@@ -91,17 +93,18 @@
                                                     name="気になるご質問"
                                                     type="text"
                                                     :value="contactData.inquiryContent"
+                                                    ref="inquiryContent"
                                                 />
                                             </div>
 
                                             <div>
                                                 <label>EstateUrl</label>
-                                                <input name="estate_url" :value="contactData.estateUrl" />
+                                                <input name="estate_url" :value="contactData.estateUrl" ref="estateUrl" />
                                             </div>
 
                                             <div>
                                                 <label>OrderRenoveCustomerId</label>
-                                                <input name="orderrenove_customer_id" :value="contactData.estateUrl" />
+                                                <input name="orderrenove_customer_id" :value="contactData.orderRenoveCustomerID" ref="orderRenoveCustomerID"/>
                                             </div>
 
                                             <div>
@@ -159,25 +162,32 @@ export default {
         },
 
         successContact() {
-            $('input[name="物件名"]').val(this.contactData.estateName);
-            $('input[name="第1希望日時"]').val(this.contactData.hopeDayFirst + ' ' + this.contactData.startTimeFirst);
-            $('input[name="第2希望日時"]').val(this.contactData.hopeDaySecond + ' ' + this.contactData.startTimeSecond);
-            $('input[name="お名前"]').val(this.contactData.name + ' ' + this.contactData.lastName);
-            $('input[name="メールアドレス"]').val(this.contactData.email);
-            $('input[name="電話番号"]').val(this.contactData.landLine);
-            $('input[name="estate_url"]').val(this.contactData.estateUrl);
-            $('textarea[name="第1希望日時"]').val(this.contactData.inquiryContent);
-            $('input[name="orderrenove_customer_id"]').val(this.contactData.orderRenoveCustomerID);
+            this.$refs.estateName.value = this.contactData.estateName;
+            this.$refs.hopeDayFirst.value = this.contactData.hopeDayFirst;
+            this.$refs.hopeDaySecond.value = this.contactData.hopeDaySecond;
+            this.$refs.fullName.value = this.contactData.name + ' ' + this.contactData.lastName;
+            this.$refs.email.value = this.contactData.email;
+            this.$refs.landLine.value = this.contactData.landLine;
+            this.$refs.estateUrl.value = this.contactData.estateUrl;
+            this.$refs.inquiryContent.value = this.contactData.inquiryContent;
+            this.$refs.orderRenoveCustomerID.value = this.contactData.orderRenoveCustomerID;
             window.localStorage.setItem('orderrenoveCustomerId', this.contactData.orderRenoveCustomerID);
             this.$setCookie('orderrenoveCustomerId', this.contactData.orderRenoveCustomerID, 1);
             window.localStorage.removeItem('estate_id');
             if (window.localStorage.getItem('accessToken')) {
                 window.localStorage.removeItem('contactData');
-                $('#postToFormrun').attr('action', 'https://form.run/api/v1/r/9ms3izrtap72ulo9ztochng5');
+                // production
+                // this.$refs.postToFormrun.setAttribute('action', 'https://form.run/api/v1/r/9ms3izrtap72ulo9ztochng5');
+                // staging
+                this.$refs.postToFormrun.setAttribute('action', 'https://form.run/api/v1/r/v45minhhrx1tvk4jre6atoqj');
+                
             } else {
-                $('#postToFormrun').attr('action', 'https://form.run/api/v1/r/qthnyoi9k8q7h63zt1dqbi26');
+                // production
+                // this.$refs.postToFormrun.setAttribute('action', 'https://form.run/api/v1/r/qthnyoi9k8q7h63zt1dqbi26');
+                // staging
+                this.$refs.postToFormrun.setAttribute('action', 'https://form.run/api/v1/r/vqau9rhc2as1hug47rbml3xi');
             }
-            $('#postToFormrun').submit();
+            this.$refs.postToFormrun.submit();
         }
     }
 };

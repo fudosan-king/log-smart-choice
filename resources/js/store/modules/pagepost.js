@@ -62,7 +62,7 @@ const actions = {
             })
                 .then((resp) => {
                     if (resp.data) {
-                        relove(resp.data.data);
+                        relove(resp.data.data[0]);
                     }
                 })
                 .catch((error) => {

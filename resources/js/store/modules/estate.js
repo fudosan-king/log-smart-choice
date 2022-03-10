@@ -4,6 +4,8 @@ import globalVaiable from '../../../js/globalHelper';
 
 Vue.use(globalVaiable);
 
+const source = axios.CancelToken.source();
+
 const state = {};
 
 const getters = {};
@@ -16,12 +18,14 @@ const actions = {
                 .post('/wishlist', data, {
                     headers: {
                         'content-type': 'application/json',
-                        AuthorizationBearer: 'Bearer '+ data.accessToken,
+                        AuthorizationBearer: 'Bearer ' + data.accessToken
                     },
                     auth: auth
-                }).then(resp => {
-                    relove(resp)
-                }).catch(error => {
+                })
+                .then((resp) => {
+                    relove(resp);
+                })
+                .catch((error) => {
                     reject(error);
                 });
         });
@@ -30,65 +34,79 @@ const actions = {
     getEstateList({}, data) {
         return new Promise((relove, reject) => {
             const auth = this.auth;
-            axios({ url: '/list', method: 'POST', data: data, auth: auth }).then(resp => {
-                if (resp.data['data']) {
-                    let data = {
-                        'data':resp.data['data'],
-                        'lastedEstate': resp.data['lasted_estate'],
-                        'total': resp.data.total,
-                        'conditionSearch': resp.data.condition_search,
-                        'paginationInfo' : {
-                            'currentPage': resp.data.current_page,
-                            'from': resp.data.from,
-                            'lastPage': resp.data.last_page,
-                            'nextPageUrl': resp.data.next_page_url,
-                            'itemPerPage': resp.data.per_page,
-                            'prevPageUrl': resp.data.prev_page_url,
-                            'to': resp.data.to,
-                        }
+            axios({ url: '/list', method: 'POST', data: data, auth: auth, cancelToken: source.token })
+                .then((resp) => {
+                    if (resp.data['data']) {
+                        let data = {
+                            data: resp.data['data'],
+                            lastedEstate: resp.data['lasted_estate'],
+                            total: resp.data.total,
+                            conditionSearch: resp.data.condition_search,
+                            paginationInfo: {
+                                currentPage: resp.data.current_page,
+                                from: resp.data.from,
+                                lastPage: resp.data.last_page,
+                                nextPageUrl: resp.data.next_page_url,
+                                itemPerPage: resp.data.per_page,
+                                prevPageUrl: resp.data.prev_page_url,
+                                to: resp.data.to
+                            }
+                        };
+                        relove(data);
                     }
-                    relove(data);
-                }
-            }).catch(error => {
-                reject(error);
-            });
-        })
+                })
+                .catch((error) => {
+                    if (axios.isCancel(error)) {
+                        console.log('Request canceled', error.message);
+                        reject(error.message);
+                    } else {
+                        reject(error);
+                        // handle error
+                    }
+                });
+        });
     },
 
     getEstatesNear({}, data) {
         return new Promise((relove, reject) => {
             const auth = this.$auth;
-            axios({ url: '/estate/near', method: 'POST', data: data, auth: auth }).then(resp => {
-                if (resp.data['data']) {
-                    relove(resp.data['data']);
-                }
-            }).catch(error => {
-                reject(error);
-            });
-        })
+            axios({ url: '/estate/near', method: 'POST', data: data, auth: auth })
+                .then((resp) => {
+                    if (resp.data['data']) {
+                        relove(resp.data['data']);
+                    }
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
     },
 
     getEstate({}, data) {
         return new Promise((relsove, reject) => {
-            axios({ url: '/detail', method: 'POST', data: data }).then(resp => {
-                relsove(resp);
-            }).catch(error => {
-                reject(error);
-            });
-        })
+            axios({ url: '/detail', method: 'POST', data: data })
+                .then((resp) => {
+                    relsove(resp);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
     },
 
     getEstatesRecommend({}, data) {
         return new Promise((relove, reject) => {
             const auth = this.auth;
-            axios({ url: '/estate/recommend', method: 'POST', data: data, auth: auth }).then(resp => {
-                if (resp.data['data']) {
-                    relove(resp.data['data']);
-                }
-            }).catch(error => {
-                reject(error);
-            });
-        })
+            axios({ url: '/estate/recommend', method: 'POST', data: data, auth: auth })
+                .then((resp) => {
+                    if (resp.data['data']) {
+                        relove(resp.data['data']);
+                    }
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+        });
     }
 };
 

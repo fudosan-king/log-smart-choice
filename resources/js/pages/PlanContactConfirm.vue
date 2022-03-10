@@ -23,7 +23,12 @@
                                             気になるご質問 : {{ planContactData.inquiryContent }}
                                         </h5>
                                         <p class="text-center mb-0 mt-5">
-                                            <a href="/plan/contact" class="btn d-inline-block">戻る</a>
+                                            <a
+                                                href="javascript:void(0)"
+                                                v-on:click="backPlanContact"
+                                                class="btn d-inline-block"
+                                                >戻る</a
+                                            >
                                             <a
                                                 href="javascript:void(0)"
                                                 @click="successContact"
@@ -32,12 +37,17 @@
                                             >
                                         </p>
                                         <!-- Do not change class, action, method. -->
-                                        <form class="formrun d-none" action="#" method="post" id="postPlanToFormrun">
+                                        <form class="formrun d-none" action="#" method="post" id="postPlanToFormrun" ref="postPlanToFormrun">
                                             <!-- ↓You can add/change fields. -->
 
                                             <div>
                                                 <label>プラン名</label>
-                                                <input name="planeName" type="text" :value="planContactData.planName" />
+                                                <input
+                                                    name="planeName"
+                                                    type="text"
+                                                    :value="planContactData.planName"
+                                                    ref="planName"
+                                                />
                                             </div>
 
                                             <div>
@@ -46,12 +56,18 @@
                                                     name="name"
                                                     type="text"
                                                     :value="planContactData.name + ' ' + planContactData.lastName"
+                                                    ref="fullName"
                                                 />
                                             </div>
 
                                             <div>
                                                 <label>メールアドレス</label>
-                                                <input name="email" type="text" :value="planContactData.email" />
+                                                <input
+                                                    name="email"
+                                                    type="text"
+                                                    :value="planContactData.email"
+                                                    ref="email"
+                                                />
                                             </div>
 
                                             <div>
@@ -60,6 +76,7 @@
                                                     name="landLine"
                                                     type="text"
                                                     :value="convertPhone(planContactData.landLine)"
+                                                    ref="landLine"
                                                 />
                                             </div>
 
@@ -69,6 +86,7 @@
                                                     name="inquiryContent"
                                                     type="text"
                                                     :value="planContactData.inquiryContent"
+                                                    ref="inquiryContent"
                                                 />
                                             </div>
 
@@ -77,6 +95,7 @@
                                                 <input
                                                     name="orderrenove_customer_id"
                                                     :value="planContactData.estateUrl"
+                                                    ref="orderRenoveCustomerID"
                                                 />
                                             </div>
 
@@ -135,22 +154,30 @@ export default {
         },
 
         successContact() {
-            $('input[name="planeName"]').val(this.planContactData.planName);
-            $('input[name="fullName"]').val(this.planContactData.name + ' ' + this.planContactData.lastName);
-            $('input[name="email"]').val(this.planContactData.email);
-            $('input[name="landLine"]').val(this.planContactData.landLine);
-            $('textarea[name="inquiryContent"]').val(this.planContactData.inquiryContent);
-            $('input[name="orderrenove_customer_id"]').val(this.planContactData.orderRenoveCustomerID);
+            this.$refs.planName.value = this.planContactData.planName;
+            this.$refs.fullName.value = this.planContactData.name + ' ' + this.planContactData.lastName;
+            this.$refs.email.value = this.planContactData.email;
+            this.$refs.landLine.value = this.planContactData.landLine;
+            this.$refs.inquiryContent.value = this.planContactData.inquiryContent;
+            this.$refs.orderRenoveCustomerID.value = this.planContactData.orderRenoveCustomerID;
             window.localStorage.setItem('orderrenoveCustomerId', this.planContactData.orderRenoveCustomerID);
             this.$setCookie('orderrenoveCustomerId', this.planContactData.orderRenoveCustomerID, 1);
             window.localStorage.removeItem('estate_id');
             if (window.localStorage.getItem('accessToken')) {
                 window.localStorage.removeItem('planContactData');
-                $('#postPlanToFormrun').attr('action', 'https://form.run/api/v1/r/c0u029krtmu8wyy0xv89g51g');
+                // production
+                this.$refs.postPlanToFormrun.setAttribute('action', 'https://form.run/api/v1/r/c0u029krtmu8wyy0xv89g51g');
             } else {
-                $('#postPlanToFormrun').attr('action', 'https://form.run/api/v1/r/5tt50xuysvw88qr4v7rsa099');
+                //production
+                this.$refs.postPlanToFormrun.setAttribute('action', 'https://form.run/api/v1/r/5tt50xuysvw88qr4v7rsa099');
             }
-            $('#postPlanToFormrun').submit();
+            this.$refs.postPlanToFormrun.submit();
+        },
+
+        backPlanContact() {
+            let postId = window.localStorage.getItem('postId');
+            window.localStorage.removeItem('postId');
+            this.$router.push({ name: 'planContact', params: { postId: postId } }).catch(() => {});
         }
     }
 };

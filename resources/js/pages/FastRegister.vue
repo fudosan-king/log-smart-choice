@@ -110,6 +110,7 @@
                                                 name="districtInput[]"
                                                 :value="district.name"
                                                 :checked="checkedDistrictInput.includes(district.name) ? 'checked' : ''"
+                                                ref="districtInput"
                                             />
                                             <label class="custom-control-label" :for="'ck0' + district.id">{{
                                                 district.name
@@ -217,6 +218,7 @@
                                         name="ck_agree"
                                         id="ck_agree"
                                         checked=""
+                                        ref="sendAnnouncement"
                                     />
                                     <label
                                         class="custom-control-label font-weight-normal ck_agree lbl_ck"
@@ -336,13 +338,19 @@ export default {
             this.submitted = true;
             this.$v.$touch();
             this.errorsApi = {};
-            if ($('#ck_agree').is(':checked')) {
+            if (this.$refs.sendAnnouncement.checked) {
                 this.sendAnnouncment = 1;
             }
-            let newDistrictsList = [];
-            $('input[name="districtInput[]"]:checked').each(function (i) {
-                newDistrictsList[i] = $(this).val();
+
+            let i = 0,
+                newDistrictsList = [];
+            this.$refs.districtInput.map((ele) => {
+                if (ele.checked) {
+                    newDistrictsList[i] = ele.value;
+                    i++;
+                }
             });
+
             if (!this.$v.$invalid && this.submitted) {
                 this.submitted = false;
                 this.disabled = true;

@@ -9,6 +9,7 @@ use App\Models\District;
 use Illuminate\Http\Request;
 use App\Models\Estates;
 use App\Models\Station;
+use Illuminate\Http\Response;
 
 class MetaTagController extends Controller
 {
@@ -22,11 +23,6 @@ class MetaTagController extends Controller
          * companyCode
          * 
          */
-        // if($companyCode) {
-        //     return $this->response(200, 'Success!', $companyCode, true);
-        // }
-
-        // return $this->response(422, 'Get list Transport company failed', []);
         $estateID = $request->get('estateID') ?? '';
         $estate = Estates::select(
             'estate_name',
@@ -44,7 +40,7 @@ class MetaTagController extends Controller
             'dataInfo' => $estate
         );
 
-        return response()->json($resultData, 200);
+        return response()->json($resultData, Response::HTTP_OK);
     }
 
     public function getMetaCodeSearch(Request $request)
@@ -54,14 +50,14 @@ class MetaTagController extends Controller
             ->where('status', District::STATUS_ACTIVATE)
             ->where('code', $searchCode)->first();
         if ($district) {
-            return $this->response(200, 'Get Disctrict Success', $district, true);
+            return $this->response(Response::HTTP_OK, 'Get Disctrict Success', $district, true);
         } else {
             $station = Station::select('tran_company_short_name')->where('tran_company_code', $searchCode)->first();
             $data = ['name' => $station->tran_company_short_name];
             if ($station) {
-                return $this->response(200, 'Get Station Success', $data, true);
+                return $this->response(Response::HTTP_OK, 'Get Station Success', $data, true);
             }
         }
-        return $this->response(422, 'Search Code Error', [], false);
+        return $this->response(Response::HTTP_NOT_FOUND, 'Search Code Error', [], false);
     }
 }

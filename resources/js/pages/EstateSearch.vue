@@ -366,7 +366,6 @@ export default {
         let minSquare = conditionSearch.square ? conditionSearch.square.min : '下限なし';
         let maxSquare = conditionSearch.square ? conditionSearch.square.max : '上限なし';
         let tabListActived = conditionSearch.tabSesarch ? conditionSearch.tabSesarch : [];
-        let tagShow = [];
 
         return {
             cityList: {},
@@ -382,8 +381,7 @@ export default {
             conditionSearchBefore: conditionSearch,
             idParentBefore: idParents,
             tabList: [],
-            tabListActived: tabListActived,
-            tagShow: tagShow
+            tabListActived: tabListActived
         };
     },
     created() {
@@ -395,24 +393,8 @@ export default {
         window.addEventListener('visibilitychange', this.handleChangeTab);
     },
     updated() {
-        $('.ck_allStation input').click(function () {
-            let flagCheckAllStation = $(this).val();
-            $('.' + flagCheckAllStation + ' input:checkbox')
-                .not(this)
-                .prop('checked', this.checked);
-        });
-
-        $('.ck_allCity input').click(function () {
-            let flagCheckAllCity = $(this).val();
-            $('.' + flagCheckAllCity + ' input:checkbox')
-                .not(this)
-                .prop('checked', this.checked);
-        });
-
-        $('.plus-to-minus').click(function (event) {
-            $(this).toggleClass('minus');
-        });
-        this.tagShowSelected();
+        this.handleSelectAll('.ck_allStation input');
+        this.handleSelectAll('.ck_allCity input');
     },
     beforeDestroy() {
         window.removeEventListener('visibilitychange', this.handleChangeTab);
@@ -483,42 +465,46 @@ export default {
         },
 
         checkChange(tag, event) {
-            let classChild = '';
-            let inputTag = '';
+            let inputTag = 'inputDistrict';
             if (tag == 'station') {
-                classChild = 'station';
                 inputTag = 'inputStation';
-            } else {
-                classChild = 'district';
-                inputTag = 'inputDistrict';
             }
+
             let child = event.target.id;
-            let positionAllChild = $('#' + child).parentsUntil('.' + classChild + '');
-            let positionChild = $(positionAllChild[3]).attr('class').split(' ')[1];
-            let totalCheckbox = $('.' + positionChild + ' input:checkbox').length;
-            let totalChecked = $('.' + positionChild + ' [name="' + inputTag + '[]"]:checked').length;
-            let eleParent = $('#' + positionChild);
+            let childEle = document.getElementById(child).closest('.card-body');
+            let positionChild = childEle.className.split(' ')[1];
+            let totalCheckbox = childEle.querySelectorAll('input[name="' + inputTag + '[]"]').length;
+            let totalChecked = childEle.querySelectorAll('input[name="' + inputTag + '[]"]:checked').length;
+            let eleParent = document.getElementById(positionChild);
+
             if (totalCheckbox == totalChecked) {
-                eleParent.prop('checked', true);
+                eleParent.checked = true;
             } else {
-                eleParent.prop('checked', false);
+                eleParent.checked = false;
             }
         },
 
         eventToggleTab(event) {
-            $(event.target).toggleClass('actived');
+            event.target.classList.toggle('actived');
         },
 
-        eventToggleBugger(event) {
-            event.preventDefault();
-            $('.frm_search_conditions_content').slideToggle('fast');
-        },
-
-        tagShowSelected() {
-            for (let i = 0; i < this.tagShow.length; i++) {
-                $('[data-target="#' + this.tagShow[i] + '"]').removeClass('collapsed');
-                $('#' + this.tagShow[i]).addClass('show');
-            }
+        handleSelectAll(selector) {
+            let ckAllCity = document.querySelectorAll(selector);
+            ckAllCity.forEach((ele) => {
+                ele.addEventListener('click', (event) => {
+                    let child = event.target.id;
+                    let allBtn = document.querySelectorAll('.' + child + ' input[type="checkbox"]');
+                    if (event.target.checked) {
+                        allBtn.forEach((ele) => {
+                            ele.checked = true;
+                        });
+                    } else {
+                        allBtn.forEach((ele) => {
+                            ele.checked = false;
+                        });
+                    }
+                });
+            });
         }
     }
 };

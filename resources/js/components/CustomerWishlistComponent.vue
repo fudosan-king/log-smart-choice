@@ -110,15 +110,7 @@
 
 <script>
 import wishlistModule from '../store/modules/wishlist.js';
-import Lazyload from 'vue-lazyload';
-import Vue from 'vue';
 
-Vue.use(Lazyload, {
-    preLoad: 1.3,
-    error: 'images/no-image.png',
-    loading: 'images/loading1.gif',
-    attempt: 1
-});
 export default {
     data() {
         let urlRedirect = this.$route.fullPath;
@@ -174,7 +166,6 @@ export default {
                     // this.wishtlist = this.wishtlist.concat(res[0]['data']['data']);
                     this.wishtlist = res[0]['data']['data'];
                     this.paginationInfo = res[0]['paginationInfo'];
-                    console.log(this.paginationInfo);
                     this.total = res[0]['data']['total'];
                     if (this.wishtlist.length < res[0]['data'].total) {
                         this.hasMore = true;

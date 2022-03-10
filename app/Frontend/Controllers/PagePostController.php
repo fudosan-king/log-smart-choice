@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Response;
 
 class PagePostController extends Controller
 {
@@ -17,10 +18,10 @@ class PagePostController extends Controller
             $pageList = json_encode($request->all());
             $fileNameToStore = 'page_list.' . 'json';
             Storage::put('public/pages/'.$fileNameToStore, $pageList);
-            return $this->response(200, 'Update page post success', [], true);
+            return $this->response(Response::HTTP_OK, 'Update page post success', [], true);
         } catch (Exception $e) {
             Log::error($e->getMessage());
-            return $this->response(422, 'Get list district fail', []);
+            return $this->response(Response::HTTP_BAD_REQUEST, 'Get list district fail', []);
         }
     }
 
@@ -29,11 +30,11 @@ class PagePostController extends Controller
         if ($pagePost) {
             $post = Post::where('page_post', $pagePost)->where('status', Post::STATUS_ACTIVE)->get();
             if ($post) {
-                return $this->response('200', 'Get list successful', $post, true);
+                return $this->response(Response::HTTP_OK, 'Get list successful', $post, true);
             }
-            return $this->response('422', 'Get list fail', [], false);
+            return $this->response(Response::HTTP_BAD_REQUEST, 'Get list fail', [], false);
         }
-        return $this->response('422', 'Page post is required', [], false);
+        return $this->response(Response::HTTP_BAD_REQUEST, 'Page post is required', [], false);
     }
 
 }

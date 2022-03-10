@@ -225,10 +225,10 @@ class Estates extends Model
         $startDate = date('Y-m-d 00:00:00');
         $endDate = date('Y-m-d 23:59:59');
         try {
-            if (
-                strtotime($startDate) <= (int)$dateModifyFDK->toDateTime()->format('U') &&
-                (int)$dateModifyFDK->toDateTime()->format('U') <= strtotime($endDate)
-            ) {
+            // if (
+            //     strtotime($startDate) <= (int)$dateModifyFDK->toDateTime()->format('U') &&
+            //     (int)$dateModifyFDK->toDateTime()->format('U') <= strtotime($endDate)
+            // ) {
                 if (!$estate->exists) {
                     $estate->status = self::STATUS_STOP;
                     $estate->date_imported = new \MongoDB\BSON\UTCDateTime(strtotime(date('Y-m-d H:i:s')) * 1000);
@@ -272,7 +272,7 @@ class Estates extends Model
                     }
                     $estate->save();
                 }
-            }
+            // }
         } catch (Exception $e) {
             Log::error($e);
         }

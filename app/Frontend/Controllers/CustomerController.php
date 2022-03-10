@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Response;
 
 class CustomerController extends Controller
 {
@@ -35,13 +36,13 @@ class CustomerController extends Controller
             $customer->announcement_condition = json_decode($customer->announcement_condition, true);
             $customer->announcement_count = $announcement;
             $customer->orderrenove_customer_id = $this->randomOrderRenoveCustomerId(10);
-            return $this->response(200, __('customer.customer_success'), $customer, true);
+            return $this->response(Response::HTTP_OK, __('customer.customer_success'), $customer, true);
         } else {
             $customerCheck = Customer::select('status')->where('id', $customerId)->first();
             if ($customerCheck->status == Customer::DEACTIVE) {
-                return $this->response(401, __('customer.customer_fail'));
+                return $this->response(Response::HTTP_BAD_REQUEST, __('customer.customer_fail'));
             }
-            return $this->response(422, __('customer.customer_fail'));
+            return $this->response(Response::HTTP_BAD_REQUEST, __('customer.customer_fail'));
         }
         
     }
@@ -79,26 +80,26 @@ class CustomerController extends Controller
         $validate = Validator::make($request->all(), $rule, $messages);
 
         if ($validate->fails()) {
-            return $this->response(422, $validate->errors(), []);
+            return $this->response(Response::HTTP_BAD_REQUEST, $validate->errors(), []);
         }
 
         if ($email) {
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                return $this->response(422, __('auth.email_invalid'), []);
+                return $this->response(Response::HTTP_BAD_REQUEST, __('auth.email_invalid'), []);
             }
             $customer = Customer::where('email', $email)->where('id', '<>', $customerId)->first();
             if ($customer) {
-                return $this->response(422, ['email' => __('auth.email_already_exist')], []);
+                return $this->response(Response::HTTP_BAD_REQUEST, ['email' => __('auth.email_already_exist')], []);
             }
         }
 
         if ($landLine) {
             if (strlen($landLine) != 11 && strlen($landLine) != 10) {
-                return $this->response(422, ['land_line' => [__('customer.landline_invalid')]], []);
+                return $this->response(Response::HTTP_BAD_REQUEST, ['land_line' => [__('customer.landline_invalid')]], []);
             }
 
             if (!preg_match($patternPhoneNumber, $landLine)) {
-                return $this->response(422, ['land_line' => [__('customer.landline_invalid')]], []);
+                return $this->response(Response::HTTP_BAD_REQUEST, ['land_line' => [__('customer.landline_invalid')]], []);
             }
         }
 
@@ -111,10 +112,10 @@ class CustomerController extends Controller
             $customer->save();
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            return $this->response(422, 'Customer update fail', []);
+            return $this->response(Response::HTTP_BAD_REQUEST, 'Customer update fail', []);
         }
 
-        return $this->response(200, 'Customer update success', [], true);
+        return $this->response(Response::HTTP_OK, 'Customer update success', [], true);
     }
 
     /**
@@ -126,7 +127,6 @@ class CustomerController extends Controller
     public function updateAnnouncementCondition(Request $request)
     {
         $customerId = Auth::user()->id;
-
         $city = $request->get('city');
         $price = $request->get('price');
         $square = $request->get('square');
@@ -146,36 +146,36 @@ class CustomerController extends Controller
         $validate = Validator::make($request->all(), $rule, $messages);
 
         if ($validate->fails()) {
-            return $this->response(422, $validate->errors(), []);
+            return $this->response(Response::HTTP_BAD_REQUEST, $validate->errors(), []);
         }
 
 
         if ($price['min'] == Customer::CONDITION_MAX || $price['max'] == Customer::CONDITION_MIN) {
-            return $this->response(422, ['price' => [__('customer.price_invalid')]], []);
+            return $this->response(Response::HTTP_BAD_REQUEST, ['price' => [__('customer.price_invalid')]], []);
         }
 
         if ($square['min'] == Customer::CONDITION_MAX || $square['max'] == Customer::CONDITION_MIN) {
-            return $this->response(422, ['square' => [__('customer.square_invalid')]], []);
+            return $this->response(Response::HTTP_BAD_REQUEST, ['square' => [__('customer.square_invalid')]], []);
         }
 
         if (($price['min'] != Customer::CONDITION_MIN && $price['min'] != Customer::CONDITION_MAX) &&
         ($price['max'] != Customer::CONDITION_MIN && $price['max'] != Customer::CONDITION_MAX)) {
             if ($price['min'] > $price['max']) {
-                return $this->response(422, ['price' => [__('customer.price_invalid')]], []);
+                return $this->response(Response::HTTP_BAD_REQUEST, ['price' => [__('customer.price_invalid')]], []);
             }
         } elseif ($price['min'] == Customer::CONDITION_MIN && $price['max'] == Customer::CONDITION_MIN ||
         $price['min'] == Customer::CONDITION_MAX && $price['max'] == Customer::CONDITION_MAX) {
-            return $this->response(422, ['price' => [__('customer.price_invalid')]], []);
+            return $this->response(Response::HTTP_BAD_REQUEST, ['price' => [__('customer.price_invalid')]], []);
         }
 
         if (($square['min'] != Customer::CONDITION_MIN && $square['min'] != Customer::CONDITION_MAX) &&
         ($square['max'] != Customer::CONDITION_MIN && $square['max'] != Customer::CONDITION_MAX)) {
             if ($square['min'] > $square['max']) {
-                return $this->response(422, ['square' => [__('customer.square_invalid')]], []);
+                return $this->response(Response::HTTP_BAD_REQUEST, ['square' => [__('customer.square_invalid')]], []);
             }
         } elseif ($square['min'] == Customer::CONDITION_MIN && $square['max'] == Customer::CONDITION_MIN ||
         $square['min'] == Customer::CONDITION_MAX && $square['max'] == Customer::CONDITION_MAX) {
-            return $this->response(422, ['price' => [__('customer.square_invalid')]], []);
+            return $this->response(Response::HTTP_BAD_REQUEST, ['price' => [__('customer.square_invalid')]], []);
         }
 
         $data = [
@@ -192,9 +192,9 @@ class CustomerController extends Controller
             $customer->save();
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            return $this->response(422, 'Customer update announcement condition fail', []);
+            return $this->response(Response::HTTP_BAD_REQUEST, 'Customer update announcement condition fail', []);
         }
-        return $this->response(200, 'Customer update announcement condition success', [], true);
+        return $this->response(Response::HTTP_OK, 'Customer update announcement condition success', [], true);
     }
 
     private function randomOrderRenoveCustomerId($length = 10) {

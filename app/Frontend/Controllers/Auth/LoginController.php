@@ -15,7 +15,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Laravel\Passport\Token;
-use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Http\Response;
 
 
 class LoginController extends Controller
@@ -80,11 +80,11 @@ class LoginController extends Controller
                     'customer_email'     => $customer->email,
                     'customer_social_id' => $customer->social_id,
                 ];
-                return $this->response(200, __('auth.login_success'), $data, true);
+                return $this->response(Response::HTTP_OK, __('auth.login_success'), $data, true);
             }
-            return $this->response(422, __('auth.password_or_email_wrong'));
+            return $this->response(Response::HTTP_BAD_REQUEST, __('auth.password_or_email_wrong'));
         }
-        return $this->response(422, __('auth.customer_not_found'));
+        return $this->response(Response::HTTP_BAD_REQUEST, __('auth.customer_not_found'));
     }
 
     /**
@@ -97,7 +97,7 @@ class LoginController extends Controller
     {
         $token = $request->user()->token();
         $token->revoke();
-        return $this->response(200, __('auth.logout_success'), [], true);
+        return $this->response(Response::HTTP_OK, __('auth.logout_success'), [], true);
     }
 
     /**
@@ -170,7 +170,7 @@ class LoginController extends Controller
                     'customer_social_id' => $customer->social_id,
                 ];
                 
-                return $this->response(200, __('auth.login_success'), $data, true);
+                return $this->response(Response::HTTP_OK, __('auth.login_success'), $data, true);
             }
         } catch (Exception $e) {
             Log::error($e->getMessage());

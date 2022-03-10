@@ -14,6 +14,7 @@ use App\Helpers\Helper;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Response;
 
 class AnnouncementController extends Controller
 {
@@ -40,10 +41,10 @@ class AnnouncementController extends Controller
             $announcement->delete();
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            return $this->response(422, 'Delete announcement fail', []);
+            return $this->response(Response::HTTP_BAD_REQUEST, 'Delete announcement fail', []);
         }
 
-        return $this->response(200, 'Delete announcement success', [], true);
+        return $this->response(Response::HTTP_OK, 'Delete announcement success', [], true);
     }
 
     /**
@@ -62,10 +63,10 @@ class AnnouncementController extends Controller
             $announcement->save();
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            return $this->response(422, 'Update read announcement fail', []);
+            return $this->response(Response::HTTP_BAD_REQUEST, 'Update read announcement fail', []);
         }
         $announcementCount = Announcement::where('customer_id', $customerId)->where('is_read', 0)->whereNull('deleted_at')->count();
-        return $this->response(200, 'Update read announcement success', [
+        return $this->response(Response::HTTP_OK, 'Update read announcement success', [
             'estateId' => $announcement->estate_id,
             'announcement_count' => $announcementCount,
         ], true);
@@ -89,7 +90,7 @@ class AnnouncementController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->response(422, $validator->errors(), []);
+            return $this->response(400, $validator->errors(), []);
         }
         $startDate = date('Y-m-d H:i:s', strtotime('-14 days'));
         $endDate = now()->format('Y-m-d H:i:s');
@@ -130,7 +131,7 @@ class AnnouncementController extends Controller
                 $announcements['data'][$key] = $announcement;
             }
         }
-        return $this->response(200, 'Get list success', $announcements, true);
+        return $this->response(Response::HTTP_OK, 'Get list success', $announcements, true);
     }
 
 

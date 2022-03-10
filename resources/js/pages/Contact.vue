@@ -19,6 +19,7 @@
                                         type="hidden"
                                         name="orderrenove_customer_id"
                                         v-model="orderrenoveCustomerId"
+                                        ref="orderrenoveCustomerId"
                                     />
                                     <input type="hidden" name="origin_url" value="#" />
                                     <div class="frm-input">
@@ -144,7 +145,11 @@
                                                 <div class="col-12 col-lg-9 align-self-center">
                                                     <div class="row">
                                                         <div class="col-12 col-lg-6">
-                                                            <select name="hope_day_first" class="custom-select">
+                                                            <select
+                                                                name="hope_day_first"
+                                                                class="custom-select"
+                                                                ref="hopeDayFirst"
+                                                            >
                                                                 <template v-for="hopeDay in listHopeDay">
                                                                     <option
                                                                         v-if="hopeDay"
@@ -187,7 +192,11 @@
                                                 <div class="col-12 col-lg-9 align-self-center">
                                                     <div class="row">
                                                         <div class="col-12 col-lg-6">
-                                                            <select name="hope_day_second" class="custom-select">
+                                                            <select
+                                                                name="hope_day_second"
+                                                                class="custom-select"
+                                                                ref="hopeDaySecond"
+                                                            >
                                                                 <template v-for="hopeDay in listHopeDay">
                                                                     <option
                                                                         v-if="hopeDay"
@@ -233,6 +242,7 @@
                                                         placeholder="ご質問やご希望があればご記入ください。"
                                                         :value="inquiryContent"
                                                         v-on:input="inquiryContent = $event.target.value"
+                                                        ref="inquiryContent"
                                                     ></textarea>
                                                 </div>
                                             </div>
@@ -275,6 +285,7 @@
                                                             'is-invalid':
                                                                 submitted && Object.keys(errorMessage).length > 0
                                                         }"
+                                                        ref="agreePolicy"
                                                     />
 
                                                     <label
@@ -427,18 +438,16 @@ export default {
             this.submitted = true;
             this.$v.$touch();
             this.errorMessage = {};
-            let hopeDayFirst = $('select[name="hope_day_first"] option:selected').text();
-            let hopeDaySecond = $('select[name="hope_day_second"] option:selected').text();
-            let startTimeFirst = $('select[name="start_time_first"] option:selected').text();
-            let startTimeSecond = $('select[name="start_time_second"] option:selected').text();
-            let inquiryContent = $('textarea[name="inquiry_content"]').val();
-            let orderRenoveCustomerID = $('input[name="orderrenove_customer_id"]').val();
+            let hopeDayFirst = this.$refs.hopeDayFirst.value;
+            let hopeDaySecond = this.$refs.hopeDaySecond.value;
+            let inquiryContent = this.$refs.inquiryContent.value;
+            let orderRenoveCustomerID = this.$refs.orderrenoveCustomerId.value;
 
-            if (!$('#ck_agree').prop('checked')) {
+            if (!this.$refs.agreePolicy.checked) {
                 this.errorMessage.checkbox_agree = 'プライバシーポリシーをチェックしてください。';
                 return false;
             }
-            var recaptcha = $('#g-recaptcha-response').val();
+            let recaptcha = document.getElementById('g-recaptcha-response').value;
             if (recaptcha === '') {
                 this.errorMessage.recaptcha = 'Recapchaをチェックしてください。';
                 return false;
@@ -454,13 +463,10 @@ export default {
                 data.estateUrl = window.location.origin + '/detail/' + window.localStorage.getItem('estate_id');
                 data.hopeDayFirst = hopeDayFirst;
                 data.hopeDaySecond = hopeDaySecond;
-                data.startTimeFirst = startTimeFirst;
-                data.startTimeSecond = startTimeSecond;
                 data.estateName = this.estate;
                 data.checkedPrivacy = 'on';
                 data.orderRenoveCustomerID = orderRenoveCustomerID;
                 window.localStorage.setItem('contactData', JSON.stringify(data));
-                //this.$router.push({name: 'contactConfirm'}).catch(() => {});
                 this.$router.push('/contact/confirm').catch(() => {});
             }
         },
@@ -496,10 +502,10 @@ export default {
             if (dayOfWeek == 1) {
                 dayKind = '月';
             }
-            if (dayOfWeek == 2 && $.inArray(parseInt(dd), holimonth) > -1) {
+            if (dayOfWeek == 2 && holimonth.indexOf(parseInt(dd)) != -1) {
                 dayKind = '火';
             }
-            if (dayOfWeek == 3 && $.inArray(parseInt(dd), holimonth) > -1) {
+            if (dayOfWeek == 3 && holimonth.indexOf(parseInt(dd)) != -1) {
                 dayKind = '水';
             }
             if (dayOfWeek == 4) {

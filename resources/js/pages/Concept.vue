@@ -43,7 +43,7 @@
         <section class="p-0">
             <div class="top-lists">
                 <template v-for="post in posts">
-                    <div class="top_item">
+                    <div class="top_item" ref="topItems">
                         <div class="container">
                             <div class="top_item-ct">
                                 <div class="top_logo">
@@ -150,16 +150,8 @@
     </div>
 </template>
 <script>
-import Lazyload from 'vue-lazyload';
-import Vue from 'vue';
-import PagePost from '../store/modules/page-post.js';
+import PagePost from '../store/modules/pagepost.js';
 
-Vue.use(Lazyload, {
-    preLoad: 1.3,
-    error: 'images/no-image.png',
-    loading: 'images/loading1.gif',
-    attempt: 1
-});
 export default {
     data() {
         return {
@@ -171,9 +163,9 @@ export default {
         this.getPosts();
     },
     updated() {
-        $('.top_item').each(function (i, ele) {
-            if ($(ele).find('.bottom-img').children().length < 3) {
-                $(ele).addClass('changed');
+        this.$refs.topItems.map(el => {
+            if (el.getElementsByClassName('bottom-img')[0].children.length < 3) {
+                el.setAttribute('class', 'top_item changed');
             }
         });
     },

@@ -152,15 +152,6 @@
 </template>
 
 <script>
-import Lazyload from 'vue-lazyload';
-import Vue from 'vue';
-
-Vue.use(Lazyload, {
-    preLoad: 1.3,
-    error: 'images/no-image.png',
-    loading: 'images/loading1.gif',
-    attempt: 1
-});
 export default {
     data() {
         let urlRedirect = this.$route.fullPath;

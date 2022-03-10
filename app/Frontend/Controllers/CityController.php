@@ -5,6 +5,7 @@ namespace App\Frontend\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\City;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class CityController extends Controller
 {
@@ -29,9 +30,9 @@ class CityController extends Controller
                     $cityNew[] = $city;
                 }
             }
-            return $this->response(200, 'Get list district success', $cityNew, true);
+            return $this->response(Response::HTTP_OK, 'Get list district success', $cityNew, true);
         }
 
-        return $this->response(422, 'Get list district fail', []);
+        return $this->response(Response::HTTP_BAD_REQUEST, 'Get list district fail', []);
     }
 }

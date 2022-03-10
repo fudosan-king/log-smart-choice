@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\TagPost;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class PostController extends Controller
 {
-    public function getPosts(Request $request) {
+    public function getPosts(Request $request)
+    {
         $pagePost = $request->get('page_post', '');
         if ($pagePost) {
             $posts = Post::with('postImages')->where('status', Post::STATUS_ACTIVE)->get()->toArray();
@@ -21,18 +23,19 @@ class PostController extends Controller
                     $posts[$key]['tag_posts'] = $tagPosts;
                     $posts[$key]['content'] = str_replace($string, "", $posts[$key]['content']);
                 }
-                return $this->response('200', 'Get list successful', $posts, true);
+                return $this->response(Response::HTTP_OK, 'Get list successful', $posts, true);
             }
-            return $this->response('200', 'Get list fail', [], true);
+            return $this->response(Response::HTTP_OK, 'Get list fail', [], true);
         }
-        return $this->response('422', 'Page post is required', [], false);
+        return $this->response(Response::HTTP_BAD_REQUEST, 'Page post is required', [], false);
     }
 
-    public function getPost(Request $request) {
+    public function getPost(Request $request)
+    {
         $post = Post::where('status', Post::STATUS_ACTIVE)->find($request->get('post_id'));
         if ($post) {
-            return $this->response('200', 'Get post successful', $post, true);
+            return $this->response(Response::HTTP_OK, 'Get post successful', $post, true);
         }
-        return $this->response('422', 'Get post fail', [], false);
+        return $this->response(Response::HTTP_BAD_REQUEST, 'Get post fail', [], false);
     }
 }

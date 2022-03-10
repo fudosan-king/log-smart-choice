@@ -29,6 +29,7 @@
                                                 name="districtInput[]"
                                                 :value="district.name"
                                                 :checked="checkedDistrictInput.includes(district.name) ? 'checked' : ''"
+                                                ref="districtInput"
                                             />
                                             <label class="custom-control-label" :for="'ck0' + district.id">{{
                                                 district.name
@@ -121,6 +122,7 @@
                                             id="send_announcement"
                                             name="sendAnnouncement"
                                             :checked="customerInformation.send_announcement ? 'checked' : ''"
+                                            ref="sendAnnouncement"
                                         />
                                         <label class="custom-control-label" for="send_announcement"
                                             >メールで通知を受け取る</label
@@ -213,14 +215,18 @@ export default {
         },
 
         submit() {
-            if ($('#send_announcement').is(':checked')) {
+            if (this.$refs.sendAnnouncement.checked) {
                 this.sendAnnouncment = 1;
             }
             this.message = [];
             this.submitted = true;
             let newDistrictsList = [];
-            $('input[name="districtInput[]"]:checked').each(function (i) {
-                newDistrictsList[i] = $(this).val();
+            let i = 0;
+            this.$refs.districtInput.map(el => {
+                if (el.checked == true) {
+                    newDistrictsList[i] = el.value;
+                    i++;
+                }
             });
             if (this.submitted) {
                 let data = {
@@ -235,21 +241,18 @@ export default {
                     },
                     send_announcement: this.sendAnnouncment
                 };
-                var content = 'メルマガ配信希望条件が正常に変更されました！';
                 this.$store
                     .dispatch('updateAnnouncement', data)
                     .then((resp) => {
                         this.disabled = true;
-                        this.$swal('メルマガ配信希望条件', content, 'success').then((result) => {
-                            if (result.isConfirmed) {
-                                this.$router.push({ name: 'information' }).catch(() => {});
-                            }
-                        });
+                        this.$router.push({ name: 'information' }).catch(() => {});
                     })
                     .catch((error) => {
                         this.disabled = false;
                         this.submitted = false;
-                        this.errorsApi = error.response.data.errors.messages[0];
+                        if (typeof error.response !== 'undefined') {
+                            this.errorsApi = error.response.data.errors.messages[0];
+                        }
                     });
             }
         },

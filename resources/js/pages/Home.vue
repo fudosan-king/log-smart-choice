@@ -144,12 +144,14 @@
 <script>
 import Lazyload from 'vue-lazyload';
 import Vue from 'vue';
-import PagePost from '../store/modules/page-post.js';
+import PagePost from '../store/modules/pagepost.js';
 
+const errorImage = window.location.origin+'/images/no-image.png';
+const loadingImage = window.location.origin+'/images/loading1.gif';
 Vue.use(Lazyload, {
     preLoad: 1.3,
-    error: 'images/no-image.png',
-    loading: 'images/loading1.gif',
+    error: errorImage,
+    loading: loadingImage,
     attempt: 1
 });
 export default {

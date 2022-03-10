@@ -34,12 +34,12 @@ Vue.use(FBAuth, fbAuthOption);
 window.LSMEvent = new Vue();
 
 axios.defaults.withCredentials = true;
-axios.defaults.timeout = 2500;
 axios.defaults.baseURL = `${process.env.MIX_APP_URL}/api`;
 axios.interceptors.response.use(undefined, function (error) {
     if (error && error.response) {
-        if (error.response.status === 401) {
+        if (error.response.config.url != '/customer' && error.response.status === 422) {
             let urlRedirect = window.location.pathname;
+            Vue.prototype.$removeAuthLocalStorage();
             return router.push({ path: '/login', query: { redirect: urlRedirect } });
         } else {
             return Promise.reject(error);

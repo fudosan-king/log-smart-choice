@@ -5,6 +5,7 @@ use GuzzleHttp\Client;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use MongoDB;
+use Illuminate\Http\Response;
 
 class FDKImporter {
 	protected $host;
@@ -54,11 +55,11 @@ class FDKImporter {
             Log::error(sprintf('Please try again. Maybe FDK have bussy!'));
             $response = null;
         }
-    	if ($response && $response->getStatusCode() != '200') {
+    	if ($response && $response->getStatusCode() != Response::HTTP_OK) {
             Log::error(sprintf('Please check system!'));
             return array('status' => false);
         }
-        if ($response && $response->getStatusCode() == '200') {
+        if ($response && $response->getStatusCode() == Response::HTTP_OK) {
             $jsonData = json_decode($response->getBody());
             return array('status' => true, 'estates' => $jsonData->estates);
         }

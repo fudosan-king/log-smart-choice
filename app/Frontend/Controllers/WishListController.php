@@ -11,7 +11,7 @@ use App\Models\WishLists;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Http\Response;
 
 class WishListController extends Controller
 {
@@ -31,12 +31,12 @@ class WishListController extends Controller
         // check estateId
         $estateInfo = Estates::where('_id', $estateId)->where('status', Estates::STATUS_SALE)->get();
         if ($estateInfo->isEmpty()) {
-            return $this->response(400, 'Estate invalid', []);
+            return $this->response(Response::HTTP_BAD_REQUEST, 'Estate invalid', []);
         }
 
         // check status wish
         if (!in_array($isWish, $wishStatus)) {
-            return $this->response(400, 'Wish status invalid', []);
+            return $this->response(Response::HTTP_BAD_REQUEST, 'Wish status invalid', []);
         }
 
         try {
@@ -44,11 +44,11 @@ class WishListController extends Controller
                 ['estate_id' => $estateId, 'user_id' => $customerId],
                 ['is_wishlist' => $isWish]
             );
-            return $this->response(200, 'Success', [], true);
+            return $this->response(Response::HTTP_OK, 'Success', [], true);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
         }
-        return $this->response(400, 'Fail', []);
+        return $this->response(Response::HTTP_BAD_REQUEST, 'Fail', []);
     }
 
     /**
@@ -62,7 +62,7 @@ class WishListController extends Controller
         $customerId = auth()->guard('api')->user()->id;
         $customerCheck = Customer::select('status')->where('id', $customerId)->first();
         if ($customerCheck->status == Customer::DEACTIVE) {
-            return $this->response(401, __('customer.customer_fail'));
+            return $this->response(Response::HTTP_BAD_REQUEST, __('customer.customer_fail'));
         }
         $wishLists = WishLists::select('estate_id')->where('user_id', $customerId)->where('is_wishlist', WishLists::ADDED_WISH_LIST)->get();
         $estateIds = [];
@@ -80,6 +80,6 @@ class WishListController extends Controller
         $estateController = new EstateController();
         $estateInfo = $estateController->getEstateInformation($estates, $estateIds);
 
-        return $this->response(200, 'Success', $estateInfo, true);
+        return $this->response(Response::HTTP_OK, 'Success', $estateInfo, true);
     }
 }

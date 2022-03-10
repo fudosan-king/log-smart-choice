@@ -4,6 +4,7 @@ namespace App\Frontend\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\District;
+use Illuminate\Http\Response;
 
 class DistrictController extends Controller
 {
@@ -22,10 +23,10 @@ class DistrictController extends Controller
             ->get();
 
         if ($district) {
-            return $this->response(200, 'Get list district success', $district, true);
+            return $this->response(Response::HTTP_OK, 'Get list district success', $district, true);
         }
 
-        return $this->response(422, 'Get list district fail', []);
+        return $this->response(Response::HTTP_BAD_REQUEST, 'Get list district fail', []);
     }
     
     /**
@@ -39,10 +40,10 @@ class DistrictController extends Controller
             ->get();
 
         if ($district) {
-            return $this->response(200, 'Get list district success', $district, true);
+            return $this->response(Response::HTTP_OK, 'Get list district success', $district, true);
         }
 
-        return $this->response(422, 'Get list district fail', []);
+        return $this->response(Response::HTTP_BAD_REQUEST, 'Get list district fail', []);
     }
     
     /**
@@ -53,9 +54,9 @@ class DistrictController extends Controller
     public function listHardCodeSearch() {
         $districts = District::whereIn('name', District::HARD_CODE_DISTRICT_SEARCH)->distinct()->orderBy('name', 'DESC')->get();
         if ($districts) {
-            return $this->response(200, 'Get list district success', $districts, true);
+            return $this->response(Response::HTTP_OK, 'Get list district success', $districts, true);
         }
 
-        return $this->response(422, 'Get list district fail', []);
+        return $this->response(Response::HTTP_BAD_REQUEST, 'Get list district fail', []);
     }
 }

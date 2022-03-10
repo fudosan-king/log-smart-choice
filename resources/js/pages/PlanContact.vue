@@ -19,6 +19,7 @@
                                         type="hidden"
                                         name="orderrenove_customer_id"
                                         v-model="orderrenoveCustomerId"
+                                        ref="orderrenoveCustomerId"
                                     />
                                     <input type="hidden" name="origin_url" value="#" />
                                     <div class="frm-input">
@@ -38,6 +39,7 @@
                                                         }"
                                                         v-bind:value="plan_name"
                                                         v-on:input="plan_name = $event.target.value"
+
                                                     />
                                                 </div>
                                             </div>
@@ -157,11 +159,12 @@
                                                         placeholder="ご質問やご希望があればご記入ください。"
                                                         :value="inquiryContent"
                                                         v-on:input="inquiryContent = $event.target.value"
+                                                        ref="inquiryContent"
                                                     ></textarea>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div
+                                        <!-- <div
                                             class="g-recaptcha"
                                             data-sitekey="6LczNncbAAAAAISz46BAWp4l5aFvln66UheX72it"
                                             align="center"
@@ -173,7 +176,7 @@
                                             <span v-if="typeof errorMessage.recaptcha != 'undefined'">{{
                                                 errorMessage.recaptcha
                                             }}</span>
-                                        </div>
+                                        </div> -->
                                         <div class="box_content_footer">
                                             <p class="primary_policy">
                                                 ご入力いただいた情報は、当社のプライバシーポリシーに従って厳重に管理いたします。
@@ -199,6 +202,7 @@
                                                             'is-invalid':
                                                                 submitted && Object.keys(errorMessage).length > 0
                                                         }"
+                                                        ref="agreePolicy"
                                                     />
 
                                                     <label
@@ -210,10 +214,9 @@
                                                         v-if="submitted && Object.keys(errorMessage).length > 0"
                                                         class="invalid-feedback"
                                                     >
-                                                        <span
-                                                            v-if="typeof errorMessage.checkbox_agree != 'undefined'"
-                                                            >{{ errorMessage.checkbox_agree }}</span
-                                                        >
+                                                        <span v-if="errorMessage.checkbox_agree">{{
+                                                            errorMessage.checkbox_agree
+                                                        }}</span>
                                                     </div>
                                                 </div>
 
@@ -245,15 +248,9 @@
 
 <script>
 import { required, minLength, maxLength, email } from 'vuelidate/lib/validators';
-import PagePost from '../store/modules/page-post.js';
+import PagePostModule from '../store/modules/pagepost.js';
 
 export default {
-    created() {
-        this.$store.registerModule('page-post', PagePost);
-    },
-    beforeDestroy() {
-        this.$store.unregisterModule('page-post');
-    },
     data() {
         return {
             customer: {},
@@ -293,8 +290,12 @@ export default {
         }
     },
     created() {
+        this.$store.registerModule('pagepost', PagePostModule);
         this.getCustomerInformation();
         this.getPostInformation();
+    },
+    beforeDestroy() {
+        this.$store.unregisterModule('pagepost');
     },
     metaInfo: {
         titleTemplate: 'プラン名｜Order Renove'
@@ -338,21 +339,22 @@ export default {
         },
 
         submitData() {
+            console.log()
             this.submitted = true;
             this.$v.$touch();
             this.errorMessage = {};
-            let inquiryContent = $('textarea[name="inquiry_content"]').val();
-            let orderRenoveCustomerID = $('input[name="orderrenove_customer_id"]').val();
+            let inquiryContent = this.$refs.inquiryContent.value;
+            let orderRenoveCustomerID = this.$refs.orderrenoveCustomerId.value;
 
-            if (!$('#ck_agree').prop('checked')) {
+            if (!this.$refs.agreePolicy.checked) {
                 this.errorMessage.checkbox_agree = 'プライバシーポリシーをチェックしてください。';
                 return false;
             }
-            var recaptcha = $('#g-recaptcha-response').val();
-            if (recaptcha === '') {
-                this.errorMessage.recaptcha = 'Recapchaをチェックしてください。';
-                return false;
-            }
+            // let recaptcha = document.getElementById('g-recaptcha-response').value;
+            // if (recaptcha === '') {
+            //     this.errorMessage.recaptcha = 'Recapchaをチェックしてください。';
+            //     return false;
+            // }
 
             let data = {};
             if (!this.$v.$invalid && this.submitted) {
@@ -365,7 +367,8 @@ export default {
                 data.checkedPrivacy = 'on';
                 data.orderRenoveCustomerID = orderRenoveCustomerID;
                 window.localStorage.setItem('planContactData', JSON.stringify(data));
-                this.$router.push('/plan/contact-confirm').catch(() => {});
+                window.localStorage.setItem('postId', this.$route.params.postId)
+                this.$router.push({name: 'planContactConfirm'}).catch(() => {});
             }
         },
 
@@ -381,8 +384,9 @@ export default {
 
         getPostInformation() {
             let postId = this.$route.params.postId;
+            let data = { page_post: postId };
             this.$store
-                .dispatch('getPost', postId)
+                .dispatch('getPost', data)
                 .then((resp) => {
                     this.plan_name = resp.title;
                 })

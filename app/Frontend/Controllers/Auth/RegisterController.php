@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Http\Response;
 
 class RegisterController extends Controller
 {
@@ -82,12 +83,12 @@ class RegisterController extends Controller
                 $createdAtJPTime = date('Y-m-d H:i:s', strtotime('+9 hour', strtotime($customer->created_at)));
                 $this->_sendActiveEmail($customer);
                 $this->_sendNoticeAdmin($customer, $createdAtJPTime);
-                return $this->response(200, __('customer.create_success'), [], true);
+                return $this->response(Response::HTTP_OK, __('customer.create_success'), [], true);
             }
         } catch (\Exception $ex) {
             Log::error($ex->getMessage());
         }
-        return $this->response(422, __('customer.create_fail'));
+        return $this->response(Response::HTTP_BAD_REQUEST, __('customer.create_fail'));
     }
 
     /**
@@ -136,24 +137,24 @@ class RegisterController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->response(422, $validator->errors()->first());
+            return $this->response(Response::HTTP_BAD_REQUEST, $validator->errors()->first());
         }
 
         $customer = Customer::where('email', $email)->first();
 
         if (!$customer) {
-            return $this->response(422, __('auth.email_not_exist'));
+            return $this->response(Response::HTTP_BAD_REQUEST, __('auth.email_not_exist'));
         }
 
         if ($customer->status == Customer::ACTIVE) {
-            return $this->response(422, __('auth.email_has_active'));
+            return $this->response(Response::HTTP_BAD_REQUEST, __('auth.email_has_active'));
         }
 
         $customer->created_at = date('Y-m-d H:i:s');
         $customer->save();
 
         $this->_sendActiveEmail($customer);
-        return $this->response(200, __('auth.reconfirm_email_success'), [], true);
+        return $this->response(Response::HTTP_OK, __('auth.reconfirm_email_success'), [], true);
     }
 
     public function fastRegisterCustomer(Request $request) {
@@ -182,53 +183,53 @@ class RegisterController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->response(422, $validator->errors());
+            return $this->response(Response::HTTP_BAD_REQUEST, $validator->errors());
         }
 
         if ($landLine) {
             if (strlen($landLine) != 11 && strlen($landLine) != 10) {
-                return $this->response(422, ['land_line' => [__('customer.landline_invalid')]], []);
+                return $this->response(Response::HTTP_BAD_REQUEST, ['land_line' => [__('customer.landline_invalid')]], []);
             }
 
             if (!preg_match($patternPhoneNumber, $landLine)) {
-                return $this->response(422, ['land_line' => [__('customer.landline_invalid')]], []);
+                return $this->response(Response::HTTP_BAD_REQUEST, ['land_line' => [__('customer.landline_invalid')]], []);
             }
         }
 
         if (!$price) {
-            return $this->response(422, ['square' => [__('customer.square_invalid')]], []);
+            return $this->response(Response::HTTP_BAD_REQUEST, ['square' => [__('customer.square_invalid')]], []);
         }
 
         if ($price['min'] == Customer::CONDITION_MAX || $price['max'] == Customer::CONDITION_MIN) {
-            return $this->response(422, ['price' => [__('customer.price_invalid')]], []);
+            return $this->response(Response::HTTP_BAD_REQUEST, ['price' => [__('customer.price_invalid')]], []);
         }
 
         if ($square['min'] == Customer::CONDITION_MAX || $square['max'] == Customer::CONDITION_MIN) {
-            return $this->response(422, ['square' => [__('customer.square_invalid')]], []);
+            return $this->response(Response::HTTP_BAD_REQUEST, ['square' => [__('customer.square_invalid')]], []);
         }
 
         if (($price['min'] != Customer::CONDITION_MIN && $price['min'] != Customer::CONDITION_MAX) &&
         ($price['max'] != Customer::CONDITION_MIN && $price['max'] != Customer::CONDITION_MAX)) {
             if ($price['min'] > $price['max']) {
-                return $this->response(422, ['price' => [__('customer.price_invalid')]], []);
+                return $this->response(Response::HTTP_BAD_REQUEST, ['price' => [__('customer.price_invalid')]], []);
             }
         } elseif ($price['min'] == Customer::CONDITION_MIN && $price['max'] == Customer::CONDITION_MIN ||
         $price['min'] == Customer::CONDITION_MAX && $price['max'] == Customer::CONDITION_MAX) {
-            return $this->response(422, ['price' => [__('customer.price_invalid')]], []);
+            return $this->response(Response::HTTP_BAD_REQUEST, ['price' => [__('customer.price_invalid')]], []);
         }
 
         if (!$square) {
-            return $this->response(422, ['square' => [__('customer.square_invalid')]], []);
+            return $this->response(Response::HTTP_BAD_REQUEST, ['square' => [__('customer.square_invalid')]], []);
         }
 
         if (($square['min'] != Customer::CONDITION_MIN && $square['min'] != Customer::CONDITION_MAX) &&
         ($square['max'] != Customer::CONDITION_MIN && $square['max'] != Customer::CONDITION_MAX)) {
             if ($square['min'] > $square['max']) {
-                return $this->response(422, ['square' => [__('customer.square_invalid')]], []);
+                return $this->response(Response::HTTP_BAD_REQUEST, ['square' => [__('customer.square_invalid')]], []);
             }
         } elseif ($square['min'] == Customer::CONDITION_MIN && $square['max'] == Customer::CONDITION_MIN ||
         $square['min'] == Customer::CONDITION_MAX && $square['max'] == Customer::CONDITION_MAX) {
-            return $this->response(422, ['price' => [__('customer.square_invalid')]], []);
+            return $this->response(Response::HTTP_BAD_REQUEST, ['price' => [__('customer.square_invalid')]], []);
         }
 
         $announcement_condition = [
@@ -251,12 +252,12 @@ class RegisterController extends Controller
                 $createdAtJPTime = date('Y-m-d H:i:s', strtotime('+9 hour', strtotime($customer->created_at)));
                 $this->_sendActiveEmail($customer, true);
                 $this->_sendNoticeAdmin($customer, $createdAtJPTime);
-                return $this->response(200, __('customer.create_success'), [], true);
+                return $this->response(Response::HTTP_OK, __('customer.create_success'), [], true);
             }
         } catch (\Exception $ex) {
             Log::error($ex->getMessage());
         }
-        return $this->response(422, __('customer.create_fail'));
+        return $this->response(Response::HTTP_BAD_REQUEST, __('customer.create_fail'));
     }
 
     /**
