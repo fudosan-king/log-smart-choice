@@ -4,7 +4,7 @@ const state = {};
 const getters = {};
 const actions = {
     getTransportList({ }, data) {
-        return new Promise((relove, reject) => {
+        return new Promise((resolve, reject) => {
             const auth = this.auth;
             axios({
                 url: "/transports/list",
@@ -17,7 +17,7 @@ const actions = {
             })
                 .then((resp) => {
                     if (resp.data) {
-                        relove(resp.data);
+                        resolve(resp.data);
                     }
                 })
                 .catch((error) => {

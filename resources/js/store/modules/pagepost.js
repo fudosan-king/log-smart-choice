@@ -3,7 +3,7 @@ const state = {};
 const getters = {};
 const actions = {
     updatePagePost({ }, data) {
-        return new Promise((relove, reject) => {
+        return new Promise((resolve, reject) => {
             const auth = this.auth;
             axios({
                 url: "/manage-page-post/page-post",
@@ -16,7 +16,7 @@ const actions = {
             })
                 .then((resp) => {
                     if (resp.data) {
-                        relove(resp.data);
+                        resolve(resp.data);
                     }
                 })
                 .catch((error) => {
@@ -26,7 +26,7 @@ const actions = {
     },
 
     getPosts({ }, data) {
-        return new Promise((relove, reject) => {
+        return new Promise((resolve, reject) => {
             const auth = this.auth;
             axios({
                 url: "/post/list",
@@ -39,7 +39,7 @@ const actions = {
             })
                 .then((resp) => {
                     if (resp.data) {
-                        relove(resp.data.data);
+                        resolve(resp.data.data);
                     }
                 })
                 .catch((error) => {
@@ -49,7 +49,7 @@ const actions = {
     },
 
     getPost({ }, postId) {
-        return new Promise((relove, reject) => {
+        return new Promise((resolve, reject) => {
             const auth = this.auth;
             axios({
                 url: "/post",
@@ -62,7 +62,7 @@ const actions = {
             })
                 .then((resp) => {
                     if (resp.data) {
-                        relove(resp.data.data[0]);
+                        resolve(resp.data.data[0]);
                     }
                 })
                 .catch((error) => {

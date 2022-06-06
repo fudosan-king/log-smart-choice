@@ -6,7 +6,7 @@ const getters = {};
 
 const actions = {
     getTabList({}, data) {
-        return new Promise((relove, reject) => {
+        return new Promise((resolve, reject) => {
             const auth = this.auth;
             axios({
                 url: "/tab-search/list",
@@ -19,7 +19,7 @@ const actions = {
             })
                 .then((resp) => {
                     if (resp.data) {
-                        relove(resp.data.data);
+                        resolve(resp.data.data);
                     }
                 })
                 .catch((error) => {

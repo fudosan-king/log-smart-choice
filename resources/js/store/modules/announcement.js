@@ -11,7 +11,7 @@ const getters = {};
 const actions = {
 
     getAnnouncementList({ }, data) {
-        return new Promise((relove, reject) => {
+        return new Promise((resolve, reject) => {
             const auth = this.auth;
             let accessToken = `Bearer ${Vue.prototype.$getLocalStorage('accessToken')}`;
             axios({
@@ -25,7 +25,7 @@ const actions = {
                         let data = {
                             'data': resp.data['data']
                         }
-                        relove(data);
+                        resolve(data);
                     }
                 }).catch(error => {
                     reject(error);

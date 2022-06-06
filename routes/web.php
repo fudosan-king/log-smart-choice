@@ -41,5 +41,8 @@ Route::group(['prefix' => 'admin'], function () {
 
 
 Route::group(['prefix' => 'admin'], function () {
+    Route::get('/{any?}', function () {
+        return redirect('https://www.logrenove.jp/');
+    })->where('any', '^([\/\w\.-])*');
     Voyager::routes();
 });

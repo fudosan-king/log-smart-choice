@@ -11,7 +11,7 @@ const getters = {};
 const actions = {
 
     getWishlist({ }, data) {
-        return new Promise((relove, reject) => {
+        return new Promise((resolve, reject) => {
             const auth = this.auth;
             let accessToken = `Bearer ${data.accessToken}`;
             axios({
@@ -34,7 +34,7 @@ const actions = {
                                 'to': resp.data.data.to,
                             }
                         }
-                        relove(data);
+                        resolve(data);
                     }
                 }).catch(error => {
                     reject(error);

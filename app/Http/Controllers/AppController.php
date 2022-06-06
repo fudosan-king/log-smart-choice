@@ -12,6 +12,7 @@ class AppController extends Controller
      */
     public function get()
     {
+        return redirect('https://www.logrenove.jp/');
         return view('app');
     }
 
